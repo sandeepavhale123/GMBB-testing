@@ -2,12 +2,14 @@
 import React from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
-import { HealthScoreSection } from './HealthScoreSection';
 import { EnhancedActivityChart } from './EnhancedActivityChart';
 import { PostOverviewCard } from './PostOverviewCard';
 import { InsightsCard } from './InsightsCard';
-import { BusinessOverview } from './BusinessOverview';
-import { RecentActivity } from './RecentActivity';
+import { QuickWinsCard } from './QuickWinsCard';
+import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
+import { ProgressDonutChart } from './ProgressDonutChart';
+import { ReviewSummaryCard } from './ReviewSummaryCard';
+import { QACard } from './QACard';
 
 export const Dashboard: React.FC = () => {
   return (
@@ -18,13 +20,19 @@ export const Dashboard: React.FC = () => {
       {/* Enhanced Stats Cards */}
       <EnhancedStatsCards />
       
-      {/* Health Score & Quick Wins */}
-      <HealthScoreSection />
-      
       {/* Post Overview & Insights Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <PostOverviewCard />
         <InsightsCard />
+      </div>
+      
+      {/* Quick Wins Card */}
+      <QuickWinsCard />
+      
+      {/* Daily Activity Summary & Progress Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <DailyActivitySummaryChart />
+        <ProgressDonutChart />
       </div>
       
       {/* Activity Chart */}
@@ -32,10 +40,10 @@ export const Dashboard: React.FC = () => {
         <EnhancedActivityChart />
       </div>
       
-      {/* Business Overview & Recent Activity */}
+      {/* Bottom Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <BusinessOverview />
-        <RecentActivity />
+        <ReviewSummaryCard />
+        <QACard />
       </div>
     </div>
   );
