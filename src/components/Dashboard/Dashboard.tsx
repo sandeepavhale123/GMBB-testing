@@ -1,31 +1,40 @@
 
 import React from 'react';
-import { StatsCards } from './StatsCards';
-import { PerformanceChart } from './PerformanceChart';
-import { RecentActivity } from './RecentActivity';
+import { BusinessProfileHeader } from './BusinessProfileHeader';
+import { EnhancedStatsCards } from './EnhancedStatsCards';
+import { HealthScoreSection } from './HealthScoreSection';
+import { EnhancedActivityChart } from './EnhancedActivityChart';
+import { PostManagementWidget } from './PostManagementWidget';
 import { BusinessOverview } from './BusinessOverview';
+import { RecentActivity } from './RecentActivity';
 
 export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
-      {/* Stats Cards */}
-      <StatsCards />
+      {/* Business Profile Header */}
+      <BusinessProfileHeader />
       
-      {/* Main Content Grid */}
+      {/* Enhanced Stats Cards */}
+      <EnhancedStatsCards />
+      
+      {/* Health Score & Quick Wins */}
+      <HealthScoreSection />
+      
+      {/* Activity Chart & Post Management */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Performance Chart - takes 2 columns */}
         <div className="lg:col-span-2">
-          <PerformanceChart />
+          <EnhancedActivityChart />
         </div>
-        
-        {/* Business Overview - takes 1 column */}
         <div className="lg:col-span-1">
-          <BusinessOverview />
+          <PostManagementWidget />
         </div>
       </div>
       
-      {/* Recent Activity */}
-      <RecentActivity />
+      {/* Business Overview & Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BusinessOverview />
+        <RecentActivity />
+      </div>
     </div>
   );
 };
