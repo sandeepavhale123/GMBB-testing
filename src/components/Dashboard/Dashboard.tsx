@@ -10,7 +10,7 @@ import { RecentActivity } from './RecentActivity';
 
 export const Dashboard: React.FC = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Business Profile Header */}
       <BusinessProfileHeader />
       

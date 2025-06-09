@@ -30,7 +30,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+12.3%',
       isPositive: true,
       icon: Eye,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-blue-500 to-blue-600'
     },
     {
       title: 'Website Clicks',
@@ -38,7 +39,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+8.7%',
       isPositive: true,
       icon: MousePointer,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-emerald-500 to-emerald-600'
     },
     {
       title: 'Phone Calls',
@@ -46,7 +48,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+15.2%',
       isPositive: true,
       icon: Phone,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-orange-500 to-orange-600'
     },
     {
       title: 'Directions',
@@ -54,7 +57,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '-2.1%',
       isPositive: false,
       icon: MapPin,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-purple-500 to-purple-600'
     },
     {
       title: 'Messages',
@@ -62,7 +66,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+5.4%',
       isPositive: true,
       icon: MessageSquare,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-pink-500 to-pink-600'
     },
     {
       title: 'Total Posts',
@@ -70,7 +75,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+18.9%',
       isPositive: true,
       icon: FileText,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-indigo-500 to-indigo-600'
     },
     {
       title: 'Media Posts',
@@ -78,7 +84,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+22.1%',
       isPositive: true,
       icon: Image,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-yellow-500 to-yellow-600'
     },
     {
       title: 'Reviews Responded',
@@ -86,7 +93,8 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+7.8%',
       isPositive: true,
       icon: MessageSquare,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-green-500 to-green-600'
     },
     {
       title: 'Q&A Answered',
@@ -94,16 +102,17 @@ export const EnhancedStatsCards: React.FC = () => {
       change: '+12.5%',
       isPositive: true,
       icon: HelpCircle,
-      description: 'vs last period'
+      description: 'vs last period',
+      color: 'from-red-500 to-red-600'
     }
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Performance Overview</h2>
+        <h2 className="text-xl font-bold text-gray-900 tracking-tight">Performance Overview</h2>
         <Select value={selectedPeriod} onValueChange={(value) => dispatch(setPeriod(value))}>
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-32 border-gray-200">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -114,36 +123,36 @@ export const EnhancedStatsCards: React.FC = () => {
         </Select>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => (
-          <Card key={stat.title} className="hover:shadow-md transition-shadow duration-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+          <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-semibold text-gray-600 tracking-tight">
                 {stat.title}
               </CardTitle>
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <stat.icon className="h-4 w-4 text-primary" />
+              <div className={cn("p-2.5 rounded-xl shadow-sm bg-gradient-to-br", stat.color)}>
+                <stat.icon className="h-4 w-4 text-white" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground mb-1">
+              <div className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
                 {stat.value}
               </div>
               <div className="flex items-center gap-1 text-xs">
                 {stat.isPositive ? (
-                  <TrendingUp className="h-3 w-3 text-green-600" />
+                  <TrendingUp className="h-3 w-3 text-emerald-600" />
                 ) : (
                   <TrendingDown className="h-3 w-3 text-red-600" />
                 )}
                 <span
                   className={cn(
-                    "font-medium",
-                    stat.isPositive ? "text-green-600" : "text-red-600"
+                    "font-semibold",
+                    stat.isPositive ? "text-emerald-600" : "text-red-600"
                   )}
                 >
                   {stat.change}
                 </span>
-                <span className="text-muted-foreground">{stat.description}</span>
+                <span className="text-gray-500 font-medium">{stat.description}</span>
               </div>
             </CardContent>
           </Card>

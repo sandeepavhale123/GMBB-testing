@@ -9,13 +9,13 @@ import { Dashboard } from '../components/Dashboard/Dashboard';
 import { Toaster } from '../components/ui/toaster';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const getPageTitle = (tab: string) => {
     switch (tab) {
-      case 'dashboard':
-        return 'Dashboard';
+      case 'overview':
+        return 'Overview';
       case 'posts':
         return 'Posts Management';
       case 'reviews':
@@ -33,47 +33,47 @@ const Index = () => {
       case 'settings':
         return 'Settings';
       default:
-        return 'Dashboard';
+        return 'Overview';
     }
   };
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard':
+      case 'overview':
         return <Dashboard />;
       case 'posts':
         return (
           <div className="space-y-6">
-            <div className="bg-card rounded-lg border border-border p-8 text-center">
-              <h2 className="text-xl font-semibold text-foreground mb-2">Posts Management</h2>
-              <p className="text-muted-foreground">Manage your Google Business Profile posts across all locations.</p>
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Posts Management</h2>
+              <p className="text-gray-600">Manage your Google Business Profile posts across all locations.</p>
             </div>
           </div>
         );
       case 'reviews':
         return (
           <div className="space-y-6">
-            <div className="bg-card rounded-lg border border-border p-8 text-center">
-              <h2 className="text-xl font-semibold text-foreground mb-2">Reviews Management</h2>
-              <p className="text-muted-foreground">Monitor and respond to customer reviews.</p>
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Reviews Management</h2>
+              <p className="text-gray-600">Monitor and respond to customer reviews.</p>
             </div>
           </div>
         );
       case 'media':
         return (
           <div className="space-y-6">
-            <div className="bg-card rounded-lg border border-border p-8 text-center">
-              <h2 className="text-xl font-semibold text-foreground mb-2">Media Library</h2>
-              <p className="text-muted-foreground">Upload and manage photos and videos for your businesses.</p>
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Media Library</h2>
+              <p className="text-gray-600">Upload and manage photos and videos for your businesses.</p>
             </div>
           </div>
         );
       default:
         return (
           <div className="space-y-6">
-            <div className="bg-card rounded-lg border border-border p-8 text-center">
-              <h2 className="text-xl font-semibold text-foreground mb-2">{getPageTitle(activeTab)}</h2>
-              <p className="text-muted-foreground">This section is coming soon.</p>
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{getPageTitle(activeTab)}</h2>
+              <p className="text-gray-600">This section is coming soon.</p>
             </div>
           </div>
         );
@@ -83,7 +83,7 @@ const Index = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <div className="min-h-screen bg-background flex w-full">
+        <div className="min-h-screen bg-gray-50 flex w-full">
           {/* Sidebar */}
           <Sidebar
             activeTab={activeTab}
