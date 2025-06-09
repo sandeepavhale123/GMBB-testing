@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TrendingUp, TrendingDown, Eye, MousePointer, Phone, MapPin, MessageSquare, FileText, Image, HelpCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, FileText, Image, MessageSquare, HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
@@ -9,11 +9,6 @@ import { cn } from '../../lib/utils';
 
 export const EnhancedStatsCards: React.FC = () => {
   const { 
-    viewsThisMonth, 
-    clicksThisMonth, 
-    callsThisMonth, 
-    directionsThisMonth,
-    messagesThisMonth,
     totalPosts,
     mediaPosts,
     reviewsResponded,
@@ -24,51 +19,6 @@ export const EnhancedStatsCards: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const stats = [
-    {
-      title: 'Profile Views',
-      value: viewsThisMonth.toLocaleString(),
-      change: '+12.3%',
-      isPositive: true,
-      icon: Eye,
-      description: 'vs last period',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      title: 'Website Clicks',
-      value: clicksThisMonth.toLocaleString(),
-      change: '+8.7%',
-      isPositive: true,
-      icon: MousePointer,
-      description: 'vs last period',
-      color: 'from-emerald-500 to-emerald-600'
-    },
-    {
-      title: 'Phone Calls',
-      value: callsThisMonth.toLocaleString(),
-      change: '+15.2%',
-      isPositive: true,
-      icon: Phone,
-      description: 'vs last period',
-      color: 'from-orange-500 to-orange-600'
-    },
-    {
-      title: 'Directions',
-      value: directionsThisMonth.toLocaleString(),
-      change: '-2.1%',
-      isPositive: false,
-      icon: MapPin,
-      description: 'vs last period',
-      color: 'from-purple-500 to-purple-600'
-    },
-    {
-      title: 'Messages',
-      value: messagesThisMonth.toLocaleString(),
-      change: '+5.4%',
-      isPositive: true,
-      icon: MessageSquare,
-      description: 'vs last period',
-      color: 'from-pink-500 to-pink-600'
-    },
     {
       title: 'Total Posts',
       value: totalPosts.toLocaleString(),
@@ -123,7 +73,7 @@ export const EnhancedStatsCards: React.FC = () => {
         </Select>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
           <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
