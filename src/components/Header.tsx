@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-white font-semibold text-xs">JD</span>
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-sm font-medium text-gray-700">John Doe</span>
+              
               
             </div>
             
