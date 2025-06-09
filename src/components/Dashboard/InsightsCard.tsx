@@ -74,21 +74,21 @@ export const InsightsCard: React.FC = () => {
 
   return (
     <Card className="h-full">
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-gray-900">Insights</CardTitle>
           <span className="text-sm font-medium text-gray-500">Last 30 Days</span>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+      <CardContent className="pt-0">
+        <div className="grid grid-cols-2 gap-6">
           {insights.map((insight, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div className={`w-8 h-8 ${insight.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                <insight.icon className={`w-4 h-4 ${insight.color}`} />
+            <div key={index} className="flex items-center gap-4">
+              <div className={`w-10 h-10 ${insight.bgColor} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                <insight.icon className={`w-5 h-5 ${insight.color}`} />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm text-gray-500 truncate">{insight.label}</p>
+                <p className="text-sm text-gray-500 truncate mb-1">{insight.label}</p>
                 <p className="text-xl font-bold text-gray-900">{insight.value}</p>
               </div>
             </div>
