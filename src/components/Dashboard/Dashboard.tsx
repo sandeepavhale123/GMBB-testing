@@ -4,7 +4,8 @@ import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
 import { HealthScoreSection } from './HealthScoreSection';
 import { EnhancedActivityChart } from './EnhancedActivityChart';
-import { PostManagementWidget } from './PostManagementWidget';
+import { PostOverviewCard } from './PostOverviewCard';
+import { InsightsCard } from './InsightsCard';
 import { BusinessOverview } from './BusinessOverview';
 import { RecentActivity } from './RecentActivity';
 
@@ -20,14 +21,15 @@ export const Dashboard: React.FC = () => {
       {/* Health Score & Quick Wins */}
       <HealthScoreSection />
       
-      {/* Activity Chart & Post Management */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <EnhancedActivityChart />
-        </div>
-        <div className="lg:col-span-1">
-          <PostManagementWidget />
-        </div>
+      {/* Post Overview & Insights Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PostOverviewCard />
+        <InsightsCard />
+      </div>
+      
+      {/* Activity Chart */}
+      <div className="grid grid-cols-1 gap-6">
+        <EnhancedActivityChart />
       </div>
       
       {/* Business Overview & Recent Activity */}
