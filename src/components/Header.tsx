@@ -1,48 +1,30 @@
-
 import React, { useEffect, useState } from 'react';
-import { 
-  Menu, 
-  Bell, 
-  Settings, 
-  Moon, 
-  Sun,
-  Filter,
-  Search,
-  ChevronDown,
-  MapPin
-} from 'lucide-react';
+import { Menu, Bell, Settings, Moon, Sun, Filter, Search, ChevronDown, MapPin } from 'lucide-react';
 import { Button } from './ui/button';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { toggleTheme } from '../store/slices/themeSlice';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 interface HeaderProps {
   onToggleSidebar: () => void;
   title: string;
   showFilters?: boolean;
   onShowFilters?: () => void;
 }
-
-export const Header: React.FC<HeaderProps> = ({ 
-  onToggleSidebar, 
-  title, 
-  showFilters, 
-  onShowFilters 
+export const Header: React.FC<HeaderProps> = ({
+  onToggleSidebar,
+  title,
+  showFilters,
+  onShowFilters
 }) => {
   const dispatch = useAppDispatch();
-  const { isDark } = useAppSelector((state) => state.theme);
+  const {
+    isDark
+  } = useAppSelector(state => state.theme);
   const [greeting, setGreeting] = useState('');
-
   useEffect(() => {
     const updateGreeting = () => {
       const now = new Date();
       const hour = now.getHours();
-      
       if (hour < 12) {
         setGreeting('Good morning');
       } else if (hour < 17) {
@@ -51,24 +33,15 @@ export const Header: React.FC<HeaderProps> = ({
         setGreeting('Good evening');
       }
     };
-
     updateGreeting();
     const interval = setInterval(updateGreeting, 60000);
-    
     return () => clearInterval(interval);
   }, []);
-
-  return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
+  return <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
         {/* Left section */}
         <div className="flex items-center gap-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggleSidebar}
-            className="hover:bg-gray-100 p-2"
-          >
+          <Button variant="ghost" size="sm" onClick={onToggleSidebar} className="hover:bg-gray-100 p-2">
             <Menu className="w-5 h-5 text-gray-600" />
           </Button>
           
@@ -90,10 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Business Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2 border-gray-200 hover:bg-gray-50"
-              >
+              <Button variant="outline" className="flex items-center gap-2 border-gray-200 hover:bg-gray-50">
                 <MapPin className="w-4 h-4 text-gray-500" />
                 <span className="text-sm font-medium text-gray-700">Downtown Coffee...</span>
                 <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">Restaurant</span>
@@ -132,14 +102,11 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="flex items-center gap-1">
               <span className="text-sm font-medium text-gray-700">John Doe</span>
-              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">Pro Plan</span>
+              
             </div>
-            <Button variant="ghost" size="sm" className="text-sm text-gray-600 hover:bg-gray-100">
-              Logout
-            </Button>
+            
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
