@@ -112,7 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={cn(
-      "bg-slate-900 text-white flex flex-col transition-all duration-300 ease-in-out",
+      "bg-[#1e293b] text-white flex flex-col transition-all duration-300 ease-in-out sticky top-0 h-screen",
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Header */}
@@ -131,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-2">
+      <nav className="flex-1 p-2 overflow-y-auto">
         <div className="space-y-1">
           {navigationItems.map((item) => {
             const Icon = item.icon;
