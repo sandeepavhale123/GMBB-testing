@@ -1,22 +1,76 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+
 export const ProgressDonutChart: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'manual' | 'genie'>('manual');
-  const data = [{
-    name: 'Manual',
-    value: 66.7,
-    color: '#1e3a8a'
-  }, {
-    name: 'Genie',
-    value: 30.2,
-    color: '#3b82f6'
-  }, {
-    name: 'Other',
-    value: 3.1,
-    color: '#93c5fd'
-  }];
+  
+  const data = [
+    {
+      name: 'Manual',
+      value: 66.7,
+      color: '#1e3a8a'
+    },
+    {
+      name: 'Genie',
+      value: 30.2,
+      color: '#3b82f6'
+    },
+    {
+      name: 'Other',
+      value: 3.1,
+      color: '#93c5fd'
+    }
+  ];
+  
   const centerValue = data.find(item => item.name === 'Manual')?.value || 66.7;
-  return;
+  
+  return (
+    <Card>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg font-semibold">Reviews & Responses</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center justify-center h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={80}
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="absolute flex flex-col items-center">
+            <span className="text-2xl font-bold">{centerValue}%</span>
+            <span className="text-sm text-muted-foreground">Responded</span>
+          </div>
+        </div>
+        <div className="mt-4 space-y-2">
+          {data.map((item) => (
+            <div key={item.name} className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-sm">{item.name}</span>
+              </div>
+              <span className="text-sm font-medium">{item.value}%</span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
