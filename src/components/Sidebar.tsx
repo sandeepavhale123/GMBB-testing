@@ -1,26 +1,27 @@
 
 import React, { useState } from 'react';
 import { 
-  LayoutDashboard, 
+  BarChart3, 
   FileText, 
-  Star, 
+  MessageSquare, 
   Image, 
-  Settings, 
-  Building2,
-  BarChart3,
-  Users,
-  Bell,
+  TrendingUp, 
+  MapPin, 
+  Users, 
+  Bell, 
+  Settings,
   ChevronDown,
-  MapPin
+  Search
 } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import { cn } from '../lib/utils';
 
 interface SidebarProps {
   activeTab: string;
@@ -28,135 +29,240 @@ interface SidebarProps {
   collapsed: boolean;
 }
 
-const menuItems = [
-  { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-  { id: 'posts', label: 'Posts', icon: FileText },
-  { id: 'reviews', label: 'Reviews', icon: Star },
-  { id: 'media', label: 'Media', icon: Image },
-  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-  { id: 'businesses', label: 'Businesses', icon: Building2 },
-  { id: 'team', label: 'Team', icon: Users },
-  { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'settings', label: 'Settings', icon: Settings },
+const navigationItems = [
+  { 
+    id: 'overview', 
+    label: 'Overview', 
+    icon: BarChart3,
+    description: 'Dashboard overview'
+  },
+  { 
+    id: 'posts', 
+    label: 'Posts', 
+    icon: FileText,
+    description: 'Manage posts'
+  },
+  { 
+    id: 'reviews', 
+    label: 'Reviews', 
+    icon: MessageSquare,
+    description: 'Customer reviews'
+  },
+  { 
+    id: 'media', 
+    label: 'Media', 
+    icon: Image,
+    description: 'Photos & videos'
+  },
+  { 
+    id: 'analytics', 
+    label: 'Analytics', 
+    icon: TrendingUp,
+    description: 'Performance insights'
+  },
+  { 
+    id: 'businesses', 
+    label: 'Locations', 
+    icon: MapPin,
+    description: 'Business locations'
+  },
+  { 
+    id: 'team', 
+    label: 'Team', 
+    icon: Users,
+    description: 'Team management'
+  },
+  { 
+    id: 'notifications', 
+    label: 'Notifications', 
+    icon: Bell,
+    description: 'Alerts & updates'
+  },
+  { 
+    id: 'settings', 
+    label: 'Settings', 
+    icon: Settings,
+    description: 'Account settings'
+  },
 ];
 
 const businesses = [
-  { id: 1, name: 'Downtown Café', address: '123 Main St, New York' },
-  { id: 2, name: 'Sunset Restaurant', address: '456 Ocean Ave, Miami' },
-  { id: 3, name: 'Tech Solutions Inc', address: '789 Business Blvd, Austin' },
+  { 
+    id: '1', 
+    name: 'Downtown Coffee Shop', 
+    address: '123 Main St, NYC',
+    status: 'Active'
+  },
+  { 
+    id: '2', 
+    name: 'Uptown Bakery', 
+    address: '456 Park Ave, NYC',
+    status: 'Active'
+  },
+  { 
+    id: '3', 
+    name: 'Westside Restaurant', 
+    address: '789 West St, NYC',
+    status: 'Pending'
+  },
+  { 
+    id: '4', 
+    name: 'East End Boutique', 
+    address: '321 East Ave, NYC',
+    status: 'Active'
+  },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, collapsed }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ 
+  activeTab, 
+  onTabChange, 
+  collapsed 
+}) => {
   const [selectedBusiness, setSelectedBusiness] = useState(businesses[0]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredBusinesses = businesses.filter(business =>
+    business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    business.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className={cn(
-      "bg-white border-r border-gray-200 transition-all duration-300 flex flex-col shadow-sm",
+      "bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out shadow-sm",
       collapsed ? "w-16" : "w-72"
     )}>
-      {/* Logo */}
-      <div className="p-6 border-b border-gray-100">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-            <Building2 className="w-5 h-5 text-white" />
-          </div>
-          {!collapsed && (
+      {/* Header */}
+      <div className="p-4 border-b border-gray-100">
+        {!collapsed && (
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">GB</span>
+            </div>
             <div>
-              <h1 className="font-bold text-xl text-gray-900 tracking-tight">GMB Manager</h1>
+              <h1 className="font-bold text-gray-900 text-lg tracking-tight">GMB Manager</h1>
               <p className="text-xs text-gray-500 font-medium">Business Dashboard</p>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Business Selector */}
-      {!collapsed && (
-        <div className="p-4 border-b border-gray-100">
+          </div>
+        )}
+        
+        {!collapsed && (
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-full">
-              <div className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
-                    <MapPin className="w-5 h-5 text-white" />
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="w-full justify-between text-left border-gray-200 hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-emerald-600" />
                   </div>
-                  <div className="text-left">
-                    <p className="font-semibold text-gray-900 text-sm truncate max-w-[140px]">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-gray-900 text-sm truncate">
                       {selectedBusiness.name}
                     </p>
-                    <p className="text-xs text-gray-500 truncate max-w-[140px]">
+                    <p className="text-xs text-gray-500 truncate">
                       {selectedBusiness.address}
                     </p>
                   </div>
                 </div>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
-              </div>
+                <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-64 p-2" align="start">
-              {businesses.map((business) => (
-                <DropdownMenuItem
-                  key={business.id}
-                  onClick={() => setSelectedBusiness(business)}
-                  className="p-3 cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                      <MapPin className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900 text-sm">{business.name}</p>
-                      <p className="text-xs text-gray-500">{business.address}</p>
-                    </div>
-                  </div>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="p-3 cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
-                    <Building2 className="w-4 h-4 text-gray-600" />
-                  </div>
-                  <p className="font-medium text-gray-700 text-sm">Add New Business</p>
+            <DropdownMenuContent align="start" className="w-80">
+              <div className="p-2">
+                <div className="relative mb-2">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search listings..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 text-sm"
+                  />
                 </div>
-              </DropdownMenuItem>
+                <div className="max-h-64 overflow-y-auto">
+                  {filteredBusinesses.map((business) => (
+                    <DropdownMenuItem
+                      key={business.id}
+                      onClick={() => setSelectedBusiness(business)}
+                      className="flex items-center gap-3 p-3 cursor-pointer"
+                    >
+                      <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-gray-900 text-sm truncate">
+                          {business.name}
+                        </p>
+                        <p className="text-xs text-gray-500 truncate">
+                          {business.address}
+                        </p>
+                        <span className={cn(
+                          "inline-block px-2 py-0.5 rounded-full text-xs font-medium mt-1",
+                          business.status === 'Active' 
+                            ? "bg-emerald-100 text-emerald-700" 
+                            : "bg-amber-100 text-amber-700"
+                        )}>
+                          {business.status}
+                        </span>
+                      </div>
+                    </DropdownMenuItem>
+                  ))}
+                  {filteredBusinesses.length === 0 && (
+                    <div className="p-3 text-center text-gray-500 text-sm">
+                      No listings found
+                    </div>
+                  )}
+                </div>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onTabChange(item.id)}
-            className={cn(
-              "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group font-medium text-sm",
-              activeTab === item.id
-                ? "bg-blue-50 text-blue-700 border border-blue-200 shadow-sm"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            )}
-          >
-            <item.icon className={cn(
-              "w-5 h-5 transition-colors",
-              activeTab === item.id ? "text-blue-600" : "text-gray-500"
-            )} />
-            {!collapsed && (
-              <span>{item.label}</span>
-            )}
-          </button>
-        ))}
+      <nav className="flex-1 p-2">
+        <div className="space-y-1">
+          {navigationItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            
+            return (
+              <Button
+                key={item.id}
+                variant="ghost"
+                onClick={() => onTabChange(item.id)}
+                className={cn(
+                  "w-full justify-start gap-3 h-10 font-medium transition-all duration-200",
+                  collapsed ? "px-2" : "px-3",
+                  isActive 
+                    ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600" 
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                )}
+              >
+                <Icon className={cn(
+                  "flex-shrink-0 transition-colors",
+                  collapsed ? "w-5 h-5" : "w-4 h-4",
+                  isActive ? "text-blue-600" : "text-gray-500"
+                )} />
+                {!collapsed && (
+                  <span className="truncate text-sm">{item.label}</span>
+                )}
+              </Button>
+            );
+          })}
+        </div>
       </nav>
 
-      {/* User Profile */}
+      {/* Footer */}
       {!collapsed && (
-        <div className="p-4 border-t border-gray-100">
-          <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-sm">
-              <span className="text-white text-sm font-semibold">JD</span>
+        <div className="p-4 border-t border-gray-100 bg-gray-50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-semibold text-xs">JD</span>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900 truncate">John Doe</p>
-              <p className="text-xs text-gray-500 truncate">john@company.com</p>
+            <div>
+              <p className="font-semibold text-gray-900 text-sm">John Doe</p>
+              <p className="text-xs text-gray-500">Admin</p>
             </div>
           </div>
         </div>

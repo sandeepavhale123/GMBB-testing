@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { 
   Menu, 
-  Search, 
   Bell, 
   Settings, 
   Moon, 
@@ -10,10 +9,8 @@ import {
   Filter
 } from 'lucide-react';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { toggleTheme } from '../store/slices/themeSlice';
-import { cn } from '../lib/utils';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -77,17 +74,6 @@ export const Header: React.FC<HeaderProps> = ({
             <p className="text-sm text-gray-500 mt-1 font-medium">
               Manage your Google Business Profile effortlessly
             </p>
-          </div>
-        </div>
-
-        {/* Center section - Search */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <Input
-              placeholder="Search businesses, posts, reviews..."
-              className="pl-10 bg-gray-50 border-gray-200 focus:bg-white focus:border-blue-300 transition-colors"
-            />
           </div>
         </div>
 
