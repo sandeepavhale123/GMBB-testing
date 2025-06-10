@@ -7,9 +7,8 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
-import { Checkbox } from '../ui/checkbox';
 import { Switch } from '../ui/switch';
-import { Badge } from '../ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { PostPreview } from './PostPreview';
 import { AIDescriptionModal } from './AIDescriptionModal';
 import { AIImageModal } from './AIImageModal';
@@ -39,20 +38,24 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
   const [isAIImageOpen, setIsAIImageOpen] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [listingsSearch, setListingsSearch] = useState('');
+  const [platformsSearch, setPlatformsSearch] = useState('');
 
   const businessListings = [
     'Downtown Coffee Shop',
     'Uptown Bakery', 
     'Westside Restaurant',
-    'East End Boutique'
+    'East End Boutique',
+    'Central Park Gym',
+    'Sunset Spa & Wellness'
   ];
 
   const socialPlatforms = [
-    'Google Business Profile',
-    'Facebook',
-    'Instagram',
-    'Twitter',
-    'LinkedIn'
+    { id: 'google', name: 'Google Business Profile', icon: '🏢' },
+    { id: 'facebook', name: 'Facebook', icon: '📘' },
+    { id: 'instagram', name: 'Instagram', icon: '📷' },
+    { id: 'twitter', name: 'Twitter', icon: '🐦' },
+    { id: 'linkedin', name: 'LinkedIn', icon: '💼' }
   ];
 
   const postTypes = [
@@ -78,6 +81,14 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
     { value: 'sign-up', label: 'Sign Up' },
     { value: 'download', label: 'Download' }
   ];
+
+  const filteredListings = businessListings.filter(listing =>
+    listing.toLowerCase().includes(listingsSearch.toLowerCase())
+  );
+
+  const filteredPlatforms = socialPlatforms.filter(platform =>
+    platform.name.toLowerCase().includes(platformsSearch.toLowerCase())
+  );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -117,12 +128,15 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
     }));
   };
 
-  const handlePlatformToggle = (platform: string) => {
+  const handlePlatformToggle = (platformId: string) => {
+    const platform = socialPlatforms.find(p => p.id === platformId);
+    if (!platform) return;
+
     setFormData(prev => ({
       ...prev,
-      platforms: prev.platforms.includes(platform)
-        ? prev.platforms.filter(p => p !== platform)
-        : [...prev.platforms, platform]
+      platforms: prev.platforms.includes(platform.name)
+        ? prev.platforms.filter(p => p !== platform.name)
+        : [...prev.platforms, platform.name]
     }));
   };
 
@@ -154,66 +168,113 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
             {/* Left Panel - Form */}
             <div className="flex-1 p-6 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Select Listings */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium">Select Business Listings</Label>
-                  <div className="border rounded-lg p-3 space-y-2 bg-gray-50">
-                    {businessListings.map((listing) => (
-                      <div key={listing} className="flex items-center space-x-3 p-2 rounded hover:bg-white transition-colors">
-                        <Checkbox
-                          id={listing}
-                          checked={formData.listings.includes(listing)}
-                          onCheckedChange={() => handleListingToggle(listing)}
-                        />
-                        <Label htmlFor={listing} className="text-sm flex-1 cursor-pointer">{listing}</Label>
-                      </div>
-                    ))}
-                  </div>
-                  {formData.listings.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {formData.listings.map((listing) => (
-                        <Badge key={listing} variant="secondary" className="text-xs">
-                          {listing}
-                          <X 
-                            className="w-3 h-3 ml-1 cursor-pointer" 
-                            onClick={() => handleListingToggle(listing)}
+                {/* Row 1: Select Listings and Post Title */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Select Business Listings</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={formData.listings.length > 0 ? `${formData.listings.length} selected` : "Choose listings"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <div className="p-2">
+                          <Input
+                            placeholder="Search listings..."
+                            value={listingsSearch}
+                            onChange={(e) => setListingsSearch(e.target.value)}
+                            className="mb-2"
                           />
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
+                        </div>
+                        {filteredListings.map((listing) => (
+                          <SelectItem 
+                            key={listing} 
+                            value={listing}
+                            onClick={() => handleListingToggle(listing)}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={formData.listings.includes(listing)}
+                                onChange={() => handleListingToggle(listing)}
+                                className="rounded"
+                              />
+                              <span>{listing}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="title" className="text-sm font-medium">Post Title (Optional)</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="Enter an engaging post title..."
+                      className="transition-all focus:ring-2"
+                    />
+                  </div>
                 </div>
 
-                {/* Post Title */}
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-sm font-medium">Post Title (Optional)</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="Enter an engaging post title..."
-                    className="transition-all focus:ring-2"
-                  />
+                {/* Row 2: Post Type and Social Platforms */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Post Type</Label>
+                    <Select value={formData.postType} onValueChange={(value) => setFormData(prev => ({ ...prev, postType: value }))}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Choose post type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {postTypes.map((type) => (
+                          <SelectItem key={type.value} value={type.value}>
+                            {type.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Social Media Platforms</Label>
+                    <Select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={formData.platforms.length > 0 ? `${formData.platforms.length} selected` : "Choose platforms"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <div className="p-2">
+                          <Input
+                            placeholder="Search platforms..."
+                            value={platformsSearch}
+                            onChange={(e) => setPlatformsSearch(e.target.value)}
+                            className="mb-2"
+                          />
+                        </div>
+                        {filteredPlatforms.map((platform) => (
+                          <SelectItem 
+                            key={platform.id} 
+                            value={platform.id}
+                            onClick={() => handlePlatformToggle(platform.id)}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={formData.platforms.includes(platform.name)}
+                                onChange={() => handlePlatformToggle(platform.id)}
+                                className="rounded"
+                              />
+                              <span>{platform.icon}</span>
+                              <span>{platform.name}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                {/* Post Type */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium">Post Type</Label>
-                  <Select value={formData.postType} onValueChange={(value) => setFormData(prev => ({ ...prev, postType: value }))}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Choose post type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {postTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          {type.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Description with Platform Toggle */}
+                {/* Description with Platform Toggle and Tabs */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-medium">Post Description</Label>
@@ -253,20 +314,57 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {formData.platforms.map((platform) => (
-                        <div key={platform} className="border rounded-lg p-4 space-y-2">
-                          <Label className="text-sm font-medium text-blue-600">{platform}</Label>
-                          <Textarea
-                            value={formData.platformDescriptions[platform] || ''}
-                            onChange={(e) => handlePlatformDescriptionChange(platform, e.target.value)}
-                            placeholder={`Write description for ${platform}...`}
-                            rows={3}
-                            className="resize-none"
-                          />
-                        </div>
-                      ))}
-                      {formData.platforms.length === 0 && (
-                        <p className="text-sm text-gray-500 italic">Select platforms below to edit descriptions per platform</p>
+                      {formData.platforms.length > 0 ? (
+                        <Tabs defaultValue="draft" className="w-full">
+                          <TabsList className="grid w-full grid-cols-auto">
+                            <TabsTrigger value="draft">Draft</TabsTrigger>
+                            {formData.platforms.map((platform) => {
+                              const platformData = socialPlatforms.find(p => p.name === platform);
+                              return (
+                                <TabsTrigger key={platform} value={platform}>
+                                  <span className="mr-1">{platformData?.icon}</span>
+                                  {platform}
+                                </TabsTrigger>
+                              );
+                            })}
+                          </TabsList>
+                          
+                          <TabsContent value="draft" className="space-y-2">
+                            <div className="flex justify-end">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setIsAIDescriptionOpen(true)}
+                                className="text-xs"
+                              >
+                                <Wand2 className="w-3 h-3 mr-1" />
+                                AI Write
+                              </Button>
+                            </div>
+                            <Textarea
+                              value={formData.description}
+                              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                              placeholder="Write your draft description..."
+                              rows={4}
+                              className="resize-none"
+                            />
+                          </TabsContent>
+                          
+                          {formData.platforms.map((platform) => (
+                            <TabsContent key={platform} value={platform} className="space-y-2">
+                              <Textarea
+                                value={formData.platformDescriptions[platform] || ''}
+                                onChange={(e) => handlePlatformDescriptionChange(platform, e.target.value)}
+                                placeholder={`Write description for ${platform}...`}
+                                rows={4}
+                                className="resize-none"
+                              />
+                            </TabsContent>
+                          ))}
+                        </Tabs>
+                      ) : (
+                        <p className="text-sm text-gray-500 italic">Select platforms above to edit descriptions per platform</p>
                       )}
                     </div>
                   )}
@@ -344,7 +442,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
                   </div>
                 </div>
 
-                {/* CTA Button with Toggle */}
+                {/* CTA Button Row */}
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <Switch
@@ -356,7 +454,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
                   </div>
 
                   {showCTAButton && (
-                    <div className="space-y-3 pl-4 border-l-2 border-blue-200">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Button Type</Label>
                         <Select 
@@ -426,36 +524,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClos
                         onChange={(e) => setFormData(prev => ({ ...prev, scheduleDate: e.target.value }))}
                         className="w-full"
                       />
-                    </div>
-                  )}
-                </div>
-
-                {/* Social Platforms */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium">Social Media Platforms</Label>
-                  <div className="border rounded-lg p-3 space-y-2 bg-gray-50">
-                    {socialPlatforms.map((platform) => (
-                      <div key={platform} className="flex items-center space-x-3 p-2 rounded hover:bg-white transition-colors">
-                        <Checkbox
-                          id={platform}
-                          checked={formData.platforms.includes(platform)}
-                          onCheckedChange={() => handlePlatformToggle(platform)}
-                        />
-                        <Label htmlFor={platform} className="text-sm flex-1 cursor-pointer">{platform}</Label>
-                      </div>
-                    ))}
-                  </div>
-                  {formData.platforms.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {formData.platforms.map((platform) => (
-                        <Badge key={platform} variant="outline" className="text-xs">
-                          {platform}
-                          <X 
-                            className="w-3 h-3 ml-1 cursor-pointer" 
-                            onClick={() => handlePlatformToggle(platform)}
-                          />
-                        </Badge>
-                      ))}
                     </div>
                   )}
                 </div>
