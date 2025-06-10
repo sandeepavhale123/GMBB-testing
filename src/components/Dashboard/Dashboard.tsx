@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -15,13 +14,10 @@ import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
 import { CircularProgress } from '../ui/circular-progress';
 import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
-
 export const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Action Required Alert */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -53,15 +49,10 @@ export const Dashboard: React.FC = () => {
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-white">Auto optimization</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1">
+            <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1 mt-[28px] my-[26px]">
               {/* Centered Circular Progress */}
               <div className="flex items-center justify-center">
-                <CircularProgress 
-                  value={78} 
-                  size={120} 
-                  strokeWidth={8}
-                  className="text-blue-400"
-                >
+                <CircularProgress value={78} size={120} strokeWidth={8} className="text-blue-400">
                   <div className="text-center">
                     <span className="text-3xl font-bold text-white">78</span>
                   </div>
@@ -70,14 +61,12 @@ export const Dashboard: React.FC = () => {
               
               {/* Time left section */}
               <div className="text-center space-y-1">
-                <p className="text-sm text-slate-400">Time left</p>
-                <p className="text-blue-400 font-medium">02hrs 30mnt</p>
+                <p className="text-sm text-slate-400">Optimization level is healthy</p>
+                <p className="text-blue-400 font-medium">75% optimized</p>
               </div>
               
               {/* Optimize Button */}
-              <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium">
-                Optimize
-              </Button>
+              <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium">Optimize Now</Button>
             </CardContent>
           </Card>
         </div>
@@ -133,11 +122,7 @@ export const Dashboard: React.FC = () => {
                     <CardTitle className="text-lg font-semibold">Suggestion</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <Input 
-                      value={suggestionText}
-                      onChange={(e) => setSuggestionText(e.target.value)}
-                      className="min-h-20"
-                    />
+                    <Input value={suggestionText} onChange={e => setSuggestionText(e.target.value)} className="min-h-20" />
                     <Button className="w-full">Create Post</Button>
                   </CardContent>
                 </Card>
@@ -166,7 +151,9 @@ export const Dashboard: React.FC = () => {
                   <div className="text-sm text-gray-600 mb-2">Scheduled</div>
                   <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center relative">
                     <div className="w-20 h-20 rounded-full border-8 border-gray-300 relative">
-                      <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%)'}}></div>
+                      <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{
+                      clipPath: 'polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%)'
+                    }}></div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-sm">
@@ -190,19 +177,12 @@ export const Dashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[
-                    'Fix outstanding issues',
-                    'Add photo to post', 
-                    'Update business info',
-                    'Respond to customer messages'
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center gap-3">
+                  {['Fix outstanding issues', 'Add photo to post', 'Update business info', 'Respond to customer messages'].map((item, index) => <div key={index} className="flex items-center gap-3">
                       <Checkbox id={`quick-win-${index}`} />
                       <label htmlFor={`quick-win-${index}`} className="text-sm text-gray-700">
                         {item}
                       </label>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
             </Card>
@@ -218,18 +198,12 @@ export const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {[
-                  'Fix outstanding issues',
-                  'Add photo to post',
-                  'Update business info'
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
+                {['Fix outstanding issues', 'Add photo to post', 'Update business info'].map((item, index) => <div key={index} className="flex items-center gap-3">
                     <Checkbox id={`sidebar-quick-win-${index}`} />
                     <label htmlFor={`sidebar-quick-win-${index}`} className="text-sm text-gray-700">
                       {item}
                     </label>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </CardContent>
           </Card>
@@ -262,16 +236,9 @@ export const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-4 gap-2 mb-4">
-                {Array.from({ length: 16 }, (_, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-6 h-6 rounded-full ${
-                      i < 4 ? 'bg-gray-300' : 
-                      i < 8 ? 'bg-gray-400' : 
-                      i < 12 ? 'bg-gray-600' : 'bg-gray-800'
-                    }`}
-                  ></div>
-                ))}
+                {Array.from({
+                length: 16
+              }, (_, i) => <div key={i} className={`w-6 h-6 rounded-full ${i < 4 ? 'bg-gray-300' : i < 8 ? 'bg-gray-400' : i < 12 ? 'bg-gray-600' : 'bg-gray-800'}`}></div>)}
               </div>
               <Button variant="link" className="text-sm p-0">
                 View Full Geo Grid Report
@@ -280,6 +247,5 @@ export const Dashboard: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
