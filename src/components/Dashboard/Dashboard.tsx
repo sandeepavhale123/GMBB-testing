@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -13,10 +14,50 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
 import { CircularProgress } from '../ui/circular-progress';
-import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
+import { CreatePostModal } from '../Posts/CreatePostModal';
+import { PostPreview } from '../Posts/PostPreview';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
+import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle, Plus, Eye, Calendar, PieChart, BarChart } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+
 export const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  // Sample data for charts
+  const barChartData = [
+    { name: 'Success', value: 85, fill: '#10b981' },
+    { name: 'Failed', value: 15, fill: '#ef4444' }
+  ];
+
+  const donutChartData = [
+    { name: 'Maps', value: 60, fill: '#3b82f6' },
+    { name: 'Search', value: 40, fill: '#6b7280' }
+  ];
+
+  const scheduledPost = {
+    id: '1',
+    title: 'Weekend Special Offer',
+    content: 'Join us this weekend for 20% off all menu items! Perfect time to try our seasonal specialties.',
+    image: null,
+    scheduledDate: '2024-06-12 10:00 AM',
+    platforms: ['Google My Business', 'Facebook']
+  };
+
+  const handleApprovePost = () => {
+    setSelectedPost(scheduledPost);
+    setIsPreviewModalOpen(true);
+  };
+
+  const handleFinalApprove = () => {
+    // Handle final approval logic here
+    setIsPreviewModalOpen(false);
+    setSelectedPost(null);
+  };
+
   return <div className="space-y-6">
       {/* Action Required Alert */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
@@ -98,15 +139,26 @@ export const Dashboard: React.FC = () => {
             </TabsList>
             <TabsContent value="posts" className="mt-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Activity Summary */}
+                {/* Activity Summary with Bar Chart */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Activity Summary</CardTitle>
+                    <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                      <BarChart className="w-5 h-5" />
+                      Activity Summary
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center">
-                        <BarChart3 className="w-8 h-8 text-gray-400" />
+                      <div className="h-32">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={barChartData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+                          </BarChart>
+                        </ResponsiveContainer>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-600">% Success vs. Failed</span>
@@ -116,14 +168,25 @@ export const Dashboard: React.FC = () => {
                   </CardContent>
                 </Card>
 
-                {/* Post Suggestion */}
+                {/* Post Suggestion with Create Post */}
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Suggestion</CardTitle>
+                    <CardTitle className="text-lg font-semibold">Create Post</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <Input value={suggestionText} onChange={e => setSuggestionText(e.target.value)} className="min-h-20" />
-                    <Button className="w-full">Create Post</Button>
+                    <div className="h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
+                      <div className="text-center">
+                        <Plus className="w-8 h-8 text-blue-500 mx-auto mb-2" />
+                        <p className="text-sm text-gray-600">Create engaging posts</p>
+                      </div>
+                    </div>
+                    <Button 
+                      className="w-full bg-blue-600 hover:bg-blue-700" 
+                      onClick={() => setIsCreateModalOpen(true)}
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Post
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -139,50 +202,76 @@ export const Dashboard: React.FC = () => {
             </TabsContent>
           </Tabs>
 
-          {/* Bottom Row - Activity Summary and Quick Wins */}
+          {/* Bottom Row - Doughnut Chart and Scheduled Post */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Activity Summary (Secondary) */}
+            {/* Traffic Source Doughnut Chart */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Activity Summary</CardTitle>
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <PieChart className="w-5 h-5" />
+                  Traffic Sources
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="text-sm text-gray-600 mb-2">Scheduled</div>
-                  <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center relative">
-                    <div className="w-20 h-20 rounded-full border-8 border-gray-300 relative">
-                      <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{
-                      clipPath: 'polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%)'
-                    }}></div>
-                    </div>
+                  <div className="h-32 flex items-center justify-center">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={donutChartData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={20}
+                          outerRadius={40}
+                          dataKey="value"
+                        >
+                          {donutChartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-                      <span>Maps</span>
+                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      <span>Maps (60%)</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-                      <span>Search</span>
+                      <span>Search (40%)</span>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Quick Wins (Secondary) */}
+            {/* Scheduled Post */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Quick Wins</CardTitle>
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Scheduled Post
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {['Fix outstanding issues', 'Add photo to post', 'Update business info', 'Respond to customer messages'].map((item, index) => <div key={index} className="flex items-center gap-3">
-                      <Checkbox id={`quick-win-${index}`} />
-                      <label htmlFor={`quick-win-${index}`} className="text-sm text-gray-700">
-                        {item}
-                      </label>
-                    </div>)}
+                <div className="space-y-4">
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <h4 className="font-medium text-sm mb-1">{scheduledPost.title}</h4>
+                    <p className="text-xs text-gray-600 mb-2">{scheduledPost.content.substring(0, 60)}...</p>
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <Calendar className="w-3 h-3" />
+                      <span>{scheduledPost.scheduledDate}</span>
+                    </div>
+                  </div>
+                  <Button 
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    onClick={handleApprovePost}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    Approve Post
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -247,5 +336,40 @@ export const Dashboard: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* Create Post Modal */}
+      <CreatePostModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
+
+      {/* Post Preview Modal */}
+      <Dialog open={isPreviewModalOpen} onOpenChange={setIsPreviewModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Post Preview</DialogTitle>
+          </DialogHeader>
+          {selectedPost && (
+            <PostPreview 
+              data={{
+                title: selectedPost.title,
+                description: selectedPost.content,
+                ctaButton: '',
+                ctaUrl: '',
+                image: selectedPost.image,
+                platforms: selectedPost.platforms
+              }}
+            />
+          )}
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setIsPreviewModalOpen(false)}>
+              Close
+            </Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={handleFinalApprove}>
+              Approve
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>;
 };
