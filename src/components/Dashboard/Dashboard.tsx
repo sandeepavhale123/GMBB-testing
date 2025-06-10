@@ -1,53 +1,249 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
-import { EnhancedActivityChart } from './EnhancedActivityChart';
-import { PostOverviewCard } from './PostOverviewCard';
-import { InsightsCard } from './InsightsCard';
 import { QuickWinsCard } from './QuickWinsCard';
 import { HealthScoreCard } from './HealthScoreCard';
 import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
 import { QACard } from './QACard';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { Input } from '../ui/input';
+import { Checkbox } from '../ui/checkbox';
+import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('posts');
+  const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Business Profile Header */}
       <BusinessProfileHeader />
       
       {/* Enhanced Stats Cards */}
       <EnhancedStatsCards />
       
-      {/* Post Overview & Insights Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PostOverviewCard />
-        <InsightsCard />
-      </div>
-      
-      {/* Quick Wins & Health Score Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <QuickWinsCard />
-        <HealthScoreCard />
-      </div>
-      
-      {/* Daily Activity Summary & Progress Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <DailyActivitySummaryChart />
-        <ProgressDonutChart />
-      </div>
-      
-      {/* Activity Chart */}
-      <div className="grid grid-cols-1 gap-6">
-        <EnhancedActivityChart />
-      </div>
-      
-      {/* Bottom Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ReviewSummaryCard />
-        <QACard />
+      {/* Two Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Main Content */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Tab Navigation */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-4 bg-gray-50 rounded-xl p-1">
+              <TabsTrigger value="posts" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <FileText className="w-4 h-4" />
+                Posts
+              </TabsTrigger>
+              <TabsTrigger value="reviews" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <MessageSquare className="w-4 h-4" />
+                Reviews
+              </TabsTrigger>
+              <TabsTrigger value="media" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <ImageIcon className="w-4 h-4" />
+                Media
+              </TabsTrigger>
+              <TabsTrigger value="qa" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <HelpCircle className="w-4 h-4" />
+                Q&A
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="posts" className="mt-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Activity Summary */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold">Activity Summary</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-8 h-8 text-gray-400" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">% Success vs. Failed</span>
+                        <span className="text-2xl font-bold">305</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Post Suggestion */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold">Suggestion</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <Input 
+                      value={suggestionText}
+                      onChange={(e) => setSuggestionText(e.target.value)}
+                      className="min-h-20"
+                    />
+                    <Button className="w-full">Create Post</Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+            <TabsContent value="reviews" className="mt-6">
+              <ReviewSummaryCard />
+            </TabsContent>
+            <TabsContent value="media" className="mt-6">
+              <DailyActivitySummaryChart />
+            </TabsContent>
+            <TabsContent value="qa" className="mt-6">
+              <QACard />
+            </TabsContent>
+          </Tabs>
+
+          {/* Bottom Row - Activity Summary and Quick Wins */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Activity Summary (Secondary) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">Activity Summary</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-sm text-gray-600 mb-2">Scheduled</div>
+                  <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center relative">
+                    <div className="w-20 h-20 rounded-full border-8 border-gray-300 relative">
+                      <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%)'}}></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+                      <span>Maps</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
+                      <span>Search</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Wins (Secondary) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">Quick Wins</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {[
+                    'Fix outstanding issues',
+                    'Add photo to post', 
+                    'Update business info',
+                    'Respond to customer messages'
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <Checkbox id={`quick-win-${index}`} />
+                      <label htmlFor={`quick-win-${index}`} className="text-sm text-gray-700">
+                        {item}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Right Column - Sidebar */}
+        <div className="space-y-6">
+          {/* Auto Optimization */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">Auto optimization</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <div className="relative w-24 h-24 mx-auto">
+                <div className="w-24 h-24 rounded-full border-8 border-gray-200 relative">
+                  <div className="absolute inset-0 rounded-full border-8 border-blue-500" 
+                       style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 75%, 50% 75%)'}}></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl font-bold">75%</span>
+                  </div>
+                </div>
+              </div>
+              <Button className="w-full bg-blue-500 hover:bg-blue-600">
+                Auto optimize now
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Quick Wins */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">Quick Wins</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[
+                  'Fix outstanding issues',
+                  'Add photo to post',
+                  'Update business info'
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <Checkbox id={`sidebar-quick-win-${index}`} />
+                    <label htmlFor={`sidebar-quick-win-${index}`} className="text-sm text-gray-700">
+                      {item}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* AI Optimization */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">AI Optimization</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">You can improve your listing</p>
+              <Button variant="outline" className="w-full">
+                View Suggestions
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* GeoRank Snapshot */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                GeoRank Snapshot
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-4 gap-2 mb-4">
+                {Array.from({ length: 16 }, (_, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-6 h-6 rounded-full ${
+                      i < 4 ? 'bg-gray-300' : 
+                      i < 8 ? 'bg-gray-400' : 
+                      i < 12 ? 'bg-gray-600' : 'bg-gray-800'
+                    }`}
+                  ></div>
+                ))}
+              </div>
+              <Button variant="link" className="text-sm p-0">
+                View Full Geo Grid Report
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
