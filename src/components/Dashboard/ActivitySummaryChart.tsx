@@ -6,8 +6,8 @@ import { BarChart3 } from 'lucide-react';
 
 export const ActivitySummaryChart: React.FC = () => {
   const barChartData = [
-    { name: 'Success', value: 85, fill: '#10b981' },
-    { name: 'Failed', value: 15, fill: '#ef4444' }
+    { name: 'Success', value: 55, fill: '#10b981' },
+    { name: 'Failed', value: 5, fill: '#ef4444' }
   ];
 
   return (
@@ -33,7 +33,7 @@ export const ActivitySummaryChart: React.FC = () => {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">% Success vs. Failed</span>
-            <span className="text-2xl font-bold">305</span>
+            <span className="text-2xl font-bold">60</span>
           </div>
         </div>
       </CardContent>

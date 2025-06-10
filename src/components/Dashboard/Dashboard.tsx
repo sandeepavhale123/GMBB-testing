@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -12,6 +11,7 @@ import { ActivitySummaryChart } from './ActivitySummaryChart';
 import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
 import { ScheduledPostCard } from './ScheduledPostCard';
+import { ReviewComponent } from './ReviewComponent';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -140,7 +140,7 @@ export const Dashboard: React.FC = () => {
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
-              <ReviewSummaryCard />
+              <ReviewComponent />
             </TabsContent>
             <TabsContent value="media" className="mt-6">
               <DailyActivitySummaryChart />
@@ -266,3 +266,5 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+
+export default Dashboard;
