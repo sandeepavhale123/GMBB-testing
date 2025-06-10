@@ -13,6 +13,7 @@ import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
+import { CircularProgress } from '../ui/circular-progress';
 import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
@@ -34,6 +35,7 @@ export const Dashboard: React.FC = () => {
           Resolve
         </Button>
       </div>
+      
       {/* Top Section - Business Overview, Performance Overview, and Auto Optimization in single row */}
       <div className="grid grid-cols-12 gap-6">
         {/* Business Overview + Performance Overview - 8 columns */}
@@ -46,23 +48,35 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Auto Optimization - 4 columns */}
-        <div className="col-span-4 ">
-          <Card className="h-full">
+        <div className="col-span-4">
+          <Card className="h-full bg-gradient-to-br from-slate-800 to-slate-900 text-white border-slate-700">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold">Auto optimization</CardTitle>
+              <CardTitle className="text-lg font-semibold text-white">Auto optimization</CardTitle>
             </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="relative w-24 h-24 mx-auto">
-                <div className="w-24 h-24 rounded-full border-8 border-gray-200 relative">
-                  <div className="absolute inset-0 rounded-full border-8 border-blue-500" 
-                       style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 75%, 50% 75%)'}}></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xl font-bold">75%</span>
+            <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1">
+              {/* Centered Circular Progress */}
+              <div className="flex items-center justify-center">
+                <CircularProgress 
+                  value={78} 
+                  size={120} 
+                  strokeWidth={8}
+                  className="text-blue-400"
+                >
+                  <div className="text-center">
+                    <span className="text-3xl font-bold text-white">78</span>
                   </div>
-                </div>
+                </CircularProgress>
               </div>
-              <Button className="w-full bg-blue-500 hover:bg-blue-600">
-                Auto optimize now
+              
+              {/* Time left section */}
+              <div className="text-center space-y-1">
+                <p className="text-sm text-slate-400">Time left</p>
+                <p className="text-blue-400 font-medium">02hrs 30mnt</p>
+              </div>
+              
+              {/* Optimize Button */}
+              <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium">
+                Optimize
               </Button>
             </CardContent>
           </Card>
