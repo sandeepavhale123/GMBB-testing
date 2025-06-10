@@ -38,14 +38,6 @@ export const EnhancedStatsCards: React.FC = () => {
     icon: MessageSquare,
     description: 'vs last period',
     color: 'from-green-500 to-green-600'
-  }, {
-    title: 'Q&A Answered',
-    value: qaAnswered.toLocaleString(),
-    change: '+12.5%',
-    isPositive: true,
-    icon: HelpCircle,
-    description: 'vs last period',
-    color: 'from-red-500 to-red-600'
   }];
   return <div className="space-y-6">
       
