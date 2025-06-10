@@ -13,7 +13,7 @@ import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
-import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin } from 'lucide-react';
+import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('posts');
