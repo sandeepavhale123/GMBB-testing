@@ -21,6 +21,19 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Action Required Alert */}
+      <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-600" />
+          <div>
+            <h3 className="font-semibold text-red-900">Action Required</h3>
+            <p className="text-sm text-red-700">This listing is suspended. Take action to appeal and restore visibility.</p>
+          </div>
+        </div>
+        <Button className="bg-red-600 hover:bg-red-700 text-white">
+          Resolve
+        </Button>
+      </div>
       {/* Top Section - Business Overview, Performance Overview, and Auto Optimization in single row */}
       <div className="grid grid-cols-12 gap-6">
         {/* Business Overview + Performance Overview - 8 columns */}
