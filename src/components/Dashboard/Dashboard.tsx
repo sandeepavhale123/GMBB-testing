@@ -47,7 +47,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Auto Optimization - 4 columns */}
         <div className="col-span-4 ">
-          <Card className="h-100">
+          <Card className="h-full">
             <CardHeader>
               <CardTitle className="text-lg font-semibold">Auto optimization</CardTitle>
             </CardHeader>
