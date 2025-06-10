@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -8,80 +7,75 @@ import { Badge } from '../ui/badge';
 import { MoreVertical, Search, Star } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
-
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast();
-
-  const sentimentData = [
-    { name: 'Positive', value: 86, fill: '#10b981' },
-    { name: 'Neutral', value: 10, fill: '#6b7280' },
-    { name: 'Negative', value: 4, fill: '#ef4444' }
-  ];
-
-  const reviewsData = [
-    {
-      id: '1',
-      name: 'Sarah Johnson',
-      rating: 5,
-      date: '1/10/2024',
-      sentiment: 'Positive',
-      comment: 'Absolutely love this place! The food is amazing and the service is top-notch. Will definitely be coming back.',
-      aiResponse: "Thank you so much for your wonderful review, Sarah! We're thrilled you enjoyed your experience with us.",
-      isGenerated: true
-    },
-    {
-      id: '2',
-      name: 'Mike Chen',
-      rating: 4,
-      date: '1/9/2024',
-      sentiment: 'Positive',
-      comment: 'Good food and decent service. The atmosphere could be better but overall a nice experience.',
-      aiResponse: "Hi Mike, thank you for your feedback! We appreciate your comments about the atmosphere and will work on improving it.",
-      isGenerated: true
-    },
-    {
-      id: '3',
-      name: 'Emily Davis',
-      rating: 1,
-      date: '1/5/2024',
-      sentiment: 'Negative',
-      comment: 'Waited too long for our order and the food was cold when it arrived. Very disappointed.',
-      aiResponse: "Hi Emily, we sincerely apologize for your disappointing experience. We'd love to make this right - please contact us directly.",
-      isGenerated: true
-    }
-  ];
-
+  const {
+    toast
+  } = useToast();
+  const sentimentData = [{
+    name: 'Positive',
+    value: 86,
+    fill: '#10b981'
+  }, {
+    name: 'Neutral',
+    value: 10,
+    fill: '#6b7280'
+  }, {
+    name: 'Negative',
+    value: 4,
+    fill: '#ef4444'
+  }];
+  const reviewsData = [{
+    id: '1',
+    name: 'Sarah Johnson',
+    rating: 5,
+    date: '1/10/2024',
+    sentiment: 'Positive',
+    comment: 'Absolutely love this place! The food is amazing and the service is top-notch. Will definitely be coming back.',
+    aiResponse: "Thank you so much for your wonderful review, Sarah! We're thrilled you enjoyed your experience with us.",
+    isGenerated: true
+  }, {
+    id: '2',
+    name: 'Mike Chen',
+    rating: 4,
+    date: '1/9/2024',
+    sentiment: 'Positive',
+    comment: 'Good food and decent service. The atmosphere could be better but overall a nice experience.',
+    aiResponse: "Hi Mike, thank you for your feedback! We appreciate your comments about the atmosphere and will work on improving it.",
+    isGenerated: true
+  }, {
+    id: '3',
+    name: 'Emily Davis',
+    rating: 1,
+    date: '1/5/2024',
+    sentiment: 'Negative',
+    comment: 'Waited too long for our order and the food was cold when it arrived. Very disappointed.',
+    aiResponse: "Hi Emily, we sincerely apologize for your disappointing experience. We'd love to make this right - please contact us directly.",
+    isGenerated: true
+  }];
   const handleUseResponse = (reviewId: string) => {
     toast({
       title: "Response Used",
       description: "The AI suggested response has been used for this review."
     });
   };
-
   const handleEditResponse = (reviewId: string) => {
     toast({
       title: "Edit Response",
       description: "Opening response editor for modifications."
     });
   };
-
   const handleGenerateResponse = (reviewId: string) => {
     toast({
       title: "Generating Response",
       description: "AI is generating a new response for this review."
     });
   };
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star 
-        key={i} 
-        className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />);
   };
-
   const getSentimentBadgeColor = (sentiment: string) => {
     switch (sentiment) {
       case 'Positive':
@@ -92,9 +86,7 @@ export const ReviewComponent: React.FC = () => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Review</h1>
@@ -123,20 +115,17 @@ export const ReviewComponent: React.FC = () => {
             
             {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((stars, index) => (
-                <div key={stars} className="flex items-center gap-3">
+              {[5, 4, 3, 2, 1].map((stars, index) => <div key={stars} className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-medium">{stars}</span>
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-gray-600 h-2 rounded-full" 
-                      style={{ width: `${[80, 60, 40, 25, 15][index]}%` }}
-                    ></div>
+                    <div className="bg-gray-600 h-2 rounded-full" style={{
+                  width: `${[80, 60, 40, 25, 15][index]}%`
+                }}></div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -151,19 +140,8 @@ export const ReviewComponent: React.FC = () => {
               <div className="w-32 h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie 
-                      data={sentimentData} 
-                      cx="50%" 
-                      cy="50%" 
-                      innerRadius={30} 
-                      outerRadius={60} 
-                      dataKey="value"
-                      startAngle={90}
-                      endAngle={450}
-                    >
-                      {sentimentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
+                    <Pie data={sentimentData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value" startAngle={90} endAngle={450}>
+                      {sentimentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -198,42 +176,7 @@ export const ReviewComponent: React.FC = () => {
 
       {/* Filters */}
       <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="font-medium">Filter</span>
-            <Select>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Sentiment" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="positive">Positive</SelectItem>
-                <SelectItem value="neutral">Neutral</SelectItem>
-                <SelectItem value="negative">Negative</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Star Rating" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="5">5 Stars</SelectItem>
-                <SelectItem value="4">4 Stars</SelectItem>
-                <SelectItem value="3">3 Stars</SelectItem>
-                <SelectItem value="2">2 Stars</SelectItem>
-                <SelectItem value="1">1 Star</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input 
-                placeholder="Search" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10" 
-              />
-            </div>
-          </div>
-        </CardContent>
+        
       </Card>
 
       {/* Reviews List */}
@@ -255,8 +198,7 @@ export const ReviewComponent: React.FC = () => {
         </div>
 
         {/* Review Items */}
-        {reviewsData.map((review) => (
-          <Card key={review.id} className="border border-gray-200">
+        {reviewsData.map(review => <Card key={review.id} className="border border-gray-200">
             <CardContent className="p-6">
               {/* Review Header */}
               <div className="flex items-center justify-between mb-4">
@@ -279,37 +221,22 @@ export const ReviewComponent: React.FC = () => {
               <div className="bg-blue-50 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-blue-900">AI Suggested Response</span>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleGenerateResponse(review.id)}
-                    className="text-blue-600 border-blue-600 hover:bg-blue-100"
-                  >
+                  <Button variant="outline" size="sm" onClick={() => handleGenerateResponse(review.id)} className="text-blue-600 border-blue-600 hover:bg-blue-100">
                     AI Generated
                   </Button>
                 </div>
                 <p className="text-blue-800 text-sm mb-3">{review.aiResponse}</p>
                 <div className="flex gap-2">
-                  <Button 
-                    size="sm"
-                    onClick={() => handleUseResponse(review.id)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
+                  <Button size="sm" onClick={() => handleUseResponse(review.id)} className="bg-blue-600 hover:bg-blue-700 text-white">
                     Use Response
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleEditResponse(review.id)}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => handleEditResponse(review.id)}>
                     Edit
                   </Button>
                 </div>
               </div>
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
-    </div>
-  );
+    </div>;
 };
