@@ -8,6 +8,10 @@ import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
 import { QACard } from './QACard';
+import { ActivitySummaryChart } from './ActivitySummaryChart';
+import { CreatePostCard } from './CreatePostCard';
+import { TrafficSourcesChart } from './TrafficSourcesChart';
+import { ScheduledPostCard } from './ScheduledPostCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -17,8 +21,7 @@ import { CircularProgress } from '../ui/circular-progress';
 import { CreatePostModal } from '../Posts/CreatePostModal';
 import { PostPreview } from '../Posts/PostPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
-import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle, Plus, Eye, Calendar, PieChart, BarChart } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('posts');
@@ -26,17 +29,6 @@ export const Dashboard: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-
-  // Sample data for charts
-  const barChartData = [
-    { name: 'Success', value: 85, fill: '#10b981' },
-    { name: 'Failed', value: 15, fill: '#ef4444' }
-  ];
-
-  const donutChartData = [
-    { name: 'Maps', value: 60, fill: '#3b82f6' },
-    { name: 'Search', value: 40, fill: '#6b7280' }
-  ];
 
   const scheduledPost = {
     id: '1',
@@ -58,7 +50,8 @@ export const Dashboard: React.FC = () => {
     setSelectedPost(null);
   };
 
-  return <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Action Required Alert */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -140,55 +133,10 @@ export const Dashboard: React.FC = () => {
             <TabsContent value="posts" className="mt-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Activity Summary with Bar Chart */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                      <BarChart className="w-5 h-5" />
-                      Activity Summary
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="h-32">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={barChartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="value" radius={[4, 4, 0, 0]} />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">% Success vs. Failed</span>
-                        <span className="text-2xl font-bold">305</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <ActivitySummaryChart />
 
-                {/* Post Suggestion with Create Post */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Create Post</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <Plus className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-                        <p className="text-sm text-gray-600">Create engaging posts</p>
-                      </div>
-                    </div>
-                    <Button 
-                      className="w-full bg-blue-600 hover:bg-blue-700" 
-                      onClick={() => setIsCreateModalOpen(true)}
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create Post
-                    </Button>
-                  </CardContent>
-                </Card>
+                {/* Create Post Card */}
+                <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
@@ -205,76 +153,10 @@ export const Dashboard: React.FC = () => {
           {/* Bottom Row - Doughnut Chart and Scheduled Post */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Traffic Source Doughnut Chart */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <PieChart className="w-5 h-5" />
-                  Traffic Sources
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="h-32 flex items-center justify-center">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={donutChartData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={20}
-                          outerRadius={40}
-                          dataKey="value"
-                        >
-                          {donutChartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <span>Maps (60%)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-                      <span>Search (40%)</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <TrafficSourcesChart />
 
             {/* Scheduled Post */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  Scheduled Post
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">{scheduledPost.title}</h4>
-                    <p className="text-xs text-gray-600 mb-2">{scheduledPost.content.substring(0, 60)}...</p>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <Calendar className="w-3 h-3" />
-                      <span>{scheduledPost.scheduledDate}</span>
-                    </div>
-                  </div>
-                  <Button 
-                    className="w-full bg-green-600 hover:bg-green-700"
-                    onClick={handleApprovePost}
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Approve Post
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <ScheduledPostCard onApprovePost={handleApprovePost} />
           </div>
         </div>
 
@@ -287,12 +169,14 @@ export const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {['Fix outstanding issues', 'Add photo to post', 'Update business info'].map((item, index) => <div key={index} className="flex items-center gap-3">
+                {['Fix outstanding issues', 'Add photo to post', 'Update business info'].map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
                     <Checkbox id={`sidebar-quick-win-${index}`} />
                     <label htmlFor={`sidebar-quick-win-${index}`} className="text-sm text-gray-700">
                       {item}
                     </label>
-                  </div>)}
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -325,9 +209,17 @@ export const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-4 gap-2 mb-4">
-                {Array.from({
-                length: 16
-              }, (_, i) => <div key={i} className={`w-6 h-6 rounded-full ${i < 4 ? 'bg-gray-300' : i < 8 ? 'bg-gray-400' : i < 12 ? 'bg-gray-600' : 'bg-gray-800'}`}></div>)}
+                {Array.from({ length: 16 }, (_, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-6 h-6 rounded-full ${
+                      i < 4 ? 'bg-gray-300' : 
+                      i < 8 ? 'bg-gray-400' : 
+                      i < 12 ? 'bg-gray-600' : 
+                      'bg-gray-800'
+                    }`}
+                  ></div>
+                ))}
               </div>
               <Button variant="link" className="text-sm p-0">
                 View Full Geo Grid Report
@@ -371,5 +263,6 @@ export const Dashboard: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };
