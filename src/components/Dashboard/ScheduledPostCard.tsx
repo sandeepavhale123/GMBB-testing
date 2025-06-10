@@ -20,9 +20,14 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({ onApproveP
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <Calendar className="w-5 h-5" />
-          Scheduled Post
+        <CardTitle className="text-lg font-semibold flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            Scheduled Post
+          </div>
+          <Button variant="link" className="text-sm p-0 h-auto">
+            View All
+          </Button>
         </CardTitle>
       </CardHeader>
       <CardContent>

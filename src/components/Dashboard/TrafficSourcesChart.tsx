@@ -20,15 +20,15 @@ export const TrafficSourcesChart: React.FC = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="h-32 flex items-center justify-center">
+          <div className="h-48 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={donutChartData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={20}
-                  outerRadius={40}
+                  innerRadius={30}
+                  outerRadius={70}
                   dataKey="value"
                 >
                   {donutChartData.map((entry, index) => (

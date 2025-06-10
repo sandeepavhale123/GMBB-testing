@@ -20,14 +20,14 @@ export const ActivitySummaryChart: React.FC = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="h-32">
+          <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={barChartData}>
+              <BarChart data={barChartData} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis type="number" />
+                <YAxis dataKey="name" type="category" />
                 <Tooltip />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
