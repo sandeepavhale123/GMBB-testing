@@ -38,11 +38,19 @@ export const EnhancedStatsCards: React.FC = () => {
     icon: MessageSquare,
     description: 'vs last period',
     color: 'from-green-500 to-green-600'
+  }, {
+    title: 'Q&A Answered',
+    value: qaAnswered.toLocaleString(),
+    change: '+12.5%',
+    isPositive: true,
+    icon: HelpCircle,
+    description: 'vs last period',
+    color: 'from-red-500 to-red-600'
   }];
   return <div className="space-y-6">
       
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-semibold text-gray-600 tracking-tight">
