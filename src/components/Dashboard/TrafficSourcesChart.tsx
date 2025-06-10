@@ -15,7 +15,7 @@ export const TrafficSourcesChart: React.FC = () => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <PieChartIcon className="w-5 h-5" />
-          Traffic Sources
+          Activity Summary
         </CardTitle>
       </CardHeader>
       <CardContent>
