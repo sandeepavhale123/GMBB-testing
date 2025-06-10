@@ -6,6 +6,7 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { Dashboard } from '../components/Dashboard/Dashboard';
+import { PostsPage } from '../components/Posts/PostsPage';
 import { Toaster } from '../components/ui/toaster';
 
 const Index = () => {
@@ -42,14 +43,7 @@ const Index = () => {
       case 'overview':
         return <Dashboard />;
       case 'posts':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Posts Management</h2>
-              <p className="text-gray-600">Manage your Google Business Profile posts across all locations.</p>
-            </div>
-          </div>
-        );
+        return <PostsPage />;
       case 'reviews':
         return (
           <div className="space-y-6">
