@@ -1,88 +1,100 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Badge } from '../ui/badge';
-import { MoreVertical, Search, Star, ChevronRight } from 'lucide-react';
+import { MoreVertical, Search, Star } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
+
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [aiResponse, setAiResponse] = useState('Thank you for the excellent review.');
-  const {
-    toast
-  } = useToast();
-  const sentimentData = [{
-    name: 'Positive',
-    value: 86,
-    fill: '#10b981'
-  }, {
-    name: 'Neutral',
-    value: 10,
-    fill: '#6b7280'
-  }, {
-    name: 'Negative',
-    value: 4,
-    fill: '#ef4444'
-  }];
-  const reviewData = [{
-    name: 'Dave',
-    rating: 4,
-    date: 'Jun 12',
-    response: 'Responded',
-    avatar: 'D'
-  }, {
-    name: 'John',
-    rating: 3,
-    date: 'May 30',
-    response: 'Reply',
-    avatar: 'J'
-  }, {
-    name: 'John',
-    rating: 0,
-    date: 'May 16',
-    response: 'Reply',
-    avatar: 'J',
-    isNegative: true
-  }, {
-    name: 'Mike',
-    rating: 3,
-    date: 'Responded',
-    response: 'Generate response',
-    avatar: 'M'
-  }];
-  const handleReply = (reviewerName: string) => {
+  const { toast } = useToast();
+
+  const sentimentData = [
+    { name: 'Positive', value: 86, fill: '#10b981' },
+    { name: 'Neutral', value: 10, fill: '#6b7280' },
+    { name: 'Negative', value: 4, fill: '#ef4444' }
+  ];
+
+  const reviewsData = [
+    {
+      id: '1',
+      name: 'Sarah Johnson',
+      rating: 5,
+      date: '1/10/2024',
+      sentiment: 'Positive',
+      comment: 'Absolutely love this place! The food is amazing and the service is top-notch. Will definitely be coming back.',
+      aiResponse: "Thank you so much for your wonderful review, Sarah! We're thrilled you enjoyed your experience with us.",
+      isGenerated: true
+    },
+    {
+      id: '2',
+      name: 'Mike Chen',
+      rating: 4,
+      date: '1/9/2024',
+      sentiment: 'Positive',
+      comment: 'Good food and decent service. The atmosphere could be better but overall a nice experience.',
+      aiResponse: "Hi Mike, thank you for your feedback! We appreciate your comments about the atmosphere and will work on improving it.",
+      isGenerated: true
+    },
+    {
+      id: '3',
+      name: 'Emily Davis',
+      rating: 1,
+      date: '1/5/2024',
+      sentiment: 'Negative',
+      comment: 'Waited too long for our order and the food was cold when it arrived. Very disappointed.',
+      aiResponse: "Hi Emily, we sincerely apologize for your disappointing experience. We'd love to make this right - please contact us directly.",
+      isGenerated: true
+    }
+  ];
+
+  const handleUseResponse = (reviewId: string) => {
     toast({
-      title: "Reply Opened",
-      description: `Reply interface opened for ${reviewerName}'s review.`
+      title: "Response Used",
+      description: "The AI suggested response has been used for this review."
     });
   };
-  const handleGenerateResponse = (reviewerName: string) => {
+
+  const handleEditResponse = (reviewId: string) => {
     toast({
-      title: "Generating Response",
-      description: `AI is generating a response for ${reviewerName}'s review.`
-    });
-  };
-  const handleApprove = () => {
-    toast({
-      title: "Response Approved",
-      description: "The AI response has been approved and sent."
-    });
-  };
-  const handleModify = () => {
-    toast({
-      title: "Modify Response",
+      title: "Edit Response",
       description: "Opening response editor for modifications."
     });
   };
-  const renderStars = (rating: number) => {
-    return Array.from({
-      length: 5
-    }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />);
+
+  const handleGenerateResponse = (reviewId: string) => {
+    toast({
+      title: "Generating Response",
+      description: "AI is generating a new response for this review."
+    });
   };
-  return <div className="space-y-6">
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star 
+        key={i} 
+        className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
+      />
+    ));
+  };
+
+  const getSentimentBadgeColor = (sentiment: string) => {
+    switch (sentiment) {
+      case 'Positive':
+        return 'bg-green-100 text-green-800';
+      case 'Negative':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Review</h1>
@@ -111,18 +123,20 @@ export const ReviewComponent: React.FC = () => {
             
             {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((stars, index) => <div key={stars} className="flex items-center gap-3">
-                  
+              {[5, 4, 3, 2, 1].map((stars, index) => (
+                <div key={stars} className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-medium">{stars}</span>
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-gray-600 h-2 rounded-full" style={{
-                  width: `${[80, 60, 40, 25, 15][index]}%`
-                }}></div>
+                    <div 
+                      className="bg-gray-600 h-2 rounded-full" 
+                      style={{ width: `${[80, 60, 40, 25, 15][index]}%` }}
+                    ></div>
                   </div>
-                </div>)}
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -137,8 +151,19 @@ export const ReviewComponent: React.FC = () => {
               <div className="w-32 h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={sentimentData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value" startAngle={90} endAngle={450}>
-                      {sentimentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
+                    <Pie 
+                      data={sentimentData} 
+                      cx="50%" 
+                      cy="50%" 
+                      innerRadius={30} 
+                      outerRadius={60} 
+                      dataKey="value"
+                      startAngle={90}
+                      endAngle={450}
+                    >
+                      {sentimentData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -162,7 +187,7 @@ export const ReviewComponent: React.FC = () => {
               <div>
                 <div className="flex items-center justify-center gap-1 mb-1">
                   <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Negav</span>
+                  <span className="text-sm text-gray-600">Negative</span>
                 </div>
                 <div className="font-semibold">4 %</div>
               </div>
@@ -200,71 +225,91 @@ export const ReviewComponent: React.FC = () => {
             </Select>
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input placeholder="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
+              <Input 
+                placeholder="Search" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10" 
+              />
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Reviews Table */}
-      <Card>
-        <CardContent className="pt-6">
-          {/* Table Header */}
-          <div className="grid grid-cols-4 gap-4 pb-4 border-b border-gray-200 font-medium text-gray-700">
-            <div>Reviewer</div>
-            <div>Rating</div>
-            <div>Date</div>
-            <div>Response</div>
-          </div>
+      {/* Reviews List */}
+      <div className="space-y-4">
+        {/* Tab Navigation */}
+        <div className="flex gap-6 border-b border-gray-200">
+          <button className="pb-3 border-b-2 border-blue-600 text-blue-600 font-medium">
+            All Reviews (4)
+          </button>
+          <button className="pb-3 text-gray-600 hover:text-gray-900">
+            Positive (2)
+          </button>
+          <button className="pb-3 text-gray-600 hover:text-gray-900">
+            Neutral (1)
+          </button>
+          <button className="pb-3 text-gray-600 hover:text-gray-900">
+            Negative (1)
+          </button>
+        </div>
 
-          {/* Table Rows */}
-          <div className="space-y-4 mt-4">
-            {reviewData.map((review, index) => <div key={index} className="grid grid-cols-4 gap-4 items-center py-3 border-b border-gray-100 last:border-b-0">
+        {/* Review Items */}
+        {reviewsData.map((review) => (
+          <Card key={review.id} className="border border-gray-200">
+            <CardContent className="p-6">
+              {/* Review Header */}
+              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <Avatar className="w-10 h-10">
-                    <AvatarFallback className="bg-gray-200 text-gray-700">
-                      {review.avatar}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="font-medium">{review.name}</span>
+                  <span className="font-semibold text-gray-900">{review.name}</span>
+                  <div className="flex items-center gap-1">
+                    {renderStars(review.rating)}
+                  </div>
+                  <Badge className={getSentimentBadgeColor(review.sentiment)}>
+                    {review.sentiment}
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-1">
-                  {review.isNegative ? <Badge variant="destructive" className="text-xs">Negative</Badge> : renderStars(review.rating)}
-                </div>
-                <div className="text-gray-600">{review.date}</div>
-                <div className="flex items-center justify-between">
-                  {review.response === 'Responded' ? <Badge variant="secondary" className="bg-green-100 text-green-800">
-                      Responded
-                    </Badge> : review.response === 'Generate response' ? <Button variant="outline" size="sm" onClick={() => handleGenerateResponse(review.name)}>
-                      Generate response
-                    </Button> : <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => handleReply(review.name)}>
-                      <span>{review.response}</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </div>}
-                </div>
-              </div>)}
-          </div>
-        </CardContent>
-      </Card>
+                <span className="text-sm text-gray-500">{review.date}</span>
+              </div>
 
-      {/* AI Response Assistant */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">AI Response assistant</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-gray-50 p-4 rounded-lg mb-4">
-            <p className="text-gray-700">{aiResponse}</p>
-          </div>
-          <div className="flex gap-2">
-            <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleApprove}>
-              Approve
-            </Button>
-            <Button variant="outline" onClick={handleModify}>
-              Modify
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>;
+              {/* Review Comment */}
+              <p className="text-gray-700 mb-4">{review.comment}</p>
+
+              {/* AI Response Section */}
+              <div className="bg-blue-50 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-blue-900">AI Suggested Response</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleGenerateResponse(review.id)}
+                    className="text-blue-600 border-blue-600 hover:bg-blue-100"
+                  >
+                    AI Generated
+                  </Button>
+                </div>
+                <p className="text-blue-800 text-sm mb-3">{review.aiResponse}</p>
+                <div className="flex gap-2">
+                  <Button 
+                    size="sm"
+                    onClick={() => handleUseResponse(review.id)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Use Response
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleEditResponse(review.id)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 };
