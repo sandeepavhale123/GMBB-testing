@@ -6,8 +6,8 @@ import { PieChart as PieChartIcon } from 'lucide-react';
 
 export const TrafficSourcesChart: React.FC = () => {
   const donutChartData = [
-    { name: 'Maps', value: 60, fill: '#3b82f6' },
-    { name: 'Search', value: 40, fill: '#6b7280' }
+    { name: 'Maps', value: 55, fill: 'green' },
+    { name: 'Search', value: 2, fill: 'red' }
   ];
 
   return (
@@ -41,12 +41,12 @@ export const TrafficSourcesChart: React.FC = () => {
           </div>
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span>Maps (60%)</span>
+              <div className="w-3 h-3 bg-success-500 rounded-full"></div>
+              <span>55 Success post</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-              <span>Search (40%)</span>
+              <div className="w-3 h-3 bg-red-600 rounded-full"></div>
+              <span>2 Failed post</span>
             </div>
           </div>
         </div>
