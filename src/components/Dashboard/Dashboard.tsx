@@ -139,13 +139,12 @@ export const Dashboard: React.FC = () => {
                 <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
 
                 {/* Bottom Row - Doughnut Chart and Scheduled Post */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+         
             {/* Traffic Source Doughnut Chart */}
             <TrafficSourcesChart />
-
             {/* Scheduled Post */}
             <ScheduledPostCard onApprovePost={handleApprovePost} />
-          </div>
+       
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
