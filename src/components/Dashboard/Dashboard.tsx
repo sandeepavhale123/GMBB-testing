@@ -21,11 +21,40 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Business Profile Header */}
-      <BusinessProfileHeader />
-      
-      {/* Enhanced Stats Cards */}
-      <EnhancedStatsCards />
+      {/* Top Section - Business Overview, Performance Overview, and Auto Optimization in single row */}
+      <div className="grid grid-cols-12 gap-6">
+        {/* Business Overview + Performance Overview - 8 columns */}
+        <div className="col-span-8 space-y-6">
+          {/* Business Profile Header */}
+          <BusinessProfileHeader />
+          
+          {/* Enhanced Stats Cards */}
+          <EnhancedStatsCards />
+        </div>
+
+        {/* Auto Optimization - 4 columns */}
+        <div className="col-span-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">Auto optimization</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <div className="relative w-24 h-24 mx-auto">
+                <div className="w-24 h-24 rounded-full border-8 border-gray-200 relative">
+                  <div className="absolute inset-0 rounded-full border-8 border-blue-500" 
+                       style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 75%, 50% 75%)'}}></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl font-bold">75%</span>
+                  </div>
+                </div>
+              </div>
+              <Button className="w-full bg-blue-500 hover:bg-blue-600">
+                Auto optimize now
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
       
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -155,27 +184,6 @@ export const Dashboard: React.FC = () => {
 
         {/* Right Column - Sidebar */}
         <div className="space-y-6">
-          {/* Auto Optimization */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Auto optimization</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="relative w-24 h-24 mx-auto">
-                <div className="w-24 h-24 rounded-full border-8 border-gray-200 relative">
-                  <div className="absolute inset-0 rounded-full border-8 border-blue-500" 
-                       style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 75%, 50% 75%)'}}></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xl font-bold">75%</span>
-                  </div>
-                </div>
-              </div>
-              <Button className="w-full bg-blue-500 hover:bg-blue-600">
-                Auto optimize now
-              </Button>
-            </CardContent>
-          </Card>
-
           {/* Quick Wins */}
           <Card>
             <CardHeader>
