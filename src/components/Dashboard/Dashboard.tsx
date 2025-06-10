@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -12,6 +13,7 @@ import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
 import { ScheduledPostCard } from './ScheduledPostCard';
 import { ReviewComponent } from './ReviewComponent';
+import { MediaPage } from '../Media/MediaPage';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -151,7 +153,7 @@ export const Dashboard: React.FC = () => {
               <ReviewComponent />
             </TabsContent>
             <TabsContent value="media" className="mt-6">
-              <DailyActivitySummaryChart />
+              <MediaPage />
             </TabsContent>
             <TabsContent value="qa" className="mt-6">
               <QACard />
