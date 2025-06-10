@@ -8,9 +8,12 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { MoreVertical, Search, Star, ChevronRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { useToast } from '../../hooks/use-toast';
 
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [aiResponse, setAiResponse] = useState('Thank you for the excellent review.');
+  const { toast } = useToast();
   
   const sentimentData = [
     { name: 'Positive', value: 86, fill: '#10b981' },
@@ -24,6 +27,34 @@ export const ReviewComponent: React.FC = () => {
     { name: 'John', rating: 0, date: 'May 16', response: 'Reply', avatar: 'J', isNegative: true },
     { name: 'Mike', rating: 3, date: 'Responded', response: 'Generate response', avatar: 'M' }
   ];
+
+  const handleReply = (reviewerName: string) => {
+    toast({
+      title: "Reply Opened",
+      description: `Reply interface opened for ${reviewerName}'s review.`,
+    });
+  };
+
+  const handleGenerateResponse = (reviewerName: string) => {
+    toast({
+      title: "Generating Response",
+      description: `AI is generating a response for ${reviewerName}'s review.`,
+    });
+  };
+
+  const handleApprove = () => {
+    toast({
+      title: "Response Approved",
+      description: "The AI response has been approved and sent.",
+    });
+  };
+
+  const handleModify = () => {
+    toast({
+      title: "Modify Response",
+      description: "Opening response editor for modifications.",
+    });
+  };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -62,11 +93,15 @@ export const ReviewComponent: React.FC = () => {
               </div>
             </div>
             
-            {/* Rating Breakdown */}
+            {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
               {[5, 4, 3, 2, 1].map((stars, index) => (
                 <div key={stars} className="flex items-center gap-3">
                   <input type="checkbox" className="rounded border-gray-300" />
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm font-medium">{stars}</span>
+                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                  </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
                     <div 
                       className="bg-gray-600 h-2 rounded-full" 
@@ -211,11 +246,18 @@ export const ReviewComponent: React.FC = () => {
                       Responded
                     </Badge>
                   ) : review.response === 'Generate response' ? (
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleGenerateResponse(review.name)}
+                    >
                       Generate response
                     </Button>
                   ) : (
-                    <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-gray-900">
+                    <div 
+                      className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-gray-900"
+                      onClick={() => handleReply(review.name)}
+                    >
                       <span>{review.response}</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
@@ -234,11 +276,21 @@ export const ReviewComponent: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="bg-gray-50 p-4 rounded-lg mb-4">
-            <p className="text-gray-700">Thank you for the excellent review.</p>
+            <p className="text-gray-700">{aiResponse}</p>
           </div>
           <div className="flex gap-2">
-            <Button className="bg-blue-600 hover:bg-blue-700">Approve</Button>
-            <Button variant="outline">Modify</Button>
+            <Button 
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={handleApprove}
+            >
+              Approve
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={handleModify}
+            >
+              Modify
+            </Button>
           </div>
         </CardContent>
       </Card>
