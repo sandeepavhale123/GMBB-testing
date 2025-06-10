@@ -7,11 +7,11 @@ import { Badge } from '../ui/badge';
 import { MoreVertical, Search, Star } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
+
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const sentimentData = [{
     name: 'Positive',
     value: 86,
@@ -53,29 +53,34 @@ export const ReviewComponent: React.FC = () => {
     aiResponse: "Hi Emily, we sincerely apologize for your disappointing experience. We'd love to make this right - please contact us directly.",
     isGenerated: true
   }];
+
   const handleUseResponse = (reviewId: string) => {
     toast({
       title: "Response Used",
       description: "The AI suggested response has been used for this review."
     });
   };
+
   const handleEditResponse = (reviewId: string) => {
     toast({
       title: "Edit Response",
       description: "Opening response editor for modifications."
     });
   };
+
   const handleGenerateResponse = (reviewId: string) => {
     toast({
       title: "Generating Response",
       description: "AI is generating a new response for this review."
     });
   };
+
   const renderStars = (rating: number) => {
-    return Array.from({
-      length: 5
-    }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />);
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+    ));
   };
+
   const getSentimentBadgeColor = (sentiment: string) => {
     switch (sentiment) {
       case 'Positive':
@@ -86,7 +91,9 @@ export const ReviewComponent: React.FC = () => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Review</h1>
@@ -115,17 +122,20 @@ export const ReviewComponent: React.FC = () => {
             
             {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((stars, index) => <div key={stars} className="flex items-center gap-3">
+              {[5, 4, 3, 2, 1].map((stars, index) => (
+                <div key={stars} className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-medium">{stars}</span>
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-gray-600 h-2 rounded-full" style={{
-                  width: `${[80, 60, 40, 25, 15][index]}%`
-                }}></div>
+                    <div 
+                      className="bg-gray-600 h-2 rounded-full" 
+                      style={{ width: `${[80, 60, 40, 25, 15][index]}%` }}
+                    ></div>
                   </div>
-                </div>)}
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -140,8 +150,19 @@ export const ReviewComponent: React.FC = () => {
               <div className="w-32 h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={sentimentData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value" startAngle={90} endAngle={450}>
-                      {sentimentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
+                    <Pie 
+                      data={sentimentData} 
+                      cx="50%" 
+                      cy="50%" 
+                      innerRadius={30} 
+                      outerRadius={60} 
+                      dataKey="value" 
+                      startAngle={90} 
+                      endAngle={450}
+                    >
+                      {sentimentData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -175,30 +196,16 @@ export const ReviewComponent: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        
-      </Card>
+      <Card></Card>
 
       {/* Reviews List */}
       <div className="space-y-4">
-        {/* Tab Navigation */}
-        <div className="flex gap-6 border-b border-gray-200">
-          <button className="pb-3 border-b-2 border-blue-600 text-blue-600 font-medium">
-            All Reviews (4)
-          </button>
-          <button className="pb-3 text-gray-600 hover:text-gray-900">
-            Positive (2)
-          </button>
-          <button className="pb-3 text-gray-600 hover:text-gray-900">
-            Neutral (1)
-          </button>
-          <button className="pb-3 text-gray-600 hover:text-gray-900">
-            Negative (1)
-          </button>
-        </div>
+        {/* Recent Reviews Title */}
+        <h2 className="text-xl font-semibold text-gray-900">Recent reviews</h2>
 
         {/* Review Items */}
-        {reviewsData.map(review => <Card key={review.id} className="border border-gray-200">
+        {reviewsData.map((review) => (
+          <Card key={review.id} className="border border-gray-200">
             <CardContent className="p-6">
               {/* Review Header */}
               <div className="flex items-center justify-between mb-4">
@@ -221,22 +228,37 @@ export const ReviewComponent: React.FC = () => {
               <div className="bg-blue-50 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-blue-900">AI Suggested Response</span>
-                  <Button variant="outline" size="sm" onClick={() => handleGenerateResponse(review.id)} className="text-blue-600 border-blue-600 hover:bg-blue-100">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleGenerateResponse(review.id)} 
+                    className="text-blue-600 border-blue-600 hover:bg-blue-100"
+                  >
                     AI Generated
                   </Button>
                 </div>
                 <p className="text-blue-800 text-sm mb-3">{review.aiResponse}</p>
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => handleUseResponse(review.id)} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button 
+                    size="sm" 
+                    onClick={() => handleUseResponse(review.id)} 
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
                     Use Response
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => handleEditResponse(review.id)}>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleEditResponse(review.id)}
+                  >
                     Edit
                   </Button>
                 </div>
               </div>
             </CardContent>
-          </Card>)}
+          </Card>
+        ))}
       </div>
-    </div>;
+    </div>
+  );
 };
