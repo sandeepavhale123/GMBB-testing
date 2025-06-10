@@ -53,7 +53,7 @@ export const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <div className="relative w-24 h-24 mx-auto">
-                <div className="w-24 h-24 rounded-full border-8 border-gray-200 relative">
+                <div className="w-50 h-50 rounded-full border-8 border-gray-200 relative">
                   <div className="absolute inset-0 rounded-full border-8 border-blue-500" 
                        style={{clipPath: 'polygon(50% 0%, 100% 0%, 100% 75%, 50% 75%)'}}></div>
                   <div className="absolute inset-0 flex items-center justify-center">
