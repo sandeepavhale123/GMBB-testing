@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -133,20 +132,15 @@ export const Dashboard: React.FC = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Traffic Source Doughnut Chart */}
-               <TrafficSourcesChart />
-
-                {/* Create Post Card */}
-                <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
-
-                {/* Bottom Row - Doughnut Chart and Scheduled Post */}
-         
-            {/*  */}
-            
-            {/* Scheduled Post */}
-            <ScheduledPostCard onApprovePost={handleApprovePost} />
-       
+              <div className="space-y-6">
+                {/* Top Row - Traffic Source Chart and Create Post */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <TrafficSourcesChart />
+                  <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
+                </div>
+                
+                {/* Bottom Row - Scheduled Posts Table (Full Width) */}
+                <ScheduledPostCard onApprovePost={handleApprovePost} />
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
@@ -159,8 +153,6 @@ export const Dashboard: React.FC = () => {
               <QACard />
             </TabsContent>
           </Tabs>
-
-          
         </div>
 
         {/* Right Column - Sidebar */}
