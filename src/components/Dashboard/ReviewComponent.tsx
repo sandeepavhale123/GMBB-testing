@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -9,64 +8,81 @@ import { Badge } from '../ui/badge';
 import { MoreVertical, Search, Star, ChevronRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
-
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [aiResponse, setAiResponse] = useState('Thank you for the excellent review.');
-  const { toast } = useToast();
-  
-  const sentimentData = [
-    { name: 'Positive', value: 86, fill: '#10b981' },
-    { name: 'Neutral', value: 10, fill: '#6b7280' },
-    { name: 'Negative', value: 4, fill: '#ef4444' }
-  ];
-
-  const reviewData = [
-    { name: 'Dave', rating: 4, date: 'Jun 12', response: 'Responded', avatar: 'D' },
-    { name: 'John', rating: 3, date: 'May 30', response: 'Reply', avatar: 'J' },
-    { name: 'John', rating: 0, date: 'May 16', response: 'Reply', avatar: 'J', isNegative: true },
-    { name: 'Mike', rating: 3, date: 'Responded', response: 'Generate response', avatar: 'M' }
-  ];
-
+  const {
+    toast
+  } = useToast();
+  const sentimentData = [{
+    name: 'Positive',
+    value: 86,
+    fill: '#10b981'
+  }, {
+    name: 'Neutral',
+    value: 10,
+    fill: '#6b7280'
+  }, {
+    name: 'Negative',
+    value: 4,
+    fill: '#ef4444'
+  }];
+  const reviewData = [{
+    name: 'Dave',
+    rating: 4,
+    date: 'Jun 12',
+    response: 'Responded',
+    avatar: 'D'
+  }, {
+    name: 'John',
+    rating: 3,
+    date: 'May 30',
+    response: 'Reply',
+    avatar: 'J'
+  }, {
+    name: 'John',
+    rating: 0,
+    date: 'May 16',
+    response: 'Reply',
+    avatar: 'J',
+    isNegative: true
+  }, {
+    name: 'Mike',
+    rating: 3,
+    date: 'Responded',
+    response: 'Generate response',
+    avatar: 'M'
+  }];
   const handleReply = (reviewerName: string) => {
     toast({
       title: "Reply Opened",
-      description: `Reply interface opened for ${reviewerName}'s review.`,
+      description: `Reply interface opened for ${reviewerName}'s review.`
     });
   };
-
   const handleGenerateResponse = (reviewerName: string) => {
     toast({
       title: "Generating Response",
-      description: `AI is generating a response for ${reviewerName}'s review.`,
+      description: `AI is generating a response for ${reviewerName}'s review.`
     });
   };
-
   const handleApprove = () => {
     toast({
       title: "Response Approved",
-      description: "The AI response has been approved and sent.",
+      description: "The AI response has been approved and sent."
     });
   };
-
   const handleModify = () => {
     toast({
       title: "Modify Response",
-      description: "Opening response editor for modifications.",
+      description: "Opening response editor for modifications."
     });
   };
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star 
-        key={i} 
-        className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />);
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Review</h1>
@@ -95,21 +111,18 @@ export const ReviewComponent: React.FC = () => {
             
             {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((stars, index) => (
-                <div key={stars} className="flex items-center gap-3">
-                  <input type="checkbox" className="rounded border-gray-300" />
+              {[5, 4, 3, 2, 1].map((stars, index) => <div key={stars} className="flex items-center gap-3">
+                  
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-medium">{stars}</span>
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-gray-600 h-2 rounded-full" 
-                      style={{ width: `${[80, 60, 40, 25, 15][index]}%` }}
-                    ></div>
+                    <div className="bg-gray-600 h-2 rounded-full" style={{
+                  width: `${[80, 60, 40, 25, 15][index]}%`
+                }}></div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -124,19 +137,8 @@ export const ReviewComponent: React.FC = () => {
               <div className="w-32 h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie
-                      data={sentimentData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={30}
-                      outerRadius={60}
-                      dataKey="value"
-                      startAngle={90}
-                      endAngle={450}
-                    >
-                      {sentimentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
+                    <Pie data={sentimentData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value" startAngle={90} endAngle={450}>
+                      {sentimentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -198,12 +200,7 @@ export const ReviewComponent: React.FC = () => {
             </Select>
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+              <Input placeholder="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
             </div>
           </div>
         </CardContent>
@@ -222,8 +219,7 @@ export const ReviewComponent: React.FC = () => {
 
           {/* Table Rows */}
           <div className="space-y-4 mt-4">
-            {reviewData.map((review, index) => (
-              <div key={index} className="grid grid-cols-4 gap-4 items-center py-3 border-b border-gray-100 last:border-b-0">
+            {reviewData.map((review, index) => <div key={index} className="grid grid-cols-4 gap-4 items-center py-3 border-b border-gray-100 last:border-b-0">
                 <div className="flex items-center gap-3">
                   <Avatar className="w-10 h-10">
                     <AvatarFallback className="bg-gray-200 text-gray-700">
@@ -233,38 +229,20 @@ export const ReviewComponent: React.FC = () => {
                   <span className="font-medium">{review.name}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  {review.isNegative ? (
-                    <Badge variant="destructive" className="text-xs">Negative</Badge>
-                  ) : (
-                    renderStars(review.rating)
-                  )}
+                  {review.isNegative ? <Badge variant="destructive" className="text-xs">Negative</Badge> : renderStars(review.rating)}
                 </div>
                 <div className="text-gray-600">{review.date}</div>
                 <div className="flex items-center justify-between">
-                  {review.response === 'Responded' ? (
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">
+                  {review.response === 'Responded' ? <Badge variant="secondary" className="bg-green-100 text-green-800">
                       Responded
-                    </Badge>
-                  ) : review.response === 'Generate response' ? (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleGenerateResponse(review.name)}
-                    >
+                    </Badge> : review.response === 'Generate response' ? <Button variant="outline" size="sm" onClick={() => handleGenerateResponse(review.name)}>
                       Generate response
-                    </Button>
-                  ) : (
-                    <div 
-                      className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-gray-900"
-                      onClick={() => handleReply(review.name)}
-                    >
+                    </Button> : <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => handleReply(review.name)}>
                       <span>{review.response}</span>
                       <ChevronRight className="w-4 h-4" />
-                    </div>
-                  )}
+                    </div>}
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
@@ -279,21 +257,14 @@ export const ReviewComponent: React.FC = () => {
             <p className="text-gray-700">{aiResponse}</p>
           </div>
           <div className="flex gap-2">
-            <Button 
-              className="bg-blue-600 hover:bg-blue-700"
-              onClick={handleApprove}
-            >
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleApprove}>
               Approve
             </Button>
-            <Button 
-              variant="outline"
-              onClick={handleModify}
-            >
+            <Button variant="outline" onClick={handleModify}>
               Modify
             </Button>
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
