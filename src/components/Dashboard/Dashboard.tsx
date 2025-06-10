@@ -134,16 +134,16 @@ export const Dashboard: React.FC = () => {
             </TabsList>
             <TabsContent value="posts" className="mt-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Activity Summary with Bar Chart */}
-                <ActivitySummaryChart />
+                {/* Traffic Source Doughnut Chart */}
+               <TrafficSourcesChart />
 
                 {/* Create Post Card */}
                 <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
 
                 {/* Bottom Row - Doughnut Chart and Scheduled Post */}
          
-            {/* Traffic Source Doughnut Chart */}
-            <TrafficSourcesChart />
+            {/*  */}
+            
             {/* Scheduled Post */}
             <ScheduledPostCard onApprovePost={handleApprovePost} />
        
