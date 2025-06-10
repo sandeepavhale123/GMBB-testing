@@ -31,7 +31,7 @@ export const EnhancedStatsCards: React.FC = () => {
     description: 'vs last period',
     color: 'from-yellow-500 to-yellow-600'
   }, {
-    title: 'Reviews Responded',
+    title: 'Reviews',
     value: reviewsResponded.toLocaleString(),
     change: '+7.8%',
     isPositive: true,
