@@ -177,10 +177,7 @@ export const MediaPage: React.FC = () => {
                 <div className="relative mt-4">
                   
                   <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" asChild>
-                    <label htmlFor="file-upload-stats" className="cursor-pointer flex items-center justify-center gap-2">
-                      <Upload className="w-4 h-4" />
-                      Upload Media
-                    </label>
+                    
                   </Button>
                 </div>
               </div>
