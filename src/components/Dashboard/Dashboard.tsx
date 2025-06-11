@@ -229,7 +229,7 @@ export const Dashboard: React.FC = () => {
             <Button variant="outline" onClick={() => setIsPreviewModalOpen(false)}>
               Close
             </Button>
-             <Button className="bg-skyblue-600 hover:bg-skyblue-700" onCreatePost={() => setIsCreateModalOpen(true)}>
+             <Button className="bg-green-600 hover:bg-green-700" onClick={() => setIsCreateModalOpen(true)}>
               Edit
             </Button>
             {/* <Button className="bg-green-600 hover:bg-green-700" onClick={handleFinalApprove}>
