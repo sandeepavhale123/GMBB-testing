@@ -132,7 +132,7 @@ export const MediaPage: React.FC = () => {
             <div className="space-y-4 col-span-5 ">
              <Card>
                <CardContent>
-                  <div className="flex flex-col justify-start h-full">
+                  <div className="">
                     {/* Upload Stats */}
                     <div className="flex items-center gap-4">
                       <div className="bg-blue-100 p-3 rounded-lg">
@@ -140,7 +140,7 @@ export const MediaPage: React.FC = () => {
                       </div>
                       <div>
                         <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
-                        <div className="text-sm text-green-600 font-medium">+{Math.floor(mediaItems.length * 0.15)} this week</div>
+                        <div className="text-sm text-black-600 font-medium">Total Uploaded Media</div>
                       </div>
                     </div>
                   </div>
