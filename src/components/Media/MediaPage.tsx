@@ -129,9 +129,9 @@ export const MediaPage: React.FC = () => {
         <CardContent>
           <div className="grid grid-cols-12 lg:grid-cols-12 gap-6 justify-between">
             {/* Total Media Count Section */}
-            <div className="space-y-4 col-span-4 me-auto ">
+            <div className="space-y-4 col-span-4  ">
              <Card>
-               <CardContent>
+               <CardContent className="flex align-items-center">
                   <div className="">
                     {/* Upload Stats */}
                       <div>
@@ -143,7 +143,7 @@ export const MediaPage: React.FC = () => {
              </Card>
                {/* Total Media uploaded in last month */}
                  <Card>
-                   <CardContent>
+                   <CardContent className="flex align-items-center">
                       <div className="">
                         {/* Upload Stats */}
                           <div>
