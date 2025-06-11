@@ -129,7 +129,7 @@ export const MediaPage: React.FC = () => {
         <CardContent>
           <div className="grid grid-cols-12 lg:grid-cols-12 gap-6 justify-between">
             {/* Total Media Count Section */}
-            <div className="space-y-4 col-span-4 ">
+            <div className="space-y-4 col-span-4 me-auto ">
              <Card>
                <CardContent>
                   <div className="">
