@@ -175,7 +175,7 @@ export const MediaPage: React.FC = () => {
                 
                 {/* Upload Button */}
                 <div className="relative mt-4">
-                  <input type="file" accept="image/*,video/*" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload-stats" />
+                  
                   <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" asChild>
                     <label htmlFor="file-upload-stats" className="cursor-pointer flex items-center justify-center gap-2">
                       <Upload className="w-4 h-4" />
