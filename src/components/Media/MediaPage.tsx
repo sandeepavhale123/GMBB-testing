@@ -150,7 +150,28 @@ export const MediaPage: React.FC = () => {
       <Card>
         <CardContent className="p-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Most View Image Card */}
+        
+
+        {/* Total Media Uploaded Card */}
+        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <h3 className="text-md text-black mb-2">Total media uploaded</h3>
+            </div>
+            <div className="space-y-6">
+              <div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
+              </div>
+              <hr/>
+              <div>
+                <div className="text-md text-black mb-2">Last month uploaded</div>
+                <div className="text-3xl font-bold text-gray-900">354</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+            {/* Most View Image Card */}
         <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
@@ -182,25 +203,6 @@ export const MediaPage: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Total Media Uploaded Card */}
-        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-md text-black mb-2">Total media uploaded</h3>
-            </div>
-            <div className="space-y-6">
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
-              </div>
-              <hr/>
-              <div>
-                <div className="text-md text-black mb-2">Last month uploaded</div>
-                <div className="text-3xl font-bold text-gray-900">354</div>
               </div>
             </div>
           </CardContent>
