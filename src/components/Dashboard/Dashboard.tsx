@@ -214,12 +214,7 @@ export const Dashboard: React.FC = () => {
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 GeoRank Snapshot
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  
-                  <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-                </div>
+                
               </CardTitle>
             </CardHeader>
             <CardContent>
