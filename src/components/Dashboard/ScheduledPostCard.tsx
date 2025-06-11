@@ -15,21 +15,18 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
     title: 'Weekend Special Offer',
     content: 'Join us this weekend for 20% off all menu items! Perfect time to try our seasonal specialties.',
     scheduledDate: '2024-06-12 10:00 AM',
-    platforms: ['Google My Business', 'Facebook'],
     image: '/placeholder.svg'
   }, {
     id: '2',
     title: 'New Menu Launch',
     content: 'Exciting new dishes are coming to our menu this week. Stay tuned for fresh flavors and seasonal ingredients.',
     scheduledDate: '2024-06-13 02:00 PM',
-    platforms: ['Instagram', 'Facebook'],
     image: '/placeholder.svg'
   }, {
     id: '3',
     title: 'Customer Appreciation Day',
     content: 'Thank you to all our loyal customers! Join us for a special appreciation event with exclusive offers.',
     scheduledDate: '2024-06-14 09:00 AM',
-    platforms: ['Google My Business'],
     image: '/placeholder.svg'
   }];
   return <Card className="col-span-2">
@@ -65,13 +62,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                   <div className="space-y-1">
                     <h4 className="font-medium text-sm">{post.title}</h4>
                     <p className="text-xs text-gray-600 line-clamp-2">{post.content}</p>
-                    <div className="flex gap-1 flex-wrap">
-                      {post.platforms.map((platform, idx) => (
-                        <span key={idx} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          {platform}
-                        </span>
-                      ))}
-                    </div>
+                   
                   </div>
                 </TableCell>
                 <TableCell>
