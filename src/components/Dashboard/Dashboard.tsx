@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -22,13 +23,18 @@ import { CircularProgress } from '../ui/circular-progress';
 import { CreatePostModal } from '../Posts/CreatePostModal';
 import { PostPreview } from '../Posts/PostPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
+import { useAppSelector } from '../../hooks/useRedux';
+
 export const Dashboard: React.FC = () => {
+  const { qaStats } = useAppSelector((state) => state.dashboard);
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+
   const scheduledPost = {
     id: '1',
     title: 'Weekend Special Offer',
@@ -37,15 +43,33 @@ export const Dashboard: React.FC = () => {
     scheduledDate: '2024-06-12 10:00 AM',
     platforms: ['Google My Business', 'Facebook']
   };
+
+  const geoRankingData = [
+    {
+      keyword: "coffee shop near me",
+      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+    },
+    {
+      keyword: "best coffee downtown",
+      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+    },
+    {
+      keyword: "local coffee shop",
+      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+    }
+  ];
+
   const handleApprovePost = () => {
     setSelectedPost(scheduledPost);
     setIsPreviewModalOpen(true);
   };
+
   const handleFinalApprove = () => {
     // Handle final approval logic here
     setIsPreviewModalOpen(false);
     setSelectedPost(null);
   };
+
   return <div className="space-y-6">
       {/* Action Required Alert */}
       {/* <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
@@ -168,20 +192,33 @@ export const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* AI Optimization */}
+          {/* Q&A Section */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg font-semibold">AI Optimization</CardTitle>
+              <CardTitle className="text-lg font-semibold">Questions & Answers</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600 mb-4">You can improve your listing</p>
-              <Button variant="outline" className="w-full">
-                View Suggestions
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Answered</span>
+                  <span className="font-semibold">{qaStats.answered}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Pending</span>
+                  <span className="font-semibold text-yellow-600">{qaStats.pending}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Response Rate</span>
+                  <span className="font-semibold text-green-600">{qaStats.responseRate}%</span>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full mt-4">
+                View Q&A
               </Button>
             </CardContent>
           </Card>
 
-          {/* GeoRank Snapshot */}
+          {/* GeoRank Snapshot with Carousel */}
           <Card>
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -195,12 +232,29 @@ export const Dashboard: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-4 gap-2 mb-4">
-                {Array.from({
-                length: 16
-              }, (_, i) => <div key={i} className={`w-6 h-6 rounded-full ${i < 4 ? 'bg-gray-300' : i < 8 ? 'bg-gray-400' : i < 12 ? 'bg-gray-600' : 'bg-gray-800'}`}></div>)}
-              </div>
-              <Button variant="link" className="text-sm p-0">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {geoRankingData.map((item, index) => (
+                    <CarouselItem key={index}>
+                      <div className="space-y-3">
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-gray-900 mb-2">{item.keyword}</p>
+                        </div>
+                        <div className="aspect-square w-full overflow-hidden rounded-lg">
+                          <img 
+                            src={item.image} 
+                            alt={`GEO ranking for ${item.keyword}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
+              <Button variant="link" className="text-sm p-0 w-full mt-4">
                 View Full Geo Grid Report
               </Button>
             </CardContent>
