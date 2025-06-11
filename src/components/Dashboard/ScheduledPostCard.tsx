@@ -48,7 +48,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
               <TableHead className="w-20">Post Image</TableHead>
               <TableHead>Post Description</TableHead>
               <TableHead className="w-40">Scheduled Date</TableHead>
-              <TableHead className="w-32">Action</TableHead>
+              <TableHead className="w-32 flex justify-end">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -69,7 +69,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                     <span>{post.scheduledDate}</span>
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="flex justify-end">
                   <Button size="sm" className="bg-green-600 hover:bg-green-700 ml-auto" onClick={onApprovePost}>
                     <Eye className="w-3 h-3 mr-1" />
                   </Button>
