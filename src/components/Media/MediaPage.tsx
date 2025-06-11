@@ -128,6 +128,25 @@ export const MediaPage: React.FC = () => {
       <Card className="overflow-hidden py-3">
         <CardContent>
           <div className="grid grid-cols-12 lg:grid-cols-2 gap-6">
+            {/* Total Media Count Section */}
+            <div className="space-y-4 col-span-5 ">
+             <Card>
+               <CardContent>
+                  <div className="flex flex-col justify-start h-full">
+                    {/* Upload Stats */}
+                    <div className="flex items-center gap-4">
+                      <div className="bg-blue-100 p-3 rounded-lg">
+                        <Upload className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
+                        <div className="text-sm text-green-600 font-medium">+{Math.floor(mediaItems.length * 0.15)} this week</div>
+                      </div>
+                    </div>
+                  </div>
+               </CardContent>
+             </Card>
+            </div>
             {/* Most Viewed Media Section */}
             <div className="space-y-4 col-span-7 ">
               <div className="flex items-center gap-2 mb-3">
@@ -155,33 +174,7 @@ export const MediaPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Total Media Count Section */}
-            <div className="space-y-4 col-span-5 ">
-              <div className="flex items-center gap-2 mb-3">
-                <Upload className="w-5 h-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900">Total Uploads</h3>
-              </div>
-              <div className="flex flex-col justify-start h-full">
-                {/* Upload Stats */}
-                <div className="flex items-center gap-4">
-                  <div className="bg-blue-100 p-3 rounded-lg">
-                    <Upload className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
-                    <div className="text-sm text-green-600 font-medium">+{Math.floor(mediaItems.length * 0.15)} this week</div>
-                  </div>
-                </div>
-                
-                {/* Upload Button */}
-                <div className="relative mt-4">
-                  
-                  <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" asChild>
-                    
-                  </Button>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </CardContent>
       </Card>
