@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { X, Upload, Wand2, Calendar, Clock, Link, Plus, ChevronDown } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -162,8 +161,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           </DialogHeader>
 
           <div className="flex flex-1 min-h-0">
-            {/* Left Panel - Form */}
-            <div className="flex-1 p-6 overflow-y-auto">
+            {/* Left Panel - Form (8 columns) */}
+            <div className="flex-[8] p-6 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {/* Row 1: Post Description Field */}
@@ -312,192 +311,201 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   )}
                 </div>
 
-                {/* Row 4: Advanced Post Options (Collapsible) */}
-                <Collapsible open={showAdvancedOptions} onOpenChange={setShowAdvancedOptions}>
-                  <CollapsibleTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-between h-12 text-sm font-medium"
-                      type="button"
-                    >
-                      <span>Advanced Post Options</span>
-                      <ChevronDown className={`w-4 h-4 transition-transform ${showAdvancedOptions ? 'rotate-180' : ''}`} />
-                    </Button>
-                  </CollapsibleTrigger>
-                  
-                  <CollapsibleContent className="space-y-6 mt-4 p-4 border rounded-lg bg-gray-50">
-                    {/* Select Listings */}
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium">Select Business Listings</Label>
-                      <Select>
-                        <SelectTrigger className="w-full">
-                          <SelectValue 
-                            placeholder={
-                              formData.listings.length > 0 
-                                ? `${formData.listings.length} selected` 
-                                : "Choose listings"
-                            } 
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <div className="p-2">
-                            <Input 
-                              placeholder="Search listings..." 
-                              value={listingsSearch} 
-                              onChange={e => setListingsSearch(e.target.value)} 
-                              className="mb-2" 
-                            />
-                          </div>
-                          {filteredListings.map(listing => (
-                            <SelectItem 
-                              key={listing} 
-                              value={listing} 
-                              onClick={() => handleListingToggle(listing)}
-                            >
-                              <div className="flex items-center space-x-2">
-                                <input 
-                                  type="checkbox" 
-                                  checked={formData.listings.includes(listing)} 
-                                  onChange={() => handleListingToggle(listing)} 
-                                  className="rounded" 
-                                />
-                                <span>{listing}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                {/* Row 4: Advanced Post Options (Toggle) */}
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <Switch 
+                      id="advanced-options" 
+                      checked={showAdvancedOptions} 
+                      onCheckedChange={setShowAdvancedOptions} 
+                    />
+                    <Label htmlFor="advanced-options" className="text-sm font-medium">Advanced Post Options</Label>
+                  </div>
 
-                    {/* Post Title */}
-                    <div className="space-y-2">
-                      <Label htmlFor="title" className="text-sm font-medium">Post Title (Optional)</Label>
-                      <Input 
-                        id="title" 
-                        value={formData.title} 
-                        onChange={e => setFormData(prev => ({
-                          ...prev,
-                          title: e.target.value
-                        }))} 
-                        placeholder="Enter an engaging post title..." 
-                        className="transition-all focus:ring-2" 
-                      />
-                    </div>
-
-                    {/* Post Type */}
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium">Post Type</Label>
-                      <Select 
-                        value={formData.postType} 
-                        onValueChange={value => setFormData(prev => ({
-                          ...prev,
-                          postType: value
-                        }))}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Choose post type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {postTypes.map(type => (
-                            <SelectItem key={type.value} value={type.value}>
-                              {type.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Special Offer Date Range */}
-                    {formData.postType === 'offer' && (
+                  {showAdvancedOptions && (
+                    <div className="space-y-6 p-4 border rounded-lg bg-gray-50">
+                      {/* Select Listings and Post Title in Single Row */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-sm font-medium">Offer Start Date</Label>
-                          <Input 
-                            type="date" 
-                            value={formData.offerStartDate} 
-                            onChange={e => setFormData(prev => ({
-                              ...prev,
-                              offerStartDate: e.target.value
-                            }))} 
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label className="text-sm font-medium">Offer End Date</Label>
-                          <Input 
-                            type="date" 
-                            value={formData.offerEndDate} 
-                            onChange={e => setFormData(prev => ({
-                              ...prev,
-                              offerEndDate: e.target.value
-                            }))} 
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* CTA Button Section */}
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-3">
-                        <Switch 
-                          id="include-cta" 
-                          checked={showCTAButton} 
-                          onCheckedChange={setShowCTAButton} 
-                        />
-                        <Label htmlFor="include-cta" className="text-sm font-medium">Include CTA Button</Label>
-                      </div>
-
-                      {showCTAButton && (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
-                          <div className="space-y-2">
-                            <Label className="text-sm font-medium">Button Type</Label>
-                            <Select 
-                              value={formData.ctaButton} 
-                              onValueChange={value => setFormData(prev => ({
-                                ...prev,
-                                ctaButton: value
-                              }))}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Choose CTA button type" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {ctaOptions.map(option => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div className="space-y-2">
-                            <Label className="text-sm font-medium">Button URL</Label>
-                            <div className="relative">
-                              <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                              <Input 
-                                value={formData.ctaUrl} 
-                                onChange={e => setFormData(prev => ({
-                                  ...prev,
-                                  ctaUrl: e.target.value
-                                }))} 
-                                placeholder="https://example.com" 
-                                className="pl-10" 
+                          <Label className="text-sm font-medium">Select Business Listings</Label>
+                          <Select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue 
+                                placeholder={
+                                  formData.listings.length > 0 
+                                    ? `${formData.listings.length} selected` 
+                                    : "Choose listings"
+                                } 
                               />
-                            </div>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <div className="p-2">
+                                <Input 
+                                  placeholder="Search listings..." 
+                                  value={listingsSearch} 
+                                  onChange={e => setListingsSearch(e.target.value)} 
+                                  className="mb-2" 
+                                />
+                              </div>
+                              {filteredListings.map(listing => (
+                                <SelectItem 
+                                  key={listing} 
+                                  value={listing} 
+                                  onClick={() => handleListingToggle(listing)}
+                                >
+                                  <div className="flex items-center space-x-2">
+                                    <input 
+                                      type="checkbox" 
+                                      checked={formData.listings.includes(listing)} 
+                                      onChange={() => handleListingToggle(listing)} 
+                                      className="rounded" 
+                                    />
+                                    <span>{listing}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="title" className="text-sm font-medium">Post Title (Optional)</Label>
+                          <Input 
+                            id="title" 
+                            value={formData.title} 
+                            onChange={e => setFormData(prev => ({
+                              ...prev,
+                              title: e.target.value
+                            }))} 
+                            placeholder="Enter an engaging post title..." 
+                            className="transition-all focus:ring-2" 
+                          />
+                        </div>
+                      </div>
+
+                      {/* Post Type */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium">Post Type</Label>
+                        <Select 
+                          value={formData.postType} 
+                          onValueChange={value => setFormData(prev => ({
+                            ...prev,
+                            postType: value
+                          }))}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choose post type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {postTypes.map(type => (
+                              <SelectItem key={type.value} value={type.value}>
+                                {type.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Special Offer Date Range */}
+                      {formData.postType === 'offer' && (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">Offer Start Date</Label>
+                            <Input 
+                              type="date" 
+                              value={formData.offerStartDate} 
+                              onChange={e => setFormData(prev => ({
+                                ...prev,
+                                offerStartDate: e.target.value
+                              }))} 
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">Offer End Date</Label>
+                            <Input 
+                              type="date" 
+                              value={formData.offerEndDate} 
+                              onChange={e => setFormData(prev => ({
+                                ...prev,
+                                offerEndDate: e.target.value
+                              }))} 
+                            />
                           </div>
                         </div>
                       )}
+
+                      {/* CTA Button Section */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3">
+                          <Switch 
+                            id="include-cta" 
+                            checked={showCTAButton} 
+                            onCheckedChange={setShowCTAButton} 
+                          />
+                          <Label htmlFor="include-cta" className="text-sm font-medium">Include CTA Button</Label>
+                        </div>
+
+                        {showCTAButton && (
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
+                            <div className="space-y-2">
+                              <Label className="text-sm font-medium">Button Type</Label>
+                              <Select 
+                                value={formData.ctaButton} 
+                                onValueChange={value => setFormData(prev => ({
+                                  ...prev,
+                                  ctaButton: value
+                                }))}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Choose CTA button type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {ctaOptions.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                      {option.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label className="text-sm font-medium">Button URL</Label>
+                              <div className="relative">
+                                <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Input 
+                                  value={formData.ctaUrl} 
+                                  onChange={e => setFormData(prev => ({
+                                    ...prev,
+                                    ctaUrl: e.target.value
+                                  }))} 
+                                  placeholder="https://example.com" 
+                                  className="pl-10" 
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </CollapsibleContent>
-                </Collapsible>
+                  )}
+                </div>
               </form>
             </div>
 
-            {/* Right Panel - Preview */}
-            <div className="w-80 border-l bg-gray-50/50 p-6 overflow-y-auto">
+            {/* Right Panel - Preview and Platform Section (4 columns) */}
+            <div className="flex-[4] border-l bg-gray-50/50 p-6 overflow-y-auto">
               <div className="sticky top-0 space-y-4">
                 <h3 className="font-semibold text-lg">Live Preview</h3>
                 <PostPreview data={formData} />
+                
+                {/* Platform Section */}
+                <div className="mt-6 space-y-3">
+                  <h4 className="font-medium text-sm">Platforms</h4>
+                  <div className="text-sm text-gray-500">
+                    {formData.platforms.length} platforms selected
+                  </div>
+                </div>
               </div>
             </div>
           </div>
