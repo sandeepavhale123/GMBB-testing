@@ -127,9 +127,9 @@ export const MediaPage: React.FC = () => {
       {/* Merged Overview Stats Card */}
       <Card className="overflow-hidden py-3">
         <CardContent>
-          <div className="grid grid-cols-12 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 lg:grid-cols-12 gap-6 justify-between">
             {/* Total Media Count Section */}
-            <div className="space-y-4 col-span-5 ">
+            <div className="space-y-4 col-span-4 ">
              <Card>
                <CardContent>
                   <div className="">
@@ -176,7 +176,7 @@ export const MediaPage: React.FC = () => {
                 
                 {/* Right Column - Image Preview */}
                 <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="w-full h-full object-cover" />
+                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="object-cover" style={{height:'200px',width:'200px'}} />
                 </div>
               </div>
             </div>
