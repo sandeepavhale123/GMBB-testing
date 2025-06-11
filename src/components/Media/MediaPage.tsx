@@ -163,10 +163,10 @@ export const MediaPage: React.FC = () => {
               </div>
               <div className="grid grid-cols-12 gap-4">
                 {/* Left Column - Image Details */}
-                <div className="flex flex-col justify-between col-span-7">
+                <div className="flex flex-col justify-center col-span-7">
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1 text-sm">{mostViewedImage?.name}</h4>
-                    <div className="text-xl font-bold text-gray-900 mb-1">{mostViewedImage?.views}</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-1">{mostViewedImage?.views}</div>
                     <div className="text-xs text-gray-500">Uploaded {mostViewedImage?.uploadDate}</div>
                   </div>
                   <Button variant="outline" size="sm" className="w-full bg-gray-800 text-white hover:bg-gray-700 border-gray-800 mt-2" onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}>
