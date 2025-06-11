@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -6,7 +7,7 @@ import { HealthScoreCard } from './HealthScoreCard';
 import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
-import { QACard } from './QACard';
+import { InsightsCard } from './InsightsCard';
 import { ActivitySummaryChart } from './ActivitySummaryChart';
 import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
@@ -23,7 +24,7 @@ import { CreatePostModal } from '../Posts/CreatePostModal';
 import { PostPreview } from '../Posts/PostPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
-import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
+import { BarChart3, FileText, MessageSquare, Image as ImageIcon, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 
 export const Dashboard: React.FC = () => {
@@ -62,21 +63,9 @@ export const Dashboard: React.FC = () => {
     setIsPreviewModalOpen(false);
     setSelectedPost(null);
   };
-  return <div className="space-y-6">
-      {/* Action Required Alert */}
-      {/* <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-600" />
-          <div>
-            <h3 className="font-semibold text-red-900">Action Required</h3>
-            <p className="text-sm text-red-700">This listing is suspended. Take action to appeal and restore visibility.</p>
-          </div>
-        </div>
-        <Button className="bg-red-600 hover:bg-red-700 text-white">
-          Resolve
-        </Button>
-       </div> */}
-      
+  
+  return (
+    <div className="space-y-6">
       {/* Top Section - Business Overview, Performance Overview, and Auto Optimization in single row */}
       <div className="grid grid-cols-12 gap-6">
         {/* Business Overview + Performance Overview - 8 columns */}
@@ -136,9 +125,9 @@ export const Dashboard: React.FC = () => {
                 <ImageIcon className="w-4 h-4" />
                 Media
               </TabsTrigger>
-              <TabsTrigger value="qa" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
-                <HelpCircle className="w-4 h-4" />
-                Q&A
+              <TabsTrigger value="insights" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
+                <TrendingUp className="w-4 h-4" />
+                Insights
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-6">
@@ -159,8 +148,8 @@ export const Dashboard: React.FC = () => {
             <TabsContent value="media" className="mt-6">
               <MediaPage />
             </TabsContent>
-            <TabsContent value="qa" className="mt-6">
-              <QACard />
+            <TabsContent value="insights" className="mt-6">
+              <InsightsCard />
             </TabsContent>
           </Tabs>
         </div>
@@ -253,13 +242,11 @@ export const Dashboard: React.FC = () => {
              <Button className="bg-green-600 hover:bg-green-700" onClick={() => setIsCreateModalOpen(true)}>
               Edit
             </Button>
-            {/* <Button className="bg-green-600 hover:bg-green-700" onClick={handleFinalApprove}>
-              Approve
-             </Button> */}
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };
 
 export default Dashboard;
