@@ -59,7 +59,7 @@ export const QuickWinsCard: React.FC = () => {
                 onClick={() => dispatch(completeQuickWin(win.id))}
               >
                
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
           );
