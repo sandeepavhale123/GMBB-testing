@@ -1,15 +1,25 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Badge } from '../ui/badge';
-import { MoreVertical, Search, Star } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Textarea } from '../ui/textarea';
+import { MoreVertical, Search, Star, Bot, MessageSquare, Clock } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
 
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('newest');
+  const [filterRating, setFilterRating] = useState('all');
+  const [filterSentiment, setFilterSentiment] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [expandedReply, setExpandedReply] = useState<string | null>(null);
+  const [showAIResponse, setShowAIResponse] = useState<string | null>(null);
+  const [manualReply, setManualReply] = useState('');
   const { toast } = useToast();
 
   const sentimentData = [{
@@ -25,54 +35,86 @@ export const ReviewComponent: React.FC = () => {
     value: 4,
     fill: '#ef4444'
   }];
+
   const reviewsData = [{
     id: '1',
     name: 'Sarah Johnson',
     rating: 5,
-    date: '1/10/2024',
+    date: '2024-01-10',
     sentiment: 'Positive',
     comment: 'Absolutely love this place! The food is amazing and the service is top-notch. Will definitely be coming back.',
     aiResponse: "Thank you so much for your wonderful review, Sarah! We're thrilled you enjoyed your experience with us.",
-    isGenerated: true
+    isGenerated: true,
+    isNew: false,
+    hasReply: true,
+    replyType: 'ai'
   }, {
     id: '2',
     name: 'Mike Chen',
     rating: 4,
-    date: '1/9/2024',
+    date: '2024-01-09',
     sentiment: 'Positive',
     comment: 'Good food and decent service. The atmosphere could be better but overall a nice experience.',
     aiResponse: "Hi Mike, thank you for your feedback! We appreciate your comments about the atmosphere and will work on improving it.",
-    isGenerated: true
+    isGenerated: true,
+    isNew: true,
+    hasReply: false,
+    replyType: null
   }, {
     id: '3',
     name: 'Emily Davis',
     rating: 1,
-    date: '1/5/2024',
+    date: '2024-01-05',
     sentiment: 'Negative',
     comment: 'Waited too long for our order and the food was cold when it arrived. Very disappointed.',
     aiResponse: "Hi Emily, we sincerely apologize for your disappointing experience. We'd love to make this right - please contact us directly.",
-    isGenerated: true
+    isGenerated: true,
+    isNew: false,
+    hasReply: true,
+    replyType: 'manual'
   }];
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  };
+
+  const handleGenerateAIResponse = (reviewId: string) => {
+    setShowAIResponse(reviewId);
+    toast({
+      title: "AI Response Generated",
+      description: "AI has generated a response for this review."
+    });
+  };
+
+  const handleReplyManually = (reviewId: string) => {
+    setExpandedReply(reviewId);
+    setShowAIResponse(null);
+  };
 
   const handleUseResponse = (reviewId: string) => {
     toast({
       title: "Response Used",
       description: "The AI suggested response has been used for this review."
     });
+    setShowAIResponse(null);
   };
 
-  const handleEditResponse = (reviewId: string) => {
+  const handleSendManualReply = (reviewId: string) => {
     toast({
-      title: "Edit Response",
-      description: "Opening response editor for modifications."
+      title: "Reply Sent",
+      description: "Your manual reply has been sent successfully."
     });
-  };
-
-  const handleGenerateResponse = (reviewId: string) => {
-    toast({
-      title: "Generating Response",
-      description: "AI is generating a new response for this review."
-    });
+    setExpandedReply(null);
+    setManualReply('');
   };
 
   const renderStars = (rating: number) => {
@@ -92,6 +134,19 @@ export const ReviewComponent: React.FC = () => {
     }
   };
 
+  const getReplyStatusBadge = (review: any) => {
+    if (!review.hasReply) {
+      return <Badge className="bg-yellow-100 text-yellow-800">No Reply</Badge>;
+    }
+    if (review.replyType === 'ai') {
+      return <Badge className="bg-blue-100 text-blue-800 flex items-center gap-1"><Bot className="w-3 h-3" />AI Responded</Badge>;
+    }
+    if (review.replyType === 'manual') {
+      return <Badge className="bg-green-100 text-green-800 flex items-center gap-1"><MessageSquare className="w-3 h-3" />Manual Reply</Badge>;
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -102,8 +157,8 @@ export const ReviewComponent: React.FC = () => {
         </Button>
       </div>
 
-      {/* Top Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Top Cards - Responsive Grid */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Review Summary */}
         <Card>
           <CardHeader>
@@ -112,7 +167,7 @@ export const ReviewComponent: React.FC = () => {
           <CardContent>
             <div className="flex items-center gap-6 mb-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-gray-900">4,6</div>
+                <div className="text-4xl font-bold text-gray-900">4.6</div>
                 <div className="flex items-center gap-1 mt-1">
                   {renderStars(4)}
                 </div>
@@ -195,8 +250,77 @@ export const ReviewComponent: React.FC = () => {
         </Card>
       </div>
 
-      {/* Filters */}
-      <Card></Card>
+      {/* Filters and Search */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="Search reviews..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            
+            {/* Filters */}
+            <div className="flex flex-wrap gap-3">
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="oldest">Oldest First</SelectItem>
+                  <SelectItem value="highest">Highest Rating</SelectItem>
+                  <SelectItem value="lowest">Lowest Rating</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={filterRating} onValueChange={setFilterRating}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="Rating" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Ratings</SelectItem>
+                  <SelectItem value="5">5 Stars</SelectItem>
+                  <SelectItem value="4">4 Stars</SelectItem>
+                  <SelectItem value="3">3 Stars</SelectItem>
+                  <SelectItem value="2">2 Stars</SelectItem>
+                  <SelectItem value="1">1 Star</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={filterSentiment} onValueChange={setFilterSentiment}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="Sentiment" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="positive">Positive</SelectItem>
+                  <SelectItem value="neutral">Neutral</SelectItem>
+                  <SelectItem value="negative">Negative</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={filterStatus} onValueChange={setFilterStatus}>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="Reply Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="responded">Responded</SelectItem>
+                  <SelectItem value="not-responded">Not Responded</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Reviews List */}
       <div className="space-y-4">
@@ -205,56 +329,126 @@ export const ReviewComponent: React.FC = () => {
 
         {/* Review Items */}
         {reviewsData.map((review) => (
-          <Card key={review.id} className="border border-gray-200">
-            <CardContent className="p-6">
+          <Card key={review.id} className={`border ${review.isNew || !review.hasReply ? 'border-l-4 border-l-blue-500' : 'border-gray-200'}`}>
+            <CardContent className="p-4 sm:p-6">
               {/* Review Header */}
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
-                  <span className="font-semibold text-gray-900">{review.name}</span>
-                  <div className="flex items-center gap-1">
-                    {renderStars(review.rating)}
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${review.name}`} />
+                    <AvatarFallback className="bg-blue-100 text-blue-700 font-medium">
+                      {getInitials(review.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-gray-900">{review.name}</span>
+                      {review.isNew && (
+                        <Badge className="bg-blue-100 text-blue-800 flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          New
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="flex items-center gap-1">
+                        {renderStars(review.rating)}
+                      </div>
+                      <Badge className={getSentimentBadgeColor(review.sentiment)}>
+                        {review.sentiment}
+                      </Badge>
+                      {getReplyStatusBadge(review)}
+                    </div>
                   </div>
-                  <Badge className={getSentimentBadgeColor(review.sentiment)}>
-                    {review.sentiment}
-                  </Badge>
                 </div>
-                <span className="text-sm text-gray-500">{review.date}</span>
+                <span className="text-sm text-gray-500">{formatDate(review.date)}</span>
               </div>
 
               {/* Review Comment */}
-              <p className="text-gray-700 mb-4">{review.comment}</p>
+              <p className="text-gray-700 mb-4 leading-relaxed">{review.comment}</p>
 
-              {/* AI Response Section */}
-              <div className="bg-blue-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-blue-900">AI Suggested Response</span>
+              {/* Reply Actions */}
+              {!review.hasReply && (
+                <div className="flex flex-col sm:flex-row gap-3 mb-4">
                   <Button 
                     variant="outline" 
-                    size="sm" 
-                    onClick={() => handleGenerateResponse(review.id)} 
-                    className="text-blue-600 border-blue-600 hover:bg-blue-100"
+                    onClick={() => handleGenerateAIResponse(review.id)}
+                    className="flex items-center gap-2"
                   >
-                    AI Generated
-                  </Button>
-                </div>
-                <p className="text-blue-800 text-sm mb-3">{review.aiResponse}</p>
-                <div className="flex gap-2">
-                  <Button 
-                    size="sm" 
-                    onClick={() => handleUseResponse(review.id)} 
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Use Response
+                    <Bot className="w-4 h-4" />
+                    Generate AI Response
                   </Button>
                   <Button 
                     variant="outline" 
-                    size="sm" 
-                    onClick={() => handleEditResponse(review.id)}
+                    onClick={() => handleReplyManually(review.id)}
+                    className="flex items-center gap-2"
                   >
-                    Edit
+                    <MessageSquare className="w-4 h-4" />
+                    Reply Manually
                   </Button>
                 </div>
-              </div>
+              )}
+
+              {/* AI Response Section (when visible) */}
+              {showAIResponse === review.id && (
+                <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-blue-900 flex items-center gap-2">
+                      <Bot className="w-4 h-4" />
+                      AI Suggested Response
+                    </span>
+                  </div>
+                  <p className="text-blue-800 text-sm mb-3 leading-relaxed">{review.aiResponse}</p>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button 
+                      size="sm" 
+                      onClick={() => handleUseResponse(review.id)} 
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      Use Response
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setShowAIResponse(null)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Manual Reply Editor */}
+              {expandedReply === review.id && (
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="mb-3">
+                    <span className="text-sm font-medium text-gray-900">Write your reply</span>
+                  </div>
+                  <Textarea
+                    placeholder="Type your response..."
+                    value={manualReply}
+                    onChange={(e) => setManualReply(e.target.value)}
+                    className="mb-3"
+                    rows={4}
+                  />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button 
+                      size="sm" 
+                      onClick={() => handleSendManualReply(review.id)}
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      Send Reply
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setExpandedReply(null)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
