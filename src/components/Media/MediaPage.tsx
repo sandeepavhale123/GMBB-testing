@@ -228,7 +228,9 @@ export const MediaPage: React.FC = () => {
       </Card>
 
       {/* Redesigned Overview Stats Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <Card>
+        <CardContent className="p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Most View Image Card */}
         <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
           <CardContent className="p-6">
@@ -284,6 +286,8 @@ export const MediaPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
