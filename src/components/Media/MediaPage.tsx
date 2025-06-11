@@ -156,7 +156,7 @@ export const MediaPage: React.FC = () => {
             </div>
 
             {/* Total Media Count Section */}
-            <div className="space-y-4 col-span-7 ">
+            <div className="space-y-4 col-span-5 ">
               <div className="flex items-center gap-2 mb-3">
                 <Upload className="w-5 h-5 text-blue-600" />
                 <h3 className="font-semibold text-gray-900">Total Uploads</h3>
