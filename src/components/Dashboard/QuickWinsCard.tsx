@@ -55,11 +55,11 @@ export const QuickWinsCard: React.FC = () => {
               </div>
               <Button
                 size="sm"
-                variant="ghost"
+                className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white"
                 onClick={() => dispatch(completeQuickWin(win.id))}
-                className="shrink-0"
               >
-                <ArrowRight className="w-4 h-4" />
+                Fix Issue
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           );
