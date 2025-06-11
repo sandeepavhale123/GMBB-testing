@@ -16,8 +16,8 @@ export const BusinessProfileHeader: React.FC = () => {
 
       {/* Business Overview Card */}
       <Card className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0">
-        <CardContent className="p-6">
-          <div>
+        <CardContent className="p-6 flex">
+          <div class="flex-1">
              <div className="mb-4">
             <div className="text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
             <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
