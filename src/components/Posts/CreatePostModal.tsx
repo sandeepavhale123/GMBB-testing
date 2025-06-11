@@ -369,7 +369,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           {/* Sticky Footer */}
           <div className="flex justify-between items-center gap-3 p-6 border-t bg-white shrink-0">
             <div className="text-sm text-gray-500">
-              {formData.platforms.length} platforms • {formData.listings.length} listings
+             
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={onClose}>
