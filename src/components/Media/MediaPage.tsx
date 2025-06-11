@@ -127,7 +127,7 @@ export const MediaPage: React.FC = () => {
       {/* Merged Overview Stats Card */}
       <Card className="overflow-hidden py-3">
         <CardContent>
-          <div className="grid grid-cols-12 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-12 lg:grid-cols-12 gap-6">
             {/* Total Media Count Section */}
             <div className="space-y-4 col-span-5 ">
              <Card>
