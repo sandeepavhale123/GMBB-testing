@@ -132,7 +132,7 @@ export const MediaPage: React.FC = () => {
             <div className="space-y-4 col-span-4  ">
              <Card>
                <CardContent className="flex align-items-center">
-                  <div className="">
+                  <div className="mt-3">
                     {/* Upload Stats */}
                       <div>
                         <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
@@ -144,7 +144,7 @@ export const MediaPage: React.FC = () => {
                {/* Total Media uploaded in last month */}
                  <Card>
                    <CardContent className="flex align-items-center">
-                      <div className="">
+                      <div className="mt-3">
                         {/* Upload Stats */}
                           <div>
                             <div className="text-3xl font-bold text-gray-900">05</div>
