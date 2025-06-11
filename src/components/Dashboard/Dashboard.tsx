@@ -76,7 +76,7 @@ export const Dashboard: React.FC = () => {
         <div className="col-span-4">
           <Card className="h-full bg-gradient-to-br from-slate-800 to-slate-900 text-white border-slate-700">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold text-white">GBP profile optimization </CardTitle>
+              <CardTitle className="text-lg font-semibold text-white">GBP Profile Optimization</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1 mt-[28px] my-0">
               {/* Centered Circular Progress */}
