@@ -17,7 +17,8 @@ export const BusinessProfileHeader: React.FC = () => {
       {/* Business Overview Card */}
       <Card className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0">
         <CardContent className="p-6">
-          <div className="mb-4">
+          <div>
+             <div className="mb-4">
             <div className="text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
             <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
               Good Morning, Vijay 👋
@@ -39,8 +40,9 @@ export const BusinessProfileHeader: React.FC = () => {
               <span className="text-purple-100">Profile Health: 78%</span>
             </div>
           </div>
+          </div>
           
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 flex-column mt-6">
             <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
               <Edit className="w-4 h-4 mr-2" />
               Edit Info
