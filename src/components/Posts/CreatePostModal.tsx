@@ -360,9 +360,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 {/* Platform Section */}
                 <div className="mt-6 space-y-3">
                   
-                  <div className="text-sm text-gray-500">
-                    {formData.platforms.length} platforms selected
-                  </div>
+                  
                 </div>
               </div>
             </div>
