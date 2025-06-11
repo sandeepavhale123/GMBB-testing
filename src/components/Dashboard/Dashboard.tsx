@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -113,31 +114,31 @@ export const Dashboard: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Tab Navigation */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-white border border-gray-200 rounded-none p-0 h-auto">
+            <TabsList className="grid w-full grid-cols-4 bg-gray-50 border-b border-gray-200 rounded-none p-0 h-auto">
               <TabsTrigger 
                 value="posts" 
-                className="flex items-center gap-2 px-6 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-50 font-medium text-gray-600"
+                className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors"
               >
                 <FileText className="w-4 h-4" />
                 Posts
               </TabsTrigger>
               <TabsTrigger 
                 value="reviews" 
-                className="flex items-center gap-2 px-6 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-50 font-medium text-gray-600"
+                className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors"
               >
                 <MessageSquare className="w-4 h-4" />
                 Reviews
               </TabsTrigger>
               <TabsTrigger 
                 value="media" 
-                className="flex items-center gap-2 px-6 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-50 font-medium text-gray-600"
+                className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors"
               >
                 <ImageIcon className="w-4 h-4" />
                 Media
               </TabsTrigger>
               <TabsTrigger 
                 value="qa" 
-                className="flex items-center gap-2 px-6 py-3 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-50 font-medium text-gray-600"
+                className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors"
               >
                 <HelpCircle className="w-4 h-4" />
                 Q&A
@@ -275,5 +276,3 @@ export const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
-
-</edits_to_apply>
