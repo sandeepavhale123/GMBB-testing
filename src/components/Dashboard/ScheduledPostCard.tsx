@@ -74,7 +74,6 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                 <TableCell>
                   <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={onApprovePost}>
                     <Eye className="w-3 h-3 mr-1" />
-                    Approve
                   </Button>
                 </TableCell>
               </TableRow>)}
