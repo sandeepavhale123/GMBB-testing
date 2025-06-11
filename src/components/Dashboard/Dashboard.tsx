@@ -90,7 +90,7 @@ export const Dashboard: React.FC = () => {
               
               {/* Time left section */}
               <div className="text-center space-y-1">
-                <p className="text-sm text-slate-400">Optimization level is healthy</p>
+                <p className="text-sm text-grey">Optimization level is healthy</p>
                 <p className="text-blue-400 font-medium">75% optimized</p>
               </div>
               
