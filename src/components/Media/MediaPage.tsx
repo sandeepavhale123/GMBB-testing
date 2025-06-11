@@ -127,7 +127,7 @@ export const MediaPage: React.FC = () => {
       {/* Merged Overview Stats Card */}
       <Card className="overflow-hidden py-3">
         <CardContent>
-          <div className="grid grid-cols-12 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 lg:grid-cols-2 gap-6">
             {/* Total Media Count Section */}
             <div className="space-y-4 col-span-5 ">
              <Card>
@@ -141,6 +141,25 @@ export const MediaPage: React.FC = () => {
                       <div>
                         <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
                         <div className="text-sm text-black-600 font-medium">Total Uploaded Media</div>
+                      </div>
+                    </div>
+                  </div>
+               </CardContent>
+             </Card>
+
+               {/* Total Media uploaded in last month */}
+            <div className="space-y-4 col-span-5 ">
+             <Card>
+               <CardContent>
+                  <div className="">
+                    {/* Upload Stats */}
+                    <div className="flex items-center gap-4">
+                      <div className="bg-blue-100 p-3 rounded-lg">
+                        <Upload className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <div className="text-3xl font-bold text-gray-900">05</div>
+                        <div className="text-sm text-black-600 font-medium">Last month Uploaded</div>
                       </div>
                     </div>
                   </div>
