@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -26,15 +25,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
-
 export const Dashboard: React.FC = () => {
-  const { qaStats } = useAppSelector((state) => state.dashboard);
+  const {
+    qaStats
+  } = useAppSelector(state => state.dashboard);
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-
   const scheduledPost = {
     id: '1',
     title: 'Weekend Special Offer',
@@ -43,33 +42,25 @@ export const Dashboard: React.FC = () => {
     scheduledDate: '2024-06-12 10:00 AM',
     platforms: ['Google My Business', 'Facebook']
   };
-
-  const geoRankingData = [
-    {
-      keyword: "coffee shop near me",
-      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-    },
-    {
-      keyword: "best coffee downtown",
-      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-    },
-    {
-      keyword: "local coffee shop",
-      image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-    }
-  ];
-
+  const geoRankingData = [{
+    keyword: "coffee shop near me",
+    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+  }, {
+    keyword: "best coffee downtown",
+    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+  }, {
+    keyword: "local coffee shop",
+    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
+  }];
   const handleApprovePost = () => {
     setSelectedPost(scheduledPost);
     setIsPreviewModalOpen(true);
   };
-
   const handleFinalApprove = () => {
     // Handle final approval logic here
     setIsPreviewModalOpen(false);
     setSelectedPost(null);
   };
-
   return <div className="space-y-6">
       {/* Action Required Alert */}
       {/* <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
@@ -226,7 +217,7 @@ export const Dashboard: React.FC = () => {
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                  
                   <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
                 </div>
               </CardTitle>
@@ -234,22 +225,16 @@ export const Dashboard: React.FC = () => {
             <CardContent>
               <Carousel className="w-full">
                 <CarouselContent>
-                  {geoRankingData.map((item, index) => (
-                    <CarouselItem key={index}>
+                  {geoRankingData.map((item, index) => <CarouselItem key={index}>
                       <div className="space-y-3">
                         <div className="text-center">
                           <p className="text-sm font-medium text-gray-900 mb-2">{item.keyword}</p>
                         </div>
                         <div className="aspect-square w-full overflow-hidden rounded-lg">
-                          <img 
-                            src={item.image} 
-                            alt={`GEO ranking for ${item.keyword}`}
-                            className="w-full h-full object-cover"
-                          />
+                          <img src={item.image} alt={`GEO ranking for ${item.keyword}`} className="w-full h-full object-cover" />
                         </div>
                       </div>
-                    </CarouselItem>
-                  ))}
+                    </CarouselItem>)}
                 </CarouselContent>
                 <CarouselPrevious className="left-2" />
                 <CarouselNext className="right-2" />
@@ -288,7 +273,7 @@ export const Dashboard: React.FC = () => {
             </Button>
             {/* <Button className="bg-green-600 hover:bg-green-700" onClick={handleFinalApprove}>
               Approve
-            </Button> */}
+             </Button> */}
           </DialogFooter>
         </DialogContent>
       </Dialog>
