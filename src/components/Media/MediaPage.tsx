@@ -146,6 +146,65 @@ export const MediaPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Redesigned Overview Stats Card */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Most View Image Card */}
+        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
+            </div>
+            <div className="grid grid-cols-12 gap-4">
+              {/* Left Column - Stats */}
+              <div className="col-span-7">
+                <div className="mb-4">
+                  <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
+                  <div className="text-sm text-gray-500">Image name</div>
+                </div>
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="bg-gray-800 text-white hover:bg-gray-700 px-6"
+                  onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
+                >
+                  View Image
+                </Button>
+              </div>
+              
+              {/* Right Column - Image */}
+              <div className="col-span-5">
+                <div className="aspect-square rounded-lg overflow-hidden">
+                  <img 
+                    src={mostViewedImage?.url} 
+                    alt={mostViewedImage?.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Media Uploaded Card */}
+        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <h3 className="text-md text-black mb-2">Total media uploaded</h3>
+            </div>
+            <div className="space-y-6">
+              <div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
+              </div>
+              <hr/>
+              <div>
+                <div className="text-md text-black mb-2">Last month uploaded</div>
+                <div className="text-3xl font-bold text-gray-900">354</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Media Tabs and Grid Card */}
       <Card className="overflow-hidden">
         <CardHeader className="pb-4">
@@ -227,67 +286,7 @@ export const MediaPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Redesigned Overview Stats Card */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Most View Image Card */}
-        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
-            </div>
-            <div className="grid grid-cols-12 gap-4">
-              {/* Left Column - Stats */}
-              <div className="col-span-7">
-                <div className="mb-4">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
-                  <div className="text-sm text-gray-500">Image name</div>
-                </div>
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  className="bg-gray-800 text-white hover:bg-gray-700 px-6"
-                  onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
-                >
-                  View Image
-                </Button>
-              </div>
-              
-              {/* Right Column - Image */}
-              <div className="col-span-5">
-                <div className="aspect-square rounded-lg overflow-hidden">
-                  <img 
-                    src={mostViewedImage?.url} 
-                    alt={mostViewedImage?.name} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Total Media Uploaded Card */}
-        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Total media uploaded</h3>
-            </div>
-            <div className="space-y-6">
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-500 mb-2">Last month uploaded</div>
-                <div className="text-3xl font-bold text-gray-900">354</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-        </CardContent>
-      </Card>
+      
     </div>
   );
 };
