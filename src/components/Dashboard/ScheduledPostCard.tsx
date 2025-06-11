@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -66,11 +65,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                     <h4 className="font-medium text-sm">{post.title}</h4>
                     <p className="text-xs text-gray-600 line-clamp-2">{post.content}</p>
                     <div className="flex gap-1 flex-wrap">
-                      {post.platforms.map((platform, idx) => (
-                        <span key={idx} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                          {platform}
-                        </span>
-                      ))}
+                      {post.platforms.map((platform, idx) => {})}
                     </div>
                   </div>
                 </TableCell>
