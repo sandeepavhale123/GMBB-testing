@@ -25,6 +25,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { BarChart3, FileText, MessageSquare, Image as ImageIcon, HelpCircle, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
+
 export const Dashboard: React.FC = () => {
   const {
     qaStats
@@ -166,22 +167,8 @@ export const Dashboard: React.FC = () => {
 
         {/* Right Column - Sidebar */}
         <div className="space-y-6">
-          {/* Quick Wins */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Quick Wins</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {['Fix outstanding issues', 'Add photo to post', 'Update business info'].map((item, index) => <div key={index} className="flex items-center gap-3">
-                    <Checkbox id={`sidebar-quick-win-${index}`} />
-                    <label htmlFor={`sidebar-quick-win-${index}`} className="text-sm text-gray-700">
-                      {item}
-                    </label>
-                  </div>)}
-              </div>
-            </CardContent>
-          </Card>
+          {/* Quick Wins - Using the proper QuickWinsCard component */}
+          <QuickWinsCard />
 
           {/* Q&A Section */}
           <Card>
@@ -274,4 +261,5 @@ export const Dashboard: React.FC = () => {
       </Dialog>
     </div>;
 };
+
 export default Dashboard;
