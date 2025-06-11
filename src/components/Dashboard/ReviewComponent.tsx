@@ -264,7 +264,10 @@ export const ReviewComponent: React.FC = () => {
         </Card>
       </div>
 
+      {/* Recent Reviews Title */}
+        <h2 className="text-xl font-semibold text-gray-900">Recent reviews</h2>
       {/* Filters and Search */}
+      
       <Card>
         <CardContent className="p-6">
           <div className="flex flex-col lg:flex-row gap-4">
@@ -338,8 +341,7 @@ export const ReviewComponent: React.FC = () => {
 
       {/* Reviews List */}
       <div className="space-y-4">
-        {/* Recent Reviews Title */}
-        <h2 className="text-xl font-semibold text-gray-900">Recent reviews</h2>
+        
 
         {/* Review Items */}
         {reviewsData.map((review) => (
