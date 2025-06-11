@@ -161,9 +161,9 @@ export const MediaPage: React.FC = () => {
                 <TrendingUp className="w-5 h-5 text-blue-600" />
                 <h3 className="font-semibold text-gray-900">Most Viewed</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-12 gap-4">
                 {/* Left Column - Image Details */}
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between col-span-7">
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1 text-sm">{mostViewedImage?.name}</h4>
                     <div className="text-xl font-bold text-gray-900 mb-1">{mostViewedImage?.views}</div>
@@ -176,9 +176,11 @@ export const MediaPage: React.FC = () => {
                 </div>
                 
                 {/* Right Column - Image Preview */}
-                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden" style={{height:'200px',width:'200px'}}>
+                <div className="col-span-5">
+                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden" >
                   <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="object-cover"  />
                 </div>
+                  </div>
               </div>
             </div>
 
