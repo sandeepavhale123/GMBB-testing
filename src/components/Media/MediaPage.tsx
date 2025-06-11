@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { Upload, Eye, Trash2, ArrowUpRight } from 'lucide-react';
+import { Upload, Eye, Trash2, ArrowUpRight, MoreVertical, Play } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
 interface MediaItem {
   id: string;
@@ -37,7 +38,7 @@ export const MediaPage: React.FC = () => {
       id: '3',
       name: 'Fresh Bakery Products',
       views: '6.1k views',
-      type: 'image',
+      type: 'video',
       url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300',
       uploadDate: '2024-06-06'
     },
@@ -64,6 +65,22 @@ export const MediaPage: React.FC = () => {
       type: 'image',
       url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
       uploadDate: '2024-06-03'
+    },
+    {
+      id: '7',
+      name: 'Office Space',
+      views: '2.1k views',
+      type: 'video',
+      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300',
+      uploadDate: '2024-06-02'
+    },
+    {
+      id: '8',
+      name: 'Modern Architecture',
+      views: '1.8k views',
+      type: 'image',
+      url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300',
+      uploadDate: '2024-06-01'
     }
   ]);
 
@@ -99,22 +116,116 @@ export const MediaPage: React.FC = () => {
     setMediaItems(prev => prev.filter(item => item.id !== id));
     toast({
       title: "Media Deleted",
-      description: "Image has been deleted successfully."
+      description: "Media has been deleted successfully."
     });
   };
 
   const mostViewedImage = mediaItems[0];
-  const recentMediaItems = mediaItems.slice(0, 6);
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Media</h1>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" className="text-gray-600">
+            Manage your photos
+          </Button>
+          <div className="relative">
+            <input 
+              type="file" 
+              accept="image/*,video/*" 
+              onChange={handleFileUpload} 
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+              id="add-photo-upload" 
+            />
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+              <label htmlFor="add-photo-upload" className="cursor-pointer flex items-center justify-center gap-2">
+                <Upload className="w-4 h-4" />
+                Add a photo
+              </label>
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* First Row - Most Viewed Image and Total Media Uploaded */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Filter Tabs */}
+      <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 w-fit">
+        <Button variant="ghost" size="sm" className="bg-white shadow-sm rounded-md px-4 py-2 text-sm font-medium">
+          All
+        </Button>
+        <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
+          By owner
+        </Button>
+        <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
+          Street View & 360°
+        </Button>
+        <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
+          Videos
+        </Button>
+      </div>
+
+      {/* Media Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
+        {mediaItems.map((item) => (
+          <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+            {/* Media Image */}
+            <img 
+              src={item.url} 
+              alt={item.name} 
+              className="w-full h-full object-cover transition-transform group-hover:scale-105" 
+              onClick={() => handleViewImage(item)}
+            />
+            
+            {/* Video Overlay */}
+            {item.type === 'video' && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
+                <div className="bg-black bg-opacity-50 rounded-full p-2">
+                  <Play className="w-6 h-6 text-white fill-white" />
+                </div>
+                <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                  0:15
+                </div>
+              </div>
+            )}
+            
+            {/* Hover Overlay with Actions */}
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200">
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full"
+                    >
+                      <MoreVertical className="w-4 h-4 text-gray-700" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={() => handleViewImage(item)}>
+                      <Eye className="w-4 h-4 mr-2" />
+                      View
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDeleteImage(item.id)} className="text-red-600">
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+
+            {/* Selection Checkbox (visible on hover) */}
+            <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="w-5 h-5 border-2 border-white rounded bg-white bg-opacity-20 hover:bg-opacity-40 cursor-pointer"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Stats Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         {/* Most Viewed Image Card */}
         <Card className="overflow-hidden">
           <CardHeader className="pb-3">
@@ -191,60 +302,6 @@ export const MediaPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-
-      {/* Second Row - Recent Media Uploaded */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-3">
-          <CardTitle className="text-lg font-semibold text-gray-700">
-            Recent Media Uploaded
-          </CardTitle>
-          <Button variant="ghost" className="text-blue-600 hover:text-blue-700 p-0">
-            View All
-            <ArrowUpRight className="w-4 h-4 ml-1" />
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-4">
-            {recentMediaItems.map((item) => (
-              <div key={item.id} className="group relative">
-                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img 
-                    src={item.url} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105" 
-                  />
-                </div>
-                
-                {/* Overlay with action buttons */}
-                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-white hover:bg-white hover:text-gray-900"
-                    onClick={() => handleViewImage(item)}
-                  >
-                    <Eye className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="text-white hover:bg-white hover:text-gray-900"
-                    onClick={() => handleDeleteImage(item.id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-                
-                {/* Image info */}
-                <div className="mt-2">
-                  <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
-                  <p className="text-xs text-gray-500">{item.views}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
