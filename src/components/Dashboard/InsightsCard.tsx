@@ -3,17 +3,17 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Calendar, Eye, FileText, Image, TrendingUp, TrendingDown } from 'lucide-react';
+import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Calendar, Eye, FileText, Image, TrendingUp, TrendingDown, Monitor, Smartphone } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
 
   const visibilityData = [
-    { name: 'Week 1', search: 120, maps: 80 },
-    { name: 'Week 2', search: 150, maps: 95 },
-    { name: 'Week 3', search: 180, maps: 110 },
-    { name: 'Week 4', search: 200, maps: 125 },
+    { name: 'Week 1', views: 120, actions: 45 },
+    { name: 'Week 2', views: 150, actions: 58 },
+    { name: 'Week 3', views: 180, actions: 72 },
+    { name: 'Week 4', views: 200, actions: 89 },
   ];
 
   const searchQueries = [
@@ -25,11 +25,14 @@ export const InsightsCard: React.FC = () => {
   ];
 
   const customerActions = [
-    { icon: Phone, label: 'Phone Calls', value: 42, change: '+12%', trend: 'up' },
-    { icon: MousePointer, label: 'Website Clicks', value: 156, change: '+8%', trend: 'up' },
-    { icon: Navigation, label: 'Direction Requests', value: 89, change: '-3%', trend: 'down' },
-    { icon: Eye, label: 'Photo Views', value: 234, change: '+15%', trend: 'up' },
-    { icon: Calendar, label: 'Appointment Bookings', value: 23, change: '+5%', trend: 'up' },
+    { icon: MousePointer, label: 'Website', value: 156, change: '+8%', trend: 'up' },
+    { icon: Navigation, label: 'Direction', value: 89, change: '-3%', trend: 'down' },
+    { icon: Phone, label: 'Call', value: 42, change: '+12%', trend: 'up' },
+    { icon: MessageSquare, label: 'Messages', value: 23, change: '+5%', trend: 'up' },
+    { icon: Monitor, label: 'Desktop Search', value: 234, change: '+15%', trend: 'up' },
+    { icon: Monitor, label: 'Desktop Map', value: 178, change: '+7%', trend: 'up' },
+    { icon: Smartphone, label: 'Mobile Search', value: 312, change: '+18%', trend: 'up' },
+    { icon: Smartphone, label: 'Mobile Map', value: 267, change: '+11%', trend: 'up' },
   ];
 
   return (
@@ -68,24 +71,24 @@ export const InsightsCard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-blue-600" />
-                <span className="text-sm font-medium text-gray-700">Google Search Views</span>
+                <Eye className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-medium text-gray-700">Total Views</span>
               </div>
-              <p className="text-3xl font-bold text-gray-900">1,247</p>
+              <p className="text-3xl font-bold text-gray-900">2,070</p>
               <p className="text-sm text-green-600 flex items-center gap-1">
                 <TrendingUp className="w-4 h-4" />
-                +15% from last period
+                +12% from last period
               </p>
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-red-600" />
-                <span className="text-sm font-medium text-gray-700">Google Maps Views</span>
+                <MousePointer className="w-5 h-5 text-green-600" />
+                <span className="text-sm font-medium text-gray-700">Total Actions</span>
               </div>
-              <p className="text-3xl font-bold text-gray-900">823</p>
+              <p className="text-3xl font-bold text-gray-900">264</p>
               <p className="text-sm text-green-600 flex items-center gap-1">
                 <TrendingUp className="w-4 h-4" />
-                +8% from last period
+                +9% from last period
               </p>
             </div>
           </div>
@@ -95,8 +98,8 @@ export const InsightsCard: React.FC = () => {
               <BarChart data={visibilityData}>
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Bar dataKey="search" fill="#3b82f6" name="Search" />
-                <Bar dataKey="maps" fill="#ef4444" name="Maps" />
+                <Bar dataKey="views" fill="#3b82f6" name="Views" />
+                <Bar dataKey="actions" fill="#10b981" name="Actions" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -105,15 +108,11 @@ export const InsightsCard: React.FC = () => {
             <div className="flex gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-600 rounded"></div>
-                <span>Last 7 Days</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-600 rounded"></div>
-                <span>30 Days</span>
+                <span>Views</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-600 rounded"></div>
-                <span>90 Days</span>
+                <span>Actions</span>
               </div>
             </div>
           </div>
@@ -168,7 +167,7 @@ export const InsightsCard: React.FC = () => {
           <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {customerActions.map((action, index) => (
               <div key={index} className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
