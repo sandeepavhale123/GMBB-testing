@@ -1,7 +1,5 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
-
 interface PostPreviewProps {
   data: {
     title: string;
@@ -12,10 +10,10 @@ interface PostPreviewProps {
     platforms: string[];
   };
 }
-
-export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
-  return (
-    <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
+export const PostPreview: React.FC<PostPreviewProps> = ({
+  data
+}) => {
+  return <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
@@ -31,35 +29,21 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
 
       {/* Post Content */}
       <div className="p-4">
-        {data.title && (
-          <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>
-        )}
-        {data.description && (
-          <p className="text-gray-700 text-sm mb-4 leading-relaxed">{data.description}</p>
-        )}
+        {data.title && <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>}
+        {data.description && <p className="text-gray-700 text-sm mb-4 leading-relaxed">{data.description}</p>}
       </div>
 
       {/* Image */}
-      {data.image ? (
-        <img
-          src={URL.createObjectURL(data.image)}
-          alt="Post"
-          className="w-full h-48 object-cover"
-        />
-      ) : (
-        <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+      {data.image ? <img src={URL.createObjectURL(data.image)} alt="Post" className="w-full h-48 object-cover" /> : <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
           <span className="text-white font-medium">Upload an image</span>
-        </div>
-      )}
+        </div>}
 
       {/* CTA Button */}
-      {data.ctaButton && (
-        <div className="p-4">
+      {data.ctaButton && <div className="p-4">
           <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium">
             {data.ctaButton.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
           </Button>
-        </div>
-      )}
+        </div>}
 
       {/* Engagement Placeholder */}
       <div className="px-4 pb-4 flex items-center justify-between text-xs text-gray-500 border-t pt-3">
@@ -75,23 +59,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
       </div>
 
       {/* Platform Tags */}
-      {data.platforms.length > 0 && (
-        <div className="px-4 pb-4">
+      {data.platforms.length > 0 && <div className="px-4 pb-4">
           <div className="text-xs text-gray-500 mb-2">Publishing to:</div>
           <div className="flex flex-wrap gap-1">
-            {data.platforms.slice(0, 3).map((platform) => (
-              <span key={platform} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                {platform}
-              </span>
-            ))}
-            {data.platforms.length > 3 && (
-              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+            {data.platforms.slice(0, 3).map(platform => {})}
+            {data.platforms.length > 3 && <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
                 +{data.platforms.length - 3} more
-              </span>
-            )}
+              </span>}
           </div>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
