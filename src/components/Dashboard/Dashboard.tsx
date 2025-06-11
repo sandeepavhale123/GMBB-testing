@@ -74,16 +74,16 @@ export const Dashboard: React.FC = () => {
 
         {/* Auto Optimization - 4 columns */}
         <div className="col-span-4">
-          <Card className="h-full  from-slate-800 to-slate-900 text-white border-slate-700">
+          <Card className="h-full  from-slate-800 to-slate-900 text-white border-grey-700">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold text-dark">GBP Profile Optimization</CardTitle>
+              <CardTitle className="text-lg font-semibold text-black">GBP Profile Optimization</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1 mt-[28px] my-0">
               {/* Centered Circular Progress */}
               <div className="flex items-center justify-center">
                 <CircularProgress value={78} size={120} strokeWidth={8} className="text-blue-400">
                   <div className="text-center">
-                    <span className="text-3xl font-bold text-dark">78</span>
+                    <span className="text-3xl font-bold text-black">78</span>
                   </div>
                 </CircularProgress>
               </div>
