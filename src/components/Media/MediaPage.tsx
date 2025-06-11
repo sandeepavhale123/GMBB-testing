@@ -22,7 +22,7 @@ export const MediaPage: React.FC = () => {
       name: 'Digital Marketing Banner',
       views: '12.4k views',
       type: 'image',
-      url: '/lovable-uploads/02f59897-014c-45f5-a518-c8d08dadba75.png',
+      url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
       uploadDate: '2024-06-08'
     },
     {
