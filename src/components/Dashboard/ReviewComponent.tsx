@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -20,6 +19,7 @@ export const ReviewComponent: React.FC = () => {
   const [expandedReply, setExpandedReply] = useState<string | null>(null);
   const [showAIResponse, setShowAIResponse] = useState<string | null>(null);
   const [manualReply, setManualReply] = useState('');
+  const [aiResponseText, setAiResponseText] = useState<{[key: string]: string}>({});
   const { toast } = useToast();
 
   const sentimentData = [{
@@ -88,7 +88,15 @@ export const ReviewComponent: React.FC = () => {
   };
 
   const handleGenerateAIResponse = (reviewId: string) => {
+    const review = reviewsData.find(r => r.id === reviewId);
+    if (review) {
+      setAiResponseText(prev => ({
+        ...prev,
+        [reviewId]: review.aiResponse
+      }));
+    }
     setShowAIResponse(reviewId);
+    setExpandedReply(null);
     toast({
       title: "AI Response Generated",
       description: "AI has generated a response for this review."
@@ -101,11 +109,17 @@ export const ReviewComponent: React.FC = () => {
   };
 
   const handleUseResponse = (reviewId: string) => {
+    const responseText = aiResponseText[reviewId] || '';
     toast({
       title: "Response Used",
       description: "The AI suggested response has been used for this review."
     });
     setShowAIResponse(null);
+    setAiResponseText(prev => {
+      const updated = { ...prev };
+      delete updated[reviewId];
+      return updated;
+    });
   };
 
   const handleSendManualReply = (reviewId: string) => {
@@ -367,29 +381,27 @@ export const ReviewComponent: React.FC = () => {
               {/* Review Comment */}
               <p className="text-gray-700 mb-4 leading-relaxed">{review.comment}</p>
 
-              {/* Reply Actions */}
-              {!review.hasReply && (
-                <div className="flex flex-col sm:flex-row gap-3 mb-4">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handleGenerateAIResponse(review.id)}
-                    className="flex items-center gap-2"
-                  >
-                    <Bot className="w-4 h-4" />
-                    Generate AI Response
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handleReplyManually(review.id)}
-                    className="flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Reply Manually
-                  </Button>
-                </div>
-              )}
+              {/* Reply Actions - Now shown for ALL reviews */}
+              <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => handleGenerateAIResponse(review.id)}
+                  className="flex items-center gap-2"
+                >
+                  <Bot className="w-4 h-4" />
+                  Generate AI Response
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => handleReplyManually(review.id)}
+                  className="flex items-center gap-2"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  Reply Manually
+                </Button>
+              </div>
 
-              {/* AI Response Section (when visible) */}
+              {/* AI Response Section (when visible) - Now editable */}
               {showAIResponse === review.id && (
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
                   <div className="flex items-center justify-between mb-2">
@@ -398,7 +410,16 @@ export const ReviewComponent: React.FC = () => {
                       AI Suggested Response
                     </span>
                   </div>
-                  <p className="text-blue-800 text-sm mb-3 leading-relaxed">{review.aiResponse}</p>
+                  <Textarea
+                    value={aiResponseText[review.id] || ''}
+                    onChange={(e) => setAiResponseText(prev => ({
+                      ...prev,
+                      [review.id]: e.target.value
+                    }))}
+                    className="mb-3 bg-white border-blue-200 focus:border-blue-400"
+                    rows={4}
+                    placeholder="AI suggested response will appear here..."
+                  />
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button 
                       size="sm" 
