@@ -155,6 +155,7 @@ export const MediaPage: React.FC = () => {
                  </Card>
             </div>
             {/* Most Viewed Media Section */}
+            <div className="col-span-1"></div>
             <div className="space-y-4 col-span-7 ">
               <div className="flex items-center gap-2 mb-3">
                 <TrendingUp className="w-5 h-5 text-blue-600" />
