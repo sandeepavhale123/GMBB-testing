@@ -57,100 +57,102 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
           </DialogTitle>
         </DialogHeader>
 
-        <ScrollArea className="flex-1 pr-4">
-          <div className="grid grid-cols-2 gap-6 h-full">
-            {/* Left Side - Input Form */}
-            <div className="space-y-4">
-              <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                <div>
-                  <Label htmlFor="ai-description" className="text-sm font-medium mb-2 block">Short Description (Optional)</Label>
-                  <Textarea
-                    id="ai-description"
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Brief description of what you want to promote..."
-                    rows={3}
-                  />
-                </div>
-
-                <div className="flex items-end gap-3">
-                  <div className="flex-1">
-                    <Label className="text-sm font-medium mb-2 block">Number of Variants</Label>
-                    <Select value={formData.variants} onValueChange={(value) => setFormData(prev => ({ ...prev, variants: value }))}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">1 Variant</SelectItem>
-                        <SelectItem value="2">2 Variants</SelectItem>
-                        <SelectItem value="3">3 Variants</SelectItem>
-                        <SelectItem value="4">4 Variants</SelectItem>
-                        <SelectItem value="5">5 Variants</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <Button onClick={handleGenerate} disabled={isGenerating} className="flex-shrink-0">
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Wand2 className="w-4 h-4 mr-2" />
-                        Generate
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              {/* Generated Variants */}
-              {generatedVariants.length > 0 && (
-                <div className="space-y-3">
-                  <h3 className="font-medium">Generated Variants</h3>
-                  {generatedVariants.map((variant, index) => (
-                    <div 
-                      key={index} 
-                      className={`border rounded-lg p-4 space-y-3 cursor-pointer transition-colors ${
-                        selectedVariant === variant ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
-                      }`}
-                      onClick={() => handleVariantSelect(variant)}
-                    >
-                      <div className="text-sm text-gray-700">{variant}</div>
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelect(variant);
-                          }}
-                        >
-                          Select
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Right Side - Selected Variant Editor */}
-            <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-6 flex-1 overflow-hidden">
+          {/* Left Side - Input Form and Generated Variants */}
+          <div className="flex flex-col space-y-4 overflow-hidden">
+            <div className="space-y-4 p-4 bg-gray-50 rounded-lg flex-shrink-0">
               <div>
-                <Label className="text-sm font-medium mb-2 block">Edit Selected Variant</Label>
+                <Label htmlFor="ai-description" className="text-sm font-medium mb-2 block">Short Description (Optional)</Label>
                 <Textarea
-                  value={selectedVariant}
-                  onChange={(e) => setSelectedVariant(e.target.value)}
-                  placeholder="Select a variant from the left to edit here..."
-                  rows={10}
-                  className="h-full min-h-[300px]"
+                  id="ai-description"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Brief description of what you want to promote..."
+                  rows={3}
                 />
               </div>
+
+              <div className="flex items-end gap-3">
+                <div className="flex-1">
+                  <Label className="text-sm font-medium mb-2 block">Number of Variants</Label>
+                  <Select value={formData.variants} onValueChange={(value) => setFormData(prev => ({ ...prev, variants: value }))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">1 Variant</SelectItem>
+                      <SelectItem value="2">2 Variants</SelectItem>
+                      <SelectItem value="3">3 Variants</SelectItem>
+                      <SelectItem value="4">4 Variants</SelectItem>
+                      <SelectItem value="5">5 Variants</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Button onClick={handleGenerate} disabled={isGenerating} className="flex-shrink-0">
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      Generate
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Generated Variants - Scrollable */}
+            {generatedVariants.length > 0 && (
+              <div className="flex-1 overflow-hidden">
+                <h3 className="font-medium mb-3">Generated Variants</h3>
+                <ScrollArea className="h-full">
+                  <div className="space-y-3 pr-4">
+                    {generatedVariants.map((variant, index) => (
+                      <div 
+                        key={index} 
+                        className={`border rounded-lg p-4 space-y-3 cursor-pointer transition-colors ${
+                          selectedVariant === variant ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+                        }`}
+                        onClick={() => handleVariantSelect(variant)}
+                      >
+                        <div className="text-sm text-gray-700">{variant}</div>
+                        <div className="flex gap-2">
+                          <Button 
+                            size="sm" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleVariantSelect(variant);
+                            }}
+                          >
+                            Select
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+            )}
+          </div>
+
+          {/* Right Side - Selected Variant Editor */}
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-medium mb-2 block">Edit Selected Variant</Label>
+              <Textarea
+                value={selectedVariant}
+                onChange={(e) => setSelectedVariant(e.target.value)}
+                placeholder="Select a variant from the left to edit here..."
+                rows={10}
+                className="h-full min-h-[300px]"
+              />
             </div>
           </div>
-        </ScrollArea>
+        </div>
 
         {/* Footer */}
         <div className="flex justify-end gap-3 pt-4 border-t">
