@@ -74,7 +74,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Auto Optimization - 4 columns */}
         <div className="col-span-4">
-          <Card className="h-full bg-gradient-to-br from-slate-800 to-slate-900 text-white border-slate-700">
+          <Card className="h-full  from-slate-800 to-slate-900 text-white border-slate-700">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-white">GBP Profile Optimization</CardTitle>
             </CardHeader>
