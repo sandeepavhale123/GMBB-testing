@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -7,7 +6,7 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { Dashboard } from '../components/Dashboard/Dashboard';
 import { PostsPage } from '../components/Posts/PostsPage';
-import { ReviewComponent } from '../components/Dashboard/ReviewComponent';
+import ReviewsManagementPage from '../components/Reviews/ReviewsManagementPage';
 import { Toaster } from '../components/ui/toaster';
 
 const Index = () => {
@@ -46,7 +45,7 @@ const Index = () => {
       case 'posts':
         return <PostsPage />;
       case 'reviews':
-        return <ReviewComponent />;
+        return <ReviewsManagementPage />;
       case 'media':
         return (
           <div className="space-y-6">
