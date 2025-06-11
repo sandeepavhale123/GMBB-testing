@@ -148,6 +148,90 @@ export const MediaPage: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Merged Overview Stats Card */}
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold text-gray-700">
+            Media Overview
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Most Viewed Media Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="w-5 h-5 text-blue-600" />
+                <h3 className="font-semibold text-gray-900">Most Viewed</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Left Column - Image Details */}
+                <div className="flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-1 text-sm">{mostViewedImage?.name}</h4>
+                    <div className="text-xl font-bold text-gray-900 mb-1">{mostViewedImage?.views}</div>
+                    <div className="text-xs text-gray-500">Uploaded {mostViewedImage?.uploadDate}</div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="w-full bg-gray-800 text-white hover:bg-gray-700 border-gray-800 mt-2"
+                    onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
+                  >
+                    <Eye className="w-3 h-3 mr-1" />
+                    View
+                  </Button>
+                </div>
+                
+                {/* Right Column - Image Preview */}
+                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                  <img 
+                    src={mostViewedImage?.url} 
+                    alt={mostViewedImage?.name} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Total Media Count Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Upload className="w-5 h-5 text-blue-600" />
+                <h3 className="font-semibold text-gray-900">Total Uploads</h3>
+              </div>
+              <div className="flex flex-col justify-between h-full">
+                {/* Upload Stats */}
+                <div className="flex items-center gap-4">
+                  <div className="bg-blue-100 p-3 rounded-lg">
+                    <Upload className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
+                    <div className="text-sm text-green-600 font-medium">+{Math.floor(mediaItems.length * 0.15)} this week</div>
+                  </div>
+                </div>
+                
+                {/* Upload Button */}
+                <div className="relative mt-4">
+                  <input 
+                    type="file" 
+                    accept="image/*,video/*" 
+                    onChange={handleFileUpload} 
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                    id="file-upload-stats" 
+                  />
+                  <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" asChild>
+                    <label htmlFor="file-upload-stats" className="cursor-pointer flex items-center justify-center gap-2">
+                      <Upload className="w-4 h-4" />
+                      Upload Media
+                    </label>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Media Tabs and Grid Card */}
       <Card className="overflow-hidden">
@@ -234,90 +318,7 @@ export const MediaPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Merged Overview Stats Card */}
-      <Card className="overflow-hidden">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg font-semibold text-gray-700">
-            Media Overview
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Most Viewed Media Section */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-3">
-                <TrendingUp className="w-5 h-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900">Most Viewed</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {/* Left Column - Image Details */}
-                <div className="flex flex-col justify-between">
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-1 text-sm">{mostViewedImage?.name}</h4>
-                    <div className="text-xl font-bold text-gray-900 mb-1">{mostViewedImage?.views}</div>
-                    <div className="text-xs text-gray-500">Uploaded {mostViewedImage?.uploadDate}</div>
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="w-full bg-gray-800 text-white hover:bg-gray-700 border-gray-800 mt-2"
-                    onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
-                  >
-                    <Eye className="w-3 h-3 mr-1" />
-                    View
-                  </Button>
-                </div>
-                
-                {/* Right Column - Image Preview */}
-                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img 
-                    src={mostViewedImage?.url} 
-                    alt={mostViewedImage?.name} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Total Media Count Section */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Upload className="w-5 h-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900">Total Uploads</h3>
-              </div>
-              <div className="flex flex-col justify-between h-full">
-                {/* Upload Stats */}
-                <div className="flex items-center gap-4">
-                  <div className="bg-blue-100 p-3 rounded-lg">
-                    <Upload className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
-                    <div className="text-sm text-green-600 font-medium">+{Math.floor(mediaItems.length * 0.15)} this week</div>
-                  </div>
-                </div>
-                
-                {/* Upload Button */}
-                <div className="relative mt-4">
-                  <input 
-                    type="file" 
-                    accept="image/*,video/*" 
-                    onChange={handleFileUpload} 
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
-                    id="file-upload-stats" 
-                  />
-                  <Button className="w-full bg-blue-500 text-white hover:bg-blue-600" asChild>
-                    <label htmlFor="file-upload-stats" className="cursor-pointer flex items-center justify-center gap-2">
-                      <Upload className="w-4 h-4" />
-                      Upload Media
-                    </label>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      
     </div>
   );
 };
