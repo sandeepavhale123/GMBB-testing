@@ -60,7 +60,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
       {/* Platform Tags */}
       {data.platforms.length > 0 && <div className="px-4 pb-4">
-          <div className="text-xs text-gray-500 mb-2">Publishing to:</div>
+          
           <div className="flex flex-wrap gap-1">
             {data.platforms.slice(0, 3).map(platform => {})}
             {data.platforms.length > 3 && <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
