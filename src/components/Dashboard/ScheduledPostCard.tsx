@@ -45,7 +45,6 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16">Sr No.</TableHead>
               <TableHead className="w-20">Post Image</TableHead>
               <TableHead>Post Description</TableHead>
               <TableHead className="w-40">Scheduled Date</TableHead>
@@ -54,7 +53,6 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
           </TableHeader>
           <TableBody>
             {scheduledPosts.map((post, index) => <TableRow key={post.id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>
                   <img src={post.image} alt={post.title} className="w-12 h-12 rounded-lg object-cover" />
                 </TableCell>
@@ -72,7 +70,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={onApprovePost}>
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700 ml-auto" onClick={onApprovePost}>
                     <Eye className="w-3 h-3 mr-1" />
                   </Button>
                 </TableCell>
