@@ -42,7 +42,7 @@ export const BusinessProfileHeader: React.FC = () => {
           </div>
           </div>
           
-          <div className="flex gap-3 flex-column mt-6">
+          <div className="gap-3 mt-6">
             <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
               <Edit className="w-4 h-4 mr-2" />
               Edit Info
