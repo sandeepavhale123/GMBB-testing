@@ -149,8 +149,7 @@ export const MediaPage: React.FC = () => {
         </div>
       </div>
       {/* Merged Overview Stats Card */}
-      <Card className="overflow-hidden">
-        
+      <Card className="overflow-hidden py-3">
         <CardContent>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Most Viewed Media Section */}
