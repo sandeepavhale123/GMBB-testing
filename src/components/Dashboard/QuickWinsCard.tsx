@@ -35,6 +35,11 @@ export const QuickWinsCard: React.FC = () => {
             </p>
           </div>
         </div>
+        {/* Main CTA Button */}
+        <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white">
+          Fix All Issues
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
       </CardHeader>
       <CardContent className="space-y-4">
         {quickWins.map((win) => {
