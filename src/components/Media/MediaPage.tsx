@@ -176,8 +176,8 @@ export const MediaPage: React.FC = () => {
                 </div>
                 
                 {/* Right Column - Image Preview */}
-                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="object-cover" style={{height:'200px',width:'200px'}} />
+                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden" style={{height:'200px',width:'200px'}}>
+                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="object-cover"  />
                 </div>
               </div>
             </div>
