@@ -65,11 +65,11 @@ export const Dashboard: React.FC = () => {
   };
   
   return (
-    <div className="space-y-6">
-      {/* Top Section - Business Overview, Performance Overview, and Auto Optimization in single row */}
-      <div className="grid grid-cols-12 gap-6">
-        {/* Business Overview + Performance Overview - 8 columns */}
-        <div className="col-span-8 space-y-6">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Top Section - Responsive grid layout */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6">
+        {/* Business Overview + Performance Overview - Responsive columns */}
+        <div className="xl:col-span-8 space-y-4 sm:space-y-6">
           {/* Business Profile Header */}
           <BusinessProfileHeader />
           
@@ -77,63 +77,67 @@ export const Dashboard: React.FC = () => {
           <EnhancedStatsCards />
         </div>
 
-        {/* Auto Optimization - 4 columns */}
-        <div className="col-span-4">
-          <Card className="h-full  from-slate-800 to-slate-900 text-white border-grey-700">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-black">GBP Profile Optimization</CardTitle>
+        {/* Auto Optimization - Responsive positioning */}
+        <div className="xl:col-span-4">
+          <Card className="h-full from-slate-800 to-slate-900 text-white border-grey-700">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-base sm:text-lg font-semibold text-black">GBP Profile Optimization</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center space-y-6 flex-1 mt-[28px] my-0">
-              {/* Centered Circular Progress */}
+            <CardContent className="flex flex-col items-center justify-center space-y-4 sm:space-y-6 flex-1 mt-4 sm:mt-[28px] my-0">
+              {/* Responsive Circular Progress */}
               <div className="flex items-center justify-center">
-                <CircularProgress value={78} size={120} strokeWidth={8} className="text-blue-400">
+                <CircularProgress value={78} size={100} strokeWidth={6} className="text-blue-400 sm:w-[120px] sm:h-[120px]">
                   <div className="text-center">
-                    <span className="text-3xl font-bold text-black">78</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-black">78</span>
                   </div>
                 </CircularProgress>
               </div>
               
               {/* Time left section */}
               <div className="text-center space-y-1">
-                <p className="text-sm text-black">Optimization level is healthy</p>
-                <p className="text-blue-400 font-medium">75% optimized</p>
+                <p className="text-xs sm:text-sm text-black">Optimization level is healthy</p>
+                <p className="text-blue-400 font-medium text-sm sm:text-base">75% optimized</p>
               </div>
               
               {/* Optimize Button */}
-              <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium">Optimize Now</Button>
+              <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium text-sm sm:text-base">Optimize Now</Button>
             </CardContent>
           </Card>
         </div>
       </div>
       
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Content - Responsive layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left Column - Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Tab Navigation */}
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
+          {/* Tab Navigation - Responsive */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-gray-50 border-b border-gray-200 rounded-none p-0 h-auto">
-              <TabsTrigger value="posts" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
-                <FileText className="w-4 h-4" />
-                Posts
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50 border-b border-gray-200 rounded-none p-0 h-auto">
+              <TabsTrigger value="posts" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
+                <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Posts</span>
+                <span className="sm:hidden">Posts</span>
               </TabsTrigger>
-              <TabsTrigger value="reviews" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
-                <MessageSquare className="w-4 h-4" />
-                Reviews
+              <TabsTrigger value="reviews" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
+                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Reviews</span>
+                <span className="sm:hidden">Reviews</span>
               </TabsTrigger>
-              <TabsTrigger value="media" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
-                <ImageIcon className="w-4 h-4" />
-                Media
+              <TabsTrigger value="media" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
+                <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Media</span>
+                <span className="sm:hidden">Media</span>
               </TabsTrigger>
-              <TabsTrigger value="insights" className="flex items-center gap-2 px-6 py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors">
-                <TrendingUp className="w-4 h-4" />
-                Insights
+              <TabsTrigger value="insights" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
+                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Insights</span>
+                <span className="sm:hidden">Insights</span>
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="posts" className="mt-6">
-              <div className="space-y-6">
-                {/* Top Row - Traffic Source Chart and Create Post */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="posts" className="mt-4 sm:mt-6">
+              <div className="space-y-4 sm:space-y-6">
+                {/* Top Row - Responsive grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   <TrafficSourcesChart />
                   <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
                 </div>
@@ -142,64 +146,63 @@ export const Dashboard: React.FC = () => {
                 <ScheduledPostCard onApprovePost={handleApprovePost} />
               </div>
             </TabsContent>
-            <TabsContent value="reviews" className="mt-6">
+            <TabsContent value="reviews" className="mt-4 sm:mt-6">
               <ReviewComponent />
             </TabsContent>
-            <TabsContent value="media" className="mt-6">
+            <TabsContent value="media" className="mt-4 sm:mt-6">
               <MediaPage />
             </TabsContent>
-            <TabsContent value="insights" className="mt-6">
+            <TabsContent value="insights" className="mt-4 sm:mt-6">
               <InsightsCard />
             </TabsContent>
           </Tabs>
         </div>
 
-        {/* Right Column - Sidebar */}
-        <div className="space-y-6">
+        {/* Right Column - Sidebar - Responsive ordering */}
+        <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
           {/* Quick Wins - Using the proper QuickWinsCard component */}
           <QuickWinsCard />
 
           {/* Q&A Section */}
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Questions & Answers</CardTitle>
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Answered</span>
-                  <span className="font-semibold">{qaStats.answered}</span>
+                  <span className="text-xs sm:text-sm text-gray-600">Answered</span>
+                  <span className="font-semibold text-sm sm:text-base">{qaStats.answered}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Pending</span>
-                  <span className="font-semibold text-yellow-600">{qaStats.pending}</span>
+                  <span className="text-xs sm:text-sm text-gray-600">Pending</span>
+                  <span className="font-semibold text-yellow-600 text-sm sm:text-base">{qaStats.pending}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Response Rate</span>
-                  <span className="font-semibold text-green-600">{qaStats.responseRate}%</span>
+                  <span className="text-xs sm:text-sm text-gray-600">Response Rate</span>
+                  <span className="font-semibold text-green-600 text-sm sm:text-base">{qaStats.responseRate}%</span>
                 </div>
               </div>
-              <Button variant="outline" className="w-full mt-4">
+              <Button variant="outline" className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
                 View Q&A
               </Button>
             </CardContent>
           </Card>
 
-          {/* GeoRank Snapshot with Carousel */}
+          {/* GeoRank Snapshot with Carousel - Responsive */}
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2">
                 GeoRank Snapshot
-                
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Carousel className="w-full">
                 <CarouselContent>
                   {geoRankingData.map((item, index) => <CarouselItem key={index}>
-                      <div className="space-y-3">
+                      <div className="space-y-2 sm:space-y-3">
                         <div className="text-center">
-                          <p className="text-sm font-medium text-gray-900 mb-2">{item.keyword}</p>
+                          <p className="text-xs sm:text-sm font-medium text-gray-900 mb-2">{item.keyword}</p>
                         </div>
                         <div className="aspect-square w-full overflow-hidden rounded-lg">
                           <img src={item.image} alt={`GEO ranking for ${item.keyword}`} className="w-full h-full object-cover" />
@@ -207,10 +210,10 @@ export const Dashboard: React.FC = () => {
                       </div>
                     </CarouselItem>)}
                 </CarouselContent>
-                <CarouselPrevious className="left-2" />
-                <CarouselNext className="right-2" />
+                <CarouselPrevious className="left-1 sm:left-2 w-6 h-6 sm:w-8 sm:h-8" />
+                <CarouselNext className="right-1 sm:right-2 w-6 h-6 sm:w-8 sm:h-8" />
               </Carousel>
-              <Button variant="link" className="text-sm p-0 w-full mt-4">
+              <Button variant="link" className="text-xs sm:text-sm p-0 w-full mt-3 sm:mt-4">
                 View Full Geo Grid Report
               </Button>
             </CardContent>
@@ -218,14 +221,14 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Create Post Modal */}
+      {/* Create Post Modal - Responsive */}
       <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
 
-      {/* Post Preview Modal */}
+      {/* Post Preview Modal - Responsive */}
       <Dialog open={isPreviewModalOpen} onOpenChange={setIsPreviewModalOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-sm sm:max-w-md mx-4 sm:mx-auto">
           <DialogHeader>
-            <DialogTitle>Post Preview</DialogTitle>
+            <DialogTitle className="text-base sm:text-lg">Post Preview</DialogTitle>
           </DialogHeader>
           {selectedPost && <PostPreview data={{
           title: selectedPost.title,
@@ -235,11 +238,11 @@ export const Dashboard: React.FC = () => {
           image: selectedPost.image,
           platforms: selectedPost.platforms
         }} />}
-          <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setIsPreviewModalOpen(false)}>
+          <DialogFooter className="gap-2 flex-col sm:flex-row">
+            <Button variant="outline" onClick={() => setIsPreviewModalOpen(false)} className="w-full sm:w-auto text-sm">
               Close
             </Button>
-             <Button className="bg-green-600 hover:bg-green-700" onClick={() => setIsCreateModalOpen(true)}>
+             <Button className="bg-green-600 hover:bg-green-700 w-full sm:w-auto text-sm" onClick={() => setIsCreateModalOpen(true)}>
               Edit
             </Button>
           </DialogFooter>
