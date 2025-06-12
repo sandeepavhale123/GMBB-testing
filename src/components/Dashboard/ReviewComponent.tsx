@@ -241,7 +241,7 @@ export const ReviewComponent: React.FC = () => {
       </div>
 
       {/* Recent Reviews Title */}
-        <h2 className="text-xl font-semibold text-gray-900">Recent reviews</h2>
+        <h2 className="text-xl font-semibold text-gray-900 space-y-5">Recent reviews</h2>
       {/* Filters and Search */}
       
       <Card>
