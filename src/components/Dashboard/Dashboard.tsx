@@ -13,7 +13,7 @@ import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
 import { ScheduledPostCard } from './ScheduledPostCard';
 import { ReviewComponent } from './ReviewComponent';
-import { MediaPage } from '../Media/MediaPage';
+import { GeoRankingPage } from '../GeoRanking/GeoRankingPage';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -24,7 +24,7 @@ import { CreatePostModal } from '../Posts/CreatePostModal';
 import { PostPreview } from '../Posts/PostPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
-import { BarChart3, FileText, MessageSquare, Image as ImageIcon, TrendingUp, MapPin, AlertTriangle } from 'lucide-react';
+import { BarChart3, FileText, MessageSquare, MapPin, TrendingUp } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 
 export const Dashboard: React.FC = () => {
@@ -123,10 +123,10 @@ export const Dashboard: React.FC = () => {
                 <span className="hidden sm:inline">Reviews</span>
                 <span className="sm:hidden">Reviews</span>
               </TabsTrigger>
-              <TabsTrigger value="media" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
-                <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">Media</span>
-                <span className="sm:hidden">Media</span>
+              <TabsTrigger value="geo-ranking" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">GEO Ranking</span>
+                <span className="sm:hidden">GEO</span>
               </TabsTrigger>
               <TabsTrigger value="insights" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
                 <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -149,8 +149,10 @@ export const Dashboard: React.FC = () => {
             <TabsContent value="reviews" className="mt-4 sm:mt-6">
               <ReviewComponent />
             </TabsContent>
-            <TabsContent value="media" className="mt-4 sm:mt-6">
-              <MediaPage />
+            <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
+              <div className="bg-white rounded-lg p-4">
+                <GeoRankingPage />
+              </div>
             </TabsContent>
             <TabsContent value="insights" className="mt-4 sm:mt-6">
               <InsightsCard />

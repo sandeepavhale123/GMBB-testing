@@ -4,264 +4,225 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Calendar, MapPin, TrendingUp, RefreshCw, Download, ChevronDown } from 'lucide-react';
-import { Progress } from '../ui/progress';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-
-interface RankingData {
-  position: string;
-  count: number;
-  percentage: number;
-  color: string;
-}
-
-const rankingData: RankingData[] = [
-  { position: '1-3', count: 45, percentage: 25, color: 'bg-green-500' },
-  { position: '4-10', count: 72, percentage: 40, color: 'bg-yellow-500' },
-  { position: '11-15', count: 38, percentage: 21, color: 'bg-orange-500' },
-  { position: '16-20+', count: 25, percentage: 14, color: 'bg-red-500' },
-];
+import { Input } from '../ui/input';
 
 const underPerformingAreas = [
-  { area: 'Yashwant Colony', rank: 8, competition: 'High' },
-  { area: 'Shankar Nagar', rank: 6, competition: 'Medium' },
-  { area: 'Sambhaji Nagar', rank: 7, competition: 'High' },
-  { area: 'Niwara Nagri', rank: 5, competition: 'Low' },
+  { area: 'MIDC', rank: 33, competition: 'High' },
+  { area: 'Misarwadi', rank: 5, competition: 'Medium' },
+  { area: 'Chilkalthana', rank: 1, competition: 'Low' },
 ];
 
 export const GeoRankingPage: React.FC = () => {
-  const [selectedKeyword, setSelectedKeyword] = useState('Digital Marketing Agency');
-  const [selectedDate, setSelectedDate] = useState('Last 30 days');
+  const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
+  const [selectedDate, setSelectedDate] = useState('01/02/2023');
+  const [gridSize, setGridSize] = useState('4*4');
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">GEO Ranking</h1>
-          <p className="text-gray-600 text-sm">Track your local search rankings across different areas</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
-            <SelectTrigger className="w-64">
-              <SelectValue placeholder="Select keyword" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Digital Marketing Agency">Digital Marketing Agency</SelectItem>
-              <SelectItem value="SEO Services">SEO Services</SelectItem>
-              <SelectItem value="Web Development">Web Development</SelectItem>
-            </SelectContent>
-          </Select>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2">
-                <Calendar className="w-4 h-4" />
-                {selectedDate}
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setSelectedDate('Last 7 days')}>
-                Last 7 days
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSelectedDate('Last 30 days')}>
-                Last 30 days
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSelectedDate('Last 90 days')}>
-                Last 90 days
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Left Section - Map and Data */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* Header Section */}
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue />
+                    <ChevronDown className="w-4 h-4" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Web Design">Web Design</SelectItem>
+                    <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
+                    <SelectItem value="SEO Services">SEO Services</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center gap-3">
+                <Input 
+                  type="date" 
+                  value="2023-02-01" 
+                  className="w-40"
+                />
+                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded text-sm">
+                  <span className="text-blue-600 font-medium">ARP:</span>
+                  <span>Average Rank Position</span>
+                  <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs">1.5</span>
+                </div>
+                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded text-sm">
+                  <span className="text-blue-600 font-medium">ATRP:</span>
+                  <span>Average Total Rank Position</span>
+                  <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs">1.5</span>
+                </div>
+                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded text-sm">
+                  <span className="text-blue-600 font-medium">SoLV:</span>
+                  <span>Share of Local Voice</span>
+                  <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs">1.5</span>
+                </div>
+              </div>
+            </div>
 
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            {/* Metrics Row */}
+            <div className="grid grid-cols-3 gap-6 mb-6">
               <div>
-                <p className="text-sm text-gray-600">Overall Visibility</p>
-                <p className="text-3xl font-bold text-gray-900">36%</p>
-                <p className="text-sm text-green-600">+2.4% from last month</p>
+                <p className="text-sm text-gray-600 mb-1">Overall Visibility</p>
+                <p className="text-4xl font-bold text-gray-900">36%</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Average Rank</p>
-                <p className="text-3xl font-bold text-gray-900">4.2</p>
-                <p className="text-sm text-green-600">Improved by 0.8</p>
+                <p className="text-sm text-gray-600 mb-1">Grid</p>
+                <p className="text-4xl font-bold text-gray-900">4*4</p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-green-600" />
-              </div>
+              <div></div>
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Areas</p>
-                <p className="text-3xl font-bold text-gray-900">180</p>
-                <p className="text-sm text-gray-500">Areas monitored</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Grid Layout - Map and Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* GEO Grid Map */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">GEO Grid Ranking</CardTitle>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
-                  Export
-                </Button>
-                <Button variant="outline" size="sm">
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Rescan
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-4">
+            {/* Map Section */}
+            <div className="bg-gray-100 rounded-lg p-4">
               <img 
-                src="/lovable-uploads/1a0d9abc-eeac-4519-8170-e7e62fd8a4c9.png" 
+                src="/lovable-uploads/7f4e9387-c7cb-43da-8b22-af41f3f77bac.png" 
                 alt="GEO Grid Ranking Map" 
-                className="w-full h-auto rounded-lg border"
+                className="w-full h-auto rounded-lg"
               />
             </div>
-            <div className="flex items-center justify-center gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span>Rank 1-3</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <span>Rank 4-10</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                <span>Rank 11-15</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <span>Rank 16+</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Ranking Analytics */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">Ranking Distribution</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {rankingData.map((data, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Position {data.position}</span>
-                  <span className="text-sm text-gray-600">{data.count} areas</span>
-                </div>
-                <Progress value={data.percentage} className="h-2" />
-                <div className="text-right text-xs text-gray-500">{data.percentage}%</div>
+          {/* Under-performing Areas Table */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Under-performing Area</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Area</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Rank</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Competition</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {underPerformingAreas.map((area, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="py-3 px-4 text-gray-900">{area.area}</td>
+                        <td className="py-3 px-4 text-gray-900">{area.rank}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            area.competition === 'High' ? 'bg-red-100 text-red-700' :
+                            area.competition === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-green-100 text-green-700'
+                          }`}>
+                            {area.competition}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      {/* Under-performing Areas and Recommendations */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Under-performing Areas */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">Under-performing Areas</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {underPerformingAreas.map((area, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div>
-                    <p className="font-medium text-gray-900">{area.area}</p>
-                    <p className="text-sm text-gray-500">Competition: {area.competition}</p>
+        {/* Right Sidebar */}
+        <div className="space-y-6">
+          {/* Filters */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Filters</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">Select keyword</label>
+                <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Web design">Web design</SelectItem>
+                    <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
+                    <SelectItem value="SEO Services">SEO Services</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">Select Date</label>
+                <Input type="date" value="2023-02-01" />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">Grid</label>
+                <Select value={gridSize} onValueChange={setGridSize}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="4*4">4*4</SelectItem>
+                    <SelectItem value="5*5">5*5</SelectItem>
+                    <SelectItem value="6*6">6*6</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white">
+                Rescan
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Ranking Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Ranking</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-center mb-4">
+                <div className="relative w-32 h-32">
+                  {/* Donut Chart Placeholder */}
+                  <div className="w-full h-full rounded-full border-8 border-gray-200 relative">
+                    <div className="absolute inset-0 rounded-full border-8 border-t-green-500 border-r-yellow-500 border-b-orange-500 border-l-red-500"></div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-lg font-bold text-gray-900">#{area.rank}</p>
-                    <p className="text-xs text-gray-500">Avg. Rank</p>
+                </div>
+                <div className="ml-4 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded"></div>
+                    <span className="text-xs">Position 01-03: 2</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                    <span className="text-xs">Position 04-10: 12</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                    <span className="text-xs">Position 10-15: 15</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded"></div>
+                    <span className="text-xs">Position 15-20+: 140</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* GMB Genie Recommendations */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">GMB Genie Recommendations</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-semibold text-blue-900 mb-2">Optimize Business Hours</h4>
-              <p className="text-sm text-blue-700 mb-3">
-                Update your business hours to match peak customer activity times in Yashwant Colony area.
-              </p>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                Apply Suggestion
+          {/* GMB Genie Recommendation */}
+          <Card>
+            <CardHeader>
+              <CardTitle>GMB Genie Recommendation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <p className="text-sm text-blue-800">
+                  GMB Genie will help you improve your local GEO rankings for this keyword by providing tailored suggestions based on real-time insights. click below button to generate
+                </p>
+              </div>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                Generate
               </Button>
-            </div>
-            
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-semibold text-green-900 mb-2">Add More Photos</h4>
-              <p className="text-sm text-green-700 mb-3">
-                Upload 5-10 high-quality photos to improve visibility in Sambhaji Nagar area.
-              </p>
-              <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                Upload Photos
-              </Button>
-            </div>
-
-            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-              <h4 className="font-semibold text-yellow-900 mb-2">Improve Response Rate</h4>
-              <p className="text-sm text-yellow-700 mb-3">
-                Respond to customer reviews within 24 hours to boost local rankings.
-              </p>
-              <Button size="sm" className="bg-yellow-600 hover:bg-yellow-700">
-                View Reviews
-              </Button>
-            </div>
-
-            <Button className="w-full bg-purple-600 hover:bg-purple-700">
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Generate New Recommendations
-            </Button>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
