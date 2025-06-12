@@ -24,7 +24,7 @@ export const GeoRankingPage: React.FC = () => {
         {/* Left Section - Map and Data */}
         <div className="lg:col-span-3 space-y-6">
           {/* Header Section */}
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
