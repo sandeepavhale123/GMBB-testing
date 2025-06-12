@@ -9,7 +9,6 @@ import { Textarea } from '../ui/textarea';
 import { MoreVertical, Search, Star, Bot, MessageSquare, Clock } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useToast } from '../../hooks/use-toast';
-
 export const ReviewComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
@@ -19,9 +18,12 @@ export const ReviewComponent: React.FC = () => {
   const [expandedReply, setExpandedReply] = useState<string | null>(null);
   const [showAIResponse, setShowAIResponse] = useState<string | null>(null);
   const [manualReply, setManualReply] = useState('');
-  const [aiResponseText, setAiResponseText] = useState<{[key: string]: string}>({});
-  const { toast } = useToast();
-
+  const [aiResponseText, setAiResponseText] = useState<{
+    [key: string]: string;
+  }>({});
+  const {
+    toast
+  } = useToast();
   const sentimentData = [{
     name: 'Positive',
     value: 86,
@@ -35,7 +37,6 @@ export const ReviewComponent: React.FC = () => {
     value: 4,
     fill: '#ef4444'
   }];
-
   const reviewsData = [{
     id: '1',
     name: 'Sarah Johnson',
@@ -73,7 +74,6 @@ export const ReviewComponent: React.FC = () => {
     hasReply: true,
     replyType: 'manual'
   }];
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -82,11 +82,9 @@ export const ReviewComponent: React.FC = () => {
       day: 'numeric'
     });
   };
-
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
-
   const handleGenerateAIResponse = (reviewId: string) => {
     const review = reviewsData.find(r => r.id === reviewId);
     if (review) {
@@ -102,12 +100,10 @@ export const ReviewComponent: React.FC = () => {
       description: "AI has generated a response for this review."
     });
   };
-
   const handleReplyManually = (reviewId: string) => {
     setExpandedReply(reviewId);
     setShowAIResponse(null);
   };
-
   const handleUseResponse = (reviewId: string) => {
     const responseText = aiResponseText[reviewId] || '';
     toast({
@@ -116,12 +112,13 @@ export const ReviewComponent: React.FC = () => {
     });
     setShowAIResponse(null);
     setAiResponseText(prev => {
-      const updated = { ...prev };
+      const updated = {
+        ...prev
+      };
       delete updated[reviewId];
       return updated;
     });
   };
-
   const handleSendManualReply = (reviewId: string) => {
     toast({
       title: "Reply Sent",
@@ -130,13 +127,11 @@ export const ReviewComponent: React.FC = () => {
     setExpandedReply(null);
     setManualReply('');
   };
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />);
   };
-
   const getSentimentBadgeColor = (sentiment: string) => {
     switch (sentiment) {
       case 'Positive':
@@ -147,7 +142,6 @@ export const ReviewComponent: React.FC = () => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-
   const getReplyStatusBadge = (review: any) => {
     if (!review.hasReply) {
       return <Badge className="bg-yellow-100 text-yellow-800">No Reply</Badge>;
@@ -160,12 +154,10 @@ export const ReviewComponent: React.FC = () => {
     }
     return null;
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Review</h1>
+        
         <Button variant="ghost" size="sm">
           <MoreVertical className="w-4 h-4" />
         </Button>
@@ -191,20 +183,17 @@ export const ReviewComponent: React.FC = () => {
             
             {/* Rating Breakdown with Stars */}
             <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((stars, index) => (
-                <div key={stars} className="flex items-center gap-3">
+              {[5, 4, 3, 2, 1].map((stars, index) => <div key={stars} className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <span className="text-sm font-medium">{stars}</span>
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-gray-600 h-2 rounded-full" 
-                      style={{ width: `${[80, 60, 40, 25, 15][index]}%` }}
-                    ></div>
+                    <div className="bg-gray-600 h-2 rounded-full" style={{
+                  width: `${[80, 60, 40, 25, 15][index]}%`
+                }}></div>
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
@@ -219,19 +208,8 @@ export const ReviewComponent: React.FC = () => {
               <div className="w-32 h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie 
-                      data={sentimentData} 
-                      cx="50%" 
-                      cy="50%" 
-                      innerRadius={30} 
-                      outerRadius={60} 
-                      dataKey="value" 
-                      startAngle={90} 
-                      endAngle={450}
-                    >
-                      {sentimentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
+                    <Pie data={sentimentData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value" startAngle={90} endAngle={450}>
+                      {sentimentData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -275,12 +253,7 @@ export const ReviewComponent: React.FC = () => {
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  placeholder="Search reviews..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+                <Input placeholder="Search reviews..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
               </div>
             </div>
             
@@ -344,8 +317,7 @@ export const ReviewComponent: React.FC = () => {
         
 
         {/* Review Items */}
-        {reviewsData.map((review) => (
-          <Card key={review.id} className={`border ${review.isNew || !review.hasReply ? 'border-l-4 border-l-blue-500' : 'border-gray-200'}`}>
+        {reviewsData.map(review => <Card key={review.id} className={`border ${review.isNew || !review.hasReply ? 'border-l-4 border-l-blue-500' : 'border-gray-200'}`}>
             <CardContent className="p-4 sm:p-6">
               {/* Review Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -359,12 +331,10 @@ export const ReviewComponent: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold text-gray-900">{review.name}</span>
-                      {review.isNew && (
-                        <Badge className="bg-blue-100 text-blue-800 flex items-center gap-1">
+                      {review.isNew && <Badge className="bg-blue-100 text-blue-800 flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           New
-                        </Badge>
-                      )}
+                        </Badge>}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center gap-1">
@@ -385,97 +355,55 @@ export const ReviewComponent: React.FC = () => {
 
               {/* Reply Actions - Now shown for ALL reviews */}
               <div className="flex flex-col sm:flex-row gap-3 mb-4">
-                <Button 
-                  variant="outline" 
-                  onClick={() => handleGenerateAIResponse(review.id)}
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" onClick={() => handleGenerateAIResponse(review.id)} className="flex items-center gap-2">
                   <Bot className="w-4 h-4" />
                   Generate AI Response
                 </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => handleReplyManually(review.id)}
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" onClick={() => handleReplyManually(review.id)} className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4" />
                   Reply Manually
                 </Button>
               </div>
 
               {/* AI Response Section (when visible) - Now editable */}
-              {showAIResponse === review.id && (
-                <div className="bg-blue-50 rounded-lg p-4 mb-4">
+              {showAIResponse === review.id && <div className="bg-blue-50 rounded-lg p-4 mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-blue-900 flex items-center gap-2">
                       <Bot className="w-4 h-4" />
                       AI Suggested Response
                     </span>
                   </div>
-                  <Textarea
-                    value={aiResponseText[review.id] || ''}
-                    onChange={(e) => setAiResponseText(prev => ({
-                      ...prev,
-                      [review.id]: e.target.value
-                    }))}
-                    className="mb-3 bg-white border-blue-200 focus:border-blue-400"
-                    rows={4}
-                    placeholder="AI suggested response will appear here..."
-                  />
+                  <Textarea value={aiResponseText[review.id] || ''} onChange={e => setAiResponseText(prev => ({
+              ...prev,
+              [review.id]: e.target.value
+            }))} className="mb-3 bg-white border-blue-200 focus:border-blue-400" rows={4} placeholder="AI suggested response will appear here..." />
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleUseResponse(review.id)} 
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
+                    <Button size="sm" onClick={() => handleUseResponse(review.id)} className="bg-blue-600 hover:bg-blue-700 text-white">
                       Use Response
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => setShowAIResponse(null)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => setShowAIResponse(null)}>
                       Cancel
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
 
               {/* Manual Reply Editor */}
-              {expandedReply === review.id && (
-                <div className="bg-gray-50 rounded-lg p-4">
+              {expandedReply === review.id && <div className="bg-gray-50 rounded-lg p-4">
                   <div className="mb-3">
                     <span className="text-sm font-medium text-gray-900">Write your reply</span>
                   </div>
-                  <Textarea
-                    placeholder="Type your response..."
-                    value={manualReply}
-                    onChange={(e) => setManualReply(e.target.value)}
-                    className="mb-3"
-                    rows={4}
-                  />
+                  <Textarea placeholder="Type your response..." value={manualReply} onChange={e => setManualReply(e.target.value)} className="mb-3" rows={4} />
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleSendManualReply(review.id)}
-                      className="bg-green-600 hover:bg-green-700 text-white"
-                    >
+                    <Button size="sm" onClick={() => handleSendManualReply(review.id)} className="bg-green-600 hover:bg-green-700 text-white">
                       Send Reply
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => setExpandedReply(null)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => setExpandedReply(null)}>
                       Cancel
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
-    </div>
-  );
+    </div>;
 };
