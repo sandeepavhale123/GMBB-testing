@@ -173,7 +173,7 @@ export const InsightsCard: React.FC = () => {
       </Card>
         
       </div>
-
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       {/* Row 3: Customer Actions */}
       <Card>
         <CardHeader>
@@ -205,7 +205,10 @@ export const InsightsCard: React.FC = () => {
               </div>
             ))}
           </div>
-          {/* Q&A Section */}
+          
+        </CardContent>
+      </Card>
+         {/* Q&A Section */}
             <Card>
               <CardHeader className="pb-3 sm:pb-4">
                 <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
@@ -230,8 +233,7 @@ export const InsightsCard: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
-        </CardContent>
-      </Card>
+       </div>
     </div>
   );
 };
