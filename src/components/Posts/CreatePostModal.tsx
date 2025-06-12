@@ -172,8 +172,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                       onClick={() => setIsAIDescriptionOpen(true)} 
                       className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto"
                     >
-                      <Wand2 className="w-3 h-3 mr-1" />
-                      Use GMB Genie to Write
+                      <Wand2 className="w-3 h-3 sm:mr-1" />
+                      <span className="hidden sm:inline ml-1">Use GMB Genie to Write</span>
                     </Button>
                   </div>
                   <Textarea 
@@ -196,11 +196,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                       onClick={() => setIsAIImageOpen(true)} 
                       className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 w-full sm:w-auto"
                     >
-                      <Wand2 className="w-3 h-3 mr-1" />
-                      Use GMB Genie to Generate
+                      <Wand2 className="w-3 h-3 sm:mr-1" />
+                      <span className="hidden sm:inline ml-1">Use GMB Genie to Generate</span>
                     </Button>
                   </div>
 
+                  {/* ... keep existing code (image upload section) */}
                   <div 
                     className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all ${
                       dragActive 
@@ -214,7 +215,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                   >
-                    {/* ... keep existing code (image upload section) */}
                     <input 
                       type="file" 
                       accept="image/*" 
@@ -271,7 +271,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
                   {showCTAButton && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
-                      {/* ... keep existing code (CTA button fields) */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Button Type</Label>
                         <Select 
@@ -320,7 +319,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
                   {showAdvancedOptions && (
                     <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
-                      {/* ... keep existing code (advanced options content with responsive grid changes) */}
                       {/* Select Listings and Post Title in Single Row */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -377,7 +375,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         </div>
                       </div>
 
-                      {/* ... keep existing code (rest of advanced options - post type, event fields, offer fields, publish options) */}
                       {/* Post Type */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Post Type</Label>
@@ -526,25 +523,25 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             </div>
           </div>
 
-          {/* Sticky Footer */}
-          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
-            <div className="order-2 sm:order-1">
-              {/* Preview button - only visible on mobile/tablet */}
-              <Button 
-                variant="outline" 
-                onClick={() => setIsPreviewOpen(true)}
-                className="lg:hidden w-full sm:w-auto"
-              >
-                <Eye className="w-4 h-4 mr-2" />
-                Preview
+          {/* Sticky Footer - Single Row Layout */}
+          <div className="flex items-center justify-between gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
+            {/* Preview button - only visible on mobile/tablet */}
+            <Button 
+              variant="outline" 
+              onClick={() => setIsPreviewOpen(true)}
+              className="lg:hidden"
+            >
+              <Eye className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Preview</span>
+            </Button>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={onClose}>
+                <X className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Cancel</span>
               </Button>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
-              <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
-                Cancel
-              </Button>
-              <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto">
-                Create Post
+              <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Create Post</span>
               </Button>
             </div>
           </div>

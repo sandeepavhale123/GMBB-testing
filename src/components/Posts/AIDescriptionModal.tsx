@@ -57,7 +57,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 flex-1 overflow-hidden">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 sm:gap-6 flex-1 overflow-hidden">
           {/* Left Side - Input Form and Generated Variants */}
           <div className="flex flex-col space-y-4 overflow-hidden">
             <div className="space-y-4 p-4 bg-gray-50 rounded-lg flex-shrink-0">
@@ -73,11 +73,11 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
-                <div className="flex-1 w-full">
+              <div className="flex flex-col gap-3">
+                <div className="flex-1">
                   <Label className="text-sm font-medium mb-2 block">Number of Variants</Label>
                   <Select value={formData.variants} onValueChange={(value) => setFormData(prev => ({ ...prev, variants: value }))}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -90,16 +90,18 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
                   </Select>
                 </div>
 
-                <Button onClick={handleGenerate} disabled={isGenerating} className="flex-shrink-0 w-full sm:w-auto">
+                <Button onClick={handleGenerate} disabled={isGenerating} className="w-full">
                   {isGenerating ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Generating...
+                      <span className="hidden sm:inline">Generating...</span>
+                      <span className="sm:hidden">Generating...</span>
                     </>
                   ) : (
                     <>
                       <Wand2 className="w-4 h-4 mr-2" />
-                      Generate
+                      <span className="hidden sm:inline">Generate</span>
+                      <span className="sm:hidden">Generate</span>
                     </>
                   )}
                 </Button>
@@ -142,31 +144,33 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
           </div>
 
           {/* Right Side - Selected Variant Editor */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-h-0 flex flex-col">
             <div className="h-full flex flex-col">
               <Label className="text-sm font-medium mb-2 block">Edit Selected Variant</Label>
               <Textarea
                 value={selectedVariant}
                 onChange={(e) => setSelectedVariant(e.target.value)}
                 placeholder="Select a variant from the left to edit here..."
-                className="h-full min-h-[200px] sm:min-h-[300px] resize-none text-sm sm:text-base"
+                className="h-full min-h-[200px] sm:min-h-[300px] resize-none text-sm sm:text-base flex-1"
               />
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
-          <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
-            Close
-          </Button>
-          <Button 
-            onClick={() => selectedVariant && onSelect(selectedVariant)}
-            disabled={!selectedVariant}
-            className="w-full sm:w-auto"
-          >
-            Use Selected
-          </Button>
+        {/* Footer - Single Row */}
+        <div className="flex justify-between items-center gap-3 pt-4 border-t">
+          <div></div>
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={onClose}>
+              Close
+            </Button>
+            <Button 
+              onClick={() => selectedVariant && onSelect(selectedVariant)}
+              disabled={!selectedVariant}
+            >
+              Use Selected
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -1,9 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
-import { Menu, Bell, Settings, Moon, Sun, Filter, Search, ChevronDown, MapPin, Check } from 'lucide-react';
+import { Menu, Bell, Settings, Moon, Sun, Filter, Search, ChevronDown, MapPin, Check, Store, User, LogOut, CreditCard } from 'lucide-react';
 import { Button } from './ui/button';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { toggleTheme } from '../store/slices/themeSlice';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
 import { Input } from './ui/input';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
@@ -64,6 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [greeting, setGreeting] = useState('');
   const [selectedBusiness, setSelectedBusiness] = useState(businessListings[0]);
   const [open, setOpen] = useState(false);
+  const [mobileListingOpen, setMobileListingOpen] = useState(false);
 
   useEffect(() => {
     const updateGreeting = () => {
@@ -114,7 +116,60 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right section */}
         <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-          {/* Business Listings Selector - Hidden on mobile, responsive on larger screens */}
+          {/* Mobile Business Listings Selector */}
+          <div className="block md:hidden">
+            <Popover open={mobileListingOpen} onOpenChange={setMobileListingOpen}>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="p-2 border-gray-200 hover:bg-gray-50"
+                >
+                  <Store className="w-4 h-4 text-gray-600" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-0" align="end">
+                <Command>
+                  <CommandInput placeholder="Search listings..." />
+                  <CommandEmpty>No listing found.</CommandEmpty>
+                  <CommandList>
+                    <CommandGroup>
+                      {businessListings.map((business) => (
+                        <CommandItem
+                          key={business.id}
+                          value={business.name}
+                          onSelect={() => {
+                            setSelectedBusiness(business);
+                            setMobileListingOpen(false);
+                          }}
+                          className="flex items-center gap-3 p-3"
+                        >
+                          <Check className={`w-4 h-4 ${selectedBusiness.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
+                          <MapPin className="w-4 h-4 text-gray-500" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm text-gray-900 truncate">
+                              {business.name}
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {business.address}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                              {business.type}
+                            </span>
+                            <div className={`w-2 h-2 rounded-full ${business.status === 'Active' ? 'bg-green-400' : 'bg-yellow-400'}`} />
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Desktop Business Listings Selector */}
           <div className="hidden md:block">
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -192,11 +247,32 @@ export const Header: React.FC<HeaderProps> = ({
             <Settings className="w-4 h-4 text-gray-600" />
           </Button>
 
-          {/* User Avatar */}
+          {/* User Profile with Dropdown */}
           <div className="flex items-center gap-2 ml-1 sm:ml-2">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-xs">JD</span>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer">
+                    <span className="text-white font-semibold text-xs">JD</span>
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Accounts
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

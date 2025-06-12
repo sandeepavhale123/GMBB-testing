@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -110,28 +109,24 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
-          {/* Tab Navigation - Responsive */}
+          {/* Tab Navigation - Responsive with icon-only on mobile */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50 border-b border-gray-200 rounded-none p-0 h-auto">
               <TabsTrigger value="posts" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
                 <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">Posts</span>
-                <span className="sm:hidden">Posts</span>
               </TabsTrigger>
               <TabsTrigger value="reviews" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
                 <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">Reviews</span>
-                <span className="sm:hidden">Reviews</span>
               </TabsTrigger>
               <TabsTrigger value="media" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
                 <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">Media</span>
-                <span className="sm:hidden">Media</span>
               </TabsTrigger>
               <TabsTrigger value="insights" className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:bg-white data-[state=active]:text-blue-600 hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm">
                 <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">Insights</span>
-                <span className="sm:hidden">Insights</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="posts" className="mt-4 sm:mt-6">
