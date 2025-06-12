@@ -62,7 +62,7 @@ export const GeoRankingPage: React.FC = () => {
               </Select>
             </div>
             <div className="flex items-center gap-3">
-              <Input type="date" value="2023-02-01" className="w-40" />
+              
             </div>
           </div>
 
