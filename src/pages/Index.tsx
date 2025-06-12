@@ -8,10 +8,14 @@ import { Header } from '../components/Header';
 import { Dashboard } from '../components/Dashboard/Dashboard';
 import { PostsPage } from '../components/Posts/PostsPage';
 import { Toaster } from '../components/ui/toaster';
+import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
+import { Button } from '../components/ui/button';
+import { Menu } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getPageTitle = (tab: string) => {
     switch (tab) {
@@ -78,24 +82,46 @@ const Index = () => {
     <Provider store={store}>
       <ThemeProvider>
         <div className="min-h-screen bg-gray-50 flex w-full">
-          {/* Sidebar */}
-          <Sidebar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            collapsed={sidebarCollapsed}
-          />
+          {/* Mobile Navigation Sheet */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetContent side="left" className="p-0 w-64">
+              <Sidebar
+                activeTab={activeTab}
+                onTabChange={(tab) => {
+                  setActiveTab(tab);
+                  setMobileMenuOpen(false);
+                }}
+                collapsed={false}
+              />
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Sidebar */}
+          <div className="hidden md:flex">
+            <Sidebar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              collapsed={sidebarCollapsed}
+            />
+          </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col min-w-0">
             {/* Header */}
             <Header
-              onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+              onToggleSidebar={() => {
+                if (window.innerWidth < 768) {
+                  setMobileMenuOpen(true);
+                } else {
+                  setSidebarCollapsed(!sidebarCollapsed);
+                }
+              }}
               title={getPageTitle(activeTab)}
               showFilters={['posts', 'reviews', 'media'].includes(activeTab)}
             />
 
             {/* Page Content */}
-            <main className="flex-1 p-6 overflow-auto">
+            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
               {renderContent()}
             </main>
           </div>
