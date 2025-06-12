@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import { Upload, Eye, Trash2, ArrowUpRight, MoreVertical, Play, TrendingUp } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-
 interface MediaItem {
   id: string;
   name: string;
@@ -13,76 +12,67 @@ interface MediaItem {
   url: string;
   uploadDate: string;
 }
-
 export const MediaPage: React.FC = () => {
-  const { toast } = useToast();
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([
-    {
-      id: '1',
-      name: 'Digital Marketing Banner',
-      views: '12.4k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
-      uploadDate: '2024-06-08'
-    },
-    {
-      id: '2',
-      name: 'Coffee Shop Interior',
-      views: '8.2k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300',
-      uploadDate: '2024-06-07'
-    },
-    {
-      id: '3',
-      name: 'Fresh Bakery Products',
-      views: '6.1k views',
-      type: 'video',
-      url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300',
-      uploadDate: '2024-06-06'
-    },
-    {
-      id: '4',
-      name: 'Restaurant Ambiance',
-      views: '4.8k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300',
-      uploadDate: '2024-06-05'
-    },
-    {
-      id: '5',
-      name: 'Team Meeting',
-      views: '3.2k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300',
-      uploadDate: '2024-06-04'
-    },
-    {
-      id: '6',
-      name: 'Product Showcase',
-      views: '2.9k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
-      uploadDate: '2024-06-03'
-    },
-    {
-      id: '7',
-      name: 'Office Space',
-      views: '2.1k views',
-      type: 'video',
-      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300',
-      uploadDate: '2024-06-02'
-    },
-    {
-      id: '8',
-      name: 'Modern Architecture',
-      views: '1.8k views',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300',
-      uploadDate: '2024-06-01'
-    }
-  ]);
-
+  const {
+    toast
+  } = useToast();
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([{
+    id: '1',
+    name: 'Digital Marketing Banner',
+    views: '12.4k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
+    uploadDate: '2024-06-08'
+  }, {
+    id: '2',
+    name: 'Coffee Shop Interior',
+    views: '8.2k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300',
+    uploadDate: '2024-06-07'
+  }, {
+    id: '3',
+    name: 'Fresh Bakery Products',
+    views: '6.1k views',
+    type: 'video',
+    url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300',
+    uploadDate: '2024-06-06'
+  }, {
+    id: '4',
+    name: 'Restaurant Ambiance',
+    views: '4.8k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300',
+    uploadDate: '2024-06-05'
+  }, {
+    id: '5',
+    name: 'Team Meeting',
+    views: '3.2k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300',
+    uploadDate: '2024-06-04'
+  }, {
+    id: '6',
+    name: 'Product Showcase',
+    views: '2.9k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
+    uploadDate: '2024-06-03'
+  }, {
+    id: '7',
+    name: 'Office Space',
+    views: '2.1k views',
+    type: 'video',
+    url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300',
+    uploadDate: '2024-06-02'
+  }, {
+    id: '8',
+    name: 'Modern Architecture',
+    views: '1.8k views',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300',
+    uploadDate: '2024-06-01'
+  }]);
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
@@ -104,11 +94,9 @@ export const MediaPage: React.FC = () => {
       });
     }
   };
-
   const handleViewImage = (item: MediaItem) => {
     window.open(item.url, '_blank');
   };
-
   const handleDeleteImage = (id: string) => {
     setMediaItems(prev => prev.filter(item => item.id !== id));
     toast({
@@ -116,26 +104,15 @@ export const MediaPage: React.FC = () => {
       description: "Media has been deleted successfully."
     });
   };
-
   const mostViewedImage = mediaItems[0];
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Media</h1>
         <div className="flex items-center gap-4">
-          <Button variant="outline" className="text-gray-600">
-            Manage your photos
-          </Button>
+          
           <div className="relative">
-            <input
-              type="file"
-              accept="image/*,video/*"
-              onChange={handleFileUpload}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              id="add-photo-upload"
-            />
+            <input type="file" accept="image/*,video/*" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="add-photo-upload" />
             <Button className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
               <label htmlFor="add-photo-upload" className="cursor-pointer flex items-center justify-center gap-2">
                 <Upload className="w-4 h-4" />
@@ -162,7 +139,7 @@ export const MediaPage: React.FC = () => {
               <div>
                 <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
               </div>
-              <hr/>
+              <hr />
               <div>
                 <div className="text-md text-black mb-2">Last month uploaded</div>
                 <div className="text-3xl font-bold text-gray-900">354</div>
@@ -184,12 +161,7 @@ export const MediaPage: React.FC = () => {
                   <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
                   <div className="text-sm text-gray-500">Image name</div>
                 </div>
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  className="bg-gray-800 text-white hover:bg-gray-700 px-6"
-                  onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
-                >
+                <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}>
                   View Image
                 </Button>
               </div>
@@ -197,11 +169,7 @@ export const MediaPage: React.FC = () => {
               {/* Right Column - Image */}
               <div className="col-span-5">
                 <div className="aspect-square rounded-lg overflow-hidden">
-                  <img 
-                    src={mostViewedImage?.url} 
-                    alt={mostViewedImage?.name} 
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -237,27 +205,19 @@ export const MediaPage: React.FC = () => {
 
           {/* Media Grid - 4 column layout */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {mediaItems.map(item => (
-              <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+            {mediaItems.map(item => <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
                 {/* Media Image */}
-                <img
-                  src={item.url}
-                  alt={item.name}
-                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  onClick={() => handleViewImage(item)}
-                />
+                <img src={item.url} alt={item.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" onClick={() => handleViewImage(item)} />
                 
                 {/* Video Overlay */}
-                {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
+                {item.type === 'video' && <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
                     <div className="bg-black bg-opacity-50 rounded-full p-2">
                       <Play className="w-6 h-6 text-white fill-white" />
                     </div>
                     <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
                       0:15
                     </div>
-                  </div>
-                )}
+                  </div>}
                 
                 {/* Hover Overlay with Actions */}
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200">
@@ -286,13 +246,11 @@ export const MediaPage: React.FC = () => {
                 <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-5 h-5 border-2 border-white rounded bg-white bg-opacity-20 hover:bg-opacity-40 cursor-pointer"></div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
 
       
-    </div>
-  );
+    </div>;
 };
