@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   BarChart3, 
@@ -57,10 +56,10 @@ const navigationItems = [
     description: 'Customer reviews'
   },
   { 
-    id: 'media', 
-    label: 'Profile Manager', 
-    icon: Settings,
-    description: 'Profile settings'
+    id: 'geo-ranking', 
+    label: 'GEO Ranking', 
+    icon: MapPin,
+    description: 'Local search rankings'
   },
   { 
     id: 'subscription', 

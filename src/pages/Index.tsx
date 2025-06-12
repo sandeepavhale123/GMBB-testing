@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -11,6 +10,7 @@ import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
 import { Button } from '../components/ui/button';
 import { Menu } from 'lucide-react';
+import { GeoRankingPage } from '../components/GeoRanking/GeoRankingPage';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -23,10 +23,10 @@ const Index = () => {
         return 'Overview';
       case 'posts':
         return 'Posts Management';
+      case 'geo-ranking':
+        return 'GEO Ranking';
       case 'reviews':
         return 'Reviews Management';
-      case 'media':
-        return 'Media Library';
       case 'analytics':
         return 'Analytics';
       case 'businesses':
@@ -48,21 +48,14 @@ const Index = () => {
         return <Dashboard />;
       case 'posts':
         return <PostsPage />;
+      case 'geo-ranking':
+        return <GeoRankingPage />;
       case 'reviews':
         return (
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-2">Reviews Management</h2>
               <p className="text-gray-600">Monitor and respond to customer reviews.</p>
-            </div>
-          </div>
-        );
-      case 'media':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Media Library</h2>
-              <p className="text-gray-600">Upload and manage photos and videos for your businesses.</p>
             </div>
           </div>
         );
@@ -119,7 +112,7 @@ const Index = () => {
                 }
               }}
               title={getPageTitle(activeTab)}
-              showFilters={['posts', 'reviews', 'media'].includes(activeTab)}
+              showFilters={['posts', 'reviews', 'geo-ranking'].includes(activeTab)}
             />
 
             {/* Page Content */}
