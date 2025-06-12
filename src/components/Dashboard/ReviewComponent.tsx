@@ -316,7 +316,7 @@ export const ReviewComponent: React.FC = () => {
 
         {/* Review Items */}
         {reviewsData.map(review => <Card key={review.id} className={`border ${review.isNew || !review.hasReply ? 'border-l-4 border-l-blue-500' : 'border-gray-200'}`}>
-            <CardContent className="p-4 sm:p-6">
+            <CardContent className="p-4 sm:p-6 mx-0 my-[9px]">
               {/* Review Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
