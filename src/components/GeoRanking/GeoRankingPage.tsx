@@ -103,7 +103,7 @@ export const GeoRankingPage: React.FC = () => {
                     <TrendingUp className="w-8 h-8 text-green-600" />
                   </div> */}
                   <div class="flex flex-col gap-2">
-                      <!-- Badge Item -->
+                     
                       <div class="flex rounded border overflow-hidden shadow-sm">
                         <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ARP</div>
                         <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
