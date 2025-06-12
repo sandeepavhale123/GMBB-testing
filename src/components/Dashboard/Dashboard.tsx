@@ -129,8 +129,8 @@ export const Dashboard: React.FC = () => {
                 {/* Top Row - Responsive grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                   <TrafficSourcesChart />
-                  <QuickWinsCard />
                   <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
+                   <QuickWinsCard />
                 </div>
                 
                 {/* Bottom Row - Scheduled Posts Table (Full Width) */}
