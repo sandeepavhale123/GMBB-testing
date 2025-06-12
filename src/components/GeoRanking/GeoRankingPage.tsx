@@ -210,7 +210,6 @@ export const GeoRankingPage: React.FC = () => {
                     <tr className="border-b border-gray-200">
                       <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Area</th>
                       <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Rank</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Search Volume</th>
                       <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Clicks</th>
                       <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Competition</th>
                       <th className="text-left py-3 px-4 font-medium text-gray-700 text-sm">Action</th>
@@ -221,7 +220,6 @@ export const GeoRankingPage: React.FC = () => {
                       <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-3 px-4 text-gray-900 text-sm font-medium">{area.area}</td>
                         <td className="py-3 px-4 text-gray-900 text-sm">#{area.rank}</td>
-                        <td className="py-3 px-4 text-gray-900 text-sm">{area.searchVolume}</td>
                         <td className="py-3 px-4 text-gray-900 text-sm">{area.clicks}</td>
                         <td className="py-3 px-4">
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -374,7 +372,7 @@ export const GeoRankingPage: React.FC = () => {
           </Card>
 
           {/* SEO Opportunities Card */}
-          <Card className="bg-white">
+          {/* <Card className="bg-white">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-900">SEO Opportunities</CardTitle>
             </CardHeader>
@@ -405,7 +403,7 @@ export const GeoRankingPage: React.FC = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Enhanced GMB Genie Recommendation */}
           <Card className="bg-white">
@@ -424,7 +422,7 @@ export const GeoRankingPage: React.FC = () => {
                   Based on your ranking data, I've identified 3 high-impact optimization opportunities that could improve your local visibility by 23%.
                 </p>
                 <div className="text-xs text-blue-700 bg-blue-100 rounded px-2 py-1">
-                  ✓ Content gaps analysis • ✓ Competitor insights • ✓ Action plan
+                  ✓ Content gaps analysis <br/> ✓ Competitor insights <br/> ✓ Action plan
                 </div>
               </div>
               <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
