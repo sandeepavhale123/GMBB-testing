@@ -148,41 +148,6 @@ export const Dashboard: React.FC = () => {
             </TabsContent>
           </Tabs>
         </div>
-
-        {/* Right Column - Sidebar - Responsive ordering */}
-        <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
-          {/* Quick Wins and Q&A in a single row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            {/* Quick Wins */}
-            <QuickWinsCard />
-
-            {/* Q&A Section */}
-            <Card>
-              <CardHeader className="pb-3 sm:pb-4">
-                <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Answered</span>
-                    <span className="font-semibold text-sm sm:text-base">{qaStats.answered}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Pending</span>
-                    <span className="font-semibold text-yellow-600 text-sm sm:text-base">{qaStats.pending}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Response Rate</span>
-                    <span className="font-semibold text-green-600 text-sm sm:text-base">{qaStats.responseRate}%</span>
-                  </div>
-                </div>
-                <Button variant="outline" className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
-                  View Q&A
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
       </div>
 
       {/* Create Post Modal - Responsive */}
