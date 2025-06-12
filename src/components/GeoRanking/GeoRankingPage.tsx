@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -6,28 +5,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Calendar, MapPin, TrendingUp, RefreshCw, Download, ChevronDown } from 'lucide-react';
 import { Input } from '../ui/input';
 import { CircularProgress } from '../ui/circular-progress';
-
-const underPerformingAreas = [
-  { area: 'Akurdi Road', rank: 15, competition: 'High' },
-  { area: 'Pimpri Station', rank: 8, competition: 'Medium' },
-  { area: 'Chinchwad', rank: 12, competition: 'High' },
-  { area: 'Nigdi', rank: 6, competition: 'Low' },
-];
-
-const rankingData = [
-  { position: 'Position 01-03', count: 2, color: 'bg-green-500' },
-  { position: 'Position 04-10', count: 12, color: 'bg-yellow-500' },
-  { position: 'Position 11-15', count: 8, color: 'bg-orange-500' },
-  { position: 'Position 16-20+', count: 6, color: 'bg-red-500' },
-];
-
+const underPerformingAreas = [{
+  area: 'Akurdi Road',
+  rank: 15,
+  competition: 'High'
+}, {
+  area: 'Pimpri Station',
+  rank: 8,
+  competition: 'Medium'
+}, {
+  area: 'Chinchwad',
+  rank: 12,
+  competition: 'High'
+}, {
+  area: 'Nigdi',
+  rank: 6,
+  competition: 'Low'
+}];
+const rankingData = [{
+  position: 'Position 01-03',
+  count: 2,
+  color: 'bg-green-500'
+}, {
+  position: 'Position 04-10',
+  count: 12,
+  color: 'bg-yellow-500'
+}, {
+  position: 'Position 11-15',
+  count: 8,
+  color: 'bg-orange-500'
+}, {
+  position: 'Position 16-20+',
+  count: 6,
+  color: 'bg-red-500'
+}];
 export const GeoRankingPage: React.FC = () => {
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [selectedDate, setSelectedDate] = useState('01/02/2023');
   const [gridSize, setGridSize] = useState('4*4');
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
+  return <div className="min-h-screen bg-gray-50 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Section - Main Content */}
         <div className="lg:col-span-3 space-y-6">
@@ -46,11 +62,7 @@ export const GeoRankingPage: React.FC = () => {
               </Select>
             </div>
             <div className="flex items-center gap-3">
-              <Input 
-                type="date" 
-                value="2023-02-01" 
-                className="w-40"
-              />
+              <Input type="date" value="2023-02-01" className="w-40" />
             </div>
           </div>
 
@@ -112,11 +124,7 @@ export const GeoRankingPage: React.FC = () => {
                 <p className="text-sm text-gray-600">Visual representation of local search rankings across different areas</p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4">
-                <img 
-                  src="/lovable-uploads/7bcd79ce-e6be-40a1-8782-715ba97653bb.png" 
-                  alt="GEO Grid Ranking Map" 
-                  className="w-full h-auto rounded-lg shadow-sm"
-                />
+                <img alt="GEO Grid Ranking Map" className="w-full h-auto rounded-lg shadow-sm" src="/lovable-uploads/1b136290-7743-4020-9468-ea83d1ff7054.png" />
               </div>
             </CardContent>
           </Card>
@@ -137,21 +145,15 @@ export const GeoRankingPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {underPerformingAreas.map((area, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                    {underPerformingAreas.map((area, index) => <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-3 px-4 text-gray-900 text-sm">{area.area}</td>
                         <td className="py-3 px-4 text-gray-900 text-sm font-medium">#{area.rank}</td>
                         <td className="py-3 px-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            area.competition === 'High' ? 'bg-red-100 text-red-700' :
-                            area.competition === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-green-100 text-green-700'
-                          }`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${area.competition === 'High' ? 'bg-red-100 text-red-700' : area.competition === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
                             {area.competition}
                           </span>
                         </td>
-                      </tr>
-                    ))}
+                      </tr>)}
                   </tbody>
                 </table>
               </div>
@@ -225,13 +227,11 @@ export const GeoRankingPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {rankingData.map((item, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                  {rankingData.map((item, index) => <div key={index} className="flex items-center gap-2">
                       <div className={`w-3 h-3 ${item.color} rounded-sm`}></div>
                       <div className="text-xs text-gray-600 flex-1">{item.position}</div>
                       <div className="text-xs font-medium text-gray-900">{item.count}</div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
             </CardContent>
@@ -255,6 +255,5 @@ export const GeoRankingPage: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
