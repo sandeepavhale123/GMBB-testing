@@ -106,7 +106,9 @@ const Index = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col min-w-0">
+          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+          }`}>
             {/* Header */}
             <Header
               onToggleSidebar={() => {

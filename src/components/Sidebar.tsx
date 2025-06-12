@@ -112,7 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={cn(
-      "bg-[#1e293b] text-white flex flex-col transition-all duration-300 ease-in-out h-screen",
+      "bg-slate-900 text-white flex flex-col transition-all duration-300 ease-in-out fixed top-0 left-0 h-screen z-40 border-r border-slate-700",
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Header */}
