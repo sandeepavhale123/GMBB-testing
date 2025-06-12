@@ -121,7 +121,7 @@ export const GeoRankingPage: React.FC = () => {
             <CardContent className="p-6">
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">GEO Grid Ranking Map</h3>
-                <p className="text-sm text-gray-600">Visual representation of local search rankings across different areas</p>
+                
               </div>
               <div className="bg-gray-50 rounded-lg p-4">
                 <img alt="GEO Grid Ranking Map" className="w-full h-auto rounded-lg shadow-sm" src="/lovable-uploads/1b136290-7743-4020-9468-ea83d1ff7054.png" />
