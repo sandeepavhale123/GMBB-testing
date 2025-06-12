@@ -154,7 +154,7 @@ export const ReviewComponent: React.FC = () => {
     }
     return null;
   };
-  return <div className="space-y-6">
+  return <div className="space-y-1 ">
       {/* Header */}
       <div className="flex items-center justify-between">
         
