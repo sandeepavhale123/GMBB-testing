@@ -44,16 +44,6 @@ export const Dashboard: React.FC = () => {
     scheduledDate: '2024-06-12 10:00 AM',
     platforms: ['Google My Business', 'Facebook']
   };
-  const geoRankingData = [{
-    keyword: "coffee shop near me",
-    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-  }, {
-    keyword: "best coffee downtown",
-    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-  }, {
-    keyword: "local coffee shop",
-    image: "/lovable-uploads/ab14a658-e6b9-4f6f-a35d-37a41ea3b0ba.png"
-  }];
   const handleApprovePost = () => {
     setSelectedPost(scheduledPost);
     setIsPreviewModalOpen(true);
@@ -107,7 +97,7 @@ export const Dashboard: React.FC = () => {
       </div>
       
       {/* Main Content - Responsive layout */}
-      <div className="grid grid-cols-1  gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6">
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
           {/* Tab Navigation - Responsive */}
@@ -162,64 +152,37 @@ export const Dashboard: React.FC = () => {
 
         {/* Right Column - Sidebar - Responsive ordering */}
         <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
-          {/* Quick Wins - Using the proper QuickWinsCard component */}
-          <QuickWinsCard />
+          {/* Quick Wins and Q&A in a single row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            {/* Quick Wins */}
+            <QuickWinsCard />
 
-          {/* Q&A Section */}
-          <Card>
-            <CardHeader className="pb-3 sm:pb-4">
-              <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 sm:space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600">Answered</span>
-                  <span className="font-semibold text-sm sm:text-base">{qaStats.answered}</span>
+            {/* Q&A Section */}
+            <Card>
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">Answered</span>
+                    <span className="font-semibold text-sm sm:text-base">{qaStats.answered}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">Pending</span>
+                    <span className="font-semibold text-yellow-600 text-sm sm:text-base">{qaStats.pending}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">Response Rate</span>
+                    <span className="font-semibold text-green-600 text-sm sm:text-base">{qaStats.responseRate}%</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600">Pending</span>
-                  <span className="font-semibold text-yellow-600 text-sm sm:text-base">{qaStats.pending}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-gray-600">Response Rate</span>
-                  <span className="font-semibold text-green-600 text-sm sm:text-base">{qaStats.responseRate}%</span>
-                </div>
-              </div>
-              <Button variant="outline" className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
-                View Q&A
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* GeoRank Snapshot with Carousel - Responsive */}
-          <Card>
-            <CardHeader className="pb-3 sm:pb-4">
-              <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2">
-                GeoRank Snapshot
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Carousel className="w-full">
-                <CarouselContent>
-                  {geoRankingData.map((item, index) => <CarouselItem key={index}>
-                      <div className="space-y-2 sm:space-y-3">
-                        <div className="text-center">
-                          <p className="text-xs sm:text-sm font-medium text-gray-900 mb-2">{item.keyword}</p>
-                        </div>
-                        <div className="aspect-square w-full overflow-hidden rounded-lg">
-                          <img src={item.image} alt={`GEO ranking for ${item.keyword}`} className="w-full h-full object-cover" />
-                        </div>
-                      </div>
-                    </CarouselItem>)}
-                </CarouselContent>
-                <CarouselPrevious className="left-1 sm:left-2 w-6 h-6 sm:w-8 sm:h-8" />
-                <CarouselNext className="right-1 sm:right-2 w-6 h-6 sm:w-8 sm:h-8" />
-              </Carousel>
-              <Button variant="link" className="text-xs sm:text-sm p-0 w-full mt-3 sm:mt-4">
-                View Full Geo Grid Report
-              </Button>
-            </CardContent>
-          </Card>
+                <Button variant="outline" className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
+                  View Q&A
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
