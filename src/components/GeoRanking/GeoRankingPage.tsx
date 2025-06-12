@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -7,7 +6,6 @@ import { Calendar, MapPin, TrendingUp, RefreshCw, Download, ChevronDown, Search,
 import { Input } from '../ui/input';
 import { CircularProgress } from '../ui/circular-progress';
 import { Progress } from '../ui/progress';
-
 const underPerformingAreas = [{
   area: 'Akurdi Road',
   rank: 15,
@@ -33,7 +31,6 @@ const underPerformingAreas = [{
   searchVolume: '1.5k',
   clicks: 92
 }];
-
 const rankingData = [{
   position: 'Position 01-03',
   count: 2,
@@ -51,18 +48,23 @@ const rankingData = [{
   count: 6,
   color: 'bg-red-500'
 }];
-
-const competitorData = [
-  { name: 'Competitor A', rank: 3, visibility: 45 },
-  { name: 'Competitor B', rank: 7, visibility: 38 },
-  { name: 'Competitor C', rank: 12, visibility: 25 }
-];
-
+const competitorData = [{
+  name: 'Competitor A',
+  rank: 3,
+  visibility: 45
+}, {
+  name: 'Competitor B',
+  rank: 7,
+  visibility: 38
+}, {
+  name: 'Competitor C',
+  rank: 12,
+  visibility: 25
+}];
 export const GeoRankingPage: React.FC = () => {
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [selectedDate, setSelectedDate] = useState('01/02/2023');
   const [gridSize, setGridSize] = useState('4*4');
-
   return <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Section - Main Content */}
@@ -113,7 +115,7 @@ export const GeoRankingPage: React.FC = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card> */}
+             </Card> */}
 
             <Card className="bg-white">
               <CardContent className="p-6">
@@ -216,17 +218,12 @@ export const GeoRankingPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {underPerformingAreas.map((area, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                    {underPerformingAreas.map((area, index) => <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-3 px-4 text-gray-900 text-sm font-medium">{area.area}</td>
                         <td className="py-3 px-4 text-gray-900 text-sm">#{area.rank}</td>
                         <td className="py-3 px-4 text-gray-900 text-sm">{area.clicks}</td>
                         <td className="py-3 px-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            area.competition === 'High' ? 'bg-red-100 text-red-700' : 
-                            area.competition === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 
-                            'bg-green-100 text-green-700'
-                          }`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${area.competition === 'High' ? 'bg-red-100 text-red-700' : area.competition === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
                             {area.competition}
                           </span>
                         </td>
@@ -235,8 +232,7 @@ export const GeoRankingPage: React.FC = () => {
                             Optimize
                           </Button>
                         </td>
-                      </tr>
-                    ))}
+                      </tr>)}
                   </tbody>
                 </table>
               </div>
@@ -250,8 +246,7 @@ export const GeoRankingPage: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {competitorData.map((competitor, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                {competitorData.map((competitor, index) => <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
                         <Users className="w-5 h-5 text-gray-600" />
@@ -270,8 +265,7 @@ export const GeoRankingPage: React.FC = () => {
                         <Progress value={competitor.visibility} className="h-2" />
                       </div>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </CardContent>
           </Card>
@@ -319,19 +313,7 @@ export const GeoRankingPage: React.FC = () => {
                 </Select>
               </div>
               
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">Device</label>
-                <Select defaultValue="mobile">
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="mobile">Mobile</SelectItem>
-                    <SelectItem value="desktop">Desktop</SelectItem>
-                    <SelectItem value="tablet">Tablet</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              
               
               <Button className="w-full bg-gray-800 hover:bg-gray-900 text-white">
                 <RefreshCw className="w-4 h-4 mr-2" />
@@ -359,13 +341,11 @@ export const GeoRankingPage: React.FC = () => {
                   <p className="text-sm text-gray-600 text-center">Keywords Tracked</p>
                 </div>
                 <div className="space-y-2">
-                  {rankingData.map((item, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                  {rankingData.map((item, index) => <div key={index} className="flex items-center gap-2">
                       <div className={`w-3 h-3 ${item.color} rounded-sm`}></div>
                       <div className="text-xs text-gray-600 flex-1">{item.position}</div>
                       <div className="text-xs font-medium text-gray-900">{item.count}</div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </div>
             </CardContent>
@@ -403,7 +383,7 @@ export const GeoRankingPage: React.FC = () => {
                 </div>
               </div>
             </CardContent>
-          </Card> */}
+           </Card> */}
 
           {/* Enhanced GMB Genie Recommendation */}
           <Card className="bg-white">
@@ -422,7 +402,7 @@ export const GeoRankingPage: React.FC = () => {
                   Based on your ranking data, I've identified 3 high-impact optimization opportunities that could improve your local visibility by 23%.
                 </p>
                 <div className="text-xs text-blue-700 bg-blue-100 rounded px-2 py-1">
-                  ✓ Content gaps analysis <br/> ✓ Competitor insights <br/> ✓ Action plan
+                  ✓ Content gaps analysis <br /> ✓ Competitor insights <br /> ✓ Action plan
                 </div>
               </div>
               <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
