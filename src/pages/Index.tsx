@@ -116,7 +116,7 @@ const Index = () => {
             />
 
             {/* Page Content */}
-            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto mx-auto" style={{maxWidth:'1400px'}} >
+            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto"  >
               {renderContent()}
             </main>
           </div>
