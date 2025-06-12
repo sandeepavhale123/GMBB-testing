@@ -158,9 +158,7 @@ export const ReviewComponent: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         
-        <Button variant="ghost" size="sm">
-          <MoreVertical className="w-4 h-4" />
-        </Button>
+        
       </div>
 
       {/* Top Cards - Responsive Grid */}
