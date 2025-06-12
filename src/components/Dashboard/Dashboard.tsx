@@ -140,9 +140,7 @@ export const Dashboard: React.FC = () => {
               <ReviewComponent />
             </TabsContent>
             <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
-              <div className="bg-white rounded-lg p-4">
                 <GeoRankingPage />
-              </div>
             </TabsContent>
             <TabsContent value="insights" className="mt-4 sm:mt-6">
               <InsightsCard />
