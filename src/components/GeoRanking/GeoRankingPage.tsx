@@ -102,22 +102,24 @@ export const GeoRankingPage: React.FC = () => {
                   <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
                     <TrendingUp className="w-8 h-8 text-green-600" />
                   </div> */}
-                  <p className="text-sm text-gray-600 mb-1">Average Position</p>
-                  <div class="flex gap-2">
-                     
-                      <div class="flex rounded border overflow-hidden shadow-sm">
-                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ARP</div>
-                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
-                      </div>
-                    
-                      <div class="flex rounded border overflow-hidden shadow-sm">
-                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ATRP</div>
-                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
-                      </div>
-                    
-                      <div class="flex rounded border overflow-hidden shadow-sm">
-                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">SoLV</div>
-                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                  <div>
+                     <p className="text-sm text-gray-600 mb-1">Average Position</p>
+                    <div class="flex flex-wrap gap-2">
+                       
+                        <div class="flex rounded border overflow-hidden shadow-sm">
+                          <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ARP</div>
+                          <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                        </div>
+                      
+                        <div class="flex rounded border overflow-hidden shadow-sm">
+                          <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ATRP</div>
+                          <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                        </div>
+                      
+                        <div class="flex rounded border overflow-hidden shadow-sm">
+                          <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">SoLV</div>
+                          <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                        </div>
                       </div>
                     </div>
 
