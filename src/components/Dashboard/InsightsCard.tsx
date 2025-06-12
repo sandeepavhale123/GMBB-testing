@@ -21,7 +21,6 @@ export const InsightsCard: React.FC = () => {
     { query: 'coffee near me', type: 'Non-Branded', views: 189, trend: 'up' },
     { query: 'best coffee shop', type: 'Non-Branded', views: 156, trend: 'down' },
     { query: 'local cafe', type: 'Non-Branded', views: 134, trend: 'up' },
-    { query: 'espresso bar', type: 'Non-Branded', views: 98, trend: 'down' },
   ];
 
   const customerActions = [
@@ -63,9 +62,9 @@ export const InsightsCard: React.FC = () => {
 
       {/* Row 1: Visibility Overview */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2">
-  <div className="">
-      <Card>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+      <Card className="h-full">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
           <p className="text-sm text-gray-600">Total views from Google Search and Maps</p>
@@ -125,11 +124,11 @@ export const InsightsCard: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-  </div>
-         <div className="">
+
+         
 
       {/* Row 2: Top Search Queries */}
-      <Card>
+      <Card className="h-full">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Top Search Queries</CardTitle>
         </CardHeader>
@@ -169,7 +168,7 @@ export const InsightsCard: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-         </div>
+        
       </div>
 
       {/* Row 3: Customer Actions */}
