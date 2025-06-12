@@ -84,7 +84,7 @@ export const GeoRankingPage: React.FC = () => {
           </div>
 
           {/* Enhanced Metrics Cards Row */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -100,7 +100,7 @@ export const GeoRankingPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white">
+            {/* <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -113,7 +113,7 @@ export const GeoRankingPage: React.FC = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             <Card className="bg-white">
               <CardContent className="p-6">
