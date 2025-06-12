@@ -62,6 +62,9 @@ export const InsightsCard: React.FC = () => {
       </div>
 
       {/* Row 1: Visibility Overview */}
+
+      <div className="flex flex-wrap -mx-2">
+  <div className="w-full xxl:w-1/2 px-2">
       <Card>
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
@@ -122,6 +125,8 @@ export const InsightsCard: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+  </div>
+         <div className="w-full xxl:w-1/2 px-2">
 
       {/* Row 2: Top Search Queries */}
       <Card>
@@ -164,6 +169,8 @@ export const InsightsCard: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+         </div>
+      </div>
 
       {/* Row 3: Customer Actions */}
       <Card>
