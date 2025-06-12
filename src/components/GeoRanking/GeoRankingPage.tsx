@@ -50,16 +50,7 @@ export const GeoRankingPage: React.FC = () => {
           {/* Header Section */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
-                <SelectTrigger className="w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Web Design">Web Design</SelectItem>
-                  <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
-                  <SelectItem value="SEO Services">SEO Services</SelectItem>
-                </SelectContent>
-              </Select>
+              <h4>{selectedKeyword}</h4>
             </div>
             <div className="flex items-center gap-3">
               
@@ -104,13 +95,31 @@ export const GeoRankingPage: React.FC = () => {
             <Card className="bg-white">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <div>
+                  {/* <div>
                     <p className="text-sm text-gray-600 mb-1">Average Position</p>
                     <p className="text-3xl font-bold text-gray-900">8.5</p>
                   </div>
                   <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
                     <TrendingUp className="w-8 h-8 text-green-600" />
-                  </div>
+                  </div> */}
+                  <div class="flex flex-col gap-2">
+                      <!-- Badge Item -->
+                      <div class="flex rounded border overflow-hidden shadow-sm">
+                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ARP</div>
+                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                      </div>
+                    
+                      <div class="flex rounded border overflow-hidden shadow-sm">
+                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">ATRP</div>
+                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                      </div>
+                    
+                      <div class="flex rounded border overflow-hidden shadow-sm">
+                        <div class="bg-blue-600 text-white px-3 py-1 text-sm font-semibold">SoLV</div>
+                        <div class="bg-white text-gray-800 px-3 py-1 text-sm font-semibold border-l">0.00</div>
+                      </div>
+                    </div>
+
                 </div>
               </CardContent>
             </Card>
