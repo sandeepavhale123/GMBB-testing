@@ -180,7 +180,7 @@ export const InsightsCard: React.FC = () => {
           <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {customerActions.map((action, index) => (
               <div key={index} className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
