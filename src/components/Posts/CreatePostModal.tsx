@@ -1,6 +1,5 @@
-
 import React, { useState, useCallback } from 'react';
-import { X, Upload, Wand2, Calendar, Clock, Link, Plus, ChevronDown } from 'lucide-react';
+import { X, Upload, Wand2, Calendar, Clock, Link, Plus, ChevronDown, Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -10,6 +9,7 @@ import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import { PostPreview } from './PostPreview';
+import { PostPreviewModal } from './PostPreviewModal';
 import { AIDescriptionModal } from './AIDescriptionModal';
 import { AIImageModal } from './AIImageModal';
 
@@ -49,6 +49,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [dragActive, setDragActive] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [listingsSearch, setListingsSearch] = useState('');
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const businessListings = ['Downtown Coffee Shop', 'Uptown Bakery', 'Westside Restaurant', 'East End Boutique', 'Central Park Gym', 'Sunset Spa & Wellness'];
 
@@ -151,25 +152,25 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
-          <DialogHeader className="p-6 pb-4 border-b shrink-0">
-            <DialogTitle className="text-2xl font-semibold">Create Post</DialogTitle>
+          <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
+            <DialogTitle className="text-xl sm:text-2xl font-semibold">Create Post</DialogTitle>
           </DialogHeader>
 
           <div className="flex flex-1 min-h-0">
-            {/* Left Panel - Form (8 columns) */}
-            <div className="flex-[8] p-6 overflow-y-auto">
-              <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
+            <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 
                 {/* Row 1: Post Description Field */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <Label className="text-sm font-medium">Post Description</Label>
                     <Button 
                       type="button" 
                       variant="outline" 
                       size="sm" 
                       onClick={() => setIsAIDescriptionOpen(true)} 
-                      className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
+                      className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto"
                     >
                       <Wand2 className="w-3 h-3 mr-1" />
                       Use GMB Genie to Write
@@ -180,20 +181,20 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))} 
                     placeholder="Write your post description..." 
                     rows={4} 
-                    className="resize-none" 
+                    className="resize-none text-sm sm:text-base" 
                   />
                 </div>
 
                 {/* Row 2: Post Image Upload */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <Label className="text-sm font-medium">Post Image</Label>
                     <Button 
                       type="button" 
                       variant="outline" 
                       size="sm" 
                       onClick={() => setIsAIImageOpen(true)} 
-                      className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100"
+                      className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 w-full sm:w-auto"
                     >
                       <Wand2 className="w-3 h-3 mr-1" />
                       Use GMB Genie to Generate
@@ -201,7 +202,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   </div>
 
                   <div 
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-all ${
+                    className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all ${
                       dragActive 
                         ? 'border-blue-400 bg-blue-50' 
                         : formData.image 
@@ -213,6 +214,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                   >
+                    {/* ... keep existing code (image upload section) */}
                     <input 
                       type="file" 
                       accept="image/*" 
@@ -241,7 +243,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                       </div>
                     ) : (
                       <div className="space-y-2">
-                        <Upload className="w-8 h-8 mx-auto text-gray-400" />
+                        <Upload className="w-6 sm:w-8 h-6 sm:h-8 mx-auto text-gray-400" />
                         <div>
                           <label htmlFor="image-upload" className="cursor-pointer">
                             <span className="text-sm font-medium text-blue-600 hover:text-blue-500">
@@ -256,7 +258,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   </div>
                 </div>
 
-                {/* Row 3: CTA Button Section (moved outside advanced options) */}
+                {/* Row 3: CTA Button Section */}
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <Switch 
@@ -269,6 +271,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
                   {showCTAButton && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
+                      {/* ... keep existing code (CTA button fields) */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Button Type</Label>
                         <Select 
@@ -316,7 +319,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   </div>
 
                   {showAdvancedOptions && (
-                    <div className="space-y-6 p-4 border rounded-lg bg-gray-50">
+                    <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
+                      {/* ... keep existing code (advanced options content with responsive grid changes) */}
                       {/* Select Listings and Post Title in Single Row */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -373,6 +377,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         </div>
                       </div>
 
+                      {/* ... keep existing code (rest of advanced options - post type, event fields, offer fields, publish options) */}
                       {/* Post Type */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Post Type</Label>
@@ -469,7 +474,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         </div>
                       )}
 
-                      {/* Publish Options (moved inside advanced options) */}
+                      {/* Publish Options */}
                       <div className="space-y-3">
                         <Label className="text-sm font-medium">Publish Options</Label>
                         <Select 
@@ -512,31 +517,33 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               </form>
             </div>
 
-            {/* Right Panel - Preview and Platform Section (4 columns) */}
-            <div className="flex-[4] border-l bg-gray-50/50 p-6 overflow-y-auto">
-              <div className="sticky top-0 space-y-4">
+            {/* Right Panel - Preview (hidden on mobile/tablet, visible on large screens) */}
+            <div className="hidden lg:flex lg:flex-[4] border-l bg-gray-50/50 p-6 overflow-y-auto">
+              <div className="sticky top-0 space-y-4 w-full">
                 <h3 className="font-semibold text-lg">Live Preview</h3>
                 <PostPreview data={formData} />
-                
-                {/* Platform Section */}
-                <div className="mt-6 space-y-3">
-                  
-                  
-                </div>
               </div>
             </div>
           </div>
 
           {/* Sticky Footer */}
-          <div className="flex justify-between items-center gap-3 p-6 border-t bg-white shrink-0">
-            <div className="text-sm text-gray-500">
-             
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
+            <div className="order-2 sm:order-1">
+              {/* Preview button - only visible on mobile/tablet */}
+              <Button 
+                variant="outline" 
+                onClick={() => setIsPreviewOpen(true)}
+                className="lg:hidden w-full sm:w-auto"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Preview
+              </Button>
             </div>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={onClose}>
+            <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
+              <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
                 Cancel
               </Button>
-              <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700 px-6">
+              <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto">
                 Create Post
               </Button>
             </div>
@@ -561,6 +568,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           setFormData(prev => ({ ...prev, image }));
           setIsAIImageOpen(false);
         }} 
+      />
+
+      {/* Preview Modal - only for mobile/tablet */}
+      <PostPreviewModal 
+        isOpen={isPreviewOpen} 
+        onClose={() => setIsPreviewOpen(false)} 
+        data={formData} 
       />
     </>
   );
