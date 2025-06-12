@@ -43,7 +43,7 @@ export const GeoRankingPage: React.FC = () => {
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [selectedDate, setSelectedDate] = useState('01/02/2023');
   const [gridSize, setGridSize] = useState('4*4');
-  return <div className="min-h-screen bg-gray-50 p-6">
+  return <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Section - Main Content */}
         <div className="lg:col-span-3 space-y-6">
