@@ -24,11 +24,14 @@ export const InsightsCard: React.FC = () => {
   ];
 
   const customerActions = [
-    { icon: Phone, label: 'Phone Calls', value: 42, change: '+12%', trend: 'up' },
-    { icon: MousePointer, label: 'Website Clicks', value: 156, change: '+8%', trend: 'up' },
-    { icon: Navigation, label: 'Direction Requests', value: 89, change: '-3%', trend: 'down' },
-    { icon: Eye, label: 'Photo Views', value: 234, change: '+15%', trend: 'up' },
-    { icon: Calendar, label: 'Appointment Bookings', value: 23, change: '+5%', trend: 'up' },
+    { icon: Phone, label: 'Calls', value: 42, change: '+12%', trend: 'up' },
+    { icon: MousePointer, label: 'Website', value: 156, change: '+8%', trend: 'up' },
+    { icon: Navigation, label: 'Direction', value: 89, change: '-3%', trend: 'down' },
+    { icon: Eye, label: 'Messages', value: 234, change: '+15%', trend: 'up' },
+    { icon: Search, label: 'Desktop Search', value: 23, change: '+5%', trend: 'up' },
+     { icon: MapPin, label: 'Desktop Map', value: 23, change: '+5%', trend: 'up' },
+     { icon: Search, label: 'Mobile Search', value: 23, change: '+5%', trend: 'up' },
+     { icon: MapPin, label: 'Mobile Map', value: 23, change: '+5%', trend: 'up' },
   ];
 
   return (
