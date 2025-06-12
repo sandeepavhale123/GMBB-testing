@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -6,7 +7,6 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { Dashboard } from '../components/Dashboard/Dashboard';
 import { PostsPage } from '../components/Posts/PostsPage';
-import ReviewsManagementPage from '../components/Reviews/ReviewsManagementPage';
 import { Toaster } from '../components/ui/toaster';
 
 const Index = () => {
@@ -45,7 +45,14 @@ const Index = () => {
       case 'posts':
         return <PostsPage />;
       case 'reviews':
-        return <ReviewsManagementPage />;
+        return (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Reviews Management</h2>
+              <p className="text-gray-600">Monitor and respond to customer reviews.</p>
+            </div>
+          </div>
+        );
       case 'media':
         return (
           <div className="space-y-6">
