@@ -41,7 +41,7 @@ const CompletionStep = ({ onComplete }: CompletionStepProps) => {
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <MessageSquare className="h-6 w-6 text-green-600" />
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-2">Create Your First Post</h3>
               <p className="text-gray-600 text-sm">Share updates and engage with your customers</p>
             </div>
@@ -53,7 +53,7 @@ const CompletionStep = ({ onComplete }: CompletionStepProps) => {
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
               <Calendar className="h-6 w-6 text-purple-600" />
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-2">Schedule Content</h3>
               <p className="text-gray-600 text-sm">Plan and automate your content calendar</p>
             </div>
@@ -65,7 +65,7 @@ const CompletionStep = ({ onComplete }: CompletionStepProps) => {
             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
               <Sparkles className="h-6 w-6 text-orange-600" />
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="font-semibold text-gray-900 mb-2">Try AI Features</h3>
               <p className="text-gray-600 text-sm">Generate content and optimize your listings with AI</p>
             </div>
