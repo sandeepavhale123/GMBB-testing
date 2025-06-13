@@ -102,7 +102,7 @@ const Onboarding = () => {
         </div>
 
         {/* Step Progress */}
-        <div className="flex-1 p-4 xl:p-6">
+        <div className="flex-1 p-4 xl:p-6 relative z-10">
           <div className="mb-6 xl:mb-8">
             <h3 className="text-base xl:text-lg font-semibold text-white mb-2">Setup Progress</h3>
             <p className="text-sm text-white/80">
@@ -114,11 +114,11 @@ const Onboarding = () => {
             {steps.map((step) => {
               const isCompleted = step.id < currentStep;
               const isCurrent = step.id === currentStep;
-              
+
               return (
                 <div key={step.id} className="flex items-start gap-3 xl:gap-4">
                   {/* Step Circle */}
-                  <div className={`w-12 h-12  rounded flex items-center justify-center text-md xl:text-base font-semibold flex-shrink-0 ${
+                  <div className={`w-12 h-12 rounded flex items-center justify-center text-md xl:text-base font-semibold flex-shrink-0 ${
                     isCompleted 
                       ? 'bg-white text-blue-600' 
                       : isCurrent 
@@ -131,7 +131,7 @@ const Onboarding = () => {
                       step.id
                     )}
                   </div>
-                  
+
                   {/* Step Content */}
                   <div className={`${
                     isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
@@ -147,23 +147,23 @@ const Onboarding = () => {
               );
             })}
           </div>
-         <div style={{ position: 'relative' }}>
-      <div
-        style={{
-          position: 'absolute',
-          width: '500px',
-          height: '500px',
-          left: '-100px',
-          bottom: '-150px',
-          border: '1px solid',
-          backgroundColor: 'transparent',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          opacity: 0.05, // should be a number, not a string
-          backgroundImage: "url('https://member.gmbbriefcase.com/content/dist/assets/images/blue-light-2.png')"
-        }}
-      >
-      </div>
+        </div>
+
+        {/* Decorative Background Image */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '500px',
+            height: '500px',
+            left: '-100px',
+            bottom: '-150px',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            opacity: 0.05,
+            backgroundImage: "url('https://member.gmbbriefcase.com/content/dist/assets/images/blue-light-2.png')",
+            pointerEvents: 'none',
+          }}
+        />
       </div>
 
       {/* Mobile Header */}
@@ -178,13 +178,13 @@ const Onboarding = () => {
             Step {currentStep} of {totalSteps}
           </div>
         </div>
-        
+
         {/* Mobile Step Progress */}
         <div className="flex items-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
           {steps.map((step) => {
             const isCompleted = step.id < currentStep;
             const isCurrent = step.id === currentStep;
-            
+
             return (
               <div key={step.id} className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
                 isCompleted 
@@ -206,8 +206,8 @@ const Onboarding = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col lg:ml-80 pt-20 sm:pt-24 lg:pt-0">
-        {/* Header with Back Button */}
-        {currentStep > 1 && currentStep < 5 && (
+        {/* Back Button Header */}
+        {currentStep > 1 && currentStep < totalSteps && (
           <div className="bg-white border-b px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4">
             <Button 
               variant="outline" 
@@ -221,13 +221,14 @@ const Onboarding = () => {
           </div>
         )}
 
-        {/* Step Content */}
+        {/* Dynamic Step Content */}
         <div className="flex-1 py-4 sm:py-6 lg:py-8 xl:py-12">
           {renderStep()}
         </div>
       </div>
     </div>
   );
+
 };
 
 export default Onboarding;
