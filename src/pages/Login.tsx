@@ -90,7 +90,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="sandeep@citationbuilderpro.com"
+                placeholder=""
                 className="mt-1 h-12 text-base"
                 required
               />
@@ -104,7 +104,7 @@ const Login = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder=""
                   className="h-12 text-base pr-12"
                   required
                 />
