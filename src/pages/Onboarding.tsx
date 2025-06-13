@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Check } from 'lucide-react';
-import AccountTypeStep from '@/components/Onboarding/AccountTypeStep';
 import BusinessInfoStep from '@/components/Onboarding/BusinessInfoStep';
 import SelectGoalStep from '@/components/Onboarding/SelectGoalStep';
 import ConnectGoogleStep from '@/components/Onboarding/ConnectGoogleStep';
@@ -14,7 +13,6 @@ import CompletionStep from '@/components/Onboarding/CompletionStep';
 const Onboarding = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    accountType: '',
     businessName: '',
     website: '',
     email: '',
@@ -27,12 +25,11 @@ const Onboarding = () => {
   const navigate = useNavigate();
 
   const steps = [
-    { id: 1, title: 'Account Type', description: 'Choose your account type' },
-    { id: 2, title: 'Business Info', description: 'Tell us about your business' },
-    { id: 3, title: 'Select Goals', description: 'What do you want to achieve?' },
-    { id: 4, title: 'Connect Google', description: 'Link your Google account' },
-    { id: 5, title: 'Select Listings', description: 'Choose your listings' },
-    { id: 6, title: 'Complete', description: 'Setup complete!' }
+    { id: 1, title: 'Business Info', description: 'Tell us about your business' },
+    { id: 2, title: 'Select Goals', description: 'What do you want to achieve?' },
+    { id: 3, title: 'Connect Google', description: 'Link your Google account' },
+    { id: 4, title: 'Select Listings', description: 'Choose your listings' },
+    { id: 5, title: 'Complete', description: 'Setup complete!' }
   ];
 
   const totalSteps = steps.length;
@@ -59,24 +56,22 @@ const Onboarding = () => {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <AccountTypeStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
-      case 2:
         return <BusinessInfoStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
-      case 3:
+      case 2:
         return <SelectGoalStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
-      case 4:
+      case 3:
         return <ConnectGoogleStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
-      case 5:
+      case 4:
         return <SelectListingsStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
-      case 6:
+      case 5:
         return <CompletionStep onComplete={handleNext} />;
       default:
-        return <AccountTypeStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return <BusinessInfoStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex w-full">
       {/* Left Sidebar */}
       <div className="w-80 bg-white shadow-lg flex flex-col">
         {/* Logo */}
@@ -149,7 +144,7 @@ const Onboarding = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header with Back Button */}
-        {currentStep > 1 && currentStep < 6 && (
+        {currentStep > 1 && currentStep < 5 && (
           <div className="bg-white border-b px-8 py-4">
             <Button 
               variant="outline" 
