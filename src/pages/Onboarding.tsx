@@ -147,6 +147,18 @@ const Onboarding = () => {
               );
             })}
           </div>
+          <img src="https://member.gmbbriefcase.com/content/dist/assets/images/blue-light-2.png" style={{
+            position:' absolute',
+            width: '500px',
+            height: '500px',
+            left: '-100px',
+            bottom: '-150px',
+            border: '1px solid',
+            backgroundColor: 'transparent',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            opacity: '0.050',
+          }} ?>
         </div>
       </div>
 
