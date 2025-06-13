@@ -80,8 +80,9 @@ const ConnectGoogleStep = ({ formData, updateFormData, onNext }: ConnectGoogleSt
 
         <div className="space-y-2 sm:space-y-3">
           <Button 
-            onClick={handleConnectGoogle}
-            className="w-full h-10 text-sm sm:text-base bg-blue-600 hover:bg-blue-700"
+            variant="outline"
+           onClick={handleConnectGoogle}
+            className="w-full h-10 text-sm sm:text-base"
           >
             <img 
               src="https://developers.google.com/identity/images/g-logo.png" 
@@ -89,13 +90,6 @@ const ConnectGoogleStep = ({ formData, updateFormData, onNext }: ConnectGoogleSt
               className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3"
             />
             Connect with Google
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={handleSkip}
-            className="w-full h-10 text-sm sm:text-base"
-          >
-            Skip for Now
           </Button>
         </div>
       </Card>
