@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -6,6 +7,8 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { Dashboard } from '../components/Dashboard/Dashboard';
 import { PostsPage } from '../components/Posts/PostsPage';
+import { MediaPage } from '../components/Media/MediaPage';
+import { InsightsPage } from '../components/Insights/InsightsPage';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
 import { Button } from '../components/ui/button';
@@ -23,6 +26,10 @@ const Index = () => {
         return 'Overview';
       case 'posts':
         return 'Posts Management';
+      case 'media':
+        return 'Media Library';
+      case 'insights':
+        return 'Insights & Analytics';
       case 'geo-ranking':
         return 'GEO Ranking';
       case 'reviews':
@@ -48,6 +55,10 @@ const Index = () => {
         return <Dashboard />;
       case 'posts':
         return <PostsPage />;
+      case 'media':
+        return <MediaPage />;
+      case 'insights':
+        return <InsightsPage />;
       case 'geo-ranking':
         return <GeoRankingPage />;
       case 'reviews':
@@ -112,7 +123,7 @@ const Index = () => {
                 }
               }}
               title={getPageTitle(activeTab)}
-              showFilters={['posts', 'reviews', 'geo-ranking'].includes(activeTab)}
+              showFilters={['posts', 'reviews', 'geo-ranking', 'media', 'insights'].includes(activeTab)}
             />
 
             {/* Page Content */}

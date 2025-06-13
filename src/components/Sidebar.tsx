@@ -44,6 +44,12 @@ const navigationItems = [
     description: 'Manage posts'
   },
   { 
+    id: 'media', 
+    label: 'Media', 
+    icon: Image,
+    description: 'Media library'
+  },
+  { 
     id: 'insights', 
     label: 'Insights', 
     icon: TrendingUp,
