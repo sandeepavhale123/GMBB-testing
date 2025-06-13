@@ -36,7 +36,7 @@ const AccountTypeStep = ({ formData, updateFormData, onNext }: AccountTypeStepPr
             <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Users className="h-10 w-10 text-blue-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Agency / Freelancer</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Agency</h3>
             <p className="text-gray-600 mb-6">
               I manage multiple businesses for clients or run an agency that handles Google Business Profiles for others.
             </p>
