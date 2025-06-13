@@ -30,16 +30,9 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
   ];
 
   const businessTypes = [
-    'Restaurant',
-    'Retail Store',
-    'Service Business',
-    'Healthcare',
-    'Real Estate',
-    'Automotive',
-    'Beauty & Wellness',
-    'Professional Services',
-    'Education',
-    'Other'
+    'Agency Owner / SEO Freelancer',
+    'Local Business Owner',
+    'Multi-location Business Manager'
   ];
 
   const handleChange = (field: string, value: string | number) => {
@@ -131,7 +124,7 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
 
           <div>
             <Label htmlFor="businessType" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
-              What best describes you? *
+              What best describes you ? *
             </Label>
             <Select value={localData.businessType} onValueChange={(value) => handleChange('businessType', value)}>
               <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
