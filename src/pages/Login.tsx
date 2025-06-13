@@ -59,7 +59,7 @@ const Login = () => {
 
         {/* Welcome Text */}
         <div className="flex flex-col justify-center items-center px-16 z-10">
-          <img src="http://localhost/gmb-briefcase-2024/v2/assets/media/auth/agency.png" style={{height:'auto',width:'90%',maxWidth:'200px'}} />
+          <img src="http://localhost/gmb-briefcase-2024/v2/assets/media/auth/agency.png" style={{height:'auto',width:'90%',maxWidth:'250px',marginBottom:'30px'}} />
           <h1 className="text-4xl font-bold text-white mb-4 text-center">
             Manage Your GMB Listing Like a Pro
           </h1>
