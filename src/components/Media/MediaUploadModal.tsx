@@ -17,7 +17,7 @@ interface MediaFile {
   altText?: string;
   category?: string;
   location?: string;
-}
+} 
 
 interface MediaItem {
   id: string;
@@ -135,6 +135,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                 </Button>
               </div>
             </DialogHeader>
+            <Button
+                onClick={() => setShowAIModal(true)}
+                variant="outline"
+                className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto"
+              >
+                <Sparkles className="w-5 h-5 mr-2" />
+                Generate with AI
+              </Button>
           </div>
 
           <div className="p-6 space-y-6">
@@ -166,17 +174,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
               hasFiles={files.length > 0}
             />
 
-            {/* AI Generation Button */}
-            <div className="border-t border-gray-200 pt-6">
-              <Button
-                onClick={() => setShowAIModal(true)}
-                variant="outline"
-                className="w-full h-12 text-base font-medium border-2 border-dashed border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400 transition-all duration-200"
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Generate with AI
-              </Button>
-            </div>
+            
 
             {/* Action Buttons */}
             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
