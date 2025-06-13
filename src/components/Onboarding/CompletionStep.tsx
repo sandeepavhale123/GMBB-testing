@@ -26,7 +26,7 @@ const CompletionStep = ({ onComplete }: CompletionStepProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         <Card className="p-6 hover:shadow-lg transition-shadow">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex flex-1 items-center justify-center">
               <BarChart3 className="h-6 w-6 text-blue-600" />
             </div>
             <div>
