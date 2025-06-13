@@ -126,7 +126,7 @@ export const MediaPage: React.FC = () => {
       {/* Redesigned Overview Stats Card */}
       <Card>
         <CardContent className="p-5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         
 
         {/* Total Media Uploaded Card */}
@@ -204,7 +204,7 @@ export const MediaPage: React.FC = () => {
           </div>
 
           {/* Media Grid - 4 column layout */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {mediaItems.map(item => <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
                 {/* Media Image */}
                 <img src={item.url} alt={item.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" onClick={() => handleViewImage(item)} />
