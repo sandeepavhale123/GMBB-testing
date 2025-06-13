@@ -118,7 +118,7 @@ const Onboarding = () => {
               return (
                 <div key={step.id} className="flex items-start gap-4">
                   {/* Step Circle */}
-                  <div className={`w-12 h-12 rounded flex items-center justify-center text-sm font-semibold flex-shrink-0 ${
+                  <div className={`w-12 h-12 rounded flex items-center justify-center text-md font-semibold flex-shrink-0 ${
                     isCompleted 
                       ? 'bg-white text-blue-600' 
                       : isCurrent 
