@@ -118,7 +118,7 @@ const Onboarding = () => {
               return (
                 <div key={step.id} className="flex items-start gap-3 xl:gap-4">
                   {/* Step Circle */}
-                  <div className={`w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center text-sm xl:text-base font-semibold flex-shrink-0 ${
+                  <div className={`w-12 h-12  rounded flex items-center justify-center text-md xl:text-base font-semibold flex-shrink-0 ${
                     isCompleted 
                       ? 'bg-white text-blue-600' 
                       : isCurrent 
@@ -136,10 +136,10 @@ const Onboarding = () => {
                   <div className={`${
                     isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
                   }`}>
-                    <h4 className={`font-medium text-sm xl:text-base mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
+                    <h4 className={`font-medium text-md xl:text-base mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
                       {step.title}
                     </h4>
-                    <p className="text-xs xl:text-sm opacity-80 leading-relaxed">
+                    <p className="text-sm xl:text-sm opacity-80 leading-relaxed">
                       {step.description}
                     </p>
                   </div>
