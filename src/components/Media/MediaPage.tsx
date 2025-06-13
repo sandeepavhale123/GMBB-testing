@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { Upload, Eye, Trash2, MoreVertical, Play } from 'lucide-react';
+import { Upload, Eye, Trash2, MoreVertical, Play, Image as ImageIcon, Video, FileImage, Calendar } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { MediaUploadModal } from './MediaUploadModal';
@@ -85,6 +85,28 @@ export const MediaPage: React.FC = () => {
     }
   ]);
 
+  // Calculate media statistics
+  const mediaStats = useMemo(() => {
+    const totalImages = mediaItems.filter(item => item.type === 'image').length;
+    const totalVideos = mediaItems.filter(item => item.type === 'video').length;
+    const totalMedia = mediaItems.length;
+    
+    // Calculate last month uploads (items from last 30 days)
+    const lastMonth = new Date();
+    lastMonth.setDate(lastMonth.getDate() - 30);
+    const lastMonthUploads = mediaItems.filter(item => {
+      const itemDate = new Date(item.uploadDate);
+      return itemDate >= lastMonth;
+    }).length;
+
+    return {
+      totalImages,
+      totalVideos,
+      totalMedia,
+      lastMonthUploads
+    };
+  }, [mediaItems]);
+
   const handleViewImage = (item: MediaItem) => {
     window.open(item.url, '_blank');
   };
@@ -123,52 +145,103 @@ export const MediaPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Redesigned Overview Stats Card */}
+      {/* Redesigned Overview Stats Card with New Layout */}
       <Card>
-        <CardContent className="p-5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-6">
-            <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-md text-black mb-2">Total media uploaded</h3>
-                </div>
-                <div className="space-y-6">
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
-                  </div>
-                  <hr />
-                  <div>
-                    <div className="text-md text-black mb-2">Last month uploaded</div>
-                    <div className="text-3xl font-bold text-gray-900">04</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
-                </div>
-                <div className="grid grid-cols-12 gap-4">
-                  <div className="col-span-7">
-                    <div className="mb-4">
-                      <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
-                      <div className="text-sm text-gray-500">Image name</div>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Section - Summary Cards (col-span-2) */}
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Total Images Card */}
+                <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-blue-500 rounded-lg">
+                          <ImageIcon className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-blue-900">Total Images</span>
+                      </div>
                     </div>
-                    <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}>
-                      View Image
-                    </Button>
+                    <div className="text-2xl font-bold text-blue-900">{mediaStats.totalImages}</div>
+                  </CardContent>
+                </Card>
+
+                {/* Total Videos Card */}
+                <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-purple-500 rounded-lg">
+                          <Video className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-purple-900">Total Videos</span>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold text-purple-900">{mediaStats.totalVideos}</div>
+                  </CardContent>
+                </Card>
+
+                {/* Total Media Card */}
+                <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-green-500 rounded-lg">
+                          <FileImage className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-green-900">Total Media</span>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold text-green-900">{mediaStats.totalMedia}</div>
+                  </CardContent>
+                </Card>
+
+                {/* Last Month Uploads Card */}
+                <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-orange-500 rounded-lg">
+                          <Calendar className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-sm font-medium text-orange-900">Last Month</span>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold text-orange-900">{mediaStats.lastMonthUploads}</div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Right Section - Most Viewed Card (col-span-1) */}
+            <div className="lg:col-span-1">
+              <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden h-full">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-lg font-medium text-gray-900">Most Viewed Media</h3>
                   </div>
-                  
-                  <div className="col-span-5">
+                  <div className="space-y-4">
                     <div className="aspect-square rounded-lg overflow-hidden">
                       <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="w-full h-full object-cover" />
                     </div>
+                    <div className="space-y-2">
+                      <div className="text-2xl font-bold text-gray-900">12.4k views</div>
+                      <div className="text-sm text-gray-500">{mostViewedImage?.name}</div>
+                      <Button 
+                        variant="default" 
+                        size="sm" 
+                        className="bg-gray-800 text-white hover:bg-gray-700 w-full mt-3" 
+                        onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Media
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </CardContent>
       </Card>
