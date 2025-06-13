@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowRight } from 'lucide-react';
 
 interface BusinessInfoStepProps {
   formData: any;
@@ -16,16 +14,24 @@ interface BusinessInfoStepProps {
 const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStepProps) => {
   const [localData, setLocalData] = useState({
     businessName: formData.businessName || '',
-    businessType: formData.businessType || '',
-    description: formData.description || ''
+    website: formData.website || '',
+    email: formData.email || '',
+    timezone: formData.timezone || '',
+    locationCount: formData.locationCount || 1
   });
 
-  const businessTypes = [
-    'Restaurant', 'Retail Store', 'Professional Services', 'Healthcare', 
-    'Beauty & Spa', 'Automotive', 'Real Estate', 'Education', 'Other'
+  const timezones = [
+    'Eastern Time (ET)',
+    'Central Time (CT)', 
+    'Mountain Time (MT)',
+    'Pacific Time (PT)',
+    'Alaska Time (AKT)',
+    'Hawaii Time (HT)'
   ];
 
-  const handleChange = (field: string, value: string) => {
+  const locationCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, '10+'];
+
+  const handleChange = (field: string, value: string | number) => {
     setLocalData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -34,22 +40,22 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
     onNext();
   };
 
-  const isValid = localData.businessName && localData.businessType;
+  const isValid = localData.businessName && localData.email && localData.timezone;
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Tell us about your business
         </h2>
         <p className="text-gray-600">
-          This information will help us set up your Google Business profile
+          We'll use this information to customize your experience
         </p>
       </div>
 
       <div className="bg-white p-8 rounded-lg shadow-sm border space-y-6">
         <div>
-          <Label htmlFor="businessName" className="text-base font-medium">
+          <Label htmlFor="businessName" className="text-base font-medium text-gray-900">
             Business Name *
           </Label>
           <Input
@@ -62,44 +68,72 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
         </div>
 
         <div>
-          <Label htmlFor="businessType" className="text-base font-medium">
-            Business Type *
+          <Label htmlFor="website" className="text-base font-medium text-gray-900">
+            Website URL
           </Label>
-          <Select value={localData.businessType} onValueChange={(value) => handleChange('businessType', value)}>
+          <Input
+            id="website"
+            value={localData.website}
+            onChange={(e) => handleChange('website', e.target.value)}
+            placeholder="https://yourbusiness.com"
+            className="mt-2 h-12"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="email" className="text-base font-medium text-gray-900">
+            Business Email *
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            value={localData.email}
+            onChange={(e) => handleChange('email', e.target.value)}
+            placeholder="business@example.com"
+            className="mt-2 h-12"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="timezone" className="text-base font-medium text-gray-900">
+            Timezone *
+          </Label>
+          <Select value={localData.timezone} onValueChange={(value) => handleChange('timezone', value)}>
             <SelectTrigger className="mt-2 h-12">
-              <SelectValue placeholder="Select your business type" />
+              <SelectValue placeholder="Select your timezone" />
             </SelectTrigger>
             <SelectContent>
-              {businessTypes.map((type) => (
-                <SelectItem key={type} value={type}>{type}</SelectItem>
+              {timezones.map((timezone) => (
+                <SelectItem key={timezone} value={timezone}>{timezone}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
         <div>
-          <Label htmlFor="description" className="text-base font-medium">
-            Business Description
+          <Label className="text-base font-medium text-gray-900 mb-4 block">
+            How many business locations do you have?
           </Label>
-          <Textarea
-            id="description"
-            value={localData.description}
-            onChange={(e) => handleChange('description', e.target.value)}
-            placeholder="Describe what your business does (optional)"
-            className="mt-2 min-h-[100px]"
-          />
-          <p className="text-sm text-gray-500 mt-1">
-            This will help customers understand your services better
-          </p>
+          <div className="grid grid-cols-5 gap-3">
+            {locationCounts.map((count) => (
+              <Button
+                key={count}
+                variant={localData.locationCount === count ? "default" : "outline"}
+                className="h-12"
+                onClick={() => handleChange('locationCount', count)}
+              >
+                {count}
+              </Button>
+            ))}
+          </div>
         </div>
 
         <Button 
           onClick={handleNext}
           disabled={!isValid}
-          className="w-full h-12 text-base"
+          className="w-full h-12 text-base mt-8"
         >
           Continue
-          <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </div>
     </div>

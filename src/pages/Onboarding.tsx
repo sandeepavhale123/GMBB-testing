@@ -3,37 +3,45 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import WelcomeStep from '@/components/Onboarding/WelcomeStep';
+import { ArrowLeft, Check } from 'lucide-react';
+import AccountTypeStep from '@/components/Onboarding/AccountTypeStep';
 import BusinessInfoStep from '@/components/Onboarding/BusinessInfoStep';
-import BusinessLocationStep from '@/components/Onboarding/BusinessLocationStep';
-import BusinessHoursStep from '@/components/Onboarding/BusinessHoursStep';
+import SelectGoalStep from '@/components/Onboarding/SelectGoalStep';
+import ConnectGoogleStep from '@/components/Onboarding/ConnectGoogleStep';
+import SelectListingsStep from '@/components/Onboarding/SelectListingsStep';
 import CompletionStep from '@/components/Onboarding/CompletionStep';
 
 const Onboarding = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
+    accountType: '',
     businessName: '',
-    businessType: '',
-    description: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    phone: '',
     website: '',
-    hours: {}
+    email: '',
+    timezone: '',
+    locationCount: 1,
+    goals: [],
+    googleConnected: false,
+    selectedListings: []
   });
   const navigate = useNavigate();
 
-  const totalSteps = 5;
+  const steps = [
+    { id: 1, title: 'Account Type', description: 'Choose your account type' },
+    { id: 2, title: 'Business Info', description: 'Tell us about your business' },
+    { id: 3, title: 'Select Goals', description: 'What do you want to achieve?' },
+    { id: 4, title: 'Connect Google', description: 'Link your Google account' },
+    { id: 5, title: 'Select Listings', description: 'Choose your listings' },
+    { id: 6, title: 'Complete', description: 'Setup complete!' }
+  ];
+
+  const totalSteps = steps.length;
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Complete onboarding and redirect to dashboard
       navigate('/');
     }
   };
@@ -51,48 +59,98 @@ const Onboarding = () => {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <WelcomeStep onNext={handleNext} />;
+        return <AccountTypeStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
       case 2:
         return <BusinessInfoStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
       case 3:
-        return <BusinessLocationStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return <SelectGoalStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
       case 4:
-        return <BusinessHoursStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return <ConnectGoogleStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
       case 5:
+        return <SelectListingsStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+      case 6:
         return <CompletionStep onComplete={handleNext} />;
       default:
-        return <WelcomeStep onNext={handleNext} />;
+        return <AccountTypeStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header with Progress */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <img 
-              src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png" 
-              alt="GMB Briefcase Logo" 
-              className="h-10 object-contain"
-            />
-            <span className="text-sm text-gray-600">
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Left Sidebar */}
+      <div className="w-80 bg-white shadow-lg flex flex-col">
+        {/* Logo */}
+        <div className="p-6 border-b">
+          <img 
+            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png" 
+            alt="GMB Briefcase Logo" 
+            className="h-8 object-contain"
+          />
+        </div>
+
+        {/* Progress Steps */}
+        <div className="flex-1 p-6">
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Setup Progress</h3>
+            <Progress value={progressPercentage} className="h-2" />
+            <p className="text-sm text-gray-600 mt-2">
               Step {currentStep} of {totalSteps}
-            </span>
+            </p>
           </div>
-          <Progress value={progressPercentage} className="h-2" />
+
+          <div className="space-y-4">
+            {steps.map((step) => (
+              <div 
+                key={step.id}
+                className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                  step.id === currentStep 
+                    ? 'bg-blue-50 border border-blue-200' 
+                    : step.id < currentStep 
+                      ? 'bg-green-50' 
+                      : 'bg-gray-50'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  step.id === currentStep 
+                    ? 'bg-blue-600 text-white'
+                    : step.id < currentStep 
+                      ? 'bg-green-600 text-white'
+                      : 'bg-gray-300 text-gray-600'
+                }`}>
+                  {step.id < currentStep ? (
+                    <Check className="h-4 w-4" />
+                  ) : (
+                    step.id
+                  )}
+                </div>
+                <div>
+                  <h4 className={`font-medium ${
+                    step.id === currentStep ? 'text-blue-900' : 'text-gray-900'
+                  }`}>
+                    {step.title}
+                  </h4>
+                  <p className="text-sm text-gray-600">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer Links */}
+        <div className="p-6 border-t bg-gray-50">
+          <div className="space-y-2 text-sm">
+            <a href="#" className="block text-gray-600 hover:text-blue-600">Terms of Service</a>
+            <a href="#" className="block text-gray-600 hover:text-blue-600">View Plans</a>
+            <a href="#" className="block text-gray-600 hover:text-blue-600">Contact Support</a>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        {renderStep()}
-      </div>
-
-      {/* Navigation Footer */}
-      {currentStep > 1 && currentStep < 5 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
-          <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between">
+      <div className="flex-1 flex flex-col">
+        {/* Header with Back Button */}
+        {currentStep > 1 && currentStep < 6 && (
+          <div className="bg-white border-b px-8 py-4">
             <Button 
               variant="outline" 
               onClick={handleBack}
@@ -101,16 +159,14 @@ const Onboarding = () => {
               <ArrowLeft size={16} />
               Back
             </Button>
-            <Button 
-              onClick={handleNext}
-              className="flex items-center gap-2"
-            >
-              Continue
-              <ArrowRight size={16} />
-            </Button>
           </div>
+        )}
+
+        {/* Step Content */}
+        <div className="flex-1 py-12">
+          {renderStep()}
         </div>
-      )}
+      </div>
     </div>
   );
 };
