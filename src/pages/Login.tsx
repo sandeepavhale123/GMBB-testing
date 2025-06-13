@@ -33,7 +33,7 @@ const Login = () => {
         <div className="absolute bottom-20 right-20 w-16 h-16 bg-white/10 rounded-lg backdrop-blur-sm"></div>
         
         {/* Browser Mockup */}
-        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-48 bg-white/20 rounded-lg backdrop-blur-sm p-4">
+        {/* <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-48 bg-white/20 rounded-lg backdrop-blur-sm p-4">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-3 h-3 bg-red-400 rounded-full"></div>
             <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
@@ -44,7 +44,7 @@ const Login = () => {
             <div className="h-3 bg-white/30 rounded w-1/2"></div>
             <div className="h-3 bg-white/30 rounded w-2/3"></div>
           </div>
-        </div>
+        </div> */}
 
         {/* Logo */}
         <div className="absolute top-8 left-8">
@@ -59,6 +59,7 @@ const Login = () => {
 
         {/* Welcome Text */}
         <div className="flex flex-col justify-center items-center px-16 z-10">
+          <img src="http://localhost/gmb-briefcase-2024/v2/assets/media/auth/agency.png" style={{height:'auto',width:'90%',maxWidth:'200px'}}
           <h1 className="text-4xl font-bold text-white mb-4 text-center">
             Manage Your GMB Listing Like a Pro
           </h1>
