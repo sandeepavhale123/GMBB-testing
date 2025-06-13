@@ -123,7 +123,7 @@ const Onboarding = () => {
                       ? 'bg-white text-blue-600' 
                       : isCurrent 
                         ? 'bg-white text-blue-600'
-                        : 'bg-white/20 text-white/60'
+                        : 'bg-white/10 text-white/50'
                   }`}>
                     {isCompleted ? (
                       <Check className="h-4 w-4" />
@@ -136,10 +136,10 @@ const Onboarding = () => {
                   <div className={`${
                     isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
                   }`}>
-                    <h4 className={`font-medium text-sm mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
+                    <h4 className={`font-medium text-md mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
                       {step.title}
                     </h4>
-                    <p className="text-xs opacity-80 leading-relaxed">
+                    <p className="text-sm opacity-80 leading-relaxed">
                       {step.description}
                     </p>
                   </div>
