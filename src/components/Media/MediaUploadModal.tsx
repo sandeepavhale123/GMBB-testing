@@ -140,7 +140,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
           <div className="p-6 space-y-6">
             {/* Dropzone Area */}
-            <MediaDropzone onFilesAdded={handleFilesAdded} />
             <div className="flex items-end justify-end">
              <Button
                 onClick={() => setShowAIModal(true)}
@@ -151,6 +150,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                 Generate with AI
               </Button>
             </div>
+            <MediaDropzone onFilesAdded={handleFilesAdded} />
+            
 
             {/* File Previews */}
             {files.length > 0 && (
