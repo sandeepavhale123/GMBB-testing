@@ -55,11 +55,11 @@ const Login = () => {
         </div>
 
         {/* Welcome Text */}
-        <div className="flex flex-col justify-center px-16 z-10">
-          <h1 className="text-4xl font-bold text-white mb-4">
+        <div className="flex flex-col justify-center items-center px-16 z-10">
+          <h1 className="text-4xl font-bold text-white mb-4 text-center">
             Welcome to GMB Briefcase
           </h1>
-          <p className="text-xl text-blue-100">
+          <p className="text-xl text-blue-100 text-center">
             Your All-in-One Google Business Management Suite
           </p>
         </div>
