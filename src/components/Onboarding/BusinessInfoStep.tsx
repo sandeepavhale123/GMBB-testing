@@ -57,7 +57,7 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
         </p>
       </div>
 
-      <div className="bg-white p-4 sm:p-6 lg:p-8 xl:p-10 rounded-2xl shadow-sm border border-gray-100 space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className=" p-4 sm:p-6 lg:p-8 xl:p-10  space-y-4 sm:space-y-6 lg:space-y-8">
         {/* Business/Agency Name - Full Width */}
         <div>
           <Label htmlFor="businessName" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
