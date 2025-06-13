@@ -126,7 +126,7 @@ export const MediaPage: React.FC = () => {
       {/* Redesigned Overview Stats Card */}
       <Card>
         <CardContent className="p-5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
 
         {/* Total Media Uploaded Card */}
@@ -142,7 +142,7 @@ export const MediaPage: React.FC = () => {
               <hr />
               <div>
                 <div className="text-md text-black mb-2">Last month uploaded</div>
-                <div className="text-3xl font-bold text-gray-900">354</div>
+                <div className="text-3xl font-bold text-gray-900">04</div>
               </div>
             </div>
           </CardContent>
