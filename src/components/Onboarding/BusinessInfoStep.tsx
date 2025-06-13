@@ -149,7 +149,7 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
 
   <Select >
     <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-      <SelectValue placeholder="Select business type" />
+      <SelectValue placeholder="Select listing range" />
     </SelectTrigger>
 
     <SelectContent>
