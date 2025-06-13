@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -66,17 +65,17 @@ const SelectGoalStep = ({ formData, updateFormData, onNext }: SelectGoalStepProp
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
           What are your main goals?
         </h2>
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           Select all that apply. We'll customize your experience based on your goals.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
         {goals.map((goal) => {
           const IconComponent = goal.icon;
           const isSelected = selectedGoals.includes(goal.id);
@@ -84,24 +83,24 @@ const SelectGoalStep = ({ formData, updateFormData, onNext }: SelectGoalStepProp
           return (
             <Card 
               key={goal.id}
-              className={`p-6 cursor-pointer transition-all duration-200 border-2 ${
+              className={`p-4 sm:p-5 lg:p-6 cursor-pointer transition-all duration-200 border-2 ${
                 isSelected 
                   ? 'border-blue-500 bg-blue-50' 
                   : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => handleGoalToggle(goal.id)}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3 sm:gap-4">
                 <Checkbox 
                   checked={isSelected}
-                  className="mt-1"
+                  className="mt-0.5 sm:mt-1"
                 />
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <IconComponent className={`h-5 w-5 ${isSelected ? 'text-blue-600' : 'text-gray-600'}`} />
-                    <h3 className="font-semibold text-gray-900">{goal.title}</h3>
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                    <IconComponent className={`h-4 w-4 sm:h-5 sm:w-5 ${isSelected ? 'text-blue-600' : 'text-gray-600'}`} />
+                    <h3 className="font-semibold text-sm sm:text-base text-gray-900">{goal.title}</h3>
                   </div>
-                  <p className="text-gray-600 text-sm">{goal.description}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm">{goal.description}</p>
                 </div>
               </div>
             </Card>
@@ -113,8 +112,7 @@ const SelectGoalStep = ({ formData, updateFormData, onNext }: SelectGoalStepProp
         <Button 
           onClick={handleNext}
           disabled={selectedGoals.length === 0}
-          className="px-8 py-3 text-base"
-          size="lg"
+          className="px-6 sm:px-8 py-2 text-sm sm:text-base h-10"
         >
           Continue ({selectedGoals.length} selected)
         </Button>

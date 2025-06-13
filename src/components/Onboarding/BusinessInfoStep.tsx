@@ -54,20 +54,20 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
   const isValid = localData.businessName && localData.email && localData.timezone && localData.businessType;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 lg:px-8">
-      <div className="text-center mb-8 lg:mb-12">
-        <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">
+    <div className="max-w-3xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+      <div className="text-center mb-6 sm:mb-8 lg:mb-10 xl:mb-12">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
           Tell us about your business
         </h2>
-        <p className="text-lg lg:text-xl text-gray-600">
+        <p className="text-base sm:text-lg lg:text-xl text-gray-600">
           We'll use this information to customize your experience
         </p>
       </div>
 
-      <div className="bg-white p-6 lg:p-10 rounded-2xl shadow-sm border border-gray-100 space-y-6 lg:space-y-8">
+      <div className="bg-white p-4 sm:p-6 lg:p-8 xl:p-10 rounded-2xl shadow-sm border border-gray-100 space-y-4 sm:space-y-6 lg:space-y-8">
         {/* Business/Agency Name - Full Width */}
         <div>
-          <Label htmlFor="businessName" className="text-base font-semibold text-gray-900 mb-3 block">
+          <Label htmlFor="businessName" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
             Business/Agency Name *
           </Label>
           <Input
@@ -75,14 +75,14 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             value={localData.businessName}
             onChange={(e) => handleChange('businessName', e.target.value)}
             placeholder="Enter your business or agency name"
-            className="h-12 lg:h-14 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+            className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
 
         {/* Website and Company Email - Same Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
           <div>
-            <Label htmlFor="website" className="text-base font-semibold text-gray-900 mb-3 block">
+            <Label htmlFor="website" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
               Website
             </Label>
             <Input
@@ -90,12 +90,12 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
               value={localData.website}
               onChange={(e) => handleChange('website', e.target.value)}
               placeholder="https://yourbusiness.com"
-              className="h-12 lg:h-14 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+              className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-base font-semibold text-gray-900 mb-3 block">
+            <Label htmlFor="email" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
               Company Email *
             </Label>
             <Input
@@ -104,24 +104,24 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
               value={localData.email}
               onChange={(e) => handleChange('email', e.target.value)}
               placeholder="business@example.com"
-              className="h-12 lg:h-14 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+              className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
         </div>
 
         {/* Preferred Timezone and Business Type - Same Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
           <div>
-            <Label htmlFor="timezone" className="text-base font-semibold text-gray-900 mb-3 block">
+            <Label htmlFor="timezone" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
               Preferred Timezone *
             </Label>
             <Select value={localData.timezone} onValueChange={(value) => handleChange('timezone', value)}>
-              <SelectTrigger className="h-12 lg:h-14 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+              <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Select your timezone" />
               </SelectTrigger>
               <SelectContent>
                 {timezones.map((timezone) => (
-                  <SelectItem key={timezone} value={timezone} className="text-base py-3">
+                  <SelectItem key={timezone} value={timezone} className="text-sm sm:text-base py-2 sm:py-3">
                     {timezone}
                   </SelectItem>
                 ))}
@@ -130,16 +130,16 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
           </div>
 
           <div>
-            <Label htmlFor="businessType" className="text-base font-semibold text-gray-900 mb-3 block">
+            <Label htmlFor="businessType" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
               What best describes you? *
             </Label>
             <Select value={localData.businessType} onValueChange={(value) => handleChange('businessType', value)}>
-              <SelectTrigger className="h-12 lg:h-14 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+              <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Select business type" />
               </SelectTrigger>
               <SelectContent>
                 {businessTypes.map((type) => (
-                  <SelectItem key={type} value={type} className="text-base py-3">
+                  <SelectItem key={type} value={type} className="text-sm sm:text-base py-2 sm:py-3">
                     {type}
                   </SelectItem>
                 ))}
@@ -148,11 +148,11 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
           </div>
         </div>
 
-        <div className="pt-4 lg:pt-6">
+        <div className="pt-3 sm:pt-4 lg:pt-6">
           <Button 
             onClick={handleNext}
             disabled={!isValid}
-            className="w-full h-12 lg:h-14 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
+            className="w-full h-10 text-sm sm:text-base font-semibold bg-blue-600 hover:bg-blue-700"
           >
             Continue
           </Button>
