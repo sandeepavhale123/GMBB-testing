@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -106,18 +105,6 @@ export const MediaPage: React.FC = () => {
     });
   };
 
-  // Calculate dynamic counts
-  const totalImages = mediaItems.filter(item => item.type === 'image').length;
-  const totalVideos = mediaItems.filter(item => item.type === 'video').length;
-  const totalMedia = mediaItems.length;
-  
-  // Calculate last month uploads (items from last 30 days)
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const lastMonthUploads = mediaItems.filter(item => 
-    new Date(item.uploadDate) >= thirtyDaysAgo
-  ).length;
-
   const mostViewedImage = mediaItems[0];
 
   return (
@@ -136,106 +123,52 @@ export const MediaPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Overview Stats Card */}
+      {/* Redesigned Overview Stats Card */}
       <Card>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Section - Summary Cards (col-span-2) */}
-            <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Total Images Card */}
-                <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-blue-600 font-medium">Total Images</p>
-                        <p className="text-2xl font-bold text-blue-800">{totalImages}</p>
-                      </div>
-                      <div className="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center">
-                        <Eye className="w-5 h-5 text-blue-600" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Total Videos Card */}
-                <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-purple-600 font-medium">Total Videos</p>
-                        <p className="text-2xl font-bold text-purple-800">{totalVideos}</p>
-                      </div>
-                      <div className="w-10 h-10 bg-purple-200 rounded-lg flex items-center justify-center">
-                        <Play className="w-5 h-5 text-purple-600" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Total Media Card */}
-                <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-green-600 font-medium">Total Media</p>
-                        <p className="text-2xl font-bold text-green-800">{totalMedia}</p>
-                      </div>
-                      <div className="w-10 h-10 bg-green-200 rounded-lg flex items-center justify-center">
-                        <Upload className="w-5 h-5 text-green-600" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Last Month Card */}
-                <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-orange-600 font-medium">Last Month</p>
-                        <p className="text-2xl font-bold text-orange-800">{lastMonthUploads}</p>
-                      </div>
-                      <div className="w-10 h-10 bg-orange-200 rounded-lg flex items-center justify-center">
-                        <Eye className="w-5 h-5 text-orange-600" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Right Section - Most Viewed Card (col-span-1) */}
-            <div className="lg:col-span-1">
-              <Card className="bg-white border border-gray-200 h-full">
-                <CardContent className="p-6 h-full flex flex-col">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-lg font-medium text-gray-900">Most Viewed</h3>
+        <CardContent className="p-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-6">
+            <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-md text-black mb-2">Total media uploaded</h3>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
                   </div>
-                  <div className="flex-1 flex flex-col">
-                    <div className="mb-4 flex-1">
-                      <div className="aspect-square rounded-lg overflow-hidden mb-3">
-                        <img 
-                          src={mostViewedImage?.url} 
-                          alt={mostViewedImage?.name} 
-                          className="w-full h-full object-cover" 
-                        />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-900 mb-1">12.4k views</div>
-                      <div className="text-sm text-gray-500 mb-4">Digital Marketing Banner</div>
+                  <hr />
+                  <div>
+                    <div className="text-md text-black mb-2">Last month uploaded</div>
+                    <div className="text-3xl font-bold text-gray-900">04</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
+                </div>
+                <div className="grid grid-cols-12 gap-4">
+                  <div className="col-span-7">
+                    <div className="mb-4">
+                      <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
+                      <div className="text-sm text-gray-500">Image name</div>
                     </div>
-                    <Button 
-                      variant="default" 
-                      size="sm" 
-                      className="bg-gray-800 text-white hover:bg-gray-700 w-full" 
-                      onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}
-                    >
+                    <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}>
                       View Image
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  
+                  <div className="col-span-5">
+                    <div className="aspect-square rounded-lg overflow-hidden">
+                      <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </CardContent>
       </Card>
