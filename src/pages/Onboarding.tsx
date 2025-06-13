@@ -17,7 +17,6 @@ const Onboarding = () => {
     email: '',
     timezone: '',
     businessType: '',
-    locationCount: 1,
     goals: [],
     googleConnected: false,
     selectedListings: []
@@ -25,11 +24,31 @@ const Onboarding = () => {
   const navigate = useNavigate();
 
   const steps = [
-    { id: 1, title: 'Business Info', description: 'Tell us about your business' },
-    { id: 2, title: 'Select Goals', description: 'What do you want to achieve?' },
-    { id: 3, title: 'Connect Google', description: 'Link your Google account' },
-    { id: 4, title: 'Select Listings', description: 'Choose your listings' },
-    { id: 5, title: 'Complete', description: 'Setup complete!' }
+    { 
+      id: 1, 
+      title: 'Business Information', 
+      description: 'Enter your business details to get started' 
+    },
+    { 
+      id: 2, 
+      title: 'Define your goal', 
+      description: 'Choose what you want to achieve with this setup' 
+    },
+    { 
+      id: 3, 
+      title: 'Connect google account', 
+      description: 'Securely link your Google account for integration' 
+    },
+    { 
+      id: 4, 
+      title: 'Select listings', 
+      description: 'Pick the Google listing you want to manage' 
+    },
+    { 
+      id: 5, 
+      title: 'Complete', 
+      description: 'Setup complete!' 
+    }
   ];
 
   const totalSteps = steps.length;
@@ -72,7 +91,7 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex w-full">
       {/* Left Sidebar - Fixed with Gradient */}
-      <div className="w-80 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 flex flex-col fixed left-0 top-0 h-screen z-10">
+      <div className="hidden lg:flex w-80 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 flex-col fixed left-0 top-0 h-screen z-10">
         {/* Logo */}
         <div className="p-6 border-b border-white/20">
           <img 
@@ -82,7 +101,7 @@ const Onboarding = () => {
           />
         </div>
 
-        {/* Timeline Progress Steps */}
+        {/* Step Progress */}
         <div className="flex-1 p-6">
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-white mb-2">Setup Progress</h3>
@@ -91,70 +110,93 @@ const Onboarding = () => {
             </p>
           </div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-white/20"></div>
-            
-            {/* Animated progress line */}
-            <div 
-              className="absolute left-4 top-0 w-0.5 bg-white transition-all duration-700 ease-out"
-              style={{ height: `${((currentStep - 1) / (totalSteps - 1)) * 100}%` }}
-            ></div>
-
-            <div className="space-y-6">
-              {steps.map((step, index) => {
-                const isCompleted = step.id < currentStep;
-                const isCurrent = step.id === currentStep;
-                const isUpcoming = step.id > currentStep;
-                
-                return (
-                  <div 
-                    key={step.id}
-                    className={`flex items-center gap-4 relative transition-all duration-500 ${
-                      isCurrent ? 'animate-fade-in' : ''
-                    }`}
-                  >
-                    {/* Timeline dot */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-500 z-10 ${
-                      isCompleted 
-                        ? 'bg-white text-blue-600 scale-110' 
-                        : isCurrent 
-                          ? 'bg-white text-blue-600 scale-125 animate-pulse'
-                          : 'bg-white/20 text-white/60 scale-100'
-                    }`}>
-                      {isCompleted ? (
-                        <Check className="h-4 w-4" />
-                      ) : (
-                        step.id
-                      )}
-                    </div>
-                    
-                    {/* Step content */}
-                    <div className={`transition-all duration-300 ${
-                      isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
-                    }`}>
-                      <h4 className={`font-medium ${isCurrent ? 'font-semibold' : ''}`}>
-                        {step.title}
-                      </h4>
-                      <p className="text-xs opacity-80">{step.description}</p>
-                    </div>
+          <div className="space-y-6">
+            {steps.map((step) => {
+              const isCompleted = step.id < currentStep;
+              const isCurrent = step.id === currentStep;
+              
+              return (
+                <div key={step.id} className="flex items-start gap-4">
+                  {/* Step Circle */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ${
+                    isCompleted 
+                      ? 'bg-white text-blue-600' 
+                      : isCurrent 
+                        ? 'bg-white text-blue-600'
+                        : 'bg-white/20 text-white/60'
+                  }`}>
+                    {isCompleted ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      step.id
+                    )}
                   </div>
-                );
-              })}
-            </div>
+                  
+                  {/* Step Content */}
+                  <div className={`${
+                    isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
+                  }`}>
+                    <h4 className={`font-medium text-sm mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
+                      {step.title}
+                    </h4>
+                    <p className="text-xs opacity-80 leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Main Content - Offset for fixed sidebar */}
-      <div className="flex-1 flex flex-col ml-80">
+      {/* Mobile Header */}
+      <div className="lg:hidden w-full bg-gradient-to-r from-blue-500 via-blue-600 to-purple-700 p-4 fixed top-0 left-0 z-20">
+        <div className="flex items-center justify-between">
+          <img 
+            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png" 
+            alt="GMB Briefcase Logo" 
+            className="h-6 object-contain brightness-0 invert"
+          />
+          <div className="text-white text-sm">
+            Step {currentStep} of {totalSteps}
+          </div>
+        </div>
+        
+        {/* Mobile Step Progress */}
+        <div className="flex items-center gap-2 mt-4">
+          {steps.map((step) => {
+            const isCompleted = step.id < currentStep;
+            const isCurrent = step.id === currentStep;
+            
+            return (
+              <div key={step.id} className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
+                isCompleted 
+                  ? 'bg-white text-blue-600' 
+                  : isCurrent 
+                    ? 'bg-white text-blue-600'
+                    : 'bg-white/20 text-white/60'
+              }`}>
+                {isCompleted ? (
+                  <Check className="h-3 w-3" />
+                ) : (
+                  step.id
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col lg:ml-80 pt-24 lg:pt-0">
         {/* Header with Back Button */}
         {currentStep > 1 && currentStep < 5 && (
-          <div className="bg-white border-b px-8 py-4 animate-fade-in">
+          <div className="bg-white border-b px-4 lg:px-8 py-4">
             <Button 
               variant="outline" 
               onClick={handleBack}
-              className="flex items-center gap-2 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 hover:bg-gray-50"
             >
               <ArrowLeft size={16} />
               Back
@@ -162,8 +204,8 @@ const Onboarding = () => {
           </div>
         )}
 
-        {/* Step Content with Animation */}
-        <div className="flex-1 py-12 animate-fade-in">
+        {/* Step Content */}
+        <div className="flex-1 py-6 lg:py-12">
           {renderStep()}
         </div>
       </div>
