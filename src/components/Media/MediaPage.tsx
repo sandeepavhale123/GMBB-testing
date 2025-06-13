@@ -128,13 +128,13 @@ export const MediaPage: React.FC = () => {
         <CardContent className="p-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-6">
             <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-             <CardContent className="p-6 flex flex-col justify-center gap-6">
+              <CardContent className="p-6 flex flex-col justify-center gap-6">
                 <Card>
                     <CardContent>
-                     <div>
-                        <div className="text-md text-black mb-2">Total Image</div>
-                        <div className="text-3xl font-bold text-gray-900">125</div>
-                      </div>
+                        <div>
+                            <div className="text-md text-black mb-2">Total Image</div>
+                            <div className="text-3xl font-bold text-gray-900">125</div>
+                        </div>
                       </CardContent>
                   </Card>
                   <Card>
@@ -146,7 +146,7 @@ export const MediaPage: React.FC = () => {
                       </CardContent>
                   </Card>
                 </div>
-              </CardContent>
+            </CardContent>
             </Card>
 
             <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
