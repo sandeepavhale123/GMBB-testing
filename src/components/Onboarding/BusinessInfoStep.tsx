@@ -30,9 +30,16 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
   ];
 
   const businessTypes = [
-    'Agency Owner / SEO Freelancer',
-    'Local Business Owner',
-    'Multi-location Business Manager'
+    'Restaurant',
+    'Retail Store',
+    'Service Business',
+    'Healthcare',
+    'Real Estate',
+    'Automotive',
+    'Beauty & Wellness',
+    'Professional Services',
+    'Education',
+    'Other'
   ];
 
   const handleChange = (field: string, value: string | number) => {
@@ -124,7 +131,7 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
 
           <div>
             <Label htmlFor="businessType" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
-              What best describes you ? *
+              What best describes you? *
             </Label>
             <Select value={localData.businessType} onValueChange={(value) => handleChange('businessType', value)}>
               <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
@@ -140,6 +147,24 @@ const BusinessInfoStep = ({ formData, updateFormData, onNext }: BusinessInfoStep
             </Select>
           </div>
         </div>
+        <div>
+          <Label htmlFor="businessType" className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block">
+           How many locations do you want to manage? 
+          </Label>
+          <Select value={localData.businessType} onValueChange={(value) => handleChange('businessType', value)}>
+            <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+              <SelectValue placeholder="Select business type" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> 1-10</SelectItem>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> 11-20</SelectItem>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> 21-40</SelectItem>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> 41-100</SelectItem>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> 101-200</SelectItem>
+                <SelectItem  className="text-sm sm:text-base py-2 sm:py-3"> Above 201</SelectItem>
+            </SelectContent>
+          </Select>
+          </div>
 
         <div className="pt-3 sm:pt-4 lg:pt-6">
           <Button 
