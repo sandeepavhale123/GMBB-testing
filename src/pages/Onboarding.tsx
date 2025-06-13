@@ -91,7 +91,7 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex w-full">
       {/* Left Sidebar - Fixed with Gradient */}
-      <div className="hidden lg:flex w-80 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 flex-col fixed left-0 top-0 h-screen z-10">
+      <div className="hidden lg:flex w-110 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 flex-col fixed left-0 top-0 h-screen z-10">
         {/* Logo */}
         <div className="p-6 border-b border-white/20">
           <img 
