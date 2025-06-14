@@ -5,8 +5,9 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Badge } from '../ui/badge';
+import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Edit, Clock, AlertCircle } from 'lucide-react';
+import { Edit, Clock, AlertCircle, MoreVertical } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { EditableBusinessHours } from "./EditableBusinessHours";
 
@@ -129,64 +130,73 @@ export const BusinessManagement: React.FC = () => {
         </Button>
       </div>
 
-      {/* Business Profile Card */}
-      <Card>
-        <CardContent className="p-6 pt-4">
-          <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-6">
-            <div className="flex items-start gap-4">
-              <div className="w-20 h-20 bg-gray-900 rounded-lg flex items-center justify-center shadow-md">
-                <div className="text-white font-bold text-lg">
-                  <div className="grid grid-cols-2 gap-1">
-                    <div className="w-2 h-2 bg-white rounded-sm"></div>
-                    <div className="w-2 h-2 bg-white rounded-sm"></div>
-                    <div className="w-2 h-2 bg-white rounded-sm"></div>
-                    <div className="w-2 h-2 bg-white rounded-sm"></div>
+      {/* Modern Google Business Profile Summary Card */}
+      <Card className="overflow-hidden">
+        <CardContent className="p-6">
+          {/* Main Profile Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+            {/* Left Section (col-4) */}
+            <div className="lg:col-span-4 space-y-4">
+              {/* Business Logo and Info */}
+              <div className="flex flex-col items-center lg:items-start">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg mb-3">
+                  <div className="text-white font-bold text-xl">
+                    KS
                   </div>
                 </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <h2 className="text-xl font-semibold">{businessData.name}</h2>
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">✓</Badge>
+                <div className="text-center lg:text-left">
+                  <div className="flex items-center gap-2 mb-1 justify-center lg:justify-start">
+                    <h2 className="text-xl font-semibold text-gray-900">{businessData.name}</h2>
+                    <Badge variant="default" className="bg-blue-600 text-white text-xs">✓</Badge>
+                  </div>
+                  <p className="text-gray-600 text-sm">On Google</p>
                 </div>
-                <p className="text-gray-500 text-sm">On Google</p>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => setEditMode(!editMode)}
-                variant={editMode ? "secondary" : "default"}
-                className="sm:hidden"
-                size="sm"
-              >
-                <Edit className="h-4 w-4 mr-2" />
-                {editMode ? "Stop Editing" : "Edit"}
-              </Button>
-            </div>
-          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-4">
-            <div>
-              <div className="text-2xl font-bold">{stats.profileViews}</div>
-              <div className="text-sm text-gray-600">Profile views</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{stats.position}</div>
-              <div className="text-sm text-gray-600">Position</div>
-            </div>
-            <div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">Visibility</div>
-                  <div className="text-lg font-semibold">{stats.visibility}%</div>
+              {/* Stats Boxes */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-gray-900">{stats.profileViews}</div>
+                  <div className="text-xs text-gray-600">Profile views</div>
                 </div>
-                <div className="w-24 bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${stats.visibility}%` }}
-                  ></div>
+                <div className="bg-gray-50 rounded-lg p-3 text-center">
+                  <div className="text-2xl font-bold text-gray-900">{stats.position}</div>
+                  <div className="text-xs text-gray-600">Position</div>
                 </div>
+              </div>
+            </div>
+
+            {/* Right Section (col-8) */}
+            <div className="lg:col-span-8 space-y-4">
+              {/* Top Action Bar */}
+              <div className="flex items-center justify-end gap-3">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Edit GMB Access
+                </Button>
+                <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Visibility Progress */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Visibility</span>
+                  <span className="text-sm font-bold text-gray-900">{stats.visibility}%</span>
+                </div>
+                <Progress value={stats.visibility} className="h-3" />
+              </div>
+
+              {/* Mobile Edit Button */}
+              <div className="lg:hidden">
+                <Button
+                  onClick={() => setEditMode(!editMode)}
+                  variant={editMode ? "secondary" : "default"}
+                  className="w-full"
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  {editMode ? "Stop Editing" : "Edit"}
+                </Button>
               </div>
             </div>
           </div>
