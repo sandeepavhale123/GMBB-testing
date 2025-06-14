@@ -99,6 +99,11 @@ export const BusinessManagement: React.FC = () => {
     });
   };
 
+  const handleEditWorkingHours = () => {
+    setEditMode(true);
+    setActiveTab("opening-hours");
+  };
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       {/* Header Section */}
@@ -370,6 +375,7 @@ export const BusinessManagement: React.FC = () => {
             editMode={editMode}
             onSave={handleSaveWorkingHours}
             onCancel={handleCancelWorkingHours}
+            onEdit={handleEditWorkingHours}
           />
         </TabsContent>
 

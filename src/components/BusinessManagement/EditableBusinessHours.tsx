@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
-import { Clock } from "lucide-react";
+import { Clock, Edit } from "lucide-react";
 
 type WorkingHour = {
   day: string;
@@ -17,6 +17,7 @@ interface EditableBusinessHoursProps {
   editMode: boolean;
   onSave: (workingHours: WorkingHour[]) => void;
   onCancel: () => void;
+  onEdit?: () => void;
 }
 
 const defaultTimes: Record<string, { open: string; close: string }> = {
@@ -79,6 +80,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   editMode,
   onSave,
   onCancel,
+  onEdit,
 }) => {
   const [hoursState, setHoursState] = useState<WorkingHour[]>(initialWorkingHours);
 
@@ -127,8 +129,16 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   if (!editMode) {
     return (
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-bold">Opening Hours</CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onEdit}
+          >
+            <Edit className="h-4 w-4 mr-2" />
+            Edit Hours
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -196,7 +206,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`open-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={hoursParsed.open}
+                        value={hoursParsed.open || ""}
                         onChange={(e) =>
                           handleInputChange(index, "open", e.target.value)
                         }
@@ -208,7 +218,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`close-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={hoursParsed.close}
+                        value={hoursParsed.close || ""}
                         onChange={(e) =>
                           handleInputChange(index, "close", e.target.value)
                         }
