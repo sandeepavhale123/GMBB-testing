@@ -137,7 +137,7 @@ export const BusinessManagement: React.FC = () => {
           {/* Main Profile Section */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
             {/* Left Section (col-4) - Single Row Layout */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-7">
               <div className="flex items-center gap-4">
                 {/* Business Logo */}
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
@@ -170,7 +170,7 @@ export const BusinessManagement: React.FC = () => {
             </div>
 
             {/* Right Section (col-8) */}
-            <div className="lg:col-span-8 space-y-4">
+            <div className="lg:col-span-5 space-y-4">
               {/* Top Action Bar */}
               <div className="flex items-center justify-end gap-3">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
