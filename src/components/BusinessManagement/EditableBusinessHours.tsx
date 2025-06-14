@@ -156,7 +156,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`open-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={hoursParsed.open || defaultTimes[schedule.day].open}
+                        value={typeof hoursParsed.open === "string" ? hoursParsed.open : ""}
                         onChange={(e) =>
                           handleInputChange(index, "open", e.target.value)
                         }
@@ -168,7 +168,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`close-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={hoursParsed.close || defaultTimes[schedule.day].close}
+                        value={typeof hoursParsed.close === "string" ? hoursParsed.close : ""}
                         onChange={(e) =>
                           handleInputChange(index, "close", e.target.value)
                         }
