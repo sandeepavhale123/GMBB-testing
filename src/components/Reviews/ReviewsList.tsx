@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -8,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Search, Star, Bot, MessageSquare, Edit3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { setFilter, replyToReview } from '../../store/slices/reviewsSlice';
+import { Timeline } from './Timeline';
+import { AIReplyGenerator } from './AIReplyGenerator';
 
 interface Review {
   id: string;
@@ -32,6 +33,7 @@ export const ReviewsList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
 
   const reviews: Review[] = [
     {
@@ -133,10 +135,7 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleGenerateReply = (reviewId: string) => {
-    // AI reply generation logic would go here
-    const aiReply = "Thank you for your feedback! We appreciate you taking the time to share your experience with us.";
-    dispatch(replyToReview(reviewId));
-    console.log('Generating AI reply for review:', reviewId);
+    setShowingAIGenerator(reviewId);
   };
 
   const handleManualReply = (reviewId: string) => {
@@ -144,11 +143,16 @@ export const ReviewsList: React.FC = () => {
     setReplyText('');
   };
 
-  const handleSaveReply = (reviewId: string) => {
+  const handleSaveReply = (reviewId: string, reply?: string) => {
     dispatch(replyToReview(reviewId));
     setEditingReply(null);
+    setShowingAIGenerator(null);
     setReplyText('');
-    console.log('Saving manual reply for review:', reviewId, replyText);
+    console.log('Saving reply for review:', reviewId, reply || replyText);
+  };
+
+  const handleCancelAIGenerator = () => {
+    setShowingAIGenerator(null);
   };
 
   return (
@@ -195,102 +199,125 @@ export const ReviewsList: React.FC = () => {
 
       <CardContent>
         <div className="space-y-4">
-          {currentReviews.map((review) => (
-            <div key={review.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <div className="flex items-start gap-4">
-                {/* Customer Avatar */}
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  {review.customerInitials}
-                </div>
-
-                <div className="flex-1">
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-semibold text-gray-900">{review.customerName}</h4>
-                      <Badge variant="outline" className="text-xs">{review.platform}</Badge>
-                      <Badge className={`text-xs ${getSentimentColor(review.sentiment)}`}>
-                        {review.sentiment}
-                      </Badge>
-                    </div>
-                    <span className="text-sm text-gray-500">{review.date}</span>
+          {currentReviews.map((review, index) => (
+            <div key={review.id} className="flex gap-4">
+              {/* Timeline */}
+              <Timeline 
+                sentiment={review.sentiment}
+                date={review.date}
+                isLast={index === currentReviews.length - 1}
+              />
+              
+              {/* Review Content */}
+              <div className="flex-1 border border-gray-200 rounded-lg p-4 bg-gray-50">
+                <div className="flex items-start gap-4">
+                  {/* Customer Avatar */}
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    {review.customerInitials}
                   </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex">{renderStars(review.rating)}</div>
-                    <span className="text-sm text-gray-600">({review.rating}/5)</span>
-                  </div>
-
-                  {/* Review Text */}
-                  <p className="text-gray-700 mb-3">{review.comment}</p>
-
-                  {/* Reply Section */}
-                  {review.replied && review.replyText && (
-                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3">
-                      <p className="text-sm text-gray-700">{review.replyText}</p>
-                      <div className="flex items-center gap-1 mt-1">
-                        <span className="text-xs text-blue-600">Business response</span>
+                  <div className="flex-1">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-semibold text-gray-900">{review.customerName}</h4>
+                        <Badge variant="outline" className="text-xs">{review.platform}</Badge>
+                        <Badge className={`text-xs ${getSentimentColor(review.sentiment)}`}>
+                          {review.sentiment}
+                        </Badge>
                       </div>
+                      <span className="text-sm text-gray-500">{review.date}</span>
                     </div>
-                  )}
 
-                  {/* Edit Reply Form */}
-                  {editingReply === review.id && (
-                    <div className="mb-3">
-                      <textarea
-                        value={replyText}
-                        onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Write your reply..."
-                        className="w-full p-2 border border-gray-300 rounded-md text-sm"
-                        rows={3}
+                    {/* Rating */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex">{renderStars(review.rating)}</div>
+                      <span className="text-sm text-gray-600">({review.rating}/5)</span>
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="text-gray-700 mb-3">{review.comment}</p>
+
+                    {/* Reply Section */}
+                    {review.replied && review.replyText && (
+                      <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3">
+                        <p className="text-sm text-gray-700">{review.replyText}</p>
+                        <div className="flex items-center gap-1 mt-1">
+                          <span className="text-xs text-blue-600">Business response</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Edit Reply Form */}
+                    {editingReply === review.id && (
+                      <div className="mb-3">
+                        <textarea
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                          placeholder="Write your reply..."
+                          className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          rows={3}
+                        />
+                        <div className="flex gap-2 mt-2">
+                          <Button size="sm" onClick={() => handleSaveReply(review.id)}>
+                            Save Reply
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => setEditingReply(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* AI Reply Generator */}
+                    {showingAIGenerator === review.id && (
+                      <AIReplyGenerator
+                        reviewId={review.id}
+                        customerName={review.customerName}
+                        rating={review.rating}
+                        comment={review.comment}
+                        sentiment={review.sentiment}
+                        onSave={handleSaveReply}
+                        onCancel={handleCancelAIGenerator}
                       />
-                      <div className="flex gap-2 mt-2">
-                        <Button size="sm" onClick={() => handleSaveReply(review.id)}>
-                          Save Reply
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => setEditingReply(null)}>
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-2">
-                    {!review.replied && (
-                      <>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleGenerateReply(review.id)}
-                          className="flex items-center gap-1"
-                        >
-                          <Bot className="w-4 h-4" />
-                          Generate using Genie
-                        </Button>
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-2">
+                      {!review.replied && showingAIGenerator !== review.id && (
+                        <>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleGenerateReply(review.id)}
+                            className="flex items-center gap-1"
+                          >
+                            <Bot className="w-4 h-4" />
+                            Generate using Genie
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleManualReply(review.id)}
+                            className="flex items-center gap-1"
+                          >
+                            <MessageSquare className="w-4 h-4" />
+                            Reply Manually
+                          </Button>
+                        </>
+                      )}
+                      {review.replied && (
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => handleManualReply(review.id)}
                           className="flex items-center gap-1"
                         >
-                          <MessageSquare className="w-4 h-4" />
-                          Reply Manually
+                          <Edit3 className="w-4 h-4" />
+                          Edit Reply
                         </Button>
-                      </>
-                    )}
-                    {review.replied && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleManualReply(review.id)}
-                        className="flex items-center gap-1"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                        Edit Reply
-                      </Button>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
