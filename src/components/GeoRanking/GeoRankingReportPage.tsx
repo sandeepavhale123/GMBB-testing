@@ -7,13 +7,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Label } from '../ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { Info, MapPin } from 'lucide-react';
+import { Info, MapPin, BarChart3, FileText, Image, TrendingUp, MessageSquare, CreditCard, Star, User } from 'lucide-react';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SidebarProvider, SidebarInset } from '../ui/sidebar';
-import { Sidebar } from '../Sidebar';
-import { Header } from '../Header';
+import { 
+  SidebarProvider, 
+  SidebarInset, 
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarTrigger
+} from '../ui/sidebar';
+import { cn } from '../../lib/utils';
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -23,10 +36,54 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+const navigationItems = [
+  { 
+    id: 'overview', 
+    label: 'Dashboard', 
+    icon: BarChart3,
+    path: '/'
+  },
+  { 
+    id: 'posts', 
+    label: 'Posts', 
+    icon: FileText,
+    path: '/'
+  },
+  { 
+    id: 'media', 
+    label: 'Media', 
+    icon: Image,
+    path: '/'
+  },
+  { 
+    id: 'insights', 
+    label: 'Insights', 
+    icon: TrendingUp,
+    path: '/'
+  },
+  { 
+    id: 'reviews', 
+    label: 'Reviews', 
+    icon: MessageSquare,
+    path: '/'
+  },
+  { 
+    id: 'geo-ranking', 
+    label: 'GEO Ranking', 
+    icon: MapPin,
+    path: '/geo-ranking-report'
+  },
+  { 
+    id: 'subscription', 
+    label: 'Subscription', 
+    icon: CreditCard,
+    path: '/'
+  },
+];
+
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [formData, setFormData] = useState({
     searchBusinessType: 'name',
     searchBusiness: '',
@@ -126,19 +183,83 @@ export const GeoRankingReportPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const handleNavigation = (path: string) => {
+    navigate(path);
   };
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
-        <Sidebar />
+        <Sidebar>
+          <SidebarHeader className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">GB</span>
+              </div>
+              <div>
+                <h1 className="font-bold text-white text-base tracking-tight">GBP Manager</h1>
+                <p className="text-xs text-slate-400 font-medium">Professional Suite</p>
+              </div>
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {navigationItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <SidebarMenuItem key={item.id}>
+                        <SidebarMenuButton 
+                          onClick={() => handleNavigation(item.path)}
+                          isActive={item.id === 'geo-ranking'}
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span>{item.label}</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+          <SidebarFooter className="p-4">
+            <div className="bg-slate-800 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Star className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm font-semibold text-white">Upgrade to Pro+</span>
+              </div>
+              <p className="text-xs text-slate-400 mb-3">Unlock advanced features</p>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm">
+                Upgrade Now
+              </Button>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-semibold text-xs">JD</span>
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-white text-sm">John Doe</p>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="text-xs text-slate-400">Pro Plan Active</span>
+                </div>
+              </div>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+        
         <SidebarInset className="flex-1">
-          <Header 
-            onToggleSidebar={toggleSidebar}
-            title="Check GEO Ranking"
-          />
+          {/* Header */}
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-semibold">Check GEO Ranking</h1>
+            </div>
+          </header>
           
           {/* Page Content */}
           <div className="p-3 sm:p-4 lg:p-6">
