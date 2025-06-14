@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Star } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
-
+import { ReviewStats } from './ReviewStats';
 export const ReviewSummary: React.FC = () => {
   const overallRating = 4.6;
   const totalReviews = 282;
@@ -40,19 +40,12 @@ export const ReviewSummary: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       {/* Overall Rating */}
-      <Card className="bg-white border border-gray-200">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Overall Rating</CardTitle>
-        </CardHeader>
-        <CardContent>
-          
-        </CardContent>
-      </Card>
+       <ReviewStats />
 
       {/* Star Distribution */}
       <Card className="bg-white border border-gray-200">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Rating Distribution</CardTitle>
+          <CardTitle className="text-lg font-semibold">Overall Rating</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center">
@@ -60,8 +53,9 @@ export const ReviewSummary: React.FC = () => {
             <div className="flex justify-center mb-2">
               {renderStars(overallRating)}
             </div>
-            <p className="text-sm text-gray-600">{totalReviews} total reviews</p>
+            <p className="text-sm text-gray-600 mb-4">{totalReviews} total reviews</p>
           </div>
+          
           <div className="space-y-2">
             {starDistribution.map((item) => (
               <div key={item.stars} className="flex items-center gap-2">
