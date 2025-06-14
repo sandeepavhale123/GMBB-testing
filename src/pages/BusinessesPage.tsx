@@ -5,6 +5,7 @@ import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
+import { BusinessManagement } from '../components/BusinessManagement/BusinessManagement';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
@@ -49,18 +50,13 @@ const BusinessesPage = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="Business Locations"
+              title="Management"
               showFilters={false}
             />
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <div className="space-y-6">
-                <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">Business Locations</h2>
-                  <p className="text-gray-600">This section is coming soon.</p>
-                </div>
-              </div>
+              <BusinessManagement />
             </main>
           </div>
 
