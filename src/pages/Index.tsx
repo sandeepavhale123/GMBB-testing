@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -14,6 +13,7 @@ import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
 import { Button } from '../components/ui/button';
 import { Menu } from 'lucide-react';
 import { GeoRankingPage } from '../components/GeoRanking/GeoRankingPage';
+import { ReviewsManagementPage } from '../components/Reviews/ReviewsManagementPage';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -62,14 +62,7 @@ const Index = () => {
       case 'geo-ranking':
         return <GeoRankingPage />;
       case 'reviews':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Reviews Management</h2>
-              <p className="text-gray-600">Monitor and respond to customer reviews.</p>
-            </div>
-          </div>
-        );
+        return <ReviewsManagementPage />;
       default:
         return (
           <div className="space-y-6">
