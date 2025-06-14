@@ -140,7 +140,7 @@ export const BusinessManagement: React.FC = () => {
             <div className="lg:col-span-7">
               <div className="flex items-center gap-4">
                 {/* Business Logo */}
-                <div className="w-30 h-30 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+                <div className="w-25 h-25 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
                   <div className="text-white font-bold text-lg">
                     KS
                   </div>
