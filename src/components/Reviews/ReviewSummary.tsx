@@ -40,11 +40,12 @@ export const ReviewSummary: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Stats Cards */}
-      <ReviewStats />
+    
 
       {/* Rating and Sentiment Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+         {/* Stats Cards */}
+         <ReviewStats />
         {/* Star Distribution */}
         <Card className="bg-white border border-gray-200">
           <CardHeader>
