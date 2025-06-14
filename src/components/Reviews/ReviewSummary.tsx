@@ -45,13 +45,7 @@ export const ReviewSummary: React.FC = () => {
           <CardTitle className="text-lg font-semibold">Overall Rating</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-gray-900 mb-2">{overallRating}</div>
-            <div className="flex justify-center mb-2">
-              {renderStars(overallRating)}
-            </div>
-            <p className="text-sm text-gray-600">{totalReviews} total reviews</p>
-          </div>
+          
         </CardContent>
       </Card>
 
@@ -61,6 +55,13 @@ export const ReviewSummary: React.FC = () => {
           <CardTitle className="text-lg font-semibold">Rating Distribution</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="text-center">
+            <div className="text-4xl font-bold text-gray-900 mb-2">{overallRating}</div>
+            <div className="flex justify-center mb-2">
+              {renderStars(overallRating)}
+            </div>
+            <p className="text-sm text-gray-600">{totalReviews} total reviews</p>
+          </div>
           <div className="space-y-2">
             {starDistribution.map((item) => (
               <div key={item.stars} className="flex items-center gap-2">
