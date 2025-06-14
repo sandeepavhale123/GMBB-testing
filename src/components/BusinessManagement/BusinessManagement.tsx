@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -9,6 +8,7 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Edit, Clock, AlertCircle } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { EditableBusinessHours } from "./EditableBusinessHours";
 
 export const BusinessManagement: React.FC = () => {
   const [editMode, setEditMode] = useState(false);
@@ -33,7 +33,7 @@ export const BusinessManagement: React.FC = () => {
     visibility: 50
   };
 
-  const workingHours = [
+  const [workingHours, setWorkingHours] = useState([
     { day: 'Monday', hours: '9:00 AM - 6:00 PM', isOpen: true },
     { day: 'Tuesday', hours: '9:00 AM - 6:00 PM', isOpen: true },
     { day: 'Wednesday', hours: '9:00 AM - 6:00 PM', isOpen: true },
@@ -41,7 +41,14 @@ export const BusinessManagement: React.FC = () => {
     { day: 'Friday', hours: '9:00 AM - 6:00 PM', isOpen: true },
     { day: 'Saturday', hours: '10:00 AM - 4:00 PM', isOpen: true },
     { day: 'Sunday', hours: 'Closed', isOpen: false }
-  ];
+  ]);
+
+  const [workingHoursDraft, setWorkingHoursDraft] = useState(workingHours);
+  useEffect(() => {
+    if (!editMode) {
+      setWorkingHoursDraft(workingHours);
+    }
+  }, [editMode]);
 
   const editLogs = [
     { date: '2024-01-15', action: 'Updated business description', status: 'Published' },
@@ -72,6 +79,24 @@ export const BusinessManagement: React.FC = () => {
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleSaveWorkingHours = (newHours: typeof workingHours) => {
+    setWorkingHours(newHours);
+    setEditMode(false);
+    toast({
+      title: "Changes saved",
+      description: "Your business working hours were updated successfully.",
+    });
+  };
+
+  const handleCancelWorkingHours = () => {
+    setWorkingHoursDraft(workingHours);
+    setEditMode(false);
+    toast({
+      title: "Edit cancelled",
+      description: "Your working hours changes were not saved.",
+    });
   };
 
   return (
@@ -340,31 +365,12 @@ export const BusinessManagement: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="opening-hours" className="space-y-6 animate-fade-in">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-bold">Opening Hours</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {workingHours.map((schedule, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
-                    <div className="flex items-center gap-3">
-                      <Clock className="h-4 w-4 text-gray-500" />
-                      <span className="font-medium w-20">{schedule.day}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-sm ${schedule.isOpen ? 'text-green-600' : 'text-gray-500'}`}>
-                        {schedule.hours}
-                      </span>
-                      <Badge variant={schedule.isOpen ? "default" : "secondary"}>
-                        {schedule.isOpen ? 'Open' : 'Closed'}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <EditableBusinessHours
+            initialWorkingHours={editMode ? workingHoursDraft : workingHours}
+            editMode={editMode}
+            onSave={handleSaveWorkingHours}
+            onCancel={handleCancelWorkingHours}
+          />
         </TabsContent>
 
         <TabsContent value="edit-log" className="space-y-6 animate-fade-in">
