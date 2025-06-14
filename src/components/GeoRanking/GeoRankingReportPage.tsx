@@ -9,7 +9,6 @@ import { Label } from '../ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { Info, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 
@@ -35,6 +34,14 @@ export const GeoRankingReportPage: React.FC = () => {
   });
 
   useEffect(() => {
+    // Load Leaflet CSS dynamically
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+    link.crossOrigin = '';
+    document.head.appendChild(link);
+
     if (!mapRef.current) return;
 
     const map = L.map(mapRef.current).setView([28.6139, 77.2090], 13); // Delhi coordinates
@@ -50,6 +57,11 @@ export const GeoRankingReportPage: React.FC = () => {
 
     return () => {
       map.remove();
+      // Clean up the CSS link when component unmounts
+      const existingLink = document.querySelector('link[href*="leaflet.css"]');
+      if (existingLink) {
+        existingLink.remove();
+      }
     };
   }, []);
 
