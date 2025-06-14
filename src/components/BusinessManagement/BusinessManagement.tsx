@@ -164,7 +164,7 @@ export const BusinessManagement: React.FC = () => {
                           </div>
                       </CardContent>
                     </Card>
-
+                     <Card>
                       <CardContent>
                          <div className="text-center">
                             <div className="text-xl font-bold text-gray-900">{stats.position}</div>
@@ -172,8 +172,6 @@ export const BusinessManagement: React.FC = () => {
                           </div>
                       </CardContent>
                     </Card>
-                   
-                    
                   </div>
                 </div>
               </div>
