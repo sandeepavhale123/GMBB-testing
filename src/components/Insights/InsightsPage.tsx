@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { InsightsCard } from '../Dashboard/InsightsCard';
+import { InsightsCard } from './InsightsCard';
 
 export const InsightsPage: React.FC = () => {
   return (
