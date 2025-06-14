@@ -156,19 +156,19 @@ export const BusinessManagement: React.FC = () => {
                   
                   {/* Stats in single row with background */}
                   <div className="flex gap-4   p-3">
-                    <Card className="bg-gray-50  rounded">
+                    <Card className="bg-gray-50 p-1 rounded">
                       <CardContent>
                          <div className="text-center">
                             <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
-                            <div className="text-xs text-gray-600">Profile views</div>
+                            <div className="text-xs text-gray-600 mb-1">Profile views</div>
                           </div>
                       </CardContent>
                     </Card>
-                     <Card className="bg-gray-50  rounded">
+                     <Card className="bg-gray-50 p-1 rounded">
                       <CardContent>
                          <div className="text-center">
                             <div className="text-xl font-bold text-gray-900">{stats.position}</div>
-                            <div className="text-xs text-gray-600">Position</div>
+                            <div className="text-xs text-gray-600 mb-1">Position</div>
                           </div>
                       </CardContent>
                     </Card>
@@ -191,7 +191,7 @@ export const BusinessManagement: React.FC = () => {
 
               {/* Visibility Progress */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between w-[200px]">
                   <span className="text-sm font-medium text-gray-700">Visibility</span>
                   <span className="text-sm font-bold text-gray-900">{stats.visibility}%</span>
                 </div>
