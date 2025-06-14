@@ -5,11 +5,11 @@ import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
-import { Dashboard } from '../components/Dashboard/Dashboard';
+import { MediaPage as Media } from '../components/Media/MediaPage';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
-const Index = () => {
+const MediaPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,7 +21,7 @@ const Index = () => {
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetContent side="left" className="p-0 w-64">
               <Sidebar
-                activeTab="overview"
+                activeTab="media"
                 onTabChange={() => {}}
                 collapsed={false}
               />
@@ -31,7 +31,7 @@ const Index = () => {
           {/* Desktop Sidebar */}
           <div className="hidden md:flex">
             <Sidebar
-              activeTab="overview"
+              activeTab="media"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
             />
@@ -50,13 +50,13 @@ const Index = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="Overview"
-              showFilters={false}
+              title="Media Library"
+              showFilters={true}
             />
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <Dashboard />
+              <Media />
             </main>
           </div>
 
@@ -67,4 +67,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default MediaPage;

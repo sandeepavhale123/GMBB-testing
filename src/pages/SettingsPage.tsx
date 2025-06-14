@@ -5,11 +5,10 @@ import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
-import { Dashboard } from '../components/Dashboard/Dashboard';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
-const Index = () => {
+const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,7 +20,7 @@ const Index = () => {
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetContent side="left" className="p-0 w-64">
               <Sidebar
-                activeTab="overview"
+                activeTab="settings"
                 onTabChange={() => {}}
                 collapsed={false}
               />
@@ -31,7 +30,7 @@ const Index = () => {
           {/* Desktop Sidebar */}
           <div className="hidden md:flex">
             <Sidebar
-              activeTab="overview"
+              activeTab="settings"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
             />
@@ -50,13 +49,18 @@ const Index = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="Overview"
+              title="Settings"
               showFilters={false}
             />
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <Dashboard />
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">Settings</h2>
+                  <p className="text-gray-600">This section is coming soon.</p>
+                </div>
+              </div>
             </main>
           </div>
 
@@ -67,4 +71,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default SettingsPage;
