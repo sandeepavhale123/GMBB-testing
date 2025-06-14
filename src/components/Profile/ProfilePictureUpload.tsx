@@ -54,8 +54,8 @@ export const ProfilePictureUpload: React.FC = () => {
         <div
           className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
             dragOver
-              ? 'border-purple-400 bg-purple-50'
-              : 'border-gray-300 hover:border-purple-400 hover:bg-gray-50'
+              ? 'border-blue-400 bg-blue-50'
+              : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
           }`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -79,7 +79,7 @@ export const ProfilePictureUpload: React.FC = () => {
             type="button"
             variant="outline"
             onClick={() => document.getElementById('profile-upload')?.click()}
-            className="border-purple-200 text-purple-600 hover:bg-purple-50"
+            className="border-blue-200 text-blue-600 hover:bg-blue-50"
           >
             <Upload className="w-4 h-4 mr-2" />
             Choose File

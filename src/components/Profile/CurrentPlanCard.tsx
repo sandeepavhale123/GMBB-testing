@@ -1,0 +1,115 @@
+
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
+import { Check, AlertTriangle, Calendar, Crown } from 'lucide-react';
+
+export const CurrentPlanCard: React.FC = () => {
+  const isExpired = true; // This would come from your subscription data
+  const planName = "Pro Plan";
+  const expirationDate = "December 15, 2024";
+  
+  const features = [
+    "Unlimited business listings",
+    "Advanced analytics",
+    "Priority support",
+    "Custom reporting",
+    "API access"
+  ];
+
+  return (
+    <Card className="shadow-lg border-0">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+            <Crown className="w-5 h-5 text-yellow-500" />
+            Current Plan
+          </CardTitle>
+          <Badge 
+            variant={isExpired ? "destructive" : "default"}
+            className={`${
+              isExpired 
+                ? "bg-red-100 text-red-800 hover:bg-red-100" 
+                : "bg-green-100 text-green-800 hover:bg-green-100"
+            }`}
+          >
+            {isExpired ? (
+              <>
+                <AlertTriangle className="w-3 h-3 mr-1" />
+                Expired
+              </>
+            ) : (
+              <>
+                <Check className="w-3 h-3 mr-1" />
+                Active
+              </>
+            )}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">{planName}</h3>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Calendar className="w-4 h-4" />
+              <span>Expires on {expirationDate}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-3">Plan Features</h4>
+            <ul className="space-y-2">
+              {features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className="flex flex-col justify-center">
+            {isExpired ? (
+              <div className="space-y-3">
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-800 font-medium">
+                    Your plan has expired
+                  </p>
+                  <p className="text-sm text-red-600">
+                    Renew now to continue enjoying premium features
+                  </p>
+                </div>
+                <Button 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
+                >
+                  Renew Plan
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <Button 
+                  variant="outline" 
+                  className="w-full border-blue-200 text-blue-600 hover:bg-blue-50"
+                  size="lg"
+                >
+                  Manage Subscription
+                </Button>
+                <Button 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
+                >
+                  Upgrade Plan
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

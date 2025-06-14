@@ -12,7 +12,8 @@ import {
   ChevronDown,
   Search,
   Star,
-  CreditCard
+  CreditCard,
+  User
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -23,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { cn } from '../lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
   activeTab: string;
@@ -35,43 +37,57 @@ const navigationItems = [
     id: 'overview', 
     label: 'Dashboard', 
     icon: BarChart3,
-    description: 'Dashboard overview'
+    description: 'Dashboard overview',
+    path: '/'
   },
   { 
     id: 'posts', 
     label: 'Posts', 
     icon: FileText,
-    description: 'Manage posts'
+    description: 'Manage posts',
+    path: '/'
   },
   { 
     id: 'media', 
     label: 'Media', 
     icon: Image,
-    description: 'Media library'
+    description: 'Media library',
+    path: '/'
   },
   { 
     id: 'insights', 
     label: 'Insights', 
     icon: TrendingUp,
-    description: 'Performance insights'
+    description: 'Performance insights',
+    path: '/'
   },
   { 
     id: 'reviews', 
     label: 'Reviews', 
     icon: MessageSquare,
-    description: 'Customer reviews'
+    description: 'Customer reviews',
+    path: '/'
   },
   { 
     id: 'geo-ranking', 
     label: 'GEO Ranking', 
     icon: MapPin,
-    description: 'Local search rankings'
+    description: 'Local search rankings',
+    path: '/'
+  },
+  { 
+    id: 'profile', 
+    label: 'Profile', 
+    icon: User,
+    description: 'Profile settings',
+    path: '/profile'
   },
   { 
     id: 'subscription', 
     label: 'Subscription', 
     icon: CreditCard,
-    description: 'Subscription management'
+    description: 'Subscription management',
+    path: '/'
   },
 ];
 
@@ -107,6 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTabChange, 
   collapsed 
 }) => {
+  const navigate = useNavigate();
   const [selectedBusiness, setSelectedBusiness] = useState(businesses[0]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -114,6 +131,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     business.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleNavigation = (item: any) => {
+    if (item.path === '/profile') {
+      navigate('/profile');
+    } else {
+      navigate('/');
+      onTabChange(item.id);
+    }
+  };
 
   return (
     <div className={cn(
@@ -146,7 +172,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Button
                 key={item.id}
                 variant="ghost"
-                onClick={() => onTabChange(item.id)}
+                onClick={() => handleNavigation(item)}
                 className={cn(
                   "w-full justify-start gap-3 h-10 font-medium transition-all duration-200 text-left",
                   collapsed ? "px-2" : "px-3",

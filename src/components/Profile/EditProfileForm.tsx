@@ -164,7 +164,7 @@ export const EditProfileForm: React.FC = () => {
           type="submit"
           size="lg"
           disabled={isLoading}
-          className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
+          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
         >
           {isLoading ? 'Saving...' : 'Save Changes'}
         </Button>
