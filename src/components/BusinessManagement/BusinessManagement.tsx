@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -135,33 +136,35 @@ export const BusinessManagement: React.FC = () => {
         <CardContent className="p-6">
           {/* Main Profile Section */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
-            {/* Left Section (col-4) */}
-            <div className="lg:col-span-4 space-y-4">
-              {/* Business Logo and Info */}
-              <div className="flex flex-col items-center lg:items-start">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg mb-3">
-                  <div className="text-white font-bold text-xl">
+            {/* Left Section (col-4) - Single Row Layout */}
+            <div className="lg:col-span-4">
+              <div className="flex items-center gap-4">
+                {/* Business Logo */}
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+                  <div className="text-white font-bold text-lg">
                     KS
                   </div>
                 </div>
-                <div className="text-center lg:text-left">
-                  <div className="flex items-center gap-2 mb-1 justify-center lg:justify-start">
-                    <h2 className="text-xl font-semibold text-gray-900">{businessData.name}</h2>
+                
+                {/* Business Info and Stats */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="text-lg font-semibold text-gray-900">{businessData.name}</h2>
                     <Badge variant="default" className="bg-blue-600 text-white text-xs">✓</Badge>
                   </div>
-                  <p className="text-gray-600 text-sm">On Google</p>
-                </div>
-              </div>
-
-              {/* Stats Boxes */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{stats.profileViews}</div>
-                  <div className="text-xs text-gray-600">Profile views</div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{stats.position}</div>
-                  <div className="text-xs text-gray-600">Position</div>
+                  <p className="text-gray-600 text-sm mb-3">On Google</p>
+                  
+                  {/* Stats in single row */}
+                  <div className="flex gap-4">
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
+                      <div className="text-xs text-gray-600">Profile views</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-gray-900">{stats.position}</div>
+                      <div className="text-xs text-gray-600">Position</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
