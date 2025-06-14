@@ -171,7 +171,7 @@ export const BusinessManagement: React.FC = () => {
                         <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
                         <div className="text-xs text-gray-600">Profile views</div>
                       </div>
-                     <div className="text-center bg-grey-50 p-1  rounded">
+                     <div className="text-center bg-grey-50 p-2 rounded bg-slate-200 w-[100px]">
                         <div className="text-xl font-bold text-gray-900">{stats.position}</div>
                         <div className="text-xs text-gray-600">Position</div>
                       </div>
