@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Calendar, MapPin, TrendingUp, RefreshCw, Download, ChevronDown, Search, Target, Users, Eye } from 'lucide-react';
+import { Calendar, MapPin, TrendingUp, RefreshCw, Download, ChevronDown, Search, Target, Users, Eye, Plus } from 'lucide-react';
 import { Input } from '../ui/input';
 import { CircularProgress } from '../ui/circular-progress';
 import { Progress } from '../ui/progress';
+import { useNavigate } from 'react-router-dom';
+
 const underPerformingAreas = [{
   area: 'Akurdi Road',
   rank: 15,
@@ -61,11 +63,34 @@ const competitorData = [{
   rank: 12,
   visibility: 25
 }];
+
 export const GeoRankingPage: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [selectedDate, setSelectedDate] = useState('01/02/2023');
   const [gridSize, setGridSize] = useState('4*4');
-  return <div className="">
+
+  const handleCreateReport = () => {
+    navigate('/geo-ranking-report');
+  };
+
+  return (
+    <div className="">
+      {/* Page Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">GEO Ranking Dashboard</h1>
+          <p className="text-gray-600">Monitor and optimize your local search rankings across different locations</p>
+        </div>
+        <Button 
+          onClick={handleCreateReport}
+          className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          Create Report
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left Section - Main Content */}
         <div className="lg:col-span-3 space-y-6">
@@ -412,5 +437,6 @@ export const GeoRankingPage: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
