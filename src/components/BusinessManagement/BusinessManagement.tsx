@@ -149,18 +149,18 @@ export const BusinessManagement: React.FC = () => {
                 {/* Business Info and Stats */}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h2 className="text-lg font-semibold text-gray-900">{businessData.name}</h2>
+                    <h2 className="text-md font-semibold text-gray-900" style={{marginBottom:'0px'}}>{businessData.name}</h2>
                     <Badge variant="default" className="bg-blue-600 text-white text-xs">✓</Badge>
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">On Google</p>
+                  <p className="text-gray-600 text-xs mb-3">On Google</p>
                   
                   {/* Stats in single row with background */}
                   <div className="flex gap-4   p-3">
-                     <div className="text-center bg-grey-50 rounded">
+                     <div className="text-center bg-grey-50 p-1 rounded">
                         <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
                         <div className="text-xs text-gray-600">Profile views</div>
                       </div>
-                     <div className="text-center bg-grey-50 rounded">
+                     <div className="text-center bg-grey-50 p-1  rounded">
                         <div className="text-xl font-bold text-gray-900">{stats.position}</div>
                         <div className="text-xs text-gray-600">Position</div>
                       </div>
@@ -172,18 +172,10 @@ export const BusinessManagement: React.FC = () => {
             {/* Right Section (col-8) */}
             <div className="lg:col-span-5 space-y-4">
               {/* Top Action Bar */}
-              <div className="flex items-center justify-end gap-3">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Edit GMB Access
-                </Button>
-                <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </div>
 
               {/* Visibility Progress */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between w-[200px] ml-auto">
                   <span className="text-sm font-medium text-gray-700">Visibility</span>
                   <span className="text-sm font-bold text-gray-900">{stats.visibility}%</span>
                 </div>
