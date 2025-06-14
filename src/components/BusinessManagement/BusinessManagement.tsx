@@ -7,10 +7,12 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Edit, Globe, Phone, MapPin, Clock, AlertCircle } from 'lucide-react';
+import { Edit, Clock, AlertCircle } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 export const BusinessManagement: React.FC = () => {
   const [editMode, setEditMode] = useState(false);
+  const [activeTab, setActiveTab] = useState("business-info");
   const [businessData, setBusinessData] = useState({
     name: 'KSoft Solution',
     address: '26, 2nd Floor, Software Technology Parks of India, MIDC Industrial Area, Chhatrapati Sambhaji Nagar, Maharashtra 431006',
@@ -50,7 +52,19 @@ export const BusinessManagement: React.FC = () => {
 
   const handleSave = () => {
     setEditMode(false);
+    toast({
+      title: "Changes saved",
+      description: "Your business information was updated successfully.",
+    });
     // Here you would typically save to backend
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+    toast({
+      title: "Edit cancelled",
+      description: "Your changes were not saved.",
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -61,21 +75,36 @@ export const BusinessManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-4xl mx-auto">
       {/* Header Section */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-center mb-2">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Management</h1>
-          <p className="text-gray-600">KSoft → Management</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-2">
+            Management
+            {editMode && (
+              <span className="ml-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                Editing
+              </span>
+            )}
+          </h1>
+          <p className="text-gray-500 text-sm">KSoft &rarr; Management</p>
         </div>
+        <Button
+          onClick={() => setEditMode(!editMode)}
+          variant={editMode ? "secondary" : "default"}
+          className={`hidden md:inline-flex`}
+        >
+          <Edit className="h-4 w-4 mr-2" />
+          {editMode ? "Stop Editing" : "Edit"}
+        </Button>
       </div>
 
       {/* Business Profile Card */}
       <Card>
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-start space-x-4">
-              <div className="w-20 h-20 bg-gray-900 rounded-lg flex items-center justify-center">
+        <CardContent className="p-6 pt-4">
+          <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-20 h-20 bg-gray-900 rounded-lg flex items-center justify-center shadow-md">
                 <div className="text-white font-bold text-lg">
                   <div className="grid grid-cols-2 gap-1">
                     <div className="w-2 h-2 bg-white rounded-sm"></div>
@@ -86,23 +115,28 @@ export const BusinessManagement: React.FC = () => {
                 </div>
               </div>
               <div>
-                <div className="flex items-center space-x-2 mb-1">
+                <div className="flex items-center gap-2 mb-1">
                   <h2 className="text-xl font-semibold">{businessData.name}</h2>
                   <Badge variant="secondary" className="bg-blue-100 text-blue-800">✓</Badge>
                 </div>
-                <p className="text-gray-600 text-sm">On Google</p>
+                <p className="text-gray-500 text-sm">On Google</p>
               </div>
             </div>
-            <Button 
-              onClick={() => setEditMode(!editMode)}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              Edit GMB Access
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => setEditMode(!editMode)}
+                variant={editMode ? "secondary" : "default"}
+                className="sm:hidden"
+                size="sm"
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                {editMode ? "Stop Editing" : "Edit"}
+              </Button>
+            </div>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-4">
             <div>
               <div className="text-2xl font-bold">{stats.profileViews}</div>
               <div className="text-sm text-gray-600">Profile views</div>
@@ -119,7 +153,7 @@ export const BusinessManagement: React.FC = () => {
                 </div>
                 <div className="w-24 bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-green-500 h-2 rounded-full" 
+                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
                     style={{ width: `${stats.visibility}%` }}
                   ></div>
                 </div>
@@ -130,25 +164,42 @@ export const BusinessManagement: React.FC = () => {
       </Card>
 
       {/* Tabs Section */}
-      <Tabs defaultValue="business-info" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="business-info">Business Information</TabsTrigger>
-          <TabsTrigger value="opening-hours">Opening Hours</TabsTrigger>
-          <TabsTrigger value="edit-log">Edit Log</TabsTrigger>
+      <Tabs defaultValue="business-info" value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-3 transition-all duration-200">
+          <TabsTrigger
+            value="business-info"
+            className={activeTab === "business-info" ? "animate-fade-in" : ""}
+          >
+            Business Information
+          </TabsTrigger>
+          <TabsTrigger
+            value="opening-hours"
+            className={activeTab === "opening-hours" ? "animate-fade-in" : ""}
+          >
+            Opening Hours
+          </TabsTrigger>
+          <TabsTrigger
+            value="edit-log"
+            className={activeTab === "edit-log" ? "animate-fade-in" : ""}
+          >
+            Edit Log
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="business-info" className="space-y-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Business Information</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setEditMode(!editMode)}
-              >
-                <Edit className="h-4 w-4 mr-2" />
-                Edit
-              </Button>
+        <TabsContent value="business-info" className="space-y-6 animate-fade-in">
+          <Card className="relative">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-bold">Business Information</CardTitle>
+              {!editMode && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditMode(true)}
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit
+                </Button>
+              )}
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,7 +222,6 @@ export const BusinessManagement: React.FC = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <Label htmlFor="address">Address</Label>
                 <Textarea
@@ -182,7 +232,6 @@ export const BusinessManagement: React.FC = () => {
                   rows={2}
                 />
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="website">Website</Label>
@@ -203,7 +252,6 @@ export const BusinessManagement: React.FC = () => {
                   />
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="category">Category</Label>
@@ -224,7 +272,6 @@ export const BusinessManagement: React.FC = () => {
                   />
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="labels">Labels</Label>
@@ -245,7 +292,6 @@ export const BusinessManagement: React.FC = () => {
                   />
                 </div>
               </div>
-
               <div>
                 <Label htmlFor="mapUrl">Map url</Label>
                 <Input
@@ -255,7 +301,6 @@ export const BusinessManagement: React.FC = () => {
                   disabled={!editMode}
                 />
               </div>
-
               <div>
                 <Label htmlFor="description">Description</Label>
                 <Textarea
@@ -266,18 +311,17 @@ export const BusinessManagement: React.FC = () => {
                   rows={6}
                 />
               </div>
-
-              {editMode && (
-                <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setEditMode(false)}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSave}>
-                    Save Changes
-                  </Button>
-                </div>
-              )}
             </CardContent>
+            {editMode && (
+              <div className="sticky z-10 flex justify-end gap-4 bg-gradient-to-t from-white to-white/70 backdrop-blur bottom-0 py-4 px-6 rounded-b-lg w-full border-t border-gray-100 mt-2">
+                <Button variant="outline" onClick={handleCancel}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSave}>
+                  Save Changes
+                </Button>
+              </div>
+            )}
           </Card>
 
           {/* Notice */}
@@ -287,7 +331,7 @@ export const BusinessManagement: React.FC = () => {
               <div>
                 <h4 className="font-medium text-yellow-800">Notice</h4>
                 <p className="text-sm text-yellow-700">
-                  Please note Google may be review edits for quality and can take up to 3 days to be published.{' '}
+                  Please note Google may review edits for quality and can take up to 3 days to be published.{' '}
                   <a href="#" className="text-blue-600 underline">Learn more.</a>
                 </p>
               </div>
@@ -295,20 +339,20 @@ export const BusinessManagement: React.FC = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="opening-hours" className="space-y-6">
+        <TabsContent value="opening-hours" className="space-y-6 animate-fade-in">
           <Card>
             <CardHeader>
-              <CardTitle>Opening Hours</CardTitle>
+              <CardTitle className="text-lg font-bold">Opening Hours</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {workingHours.map((schedule, index) => (
                   <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center gap-3">
                       <Clock className="h-4 w-4 text-gray-500" />
                       <span className="font-medium w-20">{schedule.day}</span>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center gap-2">
                       <span className={`text-sm ${schedule.isOpen ? 'text-green-600' : 'text-gray-500'}`}>
                         {schedule.hours}
                       </span>
@@ -323,10 +367,10 @@ export const BusinessManagement: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="edit-log" className="space-y-6">
+        <TabsContent value="edit-log" className="space-y-6 animate-fade-in">
           <Card>
             <CardHeader>
-              <CardTitle>Edit Log</CardTitle>
+              <CardTitle className="text-lg font-bold">Edit Log</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
