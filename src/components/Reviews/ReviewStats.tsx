@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent } from '../ui/card';
 import { MessageSquare, Clock, Bot, User } from 'lucide-react';
 
 export const ReviewStats: React.FC = () => {
@@ -36,18 +36,18 @@ export const ReviewStats: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat) => {
         const Icon = stat.icon;
         return (
           <Card key={stat.title} className="bg-white border border-gray-200">
-            <CardContent className="p-4">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1 truncate">{stat.title}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                <div className={`p-3 rounded-lg ${stat.bgColor} flex-shrink-0`}>
                   <Icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
               </div>
