@@ -4,9 +4,10 @@ import React from 'react';
 interface TimelineProps {
   date: string;
   isLast: boolean;
+  sentiment: 'positive' | 'neutral' | 'negative';
 }
 
-export const Timeline: React.FC<TimelineProps> = ({ date, isLast }) => {
+export const Timeline: React.FC<TimelineProps> = ({ date, isLast, sentiment }) => {
   return (
     <div className="flex flex-col items-center">
       {/* Date Badge */}
