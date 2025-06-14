@@ -167,7 +167,7 @@ export const BusinessManagement: React.FC = () => {
                   
                   {/* Stats in single row with background */}
                   <div className="flex gap-4   p-3">
-                     <div className="text-center bg-grey-50 p-2 rounded bg-slate-200">
+                     <div className="text-center bg-grey-50 p-2 rounded bg-slate-200 text-center ">
                         <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
                         <div className="text-xs text-gray-600">Profile views</div>
                       </div>
