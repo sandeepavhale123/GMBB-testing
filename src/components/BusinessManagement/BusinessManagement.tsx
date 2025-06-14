@@ -155,15 +155,25 @@ export const BusinessManagement: React.FC = () => {
                   <p className="text-gray-600 text-sm mb-3">On Google</p>
                   
                   {/* Stats in single row with background */}
-                  <div className="flex gap-4 bg-gray-50 rounded-lg p-3">
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
-                      <div className="text-xs text-gray-600">Profile views</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-gray-900">{stats.position}</div>
-                      <div className="text-xs text-gray-600">Position</div>
-                    </div>
+                  <div className="flex gap-4   p-3">
+                    <Card classNme="bg-gray-50 p-3 rounded">
+                      <CardContent>
+                         <div className="text-center">
+                            <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
+                            <div className="text-xs text-gray-600">Profile views</div>
+                          </div>
+                      </CardContent>
+                    </Card>
+
+                      <CardContent>
+                         <div className="text-center">
+                            <div className="text-xl font-bold text-gray-900">{stats.position}</div>
+                            <div className="text-xs text-gray-600">Position</div>
+                          </div>
+                      </CardContent>
+                    </Card>
+                   
+                    
                   </div>
                 </div>
               </div>
@@ -187,7 +197,7 @@ export const BusinessManagement: React.FC = () => {
                   <span className="text-sm font-medium text-gray-700">Visibility</span>
                   <span className="text-sm font-bold text-gray-900">{stats.visibility}%</span>
                 </div>
-                <Progress value={stats.visibility} className="h-3 w-[200px]" />
+                <Progress value={stats.visibility} className="h-3 w-[200px] ml-auto" />
               </div>
 
               {/* Mobile Edit Button */}
