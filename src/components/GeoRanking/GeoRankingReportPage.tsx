@@ -7,8 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Label } from '../ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { Info, ArrowLeft, Search, MapPin, Settings, Bell, User } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Info, MapPin } from 'lucide-react';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 
@@ -21,7 +20,6 @@ L.Icon.Default.mergeOptions({
 });
 
 export const GeoRankingReportPage: React.FC = () => {
-  const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     searchBusinessType: 'name',
@@ -123,90 +121,45 @@ export const GeoRankingReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* App Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back
-            </Button>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">GB</span>
-              </div>
-              <div>
-                <h1 className="font-bold text-gray-900 text-lg">GBP Manager</h1>
-                <p className="text-xs text-gray-500">Professional Suite</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input
-                placeholder="Search..."
-                className="pl-10 w-64"
-              />
-            </div>
-            <Button variant="ghost" size="sm">
-              <Bell className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <User className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <div className="p-6">
+      {/* Page Content */}
+      <div className="p-3 sm:p-4 lg:p-6">
         <div className="max-w-7xl mx-auto">
           {/* Page Title */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Create GEO Ranking Report</h1>
-            <p className="text-gray-600 mt-2">Configure your local search ranking analysis</p>
+          <div className="mb-4 lg:mb-6">
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Create GEO Ranking Report</h1>
+            <p className="text-gray-600 mt-1 lg:mt-2 text-sm lg:text-base">Configure your local search ranking analysis</p>
           </div>
 
           {/* Main Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
             {/* Left Section - Map */}
-            <div className="lg:col-span-8">
-              <Card className="overflow-hidden h-[680px]">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <MapPin className="w-5 h-5" />
+            <div className="xl:col-span-8">
+              <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
+                <CardHeader className="pb-3 lg:pb-4">
+                  <CardTitle className="text-base lg:text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 lg:w-5 lg:h-5" />
                     Ranking Grid Visualization
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 h-full">
                   <div 
                     ref={mapRef} 
-                    className="w-full h-[600px]"
+                    className="w-full h-[330px] sm:h-[430px] lg:h-[600px]"
                   />
                 </CardContent>
               </Card>
             </div>
 
             {/* Right Section - Form */}
-            <div className="lg:col-span-4">
-              <Card className="shadow-lg h-[680px]">
-                <CardHeader>
-                  <CardTitle className="text-xl font-semibold text-gray-900">
+            <div className="xl:col-span-4">
+              <Card className="shadow-lg h-[400px] sm:h-[500px] lg:h-[680px]">
+                <CardHeader className="pb-3 lg:pb-4">
+                  <CardTitle className="text-lg lg:text-xl font-semibold text-gray-900">
                     Report Configuration
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 overflow-y-auto">
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                <CardContent className="space-y-4 lg:space-y-6 overflow-y-auto h-full pb-6">
+                  <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
                     {/* Search Business with Type Dropdown */}
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-gray-700">
@@ -217,7 +170,7 @@ export const GeoRankingReportPage: React.FC = () => {
                           value={formData.searchBusinessType}
                           onValueChange={(value) => handleInputChange('searchBusinessType', value)}
                         >
-                          <SelectTrigger className="w-24">
+                          <SelectTrigger className="w-20 sm:w-24">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -243,7 +196,7 @@ export const GeoRankingReportPage: React.FC = () => {
                       <RadioGroup 
                         value={formData.searchDataEngine}
                         onValueChange={(value) => handleInputChange('searchDataEngine', value)}
-                        className="flex flex-row gap-6"
+                        className="flex flex-row gap-4 sm:gap-6"
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="Map API" id="map-api" />
@@ -282,90 +235,96 @@ export const GeoRankingReportPage: React.FC = () => {
                       />
                     </div>
 
-                    {/* Map Point */}
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Map Point
-                      </Label>
-                      <Select 
-                        value={formData.mapPoint}
-                        onValueChange={(value) => handleInputChange('mapPoint', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Automatic">Automatic</SelectItem>
-                          <SelectItem value="Manually">Manually</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    {/* Map Point and Distance Unit in Single Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+                      {/* Map Point */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Map Point
+                        </Label>
+                        <Select 
+                          value={formData.mapPoint}
+                          onValueChange={(value) => handleInputChange('mapPoint', value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Automatic">Automatic</SelectItem>
+                            <SelectItem value="Manually">Manually</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Distance Unit */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Distance Unit
+                        </Label>
+                        <RadioGroup 
+                          value={formData.distanceUnit}
+                          onValueChange={(value) => handleInputChange('distanceUnit', value)}
+                          className="flex flex-row gap-3 lg:gap-4 pt-2"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Meters" id="meters" />
+                            <Label htmlFor="meters" className="text-sm">Meters</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Miles" id="miles" />
+                            <Label htmlFor="miles" className="text-sm">Miles</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
                     </div>
 
-                    {/* Distance Unit */}
-                    <div className="space-y-3">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Distance Unit
-                      </Label>
-                      <RadioGroup 
-                        value={formData.distanceUnit}
-                        onValueChange={(value) => handleInputChange('distanceUnit', value)}
-                        className="flex flex-row gap-6"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Meters" id="meters" />
-                          <Label htmlFor="meters" className="text-sm">Meters</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Miles" id="miles" />
-                          <Label htmlFor="miles" className="text-sm">Miles</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
+                    {/* Grid Size and Schedule Check in Single Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+                      {/* Grid Size */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Grid Size
+                        </Label>
+                        <Select 
+                          value={formData.gridSize}
+                          onValueChange={(value) => handleInputChange('gridSize', value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="3x3">3x3</SelectItem>
+                            <SelectItem value="5x5">5x5</SelectItem>
+                            <SelectItem value="7x7">7x7</SelectItem>
+                            <SelectItem value="9x9">9x9</SelectItem>
+                            <SelectItem value="11x11">11x11</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                    {/* Grid Size */}
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Grid Size
-                      </Label>
-                      <Select 
-                        value={formData.gridSize}
-                        onValueChange={(value) => handleInputChange('gridSize', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="3x3">3x3</SelectItem>
-                          <SelectItem value="5x5">5x5</SelectItem>
-                          <SelectItem value="7x7">7x7</SelectItem>
-                          <SelectItem value="9x9">9x9</SelectItem>
-                          <SelectItem value="11x11">11x11</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Schedule Check */}
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Schedule Check
-                      </Label>
-                      <Select 
-                        value={formData.scheduleCheck}
-                        onValueChange={(value) => handleInputChange('scheduleCheck', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="One-time">One-time</SelectItem>
-                          <SelectItem value="Weekly">Weekly</SelectItem>
-                          <SelectItem value="Monthly">Monthly</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      {/* Schedule Check */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Schedule Check
+                        </Label>
+                        <Select 
+                          value={formData.scheduleCheck}
+                          onValueChange={(value) => handleInputChange('scheduleCheck', value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="One-time">One-time</SelectItem>
+                            <SelectItem value="Weekly">Weekly</SelectItem>
+                            <SelectItem value="Monthly">Monthly</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     {/* Submit Button */}
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6">
                       Create GEO Report
                     </Button>
                   </form>
