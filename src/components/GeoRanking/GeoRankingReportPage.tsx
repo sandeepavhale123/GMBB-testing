@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -11,21 +10,7 @@ import { Info, MapPin, BarChart3, FileText, Image, TrendingUp, MessageSquare, Cr
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  SidebarProvider, 
-  SidebarInset, 
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarTrigger
-} from '../ui/sidebar';
+import { SidebarProvider, SidebarInset, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, SidebarTrigger } from '../ui/sidebar';
 import { cn } from '../../lib/utils';
 
 // Fix for default markers in Leaflet with Webpack
@@ -33,54 +18,44 @@ delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 });
-
-const navigationItems = [
-  { 
-    id: 'overview', 
-    label: 'Dashboard', 
-    icon: BarChart3,
-    path: '/'
-  },
-  { 
-    id: 'posts', 
-    label: 'Posts', 
-    icon: FileText,
-    path: '/'
-  },
-  { 
-    id: 'media', 
-    label: 'Media', 
-    icon: Image,
-    path: '/'
-  },
-  { 
-    id: 'insights', 
-    label: 'Insights', 
-    icon: TrendingUp,
-    path: '/'
-  },
-  { 
-    id: 'reviews', 
-    label: 'Reviews', 
-    icon: MessageSquare,
-    path: '/'
-  },
-  { 
-    id: 'geo-ranking', 
-    label: 'GEO Ranking', 
-    icon: MapPin,
-    path: '/geo-ranking-report'
-  },
-  { 
-    id: 'subscription', 
-    label: 'Subscription', 
-    icon: CreditCard,
-    path: '/'
-  },
-];
-
+const navigationItems = [{
+  id: 'overview',
+  label: 'Dashboard',
+  icon: BarChart3,
+  path: '/'
+}, {
+  id: 'posts',
+  label: 'Posts',
+  icon: FileText,
+  path: '/'
+}, {
+  id: 'media',
+  label: 'Media',
+  icon: Image,
+  path: '/'
+}, {
+  id: 'insights',
+  label: 'Insights',
+  icon: TrendingUp,
+  path: '/'
+}, {
+  id: 'reviews',
+  label: 'Reviews',
+  icon: MessageSquare,
+  path: '/'
+}, {
+  id: 'geo-ranking',
+  label: 'GEO Ranking',
+  icon: MapPin,
+  path: '/geo-ranking-report'
+}, {
+  id: 'subscription',
+  label: 'Subscription',
+  icon: CreditCard,
+  path: '/'
+}];
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
@@ -102,19 +77,23 @@ export const GeoRankingReportPage: React.FC = () => {
     const centerLat = 28.6139;
     const centerLng = 77.2090;
     const spacing = 0.003; // Adjust spacing as needed
-    
+
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        const lat = centerLat + (i - Math.floor(rows/2)) * spacing;
-        const lng = centerLng + (j - Math.floor(cols/2)) * spacing;
+        const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
+        const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
         // Generate random ranking numbers for demo
         const ranking = Math.floor(Math.random() * 8) + 1;
-        gridData.push({ lat, lng, ranking, id: `${i}-${j}` });
+        gridData.push({
+          lat,
+          lng,
+          ranking,
+          id: `${i}-${j}`
+        });
       }
     }
     return gridData;
   };
-
   useEffect(() => {
     // Load Leaflet CSS dynamically
     const link = document.createElement('link');
@@ -123,18 +102,14 @@ export const GeoRankingReportPage: React.FC = () => {
     link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
     link.crossOrigin = '';
     document.head.appendChild(link);
-
     if (!mapRef.current) return;
-
     const map = L.map(mapRef.current).setView([28.6139, 77.2090], 14);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     // Add grid overlay
     const gridData = generateGridData(formData.gridSize);
-    
     gridData.forEach(point => {
       // Create custom marker with ranking number
       const rankingIcon = L.divIcon({
@@ -156,12 +131,10 @@ export const GeoRankingReportPage: React.FC = () => {
         iconSize: [32, 32],
         iconAnchor: [16, 16]
       });
-
-      L.marker([point.lat, point.lng], { icon: rankingIcon })
-        .addTo(map)
-        .bindPopup(`Ranking: ${point.ranking}`);
+      L.marker([point.lat, point.lng], {
+        icon: rankingIcon
+      }).addTo(map).bindPopup(`Ranking: ${point.ranking}`);
     });
-
     return () => {
       map.remove();
       // Clean up the CSS link when component unmounts
@@ -171,26 +144,24 @@ export const GeoRankingReportPage: React.FC = () => {
       }
     };
   }, [formData.gridSize]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Checking GEO ranking with data:', formData);
     // Navigate to geo ranking page
     navigate('/');
   };
-
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
-
   const handleNavigation = (path: string) => {
     navigate(path);
   };
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full">
-        <Sidebar>
+        <Sidebar className="bg-slate-900">
           <SidebarHeader className="p-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -207,20 +178,15 @@ export const GeoRankingReportPage: React.FC = () => {
               <SidebarGroupLabel>Navigation</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {navigationItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.id}>
-                        <SidebarMenuButton 
-                          onClick={() => handleNavigation(item.path)}
-                          isActive={item.id === 'geo-ranking'}
-                        >
+                  {navigationItems.map(item => {
+                  const Icon = item.icon;
+                  return <SidebarMenuItem key={item.id}>
+                        <SidebarMenuButton onClick={() => handleNavigation(item.path)} isActive={item.id === 'geo-ranking'}>
                           <Icon className="w-4 h-4" />
                           <span>{item.label}</span>
                         </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
+                      </SidebarMenuItem>;
+                })}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
@@ -282,10 +248,7 @@ export const GeoRankingReportPage: React.FC = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0 h-full">
-                      <div 
-                        ref={mapRef} 
-                        className="w-full h-[330px] sm:h-[430px] lg:h-[600px]"
-                      />
+                      <div ref={mapRef} className="w-full h-[330px] sm:h-[430px] lg:h-[600px]" />
                     </CardContent>
                   </Card>
                 </div>
@@ -306,10 +269,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             Search Business
                           </Label>
                           <div className="flex gap-2">
-                            <Select 
-                              value={formData.searchBusinessType}
-                              onValueChange={(value) => handleInputChange('searchBusinessType', value)}
-                            >
+                            <Select value={formData.searchBusinessType} onValueChange={value => handleInputChange('searchBusinessType', value)}>
                               <SelectTrigger className="w-20 sm:w-24">
                                 <SelectValue />
                               </SelectTrigger>
@@ -319,12 +279,7 @@ export const GeoRankingReportPage: React.FC = () => {
                                 <SelectItem value="cid">CID</SelectItem>
                               </SelectContent>
                             </Select>
-                            <Input
-                              placeholder={`Enter business ${formData.searchBusinessType}`}
-                              value={formData.searchBusiness}
-                              onChange={(e) => handleInputChange('searchBusiness', e.target.value)}
-                              className="flex-1"
-                            />
+                            <Input placeholder={`Enter business ${formData.searchBusinessType}`} value={formData.searchBusiness} onChange={e => handleInputChange('searchBusiness', e.target.value)} className="flex-1" />
                           </div>
                         </div>
 
@@ -333,11 +288,7 @@ export const GeoRankingReportPage: React.FC = () => {
                           <Label className="text-sm font-medium text-gray-700">
                             Search Data Engine
                           </Label>
-                          <RadioGroup 
-                            value={formData.searchDataEngine}
-                            onValueChange={(value) => handleInputChange('searchDataEngine', value)}
-                            className="flex flex-row gap-4 sm:gap-6"
-                          >
+                          <RadioGroup value={formData.searchDataEngine} onValueChange={value => handleInputChange('searchDataEngine', value)} className="flex flex-row gap-4 sm:gap-6">
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="Map API" id="map-api" />
                               <Label htmlFor="map-api" className="text-sm">Map API</Label>
@@ -366,13 +317,7 @@ export const GeoRankingReportPage: React.FC = () => {
                               </Tooltip>
                             </TooltipProvider>
                           </div>
-                          <Input
-                            id="keywords"
-                            placeholder="keyword1, keyword2, keyword3"
-                            value={formData.keywords}
-                            onChange={(e) => handleInputChange('keywords', e.target.value)}
-                            className="w-full"
-                          />
+                          <Input id="keywords" placeholder="keyword1, keyword2, keyword3" value={formData.keywords} onChange={e => handleInputChange('keywords', e.target.value)} className="w-full" />
                         </div>
 
                         {/* Map Point and Distance Unit in Single Row */}
@@ -382,10 +327,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             <Label className="text-sm font-medium text-gray-700">
                               Map Point
                             </Label>
-                            <Select 
-                              value={formData.mapPoint}
-                              onValueChange={(value) => handleInputChange('mapPoint', value)}
-                            >
+                            <Select value={formData.mapPoint} onValueChange={value => handleInputChange('mapPoint', value)}>
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
@@ -401,11 +343,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             <Label className="text-sm font-medium text-gray-700">
                               Distance Unit
                             </Label>
-                            <RadioGroup 
-                              value={formData.distanceUnit}
-                              onValueChange={(value) => handleInputChange('distanceUnit', value)}
-                              className="flex flex-row gap-3 lg:gap-4 pt-2"
-                            >
+                            <RadioGroup value={formData.distanceUnit} onValueChange={value => handleInputChange('distanceUnit', value)} className="flex flex-row gap-3 lg:gap-4 pt-2">
                               <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="Meters" id="meters" />
                                 <Label htmlFor="meters" className="text-sm">Meters</Label>
@@ -425,10 +363,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             <Label className="text-sm font-medium text-gray-700">
                               Grid Size
                             </Label>
-                            <Select 
-                              value={formData.gridSize}
-                              onValueChange={(value) => handleInputChange('gridSize', value)}
-                            >
+                            <Select value={formData.gridSize} onValueChange={value => handleInputChange('gridSize', value)}>
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
@@ -447,10 +382,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             <Label className="text-sm font-medium text-gray-700">
                               Schedule Check
                             </Label>
-                            <Select 
-                              value={formData.scheduleCheck}
-                              onValueChange={(value) => handleInputChange('scheduleCheck', value)}
-                            >
+                            <Select value={formData.scheduleCheck} onValueChange={value => handleInputChange('scheduleCheck', value)}>
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
@@ -476,6 +408,5 @@ export const GeoRankingReportPage: React.FC = () => {
           </div>
         </SidebarInset>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
