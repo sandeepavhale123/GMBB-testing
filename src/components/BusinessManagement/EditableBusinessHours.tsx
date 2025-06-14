@@ -29,13 +29,49 @@ const defaultTimes: Record<string, { open: string; close: string }> = {
   Sunday: { open: "09:00", close: "18:00" },
 };
 
-function parseHours(hours: string) {
-  // Parses "9:00 AM - 6:00 PM" or "Closed"
+function parseHours(hours: string): { open: string; close: string } {
   if (hours === "Closed") {
-    return defaultTimes;
+    return { open: "09:00", close: "18:00" };
   }
-  const [open, close] = hours.split(" - ").map((h) => h.trim());
-  return { open, close };
+  
+  // Handle formats like "9:00 AM - 6:00 PM" or "09:00 - 18:00"
+  const parts = hours.split(" - ");
+  if (parts.length !== 2) {
+    return { open: "09:00", close: "18:00" };
+  }
+
+  let [openTime, closeTime] = parts.map(t => t.trim());
+  
+  // Convert 12-hour format to 24-hour format if needed
+  if (openTime.includes("AM") || openTime.includes("PM")) {
+    openTime = convertTo24Hour(openTime);
+  }
+  if (closeTime.includes("AM") || closeTime.includes("PM")) {
+    closeTime = convertTo24Hour(closeTime);
+  }
+
+  return { open: openTime, close: closeTime };
+}
+
+function convertTo24Hour(time12h: string): string {
+  const [time, modifier] = time12h.split(/\s+(AM|PM)/i);
+  let [hours, minutes] = time.split(':').map(Number);
+  
+  if (modifier.toUpperCase() === 'PM' && hours !== 12) {
+    hours += 12;
+  }
+  if (modifier.toUpperCase() === 'AM' && hours === 12) {
+    hours = 0;
+  }
+  
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+}
+
+function convertTo12Hour(time24h: string): string {
+  const [hours, minutes] = time24h.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const hours12 = hours % 12 || 12;
+  return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
 }
 
 export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
@@ -53,12 +89,18 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   const handleInputChange = (index: number, field: "open" | "close", value: string) => {
     setHoursState((prev) => {
       const arr = [...prev];
-      const [from, to] = arr[index].hours === "Closed"
-        ? [defaultTimes[arr[index].day].open, defaultTimes[arr[index].day].close]
-        : arr[index].hours.split(" - ").map((h) => h.trim());
+      const currentHours = parseHours(arr[index].hours);
+      
+      const newOpen = field === "open" ? value : currentHours.open;
+      const newClose = field === "close" ? value : currentHours.close;
+      
+      // Convert back to 12-hour format for display
+      const displayOpen = convertTo12Hour(newOpen);
+      const displayClose = convertTo12Hour(newClose);
+      
       arr[index] = {
         ...arr[index],
-        hours: field === "open" ? `${value} - ${to}` : `${from} - ${value}`,
+        hours: `${displayOpen} - ${displayClose}`,
       };
       return arr;
     });
@@ -67,10 +109,12 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   const handleClosedToggle = (index: number, checked: boolean) => {
     setHoursState((prev) => {
       const arr = [...prev];
+      const defaultHours = defaultTimes[arr[index].day];
+      
       arr[index] = {
         ...arr[index],
         isOpen: !checked,
-        hours: checked ? "Closed" : `${defaultTimes[arr[index].day].open} - ${defaultTimes[arr[index].day].close}`,
+        hours: checked ? "Closed" : `${convertTo12Hour(defaultHours.open)} - ${convertTo12Hour(defaultHours.close)}`,
       };
       return arr;
     });
@@ -81,7 +125,6 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   };
 
   if (!editMode) {
-    // View only
     return (
       <Card>
         <CardHeader>
@@ -111,7 +154,6 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
     );
   }
 
-  // Edit mode
   return (
     <Card>
       <CardHeader>
@@ -126,10 +168,8 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
           }}
         >
           {hoursState.map((schedule, index) => {
-            const hoursParsed =
-              schedule.hours === "Closed"
-                ? { open: defaultTimes[schedule.day].open, close: defaultTimes[schedule.day].close }
-                : parseHours(schedule.hours);
+            const hoursParsed = parseHours(schedule.hours);
+            
             return (
               <div
                 key={index}
@@ -156,7 +196,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`open-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={typeof hoursParsed.open === "string" ? hoursParsed.open : ""}
+                        value={hoursParsed.open}
                         onChange={(e) =>
                           handleInputChange(index, "open", e.target.value)
                         }
@@ -168,7 +208,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
                         id={`close-${index}`}
                         type="time"
                         className="border rounded px-2 py-1 text-sm"
-                        value={typeof hoursParsed.close === "string" ? hoursParsed.close : ""}
+                        value={hoursParsed.close}
                         onChange={(e) =>
                           handleInputChange(index, "close", e.target.value)
                         }
