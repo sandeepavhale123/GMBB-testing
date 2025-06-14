@@ -59,7 +59,7 @@ export const ReviewsList: React.FC = () => {
       date: '2024-06-10',
       replied: false,
       sentiment: 'positive',
-      platform: 'Yelp'
+      platform: 'Google'
     },
     {
       id: '3',
@@ -97,7 +97,7 @@ export const ReviewsList: React.FC = () => {
       replied: true,
       replyText: 'Thank you Lisa! We\'re so happy you\'re enjoying our summer offerings.',
       sentiment: 'positive',
-      platform: 'Yelp'
+      platform: 'Google'
     }
   ];
 
