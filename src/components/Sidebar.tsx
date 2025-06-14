@@ -76,13 +76,6 @@ const navigationItems = [
     path: '/'
   },
   { 
-    id: 'profile', 
-    label: 'Profile', 
-    icon: User,
-    description: 'Profile settings',
-    path: '/profile'
-  },
-  { 
     id: 'subscription', 
     label: 'Subscription', 
     icon: CreditCard,
@@ -133,12 +126,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const handleNavigation = (item: any) => {
-    if (item.path === '/profile') {
-      navigate('/profile');
-    } else {
-      navigate('/');
-      onTabChange(item.id);
-    }
+    navigate('/');
+    onTabChange(item.id);
   };
 
   return (

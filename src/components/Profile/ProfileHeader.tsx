@@ -1,8 +1,9 @@
 
-import React from 'react';
-import { Lock, Camera, User } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Lock, Pencil, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
+import { useToast } from '../../hooks/use-toast';
 
 interface ProfileHeaderProps {
   activeTab: 'edit' | 'password';
@@ -13,6 +14,55 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   activeTab,
   onTabChange
 }) => {
+  const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [profileImage, setProfileImage] = useState("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80");
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please select an image file.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please select an image smaller than 5MB.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      setProfileImage(result);
+      setIsUploading(false);
+      toast({
+        title: "Profile picture updated",
+        description: "Your profile picture has been successfully updated.",
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handlePencilClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <Card className="shadow-lg border-0">
       <CardContent className="p-6">
@@ -21,14 +71,25 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div className="relative flex-shrink-0">
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-4 border-gray-100">
               <img 
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
+                src={profileImage}
                 alt="Profile" 
                 className="w-full h-full object-cover"
               />
             </div>
-            <button className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors">
-              <Camera className="w-3 h-3 sm:w-4 sm:h-4" />
+            <button 
+              onClick={handlePencilClick}
+              disabled={isUploading}
+              className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+            >
+              <Pencil className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </div>
           
           {/* User Info */}

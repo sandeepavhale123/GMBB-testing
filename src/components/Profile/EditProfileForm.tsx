@@ -6,7 +6,6 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { ProfilePictureUpload } from './ProfilePictureUpload';
 import { useToast } from '../../hooks/use-toast';
 
 export const EditProfileForm: React.FC = () => {
@@ -29,16 +28,6 @@ export const EditProfileForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Profile Picture Upload */}
-      <Card className="shadow-lg border-0">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">Profile Picture</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ProfilePictureUpload />
-        </CardContent>
-      </Card>
-
       {/* Edit Profile Section */}
       <Card className="shadow-lg border-0">
         <CardHeader>

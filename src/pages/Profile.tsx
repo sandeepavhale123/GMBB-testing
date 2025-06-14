@@ -34,7 +34,7 @@ const Profile = () => {
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetContent side="left" className="p-0 w-64">
               <Sidebar
-                activeTab="profile"
+                activeTab="overview"
                 onTabChange={() => {}}
                 collapsed={false}
               />
@@ -44,7 +44,7 @@ const Profile = () => {
           {/* Desktop Sidebar */}
           <div className="hidden md:flex">
             <Sidebar
-              activeTab="profile"
+              activeTab="overview"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
             />
