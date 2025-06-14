@@ -156,7 +156,7 @@ export const BusinessManagement: React.FC = () => {
                   
                   {/* Stats in single row with background */}
                   <div className="flex gap-4   p-3">
-                    <Card className="bg-gray-50 p-3 rounded">
+                    <Card className="bg-gray-50 border-0 rounded">
                       <CardContent>
                          <div className="text-center">
                             <div className="text-xl font-bold text-gray-900">{stats.profileViews}</div>
@@ -164,7 +164,7 @@ export const BusinessManagement: React.FC = () => {
                           </div>
                       </CardContent>
                     </Card>
-                     <Card className="bg-gray-50 p-3 rounded">
+                     <Card className="bg-gray-50 border-0 rounded">
                       <CardContent>
                          <div className="text-center">
                             <div className="text-xl font-bold text-gray-900">{stats.position}</div>
