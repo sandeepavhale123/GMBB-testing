@@ -12,8 +12,6 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { AuthInitializer } from "@/store/slices/auth/authInitializer";
 import { ProtectedRoute } from "@/routes/protectedRoute";
-import { Provider } from "react-redux"; // ✅ Redux provider
-import { store } from "@/store/store";
 import { PublicRoute } from "./routes/PublicRoute";
 import { GeoRankingReportPage } from "./components/GeoRanking/GeoRankingReportPage";
 import PostsPage from "./pages/PostsPage";
@@ -74,7 +72,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-          <Routes>
+        
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/media" element={<MediaPage />} />
             <Route path="/insights" element={<InsightsPage />} />
@@ -93,8 +91,9 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
-    </QueryClientProvider>
-  </Provider>
+    </Provider>
+  </QueryClientProvider>
+  
 
 );
 
