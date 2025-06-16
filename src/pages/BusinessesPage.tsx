@@ -43,6 +43,7 @@ const BusinessesPage = () => {
           }`}>
             {/* Header */}
             <Header
+              title="Management"
               onToggleSidebar={() => {
                 if (window.innerWidth < 768) {
                   setMobileMenuOpen(true);
