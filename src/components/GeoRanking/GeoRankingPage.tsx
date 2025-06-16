@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Download, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MetricsCards } from './MetricsCards';
@@ -15,9 +16,16 @@ export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [gridSize, setGridSize] = useState('4*4');
+  const [headerKeyword, setHeaderKeyword] = useState('Web Design');
 
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
+  };
+
+  const handleExportPDF = () => {
+    // PDF export functionality
+    console.log('Exporting report as PDF...');
+    // This would integrate with a PDF generation library
   };
 
   return (
@@ -28,12 +36,25 @@ export const GeoRankingPage: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">GEO Ranking Dashboard</h1>
           <p className="text-sm sm:text-base text-gray-600">Monitor and optimize your local search rankings across different locations</p>
         </div>
-        <Button 
-          onClick={handleCreateReport}
-          className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 w-full sm:w-auto justify-center"
-        >
-          Check rank
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <Select value={headerKeyword} onValueChange={setHeaderKeyword}>
+            <SelectTrigger className="w-full sm:w-48">
+              <SelectValue placeholder="Select keyword" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Web Design">Web Design</SelectItem>
+              <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
+              <SelectItem value="SEO Services">SEO Services</SelectItem>
+              <SelectItem value="Local Business">Local Business</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button 
+            onClick={handleCreateReport}
+            className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 w-full sm:w-auto justify-center"
+          >
+            Check rank
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -42,15 +63,15 @@ export const GeoRankingPage: React.FC = () => {
           {/* Header Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <h4 className="text-xl sm:text-2xl font-bold text-gray-900">{selectedKeyword}</h4>
+              <h4 className="text-xl sm:text-2xl font-bold text-gray-900">{headerKeyword}</h4>
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs sm:text-sm font-medium w-fit">
                 Monthly Volume: 8.2k
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="flex-1 sm:flex-none">
+              <Button variant="outline" size="sm" className="flex-1 sm:flex-none" onClick={handleExportPDF}>
                 <Download className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Export</span>
+                <span className="hidden sm:inline">Export PDF</span>
               </Button>
             </div>
           </div>

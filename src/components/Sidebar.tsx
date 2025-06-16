@@ -64,15 +64,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         <div className="flex h-16 items-center justify-center border-b border-gray-800 px-4">
           {!collapsed ? (
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">GM</span>
-              </div>
+              <img 
+                src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png" 
+                alt="GMB Genie Logo" 
+                className="w-8 h-8 object-contain"
+              />
               <span className="text-xl font-bold text-white">GMB Genie</span>
             </div>
           ) : (
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">GM</span>
-            </div>
+            <img 
+              src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png" 
+              alt="GMB Genie Logo" 
+              className="w-8 h-8 object-contain"
+            />
           )}
         </div>
 
