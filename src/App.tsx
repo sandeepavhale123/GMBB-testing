@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,8 +11,8 @@ import Login from "./pages/Login";
 import Onboarding from "./pages/Onboarding";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
-import { AuthInitializer } from "@/store/slices/auth/authInitializer";
-import { ProtectedRoute } from "@/routes/protectedRoute";
+import { AuthInitializer } from "@/store/slices/auth/AuthInitializer";
+import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 import { GeoRankingReportPage } from "./components/GeoRanking/GeoRankingReportPage";
 import PostsPage from "./pages/PostsPage";
