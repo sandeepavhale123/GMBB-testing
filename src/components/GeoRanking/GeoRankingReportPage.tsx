@@ -20,6 +20,7 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 });
+
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
@@ -128,7 +129,12 @@ export const GeoRankingReportPage: React.FC = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
   return <div className="min-h-screen flex w-full">
-      <Sidebar activeTab="geo-ranking" onTabChange={() => {}} collapsed={sidebarCollapsed} />
+      <Sidebar 
+        activeTab="geo-ranking" 
+        onTabChange={() => {}} 
+        collapsed={sidebarCollapsed} 
+        onToggleCollapse={toggleSidebar}
+      />
       
       <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         <Header onToggleSidebar={toggleSidebar} />
