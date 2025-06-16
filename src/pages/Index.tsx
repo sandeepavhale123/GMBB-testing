@@ -1,9 +1,10 @@
+
 import React, { useState } from "react";
 // import { Provider } from "react-redux";
 // import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
-import { Header } from "../components/Header";
+import { Header } from "../components/Header/Header";
 import { Dashboard } from "../components/Dashboard/Dashboard";
 import { PostsPage } from "../components/Posts/PostsPage";
 import { MediaPage } from "../components/Media/MediaPage";
