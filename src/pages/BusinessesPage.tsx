@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header';
+import { Header } from '../components/Header/Header';
 import { BusinessManagement } from '../components/BusinessManagement/BusinessManagement';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
@@ -43,7 +43,6 @@ const BusinessesPage = () => {
           }`}>
             {/* Header */}
             <Header
-              title="Management"
               onToggleSidebar={() => {
                 if (window.innerWidth < 768) {
                   setMobileMenuOpen(true);

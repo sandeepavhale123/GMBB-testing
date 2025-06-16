@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header';
+import { Header } from '../components/Header/Header';
 import { GeoRankingPage as GeoRanking } from '../components/GeoRanking/GeoRankingPage';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
@@ -50,7 +50,6 @@ const GeoRankingPage = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="GEO Ranking"
               showFilters={true}
             />
 

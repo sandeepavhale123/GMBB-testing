@@ -1,7 +1,5 @@
-
 export interface HeaderProps {
   onToggleSidebar: () => void;
-  title: string;
   showFilters?: boolean;
   onShowFilters?: () => void;
 }

@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 // import { Provider } from "react-redux";
 // import { store } from "../store/store";
@@ -25,35 +26,6 @@ const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const getPageTitle = (tab: string) => {
-    switch (tab) {
-      case "overview":
-        return "Overview";
-      case "posts":
-        return "Posts Management";
-      case "media":
-        return "Media Library";
-      case "insights":
-        return "Insights & Analytics";
-      case "geo-ranking":
-        return "GEO Ranking";
-      case "reviews":
-        return "Reviews Management";
-      case "analytics":
-        return "Analytics";
-      case "businesses":
-        return "Business Locations";
-      case "team":
-        return "Team Management";
-      case "notifications":
-        return "Notifications";
-      case "settings":
-        return "Settings";
-      default:
-        return "Overview";
-    }
-  };
-
   const renderContent = () => {
     switch (activeTab) {
       case "overview":
@@ -74,7 +46,7 @@ const Index = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                {getPageTitle(activeTab)}
+                Coming Soon
               </h2>
               <p className="text-gray-600">This section is coming soon.</p>
             </div>
@@ -126,7 +98,6 @@ const Index = () => {
                 setSidebarCollapsed(!sidebarCollapsed);
               }
             }}
-            title={getPageTitle(activeTab)}
             showFilters={[
               "posts",
               "reviews",
