@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Plus, Grid3X3, List, Zap } from 'lucide-react';
 import { Input } from '../ui/input';
@@ -147,13 +148,21 @@ export const ManageGoogleAccountPage: React.FC<ManageGoogleAccountPageProps> = (
         </div>
       </div>
 
-      {/* Account Cards Grid */}
+      {/* List View Headers */}
+      {viewMode === 'list' && filteredAccounts.length > 0 && (
+        <div className="bg-gray-50 border border-gray-200 rounded-t-lg">
+          <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <div className="col-span-4">Account</div>
+            <div className="col-span-2 text-center">Listings in Account</div>
+            <div className="col-span-2 text-center">Active Listings</div>
+            <div className="col-span-4 text-right">Action</div>
+          </div>
+        </div>
+      )}
+
+      {/* Account Cards Grid/List */}
       {filteredAccounts.length > 0 ? (
-        <div className={`grid gap-4 sm:gap-6 ${
-          viewMode === 'grid' 
-            ? 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' 
-            : 'grid-cols-1'
-        }`}>
+        <div className={`${viewMode === 'list' ? 'space-y-0' : 'grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
           {filteredAccounts.map((account) => (
             <GoogleAccountCard
               key={account.id}
