@@ -14,9 +14,7 @@ interface MediaFile {
   url: string;
   type: 'image' | 'video';
   title?: string;
-  altText?: string;
   category?: string;
-  location?: string;
 } 
 
 interface MediaItem {
@@ -44,9 +42,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const [showAIModal, setShowAIModal] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
-    altText: '',
     category: '',
-    location: 'Main Location'
+    publishOption: 'now',
+    scheduleDate: ''
   });
 
   const handleFilesAdded = (newFiles: File[]) => {
@@ -93,9 +91,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     setFiles([]);
     setFormData({
       title: '',
-      altText: '',
       category: '',
-      location: 'Main Location'
+      publishOption: 'now',
+      scheduleDate: ''
     });
     onClose();
   };
@@ -107,8 +105,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       file: new File([], 'ai-generated-media'), // Placeholder file
       url: generatedMedia.url,
       type: generatedMedia.type,
-      title: generatedMedia.prompt.slice(0, 50) + '...',
-      altText: generatedMedia.prompt
+      title: generatedMedia.prompt.slice(0, 50) + '...'
     };
     
     setFiles(prev => [...prev, aiFile]);
@@ -177,8 +174,6 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
               onChange={handleFormDataChange}
               hasFiles={files.length > 0}
             />
-
-            
 
             {/* Action Buttons */}
             <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">

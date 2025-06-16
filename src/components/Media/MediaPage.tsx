@@ -5,6 +5,7 @@ import { Upload, Eye, Trash2, MoreVertical, Play } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { MediaUploadModal } from './MediaUploadModal';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 interface MediaItem {
   id: string;
@@ -18,6 +19,7 @@ interface MediaItem {
 export const MediaPage: React.FC = () => {
   const { toast } = useToast();
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([
     {
       id: '1',
@@ -107,6 +109,13 @@ export const MediaPage: React.FC = () => {
 
   const mostViewedImage = mediaItems[0];
 
+  const tabItems = [
+    { value: 'all', label: 'All', shortLabel: 'All' },
+    { value: 'owner', label: 'By owner', shortLabel: 'Owner' },
+    { value: 'street-view', label: 'Street View & 360°', shortLabel: '360°' },
+    { value: 'videos', label: 'Videos', shortLabel: 'Video' }
+  ];
+
   return (
     <div className="space-y-6">
       {/* Page Title and Subtext */}
@@ -189,65 +198,67 @@ export const MediaPage: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 w-fit">
-            <Button variant="ghost" size="sm" className="bg-white shadow-sm rounded-md px-4 py-2 text-sm font-medium">
-              All
-            </Button>
-            <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
-              By owner
-            </Button>
-            <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
-              Street View & 360°
-            </Button>
-            <Button variant="ghost" size="sm" className="px-4 py-2 text-sm text-gray-600 hover:bg-white hover:shadow-sm rounded-md">
-              Videos
-            </Button>
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full bg-gray-100 p-1 h-auto overflow-x-auto">
+              {tabItems.map((item) => (
+                <TabsTrigger 
+                  key={item.value} 
+                  value={item.value}
+                  className="flex-1 min-w-0 px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                >
+                  <span className="hidden sm:inline">{item.label}</span>
+                  <span className="sm:hidden">{item.shortLabel}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-8 gap-2">
-            {mediaItems.map(item => (
-              <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
-                <img src={item.url} alt={item.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" onClick={() => handleViewImage(item)} />
-                
-                {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                    <div className="bg-black bg-opacity-50 rounded-full p-2">
-                      <Play className="w-6 h-6 text-white fill-white" />
+            <TabsContent value={activeTab} className="mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-8 gap-2">
+                {mediaItems.map(item => (
+                  <div key={item.id} className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+                    <img src={item.url} alt={item.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" onClick={() => handleViewImage(item)} />
+                    
+                    {item.type === 'video' && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
+                        <div className="bg-black bg-opacity-50 rounded-full p-2">
+                          <Play className="w-6 h-6 text-white fill-white" />
+                        </div>
+                        <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                          0:15
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200">
+                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
+                              <MoreVertical className="w-4 h-4 text-gray-700" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem onClick={() => handleViewImage(item)}>
+                              <Eye className="w-4 h-4 mr-2" />
+                              View
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDeleteImage(item.id)} className="text-red-600">
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
-                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
-                      0:15
+
+                    <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="w-5 h-5 border-2 border-white rounded bg-white bg-opacity-20 hover:bg-opacity-40 cursor-pointer"></div>
                     </div>
                   </div>
-                )}
-                
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200">
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
-                          <MoreVertical className="w-4 h-4 text-gray-700" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem onClick={() => handleViewImage(item)}>
-                          <Eye className="w-4 h-4 mr-2" />
-                          View
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDeleteImage(item.id)} className="text-red-600">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-
-                <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-5 h-5 border-2 border-white rounded bg-white bg-opacity-20 hover:bg-opacity-40 cursor-pointer"></div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
 

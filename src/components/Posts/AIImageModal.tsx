@@ -53,6 +53,16 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
     );
   };
 
+  const handleUseSelected = () => {
+    if (selectedImages.length > 0) {
+      // Convert URL to File object (in real app, you'd handle this properly)
+      const mockFile = new File([], 'generated-image.jpg', {
+        type: 'image/jpeg'
+      });
+      onSelect(mockFile);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
@@ -63,7 +73,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 sm:space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto">
           {/* Input Form */}
           <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div>
@@ -169,8 +179,8 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 border-t">
+        {/* Footer - Fixed position */}
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 pt-4 border-t bg-white">
           <span className="text-sm text-gray-500 text-center sm:text-left">
             {selectedImages.length} image(s) selected
           </span>
@@ -180,16 +190,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
             </Button>
             <Button 
               disabled={selectedImages.length === 0} 
-              onClick={() => {
-                // For demo purposes, we'll just simulate selecting the first image
-                if (selectedImages.length > 0) {
-                  // Convert URL to File object (in real app, you'd handle this properly)
-                  const mockFile = new File([], 'generated-image.jpg', {
-                    type: 'image/jpeg'
-                  });
-                  onSelect(mockFile);
-                }
-              }}
+              onClick={handleUseSelected}
               className="w-full sm:w-auto"
             >
               Use Selected ({selectedImages.length})

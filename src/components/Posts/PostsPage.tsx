@@ -35,57 +35,59 @@ export const PostsPage = () => {
           <p className="text-gray-600 mt-1">Manage your social media posts</p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Create Post
+          <Plus className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">Create Post</span>
         </Button>
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-between bg-white rounded-lg border p-4">
-        <div className="flex items-center gap-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder="Search posts..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 w-64"
-            />
+      <div className="bg-white rounded-lg border p-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
+            {/* Search */}
+            <div className="relative flex-1 sm:max-w-64">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Search posts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 w-full"
+              />
+            </div>
+
+            {/* Filter */}
+            <Select value={filter} onValueChange={setFilter}>
+              <SelectTrigger className="w-full sm:w-40">
+                <Filter className="w-4 h-4 mr-2" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Posts</SelectItem>
+                <SelectItem value="scheduled">Scheduled Posts</SelectItem>
+                <SelectItem value="live">Live Posts</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {/* Filter */}
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-40">
-              <Filter className="w-4 h-4 mr-2" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Posts</SelectItem>
-              <SelectItem value="scheduled">Scheduled Posts</SelectItem>
-              <SelectItem value="live">Live Posts</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* View Toggle */}
-        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-          <Button
-            variant={viewMode === 'grid' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setViewMode('grid')}
-            className="h-8"
-          >
-            <Grid2x2 className="w-4 h-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'list' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setViewMode('list')}
-            className="h-8"
-          >
-            <List className="w-4 h-4" />
-          </Button>
+          {/* View Toggle */}
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 self-center">
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('grid')}
+              className="h-8"
+            >
+              <Grid2x2 className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('list')}
+              className="h-8"
+            >
+              <List className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
