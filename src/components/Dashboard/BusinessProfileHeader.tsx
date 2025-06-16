@@ -13,7 +13,7 @@ export const BusinessProfileHeader: React.FC = () => {
   return (
     <div className="space-y-3 sm:space-y-4">
       {/* Business Overview Card - Responsive */}
-      <Card className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0">
+      <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white border-0">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-6">
             <div className="flex-1">
