@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
+import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
-import { Card, CardContent } from '../ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '../ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useToast } from '../../hooks/use-toast';
@@ -13,51 +13,53 @@ interface Listing {
   id: string;
   name: string;
   address: string;
-  status: 'Live' | 'Disabled' | 'Error';
-  isEnabled: boolean;
-  lastSynced: string;
-  badge?: string;
-  categories?: string[];
+  storeCode: string;
+  groupName: string;
+  state: string;
+  status: 'Active' | 'Inactive';
+  logo?: string;
 }
 
 const mockListings: Listing[] = [
   {
     id: '1',
-    name: 'KSoft Solutions – Pune Office',
-    address: '123 IT Park, Pune, Maharashtra 411001',
-    status: 'Live',
-    isEnabled: true,
-    lastSynced: '1 hour ago',
-    badge: 'Optimized',
-    categories: ['Software Company', 'IT Services']
+    name: 'Ksoft Software solution',
+    address: 'Chikhalthana MIDC, Chhatrapati Sambhaji Nagar, 431001, Maharashtra.',
+    storeCode: '#458752',
+    groupName: 'Group name',
+    state: 'Mararastra',
+    status: 'Active',
+    logo: '🖥️'
   },
   {
     id: '2',
-    name: 'KSoft Solutions – Mumbai Branch',
-    address: '456 Business District, Mumbai, Maharashtra 400001',
-    status: 'Live',
-    isEnabled: true,
-    lastSynced: '30 minutes ago',
-    categories: ['Software Company']
+    name: 'SUN POLYMERS-431203',
+    address: 'Chikhalthana MIDC, Chhatrapati Sambhaji Nagar, 431001, Maharashtra.',
+    storeCode: '#458752',
+    groupName: 'Group name',
+    state: 'Mararastra',
+    status: 'Active',
+    logo: '🏭'
   },
   {
     id: '3',
-    name: 'KSoft Solutions – Delhi Office',
-    address: '789 Tech Hub, New Delhi, Delhi 110001',
-    status: 'Disabled',
-    isEnabled: false,
-    lastSynced: '2 days ago',
-    badge: 'Needs Review',
-    categories: ['Software Company', 'IT Services']
+    name: 'श्री पाकुमार महादेव आश्रम जैन गुरुकुल',
+    address: 'Chikhalthana MIDC, Chhatrapati Sambhaji Nagar, 431001, Maharashtra.',
+    storeCode: '#458752',
+    groupName: 'Group name',
+    state: 'Mararastra',
+    status: 'Inactive',
+    logo: '🕉️'
   },
   {
     id: '4',
-    name: 'KSoft Solutions – Bangalore Center',
-    address: '321 Silicon Valley, Bangalore, Karnataka 560001',
-    status: 'Error',
-    isEnabled: false,
-    lastSynced: '3 hours ago',
-    categories: ['Software Company']
+    name: 'CitationBuilderPro',
+    address: 'Chikhalthana MIDC, Chhatrapati Sambhaji Nagar, 431001, Maharashtra.',
+    storeCode: '#458752',
+    groupName: 'Group name',
+    state: 'Mararastra',
+    status: 'Inactive',
+    logo: '📝'
   }
 ];
 
@@ -67,53 +69,36 @@ interface ListingManagementPageProps {
 
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ onBack }) => {
   const [listings, setListings] = useState(mockListings);
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { toast } = useToast();
 
-  const handleToggleListing = (listingId: string) => {
+  const handleToggleStatus = (listingId: string) => {
     setListings(prev => 
       prev.map(listing => 
         listing.id === listingId 
-          ? { ...listing, isEnabled: !listing.isEnabled, status: !listing.isEnabled ? 'Live' : 'Disabled' }
+          ? { ...listing, status: listing.status === 'Active' ? 'Inactive' : 'Active' }
           : listing
       )
     );
     
     toast({
       title: "Listing updated",
-      description: "Sync status has been changed successfully.",
+      description: "Status has been changed successfully.",
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Live':
-        return 'bg-green-100 text-green-800';
-      case 'Disabled':
-        return 'bg-gray-100 text-gray-800';
-      case 'Error':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const filteredListings = listings.filter(listing =>
+    listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    listing.address.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const getBadgeColor = (badge?: string) => {
-    switch (badge) {
-      case 'Optimized':
-        return 'bg-blue-100 text-blue-800';
-      case 'Needs Review':
-        return 'bg-yellow-100 text-yellow-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const totalPages = Math.ceil(listings.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentListings = listings.slice(startIndex, endIndex);
+  const currentListings = filteredListings.slice(startIndex, endIndex);
+  const activeListings = listings.filter(l => l.status === 'Active').length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -141,55 +126,84 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ on
           </p>
         </div>
 
-        {/* Listings */}
-        <div className="space-y-4">
-          {currentListings.map((listing) => (
-            <Card key={listing.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">
-                        {listing.name}
-                      </h3>
-                      <Badge variant="outline" className={getStatusColor(listing.status)}>
-                        {listing.status}
-                      </Badge>
-                      {listing.badge && (
-                        <Badge variant="outline" className={getBadgeColor(listing.badge)}>
-                          {listing.badge}
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 mb-2">{listing.address}</p>
-                    
-                    {listing.categories && (
-                      <div className="flex flex-wrap gap-1 mb-2">
-                        {listing.categories.map((category, index) => (
-                          <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    
-                    <p className="text-xs text-gray-500">Synced {listing.lastSynced}</p>
-                  </div>
+        {/* Top Controls */}
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full sm:w-auto">
+              {/* Search Bar */}
+              <div className="relative flex-1 max-w-full sm:max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-700">Enable Sync</span>
-                      <Switch
-                        checked={listing.isEnabled}
-                        onCheckedChange={() => handleToggleListing(listing.id)}
-                      />
+              {/* Active Listings Badge */}
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
+                Active Listings: {activeListings}/100
+              </Badge>
+            </div>
+          </div>
+        </div>
+
+        {/* Listings Table */}
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="font-semibold text-gray-700">LISTINGS</TableHead>
+                <TableHead className="font-semibold text-gray-700">STORE CODE</TableHead>
+                <TableHead className="font-semibold text-gray-700">GROUP NAME</TableHead>
+                <TableHead className="font-semibold text-gray-700">STATE</TableHead>
+                <TableHead className="font-semibold text-gray-700">STATUS</TableHead>
+                <TableHead className="font-semibold text-gray-700">ACTION</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentListings.map((listing) => (
+                <TableRow key={listing.id} className="hover:bg-gray-50">
+                  <TableCell className="py-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                        {listing.logo}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-gray-900 mb-1">{listing.name}</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">{listing.address}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </TableCell>
+                  <TableCell className="text-blue-600 font-medium">{listing.storeCode}</TableCell>
+                  <TableCell className="text-gray-600">{listing.groupName}</TableCell>
+                  <TableCell className="text-gray-600">{listing.state}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant="outline" 
+                      className={listing.status === 'Active' 
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : 'bg-yellow-100 text-yellow-800 border-yellow-200'
+                      }
+                    >
+                      {listing.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="sm"
+                      variant={listing.status === 'Active' ? 'destructive' : 'default'}
+                      onClick={() => handleToggleStatus(listing.id)}
+                      className="min-w-20"
+                    >
+                      {listing.status === 'Active' ? 'Deactivate' : 'Activate'}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
 
         {/* Pagination */}
