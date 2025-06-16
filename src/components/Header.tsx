@@ -258,14 +258,14 @@ export const Header: React.FC<HeaderProps> = ({
           </Button>
 
           {/* Notification and Settings */}
-          <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 relative">
+          {/* <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 relative">
             <Bell className="w-4 h-4 text-gray-600" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full"></span>
           </Button>
 
           <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 hidden sm:flex">
             <Settings className="w-4 h-4 text-gray-600" />
-          </Button>
+          </Button> */}
 
           {/* User Avatar with Profile Dropdown */}
           <div className="flex items-center gap-2 ml-1 sm:ml-2">
