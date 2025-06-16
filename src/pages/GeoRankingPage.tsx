@@ -24,6 +24,7 @@ const GeoRankingPage = () => {
                 activeTab="geo-ranking"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -34,6 +35,7 @@ const GeoRankingPage = () => {
               activeTab="geo-ranking"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

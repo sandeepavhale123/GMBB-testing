@@ -23,6 +23,7 @@ const NotificationsPage = () => {
                 activeTab="notifications"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -33,6 +34,7 @@ const NotificationsPage = () => {
               activeTab="notifications"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

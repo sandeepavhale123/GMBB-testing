@@ -24,6 +24,7 @@ const QAPage = () => {
                 activeTab="qa"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -34,6 +35,7 @@ const QAPage = () => {
               activeTab="qa"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

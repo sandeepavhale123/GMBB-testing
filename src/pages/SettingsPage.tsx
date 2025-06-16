@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header';
+import { Header } from '../components/Header/Header';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
@@ -54,6 +55,7 @@ const SettingsPage = () => {
                 activeTab="settings"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -64,6 +66,7 @@ const SettingsPage = () => {
               activeTab="settings"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

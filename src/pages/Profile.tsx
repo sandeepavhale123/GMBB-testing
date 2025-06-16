@@ -1,9 +1,10 @@
+
 import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
-import { Header } from "../components/Header";
+import { Header } from "../components/Header/Header";
 import { ProfileHeader } from "../components/Profile/ProfileHeader";
 import { EditProfileForm } from "../components/Profile/EditProfileForm";
 import { ChangePasswordModal } from "../components/Profile/ChangePasswordModal";
@@ -36,6 +37,7 @@ const Profile = () => {
                 activeTab="overview"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -46,6 +48,7 @@ const Profile = () => {
               activeTab="overview"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

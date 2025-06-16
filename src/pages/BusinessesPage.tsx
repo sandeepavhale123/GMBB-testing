@@ -24,6 +24,7 @@ const BusinessesPage = () => {
                 activeTab="businesses"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -34,6 +35,7 @@ const BusinessesPage = () => {
               activeTab="businesses"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

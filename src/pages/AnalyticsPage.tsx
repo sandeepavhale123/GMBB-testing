@@ -23,6 +23,7 @@ const AnalyticsPage = () => {
                 activeTab="analytics"
                 onTabChange={() => {}}
                 collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
               />
             </SheetContent>
           </Sheet>
@@ -33,6 +34,7 @@ const AnalyticsPage = () => {
               activeTab="analytics"
               onTabChange={() => {}}
               collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </div>
 

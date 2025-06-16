@@ -1,5 +1,4 @@
 
-
 import React, { useState } from "react";
 // import { Provider } from "react-redux";
 // import { store } from "../store/store";
@@ -69,10 +68,10 @@ const Index = () => {
                 setMobileMenuOpen(false);
               }}
               collapsed={false}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
           </SheetContent>
         </Sheet>
-
 
         {/* Desktop Sidebar */}
         <div className="hidden md:flex">
@@ -80,6 +79,7 @@ const Index = () => {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             collapsed={sidebarCollapsed}
+            onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
         </div>
 
