@@ -7,10 +7,25 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
+import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
+import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAccountPage';
+import { GenieSubscriptionPage } from '../components/Settings/GenieSubscriptionPage';
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('google-account');
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'google-account':
+        return <ManageGoogleAccountPage />;
+      case 'genie-subscription':
+        return <GenieSubscriptionPage />;
+      default:
+        return <ManageGoogleAccountPage />;
+    }
+  };
 
   return (
     <Provider store={store}>
@@ -49,18 +64,19 @@ const SettingsPage = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="Settings"
+              title=""
               showFilters={false}
             />
 
+            {/* Settings Sub Header */}
+            <SettingsSubHeader
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
+
             {/* Page Content */}
-            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <div className="space-y-6">
-                <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">Settings</h2>
-                  <p className="text-gray-600">This section is coming soon.</p>
-                </div>
-              </div>
+            <main className="flex-1 overflow-auto bg-gray-50">
+              {renderTabContent()}
             </main>
           </div>
 
