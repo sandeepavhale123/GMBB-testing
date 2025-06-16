@@ -76,7 +76,9 @@ const SettingsPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 overflow-auto bg-gray-50">
-              {renderTabContent()}
+              <div className="min-h-full">
+                {renderTabContent()}
+              </div>
             </main>
           </div>
 

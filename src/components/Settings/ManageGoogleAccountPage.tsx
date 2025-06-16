@@ -68,21 +68,21 @@ export const ManageGoogleAccountPage: React.FC = () => {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Page Title */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
-        <p className="text-gray-600">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
+        <p className="text-gray-600 text-sm sm:text-base">
           Connect and monitor your Google Business Profiles to maximize local visibility and SEO performance.
         </p>
       </div>
 
       {/* Top Controls Panel */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-6">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          <div className="flex flex-col sm:flex-row gap-4 flex-1">
+          <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full lg:w-auto">
             {/* Search Bar */}
-            <div className="relative flex-1 max-w-md">
+            <div className="relative flex-1 max-w-full sm:max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 placeholder="Search accounts by name or email"
@@ -93,13 +93,13 @@ export const ManageGoogleAccountPage: React.FC = () => {
             </div>
 
             {/* Active Listings Badge */}
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1">
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
               Active Listings: {totalActiveListings}/100
             </Badge>
 
             {/* Filter Dropdown */}
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-36">
+              <SelectTrigger className="w-full sm:w-36">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -111,7 +111,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             </Select>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
             {/* View Switcher */}
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <Button
@@ -135,7 +135,8 @@ export const ManageGoogleAccountPage: React.FC = () => {
             {/* Add New Account Button */}
             <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
-              Add New Account
+              <span className="hidden sm:inline">Add New Account</span>
+              <span className="sm:hidden">Add</span>
             </Button>
           </div>
         </div>
@@ -143,9 +144,9 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
       {/* Account Cards Grid */}
       {filteredAccounts.length > 0 ? (
-        <div className={`grid gap-6 ${
+        <div className={`grid gap-4 sm:gap-6 ${
           viewMode === 'grid' 
-            ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' 
+            ? 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' 
             : 'grid-cols-1'
         }`}>
           {filteredAccounts.map((account) => (
@@ -163,7 +164,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             <Zap className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">No accounts connected</h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-6 text-sm sm:text-base">
             Click 'Add New Account' to sync your Google Business Profile.
           </p>
           <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 mx-auto">
