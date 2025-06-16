@@ -15,7 +15,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/': [{ title: 'Home', path: '/' }],
   '/profile': [
     { title: 'Home', path: '/' },
-    { title: 'Profile Settings', path: '/profile' }
+    { title: 'Profile', path: '/profile' }
   ],
   '/posts': [
     { title: 'Home', path: '/' },
@@ -23,7 +23,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/media': [
     { title: 'Home', path: '/' },
-    { title: 'Media Library', path: '/media' }
+    { title: 'Media', path: '/media' }
   ],
   '/reviews': [
     { title: 'Home', path: '/' },
@@ -31,11 +31,11 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/qa': [
     { title: 'Home', path: '/' },
-    { title: 'Q&A Management', path: '/qa' }
+    { title: 'Q&A', path: '/qa' }
   ],
   '/businesses': [
     { title: 'Home', path: '/' },
-    { title: 'Business Management', path: '/businesses' }
+    { title: 'Management', path: '/businesses' }
   ],
   '/settings': [
     { title: 'Home', path: '/' },
