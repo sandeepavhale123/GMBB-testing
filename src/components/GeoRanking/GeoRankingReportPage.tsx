@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -21,7 +20,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 });
-
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
@@ -61,7 +59,6 @@ export const GeoRankingReportPage: React.FC = () => {
     }
     return gridData;
   };
-
   useEffect(() => {
     // Load Leaflet CSS dynamically
     const link = document.createElement('link');
@@ -70,11 +67,8 @@ export const GeoRankingReportPage: React.FC = () => {
     link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
     link.crossOrigin = '';
     document.head.appendChild(link);
-
     if (!mapRef.current) return;
-
     const map = L.map(mapRef.current).setView([28.6139, 77.2090], 14);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -102,12 +96,10 @@ export const GeoRankingReportPage: React.FC = () => {
         iconSize: [32, 32],
         iconAnchor: [16, 16]
       });
-
       L.marker([point.lat, point.lng], {
         icon: rankingIcon
       }).addTo(map).bindPopup(`Ranking: ${point.ranking}`);
     });
-
     return () => {
       map.remove();
       // Clean up the CSS link when component unmounts
@@ -117,58 +109,40 @@ export const GeoRankingReportPage: React.FC = () => {
       }
     };
   }, [formData.gridSize]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Checking GEO ranking with data:', formData);
     // Navigate to geo ranking page
     navigate('/');
   };
-
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
-
   const handleBackClick = () => {
     navigate('/');
   };
-
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
-
-  return (
-    <div className="min-h-screen flex w-full">
-      <Sidebar 
-        activeTab="geo-ranking" 
-        onTabChange={() => {}} 
-        collapsed={sidebarCollapsed} 
-      />
+  return <div className="min-h-screen flex w-full">
+      <Sidebar activeTab="geo-ranking" onTabChange={() => {}} collapsed={sidebarCollapsed} />
       
       <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-        <Header 
-          onToggleSidebar={toggleSidebar}
-          title="Check GEO Ranking"
-        />
+        <Header onToggleSidebar={toggleSidebar} title="Check GEO Ranking" />
         
         <div className="p-3 sm:p-4 lg:p-6">
           <div className="max-w-7xl mx-auto">
             {/* Page Header with Back Button */}
             <div className="mb-4 lg:mb-6">
               <div className="flex items-center gap-4 mb-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleBackClick}
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" size="sm" onClick={handleBackClick} className="flex items-center gap-2">
                   <ArrowLeft className="w-4 h-4" />
                   Back
                 </Button>
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Check GEO Ranking</h1>
+                
               </div>
               <p className="text-gray-600 mt-1 lg:mt-2 text-sm lg:text-base">Configure your local search ranking analysis</p>
             </div>
@@ -186,40 +160,14 @@ export const GeoRankingReportPage: React.FC = () => {
                   <CardContent className="space-y-4 lg:space-y-6 overflow-y-auto h-full pb-6">
                     <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
                       {/* Search Business with Type Dropdown */}
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Search Business
-                        </Label>
-                        <div className="flex gap-2">
-                          <Select value={formData.searchBusinessType} onValueChange={value => handleInputChange('searchBusinessType', value)}>
-                            <SelectTrigger className="w-20 sm:w-24">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="name">Name</SelectItem>
-                              <SelectItem value="url">URL</SelectItem>
-                              <SelectItem value="cid">CID</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Input 
-                            placeholder={`Enter business ${formData.searchBusinessType}`} 
-                            value={formData.searchBusiness} 
-                            onChange={e => handleInputChange('searchBusiness', e.target.value)} 
-                            className="flex-1" 
-                          />
-                        </div>
-                      </div>
+                      
 
                       {/* Search Data Engine */}
                       <div className="space-y-3">
                         <Label className="text-sm font-medium text-gray-700">
                           Search Data Engine
                         </Label>
-                        <RadioGroup 
-                          value={formData.searchDataEngine} 
-                          onValueChange={value => handleInputChange('searchDataEngine', value)} 
-                          className="flex flex-row gap-4 sm:gap-6"
-                        >
+                        <RadioGroup value={formData.searchDataEngine} onValueChange={value => handleInputChange('searchDataEngine', value)} className="flex flex-row gap-4 sm:gap-6">
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Map API" id="map-api" />
                             <Label htmlFor="map-api" className="text-sm">Map API</Label>
@@ -248,13 +196,7 @@ export const GeoRankingReportPage: React.FC = () => {
                             </Tooltip>
                           </TooltipProvider>
                         </div>
-                        <Input 
-                          id="keywords" 
-                          placeholder="keyword1, keyword2, keyword3" 
-                          value={formData.keywords} 
-                          onChange={e => handleInputChange('keywords', e.target.value)} 
-                          className="w-full" 
-                        />
+                        <Input id="keywords" placeholder="keyword1, keyword2, keyword3" value={formData.keywords} onChange={e => handleInputChange('keywords', e.target.value)} className="w-full" />
                       </div>
 
                       {/* Map Point - Separate Row */}
@@ -278,11 +220,7 @@ export const GeoRankingReportPage: React.FC = () => {
                         <Label className="text-sm font-medium text-gray-700">
                           Distance Unit
                         </Label>
-                        <RadioGroup 
-                          value={formData.distanceUnit} 
-                          onValueChange={value => handleInputChange('distanceUnit', value)} 
-                          className="flex flex-row gap-3 lg:gap-4 pt-2"
-                        >
+                        <RadioGroup value={formData.distanceUnit} onValueChange={value => handleInputChange('distanceUnit', value)} className="flex flex-row gap-3 lg:gap-4 pt-2">
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Meters" id="meters" />
                             <Label htmlFor="meters" className="text-sm">Meters</Label>
@@ -360,6 +298,5 @@ export const GeoRankingReportPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
