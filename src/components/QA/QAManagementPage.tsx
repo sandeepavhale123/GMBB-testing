@@ -5,6 +5,7 @@ import { QAFilters } from './QAFilters';
 import { QASEOTipBanner } from './QASEOTipBanner';
 import { QAList } from './QAList';
 import { QAEmptyState } from './QAEmptyState';
+import { CreateQAModal } from './CreateQAModal';
 
 const mockQuestions = [
   {
@@ -40,23 +41,36 @@ const mockQuestions = [
 ];
 
 export const QAManagementPage: React.FC = () => {
-  const [questions] = useState(mockQuestions);
+  const [questions, setQuestions] = useState(mockQuestions);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [locationFilter, setLocationFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('30');
   const [showTipBanner, setShowTipBanner] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const filteredQuestions = questions.filter(question => {
     const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          question.listingName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || question.status === statusFilter;
-    const matchesLocation = locationFilter === 'all' || question.location === locationFilter;
     
-    return matchesSearch && matchesStatus && matchesLocation;
+    return matchesSearch && matchesStatus;
   });
 
   const unansweredCount = questions.filter(q => q.status === 'unanswered').length;
+
+  const handleAddQA = (question: string, answer: string) => {
+    const newQA = {
+      id: Date.now().toString(),
+      question,
+      listingName: 'Manual Entry',
+      location: 'Multiple Locations',
+      userName: 'Admin',
+      timestamp: 'Just now',
+      status: 'answered' as const,
+      answer
+    };
+    setQuestions([newQA, ...questions]);
+  };
 
   return (
     <div className="space-y-6">
@@ -67,11 +81,10 @@ export const QAManagementPage: React.FC = () => {
         onSearchChange={setSearchTerm}
         statusFilter={statusFilter}
         onStatusChange={setStatusFilter}
-        locationFilter={locationFilter}
-        onLocationChange={setLocationFilter}
         dateFilter={dateFilter}
         onDateChange={setDateFilter}
         unansweredCount={unansweredCount}
+        onAddQA={() => setShowCreateModal(true)}
       />
 
       {showTipBanner && (
@@ -83,6 +96,12 @@ export const QAManagementPage: React.FC = () => {
       ) : (
         <QAEmptyState hasQuestions={questions.length > 0} />
       )}
+
+      <CreateQAModal
+        open={showCreateModal}
+        onOpenChange={setShowCreateModal}
+        onSubmit={handleAddQA}
+      />
     </div>
   );
 };

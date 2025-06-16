@@ -15,7 +15,8 @@ import {
   Building, 
   Settings, 
   Crown,
-  Sparkles
+  Sparkles,
+  MessageCircleQuestion
 } from "lucide-react";
 
 interface SidebarProps {
@@ -31,6 +32,7 @@ const menuItems = [
   { id: 'insights', label: 'Insights', icon: BarChart3, path: '/insights' },
   { id: 'geo-ranking', label: 'GEO Ranking', icon: MapPin, path: '/geo-ranking' },
   { id: 'reviews', label: 'Reviews', icon: Star, path: '/reviews' },
+  { id: 'qa', label: 'Q&A', icon: MessageCircleQuestion, path: '/qa' },
   { id: 'businesses', label: 'Management', icon: Building, path: '/businesses' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
 ];

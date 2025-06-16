@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Download } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -11,11 +11,10 @@ interface QAFiltersProps {
   onSearchChange: (value: string) => void;
   statusFilter: string;
   onStatusChange: (value: string) => void;
-  locationFilter: string;
-  onLocationChange: (value: string) => void;
   dateFilter: string;
   onDateChange: (value: string) => void;
   unansweredCount: number;
+  onAddQA: () => void;
 }
 
 export const QAFilters: React.FC<QAFiltersProps> = ({
@@ -23,11 +22,10 @@ export const QAFilters: React.FC<QAFiltersProps> = ({
   onSearchChange,
   statusFilter,
   onStatusChange,
-  locationFilter,
-  onLocationChange,
   dateFilter,
   onDateChange,
-  unansweredCount
+  unansweredCount,
+  onAddQA
 }) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 space-y-4">
@@ -45,18 +43,6 @@ export const QAFilters: React.FC<QAFiltersProps> = ({
       {/* Filters Row */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-3 flex-1">
-          {/* Location Filter */}
-          <Select value={locationFilter} onValueChange={onLocationChange}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="All Locations" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Locations</SelectItem>
-              <SelectItem value="New York, NY">New York, NY</SelectItem>
-              <SelectItem value="Brooklyn, NY">Brooklyn, NY</SelectItem>
-            </SelectContent>
-          </Select>
-
           {/* Status Filter */}
           <Select value={statusFilter} onValueChange={onStatusChange}>
             <SelectTrigger className="w-full sm:w-36">
@@ -82,16 +68,16 @@ export const QAFilters: React.FC<QAFiltersProps> = ({
           </Select>
         </div>
 
-        {/* Count Badge and Export */}
+        {/* Count Badge and Add Button */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
           {unansweredCount > 0 && (
             <Badge variant="destructive" className="text-xs">
               {unansweredCount} Unanswered Questions
             </Badge>
           )}
-          <Button variant="outline" size="sm" className="flex items-center gap-2">
-            <Download className="h-4 w-4" />
-            Export Q&A
+          <Button onClick={onAddQA} className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Add Q&A
           </Button>
         </div>
       </div>
