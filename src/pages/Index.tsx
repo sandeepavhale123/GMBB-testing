@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 // import { Provider } from "react-redux";
 // import { store } from "../store/store";
@@ -15,6 +16,8 @@ import { Menu } from "lucide-react";
 import { GeoRankingPage } from "../components/GeoRanking/GeoRankingPage";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useAxiosAuth } from "@/hooks/useAxiosAuth";
+import { ReviewsManagementPage } from '../components/Reviews/ReviewsManagementPage';
+
 const Index = () => {
   const { user } = useAuthRedux(); // ✅ Now using Redux store
   useAxiosAuth(); //This hook connects the accesstoken with axios interceptors
@@ -63,19 +66,9 @@ const Index = () => {
         return <InsightsPage />;
       case "geo-ranking":
         return <GeoRankingPage />;
-      case "reviews":
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Reviews Management
-              </h2>
-              <p className="text-gray-600">
-                Monitor and respond to customer reviews.
-              </p>
-            </div>
-          </div>
-        );
+      case 'reviews':
+        return <ReviewsManagementPage />;
+
       default:
         return (
           <div className="space-y-6">
