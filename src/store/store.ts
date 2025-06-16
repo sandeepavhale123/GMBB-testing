@@ -1,10 +1,10 @@
-
-import { configureStore } from '@reduxjs/toolkit';
-import dashboardSlice from './slices/dashboardSlice';
-import postsSlice from './slices/postsSlice';
-import reviewsSlice from './slices/reviewsSlice';
-import mediaSlice from './slices/mediaSlice';
-import themeSlice from './slices/themeSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import dashboardSlice from "./slices/dashboardSlice";
+import postsSlice from "./slices/postsSlice";
+import reviewsSlice from "./slices/reviewsSlice";
+import mediaSlice from "./slices/mediaSlice";
+import themeSlice from "./slices/themeSlice";
+import authReducer from "./slices/auth/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +13,7 @@ export const store = configureStore({
     reviews: reviewsSlice,
     media: mediaSlice,
     theme: themeSlice,
+    auth: authReducer,
   },
 });
 
