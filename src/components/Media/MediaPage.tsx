@@ -116,9 +116,7 @@ export const MediaPage: React.FC = () => {
       {/* Page Title and Subtext */}
       <div className="mb-6">
         
-        <p className="text-gray-600 text-sm sm:text-base">
-          Upload, organize, and manage your business photos and videos to showcase your brand across all platforms.
-        </p>
+        
       </div>
 
       {/* Header */}
