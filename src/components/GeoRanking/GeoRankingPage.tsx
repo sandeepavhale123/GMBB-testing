@@ -29,12 +29,16 @@ export const GeoRankingPage: React.FC = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8  mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 mx-auto">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
         <div className="flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">GEO Ranking Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-600">Monitor and optimize your local search rankings across different locations</p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <h4 className="text-xl sm:text-2xl font-bold text-gray-900">{headerKeyword}</h4>
+            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs sm:text-sm font-medium w-fit">
+              Monthly Volume: 8.2k
+            </span>
+          </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Select value={headerKeyword} onValueChange={setHeaderKeyword}>
@@ -62,12 +66,6 @@ export const GeoRankingPage: React.FC = () => {
         <div className="xl:col-span-3 space-y-4 sm:space-y-6">
           {/* Header Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <h4 className="text-xl sm:text-2xl font-bold text-gray-900">{headerKeyword}</h4>
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs sm:text-sm font-medium w-fit">
-                Monthly Volume: 8.2k
-              </span>
-            </div>
             <div className="flex items-center gap-3">
               <Button variant="outline" size="sm" className="flex-1 sm:flex-none" onClick={handleExportPDF}>
                 <Download className="w-4 h-4 mr-2" />
