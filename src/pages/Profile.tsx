@@ -71,6 +71,14 @@ const Profile = () => {
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
               <div className="max-w-4xl mx-auto space-y-6">
+                {/* Page Title and Subtext */}
+                <div className="mb-6">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
+                  <p className="text-gray-600 text-sm sm:text-base">
+                    Manage your account information, security settings, and subscription preferences.
+                  </p>
+                </div>
+
                 {/* Profile Header Card */}
                 <ProfileHeader
                   activeTab={activeTab}

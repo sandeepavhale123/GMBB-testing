@@ -1,40 +1,15 @@
-import React, { useEffect, useState } from "react";
-import {
-  Menu,
-  Bell,
-  Settings,
-  Moon,
-  Sun,
-  Filter,
-  Search,
-  ChevronDown,
-  MapPin,
-  Check,
-  User,
-  LogOut,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
-import { toggleTheme } from "../store/slices/themeSlice";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "./ui/dropdown-menu";
-import { Input } from "./ui/input";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "./ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Menu, Bell, Settings, Moon, Sun, Filter, Search, ChevronDown, MapPin, Check, User, LogOut, Plus, Store, ChevronRight } from 'lucide-react';
+import { Button } from './ui/button';
+import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { toggleTheme } from '../store/slices/themeSlice';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
+import { Input } from './ui/input';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { useNavigate } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
+
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -94,6 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [selectedBusiness, setSelectedBusiness] = useState(businessListings[0]);
   const [open, setOpen] = useState(false);
   const { logout } = useAuthRedux();
+  const [mobileListingOpen, setMobileListingOpen] = useState(false);
   useEffect(() => {
     const updateGreeting = () => {
       const now = new Date();
@@ -110,6 +86,14 @@ export const Header: React.FC<HeaderProps> = ({
     const interval = setInterval(updateGreeting, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleAddNewListing = () => {
+    navigate('/settings');
+  };
+
+  const handleAccountSettings = () => {
+    navigate('/settings');
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 sm:py-4">
@@ -143,7 +127,61 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right section */}
         <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-          {/* Business Listings Selector - Hidden on mobile, responsive on larger screens */}
+          {/* Mobile Business Listing Selector */}
+          <div className="md:hidden">
+            <Popover open={mobileListingOpen} onOpenChange={setMobileListingOpen}>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="flex items-center gap-1 p-2 border-gray-200 hover:bg-gray-50"
+                >
+                  <Store className="w-4 h-4 text-gray-500" />
+                  <ChevronRight className="w-3 h-3 text-gray-400" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72 p-0" align="end">
+                <Command>
+                  <CommandInput placeholder="Search listings..." />
+                  <CommandEmpty>No listing found.</CommandEmpty>
+                  <CommandList>
+                    <CommandGroup>
+                      {businessListings.map((business) => (
+                        <CommandItem
+                          key={business.id}
+                          value={business.name}
+                          onSelect={() => {
+                            setSelectedBusiness(business);
+                            setMobileListingOpen(false);
+                          }}
+                          className="flex items-center gap-3 p-3"
+                        >
+                          <Check className={`w-4 h-4 ${selectedBusiness.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
+                          <MapPin className="w-4 h-4 text-gray-500" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm text-gray-900 truncate">
+                              {business.name}
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {business.address}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+                              {business.type}
+                            </span>
+                            <div className={`w-2 h-2 rounded-full ${business.status === 'Active' ? 'bg-green-400' : 'bg-yellow-400'}`} />
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Business Listings Selector - Desktop */}
           <div className="hidden md:block">
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -223,12 +261,19 @@ export const Header: React.FC<HeaderProps> = ({
             </Popover>
           </div>
 
-          {/* Notification and Settings */}
-          <Button
-            variant="ghost"
+          {/* Add New Listing Button */}
+          <Button 
+            variant="default"
             size="sm"
-            className="hover:bg-gray-100 p-2 relative"
+            onClick={handleAddNewListing}
+            className="bg-gray-900 hover:bg-gray-800 text-white flex items-center gap-2 px-3 py-2"
           >
+            <Plus className="w-4 h-4" />
+          </Button>
+
+          {/* Notification and Settings */}
+
+          {/* <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 relative">
             <Bell className="w-4 h-4 text-gray-600" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full"></span>
           </Button>
@@ -239,7 +284,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="hover:bg-gray-100 p-2 hidden sm:flex"
           >
             <Settings className="w-4 h-4 text-gray-600" />
-          </Button>
+          </Button> */}
 
           {/* User Avatar with Profile Dropdown */}
           <div className="flex items-center gap-2 ml-1 sm:ml-2">
@@ -269,10 +314,8 @@ export const Header: React.FC<HeaderProps> = ({
                   <User className="w-4 h-4 mr-2" />
                   View Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => navigate("/profile")}
-                  className="cursor-pointer"
-                >
+
+                <DropdownMenuItem onClick={handleAccountSettings} className="cursor-pointer">
                   <Settings className="w-4 h-4 mr-2" />
                   Account Settings
                 </DropdownMenuItem>

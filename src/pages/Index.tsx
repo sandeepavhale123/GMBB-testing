@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 // import { Provider } from "react-redux";
 // import { store } from "../store/store";
@@ -100,6 +99,7 @@ const Index = () => {
             />
           </SheetContent>
         </Sheet>
+
 
         {/* Desktop Sidebar */}
         <div className="hidden md:flex">
