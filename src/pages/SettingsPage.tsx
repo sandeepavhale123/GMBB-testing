@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
@@ -81,7 +80,6 @@ const SettingsPage = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title=""
               showFilters={false}
             />
 

@@ -64,7 +64,6 @@ const Profile = () => {
                   setSidebarCollapsed(!sidebarCollapsed);
                 }
               }}
-              title="Profile Settings"
               showFilters={false}
             />
 

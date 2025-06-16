@@ -15,7 +15,6 @@ import { useState } from 'react';
 
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
-  title,
   showFilters,
   onShowFilters
 }) => {
