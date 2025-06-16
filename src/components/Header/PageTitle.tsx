@@ -25,14 +25,9 @@ export const PageTitle: React.FC = () => {
 
   return (
     <div className="min-w-0">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-1">
+      <h1 className="text-2xl font-semibold text-gray-900">
         {pageInfo.title}
       </h1>
-      {pageInfo.subtitle && (
-        <p className="text-sm text-gray-600">
-          {pageInfo.subtitle}
-        </p>
-      )}
     </div>
   );
 };

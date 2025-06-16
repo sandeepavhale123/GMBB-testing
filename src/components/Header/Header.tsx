@@ -28,12 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-white border-b border-gray-200">
-      {/* Top row - Breadcrumb navigation */}
-      <div className="px-3 sm:px-4 md:px-6 py-2 border-b border-gray-100">
-        <PageBreadcrumb />
-      </div>
-
-      {/* Bottom row - Main header content */}
+      {/* Main header content */}
       <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
         <div className="flex items-start justify-between gap-4">
           {/* Left section - Page Title and Menu */}
@@ -49,6 +44,9 @@ export const Header: React.FC<HeaderProps> = ({
             
             <div className="min-w-0 flex-1">
               <PageTitle />
+              <div className="mt-2">
+                <PageBreadcrumb />
+              </div>
             </div>
           </div>
 

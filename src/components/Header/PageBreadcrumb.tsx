@@ -72,12 +72,8 @@ export const PageBreadcrumb: React.FC = () => {
   const location = useLocation();
   const breadcrumbItems = routeToBreadcrumb[location.pathname] || [{ title: 'Dashboard', path: '/' }];
 
-  if (breadcrumbItems.length <= 1) {
-    return null;
-  }
-
   return (
-    <Breadcrumb className="hidden sm:flex">
+    <Breadcrumb className="flex">
       <BreadcrumbList>
         {breadcrumbItems.map((item, index) => (
           <React.Fragment key={item.path}>
