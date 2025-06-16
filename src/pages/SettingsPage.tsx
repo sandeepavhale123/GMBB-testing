@@ -10,20 +10,37 @@ import { Sheet, SheetContent } from '../components/ui/sheet';
 import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
 import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAccountPage';
 import { GenieSubscriptionPage } from '../components/Settings/GenieSubscriptionPage';
+import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('google-account');
+  const [currentView, setCurrentView] = useState<'main' | 'listings'>('main');
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+
+  const handleManageListings = (accountId: string) => {
+    setSelectedAccountId(accountId);
+    setCurrentView('listings');
+  };
+
+  const handleBackToMain = () => {
+    setCurrentView('main');
+    setSelectedAccountId(null);
+  };
 
   const renderTabContent = () => {
+    if (currentView === 'listings') {
+      return <ListingManagementPage onBack={handleBackToMain} />;
+    }
+
     switch (activeTab) {
       case 'google-account':
-        return <ManageGoogleAccountPage />;
+        return <ManageGoogleAccountPage onManageListings={handleManageListings} />;
       case 'genie-subscription':
         return <GenieSubscriptionPage />;
       default:
-        return <ManageGoogleAccountPage />;
+        return <ManageGoogleAccountPage onManageListings={handleManageListings} />;
     }
   };
 
@@ -68,11 +85,13 @@ const SettingsPage = () => {
               showFilters={false}
             />
 
-            {/* Settings Sub Header */}
-            <SettingsSubHeader
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+            {/* Settings Sub Header - Only show on main view */}
+            {currentView === 'main' && (
+              <SettingsSubHeader
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            )}
 
             {/* Page Content */}
             <main className="flex-1 overflow-auto bg-gray-50">

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Plus, Grid3X3, List, Zap } from 'lucide-react';
 import { Input } from '../ui/input';
@@ -48,7 +47,13 @@ const mockAccounts = [
   }
 ];
 
-export const ManageGoogleAccountPage: React.FC = () => {
+interface ManageGoogleAccountPageProps {
+  onManageListings: (accountId: string) => void;
+}
+
+export const ManageGoogleAccountPage: React.FC<ManageGoogleAccountPageProps> = ({
+  onManageListings
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -154,6 +159,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
               key={account.id}
               account={account}
               viewMode={viewMode}
+              onManageListings={onManageListings}
             />
           ))}
         </div>

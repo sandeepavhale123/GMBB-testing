@@ -1,11 +1,10 @@
 
 import React, { useState } from 'react';
-import { MoreVertical, Edit, Trash2, RefreshCw, ChevronDown, ChevronUp, Users } from 'lucide-react';
+import { MoreVertical, Edit, Trash2, RefreshCw, Users } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { Progress } from '../ui/progress';
-import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -34,13 +33,14 @@ interface GoogleAccount {
 interface GoogleAccountCardProps {
   account: GoogleAccount;
   viewMode: 'grid' | 'list';
+  onManageListings?: (accountId: string) => void;
 }
 
 export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
   account,
-  viewMode
+  viewMode,
+  onManageListings
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isEnabled, setIsEnabled] = useState(account.isEnabled);
 
   const usagePercentage = (account.activeListings / 100) * 100;
@@ -77,9 +77,9 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onManageListings?.(account.id)}>
                 <Edit className="h-4 w-4 mr-2" />
-                Edit
+                Manage Listings
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <RefreshCw className="h-4 w-4 mr-2" />
@@ -129,7 +129,7 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
         </div>
 
         {/* Team Members */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Users className="h-4 w-4 text-gray-500" />
             <span className="text-sm text-gray-600">Team</span>
@@ -155,52 +155,6 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
               </div>
             )}
           </div>
-        </div>
-
-        {/* Expandable SEO Info */}
-        <div className="border-t pt-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full flex items-center justify-between p-0 h-auto"
-          >
-            <span className="text-sm font-medium text-gray-700">SEO Performance</span>
-            {isExpanded ? (
-              <ChevronUp className="h-4 w-4" />
-            ) : (
-              <ChevronDown className="h-4 w-4" />
-            )}
-          </Button>
-
-          {isExpanded && (
-            <div className="mt-3 space-y-2 animate-fade-in">
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-600">Visibility Score</span>
-                <Badge variant="outline" className="text-xs">
-                  {account.visibilityScore}%
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-600">Review Response Rate</span>
-                <Badge variant="outline" className="text-xs">
-                  {account.reviewResponseRate}%
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-600">Keywords Tracked</span>
-                <Badge variant="outline" className="text-xs">
-                  {account.keywordsTracked}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-600">Q&A Response Health</span>
-                <Badge variant="outline" className="text-xs">
-                  {account.qaResponseHealth}%
-                </Badge>
-              </div>
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>
