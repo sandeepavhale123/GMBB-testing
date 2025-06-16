@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
@@ -8,7 +8,10 @@ import { BusinessListingSelector } from './BusinessListingSelector';
 import { MobileBusinessSelector } from './MobileBusinessSelector';
 import { HeaderActions } from './HeaderActions';
 import { UserProfileDropdown } from './UserProfileDropdown';
+import { PageTitle } from './PageTitle';
+import { PageBreadcrumb } from './PageBreadcrumb';
 import { HeaderProps, businessListings, BusinessListing } from './types';
+import { useState } from 'react';
 
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
@@ -18,25 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isDark } = useAppSelector(state => state.theme);
-  const [greeting, setGreeting] = useState('');
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessListing>(businessListings[0]);
-
-  useEffect(() => {
-    const updateGreeting = () => {
-      const now = new Date();
-      const hour = now.getHours();
-      if (hour < 12) {
-        setGreeting('Good morning');
-      } else if (hour < 17) {
-        setGreeting('Good afternoon');
-      } else {
-        setGreeting('Good evening');
-      }
-    };
-    updateGreeting();
-    const interval = setInterval(updateGreeting, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleBusinessSelect = (business: BusinessListing) => {
     setSelectedBusiness(business);
@@ -56,19 +41,9 @@ export const Header: React.FC<HeaderProps> = ({
             <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
           </Button>
           
-          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <h1 className="text-base sm:text-xl font-semibold text-gray-900 truncate">
-                  <span className="hidden sm:inline">{greeting}, John!</span>
-                  <span className="sm:hidden">John</span>
-                </h1>
-                <span className="text-base sm:text-lg shrink-0">👋</span>
-              </div>
-              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 hidden sm:block">
-                Manage your business listings with ease
-              </p>
-            </div>
+          <div className="flex flex-col gap-1 min-w-0 flex-1">
+            <PageBreadcrumb />
+            <PageTitle />
           </div>
         </div>
 

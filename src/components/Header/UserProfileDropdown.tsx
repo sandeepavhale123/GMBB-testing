@@ -4,9 +4,11 @@ import { User, LogOut, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
+import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 
 export const UserProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
+  const { logout } = useAuthRedux();
 
   const handleAccountSettings = () => {
     navigate('/settings');
@@ -36,7 +38,7 @@ export const UserProfileDropdown: React.FC = () => {
             Account Settings
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50">
+          <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50" onClick={logout}>
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </DropdownMenuItem>
