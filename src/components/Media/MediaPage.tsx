@@ -109,9 +109,17 @@ export const MediaPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Page Title and Subtext */}
+      <div className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Media Library</h1>
+        <p className="text-gray-600 text-sm sm:text-base">
+          Upload, organize, and manage your business photos and videos to showcase your brand across all platforms.
+        </p>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Media</h1>
+        <h2 className="text-xl font-semibold text-gray-900">Your Media</h2>
         <div className="flex items-center gap-4">
           <Button 
             className="bg-blue-600 hover:bg-blue-700 text-white" 
