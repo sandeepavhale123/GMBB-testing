@@ -38,8 +38,8 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
           </div>
           
           {/* Desktop Tabs - Right Aligned */}
-          <div className="hidden sm:flex justify-end border-b border-gray-200">
-            <div className="flex space-x-8">
+          <div className="hidden sm:flex ">
+            <div className="flex space-x-8 -mb-[1px]">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
