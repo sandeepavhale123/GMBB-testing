@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { MoreVertical, Edit, Trash2, RefreshCw, Toggle } from 'lucide-react';
+import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
