@@ -32,8 +32,7 @@ export const GeoRankingPage: React.FC = () => {
           onClick={handleCreateReport}
           className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 w-full sm:w-auto justify-center"
         >
-          <Plus className="w-4 h-4" />
-          Create Report
+          Check rank
         </Button>
       </div>
 
