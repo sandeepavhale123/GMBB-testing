@@ -160,24 +160,6 @@ export const GeoRankingReportPage: React.FC = () => {
                   <CardContent className="space-y-4 lg:space-y-6 overflow-y-auto h-full pb-6">
                     <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
                       {/* Search Business with Type Dropdown */}
-                      
-
-                      {/* Search Data Engine */}
-                      <div className="space-y-3">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Search Data Engine
-                        </Label>
-                        <RadioGroup value={formData.searchDataEngine} onValueChange={value => handleInputChange('searchDataEngine', value)} className="flex flex-row gap-4 sm:gap-6">
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Map API" id="map-api" />
-                            <Label htmlFor="map-api" className="text-sm">Map API</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Briefcase API" id="briefcase-api" />
-                            <Label htmlFor="briefcase-api" className="text-sm">Briefcase API</Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
 
                       {/* Keywords */}
                       <div className="space-y-2">
@@ -198,6 +180,26 @@ export const GeoRankingReportPage: React.FC = () => {
                         </div>
                         <Input id="keywords" placeholder="keyword1, keyword2, keyword3" value={formData.keywords} onChange={e => handleInputChange('keywords', e.target.value)} className="w-full" />
                       </div>
+                      
+
+                      {/* Search Data Engine */}
+                      <div className="space-y-3">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Search Data Engine
+                        </Label>
+                        <RadioGroup value={formData.searchDataEngine} onValueChange={value => handleInputChange('searchDataEngine', value)} className="flex flex-row gap-4 sm:gap-6">
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Map API" id="map-api" />
+                            <Label htmlFor="map-api" className="text-sm">Map API</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Briefcase API" id="briefcase-api" />
+                            <Label htmlFor="briefcase-api" className="text-sm">Briefcase API</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
+                      
 
                       {/* Map Point - Separate Row */}
                       <div className="space-y-2">
@@ -231,6 +233,7 @@ export const GeoRankingReportPage: React.FC = () => {
                           </div>
                         </RadioGroup>
                       </div>
+                      
 
                       {/* Grid Size and Schedule Check in Single Row */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
