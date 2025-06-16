@@ -16,13 +16,16 @@ import {
   Settings, 
   Crown,
   Sparkles,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   collapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 const menuItems = [
@@ -37,7 +40,7 @@ const menuItems = [
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggleCollapse }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -61,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     )}>
       <div className="flex h-full flex-col">
         {/* Logo Section */}
-        <div className="flex h-16 items-center justify-center border-b border-gray-800 px-4">
+        <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
           {!collapsed ? (
             <div className="flex items-center space-x-2">
               <img 
@@ -69,15 +72,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                 alt="GMB Genie Logo" 
                 className="h-15 object-contain"
               />
-              {/* <span className="text-xl font-bold text-white">GMB Genie</span> */}
             </div>
           ) : (
             <img 
-              src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png" 
+              src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" 
               alt="GMB Genie Logo" 
               className="w-8 h-8 object-contain"
             />
           )}
+          
+          {/* Toggle Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggleCollapse}
+            className="text-gray-400 hover:text-white hover:bg-gray-800 p-1"
+          >
+            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          </Button>
         </div>
 
         {/* Navigation Menu */}
@@ -92,13 +104,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                   key={item.id}
                   variant={isActive ? "default" : "ghost"}
                   className={cn(
-                    "w-full justify-start h-10 px-3",
-                    collapsed ? "px-2" : "px-3",
+                    "w-full justify-start h-10",
+                    collapsed ? "px-2 justify-center" : "px-3",
                     isActive 
                       ? "bg-blue-600 text-white hover:bg-blue-700" 
                       : "text-gray-300 hover:bg-gray-800 hover:text-white"
                   )}
                   onClick={() => handleTabChange(item.id, item.path)}
+                  title={collapsed ? item.label : undefined}
                 >
                   <Icon className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
                   {!collapsed && (
@@ -141,9 +154,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             variant="ghost"
             className={cn(
               "w-full justify-start h-12 text-gray-300 hover:bg-gray-800 hover:text-white",
-              collapsed ? "px-2" : "px-3"
+              collapsed ? "px-2 justify-center" : "px-3"
             )}
             onClick={() => navigate('/profile')}
+            title={collapsed ? "John Doe" : undefined}
           >
             <div className={cn(
               "w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center",
