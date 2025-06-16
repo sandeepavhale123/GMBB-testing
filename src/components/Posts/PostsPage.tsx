@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Plus, Grid2x2, List, Search, Filter } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -8,31 +7,25 @@ import { PostCard } from './PostCard';
 import { PostListItem } from './PostListItem';
 import { CreatePostModal } from './CreatePostModal';
 import { useAppSelector } from '../../hooks/useRedux';
-
 export const PostsPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  
-  const { posts } = useAppSelector(state => state.posts);
-
+  const {
+    posts
+  } = useAppSelector(state => state.posts);
   const filteredPosts = posts.filter(post => {
-    const matchesFilter = filter === 'all' || 
-                         (filter === 'scheduled' && post.status === 'scheduled') ||
-                         (filter === 'live' && post.status === 'published');
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filter === 'all' || filter === 'scheduled' && post.status === 'scheduled' || filter === 'live' && post.status === 'published';
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.content.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Posts</h1>
-          <p className="text-gray-600 mt-1">Manage your social media posts</p>
+          
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="w-4 h-4 sm:mr-2" />
@@ -47,12 +40,7 @@ export const PostsPage = () => {
             {/* Search */}
             <div className="relative flex-1 sm:max-w-64">
               <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input
-                placeholder="Search posts..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-full"
-              />
+              <Input placeholder="Search posts..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 w-full" />
             </div>
 
             {/* Filter */}
@@ -71,20 +59,10 @@ export const PostsPage = () => {
 
           {/* View Toggle */}
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 self-center">
-            <Button
-              variant={viewMode === 'grid' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className="h-8"
-            >
+            <Button variant={viewMode === 'grid' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('grid')} className="h-8">
               <Grid2x2 className="w-4 h-4" />
             </Button>
-            <Button
-              variant={viewMode === 'list' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setViewMode('list')}
-              className="h-8"
-            >
+            <Button variant={viewMode === 'list' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('list')} className="h-8">
               <List className="w-4 h-4" />
             </Button>
           </div>
@@ -92,23 +70,14 @@ export const PostsPage = () => {
       </div>
 
       {/* Posts Display */}
-      {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredPosts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-lg border divide-y">
-          {filteredPosts.map((post) => (
-            <PostListItem key={post.id} post={post} />
-          ))}
-        </div>
-      )}
+      {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredPosts.map(post => <PostCard key={post.id} post={post} />)}
+        </div> : <div className="bg-white rounded-lg border divide-y">
+          {filteredPosts.map(post => <PostListItem key={post.id} post={post} />)}
+        </div>}
 
       {/* Empty State */}
-      {filteredPosts.length === 0 && (
-        <div className="text-center py-12">
+      {filteredPosts.length === 0 && <div className="text-center py-12">
           <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <Plus className="w-8 h-8 text-gray-400" />
           </div>
@@ -118,14 +87,9 @@ export const PostsPage = () => {
             <Plus className="w-4 h-4 mr-2" />
             Create Post
           </Button>
-        </div>
-      )}
+        </div>}
 
       {/* Create Post Modal */}
-      <CreatePostModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-      />
-    </div>
-  );
+      <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+    </div>;
 };
