@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
               <img 
                 src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png" 
                 alt="GMB Genie Logo" 
-                className="w-8 h-8 object-contain"
+                className="h-15 object-contain"
               />
               {/* <span className="text-xl font-bold text-white">GMB Genie</span> */}
             </div>
