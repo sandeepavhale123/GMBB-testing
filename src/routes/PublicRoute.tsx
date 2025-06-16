@@ -8,7 +8,7 @@ interface PublicRouteProps {
 
 export const PublicRoute = ({
   children,
-  redirectTo = "/onboarding",
+  redirectTo = "/",
 }: PublicRouteProps) => {
   const {
     isLoading,
