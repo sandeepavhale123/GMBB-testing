@@ -163,23 +163,9 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
     await performApiSearch(trimmedQuery);
   }, [performLocalSearch, checkInitialListForExactMatch, performApiSearch]);
 
-  // Debounced search with immediate state updates for backend searches
+  // Debounced search with optimized delay
   useEffect(() => {
     console.log('🔍 useBusinessSearch: Search query changed to:', `"${searchQuery}"`);
-    
-    const trimmedQuery = searchQuery.trim();
-    
-    // Immediately set searching state for queries that will need backend search
-    if (trimmedQuery.length >= 3) {
-      const initialMatches = checkInitialListForExactMatch(trimmedQuery);
-      if (initialMatches.length === 0) {
-        // This will need a backend search, so set searching immediately
-        console.log('🔍 useBusinessSearch: Will need backend search, setting searching state immediately');
-        setSearching(true);
-        setSearchResults([]); // Clear results to prevent showing "No listing found"
-        setSearchError(null);
-      }
-    }
     
     const timeoutId = setTimeout(() => {
       performSearch(searchQuery);
@@ -188,7 +174,7 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [searchQuery, performSearch, checkInitialListForExactMatch]);
+  }, [searchQuery, performSearch]);
 
   // Cleanup on unmount
   useEffect(() => {
