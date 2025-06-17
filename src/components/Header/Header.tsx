@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -20,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isDark } = useAppSelector(state => state.theme);
-  const { listings, loading, addNewListing, isUserAdded } = useBusinessListingsWithRedux();
+  const { listings, loading, addNewListing } = useBusinessListingsWithRedux();
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessListing | null>(null);
 
   // Set the first business as default when listings are loaded
