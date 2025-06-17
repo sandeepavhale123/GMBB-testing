@@ -95,7 +95,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                 Searching...
               </div>
             )}
-            <CommandEmpty>No listing found.</CommandEmpty>
+            {!searching && <CommandEmpty>No listing found.</CommandEmpty>}
             <CommandList>
               <CommandGroup>
                 {displayListings.map((business) => (

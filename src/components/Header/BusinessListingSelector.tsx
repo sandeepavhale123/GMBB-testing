@@ -110,7 +110,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                 Searching...
               </div>
             )}
-            <CommandEmpty>No listing found.</CommandEmpty>
+            {!searching && <CommandEmpty>No listing found.</CommandEmpty>}
             <CommandList>
               <CommandGroup>
                 {displayListings.map((business) => (
