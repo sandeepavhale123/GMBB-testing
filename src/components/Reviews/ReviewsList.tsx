@@ -135,11 +135,13 @@ export const ReviewsList: React.FC = () => {
 
   const handleGenerateReply = (reviewId: string) => {
     setShowingAIGenerator(reviewId);
+    setEditingReply(null); // Close any manual editing
   };
 
   const handleManualReply = (reviewId: string) => {
     const review = reviews.find(r => r.id === reviewId);
     setEditingReply(reviewId);
+    setShowingAIGenerator(null); // Close AI generator
     // Pre-populate with existing reply text if it exists, otherwise empty
     setReplyText(review?.replyText || '');
   };
@@ -232,8 +234,8 @@ export const ReviewsList: React.FC = () => {
                   {/* Review Text */}
                   <p className="text-gray-700 mb-4 text-sm sm:text-base leading-relaxed">{review.comment}</p>
 
-                  {/* Reply Section */}
-                  {review.replied && review.replyText && (
+                  {/* Reply Section - Hide when editing */}
+                  {review.replied && review.replyText && editingReply !== review.id && (
                     <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-4 rounded-r-md">
                       <p className="text-sm text-gray-700">{review.replyText}</p>
                       <div className="flex items-center gap-1 mt-2">
@@ -278,7 +280,7 @@ export const ReviewsList: React.FC = () => {
 
                   {/* Action Buttons */}
                   <div className="flex flex-wrap items-center gap-2">
-                    {!review.replied && showingAIGenerator !== review.id && (
+                    {!review.replied && showingAIGenerator !== review.id && editingReply !== review.id && (
                       <>
                         <Button
                           size="sm"
@@ -302,7 +304,7 @@ export const ReviewsList: React.FC = () => {
                         </Button>
                       </>
                     )}
-                    {review.replied && editingReply !== review.id && (
+                    {review.replied && editingReply !== review.id && showingAIGenerator !== review.id && (
                       <Button
                         size="sm"
                         variant="outline"

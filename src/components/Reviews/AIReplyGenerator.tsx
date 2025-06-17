@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Bot, RotateCcw, Loader2 } from 'lucide-react';
@@ -24,11 +24,12 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
   onCancel
 }) => {
   const [aiReply, setAiReply] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(true);
   const [hasGenerated, setHasGenerated] = useState(false);
 
   const generateAIReply = async () => {
     setIsGenerating(true);
+    setHasGenerated(false);
     
     // Simulate AI generation delay
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -48,8 +49,12 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
     setHasGenerated(true);
   };
 
+  // Auto-generate reply on component mount
+  useEffect(() => {
+    generateAIReply();
+  }, []);
+
   const handleRegenerate = () => {
-    setHasGenerated(false);
     generateAIReply();
   };
 
@@ -64,17 +69,6 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
         <span className="text-sm font-medium text-blue-700">AI Reply Generator</span>
       </div>
       
-      {!hasGenerated && !isGenerating && (
-        <Button
-          onClick={generateAIReply}
-          className="flex items-center gap-2"
-          size="sm"
-        >
-          <Bot className="w-4 h-4" />
-          Generate using Genie
-        </Button>
-      )}
-      
       {isGenerating && (
         <div className="flex items-center gap-2 text-blue-600">
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -82,7 +76,7 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
         </div>
       )}
       
-      {hasGenerated && (
+      {hasGenerated && !isGenerating && (
         <div className="space-y-3">
           <Textarea
             value={aiReply}
