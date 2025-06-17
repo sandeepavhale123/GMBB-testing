@@ -131,6 +131,16 @@ const AppRoutes = () => {
         
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/businesses" element={<BusinessesPage />} />
+        
+        <Route path="/business-info" element={<Navigate to="/business-info/default" replace />} />
+        <Route path="/business-info/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <BusinessesPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/team" element={<TeamPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
