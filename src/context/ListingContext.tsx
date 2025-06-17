@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BusinessListing } from '@/components/Header/types';
@@ -8,6 +9,7 @@ import { moveListingToTop } from '@/store/slices/businessListingsSlice';
 interface ListingContextType {
   selectedListing: BusinessListing | null;
   isLoading: boolean;
+  isInitialLoading: boolean;
   listings: BusinessListing[];
   switchListing: (listing: BusinessListing) => void;
 }
@@ -93,6 +95,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
       value={{ 
         selectedListing, 
         isLoading, 
+        isInitialLoading: listingsLoading,
         listings, 
         switchListing 
       }}

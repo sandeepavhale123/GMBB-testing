@@ -30,7 +30,7 @@ import { useListingContext } from '@/context/ListingContext';
 
 export const Dashboard: React.FC = () => {
   const { qaStats } = useAppSelector(state => state.dashboard);
-  const { selectedListing, isLoading } = useListingContext();
+  const { selectedListing, isLoading, isInitialLoading } = useListingContext();
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -57,8 +57,8 @@ export const Dashboard: React.FC = () => {
     setSelectedPost(null);
   };
   
-  // Show loader if currently switching listings
-  if (isLoading) {
+  // Show loader during initial loading or listing switching
+  if (isInitialLoading || isLoading) {
     return (
       <div className="space-y-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
