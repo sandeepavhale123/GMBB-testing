@@ -116,7 +116,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                 {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
-                    value={business.name}
+                    value={`${business.name}-${business.id}`}
                     onSelect={() => {
                       console.log('🖥️ BusinessListingSelector: Selected business:', business);
                       onBusinessSelect(business);

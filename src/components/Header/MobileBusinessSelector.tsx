@@ -101,7 +101,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                 {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
-                    value={business.name}
+                    value={`${business.name}-${business.id}`}
                     onSelect={() => {
                       console.log('📱 MobileBusinessSelector: Selected business:', business);
                       onBusinessSelect(business);
