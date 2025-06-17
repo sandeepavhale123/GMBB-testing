@@ -15,7 +15,7 @@ const menuItems = [{
   id: 'overview',
   label: 'Overview',
   icon: LayoutDashboard,
-  path: '/'
+  path: '/location-dashboard'
 }, {
   id: 'posts',
   label: 'Posts',
