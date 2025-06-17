@@ -1,16 +1,19 @@
+
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { LayoutDashboard, FileText, Image, BarChart3, MapPin, Star, Building, Settings, Crown, Sparkles, MessageCircleQuestion, ChevronLeft, ChevronRight } from "lucide-react";
+
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
 }
+
 const menuItems = [{
   id: 'overview',
   label: 'Overview',
@@ -57,23 +60,42 @@ const menuItems = [{
   icon: Settings,
   path: '/settings'
 }];
+
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   onToggleCollapse
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { listingId } = useParams();
 
   // Determine active tab based on current path
   const getActiveTab = () => {
     const currentPath = location.pathname;
-    const activeItem = menuItems.find(item => item.path === currentPath);
+    const pathParts = currentPath.split('/');
+    const baseRoute = pathParts[1];
+    
+    const activeItem = menuItems.find(item => item.path === `/${baseRoute}`);
     return activeItem ? activeItem.id : 'overview';
   };
+
   const activeTab = getActiveTab();
-  const handleTabChange = (tab: string, path: string) => {
-    navigate(path);
+
+  const handleTabChange = (tab: string, basePath: string) => {
+    // For routes that need listing context, append the listing ID
+    const listingRoutes = ['/location-dashboard', '/posts', '/media', '/insights', '/geo-ranking', '/reviews', '/qa'];
+    
+    if (listingRoutes.includes(basePath) && listingId) {
+      navigate(`${basePath}/${listingId}`);
+    } else if (listingRoutes.includes(basePath)) {
+      // If no listing ID available, navigate to default
+      navigate(`${basePath}/default`);
+    } else {
+      // For non-listing routes (businesses, settings), navigate normally
+      navigate(basePath);
+    }
   };
+
   return <div className={cn("fixed left-0 top-0 z-40 h-screen bg-gray-900 border-r border-gray-800 transition-all duration-300 ease-in-out", collapsed ? "w-16" : "w-64")}>
       <div className="flex h-full flex-col">
         {/* Logo Section */}
@@ -81,9 +103,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {!collapsed ? <div className="flex items-center space-x-2">
               <img src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png" alt="GMB Genie Logo" className="h-15 object-contain" />
             </div> : <img src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" alt="GMB Genie Logo" className="w-8 h-8 object-contain" />}
-          
-          {/* Toggle Button */}
-          
         </div>
 
         {/* Navigation Menu */}

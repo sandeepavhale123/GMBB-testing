@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,6 +26,7 @@ import TeamPage from "./pages/TeamPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import SettingsPage from "./pages/SettingsPage";
 import QAPage from "./pages/QAPage";
+import { ListingProvider } from "@/context/ListingContext";
 
 const queryClient = new QueryClient();
 
@@ -45,9 +45,15 @@ const AppRoutes = () => {
         />
         <Route
           path="/location-dashboard"
+          element={<Navigate to="/location-dashboard/default" replace />}
+        />
+        <Route
+          path="/location-dashboard/:listingId"
           element={
             <ProtectedRoute>
-              <Index />
+              <ListingProvider>
+                <Index />
+              </ListingProvider>
             </ProtectedRoute>
           }
         />
@@ -76,18 +82,67 @@ const AppRoutes = () => {
           }
         />
     
-        <Route path="/posts" element={<PostsPage />} />
-        <Route path="/media" element={<MediaPage />} />
-        <Route path="/insights" element={<InsightsPage />} />
-        <Route path="/geo-ranking" element={<GeoRankingPage />} />
+        <Route path="/posts" element={<Navigate to="/posts/default" replace />} />
+        <Route path="/posts/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <PostsPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/media" element={<Navigate to="/media/default" replace />} />
+        <Route path="/media/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <MediaPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/insights" element={<Navigate to="/insights/default" replace />} />
+        <Route path="/insights/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <InsightsPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/geo-ranking" element={<Navigate to="/geo-ranking/default" replace />} />
+        <Route path="/geo-ranking/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <GeoRankingPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/geo-ranking-report" element={<GeoRankingReportPage />} />
-        <Route path="/reviews" element={<ReviewsPage />} />
+        
+        <Route path="/reviews" element={<Navigate to="/reviews/default" replace />} />
+        <Route path="/reviews/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <ReviewsPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/businesses" element={<BusinessesPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/qa" element={<QAPage />} />
+        
+        <Route path="/qa" element={<Navigate to="/qa/default" replace />} />
+        <Route path="/qa/:listingId" element={
+          <ProtectedRoute>
+            <ListingProvider>
+              <QAPage />
+            </ListingProvider>
+          </ProtectedRoute>
+        } />
 
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />

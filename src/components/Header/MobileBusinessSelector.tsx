@@ -1,55 +1,30 @@
 
 import React, { useState } from 'react';
-import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
+import { Store, ChevronRight, MapPin, Check, RefreshCw, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Skeleton } from '../ui/skeleton';
-import { BusinessListing } from './types';
-import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
 import { useBusinessSearch } from '@/hooks/useBusinessSearch';
 import { useAuthRedux } from '@/store/slices/auth/useAuthRedux';
+import { useListingContext } from '@/context/ListingContext';
 
-interface MobileBusinessSelectorProps {
-  selectedBusiness: BusinessListing | null;
-  onBusinessSelect: (business: BusinessListing) => void;
-}
-
-export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
-  selectedBusiness,
-  onBusinessSelect
-}) => {
+export const MobileBusinessSelector: React.FC = () => {
   const [mobileListingOpen, setMobileListingOpen] = useState(false);
-  const { listings, loading, error, refetch } = useBusinessListingsWithRedux();
+  const { selectedListing, listings, isLoading, switchListing } = useListingContext();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
   const { isRefreshing } = useAuthRedux();
 
   const displayListings = searchQuery ? searchResults : listings;
 
-  console.log('📱 MobileBusinessSelector: searchQuery:', searchQuery);
-  console.log('📱 MobileBusinessSelector: searchResults:', searchResults);
-  console.log('📱 MobileBusinessSelector: displayListings:', displayListings);
+  console.log('📱 MobileBusinessSelector: selectedListing:', selectedListing);
+  console.log('📱 MobileBusinessSelector: isLoading:', isLoading);
 
-  if (loading || isRefreshing) {
+  if (isRefreshing) {
     return (
       <div className="md:hidden">
         <Skeleton className="w-12 h-8" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="md:hidden">
-        <Button 
-          variant="outline" 
-          size="sm"
-          className="flex items-center gap-1 p-2 border-red-200 text-red-600"
-          onClick={refetch}
-        >
-          <RefreshCw className="w-4 h-4" />
-        </Button>
       </div>
     );
   }
@@ -78,8 +53,13 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
             variant="outline" 
             size="sm"
             className="flex items-center gap-1 p-2 border-gray-200 hover:bg-gray-50"
+            disabled={isLoading}
           >
-            <Store className="w-4 h-4 text-gray-500" />
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
+            ) : (
+              <Store className="w-4 h-4 text-gray-500" />
+            )}
             <ChevronRight className="w-3 h-3 text-gray-400" />
           </Button>
         </PopoverTrigger>
@@ -104,13 +84,13 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                     value={`${business.name}-${business.id}`}
                     onSelect={() => {
                       console.log('📱 MobileBusinessSelector: Selected business:', business);
-                      onBusinessSelect(business);
+                      switchListing(business);
                       setMobileListingOpen(false);
                       setSearchQuery('');
                     }}
                     className="flex items-start gap-3 p-3"
                   >
-                    <Check className={`w-4 h-4 mt-0.5 shrink-0 ${selectedBusiness?.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
+                    <Check className={`w-4 h-4 mt-0.5 shrink-0 ${selectedListing?.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
                     <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">

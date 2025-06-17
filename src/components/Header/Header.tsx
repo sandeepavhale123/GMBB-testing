@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
@@ -9,8 +10,7 @@ import { HeaderActions } from './HeaderActions';
 import { UserProfileDropdown } from './UserProfileDropdown';
 import { PageTitle } from './PageTitle';
 import { PageBreadcrumb } from './PageBreadcrumb';
-import { HeaderProps, BusinessListing } from './types';
-import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
+import { HeaderProps } from './types';
 
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
@@ -19,34 +19,6 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isDark } = useAppSelector(state => state.theme);
-  const { listings, loading, addNewListing } = useBusinessListingsWithRedux();
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessListing | null>(null);
-
-  // Set the first business as default when listings are loaded
-  useEffect(() => {
-    console.log('🏢 Header: useEffect triggered - listings:', listings);
-    console.log('🏢 Header: listings.length:', listings.length);
-    console.log('🏢 Header: selectedBusiness:', selectedBusiness);
-    
-    if (listings.length > 0 && !selectedBusiness) {
-      console.log('🏢 Header: Setting default business:', listings[0]);
-      setSelectedBusiness(listings[0]);
-    }
-  }, [listings, selectedBusiness]);
-
-  const handleBusinessSelect = (business: BusinessListing) => {
-    console.log('🏢 Header: Business selected:', business);
-    
-    // Check if this business is from search results and not in the original listings
-    const isExistingListing = listings.some(listing => listing.id === business.id);
-    
-    if (!isExistingListing) {
-      console.log('🏢 Header: Adding new business to user listings:', business.name);
-      addNewListing(business);
-    }
-    
-    setSelectedBusiness(business);
-  };
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -74,18 +46,9 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right section */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <MobileBusinessSelector
-              selectedBusiness={selectedBusiness}
-              onBusinessSelect={handleBusinessSelect}
-            />
-
-            <BusinessListingSelector
-              selectedBusiness={selectedBusiness}
-              onBusinessSelect={handleBusinessSelect}
-            />
-
+            <MobileBusinessSelector />
+            <BusinessListingSelector />
             <HeaderActions />
-
             <UserProfileDropdown />
           </div>
         </div>

@@ -6,6 +6,7 @@ import { QASEOTipBanner } from './QASEOTipBanner';
 import { QAList } from './QAList';
 import { QAEmptyState } from './QAEmptyState';
 import { CreateQAModal } from './CreateQAModal';
+import { useListingContext } from '@/context/ListingContext';
 
 const mockQuestions = [
   {
@@ -41,6 +42,7 @@ const mockQuestions = [
 ];
 
 export const QAManagementPage: React.FC = () => {
+  const { selectedListing } = useListingContext();
   const [questions, setQuestions] = useState(mockQuestions);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -48,7 +50,12 @@ export const QAManagementPage: React.FC = () => {
   const [showTipBanner, setShowTipBanner] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const filteredQuestions = questions.filter(question => {
+  // Filter questions by selected listing
+  const listingQuestions = selectedListing 
+    ? questions.filter(q => q.listingName === selectedListing.name)
+    : questions;
+
+  const filteredQuestions = listingQuestions.filter(question => {
     const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          question.listingName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || question.status === statusFilter;
@@ -56,14 +63,14 @@ export const QAManagementPage: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const unansweredCount = questions.filter(q => q.status === 'unanswered').length;
+  const unansweredCount = listingQuestions.filter(q => q.status === 'unanswered').length;
 
   const handleAddQA = (question: string, answer: string) => {
     const newQA = {
       id: Date.now().toString(),
       question,
-      listingName: 'Manual Entry',
-      location: 'Multiple Locations',
+      listingName: selectedListing?.name || 'Manual Entry',
+      location: selectedListing?.address || 'Multiple Locations',
       userName: 'Admin',
       timestamp: 'Just now',
       status: 'answered' as const,
@@ -71,6 +78,19 @@ export const QAManagementPage: React.FC = () => {
     };
     setQuestions([newQA, ...questions]);
   };
+
+  if (!selectedListing) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            No Listing Selected
+          </h2>
+          <p className="text-gray-600">Please select a business listing to view Q&A.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -94,7 +114,7 @@ export const QAManagementPage: React.FC = () => {
       {filteredQuestions.length > 0 ? (
         <QAList questions={filteredQuestions} />
       ) : (
-        <QAEmptyState hasQuestions={questions.length > 0} />
+        <QAEmptyState hasQuestions={listingQuestions.length > 0} />
       )}
 
       <CreateQAModal

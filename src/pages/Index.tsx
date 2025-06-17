@@ -1,7 +1,5 @@
 
 import React, { useState } from "react";
-// import { Provider } from "react-redux";
-// import { store } from "../store/store";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
@@ -17,13 +15,45 @@ import { GeoRankingPage } from "../components/GeoRanking/GeoRankingPage";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useAxiosAuth } from "@/hooks/useAxiosAuth";
 import { ReviewsManagementPage } from '../components/Reviews/ReviewsManagementPage';
+import { QAManagementPage } from '../components/QA/QAManagementPage';
+import { useListingContext } from "@/context/ListingContext";
+import { ListingLoader } from "../components/ui/listing-loader";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
-  const { user } = useAuthRedux(); // ✅ Now using Redux store
-  useAxiosAuth(); //This hook connects the accesstoken with axios interceptors
-  const [activeTab, setActiveTab] = useState("overview");
+  const { user } = useAuthRedux();
+  useAxiosAuth();
+  const { isLoading } = useListingContext();
+  const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Determine active tab from URL
+  const getActiveTabFromUrl = () => {
+    const pathParts = location.pathname.split('/');
+    const route = pathParts[1];
+    
+    switch (route) {
+      case 'location-dashboard':
+        return 'overview';
+      case 'posts':
+        return 'posts';
+      case 'media':
+        return 'media';
+      case 'insights':
+        return 'insights';
+      case 'geo-ranking':
+        return 'geo-ranking';
+      case 'reviews':
+        return 'reviews';
+      case 'qa':
+        return 'qa';
+      default:
+        return 'overview';
+    }
+  };
+
+  const activeTab = getActiveTabFromUrl();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -39,7 +69,8 @@ const Index = () => {
         return <GeoRankingPage />;
       case 'reviews':
         return <ReviewsManagementPage />;
-
+      case 'qa':
+        return <QAManagementPage />;
       default:
         return (
           <div className="space-y-6">
@@ -55,7 +86,6 @@ const Index = () => {
   };
 
   return (
-    // <Provider store={store}>
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 flex w-full">
         {/* Mobile Navigation Sheet */}
@@ -63,10 +93,7 @@ const Index = () => {
           <SheetContent side="left" className="p-0 w-64">
             <Sidebar
               activeTab={activeTab}
-              onTabChange={(tab) => {
-                setActiveTab(tab);
-                setMobileMenuOpen(false);
-              }}
+              onTabChange={() => {}} // Navigation is handled by the sidebar itself now
               collapsed={false}
               onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
@@ -77,7 +104,7 @@ const Index = () => {
         <div className="hidden md:flex">
           <Sidebar
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={() => {}} // Navigation is handled by the sidebar itself now
             collapsed={sidebarCollapsed}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
@@ -107,16 +134,17 @@ const Index = () => {
             ].includes(activeTab)}
           />
 
-          {/* Page Content */}
+          {/* Page Content with Loading Overlay */}
           <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-            {renderContent()}
+            <ListingLoader isLoading={isLoading}>
+              {renderContent()}
+            </ListingLoader>
           </main>
         </div>
 
         <Toaster />
       </div>
     </ThemeProvider>
-    // </Provider>
   );
 };
 

@@ -4,9 +4,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { CheckCircle, Clock, MessageSquare } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
+import { useListingContext } from '@/context/ListingContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const QACard: React.FC = () => {
   const { qaStats } = useAppSelector((state) => state.dashboard);
+  const { selectedListing } = useListingContext();
+  const { listingId } = useParams();
+  const navigate = useNavigate();
+
+  const handleViewQA = () => {
+    if (listingId) {
+      navigate(`/qa/${listingId}`);
+    }
+  };
+
+  const handleAnswerQuestions = () => {
+    if (listingId) {
+      navigate(`/qa/${listingId}`);
+    }
+  };
 
   return (
     <Card>
@@ -15,6 +32,9 @@ export const QACard: React.FC = () => {
           <CardTitle className="text-lg font-semibold">Questions & Answers</CardTitle>
           <span className="text-sm font-medium text-muted-foreground">{qaStats.responseRate}% response rate</span>
         </div>
+        {selectedListing && (
+          <p className="text-sm text-gray-500">For {selectedListing.name}</p>
+        )}
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Stats */}
@@ -44,11 +64,11 @@ export const QACard: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="space-y-3">
-          <Button className="w-full bg-gray-900 hover:bg-gray-800">
+          <Button className="w-full bg-gray-900 hover:bg-gray-800" onClick={handleAnswerQuestions}>
             <MessageSquare className="w-4 h-4 mr-2" />
             Answer Pending Questions
           </Button>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={handleViewQA}>
             View All Q&A
           </Button>
         </div>

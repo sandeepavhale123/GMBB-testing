@@ -13,6 +13,7 @@ import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
 import { ScheduledPostCard } from './ScheduledPostCard';
 import { ReviewComponent } from './ReviewComponent';
+import { QACard } from './QACard';
 import { GeoRankingPage } from '../GeoRanking/GeoRankingPage';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -26,16 +27,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { BarChart3, FileText, MessageSquare, MapPin, TrendingUp } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
+import { useListingContext } from '@/context/ListingContext';
 
 export const Dashboard: React.FC = () => {
-  const {
-    qaStats
-  } = useAppSelector(state => state.dashboard);
+  const { qaStats } = useAppSelector(state => state.dashboard);
+  const { selectedListing } = useListingContext();
   const [activeTab, setActiveTab] = useState('posts');
   const [suggestionText, setSuggestionText] = useState('AI generated suggestion text');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  
   const scheduledPost = {
     id: '1',
     title: 'Weekend Special Offer',
@@ -44,15 +46,30 @@ export const Dashboard: React.FC = () => {
     scheduledDate: '2024-06-12 10:00 AM',
     platforms: ['Google My Business', 'Facebook']
   };
+  
   const handleApprovePost = () => {
     setSelectedPost(scheduledPost);
     setIsPreviewModalOpen(true);
   };
+  
   const handleFinalApprove = () => {
     // Handle final approval logic here
     setIsPreviewModalOpen(false);
     setSelectedPost(null);
   };
+  
+  if (!selectedListing) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            No Listing Selected
+          </h2>
+          <p className="text-gray-600">Please select a business listing to view the dashboard.</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -130,7 +147,7 @@ export const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                   <TrafficSourcesChart />
                   <CreatePostCard onCreatePost={() => setIsCreateModalOpen(true)} />
-                   <QuickWinsCard />
+                  <QuickWinsCard />
                 </div>
                 
                 {/* Bottom Row - Scheduled Posts Table (Full Width) */}
@@ -138,7 +155,12 @@ export const Dashboard: React.FC = () => {
               </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-4 sm:mt-6">
-              <ReviewComponent />
+              <div className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                  <ReviewComponent />
+                  <QACard />
+                </div>
+              </div>
             </TabsContent>
             <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
                 <GeoRankingPage />
