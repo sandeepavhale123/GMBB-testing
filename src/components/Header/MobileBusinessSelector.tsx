@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -96,7 +95,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                 {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
-                    value={business.name}
+                    value={business.id}
                     onSelect={() => {
                       onBusinessSelect(business);
                       setMobileListingOpen(false);
