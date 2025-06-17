@@ -53,7 +53,7 @@ const menuItems = [{
   id: 'businesses',
   label: 'Management',
   icon: Building,
-  path: '/businesses'
+  path: '/business-info'
 }, {
   id: 'settings',
   label: 'Settings',
@@ -75,6 +75,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const pathParts = currentPath.split('/');
     const baseRoute = pathParts[1];
     
+    // Handle business-info route mapping to businesses tab
+    if (baseRoute === 'business-info') {
+      return 'businesses';
+    }
+    
     const activeItem = menuItems.find(item => item.path === `/${baseRoute}`);
     return activeItem ? activeItem.id : 'overview';
   };
@@ -83,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const handleTabChange = (tab: string, basePath: string) => {
     // For routes that need listing context, append the listing ID
-    const listingRoutes = ['/location-dashboard', '/posts', '/media', '/insights', '/geo-ranking', '/reviews', '/qa'];
+    const listingRoutes = ['/location-dashboard', '/posts', '/media', '/insights', '/geo-ranking', '/reviews', '/qa', '/business-info'];
     
     if (listingRoutes.includes(basePath) && listingId) {
       navigate(`${basePath}/${listingId}`);
@@ -91,7 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       // If no listing ID available, navigate to default
       navigate(`${basePath}/default`);
     } else {
-      // For non-listing routes (businesses, settings), navigate normally
+      // For non-listing routes (settings), navigate normally
       navigate(basePath);
     }
   };

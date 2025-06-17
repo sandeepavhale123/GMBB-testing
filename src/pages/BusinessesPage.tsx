@@ -23,7 +23,7 @@ const BusinessesPage = () => {
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetContent side="left" className="p-0 w-64">
                 <Sidebar
-                  activeTab="businesses"
+                  activeTab="business-info"
                   onTabChange={() => {}}
                   collapsed={false}
                   onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -34,7 +34,7 @@ const BusinessesPage = () => {
             {/* Desktop Sidebar */}
             <div className="hidden md:flex">
               <Sidebar
-                activeTab="businesses"
+                activeTab="business-info"
                 onTabChange={() => {}}
                 collapsed={sidebarCollapsed}
                 onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}

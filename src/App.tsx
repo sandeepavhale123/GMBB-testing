@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -132,14 +131,9 @@ const AppRoutes = () => {
         
         <Route path="/analytics" element={<AnalyticsPage />} />
         
-        <Route path="/businesses" element={<Navigate to="/businesses/default" replace />} />
-        <Route path="/businesses/:listingId" element={
-          <ProtectedRoute>
-            <ListingProvider>
-              <BusinessesPage />
-            </ListingProvider>
-          </ProtectedRoute>
-        } />
+        {/* Redirect old /businesses URLs to /business-info */}
+        <Route path="/businesses" element={<Navigate to="/business-info/default" replace />} />
+        <Route path="/businesses/:listingId" element={<Navigate to="/business-info/:listingId" replace />} />
         
         <Route path="/business-info" element={<Navigate to="/business-info/default" replace />} />
         <Route path="/business-info/:listingId" element={
@@ -151,7 +145,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/team" element={<TeamPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/notifications" element={<Navigate to="/notifications/default" replace />} />
         <Route path="/settings" element={<SettingsPage />} />
         
         <Route path="/qa" element={<Navigate to="/qa/default" replace />} />

@@ -9,7 +9,7 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/media': { title: 'Media Library', subtitle: 'Organize and manage your business images and videos for all platforms' },
   '/reviews': { title: 'Reviews', subtitle: 'Monitor and respond to customer feedback across all locations' },
   '/qa': { title: 'Q&A', subtitle: 'Manage customer questions and provide helpful answers' },
-  '/businesses': { title: 'Management', subtitle: 'Manage your business listings and location information' },
+  '/business-info': { title: 'Management', subtitle: 'Manage your business listings and location information' },
   '/settings': { title: 'Settings', subtitle: 'Configure your account preferences and integrations' },
   '/insights': { title: 'Insights', subtitle: 'Review performance insights to improve your local visibility' },
   '/geo-ranking': { title: 'GEO Ranking', subtitle: 'Track keyword ranking by geographic location' },

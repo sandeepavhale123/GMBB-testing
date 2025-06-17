@@ -33,9 +33,9 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'Q&A', path: '/qa' }
   ],
-  '/businesses': [
+  '/business-info': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Management', path: '/businesses' }
+    { title: 'Management', path: '/business-info' }
   ],
   '/settings': [
     { title: 'Dashboard', path: '/' },
