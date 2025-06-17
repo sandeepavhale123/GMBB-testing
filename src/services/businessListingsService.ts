@@ -20,7 +20,7 @@ export const businessListingsService = {
       console.log('Making request to business listings API with payload:', payload);
       
       const response = await axiosInstance.post<BusinessListingsApiResponse>(
-        '/v1/get-active-listings', // Removed /api prefix to prevent double /api in URL
+        '/v1/get-active-listings', // Corrected endpoint without /api prefix
         payload
       );
 
@@ -34,12 +34,14 @@ export const businessListingsService = {
 
       console.warn('API returned non-200 code or no data:', response.data);
       return [];
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching business listings:', error);
       
       // Add more specific error logging
       if (error.response) {
         console.error('Response error:', error.response.status, error.response.data);
+        console.error('Request URL was:', error.config?.url);
+        console.error('Base URL:', error.config?.baseURL);
       } else if (error.request) {
         console.error('Request error - no response received:', error.request);
       } else {

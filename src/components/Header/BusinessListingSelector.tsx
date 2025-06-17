@@ -8,6 +8,7 @@ import { Skeleton } from '../ui/skeleton';
 import { BusinessListing } from './types';
 import { useBusinessListings } from '@/hooks/useBusinessListings';
 import { useBusinessSearch } from '@/hooks/useBusinessSearch';
+import { useAuthRedux } from '@/store/slices/auth/useAuthRedux';
 
 interface BusinessListingSelectorProps {
   selectedBusiness: BusinessListing | null;
@@ -21,10 +22,11 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
   const [open, setOpen] = useState(false);
   const { listings, loading, error, refetch } = useBusinessListings();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
+  const { isRefreshing } = useAuthRedux();
 
   const displayListings = searchQuery ? searchResults : listings;
 
-  if (loading) {
+  if (loading || isRefreshing) {
     return (
       <div className="hidden md:block">
         <Skeleton className="w-60 lg:w-80 h-12" />

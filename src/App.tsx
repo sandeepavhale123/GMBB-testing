@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import { AuthInitializer } from "@/store/slices/auth/AuthInitializer";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
+import { useAxiosAuth } from "@/hooks/useAxiosAuth";
 import { GeoRankingReportPage } from "./components/GeoRanking/GeoRankingReportPage";
 import PostsPage from "./pages/PostsPage";
 import MediaPage from "./pages/MediaPage";
@@ -27,75 +28,80 @@ import NotificationsPage from "./pages/NotificationsPage";
 import SettingsPage from "./pages/SettingsPage";
 import QAPage from "./pages/QAPage";
 
-
 const queryClient = new QueryClient();
 
-const App = () => (
+const AppContent = () => {
+  // Initialize axios auth helpers
+  useAxiosAuth();
 
+  return (
+    <BrowserRouter>
+      {/* 👇 Kick off auth refresh if refresh token exists */}
+      <AuthInitializer />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Index />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+    
+        <Route path="/posts" element={<PostsPage />} />
+        <Route path="/media" element={<MediaPage />} />
+        <Route path="/insights" element={<InsightsPage />} />
+        <Route path="/geo-ranking" element={<GeoRankingPage />} />
+        <Route path="/geo-ranking-report" element={<GeoRankingReportPage />} />
+        <Route path="/reviews" element={<ReviewsPage />} />
+        <Route path="/analytics" element={<AnalyticsPage />} />
+        <Route path="/businesses" element={<BusinessesPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/qa" element={<QAPage />} />
+
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+const App = () => (
   <QueryClientProvider client={queryClient}>
     <Provider store={store}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          {/* 👇 Kick off auth refresh if refresh token exists */}
-          <AuthInitializer />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Index />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/onboarding"
-              element={
-                <ProtectedRoute>
-                  <Onboarding />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-        
-            <Route path="/posts" element={<PostsPage />} />
-            <Route path="/media" element={<MediaPage />} />
-            <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/geo-ranking" element={<GeoRankingPage />} />
-            <Route path="/geo-ranking-report" element={<GeoRankingReportPage />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/businesses" element={<BusinessesPage />} />
-            <Route path="/team" element={<TeamPage />} />
-            <Route path="/notifications" element={<NotificationsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/qa" element={<QAPage />} />
-
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <AppContent />
       </TooltipProvider>
     </Provider>
   </QueryClientProvider>
-  
-
 );
 
 export default App;
