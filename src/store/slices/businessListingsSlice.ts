@@ -45,11 +45,25 @@ const businessListingsSlice = createSlice({
       );
       
       if (existingIndex === -1) {
-        state.userAddedListings.push(action.payload);
+        // Add new listing at the beginning of the array
+        state.userAddedListings.unshift(action.payload);
         saveToLocalStorage(state.userAddedListings);
-        console.log('✅ Added business listing:', action.payload.name);
+        console.log('✅ Added business listing at top:', action.payload.name);
       } else {
         console.log('ℹ️ Business listing already exists:', action.payload.name);
+      }
+    },
+    moveListingToTop: (state, action: PayloadAction<string>) => {
+      const listingIndex = state.userAddedListings.findIndex(
+        listing => listing.id === action.payload
+      );
+      
+      if (listingIndex > 0) {
+        // Remove listing from current position and add to beginning
+        const [listing] = state.userAddedListings.splice(listingIndex, 1);
+        state.userAddedListings.unshift(listing);
+        saveToLocalStorage(state.userAddedListings);
+        console.log('🔝 Moved business listing to top:', listing.name);
       }
     },
     removeBusinessListing: (state, action: PayloadAction<string>) => {
@@ -72,6 +86,7 @@ const businessListingsSlice = createSlice({
 
 export const { 
   addBusinessListing, 
+  moveListingToTop,
   removeBusinessListing, 
   setSelectedBusiness,
   clearUserListings 

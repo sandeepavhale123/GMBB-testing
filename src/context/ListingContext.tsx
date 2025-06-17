@@ -1,8 +1,9 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BusinessListing } from '@/components/Header/types';
 import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
+import { useAppDispatch } from '@/hooks/useRedux';
+import { moveListingToTop } from '@/store/slices/businessListingsSlice';
 
 interface ListingContextType {
   selectedListing: BusinessListing | null;
@@ -32,6 +33,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   const navigate = useNavigate();
   const { listingId } = useParams();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   // Get the current route without the listing ID
   const getBaseRoute = () => {
@@ -62,10 +64,17 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     // Check if the listing exists in current listings
     const existsInListings = listings.some(l => l.id === listing.id);
     
-    // If it doesn't exist, add it to stored listings first
     if (!existsInListings) {
+      // If it doesn't exist, add it to stored listings first
       console.log('🔄 ListingContext: Auto-storing new listing:', listing.name);
       addNewListing(listing);
+    } else {
+      // If it exists in user listings, move it to top for "most recently used" behavior
+      const isInUserListings = listings.slice(0, listings.length).some(l => l.id === listing.id);
+      if (isInUserListings) {
+        console.log('🔝 ListingContext: Moving existing listing to top:', listing.name);
+        dispatch(moveListingToTop(listing.id));
+      }
     }
     
     setSelectedListing(listing);
