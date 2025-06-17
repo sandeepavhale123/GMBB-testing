@@ -26,7 +26,7 @@ interface ListingProviderProps {
 }
 
 export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) => {
-  const { listings, loading: listingsLoading } = useBusinessListingsWithRedux();
+  const { listings, loading: listingsLoading, addNewListing } = useBusinessListingsWithRedux();
   const [selectedListing, setSelectedListing] = useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -58,6 +58,16 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     if (listing.id === selectedListing?.id) return;
     
     setIsLoading(true);
+    
+    // Check if the listing exists in current listings
+    const existsInListings = listings.some(l => l.id === listing.id);
+    
+    // If it doesn't exist, add it to stored listings first
+    if (!existsInListings) {
+      console.log('🔄 ListingContext: Auto-storing new listing:', listing.name);
+      addNewListing(listing);
+    }
+    
     setSelectedListing(listing);
     
     const baseRoute = getBaseRoute();
