@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -8,6 +7,7 @@ import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
 import { SentimentBreakdownCard } from './SentimentBreakdownCard';
+import { RecentReviewsCard } from './RecentReviewsCard';
 import { InsightsCard } from './InsightsCard';
 import { ActivitySummaryChart } from './ActivitySummaryChart';
 import { CreatePostCard } from './CreatePostCard';
@@ -156,11 +156,15 @@ export const Dashboard: React.FC = () => {
                 </TabsContent>
                 <TabsContent value="reviews" className="mt-4 sm:mt-6">
                   <div className="space-y-4 sm:space-y-6">
+                    {/* Summary Cards Row */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                       <ReviewSummaryCard />
                       <SentimentBreakdownCard />
                       <QACard />
                     </div>
+                    
+                    {/* Recent Reviews Section - Full Width */}
+                    <RecentReviewsCard />
                   </div>
                 </TabsContent>
                 <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
