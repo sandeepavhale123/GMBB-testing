@@ -19,9 +19,6 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
 
   const performSearch = useCallback(async (query: string) => {
     console.log('🔍 useBusinessSearch: Starting search for query:', query);
-    console.log('🔍 useBusinessSearch: initialListings received:', initialListings);
-    console.log('🔍 useBusinessSearch: initialListings count:', initialListings.length);
-    console.log('🔍 useBusinessSearch: initialListings names:', initialListings.map(listing => listing.name));
 
     if (!query.trim()) {
       console.log('🔍 useBusinessSearch: Empty query, clearing results');
@@ -33,63 +30,46 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
       setSearching(true);
       setSearchError(null);
 
-      // First, search locally in initial listings
-      console.log('🔍 useBusinessSearch: Performing local search...');
-      const localResults = initialListings.filter(listing => {
-        const nameMatch = listing.name.toLowerCase().includes(query.toLowerCase());
-        const addressMatch = listing.address.toLowerCase().includes(query.toLowerCase());
-        const typeMatch = listing.type.toLowerCase().includes(query.toLowerCase());
-        
-        console.log(`🔍 useBusinessSearch: Checking "${listing.name}":`, {
-          nameMatch,
-          addressMatch,
-          typeMatch,
-          listingName: listing.name,
-          queryLower: query.toLowerCase(),
-          nameIncludes: listing.name.toLowerCase().includes(query.toLowerCase())
-        });
-        
-        return nameMatch || addressMatch || typeMatch;
-      });
-
-      console.log('🔍 useBusinessSearch: Local search results:', localResults);
-      console.log('🔍 useBusinessSearch: Local results count:', localResults.length);
-
-      // If we have local results, show them immediately
-      if (localResults.length > 0) {
-        console.log('🔍 useBusinessSearch: Setting local results immediately');
-        setSearchResults(localResults);
-      }
-
-      // Then search via API for more comprehensive results
+      // Prioritize API search - this is the primary data source
       console.log('🔍 useBusinessSearch: Performing API search...');
       const apiResults = await businessListingsService.searchListings(query, 20);
       console.log('🔍 useBusinessSearch: API search results:', apiResults);
       console.log('🔍 useBusinessSearch: API results count:', apiResults.length);
       console.log('🔍 useBusinessSearch: API results names:', apiResults.map(listing => listing.name));
       
-      // Combine and deduplicate results - prioritize API results
-      const combinedResults = [...apiResults];
-      localResults.forEach(localListing => {
-        if (!combinedResults.find(existing => existing.id === localListing.id)) {
-          combinedResults.push(localListing);
-        }
-      });
+      // If API returns results, use them as primary results
+      if (apiResults.length > 0) {
+        console.log('🔍 useBusinessSearch: Using API results as primary');
+        setSearchResults(apiResults);
+      } else {
+        // Only fallback to local search if API returns no results
+        console.log('🔍 useBusinessSearch: API returned no results, trying local fallback');
+        console.log('🔍 useBusinessSearch: Local fallback data:', initialListings);
+        
+        const localResults = initialListings.filter(listing => {
+          const nameMatch = listing.name.toLowerCase().includes(query.toLowerCase());
+          const addressMatch = listing.address.toLowerCase().includes(query.toLowerCase());
+          const typeMatch = listing.type.toLowerCase().includes(query.toLowerCase());
+          
+          return nameMatch || addressMatch || typeMatch;
+        });
 
-      console.log('🔍 useBusinessSearch: Combined results:', combinedResults);
-      console.log('🔍 useBusinessSearch: Final results count:', combinedResults.length);
-      setSearchResults(combinedResults);
+        console.log('🔍 useBusinessSearch: Local fallback results:', localResults);
+        setSearchResults(localResults);
+      }
+
     } catch (err) {
-      console.error('🔍 useBusinessSearch: Search failed:', err);
+      console.error('🔍 useBusinessSearch: API search failed:', err);
       setSearchError('Search failed');
-      // Fallback to local search only
-      console.log('🔍 useBusinessSearch: Falling back to local search only');
+      
+      // Fallback to local search only when API fails
+      console.log('🔍 useBusinessSearch: Falling back to local search due to API error');
       const localResults = initialListings.filter(listing =>
         listing.name.toLowerCase().includes(query.toLowerCase()) ||
         listing.address.toLowerCase().includes(query.toLowerCase()) ||
         listing.type.toLowerCase().includes(query.toLowerCase())
       );
-      console.log('🔍 useBusinessSearch: Fallback local results:', localResults);
+      console.log('🔍 useBusinessSearch: Error fallback results:', localResults);
       setSearchResults(localResults);
     } finally {
       setSearching(false);

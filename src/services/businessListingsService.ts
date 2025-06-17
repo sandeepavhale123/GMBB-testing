@@ -24,14 +24,14 @@ export const businessListingsService = {
         payload
       );
 
-      console.log('🌐 businessListingsService.getActiveListings: API response:', response.data);
+      console.log('🌐 businessListingsService.getActiveListings: API response status:', response.status);
       console.log('🌐 businessListingsService.getActiveListings: Response code:', response.data.code);
-      console.log('🌐 businessListingsService.getActiveListings: Raw data:', response.data.data);
+      console.log('🌐 businessListingsService.getActiveListings: Raw data count:', response.data.data?.length || 0);
 
       if (response.data.code === 200 && response.data.data) {
         const transformedData = response.data.data.map(transformBusinessListing);
-        console.log('🌐 businessListingsService.getActiveListings: Transformed data:', transformedData);
-        console.log('🌐 businessListingsService.getActiveListings: Transformed names:', transformedData.map(item => item.name));
+        console.log('🌐 businessListingsService.getActiveListings: Successfully transformed', transformedData.length, 'listings');
+        console.log('🌐 businessListingsService.getActiveListings: Listing names:', transformedData.map(item => item.name));
         return transformedData;
       }
 
@@ -40,13 +40,10 @@ export const businessListingsService = {
     } catch (error: any) {
       console.error('🌐 businessListingsService.getActiveListings: Error:', error);
       
-      // Add more specific error logging
       if (error.response) {
         console.error('🌐 businessListingsService.getActiveListings: Response error:', error.response.status, error.response.data);
-        console.error('🌐 businessListingsService.getActiveListings: Request URL:', error.config?.url);
-        console.error('🌐 businessListingsService.getActiveListings: Base URL:', error.config?.baseURL);
       } else if (error.request) {
-        console.error('🌐 businessListingsService.getActiveListings: Request error - no response received:', error.request);
+        console.error('🌐 businessListingsService.getActiveListings: Request error - no response received');
       } else {
         console.error('🌐 businessListingsService.getActiveListings: Setup error:', error.message);
       }
@@ -57,8 +54,12 @@ export const businessListingsService = {
 
   async searchListings(query: string, limit: number = 20): Promise<BusinessListing[]> {
     console.log('🔍 businessListingsService.searchListings: Searching with query:', query, 'limit:', limit);
+    
+    // Use the same API endpoint but with search query
     const result = await this.getActiveListings({ query, limit });
-    console.log('🔍 businessListingsService.searchListings: Search result:', result);
+    console.log('🔍 businessListingsService.searchListings: Search completed, found', result.length, 'results');
+    console.log('🔍 businessListingsService.searchListings: Result names:', result.map(r => r.name));
+    
     return result;
   }
 };

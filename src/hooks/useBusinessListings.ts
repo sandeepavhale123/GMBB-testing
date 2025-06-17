@@ -23,13 +23,13 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
       setError(null);
       console.log('📋 useBusinessListings: Fetching business listings...');
       
+      // Fetch listings without query to get user's default listings
       const data = await businessListingsService.getActiveListings({ limit: 10 });
-      console.log('📋 useBusinessListings: Raw API data received:', data);
-      console.log('📋 useBusinessListings: Number of listings:', data.length);
+      console.log('📋 useBusinessListings: Received', data.length, 'listings');
       console.log('📋 useBusinessListings: Listing names:', data.map(listing => listing.name));
       
       setListings(data);
-      console.log('📋 useBusinessListings: Successfully set listings state:', data);
+      console.log('📋 useBusinessListings: Successfully updated listings state');
     } catch (err: any) {
       console.error('📋 useBusinessListings: Failed to fetch business listings:', err);
       
@@ -39,15 +39,15 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
         try {
           const refreshSuccess = await refreshAccessToken();
           if (refreshSuccess) {
-            console.log('📋 useBusinessListings: Token refresh successful, retrying business listings...');
-            return fetchListings(1); // Retry once after refresh
+            console.log('📋 useBusinessListings: Token refresh successful, retrying...');
+            return fetchListings(1);
           }
         } catch (refreshError) {
           console.error('📋 useBusinessListings: Token refresh failed:', refreshError);
         }
       }
       
-      // More specific error messages
+      // Set appropriate error messages
       let errorMessage = 'Failed to load business listings';
       if (err.response?.status === 401) {
         errorMessage = 'Authentication required';
@@ -65,13 +65,10 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
   };
 
   useEffect(() => {
-    // Only fetch if auth is initialized and we have attempted refresh
     if (isInitialized && hasAttemptedRefresh) {
-      // If we have an access token, fetch immediately
       if (accessToken) {
         fetchListings();
       } else {
-        // No access token, set error state
         setError('Authentication required');
         setLoading(false);
       }
