@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -139,8 +138,10 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleManualReply = (reviewId: string) => {
+    const review = reviews.find(r => r.id === reviewId);
     setEditingReply(reviewId);
-    setReplyText('');
+    // Pre-populate with existing reply text if it exists, otherwise empty
+    setReplyText(review?.replyText || '');
   };
 
   const handleSaveReply = (reviewId: string, reply?: string) => {
@@ -301,7 +302,7 @@ export const ReviewsList: React.FC = () => {
                         </Button>
                       </>
                     )}
-                    {review.replied && (
+                    {review.replied && editingReply !== review.id && (
                       <Button
                         size="sm"
                         variant="outline"
