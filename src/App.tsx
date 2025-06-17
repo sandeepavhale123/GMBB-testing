@@ -30,12 +30,12 @@ import QAPage from "./pages/QAPage";
 
 const queryClient = new QueryClient();
 
-const AppContent = () => {
-  // Initialize axios auth helpers
+const AppRoutes = () => {
+  // Initialize axios auth helpers - now inside Router context
   useAxiosAuth();
 
   return (
-    <BrowserRouter>
+    <>
       {/* 👇 Kick off auth refresh if refresh token exists */}
       <AuthInitializer />
       <Routes>
@@ -88,6 +88,14 @@ const AppContent = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+    </>
+  );
+};
+
+const AppContent = () => {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 };
