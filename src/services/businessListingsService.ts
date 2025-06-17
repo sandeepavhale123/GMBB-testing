@@ -17,20 +17,35 @@ export const businessListingsService = {
     };
 
     try {
+      console.log('Making request to business listings API with payload:', payload);
+      
       const response = await axiosInstance.post<BusinessListingsApiResponse>(
-        '/api/v1/get-active-listings',
+        '/v1/get-active-listings', // Removed /api prefix to prevent double /api in URL
         payload
       );
 
       console.log('Business listings API response:', response.data);
 
       if (response.data.code === 200 && response.data.data) {
-        return response.data.data.map(transformBusinessListing);
+        const transformedData = response.data.data.map(transformBusinessListing);
+        console.log('Transformed business listings:', transformedData);
+        return transformedData;
       }
 
+      console.warn('API returned non-200 code or no data:', response.data);
       return [];
     } catch (error) {
       console.error('Error fetching business listings:', error);
+      
+      // Add more specific error logging
+      if (error.response) {
+        console.error('Response error:', error.response.status, error.response.data);
+      } else if (error.request) {
+        console.error('Request error - no response received:', error.request);
+      } else {
+        console.error('Setup error:', error.message);
+      }
+      
       throw error;
     }
   },

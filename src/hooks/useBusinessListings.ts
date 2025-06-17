@@ -19,12 +19,25 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
     try {
       setLoading(true);
       setError(null);
+      console.log('Fetching business listings...');
+      
       const data = await businessListingsService.getActiveListings({ limit: 10 });
       setListings(data);
-      console.log('Fetched business listings:', data);
+      console.log('Successfully fetched business listings:', data);
     } catch (err) {
       console.error('Failed to fetch business listings:', err);
-      setError('Failed to load business listings');
+      
+      // More specific error messages
+      let errorMessage = 'Failed to load business listings';
+      if (err.response?.status === 401) {
+        errorMessage = 'Authentication required';
+      } else if (err.response?.status === 403) {
+        errorMessage = 'Access denied';
+      } else if (err.code === 'NETWORK_ERROR' || !err.response) {
+        errorMessage = 'Network connection error';
+      }
+      
+      setError(errorMessage);
       setListings([]);
     } finally {
       setLoading(false);

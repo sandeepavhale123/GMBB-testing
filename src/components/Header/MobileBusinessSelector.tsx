@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Store, ChevronRight, MapPin, Check } from 'lucide-react';
+import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -19,7 +19,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
   onBusinessSelect
 }) => {
   const [mobileListingOpen, setMobileListingOpen] = useState(false);
-  const { listings, loading, error } = useBusinessListings();
+  const { listings, loading, error, refetch } = useBusinessListings();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
   const displayListings = searchQuery ? searchResults : listings;
@@ -32,7 +32,22 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
     );
   }
 
-  if (error || listings.length === 0) {
+  if (error) {
+    return (
+      <div className="md:hidden">
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="flex items-center gap-1 p-2 border-red-200 text-red-600"
+          onClick={refetch}
+        >
+          <RefreshCw className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
+
+  if (listings.length === 0) {
     return (
       <div className="md:hidden">
         <Button 
@@ -61,7 +76,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
             <ChevronRight className="w-3 h-3 text-gray-400" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-72 p-0" align="end">
+        <PopoverContent className="w-72 p-0 bg-white z-50" align="end">
           <Command>
             <CommandInput 
               placeholder="Search listings..." 

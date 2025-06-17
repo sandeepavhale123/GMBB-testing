@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ChevronDown, MapPin, Check } from 'lucide-react';
+import { ChevronDown, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -19,7 +19,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
   onBusinessSelect
 }) => {
   const [open, setOpen] = useState(false);
-  const { listings, loading, error } = useBusinessListings();
+  const { listings, loading, error, refetch } = useBusinessListings();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
   const displayListings = searchQuery ? searchResults : listings;
@@ -35,8 +35,16 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
   if (error) {
     return (
       <div className="hidden md:block">
-        <Button variant="outline" className="w-60 lg:w-80 justify-between border-red-200 text-red-600">
-          Error loading listings
+        <Button 
+          variant="outline" 
+          className="w-60 lg:w-80 justify-between border-red-200 text-red-600 hover:bg-red-50"
+          onClick={refetch}
+        >
+          <span className="flex items-center gap-2">
+            <RefreshCw className="w-4 h-4" />
+            {error}
+          </span>
+          <span className="text-xs">Click to retry</span>
         </Button>
       </div>
     );
@@ -81,7 +89,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
             <ChevronDown className="w-4 h-4 text-gray-400 ml-2 shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-60 lg:w-80 p-0" align="end">
+        <PopoverContent className="w-60 lg:w-80 p-0 bg-white z-50" align="end">
           <Command>
             <CommandInput 
               placeholder="Search listings..." 
