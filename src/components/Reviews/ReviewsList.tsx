@@ -178,9 +178,9 @@ export const ReviewsList: React.FC = () => {
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">Customer Reviews</CardTitle>
         
-        {/* Filters and Search */}
+        {/* Single Line Filters */}
         <div className="flex flex-col gap-4 mt-4">
-          <div className="relative flex-1">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input 
               placeholder="Search reviews..." 
@@ -190,10 +190,10 @@ export const ReviewsList: React.FC = () => {
             />
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <Select value={filter} onValueChange={value => dispatch(setFilter(value))}>
-              <SelectTrigger className="w-full sm:w-40">
-                <SelectValue placeholder="Filter by status" />
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="All Reviews" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Reviews</SelectItem>
@@ -203,8 +203,8 @@ export const ReviewsList: React.FC = () => {
             </Select>
 
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full sm:w-40">
-                <SelectValue placeholder="Sort by" />
+              <SelectTrigger className="w-[130px]">
+                <SelectValue placeholder="Newest First" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="newest">Newest First</SelectItem>
@@ -214,24 +214,23 @@ export const ReviewsList: React.FC = () => {
               </SelectContent>
             </Select>
 
-            <div className="flex gap-2">
-              <DateRangePicker
-                date={localDateRange}
-                onDateChange={handleDateRangeChange}
-                placeholder="Select date range"
-                className="w-full sm:w-64"
-              />
-              {(dateRange.startDate || dateRange.endDate) && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClearDateRange}
-                  className="px-2"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              )}
-            </div>
+            <DateRangePicker
+              date={localDateRange}
+              onDateChange={handleDateRangeChange}
+              placeholder="Select date range"
+              className="w-[200px]"
+            />
+            
+            {(dateRange.startDate || dateRange.endDate) && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearDateRange}
+                className="px-2"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>
