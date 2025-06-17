@@ -34,6 +34,7 @@ export const ReviewsList: React.FC = () => {
   } = useAppSelector(state => state.reviews);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
+  const [sentimentFilter, setSentimentFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
@@ -124,6 +125,8 @@ export const ReviewsList: React.FC = () => {
                          (filter === 'pending' && !review.replied) || 
                          (filter === 'replied' && review.replied);
     
+    const matchesSentiment = sentimentFilter === 'all' || review.sentiment === sentimentFilter;
+    
     // Date range filtering
     let matchesDateRange = true;
     if (dateRange.startDate && dateRange.endDate) {
@@ -133,7 +136,7 @@ export const ReviewsList: React.FC = () => {
       matchesDateRange = isWithinInterval(reviewDate, { start: startDate, end: endDate });
     }
     
-    return matchesSearch && matchesFilter && matchesDateRange;
+    return matchesSearch && matchesFilter && matchesSentiment && matchesDateRange;
   });
   const reviewsPerPage = 10;
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
@@ -195,6 +198,7 @@ export const ReviewsList: React.FC = () => {
   // Check if there are active filters - fix the boolean type error
   const hasActiveFilters = searchQuery.trim() !== '' || 
                           filter !== 'all' || 
+                          sentimentFilter !== 'all' ||
                           Boolean(dateRange.startDate && dateRange.endDate);
 
   return <Card className="bg-white border border-gray-200">
@@ -221,6 +225,18 @@ export const ReviewsList: React.FC = () => {
               <SelectItem value="all">All Reviews</SelectItem>
               <SelectItem value="pending">Pending Reply</SelectItem>
               <SelectItem value="replied">Replied</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={sentimentFilter} onValueChange={setSentimentFilter}>
+            <SelectTrigger className="w-[130px]">
+              <SelectValue placeholder="All Sentiment" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Sentiment</SelectItem>
+              <SelectItem value="positive">Positive</SelectItem>
+              <SelectItem value="neutral">Neutral</SelectItem>
+              <SelectItem value="negative">Negative</SelectItem>
             </SelectContent>
           </Select>
 
