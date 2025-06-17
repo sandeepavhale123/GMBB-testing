@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -20,7 +21,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
   onBusinessSelect
 }) => {
   const [mobileListingOpen, setMobileListingOpen] = useState(false);
-  const { listings, loading, error, refetch, isUserAdded } = useBusinessListingsWithRedux();
+  const { listings, loading, error, refetch } = useBusinessListingsWithRedux();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
   const { isRefreshing } = useAuthRedux();
 
@@ -122,11 +123,6 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                         <Badge variant="secondary" className="shrink-0 text-xs">
                           {business.type}
                         </Badge>
-                        {isUserAdded(business.id) && (
-                          <Badge variant="outline" className="shrink-0 text-xs text-blue-600 border-blue-200">
-                            Added
-                          </Badge>
-                        )}
                       </div>
                     </div>
                     <div className="flex items-center shrink-0">

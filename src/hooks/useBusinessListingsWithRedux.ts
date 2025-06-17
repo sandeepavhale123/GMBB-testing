@@ -12,7 +12,6 @@ interface UseBusinessListingsWithReduxReturn {
   error: string | null;
   refetch: () => Promise<void>;
   addNewListing: (business: BusinessListing) => void;
-  isUserAdded: (businessId: string) => boolean;
 }
 
 export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxReturn => {
@@ -24,8 +23,8 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   const dispatch = useAppDispatch();
   const { userAddedListings } = useAppSelector(state => state.businessListings);
 
-  // Combine API listings with user-added listings
-  const allListings = [...apiListings, ...userAddedListings];
+  // Combine user-added listings first, then API listings (user-added at top)
+  const allListings = [...userAddedListings, ...apiListings];
 
   const fetchListings = async (retryCount = 0) => {
     try {
@@ -76,10 +75,6 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
     dispatch(addBusinessListing(business));
   };
 
-  const isUserAdded = (businessId: string): boolean => {
-    return userAddedListings.some(listing => listing.id === businessId);
-  };
-
   useEffect(() => {
     if (isInitialized && hasAttemptedRefresh) {
       if (accessToken) {
@@ -96,7 +91,6 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
     loading,
     error,
     refetch: fetchListings,
-    addNewListing,
-    isUserAdded
+    addNewListing
   };
 };
