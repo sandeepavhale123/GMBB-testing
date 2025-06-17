@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -7,7 +8,7 @@ import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
 import { InsightsCard } from './InsightsCard';
-import { ActivitySummaryChart } from './ActivitySummaryCard';
+import { ActivitySummaryChart } from './ActivitySummaryChart';
 import { CreatePostCard } from './CreatePostCard';
 import { TrafficSourcesChart } from './TrafficSourcesChart';
 import { ScheduledPostCard } from './ScheduledPostCard';
