@@ -9,6 +9,7 @@ import { Search, Star, Bot, MessageSquare, Edit3, ChevronLeft, ChevronRight, X }
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { setFilter, setDateRange, clearDateRange, replyToReview } from '../../store/slices/reviewsSlice';
 import { AIReplyGenerator } from './AIReplyGenerator';
+import { ReviewsEmptyState } from './ReviewsEmptyState';
 import { DateRange } from 'react-day-picker';
 import { format, isWithinInterval, parseISO, subDays } from 'date-fns';
 
@@ -191,6 +192,11 @@ export const ReviewsList: React.FC = () => {
     dispatch(clearDateRange());
   };
 
+  // Check if there are active filters
+  const hasActiveFilters = searchQuery.trim() !== '' || 
+                          filter !== 'all' || 
+                          (dateRange.startDate && dateRange.endDate);
+
   return <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">Customer Reviews</CardTitle>
@@ -251,103 +257,112 @@ export const ReviewsList: React.FC = () => {
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="space-y-6">
-          {currentReviews.map(review => <div key={review.id} className="border border-gray-200 rounded-lg p-4 sm:p-6 bg-white shadow-sm">
-              <div className="flex items-start gap-3 sm:gap-4">
-                {/* Customer Avatar */}
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                  {review.customerInitials}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="font-semibold text-gray-900 text-sm sm:text-base">{review.customerName}</h4>
-                      <Badge variant="outline" className="text-xs">{review.platform}</Badge>
-                      <Badge className={`text-xs ${getSentimentColor(review.sentiment)}`}>
-                        {review.sentiment}
-                      </Badge>
+        {filteredReviews.length === 0 ? (
+          <ReviewsEmptyState 
+            hasFilters={hasActiveFilters}
+            totalReviewsCount={reviews.length}
+          />
+        ) : (
+          <>
+            <div className="space-y-6">
+              {currentReviews.map(review => <div key={review.id} className="border border-gray-200 rounded-lg p-4 sm:p-6 bg-white shadow-sm">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    {/* Customer Avatar */}
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      {review.customerInitials}
                     </div>
-                    <span className="text-sm text-gray-500 flex-shrink-0">{new Date(review.date).toLocaleDateString()}</span>
-                  </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex">{renderStars(review.rating)}</div>
-                    <span className="text-sm text-gray-600">({review.rating}/5)</span>
-                  </div>
-
-                  {/* Review Text */}
-                  <p className="text-gray-700 mb-4 text-sm sm:text-base leading-relaxed">{review.comment}</p>
-
-                  {/* Reply Section - Hide when editing */}
-                  {review.replied && review.replyText && editingReply !== review.id && <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-4 rounded-r-md">
-                      <p className="text-sm text-gray-700">{review.replyText}</p>
-                      <div className="flex items-center gap-1 mt-2">
-                        
+                    <div className="flex-1 min-w-0">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h4 className="font-semibold text-gray-900 text-sm sm:text-base">{review.customerName}</h4>
+                          <Badge variant="outline" className="text-xs">{review.platform}</Badge>
+                          <Badge className={`text-xs ${getSentimentColor(review.sentiment)}`}>
+                            {review.sentiment}
+                          </Badge>
+                        </div>
+                        <span className="text-sm text-gray-500 flex-shrink-0">{new Date(review.date).toLocaleDateString()}</span>
                       </div>
-                    </div>}
 
-                  {/* Edit Reply Form */}
-                  {editingReply === review.id && <div className="mb-4">
-                      <textarea value={replyText} onChange={e => setReplyText(e.target.value)} placeholder="Write your reply..." className="w-full p-3 border border-gray-300 rounded-md text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows={3} />
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        <Button size="sm" onClick={() => handleSaveReply(review.id)}>
-                          Save Reply
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => setEditingReply(null)}>
-                          Cancel
-                        </Button>
+                      {/* Rating */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="flex">{renderStars(review.rating)}</div>
+                        <span className="text-sm text-gray-600">({review.rating}/5)</span>
                       </div>
-                    </div>}
 
-                  {/* AI Reply Generator */}
-                  {showingAIGenerator === review.id && <AIReplyGenerator reviewId={review.id} customerName={review.customerName} rating={review.rating} comment={review.comment} sentiment={review.sentiment} onSave={handleSaveReply} onCancel={handleCancelAIGenerator} />}
+                      {/* Review Text */}
+                      <p className="text-gray-700 mb-4 text-sm sm:text-base leading-relaxed">{review.comment}</p>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    {!review.replied && showingAIGenerator !== review.id && editingReply !== review.id && <>
-                        <Button size="sm" variant="outline" onClick={() => handleGenerateReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
-                          <Bot className="w-4 h-4" />
-                          <span className="hidden sm:inline">Generate using Genie</span>
-                          <span className="sm:hidden">AI Reply</span>
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => handleManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
-                          <MessageSquare className="w-4 h-4" />
-                          <span className="hidden sm:inline">Reply Manually</span>
-                          <span className="sm:hidden">Reply</span>
-                        </Button>
-                      </>}
-                    {review.replied && editingReply !== review.id && showingAIGenerator !== review.id && <Button size="sm" variant="outline" onClick={() => handleManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
-                        <Edit3 className="w-4 h-4" />
-                        Edit Reply
-                      </Button>}
+                      {/* Reply Section - Hide when editing */}
+                      {review.replied && review.replyText && editingReply !== review.id && <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-4 rounded-r-md">
+                          <p className="text-sm text-gray-700">{review.replyText}</p>
+                          <div className="flex items-center gap-1 mt-2">
+                            
+                          </div>
+                        </div>}
+
+                      {/* Edit Reply Form */}
+                      {editingReply === review.id && <div className="mb-4">
+                          <textarea value={replyText} onChange={e => setReplyText(e.target.value)} placeholder="Write your reply..." className="w-full p-3 border border-gray-300 rounded-md text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows={3} />
+                          <div className="flex flex-wrap gap-2 mt-3">
+                            <Button size="sm" onClick={() => handleSaveReply(review.id)}>
+                              Save Reply
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => setEditingReply(null)}>
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>}
+
+                      {/* AI Reply Generator */}
+                      {showingAIGenerator === review.id && <AIReplyGenerator reviewId={review.id} customerName={review.customerName} rating={review.rating} comment={review.comment} sentiment={review.sentiment} onSave={handleSaveReply} onCancel={handleCancelAIGenerator} />}
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {!review.replied && showingAIGenerator !== review.id && editingReply !== review.id && <>
+                            <Button size="sm" variant="outline" onClick={() => handleGenerateReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
+                              <Bot className="w-4 h-4" />
+                              <span className="hidden sm:inline">Generate using Genie</span>
+                              <span className="sm:hidden">AI Reply</span>
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => handleManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
+                              <MessageSquare className="w-4 h-4" />
+                              <span className="hidden sm:inline">Reply Manually</span>
+                              <span className="sm:hidden">Reply</span>
+                            </Button>
+                          </>}
+                        {review.replied && editingReply !== review.id && showingAIGenerator !== review.id && <Button size="sm" variant="outline" onClick={() => handleManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
+                            <Edit3 className="w-4 h-4" />
+                            Edit Reply
+                          </Button>}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>)}
-        </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && <div className="flex flex-col sm:flex-row items-center justify-between mt-8 pt-6 border-t border-gray-200 gap-4">
-            <p className="text-sm text-gray-600 order-2 sm:order-1">
-              Showing {startIndex + 1} to {Math.min(startIndex + reviewsPerPage, filteredReviews.length)} of {filteredReviews.length} reviews
-            </p>
-            <div className="flex items-center gap-2 order-1 sm:order-2">
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="flex items-center gap-1">
-                <ChevronLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Previous</span>
-              </Button>
-              <span className="text-sm text-gray-600 px-2">
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button variant="outline" size="sm" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="flex items-center gap-1">
-                <span className="hidden sm:inline">Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+                </div>)}
             </div>
-          </div>}
+
+            {/* Pagination */}
+            {totalPages > 1 && <div className="flex flex-col sm:flex-row items-center justify-between mt-8 pt-6 border-t border-gray-200 gap-4">
+                <p className="text-sm text-gray-600 order-2 sm:order-1">
+                  Showing {startIndex + 1} to {Math.min(startIndex + reviewsPerPage, filteredReviews.length)} of {filteredReviews.length} reviews
+                </p>
+                <div className="flex items-center gap-2 order-1 sm:order-2">
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="flex items-center gap-1">
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Previous</span>
+                  </Button>
+                  <span className="text-sm text-gray-600 px-2">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="flex items-center gap-1">
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>}
+          </>
+        )}
       </CardContent>
     </Card>;
 };
