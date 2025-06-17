@@ -17,9 +17,9 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
   const [searchError, setSearchError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Use ref to track abort controller for cancelling requests
+  // Use ref to track abort controller and prevent duplicate searches
   const abortControllerRef = useRef<AbortController | null>(null);
-  const lastSearchQueryRef = useRef<string>('');
+  const lastProcessedQueryRef = useRef<string>('');
 
   const performLocalSearch = useCallback((query: string): BusinessListing[] => {
     console.log('🔍 useBusinessSearch: Performing local search for:', query);
@@ -37,108 +37,120 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
   }, [initialListings]);
 
   const performApiSearch = useCallback(async (query: string) => {
-    console.log('🔍 useBusinessSearch: Starting API search for query:', query);
+    const trimmedQuery = query.trim();
+    console.log('🔍 useBusinessSearch: Starting API search for query:', `"${trimmedQuery}"`);
 
     // Cancel previous request if it exists
     if (abortControllerRef.current) {
+      console.log('🔍 useBusinessSearch: Canceling previous request');
       abortControllerRef.current.abort();
     }
 
-    // Create new abort controller
+    // Create new abort controller for this request
     abortControllerRef.current = new AbortController();
+    const currentController = abortControllerRef.current;
 
     try {
       setSearching(true);
       setSearchError(null);
 
-      console.log('🔍 useBusinessSearch: Performing API search...');
-      const apiResults = await businessListingsService.searchListings(query, 20);
+      console.log('🔍 useBusinessSearch: Making API call for:', `"${trimmedQuery}"`);
+      const apiResults = await businessListingsService.searchListings(trimmedQuery, 20);
       
-      // Check if request was aborted
-      if (abortControllerRef.current?.signal.aborted) {
-        console.log('🔍 useBusinessSearch: Request was aborted');
-        return;
-      }
-
-      console.log('🔍 useBusinessSearch: API search results:', apiResults);
-      console.log('🔍 useBusinessSearch: API results count:', apiResults.length);
-      
-      if (apiResults.length > 0) {
-        console.log('🔍 useBusinessSearch: Using API results as primary');
-        setSearchResults(apiResults);
+      // Only process results if this request wasn't aborted
+      if (!currentController.signal.aborted && abortControllerRef.current === currentController) {
+        console.log('🔍 useBusinessSearch: API search completed successfully');
+        console.log('🔍 useBusinessSearch: API results count:', apiResults.length);
+        console.log('🔍 useBusinessSearch: API result names:', apiResults.map(r => r.name));
+        
+        if (apiResults.length > 0) {
+          console.log('🔍 useBusinessSearch: Using API results as primary');
+          setSearchResults(apiResults);
+        } else {
+          console.log('🔍 useBusinessSearch: API returned no results, using local fallback');
+          const localResults = performLocalSearch(trimmedQuery);
+          setSearchResults(localResults);
+        }
+        
+        // Mark this query as processed
+        lastProcessedQueryRef.current = trimmedQuery;
       } else {
-        console.log('🔍 useBusinessSearch: API returned no results, using local fallback');
-        const localResults = performLocalSearch(query);
-        setSearchResults(localResults);
+        console.log('🔍 useBusinessSearch: Request was aborted or superseded, ignoring results');
       }
 
     } catch (err: any) {
-      // Don't show error if request was aborted
-      if (err.name === 'AbortError' || abortControllerRef.current?.signal.aborted) {
-        console.log('🔍 useBusinessSearch: Request was cancelled');
-        return;
+      // Only handle error if request wasn't aborted
+      if (!currentController.signal.aborted && abortControllerRef.current === currentController) {
+        console.error('🔍 useBusinessSearch: API search failed:', err);
+        setSearchError('Search failed');
+        
+        // Fallback to local search on error
+        console.log('🔍 useBusinessSearch: Falling back to local search due to API error');
+        const localResults = performLocalSearch(trimmedQuery);
+        setSearchResults(localResults);
+      } else {
+        console.log('🔍 useBusinessSearch: Error ignored due to aborted request');
       }
-
-      console.error('🔍 useBusinessSearch: API search failed:', err);
-      setSearchError('Search failed');
-      
-      // Fallback to local search
-      console.log('🔍 useBusinessSearch: Falling back to local search due to API error');
-      const localResults = performLocalSearch(query);
-      setSearchResults(localResults);
     } finally {
-      setSearching(false);
-      abortControllerRef.current = null;
+      // Only update searching state if this is still the current request
+      if (!currentController.signal.aborted && abortControllerRef.current === currentController) {
+        setSearching(false);
+        abortControllerRef.current = null;
+      }
     }
   }, [performLocalSearch]);
 
   const performSearch = useCallback(async (query: string) => {
-    console.log('🔍 useBusinessSearch: performSearch called with query:', query);
+    const trimmedQuery = query.trim();
+    console.log('🔍 useBusinessSearch: performSearch called with query:', `"${trimmedQuery}"`);
 
-    // Prevent duplicate searches
-    if (query === lastSearchQueryRef.current) {
-      console.log('🔍 useBusinessSearch: Skipping duplicate search for:', query);
+    // Prevent duplicate searches for the same query
+    if (trimmedQuery === lastProcessedQueryRef.current) {
+      console.log('🔍 useBusinessSearch: Skipping duplicate search for:', `"${trimmedQuery}"`);
       return;
     }
-    
-    lastSearchQueryRef.current = query;
 
-    // Clear results for empty query
-    if (!query.trim()) {
+    // Clear results and error for empty query
+    if (!trimmedQuery) {
       console.log('🔍 useBusinessSearch: Empty query, clearing results');
       setSearchResults([]);
       setSearchError(null);
+      setSearching(false);
+      lastProcessedQueryRef.current = '';
+      
+      // Cancel any pending requests
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
+      }
       return;
     }
 
     // For very short queries (1-2 characters), use local search only
-    if (query.trim().length < 3) {
+    if (trimmedQuery.length < 3) {
       console.log('🔍 useBusinessSearch: Short query, using local search only');
       setSearching(false);
       setSearchError(null);
-      const localResults = performLocalSearch(query);
+      const localResults = performLocalSearch(trimmedQuery);
       setSearchResults(localResults);
+      lastProcessedQueryRef.current = trimmedQuery;
       return;
     }
 
     // For longer queries, use API search
-    await performApiSearch(query);
+    await performApiSearch(trimmedQuery);
   }, [performLocalSearch, performApiSearch]);
 
-  // Debounced search with increased delay
+  // Debounced search with optimized delay
   useEffect(() => {
-    console.log('🔍 useBusinessSearch: Search query changed to:', searchQuery);
+    console.log('🔍 useBusinessSearch: Search query changed to:', `"${searchQuery}"`);
     
     const timeoutId = setTimeout(() => {
       performSearch(searchQuery);
-    }, 600); // Increased from 300ms to 600ms
+    }, 500); // Reduced from 600ms to 500ms for better responsiveness
 
     return () => {
       clearTimeout(timeoutId);
-      // Cancel any pending API request when component unmounts or query changes
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
     };
   }, [searchQuery, performSearch]);
 
