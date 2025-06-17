@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -25,6 +26,10 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
   const { isRefreshing } = useAuthRedux();
 
   const displayListings = searchQuery ? searchResults : listings;
+
+  console.log('📱 MobileBusinessSelector: searchQuery:', searchQuery);
+  console.log('📱 MobileBusinessSelector: searchResults:', searchResults);
+  console.log('📱 MobileBusinessSelector: displayListings:', displayListings);
 
   if (loading || isRefreshing) {
     return (
@@ -79,7 +84,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80 sm:w-96 lg:w-[28rem] p-0 bg-white z-50" align="end">
-          <Command>
+          <Command shouldFilter={false}>
             <CommandInput 
               placeholder="Search listings..." 
               value={searchQuery}
@@ -96,10 +101,12 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                 {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
-                    value={business.id}
+                    value={business.name}
                     onSelect={() => {
+                      console.log('📱 MobileBusinessSelector: Selected business:', business);
                       onBusinessSelect(business);
                       setMobileListingOpen(false);
+                      setSearchQuery('');
                     }}
                     className="flex items-start gap-3 p-3"
                   >

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronDown, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -25,6 +26,10 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
   const { isRefreshing } = useAuthRedux();
 
   const displayListings = searchQuery ? searchResults : listings;
+
+  console.log('🖥️ BusinessListingSelector: searchQuery:', searchQuery);
+  console.log('🖥️ BusinessListingSelector: searchResults:', searchResults);
+  console.log('🖥️ BusinessListingSelector: displayListings:', displayListings);
 
   if (loading || isRefreshing) {
     return (
@@ -94,7 +99,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-96 lg:w-[32rem] p-0 bg-white z-50" align="end">
-          <Command>
+          <Command shouldFilter={false}>
             <CommandInput 
               placeholder="Search listings..." 
               value={searchQuery}
@@ -111,10 +116,12 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                 {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
-                    value={business.id}
+                    value={business.name}
                     onSelect={() => {
+                      console.log('🖥️ BusinessListingSelector: Selected business:', business);
                       onBusinessSelect(business);
                       setOpen(false);
+                      setSearchQuery('');
                     }}
                     className="flex items-start gap-3 p-3"
                   >
