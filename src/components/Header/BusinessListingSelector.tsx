@@ -13,9 +13,26 @@ import { useListingContext } from '@/context/ListingContext';
 
 export const BusinessListingSelector: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { selectedListing, listings, isLoading, switchListing } = useListingContext();
-  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
+  
+  // Check if ListingProvider context is available
+  let hasListingContext = true;
+  let contextData;
+  
+  try {
+    contextData = useListingContext();
+  } catch (error) {
+    hasListingContext = false;
+  }
+
   const { isRefreshing } = useAuthRedux();
+
+  // If no listing context available, don't render the component
+  if (!hasListingContext) {
+    return null;
+  }
+
+  const { selectedListing, listings, isLoading, switchListing } = contextData;
+  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
   const displayListings = searchQuery ? searchResults : listings;
 

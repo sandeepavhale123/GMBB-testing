@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -12,9 +12,26 @@ import { useListingContext } from '@/context/ListingContext';
 
 export const MobileBusinessSelector: React.FC = () => {
   const [mobileListingOpen, setMobileListingOpen] = useState(false);
-  const { selectedListing, listings, isLoading, switchListing } = useListingContext();
-  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
+  
+  // Check if ListingProvider context is available
+  let hasListingContext = true;
+  let contextData;
+  
+  try {
+    contextData = useListingContext();
+  } catch (error) {
+    hasListingContext = false;
+  }
+
   const { isRefreshing } = useAuthRedux();
+
+  // If no listing context available, don't render the component
+  if (!hasListingContext) {
+    return null;
+  }
+
+  const { selectedListing, listings, isLoading, switchListing } = contextData;
+  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
   const displayListings = searchQuery ? searchResults : listings;
 
