@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -77,7 +78,7 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
             <ChevronRight className="w-3 h-3 text-gray-400" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80 p-0 bg-white z-50" align="end">
+        <PopoverContent className="w-80 sm:w-96 p-0 bg-white z-50" align="end">
           <Command>
             <CommandInput 
               placeholder="Search listings..." 
