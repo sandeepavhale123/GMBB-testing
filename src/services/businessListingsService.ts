@@ -17,35 +17,38 @@ export const businessListingsService = {
     };
 
     try {
-      console.log('Making request to business listings API with payload:', payload);
+      console.log('🌐 businessListingsService.getActiveListings: Making request with payload:', payload);
       
       const response = await axiosInstance.post<BusinessListingsApiResponse>(
-        '/v1/get-active-listings', // Corrected endpoint without /api prefix
+        '/v1/get-active-listings',
         payload
       );
 
-      console.log('Business listings API response:', response.data);
+      console.log('🌐 businessListingsService.getActiveListings: API response:', response.data);
+      console.log('🌐 businessListingsService.getActiveListings: Response code:', response.data.code);
+      console.log('🌐 businessListingsService.getActiveListings: Raw data:', response.data.data);
 
       if (response.data.code === 200 && response.data.data) {
         const transformedData = response.data.data.map(transformBusinessListing);
-        console.log('Transformed business listings:', transformedData);
+        console.log('🌐 businessListingsService.getActiveListings: Transformed data:', transformedData);
+        console.log('🌐 businessListingsService.getActiveListings: Transformed names:', transformedData.map(item => item.name));
         return transformedData;
       }
 
-      console.warn('API returned non-200 code or no data:', response.data);
+      console.warn('🌐 businessListingsService.getActiveListings: API returned non-200 code or no data:', response.data);
       return [];
     } catch (error: any) {
-      console.error('Error fetching business listings:', error);
+      console.error('🌐 businessListingsService.getActiveListings: Error:', error);
       
       // Add more specific error logging
       if (error.response) {
-        console.error('Response error:', error.response.status, error.response.data);
-        console.error('Request URL was:', error.config?.url);
-        console.error('Base URL:', error.config?.baseURL);
+        console.error('🌐 businessListingsService.getActiveListings: Response error:', error.response.status, error.response.data);
+        console.error('🌐 businessListingsService.getActiveListings: Request URL:', error.config?.url);
+        console.error('🌐 businessListingsService.getActiveListings: Base URL:', error.config?.baseURL);
       } else if (error.request) {
-        console.error('Request error - no response received:', error.request);
+        console.error('🌐 businessListingsService.getActiveListings: Request error - no response received:', error.request);
       } else {
-        console.error('Setup error:', error.message);
+        console.error('🌐 businessListingsService.getActiveListings: Setup error:', error.message);
       }
       
       throw error;
@@ -53,6 +56,9 @@ export const businessListingsService = {
   },
 
   async searchListings(query: string, limit: number = 20): Promise<BusinessListing[]> {
-    return this.getActiveListings({ query, limit });
+    console.log('🔍 businessListingsService.searchListings: Searching with query:', query, 'limit:', limit);
+    const result = await this.getActiveListings({ query, limit });
+    console.log('🔍 businessListingsService.searchListings: Search result:', result);
+    return result;
   }
 };

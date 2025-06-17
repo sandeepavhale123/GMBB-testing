@@ -21,25 +21,29 @@ export const useBusinessListings = (): UseBusinessListingsReturn => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Fetching business listings...');
+      console.log('📋 useBusinessListings: Fetching business listings...');
       
       const data = await businessListingsService.getActiveListings({ limit: 10 });
+      console.log('📋 useBusinessListings: Raw API data received:', data);
+      console.log('📋 useBusinessListings: Number of listings:', data.length);
+      console.log('📋 useBusinessListings: Listing names:', data.map(listing => listing.name));
+      
       setListings(data);
-      console.log('Successfully fetched business listings:', data);
+      console.log('📋 useBusinessListings: Successfully set listings state:', data);
     } catch (err: any) {
-      console.error('Failed to fetch business listings:', err);
+      console.error('📋 useBusinessListings: Failed to fetch business listings:', err);
       
       // Handle 401 errors with token refresh
       if (err.response?.status === 401 && retryCount === 0) {
-        console.log('Attempting token refresh due to 401 error...');
+        console.log('📋 useBusinessListings: Attempting token refresh due to 401 error...');
         try {
           const refreshSuccess = await refreshAccessToken();
           if (refreshSuccess) {
-            console.log('Token refresh successful, retrying business listings...');
+            console.log('📋 useBusinessListings: Token refresh successful, retrying business listings...');
             return fetchListings(1); // Retry once after refresh
           }
         } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
+          console.error('📋 useBusinessListings: Token refresh failed:', refreshError);
         }
       }
       

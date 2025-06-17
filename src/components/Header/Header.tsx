@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -25,15 +24,19 @@ export const Header: React.FC<HeaderProps> = ({
 
   // Set the first business as default when listings are loaded
   useEffect(() => {
+    console.log('🏢 Header: useEffect triggered - listings:', listings);
+    console.log('🏢 Header: listings.length:', listings.length);
+    console.log('🏢 Header: selectedBusiness:', selectedBusiness);
+    
     if (listings.length > 0 && !selectedBusiness) {
+      console.log('🏢 Header: Setting default business:', listings[0]);
       setSelectedBusiness(listings[0]);
-      console.log('Setting default business:', listings[0]);
     }
   }, [listings, selectedBusiness]);
 
   const handleBusinessSelect = (business: BusinessListing) => {
+    console.log('🏢 Header: Business selected:', business);
     setSelectedBusiness(business);
-    console.log('Business selected:', business);
   };
 
   return (
