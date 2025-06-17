@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
@@ -10,8 +10,8 @@ import { HeaderActions } from './HeaderActions';
 import { UserProfileDropdown } from './UserProfileDropdown';
 import { PageTitle } from './PageTitle';
 import { PageBreadcrumb } from './PageBreadcrumb';
-import { HeaderProps, businessListings, BusinessListing } from './types';
-import { useState } from 'react';
+import { HeaderProps, BusinessListing } from './types';
+import { useBusinessListings } from '@/hooks/useBusinessListings';
 
 export const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
@@ -20,10 +20,20 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isDark } = useAppSelector(state => state.theme);
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessListing>(businessListings[0]);
+  const { listings, loading } = useBusinessListings();
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessListing | null>(null);
+
+  // Set the first business as default when listings are loaded
+  useEffect(() => {
+    if (listings.length > 0 && !selectedBusiness) {
+      setSelectedBusiness(listings[0]);
+      console.log('Setting default business:', listings[0]);
+    }
+  }, [listings, selectedBusiness]);
 
   const handleBusinessSelect = (business: BusinessListing) => {
     setSelectedBusiness(business);
+    console.log('Business selected:', business);
   };
 
   return (

@@ -4,10 +4,13 @@ import { ChevronDown, MapPin, Check } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { BusinessListing, businessListings } from './types';
+import { Skeleton } from '../ui/skeleton';
+import { BusinessListing } from './types';
+import { useBusinessListings } from '@/hooks/useBusinessListings';
+import { useBusinessSearch } from '@/hooks/useBusinessSearch';
 
 interface BusinessListingSelectorProps {
-  selectedBusiness: BusinessListing;
+  selectedBusiness: BusinessListing | null;
   onBusinessSelect: (business: BusinessListing) => void;
 }
 
@@ -16,6 +19,40 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
   onBusinessSelect
 }) => {
   const [open, setOpen] = useState(false);
+  const { listings, loading, error } = useBusinessListings();
+  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
+
+  const displayListings = searchQuery ? searchResults : listings;
+
+  if (loading) {
+    return (
+      <div className="hidden md:block">
+        <Skeleton className="w-60 lg:w-80 h-12" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="hidden md:block">
+        <Button variant="outline" className="w-60 lg:w-80 justify-between border-red-200 text-red-600">
+          Error loading listings
+        </Button>
+      </div>
+    );
+  }
+
+  if (!selectedBusiness && listings.length === 0) {
+    return (
+      <div className="hidden md:block">
+        <Button variant="outline" className="w-60 lg:w-80 justify-between border-gray-200">
+          No listings available
+        </Button>
+      </div>
+    );
+  }
+
+  const currentBusiness = selectedBusiness || listings[0];
 
   return (
     <div className="hidden md:block">
@@ -31,14 +68,14 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
               <MapPin className="w-4 h-4 text-gray-500 shrink-0" />
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-medium text-gray-700 truncate block">
-                  {selectedBusiness.name}
+                  {currentBusiness?.name}
                 </span>
                 <span className="text-xs text-gray-500 truncate block">
-                  {selectedBusiness.address}
+                  {currentBusiness?.address}
                 </span>
               </div>
               <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded shrink-0">
-                {selectedBusiness.type}
+                {currentBusiness?.type}
               </span>
             </div>
             <ChevronDown className="w-4 h-4 text-gray-400 ml-2 shrink-0" />
@@ -46,11 +83,20 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
         </PopoverTrigger>
         <PopoverContent className="w-60 lg:w-80 p-0" align="end">
           <Command>
-            <CommandInput placeholder="Search listings..." />
+            <CommandInput 
+              placeholder="Search listings..." 
+              value={searchQuery}
+              onValueChange={setSearchQuery}
+            />
+            {searching && (
+              <div className="p-2 text-center text-sm text-gray-500">
+                Searching...
+              </div>
+            )}
             <CommandEmpty>No listing found.</CommandEmpty>
             <CommandList>
               <CommandGroup>
-                {businessListings.map((business) => (
+                {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
                     value={business.name}
@@ -60,7 +106,7 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                     }}
                     className="flex items-center gap-3 p-3"
                   >
-                    <Check className={`w-4 h-4 ${selectedBusiness.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
+                    <Check className={`w-4 h-4 ${selectedBusiness?.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
                     <MapPin className="w-4 h-4 text-gray-500" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 truncate">

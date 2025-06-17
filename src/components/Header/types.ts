@@ -1,3 +1,4 @@
+
 export interface HeaderProps {
   onToggleSidebar: () => void;
   showFilters?: boolean;
@@ -9,43 +10,19 @@ export interface BusinessListing {
   name: string;
   address: string;
   type: string;
-  status: 'Active' | 'Pending';
+  zipcode: string;
+  active: string;
+  status?: 'Active' | 'Pending'; // Computed field for backward compatibility
 }
 
-export const businessListings: BusinessListing[] = [
-  {
-    id: '1',
-    name: 'Downtown Coffee Shop',
-    address: '123 Main St, NYC',
-    type: 'Restaurant',
-    status: 'Active'
-  },
-  {
-    id: '2',
-    name: 'Uptown Bakery',
-    address: '456 Park Ave, NYC',
-    type: 'Bakery',
-    status: 'Active'
-  },
-  {
-    id: '3',
-    name: 'Westside Restaurant',
-    address: '789 West St, NYC',
-    type: 'Restaurant',
-    status: 'Pending'
-  },
-  {
-    id: '4',
-    name: 'East End Boutique',
-    address: '321 East Ave, NYC',
-    type: 'Retail',
-    status: 'Active'
-  },
-  {
-    id: '5',
-    name: 'Central Gym & Fitness',
-    address: '555 Central Blvd, NYC',
-    type: 'Fitness',
-    status: 'Active'
-  }
-];
+export interface BusinessListingsApiResponse {
+  code: number;
+  message: string;
+  data: BusinessListing[];
+}
+
+// Transform API response to include computed status field
+export const transformBusinessListing = (listing: BusinessListing): BusinessListing => ({
+  ...listing,
+  status: listing.active === "1" ? 'Active' : 'Pending'
+});
