@@ -192,10 +192,10 @@ export const ReviewsList: React.FC = () => {
     dispatch(clearDateRange());
   };
 
-  // Check if there are active filters
+  // Check if there are active filters - fix the boolean type error
   const hasActiveFilters = searchQuery.trim() !== '' || 
                           filter !== 'all' || 
-                          (dateRange.startDate && dateRange.endDate);
+                          Boolean(dateRange.startDate && dateRange.endDate);
 
   return <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
