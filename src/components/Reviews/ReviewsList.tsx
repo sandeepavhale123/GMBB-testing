@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { setFilter, setDateRange, clearDateRange, replyToReview } from '../../store/slices/reviewsSlice';
 import { AIReplyGenerator } from './AIReplyGenerator';
 import { DateRange } from 'react-day-picker';
-import { format, isWithinInterval, parseISO } from 'date-fns';
+import { format, isWithinInterval, parseISO, subDays } from 'date-fns';
 
 interface Review {
   id: string;
@@ -38,6 +38,23 @@ export const ReviewsList: React.FC = () => {
   const [replyText, setReplyText] = useState('');
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
+
+  // Set default 90-day date range on component mount
+  useEffect(() => {
+    const today = new Date();
+    const ninetyDaysAgo = subDays(today, 90);
+    
+    const defaultDateRange = {
+      from: ninetyDaysAgo,
+      to: today
+    };
+    
+    setLocalDateRange(defaultDateRange);
+    dispatch(setDateRange({
+      startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
+      endDate: format(today, 'yyyy-MM-dd')
+    }));
+  }, [dispatch]);
 
   const reviews: Review[] = [{
     id: '1',
@@ -178,9 +195,9 @@ export const ReviewsList: React.FC = () => {
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">Customer Reviews</CardTitle>
         
-        {/* Single Line Filters */}
-        <div className="flex flex-col gap-4 mt-4">
-          <div className="relative">
+        {/* Single Row Filters */}
+        <div className="flex flex-wrap items-center gap-3 mt-4">
+          <div className="relative flex-1 min-w-[200px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input 
               placeholder="Search reviews..." 
@@ -190,48 +207,46 @@ export const ReviewsList: React.FC = () => {
             />
           </div>
           
-          <div className="flex flex-wrap items-center gap-3">
-            <Select value={filter} onValueChange={value => dispatch(setFilter(value))}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="All Reviews" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Reviews</SelectItem>
-                <SelectItem value="pending">Pending Reply</SelectItem>
-                <SelectItem value="replied">Replied</SelectItem>
-              </SelectContent>
-            </Select>
+          <Select value={filter} onValueChange={value => dispatch(setFilter(value))}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="All Reviews" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Reviews</SelectItem>
+              <SelectItem value="pending">Pending Reply</SelectItem>
+              <SelectItem value="replied">Replied</SelectItem>
+            </SelectContent>
+          </Select>
 
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[130px]">
-                <SelectValue placeholder="Newest First" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="oldest">Oldest First</SelectItem>
-                <SelectItem value="rating-high">Highest Rating</SelectItem>
-                <SelectItem value="rating-low">Lowest Rating</SelectItem>
-              </SelectContent>
-            </Select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[130px]">
+              <SelectValue placeholder="Newest First" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="oldest">Oldest First</SelectItem>
+              <SelectItem value="rating-high">Highest Rating</SelectItem>
+              <SelectItem value="rating-low">Lowest Rating</SelectItem>
+            </SelectContent>
+          </Select>
 
-            <DateRangePicker
-              date={localDateRange}
-              onDateChange={handleDateRangeChange}
-              placeholder="Select date range"
-              className="w-[200px]"
-            />
-            
-            {(dateRange.startDate || dateRange.endDate) && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClearDateRange}
-                className="px-2"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
+          <DateRangePicker
+            date={localDateRange}
+            onDateChange={handleDateRangeChange}
+            placeholder="Select date range"
+            className="w-[200px]"
+          />
+          
+          {(dateRange.startDate || dateRange.endDate) && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleClearDateRange}
+              className="px-2"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
         </div>
       </CardHeader>
 
