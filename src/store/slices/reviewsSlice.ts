@@ -11,10 +11,16 @@ interface Review {
   replied: boolean;
 }
 
+interface DateRange {
+  startDate?: string;
+  endDate?: string;
+}
+
 interface ReviewsState {
   reviews: Review[];
   loading: boolean;
   filter: 'all' | 'pending' | 'replied';
+  dateRange: DateRange;
 }
 
 const initialState: ReviewsState = {
@@ -40,6 +46,7 @@ const initialState: ReviewsState = {
   ],
   loading: false,
   filter: 'all',
+  dateRange: {},
 };
 
 const reviewsSlice = createSlice({
@@ -48,6 +55,12 @@ const reviewsSlice = createSlice({
   reducers: {
     setFilter: (state, action) => {
       state.filter = action.payload;
+    },
+    setDateRange: (state, action) => {
+      state.dateRange = action.payload;
+    },
+    clearDateRange: (state) => {
+      state.dateRange = {};
     },
     replyToReview: (state, action) => {
       const review = state.reviews.find(r => r.id === action.payload);
@@ -58,5 +71,5 @@ const reviewsSlice = createSlice({
   },
 });
 
-export const { setFilter, replyToReview } = reviewsSlice.actions;
+export const { setFilter, setDateRange, clearDateRange, replyToReview } = reviewsSlice.actions;
 export default reviewsSlice.reducer;

@@ -4,10 +4,14 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Search, Star, Bot, MessageSquare, Edit3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { DateRangePicker } from '../ui/date-range-picker';
+import { Search, Star, Bot, MessageSquare, Edit3, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { setFilter, replyToReview } from '../../store/slices/reviewsSlice';
+import { setFilter, setDateRange, clearDateRange, replyToReview } from '../../store/slices/reviewsSlice';
 import { AIReplyGenerator } from './AIReplyGenerator';
+import { DateRange } from 'react-day-picker';
+import { format, isWithinInterval, parseISO } from 'date-fns';
+
 interface Review {
   id: string;
   customerName: string;
@@ -24,7 +28,8 @@ interface Review {
 export const ReviewsList: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
-    filter
+    filter,
+    dateRange
   } = useAppSelector(state => state.reviews);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
@@ -32,6 +37,8 @@ export const ReviewsList: React.FC = () => {
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
+  const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
+
   const reviews: Review[] = [{
     id: '1',
     customerName: 'Sarah Johnson',
@@ -92,9 +99,23 @@ export const ReviewsList: React.FC = () => {
     platform: 'Google'
   }];
   const filteredReviews = reviews.filter(review => {
-    const matchesSearch = review.customerName.toLowerCase().includes(searchQuery.toLowerCase()) || review.comment.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filter === 'all' || filter === 'pending' && !review.replied || filter === 'replied' && review.replied;
-    return matchesSearch && matchesFilter;
+    const matchesSearch = review.customerName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         review.comment.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesFilter = filter === 'all' || 
+                         (filter === 'pending' && !review.replied) || 
+                         (filter === 'replied' && review.replied);
+    
+    // Date range filtering
+    let matchesDateRange = true;
+    if (dateRange.startDate && dateRange.endDate) {
+      const reviewDate = parseISO(review.date);
+      const startDate = parseISO(dateRange.startDate);
+      const endDate = parseISO(dateRange.endDate);
+      matchesDateRange = isWithinInterval(reviewDate, { start: startDate, end: endDate });
+    }
+    
+    return matchesSearch && matchesFilter && matchesDateRange;
   });
   const reviewsPerPage = 10;
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
@@ -136,15 +157,37 @@ export const ReviewsList: React.FC = () => {
   const handleCancelAIGenerator = () => {
     setShowingAIGenerator(null);
   };
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setLocalDateRange(range);
+    if (range?.from && range?.to) {
+      dispatch(setDateRange({
+        startDate: format(range.from, 'yyyy-MM-dd'),
+        endDate: format(range.to, 'yyyy-MM-dd')
+      }));
+    } else if (!range?.from && !range?.to) {
+      dispatch(clearDateRange());
+    }
+  };
+
+  const handleClearDateRange = () => {
+    setLocalDateRange(undefined);
+    dispatch(clearDateRange());
+  };
+
   return <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold">Customer Reviews</CardTitle>
         
         {/* Filters and Search */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+        <div className="flex flex-col gap-4 mt-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input placeholder="Search reviews..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
+            <Input 
+              placeholder="Search reviews..." 
+              value={searchQuery} 
+              onChange={e => setSearchQuery(e.target.value)} 
+              className="pl-10" 
+            />
           </div>
           
           <div className="flex flex-col sm:flex-row gap-2">
@@ -170,6 +213,25 @@ export const ReviewsList: React.FC = () => {
                 <SelectItem value="rating-low">Lowest Rating</SelectItem>
               </SelectContent>
             </Select>
+
+            <div className="flex gap-2">
+              <DateRangePicker
+                date={localDateRange}
+                onDateChange={handleDateRangeChange}
+                placeholder="Select date range"
+                className="w-full sm:w-64"
+              />
+              {(dateRange.startDate || dateRange.endDate) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClearDateRange}
+                  className="px-2"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </CardHeader>
