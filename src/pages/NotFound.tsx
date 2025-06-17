@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -19,11 +20,9 @@ const NotFound = () => {
       <div className="text-center max-w-md mx-auto">
         {/* Illustration */}
         <div className="mb-8 flex justify-center">
-          <img
-            src="/lovable-uploads/b4473d92-1753-4397-ab09-7c023e86ff6a.png"
-            alt="404 illustration"
-            className="w-64 h-64 object-contain"
-          />
+          <div className="w-64 h-64 flex items-center justify-center bg-gray-100 rounded-full">
+            <Search className="w-24 h-24 text-gray-400" />
+          </div>
         </div>
 
         {/* 404 Text */}
