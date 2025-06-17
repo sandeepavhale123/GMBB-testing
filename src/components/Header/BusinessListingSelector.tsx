@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Skeleton } from '../ui/skeleton';
@@ -80,9 +80,14 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                 <span className="text-sm font-medium text-gray-700 block leading-tight">
                   {currentBusiness?.name}
                 </span>
-                <span className="text-xs text-gray-500 block">
-                  {currentBusiness?.address} • {currentBusiness?.type}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 truncate">
+                    {currentBusiness?.address}
+                  </span>
+                  <Badge variant="secondary" className="shrink-0 text-xs">
+                    {currentBusiness?.type}
+                  </Badge>
+                </div>
               </div>
             </div>
             <ChevronDown className="w-4 h-4 text-gray-400 ml-2 shrink-0" />
@@ -119,9 +124,14 @@ export const BusinessListingSelector: React.FC<BusinessListingSelectorProps> = (
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">
                         {business.name}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {business.address} • {business.type}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-gray-500 truncate">
+                          {business.address}
+                        </p>
+                        <Badge variant="secondary" className="shrink-0 text-xs">
+                          {business.type}
+                        </Badge>
+                      </div>
                     </div>
                     <div className="flex items-center shrink-0">
                       <div className={`w-2 h-2 rounded-full ${business.status === 'Active' ? 'bg-green-400' : 'bg-yellow-400'}`} />

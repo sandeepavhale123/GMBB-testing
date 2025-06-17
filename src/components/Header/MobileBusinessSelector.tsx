@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Store, ChevronRight, MapPin, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Skeleton } from '../ui/skeleton';
@@ -109,9 +109,14 @@ export const MobileBusinessSelector: React.FC<MobileBusinessSelectorProps> = ({
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">
                         {business.name}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {business.address} • {business.type}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-gray-500 truncate">
+                          {business.address}
+                        </p>
+                        <Badge variant="secondary" className="shrink-0 text-xs">
+                          {business.type}
+                        </Badge>
+                      </div>
                     </div>
                     <div className="flex items-center shrink-0">
                       <div className={`w-2 h-2 rounded-full ${business.status === 'Active' ? 'bg-green-400' : 'bg-yellow-400'}`} />
