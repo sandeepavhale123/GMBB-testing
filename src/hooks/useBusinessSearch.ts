@@ -36,6 +36,17 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
     return localResults;
   }, [initialListings]);
 
+  const checkInitialListForExactMatch = useCallback((query: string): BusinessListing[] => {
+    console.log('🔍 useBusinessSearch: Checking initial list for exact matches:', query);
+    
+    const exactMatches = initialListings.filter(listing => 
+      listing.name.toLowerCase().includes(query.toLowerCase().trim())
+    );
+
+    console.log('🔍 useBusinessSearch: Found exact matches in initial list:', exactMatches.length);
+    return exactMatches;
+  }, [initialListings]);
+
   const performApiSearch = useCallback(async (query: string) => {
     const trimmedQuery = query.trim();
     console.log('🔍 useBusinessSearch: Starting API search for query:', `"${trimmedQuery}"`);
@@ -137,9 +148,20 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
       return;
     }
 
-    // For longer queries, use API search
+    // Check initial list first for exact matches
+    const initialMatches = checkInitialListForExactMatch(trimmedQuery);
+    if (initialMatches.length > 0) {
+      console.log('🔍 useBusinessSearch: Found matches in initial list, skipping API search');
+      setSearching(false);
+      setSearchError(null);
+      setSearchResults(initialMatches);
+      lastProcessedQueryRef.current = trimmedQuery;
+      return;
+    }
+
+    // For longer queries with no initial matches, use API search
     await performApiSearch(trimmedQuery);
-  }, [performLocalSearch, performApiSearch]);
+  }, [performLocalSearch, checkInitialListForExactMatch, performApiSearch]);
 
   // Debounced search with optimized delay
   useEffect(() => {
@@ -147,7 +169,7 @@ export const useBusinessSearch = (initialListings: BusinessListing[]): UseBusine
     
     const timeoutId = setTimeout(() => {
       performSearch(searchQuery);
-    }, 500); // Reduced from 600ms to 500ms for better responsiveness
+    }, 500);
 
     return () => {
       clearTimeout(timeoutId);

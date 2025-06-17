@@ -5,6 +5,7 @@ import { businessListingsService } from '@/services/businessListingsService';
 import { useAuthRedux } from '@/store/slices/auth/useAuthRedux';
 import { useAppSelector, useAppDispatch } from '@/hooks/useRedux';
 import { addBusinessListing } from '@/store/slices/businessListingsSlice';
+import { toast } from '@/hooks/use-toast';
 
 interface UseBusinessListingsWithReduxReturn {
   listings: BusinessListing[];
@@ -71,8 +72,28 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   };
 
   const addNewListing = (business: BusinessListing) => {
+    console.log('📋➕ useBusinessListingsWithRedux: Attempting to add business listing:', business.name);
+    
+    // Check if business already exists in combined listings (by ID)
+    const existsInListings = allListings.some(listing => listing.id === business.id);
+    
+    if (existsInListings) {
+      console.log('📋➕ useBusinessListingsWithRedux: Business already exists in listings:', business.name);
+      toast({
+        title: "Business Already Added",
+        description: `"${business.name}" is already in your business listings.`,
+        variant: "default"
+      });
+      return;
+    }
+    
     console.log('📋➕ useBusinessListingsWithRedux: Adding new business listing:', business.name);
     dispatch(addBusinessListing(business));
+    toast({
+      title: "Business Added",
+      description: `"${business.name}" has been added to your listings.`,
+      variant: "default"
+    });
   };
 
   useEffect(() => {
