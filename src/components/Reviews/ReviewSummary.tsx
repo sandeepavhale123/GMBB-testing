@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Progress } from '../ui/progress';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
@@ -181,7 +182,7 @@ export const ReviewSummary: React.FC = () => {
         })}
       </div>
 
-      {/* Second Column - Overall Rating Card */}
+      {/* Second Column - Overall Rating Card with Star Distribution */}
       <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -190,7 +191,9 @@ export const ReviewSummary: React.FC = () => {
               <Star className="w-5 h-5 text-yellow-600" />
             </div>
           </div>
-          <div className="text-center">
+          
+          {/* Overall Rating Display */}
+          <div className="text-center mb-6">
             <div className="text-4xl font-bold text-gray-900 mb-3">
               {summaryCards.overall_rating.toFixed(1)}
             </div>
@@ -198,6 +201,22 @@ export const ReviewSummary: React.FC = () => {
               {renderStars(summaryCards.overall_rating)}
             </div>
             <p className="text-sm text-gray-600">{summaryCards.total_reviews} reviews</p>
+          </div>
+
+          {/* Star Distribution with Progress Bars */}
+          <div className="space-y-3">
+            {starDistributionArray.map((item) => (
+              <div key={item.stars} className="flex items-center gap-3">
+                <div className="flex items-center gap-1 w-12">
+                  <span className="text-sm font-medium">{item.stars}</span>
+                  <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                </div>
+                <div className="flex-1">
+                  <Progress value={item.percentage} className="h-2" />
+                </div>
+                <span className="text-xs text-gray-500 w-8 text-right">{item.count}</span>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
