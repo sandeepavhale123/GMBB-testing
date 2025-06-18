@@ -97,7 +97,7 @@ export const ReviewsList: React.FC = () => {
           listingId: selectedListing.id
         },
         sorting: {
-          sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : '',
+          sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : 'date',
           sortOrder: apiSortOrder
         }
       };
