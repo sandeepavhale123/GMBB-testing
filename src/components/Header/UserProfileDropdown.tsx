@@ -5,14 +5,23 @@ import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
+import { useProfile } from '../../hooks/useProfile';
 
 export const UserProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
   const { logout } = useAuthRedux();
+  const { profileData } = useProfile();
 
   const handleAccountSettings = () => {
     navigate('/settings');
   };
+
+  // Get user info from profile data
+  const userName = profileData ? `${profileData.frist_name} ${profileData.last_name}` : "User";
+  const userEmail = profileData?.username || "user@example.com";
+  const userInitials = profileData ? 
+    `${profileData.frist_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
+    "U";
 
   return (
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
@@ -20,14 +29,14 @@ export const UserProfileDropdown: React.FC = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="p-0 rounded-full hover:bg-gray-100">
             <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer">
-              <span className="text-white font-semibold text-xs">JD</span>
+              <span className="text-white font-semibold text-xs">{userInitials}</span>
             </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg border">
           <div className="px-3 py-2 border-b">
-            <p className="font-medium text-gray-900">John Doe</p>
-            <p className="text-sm text-gray-500">john.doe@example.com</p>
+            <p className="font-medium text-gray-900">{userName}</p>
+            <p className="text-sm text-gray-500">{userEmail}</p>
           </div>
           <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
             <User className="w-4 h-4 mr-2" />

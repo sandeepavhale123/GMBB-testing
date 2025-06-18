@@ -32,7 +32,14 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
 
   const handleCurrentPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentPassword) return;
+    if (!currentPassword.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter your current password.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsVerifying(true);
     
@@ -48,7 +55,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       } else {
         toast({
           title: "Invalid Password",
-          description: "The current password you entered is incorrect.",
+          description: "The current password you entered is incorrect. Please try again.",
           variant: "destructive",
         });
       }
@@ -66,7 +73,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   const handleNewPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!newPassword || !confirmPassword) {
+    if (!newPassword.trim() || !confirmPassword.trim()) {
       toast({
         title: "Error",
         description: "Please fill in all password fields.",
@@ -78,7 +85,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     if (newPassword !== confirmPassword) {
       toast({
         title: "Error",
-        description: "New passwords don't match.",
+        description: "New passwords don't match. Please try again.",
         variant: "destructive",
       });
       return;
@@ -93,10 +100,19 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       return;
     }
 
+    if (newPassword === currentPassword) {
+      toast({
+        title: "Error",
+        description: "New password must be different from your current password.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!profileData) {
       toast({
         title: "Error",
-        description: "Profile data not available.",
+        description: "Profile data not available. Please try again.",
         variant: "destructive",
       });
       return;

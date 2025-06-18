@@ -4,11 +4,17 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { ExternalLink, MapPin, AlertTriangle, Eye, Edit } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
+import { useProfile } from '../../hooks/useProfile';
 
 export const BusinessProfileHeader: React.FC = () => {
   const {
     businessProfile
   } = useAppSelector(state => state.dashboard);
+  
+  const { profileData } = useProfile();
+  
+  // Get user's first name for greeting
+  const userFirstName = profileData?.frist_name || "User";
 
   return (
     <div className="space-y-3 sm:space-y-4">
@@ -20,7 +26,7 @@ export const BusinessProfileHeader: React.FC = () => {
               <div className="mb-3 sm:mb-4">
                 <div className="text-xs sm:text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
                 <h2 className="text-xl sm:text-2xl font-bold mb-2 flex items-center gap-2">
-                  Good Morning, Vijay 👋
+                  Good Morning, {userFirstName} 👋
                 </h2>
                 <p className="text-sm sm:text-base text-purple-100">Here's the summary for: "XYZ Plumbing Services"</p>
               </div>
