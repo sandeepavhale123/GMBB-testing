@@ -1,10 +1,10 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { profileService, ProfileData, UpdateProfileData } from '../../services/profileService';
+import { profileService, ProfileData, UpdateProfileData, TimezoneOption } from '../../services/profileService';
 
 interface ProfileState {
   data: ProfileData | null;
-  timezones: any[] | null;
+  timezones: TimezoneOption | null;
   isLoading: boolean;
   error: string | null;
   isUpdating: boolean;
@@ -41,8 +41,10 @@ export const fetchTimezones = createAsyncThunk(
 export const updateUserProfile = createAsyncThunk(
   'profile/updateUserProfile',
   async (profileData: UpdateProfileData) => {
-    const response = await profileService.updateProfile(profileData);
-    return response;
+    await profileService.updateProfile(profileData);
+    // Return updated profile data
+    const updatedProfile = await profileService.getUserProfile();
+    return updatedProfile;
   }
 );
 

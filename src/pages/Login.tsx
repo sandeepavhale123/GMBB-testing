@@ -9,6 +9,7 @@ import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { toast, useToast } from "@/hooks/use-toast";
 import { setLoading } from "@/store/slices/auth/authSlice";
 import { useDispatch } from "react-redux";
+
 const Login = () => {
   const [credentials, setCredentials] = useState({
     username: "",
@@ -26,12 +27,20 @@ const Login = () => {
     dispatch(setLoading(true));
 
     try {
-      await login(credentials);
-      toast({
-        title: "Success",
-        description: "Logged in successfully!",
-      });
-      navigate("/onboarding");
+      const result = await login(credentials.username, credentials.password);
+      if (result.success) {
+        toast({
+          title: "Success",
+          description: "Logged in successfully!",
+        });
+        navigate("/onboarding");
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Login failed. Please check your credentials.",
+          variant: "destructive",
+        });
+      }
     } catch (err) {
       toast({
         title: "Error",
@@ -61,20 +70,6 @@ const Login = () => {
         <div className="absolute top-40 right-32 w-24 h-24 bg-white/10 rounded-full backdrop-blur-sm"></div>
         <div className="absolute bottom-32 left-32 w-20 h-20 bg-white/10 rounded backdrop-blur-sm"></div>
         <div className="absolute bottom-20 right-20 w-16 h-16 bg-white/10 rounded-lg backdrop-blur-sm"></div>
-
-        {/* Browser Mockup */}
-        {/* <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-48 bg-white/20 rounded-lg backdrop-blur-sm p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-            <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-          </div>
-          <div className="space-y-3">
-            <div className="h-3 bg-white/30 rounded w-3/4"></div>
-            <div className="h-3 bg-white/30 rounded w-1/2"></div>
-            <div className="h-3 bg-white/30 rounded w-2/3"></div>
-          </div>
-         </div> */}
 
         {/* Logo */}
         <div className="absolute top-8 left-8">
@@ -207,4 +202,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

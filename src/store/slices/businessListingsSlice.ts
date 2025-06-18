@@ -1,6 +1,7 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { businessListingsService } from '../../services/businessListingsService';
+import { BusinessListing as HeaderBusinessListing } from '../../components/Header/types';
 
 export interface BusinessListing {
   id: string;
@@ -9,6 +10,10 @@ export interface BusinessListing {
   category: string;
   phone: string;
   website: string;
+  type: string;
+  zipcode: string;
+  active: string;
+  status?: 'Active' | 'Pending';
   [key: string]: any;
 }
 
@@ -28,14 +33,24 @@ const initialState: BusinessListingsState = {
   selectedBusinessId: '',
 };
 
+// Transform Header BusinessListing to Store BusinessListing
+const transformToStoreListing = (listing: HeaderBusinessListing): BusinessListing => ({
+  ...listing,
+  category: listing.type || '',
+  phone: '',
+  website: '',
+  status: listing.active === "1" ? 'Active' : 'Pending'
+});
+
 export const fetchBusinessListings = createAsyncThunk(
   'businessListings/fetchBusinessListings',
   async (): Promise<BusinessListingsResponse> => {
     const data = await businessListingsService.getActiveListings();
+    const transformedData = data.map(transformToStoreListing);
     return {
       code: 200,
       message: 'Success',
-      data: data
+      data: transformedData
     };
   }
 );
@@ -56,8 +71,9 @@ const businessListingsSlice = createSlice({
       state.selectedBusinessId = action.payload;
       localStorage.setItem('selectedBusinessId', action.payload);
     },
-    addBusinessListing: (state, action: PayloadAction<BusinessListing>) => {
-      state.userAddedListings.push(action.payload);
+    addBusinessListing: (state, action: PayloadAction<HeaderBusinessListing>) => {
+      const transformedListing = transformToStoreListing(action.payload);
+      state.userAddedListings.push(transformedListing);
       localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
     },
     removeBusinessListing: (state, action: PayloadAction<string>) => {
