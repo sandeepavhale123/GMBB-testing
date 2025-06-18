@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { profileService, ProfileData, UpdateProfileData, TimezoneOption } from '../../services/profileService';
 
@@ -80,7 +79,7 @@ const profileSlice = createSlice({
         state.isLoadingTimezones = false;
         state.error = action.error.message || 'Failed to fetch timezones';
       })
-      // Update profile
+      // Update profile - enhanced to handle password updates
       .addCase(updateUserProfile.pending, (state) => {
         state.isUpdating = true;
         state.updateError = null;
@@ -95,6 +94,10 @@ const profileSlice = createSlice({
           state.data.username = action.payload.username;
           state.data.language = action.payload.language;
           state.data.profilePic = action.payload.profilePic;
+          // Update password in state if it was changed
+          if (action.payload.password) {
+            state.data.password = action.payload.password;
+          }
         }
       })
       .addCase(updateUserProfile.rejected, (state, action) => {

@@ -33,10 +33,9 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   const handleCurrentPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentPassword.trim()) {
-      toast({
-        title: "Error",
+      toast.error({
+        title: "Current password required",
         description: "Please enter your current password.",
-        variant: "destructive",
       });
       return;
     }
@@ -49,22 +48,22 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       
       if (isValid) {
         setStep('new');
-        toast({
+        // Clear current password for security
+        setCurrentPassword('');
+        toast.success({
           title: "Password Verified",
           description: "Current password verified successfully.",
         });
       } else {
-        toast({
+        toast.error({
           title: "Invalid Password",
           description: "The current password you entered is incorrect. Please try again.",
-          variant: "destructive",
         });
       }
     } catch (error) {
-      toast({
+      toast.error({
         title: "Verification Failed",
         description: "Failed to verify current password. Please try again.",
-        variant: "destructive",
       });
     } finally {
       setIsVerifying(false);
@@ -75,46 +74,42 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     e.preventDefault();
     
     if (!newPassword.trim() || !confirmPassword.trim()) {
-      toast({
-        title: "Error",
+      toast.error({
+        title: "Missing Information",
         description: "Please fill in all password fields.",
-        variant: "destructive",
       });
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast({
-        title: "Error",
+      toast.error({
+        title: "Passwords Don't Match",
         description: "New passwords don't match. Please try again.",
-        variant: "destructive",
       });
       return;
     }
 
     if (newPassword.length < 8) {
-      toast({
-        title: "Error",
+      toast.error({
+        title: "Password Too Short",
         description: "Password must be at least 8 characters long.",
-        variant: "destructive",
       });
       return;
     }
 
-    if (newPassword === currentPassword) {
-      toast({
-        title: "Error",
+    const storedPassword = getStoredPassword();
+    if (newPassword === storedPassword) {
+      toast.error({
+        title: "Same Password",
         description: "New password must be different from your current password.",
-        variant: "destructive",
       });
       return;
     }
 
     if (!profileData) {
-      toast({
-        title: "Error",
+      toast.error({
+        title: "Profile Error",
         description: "Profile data not available. Please try again.",
-        variant: "destructive",
       });
       return;
     }
@@ -131,16 +126,15 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         password: newPassword
       });
       
-      toast({
-        title: "Password Changed",
-        description: "Your password has been successfully updated.",
+      toast.success({
+        title: "Password Changed Successfully",
+        description: "Your password has been updated successfully.",
       });
       handleClose();
     } catch (error) {
-      toast({
+      toast.error({
         title: "Password Update Failed",
         description: "Failed to update password. Please try again.",
-        variant: "destructive"
       });
     }
   };
