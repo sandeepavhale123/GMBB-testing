@@ -162,7 +162,7 @@ export const reviewService = {
   },
 
   generateAIReply: async (reviewId: number): Promise<GenerateAIReplyResponse> => {
-    const response = await axiosInstance.post('/api/v1/generate-ai-responce', {
+    const response = await axiosInstance.post('/v1/generate-ai-responce', {
       reviewId
     });
     return response.data;
