@@ -70,6 +70,12 @@ export const ReviewsList: React.FC = () => {
   // Fetch reviews when listing or filters change
   useEffect(() => {
     if (selectedListing?.id) {
+      // Determine the correct sortOrder based on sortBy
+      let apiSortOrder: 'asc' | 'desc' = 'desc';
+      if (sortBy === 'oldest' || sortBy === 'rating-low') {
+        apiSortOrder = 'asc';
+      }
+
       const params = {
         pagination: {
           page: currentPage,
@@ -92,7 +98,7 @@ export const ReviewsList: React.FC = () => {
         },
         sorting: {
           sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : '',
-          sortOrder: sortBy === 'oldest' || sortBy === 'rating-low' ? 'asc' : 'desc'
+          sortOrder: apiSortOrder
         }
       };
       
