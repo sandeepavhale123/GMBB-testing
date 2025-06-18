@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Lock } from 'lucide-react';
@@ -120,7 +119,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
 
     try {
       await updateProfile({
-        first_name: profileData.frist_name,
+        first_name: profileData.first_name,
         last_name: profileData.last_name,
         timezone: profileData.timezone,
         username: profileData.username,
