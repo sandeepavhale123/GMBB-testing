@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User } from 'lucide-react';
@@ -68,19 +67,31 @@ export const ReviewSummary: React.FC = () => {
   // Loading state
   if (summaryLoading || !summaryCards || !starDistribution || !sentimentAnalysis) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <Card key={i} className="bg-white border border-gray-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="h-3 bg-gray-200 rounded animate-pulse w-20"></div>
-                <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
-              </div>
-              <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
-              <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Loading skeleton for 3 sections */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <Card key={i} className="bg-white border border-gray-200">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="h-3 bg-gray-200 rounded animate-pulse w-20"></div>
+                  <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+                <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <Card className="bg-white border border-gray-200">
+          <CardContent className="p-4">
+            <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white border border-gray-200">
+          <CardContent className="p-4">
+            <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -149,64 +160,66 @@ export const ReviewSummary: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-      {/* First 4 cards - Stats */}
-      {stats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <Card key={stat.title} className="bg-white border border-gray-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-medium text-gray-600 truncate">{stat.title}</p>
-                <div className={`p-2 rounded-lg ${stat.bgColor} flex-shrink-0`}>
-                  <Icon className={`w-4 h-4 ${stat.color}`} />
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* First Column - Stats Cards (4 cards in 2x2 grid) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.title} className="bg-white border border-gray-200">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-medium text-gray-600 truncate">{stat.title}</p>
+                  <div className={`p-2 rounded-lg ${stat.bgColor} flex-shrink-0`}>
+                    <Icon className={`w-4 h-4 ${stat.color}`} />
+                  </div>
                 </div>
-              </div>
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-            </CardContent>
-          </Card>
-        );
-      })}
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
 
-      {/* Overall Rating Card */}
+      {/* Second Column - Overall Rating Card */}
       <Card className="bg-white border border-gray-200">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-medium text-gray-600">Overall Rating</p>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-600">Overall Rating</p>
             <div className="p-2 rounded-lg bg-yellow-100 flex-shrink-0">
-              <Star className="w-4 h-4 text-yellow-600" />
+              <Star className="w-5 h-5 text-yellow-600" />
             </div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900 mb-1">
+            <div className="text-4xl font-bold text-gray-900 mb-3">
               {summaryCards.overall_rating.toFixed(1)}
             </div>
-            <div className="flex justify-center mb-1">
+            <div className="flex justify-center mb-3">
               {renderStars(summaryCards.overall_rating)}
             </div>
-            <p className="text-xs text-gray-600">{summaryCards.total_reviews} reviews</p>
+            <p className="text-sm text-gray-600">{summaryCards.total_reviews} reviews</p>
           </div>
         </CardContent>
       </Card>
 
-      {/* Sentiment Analysis Card */}
+      {/* Third Column - Sentiment Analysis Card */}
       <Card className="bg-white border border-gray-200">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-medium text-gray-600">Sentiment</p>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-600">Sentiment Analysis</p>
             <div className="p-2 rounded-lg bg-green-100 flex-shrink-0">
-              <MessageSquare className="w-4 h-4 text-green-600" />
+              <MessageSquare className="w-5 h-5 text-green-600" />
             </div>
           </div>
-          <div className="h-20 mb-2">
+          <div className="h-32 mb-4">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={sentimentData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={15}
-                  outerRadius={35}
+                  innerRadius={30}
+                  outerRadius={60}
                   paddingAngle={2}
                   dataKey="value"
                 >
@@ -223,17 +236,17 @@ export const ReviewSummary: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="space-y-1">
-            {sentimentData.slice(0, 1).map((item) => (
+          <div className="space-y-2">
+            {sentimentData.map((item) => (
               <div key={item.name} className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <div
-                    className="w-2 h-2 rounded-full"
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-xs text-gray-600">{item.name}</span>
+                  <span className="text-sm text-gray-600">{item.name}</span>
                 </div>
-                <span className="text-xs font-medium">{item.value}%</span>
+                <span className="text-sm font-medium">{item.value}%</span>
               </div>
             ))}
           </div>
