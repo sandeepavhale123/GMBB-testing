@@ -2,7 +2,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import dashboardSlice from "./slices/dashboardSlice";
 import postsSlice from "./slices/postsSlice";
-import { reviewsReducer } from "./slices/reviews";
+import reviewsSlice from "./slices/reviewsSlice";
 import mediaSlice from "./slices/mediaSlice";
 import themeSlice from "./slices/themeSlice";
 import authReducer from "./slices/auth/authSlice";
@@ -14,7 +14,7 @@ import { RESET_STORE } from "./actions/globalActions";
 const appReducer = combineReducers({
   dashboard: dashboardSlice,
   posts: postsSlice,
-  reviews: reviewsReducer,
+  reviews: reviewsSlice,
   media: mediaSlice,
   theme: themeSlice,
   auth: authReducer,

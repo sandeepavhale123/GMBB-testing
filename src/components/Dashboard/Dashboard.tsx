@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -8,7 +7,7 @@ import { DailyActivitySummaryChart } from './DailyActivitySummaryChart';
 import { ProgressDonutChart } from './ProgressDonutChart';
 import { ReviewSummaryCard } from './ReviewSummaryCard';
 import { SentimentBreakdownCard } from './SentimentBreakdownCard';
-import { DashboardRecentReviews } from './DashboardRecentReviews';
+import { RecentReviewsCard } from './RecentReviewsCard';
 import { InsightsCard } from './InsightsCard';
 import { ActivitySummaryChart } from './ActivitySummaryChart';
 import { CreatePostCard } from './CreatePostCard';
@@ -165,7 +164,7 @@ export const Dashboard: React.FC = () => {
                     </div>
                     
                     {/* Recent Reviews Section - Full Width */}
-                    <DashboardRecentReviews />
+                    <RecentReviewsCard />
                   </div>
                 </TabsContent>
                 <TabsContent value="geo-ranking" className="mt-4 sm:mt-6">
