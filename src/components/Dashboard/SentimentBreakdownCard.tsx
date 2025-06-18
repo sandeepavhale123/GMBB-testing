@@ -6,7 +6,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviewsSlice';
+import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
 
 export const SentimentBreakdownCard: React.FC = () => {
   const dispatch = useAppDispatch();

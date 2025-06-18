@@ -1,3 +1,4 @@
+
 import { 
   SummaryCards, 
   StarDistribution, 
@@ -42,4 +43,4 @@ export interface ReviewsState {
   pageSize: number;
 }
 
-export { GetReviewsRequest, SendReplyRequest };
+export type { GetReviewsRequest, SendReplyRequest };

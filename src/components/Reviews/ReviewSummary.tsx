@@ -6,7 +6,7 @@ import { Progress } from '../ui/progress';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviewsSlice';
+import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
 
 export const ReviewSummary: React.FC = () => {
   const dispatch = useAppDispatch();
