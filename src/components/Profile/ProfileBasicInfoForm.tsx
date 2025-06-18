@@ -53,12 +53,21 @@ export const ProfileBasicInfoForm: React.FC<ProfileBasicInfoFormProps> = ({
         <div>
           <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
           <Input
-            id="email"
+            id="email_s"
             type="email"
             value={formData.email}
-            onChange={(e) => onInputChange('email', e.target.value)}
             className="mt-1 h-10"
+             disabled="true"
+            
+          />
+           <Input
+            id="email"
+            type="hidden"
+            value={formData.email}
+            onChange={(e) => onInputChange('email', e.target.value)}
+            className="mt-1 h-10 "
             required
+            
           />
         </div>
 
