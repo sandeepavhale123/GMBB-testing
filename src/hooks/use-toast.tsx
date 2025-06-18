@@ -1,9 +1,11 @@
+
 import * as React from "react"
 
 import type {
   ToastActionElement,
   ToastProps,
 } from "@/components/ui/toast"
+import { getToastIcon } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -149,10 +151,21 @@ function toast({ ...props }: Toast) {
     })
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
 
+  // Add icon to title if variant is specified
+  const enhancedProps = {
+    ...props,
+    title: props.variant && props.title ? (
+      <div className="flex items-center gap-2">
+        {getToastIcon(props.variant)}
+        {props.title}
+      </div>
+    ) : props.title
+  }
+
   dispatch({
     type: "ADD_TOAST",
     toast: {
-      ...props,
+      ...enhancedProps,
       id,
       open: true,
       onOpenChange: (open) => {
@@ -167,6 +180,12 @@ function toast({ ...props }: Toast) {
     update,
   }
 }
+
+// Helper functions for different toast types
+toast.success = (props: Omit<Toast, 'variant'>) => toast({ ...props, variant: 'success' })
+toast.warning = (props: Omit<Toast, 'variant'>) => toast({ ...props, variant: 'warning' })
+toast.error = (props: Omit<Toast, 'variant'>) => toast({ ...props, variant: 'error' })
+toast.info = (props: Omit<Toast, 'variant'>) => toast({ ...props, variant: 'info' })
 
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)

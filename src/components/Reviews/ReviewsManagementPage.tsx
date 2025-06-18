@@ -1,9 +1,10 @@
+
 import React, { useEffect } from 'react';
 import { ReviewSummary } from './ReviewSummary';
 import { ReviewsList } from './ReviewsList';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviewsSlice';
+import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
 export const ReviewsManagementPage: React.FC = () => {
   const { toast } = useToast();
@@ -13,10 +14,9 @@ export const ReviewsManagementPage: React.FC = () => {
   // Show toast for API errors
   useEffect(() => {
     if (summaryError) {
-      toast({
+      toast.error({
         title: "Error Loading Review Summary",
         description: summaryError,
-        variant: "destructive"
       });
       
       // Clear error after showing toast
@@ -30,10 +30,9 @@ export const ReviewsManagementPage: React.FC = () => {
 
   useEffect(() => {
     if (reviewsError) {
-      toast({
+      toast.error({
         title: "Error Loading Reviews",
         description: reviewsError,
-        variant: "destructive"
       });
       
       // Clear error after showing toast
@@ -47,10 +46,9 @@ export const ReviewsManagementPage: React.FC = () => {
 
   useEffect(() => {
     if (replyError) {
-      toast({
+      toast.error({
         title: "Error Sending Reply",
         description: replyError,
-        variant: "destructive"
       });
       
       // Clear error after showing toast

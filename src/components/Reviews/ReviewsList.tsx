@@ -15,8 +15,10 @@ import {
   fetchReviews,
   clearReviewsError,
   sendReviewReply,
-  clearReplyError
-} from '../../store/slices/reviewsSlice';
+  deleteReviewReply,
+  clearReplyError,
+  clearDeleteReplyError
+} from '../../store/slices/reviews';
 import { ReviewsFilters } from './ReviewsFilters';
 import { ReviewCard } from './ReviewCard';
 import { ReviewsPagination } from './ReviewsPagination';
@@ -36,6 +38,8 @@ export const ReviewsList: React.FC = () => {
     reviewsError,
     replyLoading,
     replyError,
+    deleteReplyLoading,
+    deleteReplyError,
     filter,
     searchQuery,
     sortBy,
@@ -66,8 +70,8 @@ export const ReviewsList: React.FC = () => {
     }));
   }, [dispatch]);
 
-  // Fetch reviews when listing or filters change
-  useEffect(() => {
+  // Function to fetch reviews with current filters
+  const fetchReviewsWithFilters = () => {
     if (selectedListing?.id) {
       // Determine the correct sortOrder based on sortBy
       let apiSortOrder: 'asc' | 'desc' = 'desc';
@@ -101,17 +105,37 @@ export const ReviewsList: React.FC = () => {
         }
       };
       
-      dispatch(fetchReviews(params));
+      return dispatch(fetchReviews(params));
     }
+    return Promise.resolve();
+  };
+
+  // Fetch reviews when listing or filters change
+  useEffect(() => {
+    fetchReviewsWithFilters();
   }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy]);
+
+  // Handle refresh button click
+  const handleRefresh = () => {
+    fetchReviewsWithFilters().then(() => {
+      toast.success({
+        title: "Refreshed",
+        description: "Reviews have been refreshed"
+      });
+    }).catch(() => {
+      toast.error({
+        title: "Error",
+        description: "Failed to refresh reviews"
+      });
+    });
+  };
 
   // Show toast for reply errors
   useEffect(() => {
     if (replyError) {
-      toast({
+      toast.error({
         title: "Error Sending Reply",
         description: replyError,
-        variant: "destructive"
       });
       
       // Clear error after showing toast
@@ -123,13 +147,29 @@ export const ReviewsList: React.FC = () => {
     }
   }, [replyError, toast, dispatch]);
 
+  // Show toast for delete reply errors
+  useEffect(() => {
+    if (deleteReplyError) {
+      toast.error({
+        title: "Error Deleting Reply",
+        description: deleteReplyError,
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearDeleteReplyError());
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [deleteReplyError, toast, dispatch]);
+
   const handleGenerateReply = (reviewId: string) => {
     setShowingAIGenerator(reviewId);
     setEditingReply(null);
   };
 
   const handleManualReply = (reviewId: string) => {
-    const review = reviews.find(r => r.id === reviewId);
     setEditingReply(reviewId);
     setShowingAIGenerator(null);
   };
@@ -138,10 +178,9 @@ export const ReviewsList: React.FC = () => {
     const finalReplyText = reply;
     
     if (!finalReplyText?.trim()) {
-      toast({
+      toast.error({
         title: "Error",
         description: "Please enter a reply message",
-        variant: "destructive"
       });
       return;
     }
@@ -156,14 +195,26 @@ export const ReviewsList: React.FC = () => {
       setEditingReply(null);
       setShowingAIGenerator(null);
       
-      toast({
+      toast.success({
         title: "Success",
         description: "Reply sent successfully",
-        variant: "default"
       });
     } catch (error) {
       // Error will be handled by the useEffect above
       console.error('Failed to send reply:', error);
+    }
+  };
+
+  const handleDeleteReply = async (reviewId: string) => {
+    try {
+      await dispatch(deleteReviewReply(reviewId)).unwrap();
+      toast.success({
+        title: "Reply Deleted",
+        description: "The reply has been deleted successfully",
+      });
+    } catch (error) {
+      // Error will be handled by the useEffect above
+      console.error('Failed to delete reply:', error);
     }
   };
 
@@ -219,12 +270,14 @@ export const ReviewsList: React.FC = () => {
           sortBy={sortBy}
           localDateRange={localDateRange}
           hasDateRange={Boolean(dateRange.startDate || dateRange.endDate)}
+          isRefreshing={reviewsLoading}
           onSearchChange={(value) => dispatch(setSearchQuery(value))}
           onFilterChange={(value) => dispatch(setFilter(value))}
           onSentimentFilterChange={(value) => dispatch(setSentimentFilter(value))}
           onSortChange={(value) => dispatch(setSortBy(value))}
           onDateRangeChange={handleDateRangeChange}
           onClearDateRange={handleClearDateRange}
+          onRefresh={handleRefresh}
         />
       </CardHeader>
 
@@ -259,9 +312,11 @@ export const ReviewsList: React.FC = () => {
                   editingReply={editingReply}
                   showingAIGenerator={showingAIGenerator}
                   replyLoading={replyLoading}
+                  deleteLoading={deleteReplyLoading}
                   onGenerateReply={handleGenerateReply}
                   onManualReply={handleManualReply}
                   onSaveReply={handleSaveReply}
+                  onDeleteReply={handleDeleteReply}
                   onCancelAIGenerator={handleCancelAIGenerator}
                 />
               ))}

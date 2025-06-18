@@ -1,3 +1,4 @@
+
 import axiosInstance from '../api/axiosInstance';
 
 export interface ReviewSummaryRequest {
@@ -140,5 +141,16 @@ export const reviewService = {
   sendReviewReply: async (params: SendReplyRequest): Promise<SendReplyResponse> => {
     const response = await axiosInstance.post('/v1/sent-review-reply', params);
     return response.data;
+  },
+
+  deleteReviewReply: async (reviewId: string): Promise<SendReplyResponse> => {
+    const response = await axiosInstance.post('/v1/delete-review-reply', {
+      reviewId
+    });
+    return response.data;
   }
 };
+
+// Create a named export for backwards compatibility with the thunks file
+// In case there are other imports using the default export
+export { reviewService as review };

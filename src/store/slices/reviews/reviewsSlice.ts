@@ -1,87 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  reviewService, 
-  SummaryCards, 
-  StarDistribution, 
-  SentimentAnalysis,
-  Review,
-  PaginationResponse,
-  GetReviewsRequest,
-  SendReplyRequest
-} from '../../services/reviewService';
 
-interface DateRange {
-  startDate?: string;
-  endDate?: string;
-}
-
-interface ReviewsState {
-  // Existing summary data
-  summaryCards: SummaryCards | null;
-  starDistribution: StarDistribution | null;
-  sentimentAnalysis: SentimentAnalysis | null;
-  summaryLoading: boolean;
-  summaryError: string | null;
-  
-  // Reviews list data
-  reviews: Review[];
-  pagination: PaginationResponse | null;
-  reviewsLoading: boolean;
-  reviewsError: string | null;
-  
-  // Reply state
-  replyLoading: boolean;
-  replyError: string | null;
-  
-  // Filter and search state
-  filter: 'all' | 'pending' | 'replied';
-  searchQuery: string;
-  sortBy: string;
-  sortOrder: 'asc' | 'desc';
-  sentimentFilter: string;
-  dateRange: DateRange;
-  currentPage: number;
-  pageSize: number;
-}
-
-// Async thunk for fetching review summary
-export const fetchReviewSummary = createAsyncThunk(
-  'reviews/fetchSummary',
-  async (listingId: string, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.getReviewSummary(listingId);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch review summary');
-    }
-  }
-);
-
-// Async thunk for fetching reviews
-export const fetchReviews = createAsyncThunk(
-  'reviews/fetchReviews',
-  async (params: GetReviewsRequest, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.getReviews(params);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch reviews');
-    }
-  }
-);
-
-// Async thunk for sending review reply
-export const sendReviewReply = createAsyncThunk(
-  'reviews/sendReply',
-  async (params: SendReplyRequest, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.sendReviewReply(params);
-      return { ...response, reviewId: params.reviewId, replyText: params.replyText };
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to send review reply');
-    }
-  }
-);
+import { createSlice } from '@reduxjs/toolkit';
+import { ReviewsState } from './types';
+import { fetchReviewSummary, fetchReviews, sendReviewReply, deleteReviewReply } from './thunks';
 
 const initialState: ReviewsState = {
   // Summary state
@@ -100,6 +20,8 @@ const initialState: ReviewsState = {
   // Reply state
   replyLoading: false,
   replyError: null,
+  deleteReplyLoading: false,
+  deleteReplyError: null,
   
   // Filter state
   filter: 'all',
@@ -163,6 +85,9 @@ const reviewsSlice = createSlice({
     clearReplyError: (state) => {
       state.replyError = null;
     },
+    clearDeleteReplyError: (state) => {
+      state.deleteReplyError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -214,6 +139,26 @@ const reviewsSlice = createSlice({
       .addCase(sendReviewReply.rejected, (state, action) => {
         state.replyLoading = false;
         state.replyError = action.payload as string;
+      })
+      // Delete reply cases
+      .addCase(deleteReviewReply.pending, (state) => {
+        state.deleteReplyLoading = true;
+        state.deleteReplyError = null;
+      })
+      .addCase(deleteReviewReply.fulfilled, (state, action) => {
+        state.deleteReplyLoading = false;
+        // Update the specific review in the list to remove the reply
+        const review = state.reviews.find(r => r.id === action.payload.reviewId);
+        if (review) {
+          review.replied = false;
+          review.reply_text = '';
+          review.reply_date = '';
+          review.reply_type = '';
+        }
+      })
+      .addCase(deleteReviewReply.rejected, (state, action) => {
+        state.deleteReplyLoading = false;
+        state.deleteReplyError = action.payload as string;
       });
   },
 });
@@ -230,7 +175,8 @@ export const {
   replyToReview, 
   clearSummaryError,
   clearReviewsError,
-  clearReplyError
+  clearReplyError,
+  clearDeleteReplyError
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;
