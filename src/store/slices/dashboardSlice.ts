@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface QuickWin {
@@ -26,6 +27,18 @@ interface QAStats {
   responseRate: number;
 }
 
+interface HealthScore {
+  score: number;
+  status: 'good' | 'warning' | 'critical';
+}
+
+interface BusinessProfile {
+  name: string;
+  address: string;
+  status: string;
+  healthScore: number;
+}
+
 interface DashboardState {
   viewsThisMonth: number;
   clicksThisMonth: number;
@@ -41,6 +54,19 @@ interface DashboardState {
     clicks: number;
     calls: number;
   }>;
+  // Missing properties that components expect
+  totalBusinesses: number;
+  totalPosts: number;
+  totalReviews: number;
+  avgRating: number;
+  businessProfile: BusinessProfile;
+  healthScore: HealthScore;
+  aiActions: number;
+  manualActions: number;
+  mediaPosts: number;
+  reviewsResponded: number;
+  qaAnswered: number;
+  selectedPeriod: string;
 }
 
 const initialState: DashboardState = {
@@ -105,7 +131,28 @@ const initialState: DashboardState = {
     { date: 'Apr', views: 2453, clicks: 892, calls: 78 },
     { date: 'May', views: 2200, clicks: 750, calls: 85 },
     { date: 'Jun', views: 2800, clicks: 950, calls: 92 }
-  ]
+  ],
+  // Initialize missing properties
+  totalBusinesses: 5,
+  totalPosts: 127,
+  totalReviews: 342,
+  avgRating: 4.6,
+  businessProfile: {
+    name: 'XYZ Plumbing Services',
+    address: 'New York, NY',
+    status: 'Active',
+    healthScore: 78
+  },
+  healthScore: {
+    score: 78,
+    status: 'good'
+  },
+  aiActions: 65,
+  manualActions: 35,
+  mediaPosts: 89,
+  reviewsResponded: 156,
+  qaAnswered: 24,
+  selectedPeriod: 'last30days'
 };
 
 const dashboardSlice = createSlice({
@@ -119,6 +166,9 @@ const dashboardSlice = createSlice({
       state.recentActivity.unshift(action.payload);
       state.recentActivity = state.recentActivity.slice(0, 10);
     },
+    setPeriod: (state, action: PayloadAction<string>) => {
+      state.selectedPeriod = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,5 +178,5 @@ const dashboardSlice = createSlice({
   },
 });
 
-export const { completeQuickWin, addRecentActivity } = dashboardSlice.actions;
+export const { completeQuickWin, addRecentActivity, setPeriod } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
