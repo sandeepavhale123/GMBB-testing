@@ -1,5 +1,6 @@
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { reviewService, SummaryCards, StarDistribution, SentimentAnalysis } from '../../services/reviewService';
 
 interface Review {
   id: string;
@@ -21,7 +22,26 @@ interface ReviewsState {
   loading: boolean;
   filter: 'all' | 'pending' | 'replied';
   dateRange: DateRange;
+  // API data
+  summaryCards: SummaryCards | null;
+  starDistribution: StarDistribution | null;
+  sentimentAnalysis: SentimentAnalysis | null;
+  summaryLoading: boolean;
+  summaryError: string | null;
 }
+
+// Async thunk for fetching review summary
+export const fetchReviewSummary = createAsyncThunk(
+  'reviews/fetchSummary',
+  async (listingId: string, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.getReviewSummary(listingId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch review summary');
+    }
+  }
+);
 
 const initialState: ReviewsState = {
   reviews: [
@@ -47,6 +67,11 @@ const initialState: ReviewsState = {
   loading: false,
   filter: 'all',
   dateRange: {},
+  summaryCards: null,
+  starDistribution: null,
+  sentimentAnalysis: null,
+  summaryLoading: false,
+  summaryError: null,
 };
 
 const reviewsSlice = createSlice({
@@ -68,8 +93,28 @@ const reviewsSlice = createSlice({
         review.replied = true;
       }
     },
+    clearSummaryError: (state) => {
+      state.summaryError = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchReviewSummary.pending, (state) => {
+        state.summaryLoading = true;
+        state.summaryError = null;
+      })
+      .addCase(fetchReviewSummary.fulfilled, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryCards = action.payload.summary_cards;
+        state.starDistribution = action.payload.star_distribution;
+        state.sentimentAnalysis = action.payload.sentiment_analysis;
+      })
+      .addCase(fetchReviewSummary.rejected, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryError = action.payload as string;
+      });
   },
 });
 
-export const { setFilter, setDateRange, clearDateRange, replyToReview } = reviewsSlice.actions;
+export const { setFilter, setDateRange, clearDateRange, replyToReview, clearSummaryError } = reviewsSlice.actions;
 export default reviewsSlice.reducer;

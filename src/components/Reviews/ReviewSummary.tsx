@@ -1,27 +1,38 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Star } from 'lucide-react';
+import { Star, AlertCircle, RefreshCw } from 'lucide-react';
+import { Button } from '../ui/button';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { ReviewStats } from './ReviewStats';
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
+import { useListingContext } from '../../context/ListingContext';
+import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviewsSlice';
 
 export const ReviewSummary: React.FC = () => {
-  const overallRating = 4.6;
-  const totalReviews = 282;
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  const { 
+    summaryCards, 
+    starDistribution, 
+    sentimentAnalysis, 
+    summaryLoading, 
+    summaryError 
+  } = useAppSelector(state => state.reviews);
 
-  const starDistribution = [
-    { stars: 5, count: 186, percentage: 66 },
-    { stars: 4, count: 56, percentage: 20 },
-    { stars: 3, count: 28, percentage: 10 },
-    { stars: 2, count: 8, percentage: 3 },
-    { stars: 1, count: 4, percentage: 1 }
-  ];
+  // Fetch review summary when component mounts or listing changes
+  useEffect(() => {
+    if (selectedListing?.id) {
+      dispatch(fetchReviewSummary(selectedListing.id));
+    }
+  }, [dispatch, selectedListing?.id]);
 
-  const sentimentData = [
-    { name: 'Positive', value: 78, color: '#10B981' },
-    { name: 'Neutral', value: 16, color: '#F59E0B' },
-    { name: 'Negative', value: 6, color: '#EF4444' }
-  ];
+  const handleRetry = () => {
+    if (selectedListing?.id) {
+      dispatch(clearSummaryError());
+      dispatch(fetchReviewSummary(selectedListing.id));
+    }
+  };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -38,14 +49,92 @@ export const ReviewSummary: React.FC = () => {
     ));
   };
 
+  // Error state
+  if (summaryError) {
+    return (
+      <div className="space-y-6">
+        <ReviewStats />
+        <Card className="bg-white border border-red-200">
+          <CardContent className="p-6 text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Failed to Load Review Summary</h3>
+            <p className="text-gray-600 mb-4">{summaryError}</p>
+            <Button onClick={handleRetry} variant="outline">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Loading state
+  if (summaryLoading || !summaryCards || !starDistribution || !sentimentAnalysis) {
+    return (
+      <div className="space-y-6">
+        <ReviewStats />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {[1, 2].map((i) => (
+            <Card key={i} className="bg-white border border-gray-200">
+              <CardHeader>
+                <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="space-y-2">
+                    {[1, 2, 3].map((j) => (
+                      <div key={j} className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Convert star distribution to array for rendering
+  const starDistributionArray = Object.entries(starDistribution)
+    .map(([stars, data]) => ({
+      stars: parseInt(stars),
+      count: data.count,
+      percentage: data.percentage
+    }))
+    .sort((a, b) => b.stars - a.stars);
+
+  // Convert sentiment analysis to chart data
+  const sentimentData = [
+    { 
+      name: 'Positive', 
+      value: sentimentAnalysis.positive.percentage, 
+      color: '#10B981',
+      count: sentimentAnalysis.positive.count
+    },
+    { 
+      name: 'Neutral', 
+      value: sentimentAnalysis.neutral.percentage, 
+      color: '#F59E0B',
+      count: sentimentAnalysis.neutral.count
+    },
+    { 
+      name: 'Negative', 
+      value: sentimentAnalysis.negative.percentage, 
+      color: '#EF4444',
+      count: sentimentAnalysis.negative.count
+    }
+  ];
+
   return (
     <div className="space-y-6">
-    
+      {/* Stats Cards */}
+      <ReviewStats />
 
       {/* Rating and Sentiment Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-         {/* Stats Cards */}
-         <ReviewStats />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Star Distribution */}
         <Card className="bg-white border border-gray-200">
           <CardHeader>
@@ -53,15 +142,17 @@ export const ReviewSummary: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-center mb-6">
-              <div className="text-4xl font-bold text-gray-900 mb-2">{overallRating}</div>
-              <div className="flex justify-center mb-2">
-                {renderStars(overallRating)}
+              <div className="text-4xl font-bold text-gray-900 mb-2">
+                {summaryCards.overall_rating.toFixed(1)}
               </div>
-              <p className="text-sm text-gray-600">{totalReviews} total reviews</p>
+              <div className="flex justify-center mb-2">
+                {renderStars(summaryCards.overall_rating)}
+              </div>
+              <p className="text-sm text-gray-600">{summaryCards.total_reviews} total reviews</p>
             </div>
             
             <div className="space-y-3">
-              {starDistribution.map((item) => (
+              {starDistributionArray.map((item) => (
                 <div key={item.stars} className="flex items-center gap-3">
                   <span className="text-sm font-medium w-8 text-gray-600">{item.stars}★</span>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
@@ -99,7 +190,12 @@ export const ReviewSummary: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
+                  <Tooltip 
+                    formatter={(value, name, props) => [
+                      `${value}% (${props.payload.count} reviews)`, 
+                      name
+                    ]} 
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -110,7 +206,9 @@ export const ReviewSummary: React.FC = () => {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-sm text-gray-600">{item.name} {item.value}%</span>
+                  <span className="text-sm text-gray-600">
+                    {item.name} {item.value}% ({item.count})
+                  </span>
                 </div>
               ))}
             </div>
