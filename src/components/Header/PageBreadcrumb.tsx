@@ -13,6 +13,7 @@ import {
 
 const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/': [{ title: 'Dashboard', path: '/' }],
+  '/location-dashboard': [{ title: 'Dashboard', path: '/location-dashboard' }],
   '/profile': [
     { title: 'Dashboard', path: '/' },
     { title: 'Profile', path: '/profile' }
@@ -70,7 +71,18 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
 
 export const PageBreadcrumb: React.FC = () => {
   const location = useLocation();
-  const breadcrumbItems = routeToBreadcrumb[location.pathname] || [{ title: 'Dashboard', path: '/' }];
+  
+  // Extract the base route from the pathname (handle routes with listing IDs)
+  const getBaseRoute = (pathname: string) => {
+    const segments = pathname.split('/');
+    if (segments.length >= 2) {
+      return `/${segments[1]}`;
+    }
+    return pathname;
+  };
+  
+  const baseRoute = getBaseRoute(location.pathname);
+  const breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
 
   return (
     <Breadcrumb className="flex">

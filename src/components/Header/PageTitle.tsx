@@ -16,16 +16,28 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/geo-ranking-report': { title: 'GEO Ranking Report', subtitle: 'Detailed analysis of your local search performance' },
   '/analytics': { title: 'Analytics', subtitle: 'Comprehensive metrics and performance data for your business' },
   '/team': { title: 'Team', subtitle: 'Manage team members and their access permissions' },
-  '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' }
+  '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' },
+  '/location-dashboard': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' }
 };
 
 export const PageTitle: React.FC = () => {
   const location = useLocation();
-  const pageInfo = routeToTitle[location.pathname] || { title: 'Dashboard', subtitle: 'Welcome back to your business dashboard' };
+  
+  // Extract the base route from the pathname (handle routes with listing IDs)
+  const getBaseRoute = (pathname: string) => {
+    const segments = pathname.split('/');
+    if (segments.length >= 2) {
+      return `/${segments[1]}`;
+    }
+    return pathname;
+  };
+  
+  const baseRoute = getBaseRoute(location.pathname);
+  const pageInfo = routeToTitle[baseRoute] || { title: 'Dashboard', subtitle: 'Welcome back to your business dashboard' };
 
   return (
     <div className="min-w-0">
-      <h5 className=" font-semibold text-gray-900 mb-1">
+      <h5 className="font-semibold text-gray-900 mb-1">
         {pageInfo.title}
       </h5>
     </div>
