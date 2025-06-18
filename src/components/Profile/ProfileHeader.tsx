@@ -4,6 +4,7 @@ import { Lock, Pencil, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { useToast } from '../../hooks/use-toast';
+import { useProfile } from '../../hooks/useProfile';
 
 interface ProfileHeaderProps {
   activeTab: 'edit' | 'password';
@@ -16,10 +17,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [profileImage, setProfileImage] = useState("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80");
+  const { profileData, isLoading, updateProfile, isUpdating } = useProfile();
   const [isUploading, setIsUploading] = useState(false);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -45,16 +46,37 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
     setIsUploading(true);
 
-    // Create preview URL
+    // Convert to base64
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const result = e.target?.result as string;
-      setProfileImage(result);
-      setIsUploading(false);
-      toast({
-        title: "Profile picture updated",
-        description: "Your profile picture has been successfully updated.",
-      });
+      
+      try {
+        if (profileData) {
+          await updateProfile({
+            first_name: profileData.frist_name,
+            last_name: profileData.last_name,
+            timezone: profileData.timezone,
+            username: profileData.username,
+            dashboardType: 1, // Default to advanced
+            language: profileData.language,
+            profilePic: result
+          });
+          
+          toast({
+            title: "Profile picture updated",
+            description: "Your profile picture has been successfully updated.",
+          });
+        }
+      } catch (error) {
+        toast({
+          title: "Upload failed",
+          description: "Failed to update profile picture. Please try again.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsUploading(false);
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -62,6 +84,29 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const handlePencilClick = () => {
     fileInputRef.current?.click();
   };
+
+  if (isLoading) {
+    return (
+      <Card className="shadow-lg border-0">
+        <CardContent className="p-6">
+          <div className="animate-pulse flex items-center gap-6">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full"></div>
+            <div className="flex-1 space-y-3">
+              <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+              <div className="flex gap-2">
+                <div className="h-8 bg-gray-200 rounded w-24"></div>
+                <div className="h-8 bg-gray-200 rounded w-32"></div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const profileImage = profileData?.profilePic || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+  const fullName = profileData ? `${profileData.frist_name} ${profileData.last_name}` : "User";
 
   return (
     <Card className="shadow-lg border-0">
@@ -78,7 +123,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </div>
             <button 
               onClick={handlePencilClick}
-              disabled={isUploading}
+              disabled={isUploading || isUpdating}
               className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               <Pencil className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -95,7 +140,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           {/* User Info */}
           <div className="flex-1 text-center sm:text-left">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
-              Vijay Salve
+              {fullName}
             </h1>
             <p className="text-sm sm:text-base text-gray-600 mb-4">
               Worker

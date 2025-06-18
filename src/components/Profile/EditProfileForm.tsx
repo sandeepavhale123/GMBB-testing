@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -7,24 +6,100 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useToast } from '../../hooks/use-toast';
+import { useProfile } from '../../hooks/useProfile';
 
 export const EditProfileForm: React.FC = () => {
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const { profileData, timezones, isUpdating, updateError, updateProfile, clearProfileErrors } = useProfile();
+  
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    timezone: '',
+    language: '',
+    dashboardType: 'advanced'
+  });
+
+  useEffect(() => {
+    if (profileData) {
+      setFormData({
+        firstName: profileData.frist_name || '',
+        lastName: profileData.last_name || '',
+        email: profileData.username || '',
+        phone: '',
+        address: '',
+        timezone: profileData.timezone || '',
+        language: profileData.language || 'english',
+        dashboardType: 'advanced'
+      });
+    }
+  }, [profileData]);
+
+  useEffect(() => {
+    if (updateError) {
+      toast({
+        title: "Update Failed",
+        description: updateError,
+        variant: "destructive"
+      });
+      clearProfileErrors();
+    }
+  }, [updateError, toast, clearProfileErrors]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    if (!profileData) return;
+
+    try {
+      await updateProfile({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        timezone: formData.timezone,
+        username: formData.email,
+        dashboardType: formData.dashboardType === 'advanced' ? 1 : 0,
+        language: formData.language,
+        profilePic: profileData.profilePic || ''
+      });
+      
       toast({
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
       });
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Update Failed",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  if (!profileData) {
+    return (
+      <div className="space-y-6">
+        <Card className="shadow-lg border-0">
+          <CardContent className="p-6">
+            <div className="animate-pulse space-y-4">
+              <div className="h-6 bg-gray-200 rounded w-1/4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="h-10 bg-gray-200 rounded"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+              <div className="h-10 bg-gray-200 rounded"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -40,7 +115,8 @@ export const EditProfileForm: React.FC = () => {
               <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
               <Input
                 id="firstName"
-                defaultValue="Vijay"
+                value={formData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.target.value)}
                 className="mt-1 h-10"
                 required
               />
@@ -49,7 +125,8 @@ export const EditProfileForm: React.FC = () => {
               <Label htmlFor="lastName" className="text-gray-700 font-medium">Last Name</Label>
               <Input
                 id="lastName"
-                defaultValue="Salve"
+                value={formData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.target.value)}
                 className="mt-1 h-10"
                 required
               />
@@ -62,14 +139,31 @@ export const EditProfileForm: React.FC = () => {
             <Input
               id="email"
               type="email"
-              defaultValue="vijay.salve@example.com"
-              className="mt-1 h-10 bg-gray-50 text-gray-500"
-              readOnly
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              className="mt-1 h-10"
+              required
             />
-            <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
           </div>
 
-          {/* Phone Number */}
+          {/* Language Field */}
+          <div>
+            <Label htmlFor="language" className="text-gray-700 font-medium">Language</Label>
+            <Select value={formData.language} onValueChange={(value) => handleInputChange('language', value)}>
+              <SelectTrigger className="mt-1 h-10">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="english">English</SelectItem>
+                <SelectItem value="spanish">Spanish</SelectItem>
+                <SelectItem value="french">French</SelectItem>
+                <SelectItem value="german">German</SelectItem>
+                <SelectItem value="italian">Italian</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Phone Number - keeping for UI consistency */}
           <div>
             <Label htmlFor="phone" className="text-gray-700 font-medium">Phone Number</Label>
             <div className="flex mt-1">
@@ -88,19 +182,22 @@ export const EditProfileForm: React.FC = () => {
                 id="phone"
                 type="tel"
                 placeholder="(555) 123-4567"
+                value={formData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
                 className="h-10 rounded-l-none flex-1"
               />
             </div>
           </div>
 
-          {/* Address */}
+          {/* Address - keeping for UI consistency */}
           <div>
             <Label htmlFor="address" className="text-gray-700 font-medium">Address</Label>
             <Textarea
               id="address"
               placeholder="Enter your full address..."
               className="mt-1 min-h-[100px] resize-none"
-              defaultValue="123 Main Street, New York, NY 10001"
+              value={formData.address}
+              onChange={(e) => handleInputChange('address', e.target.value)}
             />
           </div>
         </CardContent>
@@ -116,16 +213,16 @@ export const EditProfileForm: React.FC = () => {
             {/* Timezone */}
             <div>
               <Label htmlFor="timezone" className="text-gray-700 font-medium">Timezone</Label>
-              <Select defaultValue="est">
+              <Select value={formData.timezone} onValueChange={(value) => handleInputChange('timezone', value)}>
                 <SelectTrigger className="mt-1 h-10">
-                  <SelectValue />
+                  <SelectValue placeholder="Select timezone" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="est">Eastern Time (EST)</SelectItem>
-                  <SelectItem value="cst">Central Time (CST)</SelectItem>
-                  <SelectItem value="mst">Mountain Time (MST)</SelectItem>
-                  <SelectItem value="pst">Pacific Time (PST)</SelectItem>
-                  <SelectItem value="utc">UTC</SelectItem>
+                  {timezones && Object.entries(timezones).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {value}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -133,7 +230,7 @@ export const EditProfileForm: React.FC = () => {
             {/* Dashboard Type */}
             <div>
               <Label htmlFor="dashboardType" className="text-gray-700 font-medium">Dashboard Type</Label>
-              <Select defaultValue="advanced">
+              <Select value={formData.dashboardType} onValueChange={(value) => handleInputChange('dashboardType', value)}>
                 <SelectTrigger className="mt-1 h-10">
                   <SelectValue />
                 </SelectTrigger>
@@ -152,10 +249,10 @@ export const EditProfileForm: React.FC = () => {
         <Button
           type="submit"
           size="lg"
-          disabled={isLoading}
+          disabled={isUpdating}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
         >
-          {isLoading ? 'Saving...' : 'Save Changes'}
+          {isUpdating ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
     </form>

@@ -4,16 +4,52 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Check, AlertTriangle, Calendar, Crown } from 'lucide-react';
+import { useProfile } from '../../hooks/useProfile';
 
 export const CurrentPlanCard: React.FC = () => {
-  const isExpired = true; // This would come from your subscription data
-  const planName = "Pro Plan";
-  const expirationDate = "December 15, 2024";
+  const { profileData, isLoading } = useProfile();
+  
+  if (isLoading || !profileData) {
+    return (
+      <Card className="shadow-lg border-0">
+        <CardContent className="p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+              <div className="h-6 bg-gray-200 rounded w-16"></div>
+            </div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="h-4 bg-gray-200 rounded"></div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                <div className="h-10 bg-gray-200 rounded"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const planExpDate = new Date(profileData.planExpDate);
+  const currentDate = new Date();
+  const isExpired = planExpDate < currentDate;
+  const planName = profileData.planName;
+  const formattedExpDate = planExpDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
   
   const features = [
     "Unlimited business listings",
     "Advanced analytics",
-    "Priority support",
+    "Priority support", 
     "Custom reporting",
     "API access"
   ];
@@ -51,10 +87,10 @@ export const CurrentPlanCard: React.FC = () => {
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{planName}</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{planName} Plan</h3>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Calendar className="w-4 h-4" />
-              <span>Expires on {expirationDate}</span>
+              <span>Expires on {formattedExpDate}</span>
             </div>
           </div>
         </div>
