@@ -53,7 +53,8 @@ export const ProfileFormContainer: React.FC = () => {
     if (!profileData) return;
 
     try {
-      // Update profile WITHOUT password - password should only be updated via change password modal
+      // CRITICAL: Profile updates should NEVER include password
+      // Password can only be changed through the dedicated change password modal
       await updateProfile({
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -62,7 +63,7 @@ export const ProfileFormContainer: React.FC = () => {
         dashboardType: formData.dashboardType === 'advanced' ? 1 : 0,
         language: formData.language,
         profilePic: profileData.profilePic || ''
-        // Password is intentionally NEVER included in profile updates
+        // Password is INTENTIONALLY EXCLUDED from all profile updates
       });
       
       toast({

@@ -44,7 +44,9 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setIsVerifying(true);
     
     try {
+      console.log('Verifying current password...');
       const isValid = await profileService.verifyCurrentPassword({ currentPassword });
+      console.log('Password verification result:', isValid);
       
       if (isValid) {
         setStep('new');
@@ -58,13 +60,18 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
           description: "The current password you entered is incorrect. Please try again.",
           variant: "destructive",
         });
+        // Clear the current password field for security
+        setCurrentPassword('');
       }
     } catch (error) {
+      console.error('Password verification error:', error);
       toast({
         title: "Verification Failed",
         description: "Failed to verify current password. Please try again.",
         variant: "destructive",
       });
+      // Clear the current password field for security
+      setCurrentPassword('');
     } finally {
       setIsVerifying(false);
     }
@@ -119,15 +126,16 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     }
 
     try {
+      console.log('Updating password...');
       await updateProfile({
-        first_name: profileData.frist_name,
+        first_name: profileData.first_name,
         last_name: profileData.last_name,
         timezone: profileData.timezone,
         username: profileData.username,
         dashboardType: 1,
         language: profileData.language,
         profilePic: profileData.profilePic || '',
-        password: newPassword
+        password: newPassword // Only include password when explicitly changing it
       });
       
       toast({
@@ -136,6 +144,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       });
       handleClose();
     } catch (error) {
+      console.error('Password update error:', error);
       toast({
         title: "Password Update Failed",
         description: "Failed to update password. Please try again.",
