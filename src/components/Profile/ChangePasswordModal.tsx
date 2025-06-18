@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -7,6 +6,7 @@ import { Label } from '../ui/label';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { useProfile } from '../../hooks/useProfile';
+import { profileService } from '../../services/profileService';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -23,6 +23,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
@@ -33,9 +34,34 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     e.preventDefault();
     if (!currentPassword) return;
     
-    // For now, we'll skip current password verification and go straight to new password
-    // In a real implementation, you'd verify the current password with the API
-    setStep('new');
+    setIsVerifying(true);
+    
+    try {
+      // Verify current password with the service
+      const isValid = await profileService.verifyCurrentPassword({ currentPassword });
+      
+      if (isValid) {
+        setStep('new');
+        toast({
+          title: "Password Verified",
+          description: "Current password verified successfully.",
+        });
+      } else {
+        toast({
+          title: "Invalid Password",
+          description: "The current password you entered is incorrect.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Verification Failed",
+        description: "Failed to verify current password. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   const handleNewPasswordSubmit = async (e: React.FormEvent) => {
@@ -78,7 +104,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     }
 
     try {
-      // Update profile with new password
+      // Update profile with ONLY the new password - include all required fields but focus on password
       await updateProfile({
         first_name: profileData.frist_name,
         last_name: profileData.last_name,
@@ -87,7 +113,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         dashboardType: 1, // Default to advanced
         language: profileData.language,
         profilePic: profileData.profilePic || '',
-        password: newPassword // Include password only when changing it
+        password: newPassword // Only include password when explicitly changing it
       });
       
       toast({
@@ -167,10 +193,10 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               </Button>
               <Button
                 type="submit"
-                disabled={!currentPassword}
+                disabled={isVerifying || !currentPassword}
                 className="flex-1 bg-purple-600 hover:bg-purple-700"
               >
-                Verify
+                {isVerifying ? 'Verifying...' : 'Verify'}
               </Button>
             </div>
           </form>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -56,7 +55,7 @@ export const EditProfileForm: React.FC = () => {
     if (!profileData) return;
 
     try {
-      // Update profile without password
+      // Update profile WITHOUT password - password should only be updated via change password modal
       await updateProfile({
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -65,7 +64,7 @@ export const EditProfileForm: React.FC = () => {
         dashboardType: formData.dashboardType === 'advanced' ? 1 : 0,
         language: formData.language,
         profilePic: profileData.profilePic || ''
-        // Note: password is intentionally excluded here
+        // Password is intentionally NEVER included in profile updates
       });
       
       toast({

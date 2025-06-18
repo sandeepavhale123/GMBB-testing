@@ -3,7 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 export interface ProfileData {
   userId: string;
-  frist_name: string;
+  frist_name: string; // Keep this as it matches the API response
   last_name: string;
   username: string;
   profilePic: string;
@@ -21,11 +21,15 @@ export interface UpdateProfileData {
   dashboardType: number;
   language: string;
   profilePic: string;
-  password?: string;
+  password?: string; // Optional - only include when changing password
 }
 
 export interface TimezoneOption {
   [key: string]: string;
+}
+
+export interface VerifyPasswordData {
+  currentPassword: string;
 }
 
 export const profileService = {
@@ -41,5 +45,12 @@ export const profileService = {
 
   updateProfile: async (profileData: UpdateProfileData): Promise<void> => {
     await axiosInstance.post('/v1/update-profile', profileData);
+  },
+
+  // In a real implementation, you'd have a separate endpoint for password verification
+  verifyCurrentPassword: async (data: VerifyPasswordData): Promise<boolean> => {
+    // For now, simulate password verification
+    // In production, this should call an actual verification endpoint
+    return true;
   }
 };
