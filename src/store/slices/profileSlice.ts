@@ -2,17 +2,39 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { profileService, ProfileData, UpdateProfileData, TimezoneOption } from '../../services/profileService';
 
+interface ProfileState {
+  data: ProfileData | null;
+  timezones: TimezoneOption | null;
+  isLoading: boolean;
+  error: string | null;
+  isUpdating: boolean;
+  updateError: string | null;
+  isLoadingTimezones: boolean;
+}
+
+const initialState: ProfileState = {
+  data: null,
+  timezones: null,
+  isLoading: false,
+  error: null,
+  isUpdating: false,
+  updateError: null,
+  isLoadingTimezones: false,
+};
+
 export const fetchUserProfile = createAsyncThunk(
   'profile/fetchUserProfile',
   async () => {
-    return await profileService.getUserProfile();
+    const response = await profileService.getUserProfile();
+    return response;
   }
 );
 
 export const fetchTimezones = createAsyncThunk(
   'profile/fetchTimezones',
   async () => {
-    return await profileService.getTimezones();
+    const response = await profileService.getTimezones();
+    return response;
   }
 );
 
@@ -20,29 +42,11 @@ export const updateUserProfile = createAsyncThunk(
   'profile/updateUserProfile',
   async (profileData: UpdateProfileData) => {
     await profileService.updateProfile(profileData);
-    return profileData;
+    // Return updated profile data
+    const updatedProfile = await profileService.getUserProfile();
+    return updatedProfile;
   }
 );
-
-interface ProfileState {
-  data: ProfileData | null;
-  timezones: TimezoneOption | null;
-  isLoading: boolean;
-  isUpdating: boolean;
-  isLoadingTimezones: boolean;
-  error: string | null;
-  updateError: string | null;
-}
-
-const initialState: ProfileState = {
-  data: null,
-  timezones: null,
-  isLoading: false,
-  isUpdating: false,
-  isLoadingTimezones: false,
-  error: null,
-  updateError: null,
-};
 
 const profileSlice = createSlice({
   name: 'profile',
@@ -55,7 +59,6 @@ const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch user profile
       .addCase(fetchUserProfile.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -68,7 +71,6 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || 'Failed to fetch profile';
       })
-      // Fetch timezones
       .addCase(fetchTimezones.pending, (state) => {
         state.isLoadingTimezones = true;
       })
@@ -80,26 +82,20 @@ const profileSlice = createSlice({
         state.isLoadingTimezones = false;
         state.error = action.error.message || 'Failed to fetch timezones';
       })
-      // Update profile
       .addCase(updateUserProfile.pending, (state) => {
         state.isUpdating = true;
         state.updateError = null;
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.isUpdating = false;
-        // Update local state with new data
-        if (state.data) {
-          state.data.first_name = action.payload.first_name;
-          state.data.last_name = action.payload.last_name;
-          state.data.timezone = action.payload.timezone;
-          state.data.username = action.payload.username;
-          state.data.language = action.payload.language;
-          state.data.profilePic = action.payload.profilePic;
-        }
+        state.data = action.payload;
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isUpdating = false;
         state.updateError = action.error.message || 'Failed to update profile';
+      })
+      .addCase('RESET_STORE', () => {
+        return initialState;
       });
   },
 });

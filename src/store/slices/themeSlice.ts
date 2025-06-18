@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 interface ThemeState {
@@ -21,6 +20,12 @@ const themeSlice = createSlice({
     setAccentColor: (state, action) => {
       state.accentColor = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase('RESET_STORE', () => {
+        return initialState;
+      });
   },
 });
 

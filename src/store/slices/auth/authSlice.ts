@@ -30,7 +30,6 @@ const authSlice = createSlice({
   reducers: {
     setAccessToken: (state, action: PayloadAction<string | null>) => {
       state.accessToken = action.payload;
-      // Store in sessionStorage when setting
       if (action.payload) {
         sessionStorage.setItem("access_token", action.payload);
       } else {
@@ -39,7 +38,6 @@ const authSlice = createSlice({
     },
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
-      // Store in sessionStorage when setting
       if (action.payload) {
         sessionStorage.setItem("user", JSON.stringify(action.payload));
       } else {
@@ -78,7 +76,6 @@ const authSlice = createSlice({
       state.hasAttemptedRefresh = false;
       state.isInitialized = false;
 
-      // Clear sessionStorage
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("user");
       sessionStorage.removeItem("refresh_token");

@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 interface MediaItem {
@@ -49,6 +48,12 @@ const mediaSlice = createSlice({
     addMedia: (state, action) => {
       state.media.unshift(action.payload);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase('RESET_STORE', () => {
+        return initialState;
+      });
   },
 });
 

@@ -1,177 +1,160 @@
+
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/store/store";
 import { useNavigate } from "react-router-dom";
 import {
   setAccessToken,
   setUser,
-  logout as logoutAction,
   setLoading,
+  rehydrateAuth,
+  logout as logoutAction,
   setIsRefreshing,
   setHasAttemptedRefresh,
 } from "./authSlice";
+import { clearUserListings } from "../businessListingsSlice";
+import type { RootState } from "../../store";
+import axiosInstance from "../../../api/axiosInstance";
 
 export const useAuthRedux = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const {
-    accessToken,
-    user,
-    isLoading,
-    isRefreshing,
-    hasAttemptedRefresh,
-    isInitialized,
+  
+  const { 
+    accessToken, 
+    user, 
+    isLoading, 
+    isRefreshing, 
+    hasAttemptedRefresh, 
+    isInitialized 
   } = useSelector((state: RootState) => state.auth);
 
-  console.log("useAuthRedux state:", {
-    accessToken: !!accessToken,
-    user: !!user,
-    isLoading,
-    isRefreshing,
-    hasAttemptedRefresh,
-    isInitialized,
-  });
+  // Initialize auth state from sessionStorage on app start
+  useEffect(() => {
+    if (!isInitialized) {
+      dispatch(rehydrateAuth());
+    }
+  }, [dispatch, isInitialized]);
 
-  const login = async (credentials: { username: string; password: string }) => {
+  const login = async (email: string, password: string) => {
+    dispatch(setLoading(true));
     try {
-      dispatch(setLoading(true));
-
-      const response = await fetch(`${BASE_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
+      const response = await axiosInstance.post("/v1/login", {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        throw new Error("Login failed");
+      if (response.data.code === 200) {
+        const { accessToken: token, refreshToken, userDetails } = response.data.data;
+        
+        // Store tokens
+        dispatch(setAccessToken(token));
+        dispatch(setUser(userDetails));
+        sessionStorage.setItem("refresh_token", refreshToken);
+        sessionStorage.setItem("userId", userDetails.userId);
+
+        dispatch(setLoading(false));
+        return { success: true };
+      } else {
+        dispatch(setLoading(false));
+        return { success: false, error: response.data.message };
       }
-
-      const data = await response.json();
-      console.log("Login response data:", data);
-
-      // Dispatch actions to update Redux state (which also updates sessionStorage)
-      dispatch(setAccessToken(data.data.jwtTokens.access_token));
-      dispatch(setUser(data.data.profile));
-
-      // Store additional items in sessionStorage
-      sessionStorage.setItem(
-        "refresh_token",
-        data.data.jwtTokens.refresh_token
-      );
-      sessionStorage.setItem("userId", data.data.profile.userId);
-
-      return data;
     } catch (error) {
-      console.error("Login error:", error);
-      throw error;
-    } finally {
       dispatch(setLoading(false));
+      return { success: false, error };
     }
   };
 
-  const refreshAccessToken = async (): Promise<boolean> => {
-    console.log("Starting token refresh...");
+  const logout = async () => {
+    try {
+      // Dispatch global store reset to clear all data
+      dispatch({ type: 'RESET_STORE' });
+      
+      // Clear business listings from localStorage
+      dispatch(clearUserListings() as any);
+      
+      // Clear auth state
+      dispatch(logoutAction());
+      
+      // Navigate to login
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Even if logout fails, clear local state
+      dispatch({ type: 'RESET_STORE' });
+      dispatch(clearUserListings() as any);
+      dispatch(logoutAction());
+      navigate("/login");
+    }
+  };
 
-    // If already authenticated, no need to refresh
-    if (accessToken && user) {
-      console.log("Already authenticated, skipping refresh");
+  const refreshAccessToken = async () => {
+    const refreshToken = sessionStorage.getItem("refresh_token");
+    
+    if (!refreshToken) {
+      console.log("No refresh token available");
       dispatch(setHasAttemptedRefresh(true));
-      return true;
+      return false;
     }
 
-    // If already refreshing, wait for it to complete
     if (isRefreshing) {
-      console.log("Refresh already in progress");
+      console.log("Already refreshing token");
       return false;
     }
 
     dispatch(setIsRefreshing(true));
-    dispatch(setHasAttemptedRefresh(true));
-
-    const refreshToken = sessionStorage.getItem("refresh_token");
-    const userId = sessionStorage.getItem("userId");
-
-    if (!refreshToken) {
-      console.log("No refresh token found");
-      dispatch(setIsRefreshing(false));
-      return false;
-    }
-
+    
     try {
-      console.log("Attempting token refresh...");
-
-      const response = await fetch(`${BASE_URL}/refresh-access-token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh_token: refreshToken,
-          userId: userId,
-        }),
+      const response = await axiosInstance.post("/v1/refresh-token", {
+        refreshToken,
       });
 
-      if (!response.ok) {
-        throw new Error(`Refresh failed with status: ${response.status}`);
+      if (response.data.code === 200) {
+        const { accessToken: newAccessToken } = response.data.data;
+        dispatch(setAccessToken(newAccessToken));
+        dispatch(setHasAttemptedRefresh(true));
+        dispatch(setIsRefreshing(false));
+        return true;
+      } else {
+        console.error("Token refresh failed:", response.data.message);
+        // Refresh token is invalid/expired - trigger complete logout
+        dispatch({ type: 'RESET_STORE' });
+        dispatch(clearUserListings() as any);
+        dispatch(logoutAction());
+        dispatch(setIsRefreshing(false));
+        navigate("/login");
+        return false;
       }
-
-      const data = await response.json();
-      console.log("Token refresh successful");
-
-      // Update Redux state (which also updates sessionStorage)
-      dispatch(setAccessToken(data.accessToken));
-      dispatch(setUser(data.user));
-
-      // Update refresh token in sessionStorage
-      sessionStorage.setItem("refresh_token", data.refresh_token);
-
-      // Restore navigation state if needed
-      const pathToRedirect = sessionStorage.getItem("post_refresh_path");
-      const scrollY = sessionStorage.getItem("scrollY");
-
-      if (pathToRedirect) {
-        sessionStorage.removeItem("post_refresh_path");
-        window.history.replaceState(null, "", pathToRedirect);
+    } catch (error: any) {
+      console.error("Token refresh error:", error);
+      
+      // Check if the error is due to expired/invalid refresh token
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        console.log("Refresh token expired, redirecting to login");
+        // Trigger complete logout and store reset
+        dispatch({ type: 'RESET_STORE' });
+        dispatch(clearUserListings() as any);
+        dispatch(logoutAction());
+        navigate("/login");
       }
-
-      if (scrollY) {
-        sessionStorage.removeItem("scrollY");
-        setTimeout(() => window.scrollTo(0, parseInt(scrollY, 10)), 50);
-      }
-
-      return true;
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-
-      // Clear invalid tokens
-      dispatch(setAccessToken(null));
-      dispatch(setUser(null));
-      sessionStorage.removeItem("refresh_token");
-      sessionStorage.removeItem("userId");
-
-      return false;
-    } finally {
+      
+      dispatch(setHasAttemptedRefresh(true));
       dispatch(setIsRefreshing(false));
+      return false;
     }
   };
 
-  const logout = () => {
-    dispatch(logoutAction());
-    window.location.href = "/login";
-  };
+  const isAuthenticated = Boolean(accessToken && user);
 
   return {
+    login,
+    logout,
+    refreshAccessToken,
     accessToken,
     user,
     isLoading,
     isRefreshing,
     hasAttemptedRefresh,
     isInitialized,
-    login,
-    logout,
-    refreshAccessToken,
+    isAuthenticated,
   };
 };
