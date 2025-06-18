@@ -1,8 +1,8 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface ProfileBasicInfoFormProps {
@@ -10,8 +10,6 @@ interface ProfileBasicInfoFormProps {
     firstName: string;
     lastName: string;
     email: string;
-    phone: string;
-    address: string;
     language: string;
   };
   onInputChange: (field: string, value: string) => void;
@@ -79,44 +77,6 @@ export const ProfileBasicInfoForm: React.FC<ProfileBasicInfoFormProps> = ({
               <SelectItem value="italian">Italian</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-
-        {/* Phone Number - keeping for UI consistency */}
-        <div>
-          <Label htmlFor="phone" className="text-gray-700 font-medium">Phone Number</Label>
-          <div className="flex mt-1">
-            <Select defaultValue="us">
-              <SelectTrigger className="w-20 h-10 rounded-r-none border-r-0">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="us">🇺🇸 +1</SelectItem>
-                <SelectItem value="uk">🇬🇧 +44</SelectItem>
-                <SelectItem value="in">🇮🇳 +91</SelectItem>
-                <SelectItem value="ca">🇨🇦 +1</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="(555) 123-4567"
-              value={formData.phone}
-              onChange={(e) => onInputChange('phone', e.target.value)}
-              className="h-10 rounded-l-none flex-1"
-            />
-          </div>
-        </div>
-
-        {/* Address - keeping for UI consistency */}
-        <div>
-          <Label htmlFor="address" className="text-gray-700 font-medium">Address</Label>
-          <Textarea
-            id="address"
-            placeholder="Enter your full address..."
-            className="mt-1 min-h-[100px] resize-none"
-            value={formData.address}
-            onChange={(e) => onInputChange('address', e.target.value)}
-          />
         </div>
       </CardContent>
     </Card>

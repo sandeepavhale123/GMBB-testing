@@ -14,11 +14,9 @@ export const ProfileFormContainer: React.FC = () => {
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
-    address: '',
     timezone: '',
     language: '',
-    dashboardType: 'advanced'
+    dashboardType: '1'
   });
 
   useEffect(() => {
@@ -27,11 +25,9 @@ export const ProfileFormContainer: React.FC = () => {
         firstName: profileData.first_name || '',
         lastName: profileData.last_name || '',
         email: profileData.username || '',
-        phone: '',
-        address: '',
         timezone: profileData.timezone || '',
         language: profileData.language || 'english',
-        dashboardType: 'advanced'
+        dashboardType: '1'
       });
     }
   }, [profileData]);
@@ -59,7 +55,7 @@ export const ProfileFormContainer: React.FC = () => {
         last_name: formData.lastName,
         timezone: formData.timezone,
         username: formData.email,
-        dashboardType: formData.dashboardType === 'advanced' ? 1 : 0,
+        dashboardType: parseInt(formData.dashboardType),
         language: formData.language,
         profilePic: profileData.profilePic || ''
         // Password is intentionally NEVER included in profile updates
