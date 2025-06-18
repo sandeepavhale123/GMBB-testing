@@ -14,7 +14,7 @@ import { TimezoneOption } from '../../services/profileService';
 interface ProfilePreferencesFormProps {
   formData: {
     timezone: string;
-    dashboardType: number;
+    dashboardType: string;
   };
   timezones: TimezoneOption | null;
   onInputChange: (field: string, value: string) => void;
