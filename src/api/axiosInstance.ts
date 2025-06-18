@@ -1,7 +1,9 @@
+
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
-import { logout, setAccessToken } from "@/store/slices/auth/authSlice";
+import { clearExpiredTokens } from "@/store/slices/auth/authSlice";
+import { resetStore } from "@/store/actions/globalActions";
 
 const BASE_URL = "https://member.gmbbriefcase.com/api";
 
@@ -27,7 +29,6 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // withCredentials: true, // This ensures cookies are sent with requests
 });
 
 // Track ongoing refresh attempts to prevent multiple simultaneous refreshes
@@ -49,6 +50,23 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
+// Enhanced function to handle token expiry with store cleanup
+const handleTokenExpiry = () => {
+  console.log("🔒 Token expired - performing comprehensive cleanup");
+  
+  // Clear expired tokens from store
+  store.dispatch(clearExpiredTokens());
+  
+  // If we have a logout handler, use it for complete cleanup
+  if (handleLogout) {
+    handleLogout();
+  } else {
+    // Fallback: reset store and redirect
+    store.dispatch(resetStore());
+    window.location.href = "/login";
+  }
+};
+
 // Request interceptor to add access token
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -68,7 +86,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for automatic token refresh
+// Enhanced response interceptor for automatic token refresh with store cleanup
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -101,6 +119,7 @@ axiosInstance.interceptors.response.use(
 
       originalRequest._retry = true;
       isRefreshing = true;
+      
       try {
         if (!refreshToken) {
           throw new Error("No refresh function available");
@@ -124,20 +143,25 @@ axiosInstance.interceptors.response.use(
           throw new Error("Token refresh failed");
         }
       } catch (refreshError) {
-        console.error("Token refresh failed:", refreshError);
+        console.error("Axios: Token refresh failed:", refreshError);
         processQueue(refreshError, null);
 
-        // Clear tokens and redirect to login
-        if (handleLogout) {
-          handleLogout();
-        } else {
-          store.dispatch(logout());
-          window.location.href = "/login"; // Fallback redirect
-        }
+        // Handle token expiry with comprehensive cleanup
+        handleTokenExpiry();
+        
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
+    }
+
+    // Handle other 401/403 errors that indicate token expiry
+    if (
+      (error.response?.status === 401 || error.response?.status === 403) &&
+      !isAuthRoute
+    ) {
+      console.log("Axios: Authentication error detected");
+      handleTokenExpiry();
     }
 
     return Promise.reject(error);

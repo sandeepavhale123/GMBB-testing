@@ -1,3 +1,4 @@
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
 import { useNavigate } from "react-router-dom";
@@ -5,10 +6,13 @@ import {
   setAccessToken,
   setUser,
   logout as logoutAction,
+  clearExpiredTokens,
   setLoading,
   setIsRefreshing,
   setHasAttemptedRefresh,
 } from "./authSlice";
+import { resetStore } from "@/store/actions/globalActions";
+import { clearUserListings } from "../businessListingsSlice";
 
 export const useAuthRedux = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -146,21 +150,40 @@ export const useAuthRedux = () => {
     } catch (error) {
       console.error("Token refresh failed:", error);
 
-      // Clear invalid tokens
-      dispatch(setAccessToken(null));
-      dispatch(setUser(null));
-      sessionStorage.removeItem("refresh_token");
-      sessionStorage.removeItem("userId");
-
+      // Handle expired or invalid refresh token
+      dispatch(clearExpiredTokens());
+      
       return false;
     } finally {
       dispatch(setIsRefreshing(false));
     }
   };
 
-  const logout = () => {
-    dispatch(logoutAction());
-    window.location.href = "/login";
+  const logout = async () => {
+    console.log("🚪 Starting enhanced logout process...");
+    
+    try {
+      // Clear business listings first
+      dispatch(clearUserListings());
+      
+      // Clear auth state and storage
+      dispatch(logoutAction());
+      
+      // Reset entire store to initial state
+      dispatch(resetStore());
+      
+      console.log("✅ Enhanced logout completed successfully");
+      
+      // Navigate to login page
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout error:", error);
+      
+      // Fallback cleanup in case of errors
+      dispatch(logoutAction());
+      dispatch(resetStore());
+      window.location.href = "/login";
+    }
   };
 
   return {

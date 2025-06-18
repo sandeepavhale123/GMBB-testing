@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { clearAllStorage, clearAuthStorage } from "@/utils/storageUtils";
 
 interface User {
   userId: string;
@@ -70,7 +71,11 @@ const authSlice = createSlice({
       state.isInitialized = true;
       state.hasAttemptedRefresh = true;
     },
+    // Enhanced logout with comprehensive cleanup
     logout: (state) => {
+      console.log('🚪 Starting logout process...');
+      
+      // Reset auth state to initial values
       state.accessToken = null;
       state.user = null;
       state.isLoading = false;
@@ -78,12 +83,25 @@ const authSlice = createSlice({
       state.hasAttemptedRefresh = false;
       state.isInitialized = false;
 
-      // Clear sessionStorage
-      sessionStorage.removeItem("access_token");
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("refresh_token");
-      sessionStorage.removeItem("userId");
+      // Clear authentication storage
+      clearAuthStorage();
+      
+      console.log('✅ Logout completed - auth state and storage cleared');
     },
+    // Action for clearing expired tokens
+    clearExpiredTokens: (state) => {
+      console.log('⏰ Clearing expired tokens...');
+      
+      state.accessToken = null;
+      state.user = null;
+      state.isRefreshing = false;
+      state.hasAttemptedRefresh = true;
+      
+      // Clear auth storage but keep other data
+      clearAuthStorage();
+      
+      console.log('✅ Expired tokens cleared');
+    }
   },
 });
 
@@ -96,6 +114,7 @@ export const {
   setIsInitialized,
   rehydrateAuth,
   logout,
+  clearExpiredTokens,
 } = authSlice.actions;
 
 export default authSlice.reducer;
