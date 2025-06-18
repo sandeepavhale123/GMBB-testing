@@ -17,15 +17,18 @@ interface ProfilePreferencesFormProps {
     dashboardType: string;
   };
   timezones: TimezoneOption | null;
+  userRole?: string; // Add userRole prop
   onInputChange: (field: string, value: string) => void;
 }
 
 export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
   formData,
   timezones,
+  userRole,
   onInputChange
 }) => {
   const [timezoneOpen, setTimezoneOpen] = useState(false);
+  const isAdmin = userRole === 'admin';
 
   return (
     <Card className="shadow-lg border-0">
@@ -33,7 +36,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
         <CardTitle className="text-xl font-semibold text-gray-900">Preferences & Settings</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className={`grid grid-cols-1 gap-4 ${isAdmin ? 'md:grid-cols-2' : 'md:grid-cols-1'}`}>
           {/* Timezone with Search */}
           <div>
             <Label htmlFor="timezone" className="text-gray-700 font-medium">Timezone</Label>
@@ -82,19 +85,21 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
             </Popover>
           </div>
 
-          {/* Dashboard Type */}
-          <div>
-            <Label htmlFor="dashboardType" className="text-gray-700 font-medium">Dashboard Type</Label>
-            <Select value={formData.dashboardType} onValueChange={(value) => onInputChange('dashboardType', value)}>
-              <SelectTrigger className="mt-1 h-10">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="0">Single Listing Dashboard</SelectItem>
-                <SelectItem value="1">Multi Listing Dashboard</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Dashboard Type - Only show for admin users */}
+          {isAdmin && (
+            <div>
+              <Label htmlFor="dashboardType" className="text-gray-700 font-medium">Dashboard Type</Label>
+              <Select value={formData.dashboardType} onValueChange={(value) => onInputChange('dashboardType', value)}>
+                <SelectTrigger className="mt-1 h-10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">Single Listing Dashboard</SelectItem>
+                  <SelectItem value="1">Multi Listing Dashboard</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

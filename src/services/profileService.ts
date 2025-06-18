@@ -11,6 +11,7 @@ export interface ProfileData {
   planExpDate: string;
   planName: string;
   password: string; // Add password field
+  role?: string; // Add role field for admin checks
 }
 
 export interface UpdateProfileData {

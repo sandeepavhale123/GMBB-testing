@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { useToast } from '../../hooks/use-toast';
 import { useProfile } from '../../hooks/useProfile';
+import { useAppSelector } from '../../hooks/useRedux';
 import { ProfileBasicInfoForm } from './ProfileBasicInfoForm';
 import { ProfilePreferencesForm } from './ProfilePreferencesForm';
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
   const { profileData, timezones, isUpdating, updateError, updateProfile, clearProfileErrors } = useProfile();
+  const { user } = useAppSelector(state => state.auth); // Get user from auth state
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -105,6 +107,7 @@ export const ProfileFormContainer: React.FC = () => {
       <ProfilePreferencesForm
         formData={formData}
         timezones={timezones}
+        userRole={user?.role || profileData?.role} // Pass user role from auth state or profile data
         onInputChange={handleInputChange}
       />
 

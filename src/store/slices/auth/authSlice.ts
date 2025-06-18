@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   userId: string;
+  role?: string; // Add role field for admin checks
   [key: string]: any; // Add other user properties as needed
 }
 
