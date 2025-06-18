@@ -57,17 +57,15 @@ export const ProfileBasicInfoForm: React.FC<ProfileBasicInfoFormProps> = ({
             type="email"
             value={formData.email}
             className="mt-1 h-10"
-             disabled="true"
-            
+            disabled={true}
           />
-           <Input
+          <Input
             id="email"
             type="hidden"
             value={formData.email}
             onChange={(e) => onInputChange('email', e.target.value)}
-            className="mt-1 h-10 "
+            className="mt-1 h-10"
             required
-            
           />
         </div>
 
