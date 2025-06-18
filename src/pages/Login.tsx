@@ -31,7 +31,7 @@ const Login = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      navigate("/onboarding");
+      navigate("/");
     } catch (err) {
       toast({
         title: "Error",
