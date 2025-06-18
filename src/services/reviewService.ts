@@ -47,7 +47,7 @@ export interface ReviewSummaryResponse {
 
 export const reviewService = {
   getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
-    const response = await axiosInstance.post('/api/v1/get-review-summary', {
+    const response = await axiosInstance.post('/v1/get-review-summary', {
       listingId
     });
     return response.data;
