@@ -24,7 +24,7 @@ export const ProfileFormContainer: React.FC = () => {
   useEffect(() => {
     if (profileData) {
       setFormData({
-        firstName: profileData.first_name || '',
+        firstName: profileData.frist_name || '',
         lastName: profileData.last_name || '',
         email: profileData.username || '',
         phone: '',
