@@ -1,12 +1,12 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Lock, Eye, EyeOff } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { useProfile } from '../../hooks/useProfile';
 import { profileService } from '../../services/profileService';
+import { CurrentPasswordForm } from './CurrentPasswordForm';
+import { NewPasswordForm } from './NewPasswordForm';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -37,7 +37,6 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setIsVerifying(true);
     
     try {
-      // Verify current password with the service
       const isValid = await profileService.verifyCurrentPassword({ currentPassword });
       
       if (isValid) {
@@ -104,16 +103,15 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     }
 
     try {
-      // Update profile with ONLY the new password - include all required fields but focus on password
       await updateProfile({
         first_name: profileData.frist_name,
         last_name: profileData.last_name,
         timezone: profileData.timezone,
         username: profileData.username,
-        dashboardType: 1, // Default to advanced
+        dashboardType: 1,
         language: profileData.language,
         profilePic: profileData.profilePic || '',
-        password: newPassword // Only include password when explicitly changing it
+        password: newPassword
       });
       
       toast({
@@ -157,126 +155,29 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         </DialogHeader>
 
         {step === 'current' ? (
-          <form onSubmit={handleCurrentPasswordSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="currentPassword" className="text-gray-700 font-medium">
-                Current Password
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="currentPassword"
-                  type={showPasswords.current ? 'text' : 'password'}
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="h-10 pr-12"
-                  placeholder="Enter your current password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('current')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPasswords.current ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            <div className="flex gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleClose}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isVerifying || !currentPassword}
-                className="flex-1 bg-purple-600 hover:bg-purple-700"
-              >
-                {isVerifying ? 'Verifying...' : 'Verify'}
-              </Button>
-            </div>
-          </form>
+          <CurrentPasswordForm
+            currentPassword={currentPassword}
+            setCurrentPassword={setCurrentPassword}
+            showCurrentPassword={showPasswords.current}
+            toggleCurrentPasswordVisibility={() => togglePasswordVisibility('current')}
+            onSubmit={handleCurrentPasswordSubmit}
+            onCancel={handleClose}
+            isVerifying={isVerifying}
+          />
         ) : (
-          <form onSubmit={handleNewPasswordSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="newPassword" className="text-gray-700 font-medium">
-                New Password
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="newPassword"
-                  type={showPasswords.new ? 'text' : 'password'}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="h-10 pr-12"
-                  placeholder="Enter new password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('new')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPasswords.new ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">
-                Confirm New Password
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="confirmPassword"
-                  type={showPasswords.confirm ? 'text' : 'password'}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-10 pr-12"
-                  placeholder="Confirm new password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('confirm')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPasswords.confirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            <div className="text-xs text-gray-500 space-y-1">
-              <p>Password requirements:</p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>At least 8 characters long</li>
-                <li>Include uppercase and lowercase letters</li>
-                <li>Include at least one number</li>
-              </ul>
-            </div>
-
-            <div className="flex gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setStep('current')}
-                className="flex-1"
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                disabled={isUpdating}
-                className="flex-1 bg-purple-600 hover:bg-purple-700"
-              >
-                {isUpdating ? 'Updating...' : 'Update Password'}
-              </Button>
-            </div>
-          </form>
+          <NewPasswordForm
+            newPassword={newPassword}
+            setNewPassword={setNewPassword}
+            confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
+            showNewPassword={showPasswords.new}
+            showConfirmPassword={showPasswords.confirm}
+            toggleNewPasswordVisibility={() => togglePasswordVisibility('new')}
+            toggleConfirmPasswordVisibility={() => togglePasswordVisibility('confirm')}
+            onSubmit={handleNewPasswordSubmit}
+            onBack={() => setStep('current')}
+            isUpdating={isUpdating}
+          />
         )}
       </DialogContent>
     </Dialog>
