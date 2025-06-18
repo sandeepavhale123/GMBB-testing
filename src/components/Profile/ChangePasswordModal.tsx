@@ -6,6 +6,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
+import { useProfile } from '../../hooks/useProfile';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   onClose
 }) => {
   const { toast } = useToast();
+  const { profileData, updateProfile, isUpdating } = useProfile();
   const [step, setStep] = useState<'current' | 'new'>('current');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -26,19 +28,14 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     new: false,
     confirm: false
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleCurrentPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentPassword) return;
     
-    setIsLoading(true);
-    // Simulate API call to verify current password
-    setTimeout(() => {
-      setIsLoading(false);
-      // Assume password is correct for demo
-      setStep('new');
-    }, 1000);
+    // For now, we'll skip current password verification and go straight to new password
+    // In a real implementation, you'd verify the current password with the API
+    setStep('new');
   };
 
   const handleNewPasswordSubmit = async (e: React.FormEvent) => {
@@ -71,16 +68,40 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       return;
     }
 
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    if (!profileData) {
+      toast({
+        title: "Error",
+        description: "Profile data not available.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Update profile with new password
+      await updateProfile({
+        first_name: profileData.frist_name,
+        last_name: profileData.last_name,
+        timezone: profileData.timezone,
+        username: profileData.username,
+        dashboardType: 1, // Default to advanced
+        language: profileData.language,
+        profilePic: profileData.profilePic || '',
+        password: newPassword // Include password only when changing it
+      });
+      
       toast({
         title: "Password Changed",
         description: "Your password has been successfully updated.",
       });
       handleClose();
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Password Update Failed",
+        description: "Failed to update password. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleClose = () => {
@@ -146,10 +167,10 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               </Button>
               <Button
                 type="submit"
-                disabled={isLoading || !currentPassword}
+                disabled={!currentPassword}
                 className="flex-1 bg-purple-600 hover:bg-purple-700"
               >
-                {isLoading ? 'Verifying...' : 'Verify'}
+                Verify
               </Button>
             </div>
           </form>
@@ -223,10 +244,10 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
               </Button>
               <Button
                 type="submit"
-                disabled={isLoading}
+                disabled={isUpdating}
                 className="flex-1 bg-purple-600 hover:bg-purple-700"
               >
-                {isLoading ? 'Updating...' : 'Update Password'}
+                {isUpdating ? 'Updating...' : 'Update Password'}
               </Button>
             </div>
           </form>
