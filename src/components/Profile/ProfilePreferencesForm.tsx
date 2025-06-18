@@ -14,7 +14,7 @@ import { TimezoneOption } from '../../services/profileService';
 interface ProfilePreferencesFormProps {
   formData: {
     timezone: string;
-    dashboardType: string;
+    dashboardType: number;
   };
   timezones: TimezoneOption | null;
   onInputChange: (field: string, value: string) => void;
@@ -85,7 +85,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
           {/* Dashboard Type */}
           <div>
             <Label htmlFor="dashboardType" className="text-gray-700 font-medium">Dashboard Type</Label>
-            <Select value='0' onValueChange={(value) => onInputChange('dashboardType', value)}>
+            <Select value={formData.dashboardType} onValueChange={(value) => onInputChange('dashboardType', value)}>
               <SelectTrigger className="mt-1 h-10">
                 <SelectValue />
               </SelectTrigger>
