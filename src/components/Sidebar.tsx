@@ -72,10 +72,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { profileData } = useProfile();
 
   // Get user info from profile data
-  const userName = profileData ? `${profileData.frist_name} ${profileData.last_name}` : "User";
+  const userName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
   const userEmail = profileData?.username || "user@example.com";
   const userInitials = profileData ? 
-    `${profileData.frist_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
+    `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
     "U";
 
   // Determine active tab based on current path

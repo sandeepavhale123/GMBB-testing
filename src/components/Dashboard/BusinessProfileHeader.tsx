@@ -14,7 +14,7 @@ export const BusinessProfileHeader: React.FC = () => {
   const { profileData } = useProfile();
   
   // Get user's first name for greeting
-  const userFirstName = profileData?.frist_name || "User";
+  const userFirstName = profileData?.first_name || "User";
 
   return (
     <div className="space-y-3 sm:space-y-4">

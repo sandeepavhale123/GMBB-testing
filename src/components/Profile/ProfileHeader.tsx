@@ -54,7 +54,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       try {
         if (profileData) {
           await updateProfile({
-            first_name: profileData.frist_name,
+            first_name: profileData.first_name,
             last_name: profileData.last_name,
             timezone: profileData.timezone,
             username: profileData.username,
@@ -106,7 +106,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   }
 
   const profileImage = profileData?.profilePic || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-  const fullName = profileData ? `${profileData.frist_name} ${profileData.last_name}` : "User";
+  const fullName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
 
   return (
     <Card className="shadow-lg border-0">

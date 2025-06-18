@@ -3,7 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 export interface ProfileData {
   userId: string;
-  frist_name: string; // Keep this as it matches the API response
+  first_name: string; // Keep this as it matches the API response
   last_name: string;
   username: string;
   profilePic: string;
