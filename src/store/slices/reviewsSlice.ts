@@ -1,6 +1,12 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { reviewService, GetReviewsRequest, GetReviewsResponse, Review, PaginationResponse } from '../../services/reviewService';
+import { reviewService } from '../../services/reviewService';
+import type { 
+  GetReviewsRequest as ServiceGetReviewsRequest, 
+  GetReviewsResponse as ServiceGetReviewsResponse, 
+  Review as ServiceReview, 
+  PaginationResponse as ServicePaginationResponse 
+} from '../../services/reviewService';
 
 export interface PaginationParams {
   page: number;
@@ -28,47 +34,6 @@ export interface SortingParams {
   sortOrder: 'asc' | 'desc';
 }
 
-export interface GetReviewsRequest {
-  pagination: PaginationParams;
-  filters: FilterParams;
-  sorting: SortingParams;
-}
-
-export interface Review {
-  id: string;
-  listingId: string;
-  accountId: string;
-  customer_name: string;
-  rating: number;
-  comment: string;
-  date: string;
-  reply_text: string;
-  reply_date: string;
-  profile_image_url: string;
-  platform: string;
-  is_new: boolean;
-  replied: boolean;
-  reply_type: string;
-}
-
-export interface PaginationResponse {
-  page: number;
-  limit: number;
-  total: number;
-  total_pages: number;
-  has_next: boolean;
-  has_prev: boolean;
-}
-
-export interface GetReviewsResponse {
-  code: number;
-  message: string;
-  data: {
-    reviews: Review[];
-    pagination: PaginationResponse;
-  };
-}
-
 interface SummaryCards {
   total_reviews: number;
   pending_replies: number;
@@ -91,8 +56,8 @@ interface SentimentAnalysis {
 }
 
 interface ReviewsState {
-  reviews: Review[];
-  pagination: PaginationResponse | null;
+  reviews: ServiceReview[];
+  pagination: ServicePaginationResponse | null;
   reviewsLoading: boolean;
   reviewsError: string | null;
   filter: string;
@@ -106,7 +71,6 @@ interface ReviewsState {
   };
   currentPage: number;
   pageSize: number;
-  // Add missing summary-related properties
   summaryCards: SummaryCards | null;
   starDistribution: StarDistribution | null;
   sentimentAnalysis: SentimentAnalysis | null;
@@ -130,7 +94,6 @@ const initialState: ReviewsState = {
   },
   currentPage: 1,
   pageSize: 10,
-  // Initialize summary-related properties
   summaryCards: null,
   starDistribution: null,
   sentimentAnalysis: null,
@@ -140,7 +103,7 @@ const initialState: ReviewsState = {
 
 export const fetchReviews = createAsyncThunk(
   'reviews/fetchReviews',
-  async (params: GetReviewsRequest) => {
+  async (params: ServiceGetReviewsRequest) => {
     const response = await reviewService.getReviews(params);
     return response.data;
   }
@@ -149,7 +112,6 @@ export const fetchReviews = createAsyncThunk(
 export const fetchReviewSummary = createAsyncThunk(
   'reviews/fetchReviewSummary',
   async (listingId: string) => {
-    // Mock implementation for now
     return {
       summaryCards: {
         total_reviews: 342,
@@ -177,7 +139,6 @@ export const fetchReviewSummary = createAsyncThunk(
 export const replyToReview = createAsyncThunk(
   'reviews/replyToReview',
   async ({ reviewId, replyText }: { reviewId: string; replyText: string }) => {
-    // Mock API call for now
     return { reviewId, replyText };
   }
 );

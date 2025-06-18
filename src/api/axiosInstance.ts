@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { store } from '../store/store';
 import { setAccessToken, setIsRefreshing, setHasAttemptedRefresh } from '../store/slices/auth/authSlice';
@@ -11,11 +12,26 @@ const axiosInstance = axios.create({
   },
 });
 
+// Auth helpers for integration
+let getAccessToken: () => string | null = () => null;
+let logoutCallback: () => void = () => {};
+let refreshTokenCallback: () => Promise<boolean> = async () => false;
+
+export const setAuthHelpers = (
+  getToken: () => string | null,
+  logout: () => void,
+  refreshToken: () => Promise<boolean>
+) => {
+  getAccessToken = getToken;
+  logoutCallback = logout;
+  refreshTokenCallback = refreshToken;
+};
+
 // Request interceptor to add auth token
 axiosInstance.interceptors.request.use(
   (config) => {
     const state = store.getState();
-    const token = state.auth.accessToken;
+    const token = state.auth.accessToken || getAccessToken();
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -93,7 +109,7 @@ axiosInstance.interceptors.response.use(
         
         // Clear all auth data and business listings
         store.dispatch(setAccessToken(null));
-        store.dispatch(clearUserListings());
+        store.dispatch(clearUserListings() as any);
         
         // Dispatch global store reset
         store.dispatch({ type: 'RESET_STORE' });

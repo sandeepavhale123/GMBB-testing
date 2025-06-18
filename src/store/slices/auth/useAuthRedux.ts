@@ -70,7 +70,7 @@ export const useAuthRedux = () => {
       dispatch({ type: 'RESET_STORE' });
       
       // Clear business listings from localStorage
-      dispatch(clearUserListings());
+      dispatch(clearUserListings() as any);
       
       // Clear auth state
       dispatch(logoutAction());
@@ -81,7 +81,7 @@ export const useAuthRedux = () => {
       console.error("Logout error:", error);
       // Even if logout fails, clear local state
       dispatch({ type: 'RESET_STORE' });
-      dispatch(clearUserListings());
+      dispatch(clearUserListings() as any);
       dispatch(logoutAction());
       navigate("/login");
     }
@@ -118,7 +118,7 @@ export const useAuthRedux = () => {
         console.error("Token refresh failed:", response.data.message);
         // Refresh token is invalid/expired - trigger complete logout
         dispatch({ type: 'RESET_STORE' });
-        dispatch(clearUserListings());
+        dispatch(clearUserListings() as any);
         dispatch(logoutAction());
         dispatch(setIsRefreshing(false));
         navigate("/login");
@@ -132,7 +132,7 @@ export const useAuthRedux = () => {
         console.log("Refresh token expired, redirecting to login");
         // Trigger complete logout and store reset
         dispatch({ type: 'RESET_STORE' });
-        dispatch(clearUserListings());
+        dispatch(clearUserListings() as any);
         dispatch(logoutAction());
         navigate("/login");
       }
@@ -152,7 +152,9 @@ export const useAuthRedux = () => {
     accessToken,
     user,
     isLoading,
-    isRefreshing, // Add this missing property
+    isRefreshing,
+    hasAttemptedRefresh,
+    isInitialized,
     isAuthenticated,
   };
 };

@@ -1,5 +1,6 @@
+
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { businessListingsService, BusinessListingsResponse, BusinessListing } from '../../services/businessListingsService';
+import { businessListingsService } from '../../services/businessListingsService';
 
 export interface BusinessListing {
   id: string;
@@ -30,8 +31,12 @@ const initialState: BusinessListingsState = {
 export const fetchBusinessListings = createAsyncThunk(
   'businessListings/fetchBusinessListings',
   async (): Promise<BusinessListingsResponse> => {
-    const response = await businessListingsService.getUserBusinessListings();
-    return response;
+    const data = await businessListingsService.getActiveListings();
+    return {
+      code: 200,
+      message: 'Success',
+      data: data
+    };
   }
 );
 
@@ -60,6 +65,16 @@ const businessListingsSlice = createSlice({
         listing => listing.id !== action.payload
       );
       localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
+    },
+    moveListingToTop: (state, action: PayloadAction<string>) => {
+      const listingIndex = state.userAddedListings.findIndex(
+        listing => listing.id === action.payload
+      );
+      if (listingIndex > 0) {
+        const [listing] = state.userAddedListings.splice(listingIndex, 1);
+        state.userAddedListings.unshift(listing);
+        localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
+      }
     },
     loadFromLocalStorage: (state) => {
       const savedListings = localStorage.getItem('businessListings');
@@ -100,6 +115,7 @@ export const {
   setSelectedBusinessId,
   addBusinessListing,
   removeBusinessListing,
+  moveListingToTop,
   loadFromLocalStorage,
 } = businessListingsSlice.actions;
 
