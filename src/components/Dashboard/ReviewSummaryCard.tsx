@@ -1,11 +1,10 @@
-
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Star, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviewsSlice';
+import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
 
 export const ReviewSummaryCard: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { MessageSquare, AlertCircle } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
-import { fetchReviews, clearReviewsError, sendReviewReply } from '../../store/slices/reviewsSlice';
+import { fetchReviews, clearReviewsError, sendReviewReply } from '../../store/slices/reviews';
 import { useNavigate } from 'react-router-dom';
 import { DashboardReviewCard } from './DashboardReviewCard';
 import { useToast } from '../../hooks/use-toast';

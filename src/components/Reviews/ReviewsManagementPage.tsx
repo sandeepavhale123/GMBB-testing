@@ -3,7 +3,7 @@ import { ReviewSummary } from './ReviewSummary';
 import { ReviewsList } from './ReviewsList';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviewsSlice';
+import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
 export const ReviewsManagementPage: React.FC = () => {
   const { toast } = useToast();
