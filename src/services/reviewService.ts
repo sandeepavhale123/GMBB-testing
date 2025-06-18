@@ -115,7 +115,7 @@ export interface GetReviewsResponse {
 export interface SendReplyRequest {
   reviewId: number;
   replyText: string;
-  replyType: 'manual' | 'ai';
+  replyType: 'manual' | 'AI';
 }
 
 export interface SendReplyResponse {

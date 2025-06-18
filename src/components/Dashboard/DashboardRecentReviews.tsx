@@ -82,7 +82,7 @@ export const DashboardRecentReviews: React.FC = () => {
       const result = await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
         replyText,
-        replyType: showingAIGenerator === reviewId ? 'ai' : 'manual'
+        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual'
       }));
 
       if (sendReviewReply.fulfilled.match(result)) {

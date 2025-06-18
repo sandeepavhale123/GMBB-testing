@@ -189,7 +189,7 @@ export const ReviewsList: React.FC = () => {
       await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
         replyText: finalReplyText,
-        replyType: 'manual'
+        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual'
       })).unwrap();
       
       setEditingReply(null);
