@@ -1,138 +1,95 @@
 
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { businessListingsService } from '../../services/businessListingsService';
-import { BusinessListing as HeaderBusinessListing } from '../../components/Header/types';
-
-export interface BusinessListing {
-  id: string;
-  name: string;
-  address: string;
-  category: string;
-  phone: string;
-  website: string;
-  type: string;
-  zipcode: string;
-  active: string;
-  status?: 'Active' | 'Pending';
-  [key: string]: any;
-}
-
-export interface BusinessListingsResponse {
-  code: number;
-  message: string;
-  data: BusinessListing[];
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { BusinessListing } from '@/components/Header/types';
 
 interface BusinessListingsState {
   userAddedListings: BusinessListing[];
-  selectedBusinessId: string;
+  selectedBusinessId: string | null;
 }
 
 const initialState: BusinessListingsState = {
   userAddedListings: [],
-  selectedBusinessId: '',
+  selectedBusinessId: null,
 };
 
-// Transform Header BusinessListing to Store BusinessListing
-const transformToStoreListing = (listing: HeaderBusinessListing): BusinessListing => ({
-  ...listing,
-  category: listing.type || '',
-  phone: '',
-  website: '',
-  status: listing.active === "1" ? 'Active' : 'Pending'
-});
-
-export const fetchBusinessListings = createAsyncThunk(
-  'businessListings/fetchBusinessListings',
-  async (): Promise<BusinessListingsResponse> => {
-    const data = await businessListingsService.getActiveListings();
-    const transformedData = data.map(transformToStoreListing);
-    return {
-      code: 200,
-      message: 'Success',
-      data: transformedData
-    };
+// Load from localStorage on initialization
+const loadFromLocalStorage = (): BusinessListing[] => {
+  try {
+    const stored = localStorage.getItem('userBusinessListings');
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error('Failed to load business listings from localStorage:', error);
+    return [];
   }
-);
+};
 
-export const clearUserListings = createAsyncThunk(
-  'businessListings/clearUserListings',
-  async (): Promise<void> => {
-    localStorage.removeItem('businessListings');
-    localStorage.removeItem('selectedBusinessId');
+// Save to localStorage
+const saveToLocalStorage = (listings: BusinessListing[]) => {
+  try {
+    localStorage.setItem('userBusinessListings', JSON.stringify(listings));
+  } catch (error) {
+    console.error('Failed to save business listings to localStorage:', error);
   }
-);
+};
 
 const businessListingsSlice = createSlice({
   name: 'businessListings',
-  initialState,
+  initialState: {
+    ...initialState,
+    userAddedListings: loadFromLocalStorage(),
+  },
   reducers: {
-    setSelectedBusinessId: (state, action: PayloadAction<string>) => {
-      state.selectedBusinessId = action.payload;
-      localStorage.setItem('selectedBusinessId', action.payload);
-    },
-    addBusinessListing: (state, action: PayloadAction<HeaderBusinessListing>) => {
-      const transformedListing = transformToStoreListing(action.payload);
-      state.userAddedListings.push(transformedListing);
-      localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
-    },
-    removeBusinessListing: (state, action: PayloadAction<string>) => {
-      state.userAddedListings = state.userAddedListings.filter(
-        listing => listing.id !== action.payload
+    addBusinessListing: (state, action: PayloadAction<BusinessListing>) => {
+      const existingIndex = state.userAddedListings.findIndex(
+        listing => listing.id === action.payload.id
       );
-      localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
+      
+      if (existingIndex === -1) {
+        // Add new listing at the beginning of the array
+        state.userAddedListings.unshift(action.payload);
+        saveToLocalStorage(state.userAddedListings);
+        console.log('✅ Added business listing at top:', action.payload.name);
+      } else {
+        console.log('ℹ️ Business listing already exists:', action.payload.name);
+      }
     },
     moveListingToTop: (state, action: PayloadAction<string>) => {
       const listingIndex = state.userAddedListings.findIndex(
         listing => listing.id === action.payload
       );
+      
       if (listingIndex > 0) {
+        // Remove listing from current position and add to beginning
         const [listing] = state.userAddedListings.splice(listingIndex, 1);
         state.userAddedListings.unshift(listing);
-        localStorage.setItem('businessListings', JSON.stringify(state.userAddedListings));
+        saveToLocalStorage(state.userAddedListings);
+        console.log('🔝 Moved business listing to top:', listing.name);
       }
     },
-    loadFromLocalStorage: (state) => {
-      const savedListings = localStorage.getItem('businessListings');
-      const savedSelectedId = localStorage.getItem('selectedBusinessId');
-      
-      if (savedListings) {
-        try {
-          state.userAddedListings = JSON.parse(savedListings);
-        } catch (error) {
-          console.error('Failed to parse saved business listings:', error);
-        }
-      }
-      
-      if (savedSelectedId) {
-        state.selectedBusinessId = savedSelectedId;
-      }
+    removeBusinessListing: (state, action: PayloadAction<string>) => {
+      state.userAddedListings = state.userAddedListings.filter(
+        listing => listing.id !== action.payload
+      );
+      saveToLocalStorage(state.userAddedListings);
+      console.log('🗑️ Removed business listing with ID:', action.payload);
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchBusinessListings.fulfilled, (state, action) => {
-        state.userAddedListings = action.payload.data;
-        localStorage.setItem('businessListings', JSON.stringify(action.payload.data));
-      })
-      .addCase(clearUserListings.fulfilled, (state) => {
-        state.userAddedListings = [];
-        state.selectedBusinessId = '';
-      })
-      .addCase('RESET_STORE', () => {
-        localStorage.removeItem('businessListings');
-        localStorage.removeItem('selectedBusinessId');
-        return initialState;
-      });
+    setSelectedBusiness: (state, action: PayloadAction<string | null>) => {
+      state.selectedBusinessId = action.payload;
+    },
+    clearUserListings: (state) => {
+      state.userAddedListings = [];
+      localStorage.removeItem('userBusinessListings');
+      console.log('🧹 Cleared all user business listings');
+    }
   },
 });
 
-export const {
-  setSelectedBusinessId,
-  addBusinessListing,
-  removeBusinessListing,
+export const { 
+  addBusinessListing, 
   moveListingToTop,
-  loadFromLocalStorage,
+  removeBusinessListing, 
+  setSelectedBusiness,
+  clearUserListings 
 } = businessListingsSlice.actions;
 
 export default businessListingsSlice.reducer;
