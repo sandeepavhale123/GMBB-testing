@@ -1,22 +1,30 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { Star, MessageSquare, AlertCircle } from 'lucide-react';
+import { MessageSquare, AlertCircle } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '../../context/ListingContext';
-import { fetchReviews, clearReviewsError } from '../../store/slices/reviewsSlice';
+import { fetchReviews, clearReviewsError, sendReviewReply } from '../../store/slices/reviewsSlice';
 import { useNavigate } from 'react-router-dom';
+import { DashboardReviewCard } from './DashboardReviewCard';
+import { useToast } from '../../hooks/use-toast';
 
 export const DashboardRecentReviews: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { selectedListing } = useListingContext();
   const {
     reviews,
     reviewsLoading,
-    reviewsError
+    reviewsError,
+    replyLoading
   } = useAppSelector(state => state.reviews);
+
+  // Local state for reply interactions
+  const [editingReply, setEditingReply] = useState<string | null>(null);
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
 
   // Fetch recent reviews when listing changes
   useEffect(() => {
@@ -51,23 +59,57 @@ export const DashboardRecentReviews: React.FC = () => {
     }
   }, [dispatch, selectedListing?.id]);
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star 
-        key={index} 
-        className={`w-3 h-3 ${index < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-      />
-    ));
-  };
-
-  const getCustomerInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-  };
-
   const handleViewAll = () => {
     if (selectedListing?.id) {
       navigate(`/reviews/${selectedListing.id}`);
     }
+  };
+
+  const handleGenerateReply = (reviewId: string) => {
+    setShowingAIGenerator(reviewId);
+    setEditingReply(null);
+  };
+
+  const handleManualReply = (reviewId: string) => {
+    setEditingReply(reviewId);
+    setShowingAIGenerator(null);
+  };
+
+  const handleSaveReply = async (reviewId: string, replyText?: string) => {
+    if (!replyText) return;
+
+    try {
+      const result = await dispatch(sendReviewReply({
+        reviewId: parseInt(reviewId),
+        replyText,
+        replyType: showingAIGenerator === reviewId ? 'ai' : 'manual'
+      }));
+
+      if (sendReviewReply.fulfilled.match(result)) {
+        toast({
+          title: "Reply Sent",
+          description: "Your reply has been sent successfully."
+        });
+        setEditingReply(null);
+        setShowingAIGenerator(null);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to send reply. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send reply. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleCancelAIGenerator = () => {
+    setShowingAIGenerator(null);
   };
 
   if (reviewsError) {
@@ -120,37 +162,17 @@ export const DashboardRecentReviews: React.FC = () => {
         ) : (
           <div className="space-y-4 max-h-96 overflow-y-auto">
             {reviews.slice(0, 10).map((review) => (
-              <div key={review.id} className="flex items-start gap-3 pb-4 border-b border-gray-100 last:border-b-0">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs flex-shrink-0">
-                  {review.profile_image_url ? (
-                    <img 
-                      src={review.profile_image_url} 
-                      alt={review.customer_name}
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    getCustomerInitials(review.customer_name)
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-sm text-gray-900 truncate">
-                      {review.customer_name}
-                    </span>
-                    <div className="flex">
-                      {renderStars(review.rating)}
-                    </div>
-                  </div>
-                  {review.comment && (
-                    <p className="text-xs text-gray-600 line-clamp-2 mb-1">
-                      {review.comment}
-                    </p>
-                  )}
-                  <span className="text-xs text-gray-500">
-                    {new Date(review.date).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
+              <DashboardReviewCard
+                key={review.id}
+                review={review}
+                editingReply={editingReply}
+                showingAIGenerator={showingAIGenerator}
+                replyLoading={replyLoading}
+                onGenerateReply={handleGenerateReply}
+                onManualReply={handleManualReply}
+                onSaveReply={handleSaveReply}
+                onCancelAIGenerator={handleCancelAIGenerator}
+              />
             ))}
           </div>
         )}
