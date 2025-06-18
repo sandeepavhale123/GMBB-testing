@@ -1,4 +1,3 @@
-
 import axiosInstance from '../api/axiosInstance';
 
 export interface ReviewSummaryRequest {
@@ -125,6 +124,18 @@ export interface SendReplyResponse {
   data?: any;
 }
 
+export interface GenerateAIReplyRequest {
+  reviewId: number;
+}
+
+export interface GenerateAIReplyResponse {
+  code: number;
+  message: string;
+  data: {
+    replyText: string;
+  };
+}
+
 export const reviewService = {
   getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
     const response = await axiosInstance.post('/v1/get-review-summary', {
@@ -145,6 +156,13 @@ export const reviewService = {
 
   deleteReviewReply: async (reviewId: string): Promise<SendReplyResponse> => {
     const response = await axiosInstance.post('/v1/delete-review-reply', {
+      reviewId
+    });
+    return response.data;
+  },
+
+  generateAIReply: async (reviewId: number): Promise<GenerateAIReplyResponse> => {
+    const response = await axiosInstance.post('/api/v1/generate-ai-responce', {
       reviewId
     });
     return response.data;

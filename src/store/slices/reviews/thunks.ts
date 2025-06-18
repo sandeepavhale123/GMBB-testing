@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { review as reviewService } from '../../../services/reviewService';
 import { GetReviewsRequest, SendReplyRequest } from './types';
@@ -51,6 +50,19 @@ export const deleteReviewReply = createAsyncThunk(
       return { ...response, reviewId };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete review reply');
+    }
+  }
+);
+
+// Async thunk for generating AI reply
+export const generateAIReply = createAsyncThunk(
+  'reviews/generateAIReply',
+  async (reviewId: number, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.generateAIReply(reviewId);
+      return { reviewId, replyText: response.data.replyText };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to generate AI reply');
     }
   }
 );

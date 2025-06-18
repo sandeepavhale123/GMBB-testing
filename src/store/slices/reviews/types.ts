@@ -36,6 +36,10 @@ export interface ReviewsState {
   deleteReplyLoading: boolean;
   deleteReplyError: string | null;
   
+  // AI Generation state
+  aiGenerationLoading: boolean;
+  aiGenerationError: string | null;
+  
   // Filter and search state
   filter: 'all' | 'pending' | 'replied';
   searchQuery: string;
