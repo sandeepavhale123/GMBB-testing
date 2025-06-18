@@ -47,11 +47,16 @@ export const profileService = {
     await axiosInstance.post('/v1/update-profile', profileData);
   },
 
-  
-  // In a real implementation, you'd have a separate endpoint for password verification
+  // Fix password verification to actually call a backend endpoint
   verifyCurrentPassword: async (data: VerifyPasswordData): Promise<boolean> => {
-    // For now, simulate password verification
-    // In production, this should call an actual verification endpoint
-    return true;
+    try {
+      const response = await axiosInstance.post('/v1/verify-password', {
+        currentPassword: data.currentPassword
+      });
+      return response.data.success || response.data.valid;
+    } catch (error) {
+      console.error('Password verification failed:', error);
+      return false;
+    }
   }
 };
