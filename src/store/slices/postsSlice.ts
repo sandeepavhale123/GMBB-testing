@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 
 interface Post {
@@ -61,12 +62,6 @@ const postsSlice = createSlice({
         state.posts[index] = action.payload;
       }
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase('RESET_STORE', () => {
-        return initialState;
-      });
   },
 });
 

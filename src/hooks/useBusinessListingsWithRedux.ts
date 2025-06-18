@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { BusinessListing as HeaderBusinessListing } from '@/components/Header/types';
-import { BusinessListing as StoreBusinessListing } from '@/store/slices/businessListingsSlice';
+import { BusinessListing } from '@/components/Header/types';
 import { businessListingsService } from '@/services/businessListingsService';
 import { useAuthRedux } from '@/store/slices/auth/useAuthRedux';
 import { useAppSelector, useAppDispatch } from '@/hooks/useRedux';
@@ -9,15 +8,15 @@ import { addBusinessListing } from '@/store/slices/businessListingsSlice';
 import { toast } from '@/hooks/use-toast';
 
 interface UseBusinessListingsWithReduxReturn {
-  listings: HeaderBusinessListing[];
+  listings: BusinessListing[];
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
-  addNewListing: (business: HeaderBusinessListing) => void;
+  addNewListing: (business: BusinessListing) => void;
 }
 
 export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxReturn => {
-  const [apiListings, setApiListings] = useState<HeaderBusinessListing[]>([]);
+  const [apiListings, setApiListings] = useState<BusinessListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { accessToken, isInitialized, hasAttemptedRefresh, refreshAccessToken } = useAuthRedux();
@@ -25,20 +24,8 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   const dispatch = useAppDispatch();
   const { userAddedListings } = useAppSelector(state => state.businessListings);
 
-  // Transform store listings back to header format for display
-  const transformToHeaderListing = (listing: StoreBusinessListing): HeaderBusinessListing => ({
-    id: listing.id,
-    name: listing.name,
-    address: listing.address,
-    type: listing.category || listing.type,
-    zipcode: listing.zipcode,
-    active: listing.active,
-    status: listing.active === "1" ? 'Active' : 'Pending'
-  });
-
   // Combine user-added listings first, then API listings (user-added at top)
-  const transformedUserListings = userAddedListings.map(transformToHeaderListing);
-  const allListings = [...transformedUserListings, ...apiListings];
+  const allListings = [...userAddedListings, ...apiListings];
 
   const fetchListings = async (retryCount = 0) => {
     try {
@@ -84,7 +71,7 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
     }
   };
 
-  const addNewListing = (business: HeaderBusinessListing) => {
+  const addNewListing = (business: BusinessListing) => {
     console.log('📋➕ useBusinessListingsWithRedux: Attempting to add business listing:', business.name);
     
     // Check if business already exists in combined listings (by ID)

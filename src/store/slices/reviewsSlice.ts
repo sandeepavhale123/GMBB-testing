@@ -1,192 +1,162 @@
-
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { reviewService } from '../../services/reviewService';
-import type { 
-  GetReviewsRequest as ServiceGetReviewsRequest, 
-  GetReviewsResponse as ServiceGetReviewsResponse, 
-  Review as ServiceReview, 
-  PaginationResponse as ServicePaginationResponse 
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { 
+  reviewService, 
+  SummaryCards, 
+  StarDistribution, 
+  SentimentAnalysis,
+  Review,
+  PaginationResponse,
+  GetReviewsRequest
 } from '../../services/reviewService';
 
-export interface PaginationParams {
-  page: number;
-  limit: number;
-  offset: number;
-}
-
-export interface FilterParams {
-  search: string;
-  status: string;
-  dateRange: {
-    startDate: string;
-    endDate: string;
-  };
-  rating: {
-    min: number;
-    max: number;
-  };
-  sentiment: string;
-  listingId: string;
-}
-
-export interface SortingParams {
-  sortBy: string;
-  sortOrder: 'asc' | 'desc';
-}
-
-interface SummaryCards {
-  total_reviews: number;
-  pending_replies: number;
-  ai_replies: number;
-  manual_replies: number;
-  overall_rating: number;
-}
-
-interface StarDistribution {
-  [key: string]: {
-    count: number;
-    percentage: number;
-  };
-}
-
-interface SentimentAnalysis {
-  positive: { count: number; percentage: number };
-  neutral: { count: number; percentage: number };
-  negative: { count: number; percentage: number };
+interface DateRange {
+  startDate?: string;
+  endDate?: string;
 }
 
 interface ReviewsState {
-  reviews: ServiceReview[];
-  pagination: ServicePaginationResponse | null;
-  reviewsLoading: boolean;
-  reviewsError: string | null;
-  filter: string;
-  searchQuery: string;
-  sortBy: string;
-  sortOrder: 'asc' | 'desc';
-  sentimentFilter: string;
-  dateRange: {
-    startDate: string;
-    endDate: string;
-  };
-  currentPage: number;
-  pageSize: number;
+  // Existing summary data
   summaryCards: SummaryCards | null;
   starDistribution: StarDistribution | null;
   sentimentAnalysis: SentimentAnalysis | null;
   summaryLoading: boolean;
   summaryError: string | null;
+  
+  // Reviews list data
+  reviews: Review[];
+  pagination: PaginationResponse | null;
+  reviewsLoading: boolean;
+  reviewsError: string | null;
+  
+  // Filter and search state
+  filter: 'all' | 'pending' | 'replied';
+  searchQuery: string;
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+  sentimentFilter: string;
+  dateRange: DateRange;
+  currentPage: number;
+  pageSize: number;
 }
 
+// Async thunk for fetching review summary
+export const fetchReviewSummary = createAsyncThunk(
+  'reviews/fetchSummary',
+  async (listingId: string, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.getReviewSummary(listingId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch review summary');
+    }
+  }
+);
+
+// Async thunk for fetching reviews
+export const fetchReviews = createAsyncThunk(
+  'reviews/fetchReviews',
+  async (params: GetReviewsRequest, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.getReviews(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch reviews');
+    }
+  }
+);
+
 const initialState: ReviewsState = {
-  reviews: [],
-  pagination: null,
-  reviewsLoading: false,
-  reviewsError: null,
-  filter: 'all',
-  searchQuery: '',
-  sortBy: 'newest',
-  sortOrder: 'desc',
-  sentimentFilter: 'all',
-  dateRange: {
-    startDate: '',
-    endDate: ''
-  },
-  currentPage: 1,
-  pageSize: 10,
+  // Summary state
   summaryCards: null,
   starDistribution: null,
   sentimentAnalysis: null,
   summaryLoading: false,
   summaryError: null,
+  
+  // Reviews state
+  reviews: [],
+  pagination: null,
+  reviewsLoading: false,
+  reviewsError: null,
+  
+  // Filter state
+  filter: 'all',
+  searchQuery: '',
+  sortBy: 'newest',
+  sortOrder: 'desc',
+  sentimentFilter: 'all',
+  dateRange: {},
+  currentPage: 1,
+  pageSize: 10,
 };
-
-export const fetchReviews = createAsyncThunk(
-  'reviews/fetchReviews',
-  async (params: ServiceGetReviewsRequest) => {
-    const response = await reviewService.getReviews(params);
-    return response.data;
-  }
-);
-
-export const fetchReviewSummary = createAsyncThunk(
-  'reviews/fetchReviewSummary',
-  async (listingId: string) => {
-    return {
-      summaryCards: {
-        total_reviews: 342,
-        pending_replies: 12,
-        ai_replies: 89,
-        manual_replies: 241,
-        overall_rating: 4.6
-      },
-      starDistribution: {
-        '5': { count: 186, percentage: 54 },
-        '4': { count: 89, percentage: 26 },
-        '3': { count: 34, percentage: 10 },
-        '2': { count: 20, percentage: 6 },
-        '1': { count: 13, percentage: 4 }
-      },
-      sentimentAnalysis: {
-        positive: { count: 275, percentage: 80 },
-        neutral: { count: 34, percentage: 10 },
-        negative: { count: 33, percentage: 10 }
-      }
-    };
-  }
-);
-
-export const replyToReview = createAsyncThunk(
-  'reviews/replyToReview',
-  async ({ reviewId, replyText }: { reviewId: string; replyText: string }) => {
-    return { reviewId, replyText };
-  }
-);
 
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState,
   reducers: {
-    setFilter: (state, action: PayloadAction<string>) => {
+    setFilter: (state, action) => {
       state.filter = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 1; // Reset to first page when filter changes
     },
-    setSearchQuery: (state, action: PayloadAction<string>) => {
+    setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 1; // Reset to first page when search changes
     },
-    setSortBy: (state, action: PayloadAction<string>) => {
+    setSortBy: (state, action) => {
       state.sortBy = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 1; // Reset to first page when sort changes
     },
-    setSortOrder: (state, action: PayloadAction<'asc' | 'desc'>) => {
+    setSortOrder: (state, action) => {
       state.sortOrder = action.payload;
-      state.currentPage = 1;
     },
-    setSentimentFilter: (state, action: PayloadAction<string>) => {
+    setSentimentFilter: (state, action) => {
       state.sentimentFilter = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 1; // Reset to first page when sentiment filter changes
     },
-    setDateRange: (state, action: PayloadAction<{ startDate: string; endDate: string }>) => {
+    setDateRange: (state, action) => {
       state.dateRange = action.payload;
-      state.currentPage = 1;
+      state.currentPage = 1; // Reset to first page when date range changes
     },
     clearDateRange: (state) => {
-      state.dateRange = { startDate: '', endDate: '' };
+      state.dateRange = {};
       state.currentPage = 1;
     },
-    setCurrentPage: (state, action: PayloadAction<number>) => {
+    setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
+    },
+    replyToReview: (state, action) => {
+      const review = state.reviews.find(r => r.id === action.payload.reviewId);
+      if (review) {
+        review.replied = true;
+        review.reply_text = action.payload.replyText;
+        review.reply_date = new Date().toISOString();
+      }
+    },
+    clearSummaryError: (state) => {
+      state.summaryError = null;
     },
     clearReviewsError: (state) => {
       state.reviewsError = null;
     },
-    clearSummaryError: (state) => {
-      state.summaryError = null;
-    }
   },
   extraReducers: (builder) => {
     builder
+      // Summary cases
+      .addCase(fetchReviewSummary.pending, (state) => {
+        state.summaryLoading = true;
+        state.summaryError = null;
+      })
+      .addCase(fetchReviewSummary.fulfilled, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryCards = action.payload.summary_cards;
+        state.starDistribution = action.payload.star_distribution;
+        state.sentimentAnalysis = action.payload.sentiment_analysis;
+      })
+      .addCase(fetchReviewSummary.rejected, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryError = action.payload as string;
+      })
+      // Reviews cases
       .addCase(fetchReviews.pending, (state) => {
         state.reviewsLoading = true;
         state.reviewsError = null;
@@ -198,48 +168,23 @@ const reviewsSlice = createSlice({
       })
       .addCase(fetchReviews.rejected, (state, action) => {
         state.reviewsLoading = false;
-        state.reviewsError = action.error.message || 'Failed to fetch reviews';
-      })
-      .addCase(fetchReviewSummary.pending, (state) => {
-        state.summaryLoading = true;
-        state.summaryError = null;
-      })
-      .addCase(fetchReviewSummary.fulfilled, (state, action) => {
-        state.summaryLoading = false;
-        state.summaryCards = action.payload.summaryCards;
-        state.starDistribution = action.payload.starDistribution;
-        state.sentimentAnalysis = action.payload.sentimentAnalysis;
-      })
-      .addCase(fetchReviewSummary.rejected, (state, action) => {
-        state.summaryLoading = false;
-        state.summaryError = action.error.message || 'Failed to fetch review summary';
-      })
-      .addCase(replyToReview.fulfilled, (state, action) => {
-        const { reviewId, replyText } = action.payload;
-        const review = state.reviews.find(r => r.id === reviewId);
-        if (review) {
-          review.replied = true;
-          review.reply_text = replyText;
-          review.reply_date = new Date().toISOString();
-        }
-      })
-      .addCase('RESET_STORE', () => {
-        return initialState;
+        state.reviewsError = action.payload as string;
       });
   },
 });
 
-export const {
-  setFilter,
+export const { 
+  setFilter, 
   setSearchQuery,
   setSortBy,
   setSortOrder,
   setSentimentFilter,
-  setDateRange,
-  clearDateRange,
+  setDateRange, 
+  clearDateRange, 
   setCurrentPage,
-  clearReviewsError,
-  clearSummaryError
+  replyToReview, 
+  clearSummaryError,
+  clearReviewsError
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;
