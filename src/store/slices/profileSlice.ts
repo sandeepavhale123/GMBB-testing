@@ -89,7 +89,7 @@ const profileSlice = createSlice({
         state.isUpdating = false;
         // Update local state with new data
         if (state.data) {
-          state.data.first_name = action.payload.first_name;
+          state.data.frist_name = action.payload.first_name;
           state.data.last_name = action.payload.last_name;
           state.data.timezone = action.payload.timezone;
           state.data.username = action.payload.username;
