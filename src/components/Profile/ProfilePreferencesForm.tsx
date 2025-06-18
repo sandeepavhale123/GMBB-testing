@@ -85,7 +85,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
           {/* Dashboard Type */}
           <div>
             <Label htmlFor="dashboardType" className="text-gray-700 font-medium">Dashboard Type</Label>
-            <Select value={formData.dashboardType} onValueChange={(value) => onInputChange('dashboardType', value)}>
+            <Select value='0' onValueChange={(value) => onInputChange('dashboardType', value)}>
               <SelectTrigger className="mt-1 h-10">
                 <SelectValue />
               </SelectTrigger>
