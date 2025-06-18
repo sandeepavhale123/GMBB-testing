@@ -45,11 +45,84 @@ export interface ReviewSummaryResponse {
   };
 }
 
+// New interfaces for get-reviews API
+export interface PaginationParams {
+  page: number;
+  limit: number;
+  offset: number;
+}
+
+export interface FilterParams {
+  search: string;
+  status: string;
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
+  rating: {
+    min: number;
+    max: number;
+  };
+  sentiment: string;
+  listingId: string;
+}
+
+export interface SortingParams {
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface GetReviewsRequest {
+  pagination: PaginationParams;
+  filters: FilterParams;
+  sorting: SortingParams;
+}
+
+export interface Review {
+  id: string;
+  listingId: string;
+  accountId: string;
+  customer_name: string;
+  rating: number;
+  comment: string;
+  date: string;
+  reply_text: string;
+  reply_date: string;
+  profile_image_url: string;
+  platform: string;
+  is_new: boolean;
+  replied: boolean;
+  reply_type: string;
+}
+
+export interface PaginationResponse {
+  page: number;
+  limit: number;
+  total: number;
+  total_pages: number;
+  has_next: boolean;
+  has_prev: boolean;
+}
+
+export interface GetReviewsResponse {
+  code: number;
+  message: string;
+  data: {
+    reviews: Review[];
+    pagination: PaginationResponse;
+  };
+}
+
 export const reviewService = {
   getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
     const response = await axiosInstance.post('/v1/get-review-summary', {
       listingId
     });
+    return response.data;
+  },
+
+  getReviews: async (params: GetReviewsRequest): Promise<GetReviewsResponse> => {
+    const response = await axiosInstance.post('/v1/get-reviews', params);
     return response.data;
   }
 };
