@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -20,21 +19,27 @@ import {
   setCurrentPage,
   replyToReview,
   fetchReviews,
-  clearReviewsError
+  clearReviewsError,
+  sendReviewReply,
+  clearReplyError
 } from '../../store/slices/reviewsSlice';
 import { AIReplyGenerator } from './AIReplyGenerator';
 import { ReviewsEmptyState } from './ReviewsEmptyState';
 import { DateRange } from 'react-day-picker';
 import { format, subDays } from 'date-fns';
+import { useToast } from '../../hooks/use-toast';
 
 export const ReviewsList: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const { selectedListing } = useListingContext();
   const {
     reviews,
     pagination,
     reviewsLoading,
     reviewsError,
+    replyLoading,
+    replyError,
     filter,
     searchQuery,
     sortBy,
@@ -106,6 +111,24 @@ export const ReviewsList: React.FC = () => {
     }
   }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy]);
 
+  // Show toast for reply errors
+  useEffect(() => {
+    if (replyError) {
+      toast({
+        title: "Error Sending Reply",
+        description: replyError,
+        variant: "destructive"
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearReplyError());
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [replyError, toast, dispatch]);
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star 
@@ -148,15 +171,38 @@ export const ReviewsList: React.FC = () => {
     setReplyText(review?.reply_text || '');
   };
 
-  const handleSaveReply = (reviewId: string, reply?: string) => {
-    dispatch(replyToReview({ 
-      reviewId, 
-      replyText: reply || replyText 
-    }));
-    setEditingReply(null);
-    setShowingAIGenerator(null);
-    setReplyText('');
-    console.log('Saving reply for review:', reviewId, reply || replyText);
+  const handleSaveReply = async (reviewId: string, reply?: string) => {
+    const finalReplyText = reply || replyText;
+    
+    if (!finalReplyText.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a reply message",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      await dispatch(sendReviewReply({
+        reviewId: parseInt(reviewId),
+        replyText: finalReplyText,
+        replyType: 'manual'
+      })).unwrap();
+      
+      setEditingReply(null);
+      setShowingAIGenerator(null);
+      setReplyText('');
+      
+      toast({
+        title: "Success",
+        description: "Reply sent successfully",
+        variant: "default"
+      });
+    } catch (error) {
+      // Error will be handled by the useEffect above
+      console.error('Failed to send reply:', error);
+    }
   };
 
   const handleCancelAIGenerator = () => {
@@ -372,10 +418,19 @@ export const ReviewsList: React.FC = () => {
                             rows={3} 
                           />
                           <div className="flex flex-wrap gap-2 mt-3">
-                            <Button size="sm" onClick={() => handleSaveReply(review.id)}>
-                              Save Reply
+                            <Button 
+                              size="sm" 
+                              onClick={() => handleSaveReply(review.id)}
+                              disabled={replyLoading}
+                            >
+                              {replyLoading ? 'Sending...' : 'Save Reply'}
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => setEditingReply(null)}>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              onClick={() => setEditingReply(null)}
+                              disabled={replyLoading}
+                            >
                               Cancel
                             </Button>
                           </div>

@@ -6,7 +6,8 @@ import {
   SentimentAnalysis,
   Review,
   PaginationResponse,
-  GetReviewsRequest
+  GetReviewsRequest,
+  SendReplyRequest
 } from '../../services/reviewService';
 
 interface DateRange {
@@ -27,6 +28,10 @@ interface ReviewsState {
   pagination: PaginationResponse | null;
   reviewsLoading: boolean;
   reviewsError: string | null;
+  
+  // Reply state
+  replyLoading: boolean;
+  replyError: string | null;
   
   // Filter and search state
   filter: 'all' | 'pending' | 'replied';
@@ -65,6 +70,19 @@ export const fetchReviews = createAsyncThunk(
   }
 );
 
+// Async thunk for sending review reply
+export const sendReviewReply = createAsyncThunk(
+  'reviews/sendReply',
+  async (params: SendReplyRequest, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.sendReviewReply(params);
+      return { ...response, reviewId: params.reviewId, replyText: params.replyText };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to send review reply');
+    }
+  }
+);
+
 const initialState: ReviewsState = {
   // Summary state
   summaryCards: null,
@@ -78,6 +96,10 @@ const initialState: ReviewsState = {
   pagination: null,
   reviewsLoading: false,
   reviewsError: null,
+  
+  // Reply state
+  replyLoading: false,
+  replyError: null,
   
   // Filter state
   filter: 'all',
@@ -138,6 +160,9 @@ const reviewsSlice = createSlice({
     clearReviewsError: (state) => {
       state.reviewsError = null;
     },
+    clearReplyError: (state) => {
+      state.replyError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -169,6 +194,26 @@ const reviewsSlice = createSlice({
       .addCase(fetchReviews.rejected, (state, action) => {
         state.reviewsLoading = false;
         state.reviewsError = action.payload as string;
+      })
+      // Reply cases
+      .addCase(sendReviewReply.pending, (state) => {
+        state.replyLoading = true;
+        state.replyError = null;
+      })
+      .addCase(sendReviewReply.fulfilled, (state, action) => {
+        state.replyLoading = false;
+        // Update the specific review in the list
+        const review = state.reviews.find(r => r.id === action.payload.reviewId.toString());
+        if (review) {
+          review.replied = true;
+          review.reply_text = action.payload.replyText;
+          review.reply_date = new Date().toISOString();
+          review.reply_type = 'manual';
+        }
+      })
+      .addCase(sendReviewReply.rejected, (state, action) => {
+        state.replyLoading = false;
+        state.replyError = action.payload as string;
       });
   },
 });
@@ -184,7 +229,8 @@ export const {
   setCurrentPage,
   replyToReview, 
   clearSummaryError,
-  clearReviewsError
+  clearReviewsError,
+  clearReplyError
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;
