@@ -33,6 +33,10 @@ export const useProfile = () => {
     dispatch(clearErrors());
   };
 
+  const getStoredPassword = () => {
+    return profileData?.password || '';
+  };
+
   return {
     profileData,
     timezones,
@@ -42,6 +46,7 @@ export const useProfile = () => {
     error,
     updateError,
     updateProfile,
-    clearProfileErrors
+    clearProfileErrors,
+    getStoredPassword
   };
 };

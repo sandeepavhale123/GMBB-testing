@@ -1,4 +1,3 @@
-
 import axiosInstance from '../api/axiosInstance';
 
 export interface ProfileData {
@@ -11,6 +10,7 @@ export interface ProfileData {
   timezone: string;
   planExpDate: string;
   planName: string;
+  password: string; // Add password field
 }
 
 export interface UpdateProfileData {
@@ -47,11 +47,8 @@ export const profileService = {
     await axiosInstance.post('/v1/update-profile', profileData);
   },
 
-  
-  // In a real implementation, you'd have a separate endpoint for password verification
-  verifyCurrentPassword: async (data: VerifyPasswordData): Promise<boolean> => {
-    // For now, simulate password verification
-    // In production, this should call an actual verification endpoint
-    return true;
+  verifyCurrentPassword: async (data: VerifyPasswordData, storedPassword: string): Promise<boolean> => {
+    // Compare the entered password with the stored password from profile data
+    return data.currentPassword === storedPassword;
   }
 };

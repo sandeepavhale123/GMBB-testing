@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Lock } from 'lucide-react';
@@ -17,7 +18,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
   onClose
 }) => {
   const { toast } = useToast();
-  const { profileData, updateProfile, isUpdating } = useProfile();
+  const { profileData, updateProfile, isUpdating, getStoredPassword } = useProfile();
   const [step, setStep] = useState<'current' | 'new'>('current');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -43,7 +44,8 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setIsVerifying(true);
     
     try {
-      const isValid = await profileService.verifyCurrentPassword({ currentPassword });
+      const storedPassword = getStoredPassword();
+      const isValid = await profileService.verifyCurrentPassword({ currentPassword }, storedPassword);
       
       if (isValid) {
         setStep('new');
