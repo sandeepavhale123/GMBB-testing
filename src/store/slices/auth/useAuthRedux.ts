@@ -1,3 +1,4 @@
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
 import { useNavigate } from "react-router-dom";
@@ -115,6 +116,12 @@ export const useAuthRedux = () => {
       });
 
       if (!response.ok) {
+        // Check if it's a 401/403 indicating expired refresh token
+        if (response.status === 401 || response.status === 403) {
+          console.log("Refresh token expired, triggering logout");
+          logout();
+          return false;
+        }
         throw new Error(`Refresh failed with status: ${response.status}`);
       }
 
@@ -146,12 +153,8 @@ export const useAuthRedux = () => {
     } catch (error) {
       console.error("Token refresh failed:", error);
 
-      // Clear invalid tokens
-      dispatch(setAccessToken(null));
-      dispatch(setUser(null));
-      sessionStorage.removeItem("refresh_token");
-      sessionStorage.removeItem("userId");
-
+      // Clear invalid tokens and trigger complete logout
+      logout();
       return false;
     } finally {
       dispatch(setIsRefreshing(false));
@@ -159,7 +162,15 @@ export const useAuthRedux = () => {
   };
 
   const logout = () => {
-    dispatch(logoutAction());
+    console.log("Logout triggered - clearing all state and redirecting");
+    
+    // Dispatch auth logout action
+    dispatch(logoutAction({ meta: { resetStore: false } }));
+    
+    // Dispatch global store reset
+    dispatch({ type: 'RESET_STORE' });
+    
+    // Redirect to login
     window.location.href = "/login";
   };
 

@@ -82,6 +82,14 @@ const businessListingsSlice = createSlice({
       console.log('🧹 Cleared all user business listings');
     }
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase({ type: 'RESET_STORE' }, (state) => {
+        // Clear localStorage when resetting store
+        localStorage.removeItem('userBusinessListings');
+        return initialState;
+      });
+  },
 });
 
 export const { 

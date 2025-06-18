@@ -161,6 +161,12 @@ const dashboardSlice = createSlice({
       state.quickWins = state.quickWins.filter(win => win.id !== action.payload);
     }
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
+      });
+  },
 });
 
 export const { updateMetrics, setPeriod, completeQuickWin } = dashboardSlice.actions;

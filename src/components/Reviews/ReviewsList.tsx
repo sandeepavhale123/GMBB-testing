@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -8,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { DateRangePicker } from '../ui/date-range-picker';
 import { Search, Star, Bot, MessageSquare, Edit3, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { useDebounce } from '../../hooks/useDebounce';
 import { useListingContext } from '../../context/ListingContext';
 import { 
   setFilter, 
@@ -49,6 +49,17 @@ export const ReviewsList: React.FC = () => {
   const [replyText, setReplyText] = useState('');
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
+
+  // Debounce search query with 3 seconds delay
+  const debouncedSearchQuery = useDebounce(localSearchQuery, 3000);
+
+  // Update Redux state when debounced value changes
+  useEffect(() => {
+    if (debouncedSearchQuery !== searchQuery) {
+      dispatch(setSearchQuery(debouncedSearchQuery));
+    }
+  }, [debouncedSearchQuery, searchQuery, dispatch]);
 
   // Set default 90-day date range on component mount
   useEffect(() => {
@@ -181,7 +192,7 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleSearchChange = (value: string) => {
-    dispatch(setSearchQuery(value));
+    setLocalSearchQuery(value);
   };
 
   const handleSortChange = (value: string) => {
@@ -222,7 +233,7 @@ export const ReviewsList: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input 
               placeholder="Search reviews..." 
-              value={searchQuery} 
+              value={localSearchQuery} 
               onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-10" 
             />

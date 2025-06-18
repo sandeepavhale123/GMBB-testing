@@ -100,6 +100,10 @@ const profileSlice = createSlice({
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isUpdating = false;
         state.updateError = action.error.message || 'Failed to update profile';
+      })
+      // Global store reset
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
       });
   },
 });

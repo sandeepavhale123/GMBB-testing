@@ -22,6 +22,12 @@ const themeSlice = createSlice({
       state.accentColor = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
+      });
+  },
 });
 
 export const { toggleTheme, setAccentColor } = themeSlice.actions;

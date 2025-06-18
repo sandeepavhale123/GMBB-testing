@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
@@ -70,7 +71,8 @@ const authSlice = createSlice({
       state.isInitialized = true;
       state.hasAttemptedRefresh = true;
     },
-    logout: (state) => {
+    logout: (state, action) => {
+      // Reset auth state
       state.accessToken = null;
       state.user = null;
       state.isLoading = false;
@@ -83,6 +85,11 @@ const authSlice = createSlice({
       sessionStorage.removeItem("user");
       sessionStorage.removeItem("refresh_token");
       sessionStorage.removeItem("userId");
+
+      // Dispatch global store reset if not already being handled
+      if (action.meta?.resetStore !== false) {
+        // This will be handled by the thunk
+      }
     },
   },
 });

@@ -1,3 +1,4 @@
+
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
@@ -124,16 +125,20 @@ axiosInstance.interceptors.response.use(
           throw new Error("Token refresh failed");
         }
       } catch (refreshError) {
-        console.error("Token refresh failed:", refreshError);
+        console.error("Axios: Token refresh failed, clearing state and redirecting");
         processQueue(refreshError, null);
 
-        // Clear tokens and redirect to login
-        if (handleLogout) {
-          handleLogout();
-        } else {
-          store.dispatch(logout());
-          window.location.href = "/login"; // Fallback redirect
-        }
+        // Dispatch global store reset and logout
+        store.dispatch({ type: 'RESET_STORE' });
+        store.dispatch(logout());
+        
+        // Clear any remaining storage
+        sessionStorage.clear();
+        localStorage.removeItem('userBusinessListings');
+        
+        // Redirect to login
+        window.location.href = "/login";
+        
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

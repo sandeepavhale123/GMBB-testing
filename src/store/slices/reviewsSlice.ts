@@ -1,3 +1,4 @@
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { 
   reviewService, 
@@ -169,6 +170,10 @@ const reviewsSlice = createSlice({
       .addCase(fetchReviews.rejected, (state, action) => {
         state.reviewsLoading = false;
         state.reviewsError = action.payload as string;
+      })
+      // Global store reset
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
       });
   },
 });

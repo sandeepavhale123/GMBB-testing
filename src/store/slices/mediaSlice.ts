@@ -50,6 +50,12 @@ const mediaSlice = createSlice({
       state.media.unshift(action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
+      });
+  },
 });
 
 export const { setSelectedBusiness, addMedia } = mediaSlice.actions;

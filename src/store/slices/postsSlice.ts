@@ -63,6 +63,12 @@ const postsSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase({ type: 'RESET_STORE' }, () => {
+        return initialState;
+      });
+  },
 });
 
 export const { setFilter, addPost, updatePost } = postsSlice.actions;
