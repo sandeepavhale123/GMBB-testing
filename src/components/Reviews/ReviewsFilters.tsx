@@ -4,7 +4,7 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { DateRangePicker } from '../ui/date-range-picker';
 import { Button } from '../ui/button';
-import { Search, X } from 'lucide-react';
+import { Search, X, RefreshCw } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
 interface ReviewsFiltersProps {
@@ -14,12 +14,14 @@ interface ReviewsFiltersProps {
   sortBy: string;
   localDateRange: DateRange | undefined;
   hasDateRange: boolean;
+  isRefreshing?: boolean;
   onSearchChange: (value: string) => void;
   onFilterChange: (value: string) => void;
   onSentimentFilterChange: (value: string) => void;
   onSortChange: (value: string) => void;
   onDateRangeChange: (range: DateRange | undefined) => void;
   onClearDateRange: () => void;
+  onRefresh?: () => void;
 }
 
 export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
@@ -29,12 +31,14 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
   sortBy,
   localDateRange,
   hasDateRange,
+  isRefreshing = false,
   onSearchChange,
   onFilterChange,
   onSentimentFilterChange,
   onSortChange,
   onDateRangeChange,
-  onClearDateRange
+  onClearDateRange,
+  onRefresh
 }) => {
   return (
     <div className="flex flex-wrap items-center gap-3 mt-4">
@@ -90,16 +94,30 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         className="w-[200px]"
       />
       
-      {hasDateRange && (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClearDateRange}
-          className="px-2"
-        >
-          <X className="w-4 h-4" />
-        </Button>
-      )}
+      <div className="flex items-center gap-2">
+        {hasDateRange && (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onClearDateRange}
+            aria-label="Clear date range"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+        )}
+        
+        {onRefresh && (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            aria-label="Refresh reviews"
+          >
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

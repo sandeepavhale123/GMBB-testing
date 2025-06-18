@@ -32,6 +32,10 @@ export interface ReviewsState {
   replyLoading: boolean;
   replyError: string | null;
   
+  // Delete reply state
+  deleteReplyLoading: boolean;
+  deleteReplyError: string | null;
+  
   // Filter and search state
   filter: 'all' | 'pending' | 'replied';
   searchQuery: string;

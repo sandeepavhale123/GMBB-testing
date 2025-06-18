@@ -1,6 +1,6 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { reviewService } from '../../../services/reviewService';
+import { review as reviewService } from '../../../services/reviewService';
 import { GetReviewsRequest, SendReplyRequest } from './types';
 
 // Async thunk for fetching review summary
@@ -38,6 +38,19 @@ export const sendReviewReply = createAsyncThunk(
       return { ...response, reviewId: params.reviewId, replyText: params.replyText };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to send review reply');
+    }
+  }
+);
+
+// Async thunk for deleting review reply
+export const deleteReviewReply = createAsyncThunk(
+  'reviews/deleteReply',
+  async (reviewId: string, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.deleteReviewReply(reviewId);
+      return { ...response, reviewId };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to delete review reply');
     }
   }
 );

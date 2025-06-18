@@ -1,7 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { ReviewsState } from './types';
-import { fetchReviewSummary, fetchReviews, sendReviewReply } from './thunks';
+import { fetchReviewSummary, fetchReviews, sendReviewReply, deleteReviewReply } from './thunks';
 
 const initialState: ReviewsState = {
   // Summary state
@@ -20,6 +20,8 @@ const initialState: ReviewsState = {
   // Reply state
   replyLoading: false,
   replyError: null,
+  deleteReplyLoading: false,
+  deleteReplyError: null,
   
   // Filter state
   filter: 'all',
@@ -83,6 +85,9 @@ const reviewsSlice = createSlice({
     clearReplyError: (state) => {
       state.replyError = null;
     },
+    clearDeleteReplyError: (state) => {
+      state.deleteReplyError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -134,6 +139,26 @@ const reviewsSlice = createSlice({
       .addCase(sendReviewReply.rejected, (state, action) => {
         state.replyLoading = false;
         state.replyError = action.payload as string;
+      })
+      // Delete reply cases
+      .addCase(deleteReviewReply.pending, (state) => {
+        state.deleteReplyLoading = true;
+        state.deleteReplyError = null;
+      })
+      .addCase(deleteReviewReply.fulfilled, (state, action) => {
+        state.deleteReplyLoading = false;
+        // Update the specific review in the list to remove the reply
+        const review = state.reviews.find(r => r.id === action.payload.reviewId);
+        if (review) {
+          review.replied = false;
+          review.reply_text = '';
+          review.reply_date = '';
+          review.reply_type = '';
+        }
+      })
+      .addCase(deleteReviewReply.rejected, (state, action) => {
+        state.deleteReplyLoading = false;
+        state.deleteReplyError = action.payload as string;
       });
   },
 });
@@ -150,7 +175,8 @@ export const {
   replyToReview, 
   clearSummaryError,
   clearReviewsError,
-  clearReplyError
+  clearReplyError,
+  clearDeleteReplyError
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

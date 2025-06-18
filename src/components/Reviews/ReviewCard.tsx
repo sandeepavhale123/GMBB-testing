@@ -2,19 +2,32 @@
 import React from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Star, Bot, MessageSquare, Edit3 } from 'lucide-react';
+import { Star, Bot, MessageSquare, Edit3, Trash2 } from 'lucide-react';
 import { Review } from '../../services/reviewService';
 import { AIReplyGenerator } from './AIReplyGenerator';
 import { ReviewReplyForm } from './ReviewReplyForm';
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
 
 interface ReviewCardProps {
   review: Review;
   editingReply: string | null;
   showingAIGenerator: string | null;
   replyLoading: boolean;
+  deleteLoading?: boolean;
   onGenerateReply: (reviewId: string) => void;
   onManualReply: (reviewId: string) => void;
   onSaveReply: (reviewId: string, reply?: string) => void;
+  onDeleteReply?: (reviewId: string) => void;
   onCancelAIGenerator: () => void;
 }
 
@@ -23,9 +36,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   editingReply,
   showingAIGenerator,
   replyLoading,
+  deleteLoading,
   onGenerateReply,
   onManualReply,
   onSaveReply,
+  onDeleteReply,
   onCancelAIGenerator
 }) => {
   const renderStars = (rating: number) => {
@@ -152,10 +167,46 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
               </>
             )}
             {review.replied && editingReply !== review.id && showingAIGenerator !== review.id && (
-              <Button size="sm" variant="outline" onClick={() => onManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
-                <Edit3 className="w-4 h-4" />
-                Edit Reply
-              </Button>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => onManualReply(review.id)} className="flex items-center gap-1 text-xs sm:text-sm">
+                  <Edit3 className="w-4 h-4" />
+                  Edit Reply
+                </Button>
+                
+                {onDeleteReply && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="flex items-center gap-1 text-xs sm:text-sm border-red-200 text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span className="hidden sm:inline">Delete Reply</span>
+                        <span className="sm:hidden">Delete</span>
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete this reply?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. The reply will be permanently removed.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction 
+                          onClick={() => onDeleteReply(review.id)}
+                          disabled={deleteLoading}
+                          className="bg-red-600 hover:bg-red-700"
+                        >
+                          {deleteLoading ? 'Deleting...' : 'Delete'}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             )}
           </div>
         </div>
