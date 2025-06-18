@@ -1,17 +1,4 @@
-
-import { createSlice } from '@reduxjs/toolkit';
-
-interface BusinessProfile {
-  name: string;
-  address: string;
-  avatar: string;
-  lastUpdated: string;
-}
-
-interface HealthScore {
-  score: number;
-  status: 'good' | 'warning' | 'critical';
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface QuickWin {
   id: string;
@@ -20,154 +7,126 @@ interface QuickWin {
   priority: 'high' | 'medium' | 'low';
 }
 
+interface RecentActivity {
+  id: string;
+  type: 'post' | 'review' | 'media';
+  message: string;
+  timestamp: string;
+}
+
 interface PostStatus {
   live: number;
   scheduled: number;
   failed: number;
 }
 
-interface ReviewBreakdown {
-  5: number;
-  4: number;
-  3: number;
-  2: number;
-  1: number;
+interface QAStats {
+  answered: number;
+  pending: number;
+  responseRate: number;
 }
 
 interface DashboardState {
-  businessProfile: BusinessProfile;
-  totalBusinesses: number;
-  totalPosts: number;
-  totalReviews: number;
-  avgRating: number;
   viewsThisMonth: number;
   clicksThisMonth: number;
   callsThisMonth: number;
   directionsThisMonth: number;
-  messagesThisMonth: number;
-  mediaPosts: number;
-  reviewsResponded: number;
-  qaAnswered: number;
-  healthScore: HealthScore;
-  aiActions: number;
-  manualActions: number;
-  postStatus: PostStatus;
-  reviewBreakdown: ReviewBreakdown;
-  qaStats: {
-    answered: number;
-    pending: number;
-    responseRate: number;
-  };
   quickWins: QuickWin[];
-  searchBreakdown: {
-    desktop: number;
-    mobile: number;
-  };
-  recentActivity: Array<{
-    id: string;
-    type: 'post' | 'review' | 'media' | 'qa';
-    message: string;
-    timestamp: string;
-  }>;
+  recentActivity: RecentActivity[];
+  postStatus: PostStatus;
+  qaStats: QAStats;
   performanceData: Array<{
     date: string;
     views: number;
     clicks: number;
     calls: number;
-    posts: number;
-    mediaResponded: number;
-    reviews: number;
-    qa: number;
   }>;
-  selectedPeriod: '7d' | '30d' | '90d';
 }
 
 const initialState: DashboardState = {
-  businessProfile: {
-    name: 'Downtown Coffee Shop',
-    address: '123 Main St, Downtown, City',
-    avatar: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=100',
-    lastUpdated: '2 hours ago'
-  },
-  totalBusinesses: 12,
-  totalPosts: 156,
-  totalReviews: 324,
-  avgRating: 4.7,
-  viewsThisMonth: 15420,
-  clicksThisMonth: 2180,
-  callsThisMonth: 145,
-  directionsThisMonth: 892,
-  messagesThisMonth: 67,
-  mediaPosts: 89,
-  reviewsResponded: 298,
-  qaAnswered: 45,
-  healthScore: {
-    score: 85,
-    status: 'good'
-  },
-  aiActions: 75,
-  manualActions: 25,
+  viewsThisMonth: 2453,
+  clicksThisMonth: 892,
+  callsThisMonth: 156,
+  directionsThisMonth: 324,
+  quickWins: [
+    {
+      id: '1',
+      title: 'Add business photos',
+      description: 'Upload high-quality photos to showcase your business',
+      priority: 'high'
+    },
+    {
+      id: '2',
+      title: 'Update business hours',
+      description: 'Ensure your hours are accurate for the holidays',
+      priority: 'medium'
+    },
+    {
+      id: '3',
+      title: 'Respond to reviews',
+      description: 'Reply to recent customer reviews',
+      priority: 'high'
+    }
+  ],
+  recentActivity: [
+    {
+      id: '1',
+      type: 'post',
+      message: 'New post published: Weekend Special Offer',
+      timestamp: '2 hours ago'
+    },
+    {
+      id: '2',
+      type: 'review',
+      message: 'New 5-star review received from Sarah M.',
+      timestamp: '4 hours ago'
+    },
+    {
+      id: '3',
+      type: 'media',
+      message: 'Photos uploaded to business gallery',
+      timestamp: '1 day ago'
+    }
+  ],
   postStatus: {
-    live: 12,
-    scheduled: 5,
-    failed: 2
-  },
-  reviewBreakdown: {
-    5: 198,
-    4: 89,
-    3: 25,
-    2: 8,
-    1: 4
+    live: 8,
+    scheduled: 3,
+    failed: 1
   },
   qaStats: {
-    answered: 45,
-    pending: 8,
-    responseRate: 85
+    answered: 24,
+    pending: 3,
+    responseRate: 89
   },
-  quickWins: [
-    { id: '1', title: 'Add business hours', description: 'Complete your profile', priority: 'high' },
-    { id: '2', title: 'Upload new photos', description: 'Keep content fresh', priority: 'medium' },
-    { id: '3', title: 'Respond to reviews', description: '3 pending responses', priority: 'high' }
-  ],
-  searchBreakdown: {
-    desktop: 60,
-    mobile: 40
-  },
-  recentActivity: [
-    { id: '1', type: 'review', message: 'New 5-star review received for Downtown Coffee', timestamp: '2 hours ago' },
-    { id: '2', type: 'post', message: 'Weekly special post published for 3 locations', timestamp: '5 hours ago' },
-    { id: '3', type: 'media', message: 'New photos uploaded to Main Street Bakery', timestamp: '1 day ago' },
-    { id: '4', type: 'qa', message: 'Answered question about opening hours', timestamp: '2 days ago' }
-  ],
   performanceData: [
-    { date: 'Jan', views: 12000, clicks: 1800, calls: 120, posts: 45, mediaResponded: 30, reviews: 85, qa: 12 },
-    { date: 'Feb', views: 13500, clicks: 2100, calls: 135, posts: 52, mediaResponded: 35, reviews: 92, qa: 15 },
-    { date: 'Mar', views: 15420, clicks: 2180, calls: 145, posts: 59, mediaResponded: 38, reviews: 98, qa: 18 }
-  ],
-  selectedPeriod: '30d'
+    { date: 'Jan', views: 1200, clicks: 300, calls: 45 },
+    { date: 'Feb', views: 1800, clicks: 420, calls: 52 },
+    { date: 'Mar', views: 2100, clicks: 580, calls: 68 },
+    { date: 'Apr', views: 2453, clicks: 892, calls: 78 },
+    { date: 'May', views: 2200, clicks: 750, calls: 85 },
+    { date: 'Jun', views: 2800, clicks: 950, calls: 92 }
+  ]
 };
 
 const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {
-    updateMetrics: (state, action) => {
-      Object.assign(state, action.payload);
-    },
-    setPeriod: (state, action) => {
-      state.selectedPeriod = action.payload;
-    },
-    completeQuickWin: (state, action) => {
+    completeQuickWin: (state, action: PayloadAction<string>) => {
       state.quickWins = state.quickWins.filter(win => win.id !== action.payload);
-    }
+    },
+    addRecentActivity: (state, action: PayloadAction<RecentActivity>) => {
+      state.recentActivity.unshift(action.payload);
+      state.recentActivity = state.recentActivity.slice(0, 10);
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase({ type: 'RESET_STORE' }, () => {
+      .addCase('RESET_STORE', () => {
         return initialState;
       });
   },
 });
 
-export const { updateMetrics, setPeriod, completeQuickWin } = dashboardSlice.actions;
+export const { completeQuickWin, addRecentActivity } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

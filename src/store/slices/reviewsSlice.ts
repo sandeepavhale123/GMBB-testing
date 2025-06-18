@@ -1,163 +1,166 @@
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { reviewService, GetReviewsRequest, GetReviewsResponse, Review, PaginationResponse } from '../../services/reviewService';
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  reviewService, 
-  SummaryCards, 
-  StarDistribution, 
-  SentimentAnalysis,
-  Review,
-  PaginationResponse,
-  GetReviewsRequest
-} from '../../services/reviewService';
+export interface PaginationParams {
+  page: number;
+  limit: number;
+  offset: number;
+}
 
-interface DateRange {
-  startDate?: string;
-  endDate?: string;
+export interface FilterParams {
+  search: string;
+  status: string;
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
+  rating: {
+    min: number;
+    max: number;
+  };
+  sentiment: string;
+  listingId: string;
+}
+
+export interface SortingParams {
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface GetReviewsRequest {
+  pagination: PaginationParams;
+  filters: FilterParams;
+  sorting: SortingParams;
+}
+
+export interface Review {
+  id: string;
+  listingId: string;
+  accountId: string;
+  customer_name: string;
+  rating: number;
+  comment: string;
+  date: string;
+  reply_text: string;
+  reply_date: string;
+  profile_image_url: string;
+  platform: string;
+  is_new: boolean;
+  replied: boolean;
+  reply_type: string;
+}
+
+export interface PaginationResponse {
+  page: number;
+  limit: number;
+  total: number;
+  total_pages: number;
+  has_next: boolean;
+  has_prev: boolean;
+}
+
+export interface GetReviewsResponse {
+  code: number;
+  message: string;
+  data: {
+    reviews: Review[];
+    pagination: PaginationResponse;
+  };
 }
 
 interface ReviewsState {
-  // Existing summary data
-  summaryCards: SummaryCards | null;
-  starDistribution: StarDistribution | null;
-  sentimentAnalysis: SentimentAnalysis | null;
-  summaryLoading: boolean;
-  summaryError: string | null;
-  
-  // Reviews list data
   reviews: Review[];
   pagination: PaginationResponse | null;
   reviewsLoading: boolean;
   reviewsError: string | null;
-  
-  // Filter and search state
-  filter: 'all' | 'pending' | 'replied';
+  filter: string;
   searchQuery: string;
   sortBy: string;
   sortOrder: 'asc' | 'desc';
   sentimentFilter: string;
-  dateRange: DateRange;
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
   currentPage: number;
   pageSize: number;
 }
 
-// Async thunk for fetching review summary
-export const fetchReviewSummary = createAsyncThunk(
-  'reviews/fetchSummary',
-  async (listingId: string, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.getReviewSummary(listingId);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch review summary');
-    }
-  }
-);
-
-// Async thunk for fetching reviews
-export const fetchReviews = createAsyncThunk(
-  'reviews/fetchReviews',
-  async (params: GetReviewsRequest, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.getReviews(params);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch reviews');
-    }
-  }
-);
-
 const initialState: ReviewsState = {
-  // Summary state
-  summaryCards: null,
-  starDistribution: null,
-  sentimentAnalysis: null,
-  summaryLoading: false,
-  summaryError: null,
-  
-  // Reviews state
   reviews: [],
   pagination: null,
   reviewsLoading: false,
   reviewsError: null,
-  
-  // Filter state
   filter: 'all',
   searchQuery: '',
   sortBy: 'newest',
   sortOrder: 'desc',
   sentimentFilter: 'all',
-  dateRange: {},
+  dateRange: {
+    startDate: '',
+    endDate: ''
+  },
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 10
 };
+
+export const fetchReviews = createAsyncThunk(
+  'reviews/fetchReviews',
+  async (params: GetReviewsRequest) => {
+    const response = await reviewService.getReviews(params);
+    return response.data;
+  }
+);
+
+export const replyToReview = createAsyncThunk(
+  'reviews/replyToReview',
+  async ({ reviewId, replyText }: { reviewId: string; replyText: string }) => {
+    // Mock API call for now
+    return { reviewId, replyText };
+  }
+);
 
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState,
   reducers: {
-    setFilter: (state, action) => {
+    setFilter: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
-      state.currentPage = 1; // Reset to first page when filter changes
-    },
-    setSearchQuery: (state, action) => {
-      state.searchQuery = action.payload;
-      state.currentPage = 1; // Reset to first page when search changes
-    },
-    setSortBy: (state, action) => {
-      state.sortBy = action.payload;
-      state.currentPage = 1; // Reset to first page when sort changes
-    },
-    setSortOrder: (state, action) => {
-      state.sortOrder = action.payload;
-    },
-    setSentimentFilter: (state, action) => {
-      state.sentimentFilter = action.payload;
-      state.currentPage = 1; // Reset to first page when sentiment filter changes
-    },
-    setDateRange: (state, action) => {
-      state.dateRange = action.payload;
-      state.currentPage = 1; // Reset to first page when date range changes
-    },
-    clearDateRange: (state) => {
-      state.dateRange = {};
       state.currentPage = 1;
     },
-    setCurrentPage: (state, action) => {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+      state.currentPage = 1;
+    },
+    setSortBy: (state, action: PayloadAction<string>) => {
+      state.sortBy = action.payload;
+      state.currentPage = 1;
+    },
+    setSortOrder: (state, action: PayloadAction<'asc' | 'desc'>) => {
+      state.sortOrder = action.payload;
+      state.currentPage = 1;
+    },
+    setSentimentFilter: (state, action: PayloadAction<string>) => {
+      state.sentimentFilter = action.payload;
+      state.currentPage = 1;
+    },
+    setDateRange: (state, action: PayloadAction<{ startDate: string; endDate: string }>) => {
+      state.dateRange = action.payload;
+      state.currentPage = 1;
+    },
+    clearDateRange: (state) => {
+      state.dateRange = { startDate: '', endDate: '' };
+      state.currentPage = 1;
+    },
+    setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
-    },
-    replyToReview: (state, action) => {
-      const review = state.reviews.find(r => r.id === action.payload.reviewId);
-      if (review) {
-        review.replied = true;
-        review.reply_text = action.payload.replyText;
-        review.reply_date = new Date().toISOString();
-      }
-    },
-    clearSummaryError: (state) => {
-      state.summaryError = null;
     },
     clearReviewsError: (state) => {
       state.reviewsError = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
-      // Summary cases
-      .addCase(fetchReviewSummary.pending, (state) => {
-        state.summaryLoading = true;
-        state.summaryError = null;
-      })
-      .addCase(fetchReviewSummary.fulfilled, (state, action) => {
-        state.summaryLoading = false;
-        state.summaryCards = action.payload.summary_cards;
-        state.starDistribution = action.payload.star_distribution;
-        state.sentimentAnalysis = action.payload.sentiment_analysis;
-      })
-      .addCase(fetchReviewSummary.rejected, (state, action) => {
-        state.summaryLoading = false;
-        state.summaryError = action.payload as string;
-      })
-      // Reviews cases
       .addCase(fetchReviews.pending, (state) => {
         state.reviewsLoading = true;
         state.reviewsError = null;
@@ -169,26 +172,32 @@ const reviewsSlice = createSlice({
       })
       .addCase(fetchReviews.rejected, (state, action) => {
         state.reviewsLoading = false;
-        state.reviewsError = action.payload as string;
+        state.reviewsError = action.error.message || 'Failed to fetch reviews';
       })
-      // Global store reset
-      .addCase({ type: 'RESET_STORE' }, () => {
+      .addCase(replyToReview.fulfilled, (state, action) => {
+        const { reviewId, replyText } = action.payload;
+        const review = state.reviews.find(r => r.id === reviewId);
+        if (review) {
+          review.replied = true;
+          review.reply_text = replyText;
+          review.reply_date = new Date().toISOString();
+        }
+      })
+      .addCase('RESET_STORE', () => {
         return initialState;
       });
   },
 });
 
-export const { 
-  setFilter, 
+export const {
+  setFilter,
   setSearchQuery,
   setSortBy,
   setSortOrder,
   setSentimentFilter,
-  setDateRange, 
-  clearDateRange, 
+  setDateRange,
+  clearDateRange,
   setCurrentPage,
-  replyToReview, 
-  clearSummaryError,
   clearReviewsError
 } = reviewsSlice.actions;
 

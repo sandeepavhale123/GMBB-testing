@@ -1,150 +1,115 @@
-
-import { store } from "./../store/store";
-import axios from "axios";
-import { RootState } from "@/store/store";
-import { logout, setAccessToken } from "@/store/slices/auth/authSlice";
-
-const BASE_URL = "https://member.gmbbriefcase.com/api";
-
-const skipAuthRoutes = ["/v1/login", "/v1/refresh-access-token"];
-
-// Auth helper functions - will be injected by useAxiosAuth hook
-let getAccessToken: (() => string | null) | null = null;
-let refreshToken: (() => Promise<boolean>) | null = null;
-let handleLogout: (() => void) | null = null;
-
-export const setAuthHelpers = (
-  getToken: () => string | null,
-  logout: () => void,
-  refresh: () => Promise<boolean>
-) => {
-  getAccessToken = getToken;
-  handleLogout = logout;
-  refreshToken = refresh;
-};
+import axios from 'axios';
+import { store } from '../store/store';
+import { setAccessToken, setIsRefreshing, setHasAttemptedRefresh } from '../store/slices/auth/authSlice';
+import { clearUserListings } from '../store/slices/businessListingsSlice';
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL || 'https://api.example.com',
+  timeout: 10000,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-  // withCredentials: true, // This ensures cookies are sent with requests
 });
 
-// Track ongoing refresh attempts to prevent multiple simultaneous refreshes
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: any) => void;
-  reject: (error?: any) => void;
-}> = [];
-
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
-
-// Request interceptor to add access token
+// Request interceptor to add auth token
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccessToken?.();
-    const isAuthRoute = skipAuthRoutes.some((route) =>
-      config.url?.includes(route)
-    );
-
-    if (token && !isAuthRoute) {
+    const state = store.getState();
+    const token = state.auth.accessToken;
+    
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log(
-      `Making ${config.method?.toUpperCase()} request to ${config.url}`
-    );
+    
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
-// Response interceptor for automatic token refresh
+// Response interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const isAuthRoute = skipAuthRoutes.some((route) =>
-      originalRequest.url?.includes(route)
-    );
-
-    // Only handle 401 errors on non-auth routes
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !isAuthRoute
-    ) {
-      console.log("Axios: 401 error detected, attempting token refresh");
-
-      if (isRefreshing) {
-        // If refresh is already in progress, queue this request
-        console.log("Axios: Token refresh in progress, queueing request");
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then(() => {
-            return axiosInstance(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
-      }
-
+    
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      isRefreshing = true;
+      
+      const state = store.getState();
+      const isRefreshing = state.auth.isRefreshing;
+      
+      if (isRefreshing) {
+        // Wait for the refresh to complete
+        return new Promise((resolve) => {
+          const checkAuth = () => {
+            const currentState = store.getState();
+            if (!currentState.auth.isRefreshing) {
+              const newToken = currentState.auth.accessToken;
+              if (newToken) {
+                originalRequest.headers.Authorization = `Bearer ${newToken}`;
+                resolve(axiosInstance(originalRequest));
+              } else {
+                resolve(Promise.reject(error));
+              }
+            } else {
+              setTimeout(checkAuth, 100);
+            }
+          };
+          checkAuth();
+        });
+      }
+      
+      store.dispatch(setIsRefreshing(true));
+      
       try {
-        if (!refreshToken) {
-          throw new Error("No refresh function available");
-        }
-
-        const success = await refreshToken();
-        if (success) {
-          console.log(
-            "Axios: Token refresh successful, retrying original request"
-          );
-          processQueue(null);
-
-          // Get the new token and retry the original request
-          const newToken = getAccessToken?.();
-          if (newToken) {
-            originalRequest.headers.Authorization = `Bearer ${newToken}`;
-          }
-
-          return axiosInstance(originalRequest);
-        } else {
-          throw new Error("Token refresh failed");
-        }
-      } catch (refreshError) {
-        console.error("Axios: Token refresh failed, clearing state and redirecting");
-        processQueue(refreshError, null);
-
-        // Dispatch global store reset and logout
-        store.dispatch({ type: 'RESET_STORE' });
-        store.dispatch(logout());
+        const refreshToken = sessionStorage.getItem('refresh_token');
+        const userId = sessionStorage.getItem('userId');
         
-        // Clear any remaining storage
+        if (!refreshToken || !userId) {
+          throw new Error('No refresh token available');
+        }
+        
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh-token`, {
+          refresh_token: refreshToken,
+          userId: userId,
+        });
+        
+        const { access_token } = response.data.data;
+        
+        store.dispatch(setAccessToken(access_token));
+        store.dispatch(setIsRefreshing(false));
+        store.dispatch(setHasAttemptedRefresh(true));
+        
+        originalRequest.headers.Authorization = `Bearer ${access_token}`;
+        return axiosInstance(originalRequest);
+        
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        
+        store.dispatch(setIsRefreshing(false));
+        store.dispatch(setHasAttemptedRefresh(true));
+        
+        // Clear all auth data and business listings
+        store.dispatch(setAccessToken(null));
+        store.dispatch(clearUserListings());
+        
+        // Dispatch global store reset
+        store.dispatch({ type: 'RESET_STORE' });
+        
+        // Clear all storage
         sessionStorage.clear();
-        localStorage.removeItem('userBusinessListings');
+        localStorage.removeItem('businessListings');
+        localStorage.removeItem('selectedBusinessId');
         
         // Redirect to login
-        window.location.href = "/login";
+        window.location.href = '/login';
         
         return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
       }
     }
-
+    
     return Promise.reject(error);
   }
 );

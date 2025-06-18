@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 interface ThemeState {
@@ -24,7 +23,7 @@ const themeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase({ type: 'RESET_STORE' }, () => {
+      .addCase('RESET_STORE', () => {
         return initialState;
       });
   },

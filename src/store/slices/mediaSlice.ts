@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 interface MediaItem {
@@ -52,7 +51,7 @@ const mediaSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase({ type: 'RESET_STORE' }, () => {
+      .addCase('RESET_STORE', () => {
         return initialState;
       });
   },
