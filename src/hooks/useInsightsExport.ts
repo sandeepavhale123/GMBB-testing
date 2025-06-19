@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { useToast } from './use-toast';
 import html2canvas from 'html2canvas';
 
-export const useInsightsExport = (selectedListing: any, dateRange?: any, customDateRange?: any) => {
+export const useInsightsExport = (selectedListing: any) => {
   const [isExporting, setIsExporting] = useState(false);
   const exportRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -26,15 +26,6 @@ export const useInsightsExport = (selectedListing: any, dateRange?: any, customD
         width: exportRef.current.scrollWidth,
         scrollX: 0,
         scrollY: 0,
-        // A4 size optimization
-        width: 794, // A4 width in pixels at 96 DPI
-        onclone: (clonedDoc) => {
-          // Ensure print-only elements are visible in the clone
-          const printOnlyElements = clonedDoc.querySelectorAll('.print-only');
-          printOnlyElements.forEach((element) => {
-            (element as HTMLElement).style.display = 'block';
-          });
-        }
       });
       
       // Create download link
