@@ -53,7 +53,8 @@ export const clearAuthStorage = () => {
   
   // Clear auth-related localStorage items
   const authLocalKeys = [
-    'userBusinessListings'
+    'userBusinessListings',
+    'selectedBusinessId'
   ];
   
   authLocalKeys.forEach(key => {

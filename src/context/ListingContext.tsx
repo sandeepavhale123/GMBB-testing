@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BusinessListing } from '@/components/Header/types';
 import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { moveListingToTop } from '@/store/slices/businessListingsSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { moveListingToTop, setSelectedBusiness } from '@/store/slices/businessListingsSlice';
 
 interface ListingContextType {
   selectedListing: BusinessListing | null;
@@ -30,8 +30,10 @@ interface ListingProviderProps {
 
 export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) => {
   const { listings, loading: listingsLoading, addNewListing } = useBusinessListingsWithRedux();
+  const { selectedBusinessId } = useAppSelector(state => state.businessListings);
   const [selectedListing, setSelectedListing] = useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const navigate = useNavigate();
   const { listingId } = useParams();
   const location = useLocation();
@@ -44,26 +46,50 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   };
 
   useEffect(() => {
-    if (!listingsLoading && listings.length > 0) {
-      // If we have a listingId in URL, try to use it
+    if (!listingsLoading && listings.length > 0 && !hasInitialized) {
+      console.log('🔄 ListingContext: Initializing with listings:', listings.length);
+      console.log('🔄 ListingContext: URL listingId:', listingId);
+      console.log('🔄 ListingContext: Persisted selectedBusinessId:', selectedBusinessId);
+
+      let targetListing: BusinessListing | null = null;
+
+      // Priority 1: Use URL listingId if valid and not 'default'
       if (listingId && listingId !== 'default') {
-        const targetListing = listings.find(l => l.id === listingId);
-        if (targetListing) {
-          setSelectedListing(targetListing);
-          return; // Don't redirect if we found the listing
+        targetListing = listings.find(l => l.id === listingId) || null;
+        console.log('🔄 ListingContext: Found listing from URL:', targetListing?.name);
+      }
+
+      // Priority 2: Use persisted selectedBusinessId if URL doesn't have a valid listing
+      if (!targetListing && selectedBusinessId) {
+        targetListing = listings.find(l => l.id === selectedBusinessId) || null;
+        console.log('🔄 ListingContext: Found listing from persisted ID:', targetListing?.name);
+      }
+
+      // Priority 3: Fallback to first listing
+      if (!targetListing) {
+        targetListing = listings[0];
+        console.log('🔄 ListingContext: Using fallback listing:', targetListing?.name);
+      }
+
+      if (targetListing) {
+        setSelectedListing(targetListing);
+        dispatch(setSelectedBusiness(targetListing.id));
+
+        // Only redirect if URL is pointing to 'default' or invalid listing
+        const shouldRedirect = !listingId || 
+                              listingId === 'default' || 
+                              !listings.find(l => l.id === listingId);
+
+        if (shouldRedirect) {
+          const baseRoute = getBaseRoute();
+          console.log('🔄 ListingContext: Redirecting to:', `/${baseRoute}/${targetListing.id}`);
+          navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
         }
       }
-      
-      // Only redirect if listingId is 'default' or not found
-      const fallbackListing = listings[0];
-      setSelectedListing(fallbackListing);
-      
-      if (listingId === 'default' || !listings.find(l => l.id === listingId)) {
-        const baseRoute = getBaseRoute();
-        navigate(`/${baseRoute}/${fallbackListing.id}`, { replace: true });
-      }
+
+      setHasInitialized(true);
     }
-  }, [listings, listingsLoading, listingId, navigate, location.pathname]);
+  }, [listings, listingsLoading, listingId, selectedBusinessId, hasInitialized, navigate, location.pathname, dispatch]);
 
   const switchListing = async (listing: BusinessListing) => {
     if (listing.id === selectedListing?.id) return;
@@ -87,6 +113,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     }
     
     setSelectedListing(listing);
+    dispatch(setSelectedBusiness(listing.id));
     
     const baseRoute = getBaseRoute();
     navigate(`/${baseRoute}/${listing.id}`);

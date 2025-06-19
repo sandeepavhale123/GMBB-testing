@@ -23,6 +23,17 @@ const loadFromLocalStorage = (): BusinessListing[] => {
   }
 };
 
+// Load selected business ID from localStorage
+const loadSelectedBusinessId = (): string | null => {
+  try {
+    const stored = localStorage.getItem('selectedBusinessId');
+    return stored || null;
+  } catch (error) {
+    console.error('Failed to load selected business ID from localStorage:', error);
+    return null;
+  }
+};
+
 // Save to localStorage
 const saveToLocalStorage = (listings: BusinessListing[]) => {
   try {
@@ -32,11 +43,25 @@ const saveToLocalStorage = (listings: BusinessListing[]) => {
   }
 };
 
+// Save selected business ID to localStorage
+const saveSelectedBusinessId = (businessId: string | null) => {
+  try {
+    if (businessId) {
+      localStorage.setItem('selectedBusinessId', businessId);
+    } else {
+      localStorage.removeItem('selectedBusinessId');
+    }
+  } catch (error) {
+    console.error('Failed to save selected business ID to localStorage:', error);
+  }
+};
+
 const businessListingsSlice = createSlice({
   name: 'businessListings',
   initialState: {
     ...initialState,
     userAddedListings: loadFromLocalStorage(),
+    selectedBusinessId: loadSelectedBusinessId(),
   },
   reducers: {
     addBusinessListing: (state, action: PayloadAction<BusinessListing>) => {
@@ -75,11 +100,15 @@ const businessListingsSlice = createSlice({
     },
     setSelectedBusiness: (state, action: PayloadAction<string | null>) => {
       state.selectedBusinessId = action.payload;
+      saveSelectedBusinessId(action.payload);
+      console.log('📍 Set selected business ID:', action.payload);
     },
     clearUserListings: (state) => {
       state.userAddedListings = [];
+      state.selectedBusinessId = null;
       localStorage.removeItem('userBusinessListings');
-      console.log('🧹 Cleared all user business listings');
+      localStorage.removeItem('selectedBusinessId');
+      console.log('🧹 Cleared all user business listings and selected business');
     }
   },
 });
