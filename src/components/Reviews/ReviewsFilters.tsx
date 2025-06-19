@@ -115,6 +115,7 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
             aria-label="Refresh reviews"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Review refresh
           </Button>
         )}
       </div>
