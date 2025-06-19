@@ -40,10 +40,12 @@ const AppRoutes = () => {
       {/* 👇 Kick off auth refresh if refresh token exists */}
       <AuthInitializer />
       <Routes>
+        {/* Only redirect from root to location-dashboard, don't affect other routes */}
         <Route
           path="/"
           element={<Navigate to="/location-dashboard/default" replace />}
         />
+        
         <Route
           path="/location-dashboard"
           element={<Navigate to="/location-dashboard/default" replace />}
