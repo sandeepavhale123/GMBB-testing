@@ -1,190 +1,39 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, RefreshCw } from 'lucide-react';
-import { DateRange } from 'react-day-picker';
-import { format } from 'date-fns';
-import { useToast } from '../../hooks/use-toast';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions, clearErrors } from '../../store/slices/insightsSlice';
-import { useListingContext } from '../../context/ListingContext';
+import React from 'react';
+import { useInsightsData } from '../../hooks/useInsightsData';
+import { useInsightsExport } from '../../hooks/useInsightsExport';
 import { InsightsHeader } from './InsightsHeader';
-import { VisibilitySummaryCard } from './VisibilitySummaryCard';
-import { TopSearchQueriesCard } from './TopSearchQueriesCard';
-import { CustomerInteractionsCard } from './CustomerInteractionsCard';
-import { CustomerActionsChart } from './CustomerActionsChart';
-import html2canvas from 'html2canvas';
+import { InsightsErrorState } from './InsightsErrorState';
+import { InsightsContent } from './InsightsContent';
 
 export const InsightsCard: React.FC = () => {
-  const [dateRange, setDateRange] = useState('30');
-  const [customDateRange, setCustomDateRange] = useState<DateRange | undefined>();
-  const [isExporting, setIsExporting] = useState(false);
-  const exportRef = useRef<HTMLDivElement>(null);
-  
-  const dispatch = useAppDispatch();
-  const { toast } = useToast();
-  const { selectedListing } = useListingContext();
-  
-  const { 
-    summary, 
+  const {
+    dateRange,
+    customDateRange,
+    summary,
     visibilityTrends,
     customerActions,
-    isLoadingSummary, 
+    isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
-    summaryError, 
+    summaryError,
     visibilityError,
     customerActionsError,
-    lastUpdated 
-  } = useAppSelector(state => state.insights);
+    selectedListing,
+    handleDateRangeChange,
+    handleCustomDateRangeChange,
+    handleRefresh
+  } = useInsightsData();
 
-  // Fetch data when component mounts or parameters change
-  useEffect(() => {
-    if (selectedListing?.id && dateRange !== 'custom') {
-      fetchData();
-    } else if (selectedListing?.id && dateRange === 'custom' && customDateRange?.from && customDateRange?.to) {
-      fetchData();
-    }
-  }, [selectedListing?.id, dateRange, customDateRange]);
-
-  const fetchData = async () => {
-    if (!selectedListing?.id) return;
-
-    const params = {
-      listingId: parseInt(selectedListing.id, 10),
-      dateRange,
-      startDate: customDateRange?.from ? format(customDateRange.from, 'yyyy-MM-dd') : '',
-      endDate: customDateRange?.to ? format(customDateRange.to, 'yyyy-MM-dd') : '',
-    };
-
-    console.log('Fetching insights data with params:', params);
-    
-    try {
-      await Promise.all([
-        dispatch(fetchInsightsSummary(params)),
-        dispatch(fetchVisibilityTrends(params)),
-        dispatch(fetchCustomerActions(params))
-      ]);
-    } catch (error) {
-      console.error('Error fetching insights data:', error);
-    }
-  };
-
-  const handleDateRangeChange = (value: string) => {
-    setDateRange(value);
-    if (value !== 'custom') {
-      setCustomDateRange(undefined);
-    }
-  };
-
-  const handleCustomDateRangeChange = (dateRange: DateRange | undefined) => {
-    setCustomDateRange(dateRange);
-  };
-
-  const handleRefresh = async () => {
-    if (!selectedListing?.id) return;
-    
-    try {
-      await fetchData();
-      toast({
-        title: "Data Refreshed",
-        description: "Your insights have been updated with the latest data from Google Business Profile."
-      });
-    } catch (error) {
-      toast({
-        title: "Refresh Failed",
-        description: "Failed to refresh data. Please try again.",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleExportCSV = async () => {
-    setIsExporting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      toast({
-        title: "CSV Export Complete",
-        description: "Your insights data has been downloaded as CSV."
-      });
-    } catch (error) {
-      toast({
-        title: "Export Failed",
-        description: "Failed to export CSV. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const handleExportImage = async () => {
-    if (!exportRef.current) return;
-    
-    setIsExporting(true);
-    try {
-      // Wait a bit to ensure all components are fully rendered
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const canvas = await html2canvas(exportRef.current, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        height: exportRef.current.scrollHeight,
-        width: exportRef.current.scrollWidth,
-        scrollX: 0,
-        scrollY: 0,
-      });
-      
-      // Create download link
-      const link = document.createElement('a');
-      link.download = `insights-${selectedListing?.name || 'report'}-${format(new Date(), 'yyyy-MM-dd')}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      
-      toast({
-        title: "Image Export Complete",
-        description: "Your insights report has been downloaded as an image."
-      });
-    } catch (error) {
-      console.error('Error exporting image:', error);
-      toast({
-        title: "Export Failed",
-        description: "Failed to export image. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const customerActionsChartData = customerActions?.chart_data || (summary ? [
-    { name: 'Website', value: summary.customer_actions.website_clicks.value },
-    { name: 'Direction', value: summary.customer_actions.direction_requests.value },
-    { name: 'Calls', value: summary.customer_actions.phone_calls.value },
-    { name: 'Messages', value: summary.customer_actions.messages.value },
-  ] : []);
+  const { isExporting, exportRef, handleExportImage } = useInsightsExport(selectedListing);
 
   // Show error state
   if (summaryError || visibilityError || customerActionsError) {
     return (
-      <div className="space-y-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="text-center">
-              <p className="text-red-600 mb-4">
-                {summaryError || visibilityError || customerActionsError}
-              </p>
-              <Button onClick={handleRefresh} variant="outline">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Try Again
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <InsightsErrorState
+        error={summaryError || visibilityError || customerActionsError}
+        onRetry={handleRefresh}
+      />
     );
   }
 
@@ -204,36 +53,15 @@ export const InsightsCard: React.FC = () => {
       />
 
       {/* Exportable Content Area */}
-      <div ref={exportRef} className="space-y-6 bg-white">
-        {/* Row 1: Visibility Overview */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <VisibilitySummaryCard
-            isLoadingSummary={isLoadingSummary}
-            isLoadingVisibility={isLoadingVisibility}
-            summary={summary}
-            visibilityTrends={visibilityTrends}
-          />
-
-          <TopSearchQueriesCard
-            isLoading={isLoadingSummary}
-            summary={summary}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          <CustomerInteractionsCard
-            isLoadingSummary={isLoadingSummary}
-            summary={summary}
-          />
-
-          <CustomerActionsChart
-            isLoadingSummary={isLoadingSummary}
-            isLoadingCustomerActions={isLoadingCustomerActions}
-            customerActionsChartData={customerActionsChartData}
-            customerActions={customerActions}
-            summary={summary}
-          />
-        </div>
+      <div ref={exportRef}>
+        <InsightsContent
+          isLoadingSummary={isLoadingSummary}
+          isLoadingVisibility={isLoadingVisibility}
+          isLoadingCustomerActions={isLoadingCustomerActions}
+          summary={summary}
+          visibilityTrends={visibilityTrends}
+          customerActions={customerActions}
+        />
       </div>
     </div>
   );
