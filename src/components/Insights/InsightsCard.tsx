@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -46,7 +45,7 @@ export const InsightsCard: React.FC = () => {
     if (!selectedListing?.id) return;
 
     const params = {
-      listingId: selectedListing.id,
+      listingId: parseInt(selectedListing.id, 10), // Convert string to number
       dateRange,
       startDate: customDateRange?.from ? format(customDateRange.from, 'yyyy-MM-dd') : '',
       endDate: customDateRange?.to ? format(customDateRange.to, 'yyyy-MM-dd') : '',
