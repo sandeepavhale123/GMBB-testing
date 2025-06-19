@@ -1,14 +1,32 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { MessageSquare, Clock, Bot, User } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 
 export const ReviewStats: React.FC = () => {
-  const { summaryCards, summaryLoading } = useAppSelector(state => state.reviews);
+  const { summaryCards, summaryLoading, refreshLoading, reviews } = useAppSelector(state => state.reviews);
 
-  // Show loading skeleton if data is loading
-  if (summaryLoading || !summaryCards) {
+  // Calculate dynamic counts based on current reviews in state
+  const dynamicCounts = useMemo(() => {
+    if (!summaryCards) return null;
+
+    // Count pending replies, AI replies, and manual replies from current reviews
+    const pendingReplies = reviews.filter(review => !review.replied).length;
+    const aiReplies = reviews.filter(review => review.replied && review.reply_type === 'AI').length;
+    const manualReplies = reviews.filter(review => review.replied && review.reply_type === 'manual').length;
+
+    return {
+      total_reviews: summaryCards.total_reviews,
+      pending_replies: pendingReplies,
+      ai_replies: aiReplies,
+      manual_replies: manualReplies,
+      overall_rating: summaryCards.overall_rating
+    };
+  }, [summaryCards, reviews]);
+
+  // Show loading skeleton if data is loading or refreshing
+  if (summaryLoading || refreshLoading || !dynamicCounts) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         {[1, 2, 3, 4].map((i) => (
@@ -31,28 +49,28 @@ export const ReviewStats: React.FC = () => {
   const stats = [
     {
       title: 'Total Reviews',
-      value: summaryCards.total_reviews.toString(),
+      value: dynamicCounts.total_reviews.toString(),
       icon: MessageSquare,
       color: 'text-blue-600',
       bgColor: 'bg-blue-100'
     },
     {
       title: 'Pending Replies',
-      value: summaryCards.pending_replies.toString(),
+      value: dynamicCounts.pending_replies.toString(),
       icon: Clock,
       color: 'text-orange-600',
       bgColor: 'bg-orange-100'
     },
     {
       title: 'AI Replies',
-      value: summaryCards.ai_replies.toString(),
+      value: dynamicCounts.ai_replies.toString(),
       icon: Bot,
       color: 'text-green-600',
       bgColor: 'bg-green-100'
     },
     {
       title: 'Manual Replies',
-      value: summaryCards.manual_replies.toString(),
+      value: dynamicCounts.manual_replies.toString(),
       icon: User,
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'

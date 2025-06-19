@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { DateRangePicker } from '../ui/date-range-picker';
 import { Button } from '../ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { Search, X, RefreshCw } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
@@ -107,16 +108,24 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         )}
         
         {onRefresh && (
-          <Button
-            variant="outline"
-           
-            onClick={onRefresh}
-            disabled={isRefreshing}
-            aria-label="Refresh reviews"
-          >
-            <RefreshCw className={` ${isRefreshing ? 'animate-spin' : ''}`} />
-            Review refresh
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  onClick={onRefresh}
+                  disabled={isRefreshing}
+                  aria-label="Refresh reviews"
+                >
+                  <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                  <span className="ml-2">Refresh</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>This button will refresh your review page to get the latest reviews from all platforms</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </div>
     </div>

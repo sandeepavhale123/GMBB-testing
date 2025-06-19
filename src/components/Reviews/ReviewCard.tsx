@@ -55,11 +55,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
   const getSentimentColor = (sentiment: string) => {
     switch (sentiment) {
       case 'positive':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800 border-green-200';
       case 'negative':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
     }
   };
 
@@ -94,8 +94,10 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
             <div className="flex flex-wrap items-center gap-2">
               <h4 className="font-semibold text-gray-900 text-sm sm:text-base">{review.customer_name}</h4>
-              {/* <Badge variant="outline" className="text-xs">{review.platform}</Badge> */}
-              <Badge className={`text-xs ${getSentimentColor(getSentimentFromRating(review.rating))}`}>
+              <Badge 
+                variant="outline" 
+                className={`text-xs pointer-events-none ${getSentimentColor(getSentimentFromRating(review.rating))}`}
+              >
                 {getSentimentFromRating(review.rating)}
               </Badge>
             </div>
