@@ -116,7 +116,7 @@ export const insightsService = {
 
   getVisibilityTrends: async (params: VisibilityTrendsRequest): Promise<VisibilityTrendsResponse> => {
     const response = await axiosInstance({
-      url: '/v1/get-insight-visibility',
+      url: '/v1/get-visibility-trends',
       method: 'POST',
       data: params,
     });
