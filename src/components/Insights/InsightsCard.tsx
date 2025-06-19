@@ -1,13 +1,22 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Calendar, Eye, FileText, Image, TrendingUp, TrendingDown } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { DateRangePicker } from '../ui/date-range-picker';
+import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Calendar, Eye, FileText, Image, TrendingUp, TrendingDown, RefreshCw, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { DateRange } from 'react-day-picker';
+import { format } from 'date-fns';
+import { useToast } from '../../hooks/use-toast';
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
+  const [customDateRange, setCustomDateRange] = useState<DateRange | undefined>();
+  const [showCustomPicker, setShowCustomPicker] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const { toast } = useToast();
 
   const visibilityData = [
     { name: 'Week 1', search: 120, maps: 80 },
@@ -41,30 +50,187 @@ export const InsightsCard: React.FC = () => {
     { name: 'Messages', value: 234 },
   ];
 
+  const handleDateRangeChange = (value: string) => {
+    setDateRange(value);
+    if (value === 'custom') {
+      setShowCustomPicker(true);
+    } else {
+      setShowCustomPicker(false);
+      setCustomDateRange(undefined);
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      // Simulate refresh API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      toast({
+        title: "Data Refreshed",
+        description: "Your insights have been updated with the latest data from Google Business Profile."
+      });
+    } catch (error) {
+      toast({
+        title: "Refresh Failed",
+        description: "Failed to refresh data. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  const handleExportCSV = async () => {
+    setIsExporting(true);
+    try {
+      // Simulate CSV export
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      toast({
+        title: "CSV Export Complete",
+        description: "Your insights data has been downloaded as CSV."
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "Failed to export CSV. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportImage = async () => {
+    setIsExporting(true);
+    try {
+      // Simulate image export
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      toast({
+        title: "Image Export Complete",
+        description: "Your insights page has been downloaded as an image."
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "Failed to export image. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const getDateRangeLabel = () => {
+    if (showCustomPicker && customDateRange?.from) {
+      const fromDate = format(customDateRange.from, 'dd MMM yyyy');
+      const toDate = customDateRange.to ? format(customDateRange.to, 'dd MMM yyyy') : fromDate;
+      return `From: ${fromDate} - To: ${toDate}`;
+    }
+    
+    const today = new Date();
+    let startDate: Date;
+    
+    switch (dateRange) {
+      case '7':
+        startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '90':
+        startDate = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      case '6months':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        break;
+      case '9months':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 9, today.getDate());
+        break;
+      case '12months':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
+        break;
+      default: // 30 days
+        startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+    
+    return `From: ${format(startDate, 'dd MMM yyyy')} - To: ${format(today, 'dd MMM yyyy')}`;
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="flex-1">
           <h1 className="text-2xl font-bold text-gray-900">GMB Insights</h1>
           <p className="text-sm text-gray-600">Performance analytics for your Google Business Profile</p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Select value={dateRange} onValueChange={setDateRange}>
+        
+        {/* Date Range Label */}
+        <div className="flex-shrink-0">
+          <p className="text-sm text-gray-600 font-medium">
+            {getDateRangeLabel()}
+          </p>
+        </div>
+        
+        {/* Controls */}
+        <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
+          {/* Date Range Selector */}
+          <Select value={dateRange} onValueChange={handleDateRangeChange}>
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Select date range" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="7">Last 7 Days</SelectItem>
               <SelectItem value="30">Last 30 Days</SelectItem>
-              <SelectItem value="custom">Custom Range</SelectItem>
+              <SelectItem value="90">Last 90 Days</SelectItem>
+              <SelectItem value="6months">Last 6 Months</SelectItem>
+              <SelectItem value="9months">Last 9 Months</SelectItem>
+              <SelectItem value="12months">Last 12 Months</SelectItem>
+              <SelectItem value="custom">Custom Period</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" className="w-full sm:w-auto">
-            View page
+          
+          {/* Refresh Button */}
+          <Button 
+            variant="outline" 
+            className="w-full sm:w-auto"
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            {isRefreshing ? 'Refreshing...' : 'Refresh'}
           </Button>
+          
+          {/* Export Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-full sm:w-auto" disabled={isExporting}>
+                <Download className="w-4 h-4 mr-2" />
+                {isExporting ? 'Exporting...' : 'Export'}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={handleExportCSV} disabled={isExporting}>
+                <FileText className="w-4 h-4 mr-2" />
+                Download CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleExportImage} disabled={isExporting}>
+                <Image className="w-4 h-4 mr-2" />
+                Download as Image
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
+
+      {/* Custom Date Range Picker */}
+      {showCustomPicker && (
+        <div className="flex justify-center">
+          <DateRangePicker
+            date={customDateRange}
+            onDateChange={setCustomDateRange}
+            placeholder="Select custom date range"
+            className="w-full max-w-md"
+          />
+        </div>
+      )}
 
       {/* Row 1: Visibility Overview */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
