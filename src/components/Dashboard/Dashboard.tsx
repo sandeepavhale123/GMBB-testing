@@ -17,6 +17,8 @@ import { ScheduledPostCard } from './ScheduledPostCard';
 import { ReviewComponent } from './ReviewComponent';
 import { QACard } from './QACard';
 import { GeoRankingPage } from '../GeoRanking/GeoRankingPage';
+import { VisibilitySummaryCard } from '../Insights/VisibilitySummaryCard';
+import { CustomerInteractionsCard } from '../Insights/CustomerInteractionsCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -29,8 +31,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { ListingLoader } from '../ui/listing-loader';
 import { BarChart3, FileText, MessageSquare, MapPin, TrendingUp } from 'lucide-react';
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { useListingContext } from '@/context/ListingContext';
+import { fetchInsightsSummary, fetchVisibilityTrends } from '../../store/slices/insightsSlice';
 
 export const Dashboard: React.FC = () => {
   const { qaStats } = useAppSelector(state => state.dashboard);
@@ -40,6 +43,34 @@ export const Dashboard: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [insightsDateRange, setInsightsDateRange] = useState('30');
+  
+  const dispatch = useAppDispatch();
+  const { 
+    summary, 
+    visibilityTrends,
+    isLoadingSummary, 
+    isLoadingVisibility,
+    summaryError, 
+    visibilityError
+  } = useAppSelector(state => state.insights);
+
+  // Fetch insights data when insights tab is active and listing is selected
+  React.useEffect(() => {
+    if (activeTab === 'insights' && selectedListing?.id) {
+      const params = {
+        listingId: parseInt(selectedListing.id, 10),
+        dateRange: insightsDateRange,
+        startDate: '',
+        endDate: '',
+      };
+
+      console.log('Fetching dashboard insights data with params:', params);
+      
+      dispatch(fetchInsightsSummary(params));
+      dispatch(fetchVisibilityTrends(params));
+    }
+  }, [activeTab, selectedListing?.id, insightsDateRange, dispatch]);
   
   const scheduledPost = {
     id: '1',
@@ -172,7 +203,18 @@ export const Dashboard: React.FC = () => {
                     <GeoRankingPage />
                 </TabsContent>
                 <TabsContent value="insights" className="mt-4 sm:mt-6">
-                  <InsightsCard />
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                    <VisibilitySummaryCard
+                      isLoadingSummary={isLoadingSummary}
+                      isLoadingVisibility={isLoadingVisibility}
+                      summary={summary}
+                      visibilityTrends={visibilityTrends}
+                    />
+                    <CustomerInteractionsCard
+                      isLoadingSummary={isLoadingSummary}
+                      summary={summary}
+                    />
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
