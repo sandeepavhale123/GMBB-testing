@@ -51,8 +51,8 @@ export const InsightsCard: React.FC = () => {
     setDateRange(value);
   };
 
-  // Top search queries mock data (would come from API)
-  const topQueries = summary?.top_search_queries?.slice(0, 3) || [
+  // Top search queries mock data (since this data is not in the current API response)
+  const topQueries = [
     { query: 'restaurant near me', impressions: 2847, trend: 'up' },
     { query: 'best pizza delivery', impressions: 1923, trend: 'up' },
     { query: 'italian restaurant', impressions: 1456, trend: 'down' },
