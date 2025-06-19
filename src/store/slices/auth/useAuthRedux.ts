@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
 import { useNavigate } from "react-router-dom";
@@ -132,13 +131,15 @@ export const useAuthRedux = () => {
       // Update refresh token in sessionStorage
       sessionStorage.setItem("refresh_token", data.refresh_token);
 
-      // Restore navigation state if needed
+      // Restore navigation state if needed using React Router navigate
       const pathToRedirect = sessionStorage.getItem("post_refresh_path");
       const scrollY = sessionStorage.getItem("scrollY");
 
       if (pathToRedirect) {
+        console.log("Navigating to saved path:", pathToRedirect);
         sessionStorage.removeItem("post_refresh_path");
-        window.history.replaceState(null, "", pathToRedirect);
+        // Use React Router navigate instead of window.history.replaceState
+        navigate(pathToRedirect, { replace: true });
       }
 
       if (scrollY) {
