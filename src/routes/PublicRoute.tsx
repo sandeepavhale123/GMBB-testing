@@ -1,3 +1,4 @@
+
 import { Navigate } from "react-router-dom";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 
@@ -8,7 +9,7 @@ interface PublicRouteProps {
 
 export const PublicRoute = ({
   children,
-  redirectTo = "/",
+  redirectTo = "/location-dashboard/default",
 }: PublicRouteProps) => {
   const {
     isLoading,
