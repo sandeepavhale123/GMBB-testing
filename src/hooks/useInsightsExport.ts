@@ -23,9 +23,11 @@ export const useInsightsExport = (selectedListing: any, dateRange?: any, customD
         useCORS: true,
         allowTaint: true,
         height: exportRef.current.scrollHeight,
-        width: 794, // A4 width in pixels at 96 DPI
+        width: exportRef.current.scrollWidth,
         scrollX: 0,
         scrollY: 0,
+        // A4 size optimization
+        width: 794, // A4 width in pixels at 96 DPI
         onclone: (clonedDoc) => {
           // Ensure print-only elements are visible in the clone
           const printOnlyElements = clonedDoc.querySelectorAll('.print-only');
