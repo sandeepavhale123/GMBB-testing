@@ -155,7 +155,7 @@ export const reviewService = {
   },
 
   deleteReviewReply: async (reviewId: string): Promise<SendReplyResponse> => {
-    const response = await axiosInstance.post('/v1/delete-ai-responce', {
+    const response = await axiosInstance.post('/v1/delete-review-reply', {
       reviewId
     });
     return response.data;
