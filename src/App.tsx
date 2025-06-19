@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -76,6 +75,8 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        
+        {/* Non-listing routes - no redirects needed */}
         <Route
           path="/profile"
           element={
@@ -84,7 +85,32 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-    
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <ProtectedRoute>
+              <TeamPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Listing-dependent routes with redirects */}
         <Route path="/posts" element={<Navigate to="/posts/default" replace />} />
         <Route path="/posts/:listingId" element={
           <ProtectedRoute>
@@ -121,7 +147,11 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/geo-ranking-report" element={<GeoRankingReportPage />} />
+        <Route path="/geo-ranking-report" element={
+          <ProtectedRoute>
+            <GeoRankingReportPage />
+          </ProtectedRoute>
+        } />
         
         <Route path="/reviews" element={<Navigate to="/reviews/default" replace />} />
         <Route path="/reviews/:listingId" element={
@@ -131,8 +161,6 @@ const AppRoutes = () => {
             </ListingProvider>
           </ProtectedRoute>
         } />
-        
-        <Route path="/analytics" element={<AnalyticsPage />} />
         
         {/* Redirect old /businesses URLs to /business-info */}
         <Route path="/businesses" element={<Navigate to="/business-info/default" replace />} />
@@ -147,9 +175,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/team" element={<TeamPage />} />
         <Route path="/notifications" element={<Navigate to="/notifications/default" replace />} />
-        <Route path="/settings" element={<SettingsPage />} />
         
         <Route path="/qa" element={<Navigate to="/qa/default" replace />} />
         <Route path="/qa/:listingId" element={

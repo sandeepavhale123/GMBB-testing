@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -40,10 +41,22 @@ export const AuthInitializer = () => {
     ) {
       console.log("AuthInitializer: Attempting token refresh...");
 
-      // Save current path for post-refresh navigation
+      // Only save path if we're on a route that should be preserved
       const currentPath = window.location.pathname + window.location.search;
-      sessionStorage.setItem("post_refresh_path", currentPath);
-      sessionStorage.setItem("scrollY", window.scrollY.toString());
+      const shouldSavePath = !currentPath.startsWith('/login') && 
+                            !currentPath.startsWith('/onboarding') &&
+                            currentPath !== '/';
+      
+      if (shouldSavePath) {
+        console.log("AuthInitializer: Saving path for restoration:", currentPath);
+        sessionStorage.setItem("post_refresh_path", currentPath);
+        sessionStorage.setItem("scrollY", window.scrollY.toString());
+      } else {
+        console.log("AuthInitializer: Not saving path for:", currentPath);
+        // Clear any previously saved path that shouldn't be restored
+        sessionStorage.removeItem("post_refresh_path");
+        sessionStorage.removeItem("scrollY");
+      }
 
       refreshAccessToken();
     }
