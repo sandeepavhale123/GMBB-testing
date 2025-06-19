@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BusinessProfileHeader } from './BusinessProfileHeader';
 import { EnhancedStatsCards } from './EnhancedStatsCards';
@@ -34,6 +33,7 @@ import { BarChart3, FileText, MessageSquare, MapPin, TrendingUp } from 'lucide-r
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { useListingContext } from '@/context/ListingContext';
 import { fetchInsightsSummary, fetchVisibilityTrends } from '../../store/slices/insightsSlice';
+import { InsightsComparisonChart } from './InsightsComparisonChart';
 
 export const Dashboard: React.FC = () => {
   const { qaStats } = useAppSelector(state => state.dashboard);
@@ -203,17 +203,23 @@ export const Dashboard: React.FC = () => {
                     <GeoRankingPage />
                 </TabsContent>
                 <TabsContent value="insights" className="mt-4 sm:mt-6">
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-                    <VisibilitySummaryCard
-                      isLoadingSummary={isLoadingSummary}
-                      isLoadingVisibility={isLoadingVisibility}
-                      summary={summary}
-                      visibilityTrends={visibilityTrends}
-                    />
-                    <CustomerInteractionsCard
-                      isLoadingSummary={isLoadingSummary}
-                      summary={summary}
-                    />
+                  <div className="space-y-6">
+                    {/* First Row: Existing Cards Side by Side */}
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                      <VisibilitySummaryCard
+                        isLoadingSummary={isLoadingSummary}
+                        isLoadingVisibility={isLoadingVisibility}
+                        summary={summary}
+                        visibilityTrends={visibilityTrends}
+                      />
+                      <CustomerInteractionsCard
+                        isLoadingSummary={isLoadingSummary}
+                        summary={summary}
+                      />
+                    </div>
+                    
+                    {/* Second Row: Full-Width Comparison Chart */}
+                    <InsightsComparisonChart />
                   </div>
                 </TabsContent>
               </Tabs>

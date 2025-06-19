@@ -1,17 +1,19 @@
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse } from '../../services/insightsService';
+import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse } from '../../services/insightsService';
 
 export interface InsightsState {
   summary: InsightsSummaryResponse['data'] | null;
   visibilityTrends: VisibilityTrendsResponse['data'] | null;
   customerActions: CustomerActionsResponse['data'] | null;
+  comparisonData: InsightsComparisonResponse['data']['chart_data'] | null;
   isLoadingSummary: boolean;
   isLoadingVisibility: boolean;
   isLoadingCustomerActions: boolean;
+  isLoadingComparison: boolean;
   summaryError: string | null;
   visibilityError: string | null;
   customerActionsError: string | null;
+  comparisonError: string | null;
   lastUpdated: string | null;
 }
 
@@ -19,12 +21,15 @@ const initialState: InsightsState = {
   summary: null,
   visibilityTrends: null,
   customerActions: null,
+  comparisonData: null,
   isLoadingSummary: false,
   isLoadingVisibility: false,
   isLoadingCustomerActions: false,
+  isLoadingComparison: false,
   summaryError: null,
   visibilityError: null,
   customerActionsError: null,
+  comparisonError: null,
   lastUpdated: null,
 };
 
@@ -65,6 +70,18 @@ export const fetchCustomerActions = createAsyncThunk(
   }
 );
 
+export const fetchInsightsComparison = createAsyncThunk(
+  'insights/fetchComparison',
+  async (params: InsightsComparisonRequest, { rejectWithValue }) => {
+    try {
+      const response = await insightsService.getInsightsComparison(params);
+      return response.data.chart_data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch insights comparison');
+    }
+  }
+);
+
 const insightsSlice = createSlice({
   name: 'insights',
   initialState,
@@ -73,6 +90,7 @@ const insightsSlice = createSlice({
       state.summaryError = null;
       state.visibilityError = null;
       state.customerActionsError = null;
+      state.comparisonError = null;
     },
     setLastUpdated: (state) => {
       state.lastUpdated = new Date().toISOString();
@@ -123,6 +141,21 @@ const insightsSlice = createSlice({
       .addCase(fetchCustomerActions.rejected, (state, action) => {
         state.isLoadingCustomerActions = false;
         state.customerActionsError = action.payload as string;
+      });
+
+    // Insights Comparison
+    builder
+      .addCase(fetchInsightsComparison.pending, (state) => {
+        state.isLoadingComparison = true;
+        state.comparisonError = null;
+      })
+      .addCase(fetchInsightsComparison.fulfilled, (state, action) => {
+        state.isLoadingComparison = false;
+        state.comparisonData = action.payload;
+      })
+      .addCase(fetchInsightsComparison.rejected, (state, action) => {
+        state.isLoadingComparison = false;
+        state.comparisonError = action.payload as string;
       });
   },
 });

@@ -1,4 +1,3 @@
-
 import axiosInstance from '../api/axiosInstance';
 
 export interface InsightsSummaryRequest {
@@ -152,6 +151,35 @@ export interface CustomerActionsResponse {
   };
 }
 
+export interface InsightsComparisonRequest {
+  listingId: number;
+  dateRange: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface InsightsComparisonResponse {
+  code: number;
+  message: string;
+  data: {
+    chart_data: Array<{
+      month: string;
+      searchViews: number;
+      mapsViews: number;
+      websiteClicks: number;
+      phoneCalls: number;
+      date_range: string;
+    }>;
+    summary: {
+      total_search_views: number;
+      total_maps_views: number;
+      total_website_clicks: number;
+      total_phone_calls: number;
+      average_monthly_growth: number;
+    };
+  };
+}
+
 export const insightsService = {
   getInsightsSummary: async (params: InsightsSummaryRequest): Promise<InsightsSummaryResponse> => {
     const response = await axiosInstance({
@@ -174,6 +202,15 @@ export const insightsService = {
   getCustomerActions: async (params: CustomerActionsRequest): Promise<CustomerActionsResponse> => {
     const response = await axiosInstance({
       url: '/v1/get-customer-actions',
+      method: 'POST',
+      data: params,
+    });
+    return response.data;
+  },
+
+  getInsightsComparison: async (params: InsightsComparisonRequest): Promise<InsightsComparisonResponse> => {
+    const response = await axiosInstance({
+      url: '/v1/get-insights-comparison',
       method: 'POST',
       data: params,
     });
