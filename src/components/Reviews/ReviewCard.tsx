@@ -188,9 +188,9 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete this reply?</AlertDialogTitle>
+                        <AlertDialogTitle>Delete Reply</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action cannot be undone. The reply will be permanently removed.
+                          Are you sure you want to delete this reply? This action cannot be undone and the reply will be permanently removed from the review.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -200,7 +200,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
                           disabled={deleteLoading}
                           className="bg-red-600 hover:bg-red-700"
                         >
-                          {deleteLoading ? 'Deleting...' : 'Delete'}
+                          {deleteLoading ? 'Deleting...' : 'Delete Reply'}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

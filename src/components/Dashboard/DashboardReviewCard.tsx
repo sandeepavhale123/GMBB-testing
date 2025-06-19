@@ -2,19 +2,32 @@
 import React from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Star, Bot, MessageSquare, Edit3 } from 'lucide-react';
+import { Star, Bot, MessageSquare, Edit3, Trash2 } from 'lucide-react';
 import { Review } from '../../services/reviewService';
 import { AIReplyGenerator } from '../Reviews/AIReplyGenerator';
 import { ReviewReplyForm } from '../Reviews/ReviewReplyForm';
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
 
 interface DashboardReviewCardProps {
   review: Review;
   editingReply: string | null;
   showingAIGenerator: string | null;
   replyLoading: boolean;
+  deleteLoading?: boolean;
   onGenerateReply: (reviewId: string) => void;
   onManualReply: (reviewId: string) => void;
   onSaveReply: (reviewId: string, reply?: string) => void;
+  onDeleteReply?: (reviewId: string) => void;
   onCancelAIGenerator: () => void;
 }
 
@@ -23,9 +36,11 @@ export const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
   editingReply,
   showingAIGenerator,
   replyLoading,
+  deleteLoading,
   onGenerateReply,
   onManualReply,
   onSaveReply,
+  onDeleteReply,
   onCancelAIGenerator
 }) => {
   const renderStars = (rating: number) => {
@@ -151,10 +166,45 @@ export const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
               </>
             )}
             {review.replied && editingReply !== review.id && showingAIGenerator !== review.id && (
-              <Button size="sm" variant="outline" onClick={() => onManualReply(review.id)} className="flex items-center gap-1 text-xs">
-                <Edit3 className="w-3 h-3" />
-                Edit Reply
-              </Button>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => onManualReply(review.id)} className="flex items-center gap-1 text-xs">
+                  <Edit3 className="w-3 h-3" />
+                  Edit Reply
+                </Button>
+                
+                {onDeleteReply && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="flex items-center gap-1 text-xs border-red-200 text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete Reply</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to delete this reply? This action cannot be undone and the reply will be permanently removed from the review.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction 
+                          onClick={() => onDeleteReply(review.id)}
+                          disabled={deleteLoading}
+                          className="bg-red-600 hover:bg-red-700"
+                        >
+                          {deleteLoading ? 'Deleting...' : 'Delete Reply'}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             )}
           </div>
         </div>

@@ -45,15 +45,22 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
 
   useEffect(() => {
     if (!listingsLoading && listings.length > 0) {
-      const targetListingId = listingId || listings[0].id;
-      const targetListing = listings.find(l => l.id === targetListingId) || listings[0];
+      // If we have a listingId in URL, try to use it
+      if (listingId && listingId !== 'default') {
+        const targetListing = listings.find(l => l.id === listingId);
+        if (targetListing) {
+          setSelectedListing(targetListing);
+          return; // Don't redirect if we found the listing
+        }
+      }
       
-      setSelectedListing(targetListing);
+      // Only redirect if listingId is 'default' or not found
+      const fallbackListing = listings[0];
+      setSelectedListing(fallbackListing);
       
-      // If no listing ID in URL or invalid ID, redirect to first listing
-      if (!listingId || !listings.find(l => l.id === listingId)) {
+      if (listingId === 'default' || !listings.find(l => l.id === listingId)) {
         const baseRoute = getBaseRoute();
-        navigate(`/${baseRoute}/${listings[0].id}`, { replace: true });
+        navigate(`/${baseRoute}/${fallbackListing.id}`, { replace: true });
       }
     }
   }, [listings, listingsLoading, listingId, navigate, location.pathname]);
