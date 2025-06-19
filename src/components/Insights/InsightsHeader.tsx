@@ -1,0 +1,148 @@
+
+import React from 'react';
+import { Button } from '../ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { DateRangePicker } from '../ui/date-range-picker';
+import { RefreshCw, Download, FileText, Image } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
+import { format } from 'date-fns';
+
+interface InsightsHeaderProps {
+  dateRange: string;
+  customDateRange: DateRange | undefined;
+  showCustomPicker: boolean;
+  isLoading: boolean;
+  isExporting: boolean;
+  summary: any;
+  onDateRangeChange: (value: string) => void;
+  onCustomDateRangeChange: (date: DateRange | undefined) => void;
+  onRefresh: () => void;
+  onExportCSV: () => void;
+  onExportImage: () => void;
+}
+
+export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
+  dateRange,
+  customDateRange,
+  showCustomPicker,
+  isLoading,
+  isExporting,
+  summary,
+  onDateRangeChange,
+  onCustomDateRangeChange,
+  onRefresh,
+  onExportCSV,
+  onExportImage,
+}) => {
+  const getDateRangeLabel = () => {
+    if (showCustomPicker && customDateRange?.from) {
+      const fromDate = format(customDateRange.from, 'dd MMM yyyy');
+      const toDate = customDateRange.to ? format(customDateRange.to, 'dd MMM yyyy') : fromDate;
+      return `From: ${fromDate} - To: ${toDate}`;
+    }
+    
+    if (summary?.timeframe) {
+      return `From: ${format(new Date(summary.timeframe.start_date), 'dd MMM yyyy')} - To: ${format(new Date(summary.timeframe.end_date), 'dd MMM yyyy')}`;
+    }
+    
+    const today = new Date();
+    let startDate: Date;
+    
+    switch (dateRange) {
+      case '7':
+        startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '90':
+        startDate = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      case '180':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+        break;
+      case '270':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 9, today.getDate());
+        break;
+      case '365':
+        startDate = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
+        break;
+      default: // 30 days
+        startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+    
+    return `From: ${format(startDate, 'dd MMM yyyy')} - To: ${format(today, 'dd MMM yyyy')}`;
+  };
+
+  return (
+    <>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-gray-900">GMB Insights</h1>
+          <p className="text-sm text-gray-600">Performance analytics for your Google Business Profile</p>
+        </div>
+        
+        <div className="flex-shrink-0">
+          <p className="text-sm text-gray-600 font-medium">
+            {getDateRangeLabel()}
+          </p>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
+          <Select value={dateRange} onValueChange={onDateRangeChange}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Select date range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 Days</SelectItem>
+              <SelectItem value="30">Last 30 Days</SelectItem>
+              <SelectItem value="90">Last 90 Days</SelectItem>
+              <SelectItem value="180">Last 6 Months</SelectItem>
+              <SelectItem value="270">Last 9 Months</SelectItem>
+              <SelectItem value="365">Last 12 Months</SelectItem>
+              <SelectItem value="custom">Custom Period</SelectItem>
+            </SelectContent>
+          </Select>
+          
+          <Button 
+            variant="outline" 
+            className="w-full sm:w-auto"
+            onClick={onRefresh}
+            disabled={isLoading}
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+            {isLoading ? 'Refreshing...' : 'Refresh'}
+          </Button>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="w-full sm:w-auto" disabled={isExporting}>
+                <Download className="w-4 h-4 mr-2" />
+                {isExporting ? 'Exporting...' : 'Export'}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={onExportCSV} disabled={isExporting}>
+                <FileText className="w-4 h-4 mr-2" />
+                Download CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onExportImage} disabled={isExporting}>
+                <Image className="w-4 h-4 mr-2" />
+                Download as Image
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+
+      {showCustomPicker && (
+        <div className="flex justify-center">
+          <DateRangePicker
+            date={customDateRange}
+            onDateChange={onCustomDateRangeChange}
+            placeholder="Select custom date range"
+            className="w-full max-w-md"
+          />
+        </div>
+      )}
+    </>
+  );
+};
