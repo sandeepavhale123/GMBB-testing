@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ReviewsState } from './types';
-import { fetchReviewSummary, fetchReviews, sendReviewReply, deleteReviewReply, generateAIReply } from './thunks';
+import { fetchReviewSummary, fetchReviews, sendReviewReply, deleteReviewReply, generateAIReply, refreshReviewData } from './thunks';
 
 const initialState: ReviewsState = {
   // Summary state
@@ -25,6 +25,10 @@ const initialState: ReviewsState = {
   // AI Generation state
   aiGenerationLoading: false,
   aiGenerationError: null,
+  
+  // Refresh state
+  refreshLoading: false,
+  refreshError: null,
   
   // Filter state
   filter: 'all',
@@ -93,6 +97,9 @@ const reviewsSlice = createSlice({
     },
     clearAIGenerationError: (state) => {
       state.aiGenerationError = null;
+    },
+    clearRefreshError: (state) => {
+      state.refreshError = null;
     },
   },
   extraReducers: (builder) => {
@@ -178,6 +185,18 @@ const reviewsSlice = createSlice({
       .addCase(generateAIReply.rejected, (state, action) => {
         state.aiGenerationLoading = false;
         state.aiGenerationError = action.payload as string;
+      })
+      // Refresh cases
+      .addCase(refreshReviewData.pending, (state) => {
+        state.refreshLoading = true;
+        state.refreshError = null;
+      })
+      .addCase(refreshReviewData.fulfilled, (state) => {
+        state.refreshLoading = false;
+      })
+      .addCase(refreshReviewData.rejected, (state, action) => {
+        state.refreshLoading = false;
+        state.refreshError = action.payload as string;
       });
   },
 });
@@ -196,7 +215,8 @@ export const {
   clearReviewsError,
   clearReplyError,
   clearDeleteReplyError,
-  clearAIGenerationError
+  clearAIGenerationError,
+  clearRefreshError
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

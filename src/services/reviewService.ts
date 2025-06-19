@@ -136,6 +136,16 @@ export interface GenerateAIReplyResponse {
   };
 }
 
+export interface RefreshReviewsRequest {
+  locationId: string;
+}
+
+export interface RefreshReviewsResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export const reviewService = {
   getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
     const response = await axiosInstance.post('/v1/get-review-summary', {
@@ -164,6 +174,13 @@ export const reviewService = {
   generateAIReply: async (reviewId: number): Promise<GenerateAIReplyResponse> => {
     const response = await axiosInstance.post('/v1/generate-ai-responce', {
       reviewId
+    });
+    return response.data;
+  },
+
+  refreshReviews: async (locationId: string): Promise<RefreshReviewsResponse> => {
+    const response = await axiosInstance.post('/v1/refresh-review', {
+      locationId: parseInt(locationId)
     });
     return response.data;
   }

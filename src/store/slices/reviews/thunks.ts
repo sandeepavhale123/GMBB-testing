@@ -66,3 +66,26 @@ export const generateAIReply = createAsyncThunk(
     }
   }
 );
+
+// Async thunk for refreshing review data
+export const refreshReviewData = createAsyncThunk(
+  'reviews/refreshReviewData',
+  async (params: { locationId: string; reviewParams: GetReviewsRequest }, { dispatch, rejectWithValue }) => {
+    try {
+      // First call the refresh API
+      const refreshResponse = await reviewService.refreshReviews(params.locationId);
+      
+      // If refresh is successful (code 200), fetch updated data
+      if (refreshResponse.code === 200) {
+        // Fetch updated reviews
+        await dispatch(fetchReviews(params.reviewParams));
+        // Fetch updated summary
+        await dispatch(fetchReviewSummary(params.locationId));
+      }
+      
+      return refreshResponse;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to refresh review data');
+    }
+  }
+);

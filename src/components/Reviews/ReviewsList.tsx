@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -17,7 +16,9 @@ import {
   sendReviewReply,
   deleteReviewReply,
   clearReplyError,
-  clearDeleteReplyError
+  clearDeleteReplyError,
+  refreshReviewData,
+  clearRefreshError
 } from '../../store/slices/reviews';
 import { ReviewsFilters } from './ReviewsFilters';
 import { ReviewCard } from './ReviewCard';
@@ -40,6 +41,8 @@ export const ReviewsList: React.FC = () => {
     replyError,
     deleteReplyLoading,
     deleteReplyError,
+    refreshLoading,
+    refreshError,
     filter,
     searchQuery,
     sortBy,
@@ -115,20 +118,75 @@ export const ReviewsList: React.FC = () => {
     fetchReviewsWithFilters();
   }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy]);
 
-  // Handle refresh button click
-  const handleRefresh = () => {
-    fetchReviewsWithFilters().then(() => {
-      toast.success({
-        title: "Refreshed",
-        description: "Reviews have been refreshed"
+  // Handle refresh button click with new API
+  const handleRefresh = async () => {
+    if (!selectedListing?.id) return;
+
+    // Determine the correct sortOrder based on sortBy
+    let apiSortOrder: 'asc' | 'desc' = 'desc';
+    if (sortBy === 'oldest' || sortBy === 'rating-low') {
+      apiSortOrder = 'asc';
+    }
+
+    const reviewParams = {
+      pagination: {
+        page: currentPage,
+        limit: pageSize,
+        offset: (currentPage - 1) * pageSize
+      },
+      filters: {
+        search: searchQuery,
+        status: filter,
+        dateRange: {
+          startDate: dateRange.startDate || '2018-01-01',
+          endDate: dateRange.endDate || '2025-12-31'
+        },
+        rating: {
+          min: 1,
+          max: 5
+        },
+        sentiment: sentimentFilter === 'all' ? 'All' : sentimentFilter,
+        listingId: selectedListing.id
+      },
+      sorting: {
+        sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : 'date',
+        sortOrder: apiSortOrder
+      }
+    };
+
+    try {
+      await dispatch(refreshReviewData({
+        locationId: selectedListing.id,
+        reviewParams
+      })).unwrap();
+      
+      toast({
+        title: "Success",
+        description: "Review data refreshed successfully"
       });
-    }).catch(() => {
-      toast.error({
-        title: "Error",
-        description: "Failed to refresh reviews"
-      });
-    });
+    } catch (error) {
+      // Error will be handled by the useEffect below
+      console.error('Failed to refresh review data:', error);
+    }
   };
+
+  // Show toast for refresh errors
+  useEffect(() => {
+    if (refreshError) {
+      toast({
+        title: "Error Refreshing Data",
+        description: refreshError,
+        variant: "destructive"
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearRefreshError());
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [refreshError, toast, dispatch]);
 
   // Show toast for reply errors
   useEffect(() => {
@@ -270,7 +328,7 @@ export const ReviewsList: React.FC = () => {
           sortBy={sortBy}
           localDateRange={localDateRange}
           hasDateRange={Boolean(dateRange.startDate || dateRange.endDate)}
-          isRefreshing={reviewsLoading}
+          isRefreshing={refreshLoading || reviewsLoading}
           onSearchChange={(value) => dispatch(setSearchQuery(value))}
           onFilterChange={(value) => dispatch(setFilter(value))}
           onSentimentFilterChange={(value) => dispatch(setSentimentFilter(value))}
