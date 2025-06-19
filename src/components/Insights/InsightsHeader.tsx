@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { RefreshCw, Download, FileText, Image } from 'lucide-react';
+import { RefreshCw, Image } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { CustomPeriodModal } from './CustomPeriodModal';
@@ -18,7 +17,6 @@ interface InsightsHeaderProps {
   onDateRangeChange: (value: string) => void;
   onCustomDateRangeChange: (date: DateRange | undefined) => void;
   onRefresh: () => void;
-  onExportCSV: () => void;
   onExportImage: () => void;
 }
 
@@ -32,7 +30,6 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   onDateRangeChange,
   onCustomDateRangeChange,
   onRefresh,
-  onExportCSV,
   onExportImage,
 }) => {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
@@ -129,24 +126,15 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             {isLoading ? 'Refreshing...' : 'Refresh'}
           </Button>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full sm:w-auto" disabled={isExporting}>
-                <Download className="w-4 h-4 mr-2" />
-                {isExporting ? 'Exporting...' : 'Export'}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onExportCSV} disabled={isExporting}>
-                <FileText className="w-4 h-4 mr-2" />
-                Download CSV
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onExportImage} disabled={isExporting}>
-                <Image className="w-4 h-4 mr-2" />
-                Download as Image
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button 
+            variant="outline" 
+            className="w-full sm:w-auto" 
+            disabled={isExporting}
+            onClick={onExportImage}
+          >
+            <Image className="w-4 h-4 mr-2" />
+            {isExporting ? 'Exporting...' : 'Export Image'}
+          </Button>
         </div>
       </div>
 

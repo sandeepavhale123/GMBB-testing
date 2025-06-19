@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, RefreshCw } from 'lucide-react';
@@ -14,11 +14,13 @@ import { VisibilitySummaryCard } from './VisibilitySummaryCard';
 import { TopSearchQueriesCard } from './TopSearchQueriesCard';
 import { CustomerInteractionsCard } from './CustomerInteractionsCard';
 import { CustomerActionsChart } from './CustomerActionsChart';
+import html2canvas from 'html2canvas';
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
   const [customDateRange, setCustomDateRange] = useState<DateRange | undefined>();
   const [isExporting, setIsExporting] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
   
   const dispatch = useAppDispatch();
   const { toast } = useToast();
@@ -118,14 +120,36 @@ export const InsightsCard: React.FC = () => {
   };
 
   const handleExportImage = async () => {
+    if (!exportRef.current) return;
+    
     setIsExporting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Wait a bit to ensure all components are fully rendered
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const canvas = await html2canvas(exportRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        height: exportRef.current.scrollHeight,
+        width: exportRef.current.scrollWidth,
+        scrollX: 0,
+        scrollY: 0,
+      });
+      
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `insights-${selectedListing?.name || 'report'}-${format(new Date(), 'yyyy-MM-dd')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      
       toast({
         title: "Image Export Complete",
-        description: "Your insights page has been downloaded as an image."
+        description: "Your insights report has been downloaded as an image."
       });
     } catch (error) {
+      console.error('Error exporting image:', error);
       toast({
         title: "Export Failed",
         description: "Failed to export image. Please try again.",
@@ -176,38 +200,40 @@ export const InsightsCard: React.FC = () => {
         onDateRangeChange={handleDateRangeChange}
         onCustomDateRangeChange={handleCustomDateRangeChange}
         onRefresh={handleRefresh}
-        onExportCSV={handleExportCSV}
         onExportImage={handleExportImage}
       />
 
-      {/* Row 1: Visibility Overview */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <VisibilitySummaryCard
-          isLoadingSummary={isLoadingSummary}
-          isLoadingVisibility={isLoadingVisibility}
-          summary={summary}
-          visibilityTrends={visibilityTrends}
-        />
+      {/* Exportable Content Area */}
+      <div ref={exportRef} className="space-y-6 bg-white">
+        {/* Row 1: Visibility Overview */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <VisibilitySummaryCard
+            isLoadingSummary={isLoadingSummary}
+            isLoadingVisibility={isLoadingVisibility}
+            summary={summary}
+            visibilityTrends={visibilityTrends}
+          />
 
-        <TopSearchQueriesCard
-          isLoading={isLoadingSummary}
-          summary={summary}
-        />
-      </div>
+          <TopSearchQueriesCard
+            isLoading={isLoadingSummary}
+            summary={summary}
+          />
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        <CustomerInteractionsCard
-          isLoadingSummary={isLoadingSummary}
-          summary={summary}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <CustomerInteractionsCard
+            isLoadingSummary={isLoadingSummary}
+            summary={summary}
+          />
 
-        <CustomerActionsChart
-          isLoadingSummary={isLoadingSummary}
-          isLoadingCustomerActions={isLoadingCustomerActions}
-          customerActionsChartData={customerActionsChartData}
-          customerActions={customerActions}
-          summary={summary}
-        />
+          <CustomerActionsChart
+            isLoadingSummary={isLoadingSummary}
+            isLoadingCustomerActions={isLoadingCustomerActions}
+            customerActionsChartData={customerActionsChartData}
+            customerActions={customerActions}
+            summary={summary}
+          />
+        </div>
       </div>
     </div>
   );
