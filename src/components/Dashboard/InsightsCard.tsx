@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -9,10 +8,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { fetchInsightsSummary } from '../../store/slices/insightsSlice';
 import { useListingContext } from '../../context/ListingContext';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { selectedListing } = useListingContext();
   
   const { 
@@ -51,6 +52,10 @@ export const InsightsCard: React.FC = () => {
     setDateRange(value);
   };
 
+  const handleViewInsights = () => {
+    navigate('/insights');
+  };
+
   // Top search queries mock data (since this data is not in the current API response)
   const topQueries = [
     { query: 'restaurant near me', impressions: 2847, trend: 'up' },
@@ -65,16 +70,22 @@ export const InsightsCard: React.FC = () => {
           <BarChart3 className="w-5 h-5 text-blue-600" />
           Performance Insights
         </CardTitle>
-        <Select value={dateRange} onValueChange={handleDateRangeChange}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="Select period" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 Days</SelectItem>
-            <SelectItem value="30">Last 30 Days</SelectItem>
-            <SelectItem value="90">Last 90 Days</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Select value={dateRange} onValueChange={handleDateRangeChange}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Select period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 Days</SelectItem>
+              <SelectItem value="30">Last 30 Days</SelectItem>
+              <SelectItem value="90">Last 90 Days</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={handleViewInsights} variant="outline" size="sm">
+            <Eye className="w-4 h-4 mr-2" />
+            View
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {isLoadingSummary ? (
