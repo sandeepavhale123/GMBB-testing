@@ -5,6 +5,7 @@ import { useInsightsExport } from '../../hooks/useInsightsExport';
 import { InsightsHeader } from './InsightsHeader';
 import { InsightsErrorState } from './InsightsErrorState';
 import { InsightsContent } from './InsightsContent';
+import { ExportHeader } from './ExportHeader';
 
 export const InsightsCard: React.FC = () => {
   const {
@@ -25,7 +26,11 @@ export const InsightsCard: React.FC = () => {
     handleRefresh
   } = useInsightsData();
 
-  const { isExporting, exportRef, handleExportImage } = useInsightsExport(selectedListing);
+  const { isExporting, exportRef, handleExportImage } = useInsightsExport(
+    selectedListing, 
+    dateRange, 
+    customDateRange
+  );
 
   // Show error state
   if (summaryError || visibilityError || customerActionsError) {
@@ -36,6 +41,16 @@ export const InsightsCard: React.FC = () => {
       />
     );
   }
+
+  // Prepare date range for export header
+  const exportDateRange = customDateRange?.from && customDateRange?.to 
+    ? { from: customDateRange.from, to: customDateRange.to }
+    : summary?.timeframe 
+      ? { 
+          from: new Date(summary.timeframe.start_date), 
+          to: new Date(summary.timeframe.end_date) 
+        }
+      : undefined;
 
   return (
     <div className="space-y-6">
@@ -53,7 +68,13 @@ export const InsightsCard: React.FC = () => {
       />
 
       {/* Exportable Content Area */}
-      <div ref={exportRef}>
+      <div ref={exportRef} className="export-container">
+        {/* Export Header - Only visible in exported image */}
+        <ExportHeader 
+          listingName={selectedListing?.name}
+          dateRange={exportDateRange}
+        />
+
         <InsightsContent
           isLoadingSummary={isLoadingSummary}
           isLoadingVisibility={isLoadingVisibility}
