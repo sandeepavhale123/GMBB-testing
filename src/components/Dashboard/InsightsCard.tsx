@@ -1,239 +1,206 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Calendar, Eye, FileText, Image, TrendingUp, TrendingDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { Skeleton } from '../ui/skeleton';
+import { Eye, MapPin, Search, TrendingUp, TrendingDown, MousePointer, Navigation, Phone, MessageSquare, BarChart3 } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { fetchInsightsSummary } from '../../store/slices/insightsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { format } from 'date-fns';
 
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  
+  const { 
+    summary, 
+    isLoadingSummary,
+    summaryError 
+  } = useAppSelector(state => state.insights);
 
-  const visibilityData = [
-    { name: 'Week 1', search: 120, maps: 80 },
-    { name: 'Week 2', search: 150, maps: 95 },
-    { name: 'Week 3', search: 180, maps: 110 },
-    { name: 'Week 4', search: 200, maps: 125 },
-  ];
+  // Fetch data when component mounts or parameters change
+  useEffect(() => {
+    if (selectedListing?.id && dateRange) {
+      fetchData();
+    }
+  }, [selectedListing?.id, dateRange]);
 
-  const searchQueries = [
-    { query: 'downtown coffee shop', type: 'Branded', views: 245, trend: 'up' },
-    { query: 'coffee near me', type: 'Non-Branded', views: 189, trend: 'up' },
-    { query: 'best coffee shop', type: 'Non-Branded', views: 156, trend: 'down' },
-    { query: 'local cafe', type: 'Non-Branded', views: 134, trend: 'up' },
-  ];
+  const fetchData = async () => {
+    if (!selectedListing?.id) return;
 
-  const customerActions = [
-    { icon: Phone, label: 'Calls', value: 42, change: '+12%', trend: 'up' },
-    { icon: MousePointer, label: 'Website', value: 156, change: '+8%', trend: 'up' },
-    { icon: Navigation, label: 'Direction', value: 89, change: '-3%', trend: 'down' },
-    { icon: Eye, label: 'Messages', value: 234, change: '+15%', trend: 'up' },
-    { icon: Search, label: 'Desktop Search', value: 23, change: '+5%', trend: 'up' },
-     { icon: MapPin, label: 'Desktop Map', value: 23, change: '+5%', trend: 'up' },
-     { icon: Search, label: 'Mobile Search', value: 23, change: '+5%', trend: 'up' },
-     { icon: MapPin, label: 'Mobile Map', value: 23, change: '+5%', trend: 'up' },
+    const params = {
+      listingId: parseInt(selectedListing.id, 10),
+      dateRange,
+      startDate: '',
+      endDate: '',
+    };
+
+    console.log('Fetching dashboard insights data with params:', params);
+    
+    try {
+      await dispatch(fetchInsightsSummary(params));
+    } catch (error) {
+      console.error('Error fetching dashboard insights data:', error);
+    }
+  };
+
+  const handleDateRangeChange = (value: string) => {
+    setDateRange(value);
+  };
+
+  // Top search queries mock data (would come from API)
+  const topQueries = summary?.top_search_queries?.slice(0, 3) || [
+    { query: 'restaurant near me', impressions: 2847, trend: 'up' },
+    { query: 'best pizza delivery', impressions: 1923, trend: 'up' },
+    { query: 'italian restaurant', impressions: 1456, trend: 'down' },
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">GMB Insights</h1>
-          <p className="text-sm text-gray-600">Performance analytics for your Google Business Profile</p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Select value={dateRange} onValueChange={setDateRange}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Select date range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="7">Last 7 Days</SelectItem>
-              <SelectItem value="30">Last 30 Days</SelectItem>
-              <SelectItem value="custom">Custom Range</SelectItem>
-            </SelectContent>
-          </Select>
-          {/* <Button variant="outline" className="w-full sm:w-auto">
-            <FileText className="w-4 h-4 mr-2" />
-            Export PDF
-          </Button> */}
-          <Button variant="outline" className="w-full sm:w-auto">
-            View page
-          </Button>
-        </div>
-      </div>
-
-      {/* Row 1: Visibility Overview */}
-
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-
-      <Card className="h-full">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
-          <p className="text-sm text-gray-600">Total views from Google Search and Maps</p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-blue-600" />
-                <span className="text-sm font-medium text-gray-700">Google Search Views</span>
-              </div>
-              <p className="text-3xl font-bold text-gray-900">1,247</p>
-              <p className="text-sm text-green-600 flex items-center gap-1">
-                <TrendingUp className="w-4 h-4" />
-                +15% from last period
-              </p>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-red-600" />
-                <span className="text-sm font-medium text-gray-700">Google Maps Views</span>
-              </div>
-              <p className="text-3xl font-bold text-gray-900">823</p>
-              <p className="text-sm text-green-600 flex items-center gap-1">
-                <TrendingUp className="w-4 h-4" />
-                +8% from last period
-              </p>
-            </div>
-          </div>
-          
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={visibilityData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Bar dataKey="search" fill="#3b82f6" name="Search" />
-                <Bar dataKey="maps" fill="#ef4444" name="Maps" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="flex justify-center mt-4">
-            <div className="flex gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-600 rounded"></div>
-                <span>Last 7 Days</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-600 rounded"></div>
-                <span>30 Days</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-600 rounded"></div>
-                <span>90 Days</span>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-         
-
-      {/* Row 2: Top Search Queries */}
-      <Card className="h-full">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Top Search Queries</CardTitle>
-        </CardHeader>
-        <CardContent>
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-blue-600" />
+          Performance Insights
+        </CardTitle>
+        <Select value={dateRange} onValueChange={handleDateRangeChange}>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="Select period" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="7">Last 7 Days</SelectItem>
+            <SelectItem value="30">Last 30 Days</SelectItem>
+            <SelectItem value="90">Last 90 Days</SelectItem>
+          </SelectContent>
+        </Select>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {isLoadingSummary ? (
           <div className="space-y-4">
-            {searchQueries.map((query, index) => (
-              <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-gray-50">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="font-medium text-gray-900">{query.query}</span>
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      query.type === 'Branded' 
-                        ? 'bg-blue-100 text-blue-700' 
-                        : 'bg-gray-100 text-gray-700'
-                    }`}>
-                      🏷️ {query.type}
-                    </span>
+            <Skeleton className="h-20" />
+            <Skeleton className="h-16" />
+            <Skeleton className="h-16" />
+          </div>
+        ) : summaryError ? (
+          <div className="text-center py-4">
+            <p className="text-red-600 text-sm">{summaryError}</p>
+          </div>
+        ) : (
+          <>
+            {/* Visibility Summary */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Search className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-gray-700">Search Views</span>
+                </div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {summary?.visibility_summary.google_search_views.current_period || 0}
+                </p>
+                <p className={`text-xs flex items-center gap-1 ${
+                  summary?.visibility_summary.google_search_views.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {summary?.visibility_summary.google_search_views.trend === 'up' ? (
+                    <TrendingUp className="w-3 h-3" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" />
+                  )}
+                  {summary?.visibility_summary.google_search_views.percentage_change > 0 ? '+' : ''}
+                  {summary?.visibility_summary.google_search_views.percentage_change || 0}%
+                </p>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-red-600" />
+                  <span className="text-sm font-medium text-gray-700">Maps Views</span>
+                </div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {summary?.visibility_summary.google_maps_views.current_period || 0}
+                </p>
+                <p className={`text-xs flex items-center gap-1 ${
+                  summary?.visibility_summary.google_maps_views.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {summary?.visibility_summary.google_maps_views.trend === 'up' ? (
+                    <TrendingUp className="w-3 h-3" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" />
+                  )}
+                  {summary?.visibility_summary.google_maps_views.percentage_change > 0 ? '+' : ''}
+                  {summary?.visibility_summary.google_maps_views.percentage_change || 0}%
+                </p>
+              </div>
+            </div>
+
+            {/* Customer Interactions */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Customer Actions</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-blue-600" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">{query.views} views</span>
-                    {query.trend === 'up' ? (
-                      <TrendingUp className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <TrendingDown className="w-4 h-4 text-red-600" />
-                    )}
+                  <div>
+                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.phone_calls.value || 0}</p>
+                    <p className="text-xs text-gray-600">Calls</p>
                   </div>
                 </div>
-                <div className="w-16 h-8">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={[{v:10},{v:15},{v:12},{v:18},{v:query.trend === 'up' ? 22 : 14}]}>
-                      <Line dataKey="v" stroke={query.trend === 'up' ? '#16a34a' : '#dc2626'} strokeWidth={2} dot={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <MousePointer className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.website_clicks.value || 0}</p>
+                    <p className="text-xs text-gray-600">Website</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Navigation className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.direction_requests.value || 0}</p>
+                    <p className="text-xs text-gray-600">Directions</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <MessageSquare className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.messages.value || 0}</p>
+                    <p className="text-xs text-gray-600">Messages</p>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-        
-      </div>
-       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-      {/* Row 3: Customer Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {customerActions.map((action, index) => (
-              <div key={index} className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <action.icon className="w-6 h-6 text-blue-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-700 mb-1">{action.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">{action.value}</p>
-                  <div className="flex items-center gap-1 mt-1">
-                    {action.trend === 'up' ? (
-                      <TrendingUp className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <TrendingDown className="w-4 h-4 text-red-600" />
-                    )}
-                    <span className={`text-sm font-medium ${
-                      action.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                    }`}>
-                      {action.change}
-                    </span>
+            </div>
+
+            {/* Top Search Queries */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Top Search Queries</h4>
+              <div className="space-y-2">
+                {topQueries.map((query, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-gray-50">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-500">#{index + 1}</span>
+                      <span className="text-sm text-gray-900">{query.query}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-600">{query.impressions}</span>
+                      {query.trend === 'up' ? (
+                        <TrendingUp className="w-3 h-3 text-green-600" />
+                      ) : (
+                        <TrendingDown className="w-3 h-3 text-red-600" />
+                      )}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-          
-        </CardContent>
-      </Card>
-         {/* Q&A Section */}
-            <Card>
-              <CardHeader className="pb-3 sm:pb-4">
-                <CardTitle className="text-base sm:text-lg font-semibold">Questions & Answers</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Answered</span>
-                    <span className="font-semibold text-sm sm:text-base">20</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Pending</span>
-                    <span className="font-semibold text-yellow-600 text-sm sm:text-base">3</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-600">Response Rate</span>
-                    <span className="font-semibold text-green-600 text-sm sm:text-base">26%</span>
-                  </div>
-                </div>
-                <Button variant="outline" className="w-full mt-3 sm:mt-4 text-sm sm:text-base">
-                  View Q&A
-                </Button>
-              </CardContent>
-            </Card>
-       </div>
-    </div>
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
 };

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
@@ -10,7 +11,7 @@ import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions, clea
 import { useListingContext } from '../../context/ListingContext';
 import { InsightsHeader } from './InsightsHeader';
 import { VisibilitySummaryCard } from './VisibilitySummaryCard';
-import { VisibilityTrendsCard } from './VisibilityTrendsCard';
+import { TopSearchQueriesCard } from './TopSearchQueriesCard';
 import { CustomerInteractionsCard } from './CustomerInteractionsCard';
 import { CustomerActionsChart } from './CustomerActionsChart';
 
@@ -188,9 +189,8 @@ export const InsightsCard: React.FC = () => {
           visibilityTrends={visibilityTrends}
         />
 
-        <VisibilityTrendsCard
-          isLoadingVisibility={isLoadingVisibility}
-          visibilityTrends={visibilityTrends}
+        <TopSearchQueriesCard
+          isLoading={isLoadingSummary}
           summary={summary}
         />
       </div>
