@@ -152,13 +152,13 @@ export const InsightsCard: React.FC = () => {
       case '90':
         startDate = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000);
         break;
-      case '6months':
+      case '180':
         startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
         break;
-      case '9months':
+      case '270':
         startDate = new Date(today.getFullYear(), today.getMonth() - 9, today.getDate());
         break;
-      case '12months':
+      case '365':
         startDate = new Date(today.getFullYear(), today.getMonth() - 12, today.getDate());
         break;
       default: // 30 days
@@ -233,9 +233,9 @@ export const InsightsCard: React.FC = () => {
               <SelectItem value="7">Last 7 Days</SelectItem>
               <SelectItem value="30">Last 30 Days</SelectItem>
               <SelectItem value="90">Last 90 Days</SelectItem>
-              <SelectItem value="6months">Last 6 Months</SelectItem>
-              <SelectItem value="9months">Last 9 Months</SelectItem>
-              <SelectItem value="12months">Last 12 Months</SelectItem>
+              <SelectItem value="180">Last 6 Months</SelectItem>
+              <SelectItem value="270">Last 9 Months</SelectItem>
+              <SelectItem value="365">Last 12 Months</SelectItem>
               <SelectItem value="custom">Custom Period</SelectItem>
             </SelectContent>
           </Select>
