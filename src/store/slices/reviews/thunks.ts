@@ -1,3 +1,4 @@
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { review as reviewService } from '../../../services/reviewService';
 import { GetReviewsRequest, SendReplyRequest } from './types';
@@ -31,9 +32,15 @@ export const fetchReviews = createAsyncThunk(
 // Async thunk for sending review reply
 export const sendReviewReply = createAsyncThunk(
   'reviews/sendReply',
-  async (params: SendReplyRequest, { rejectWithValue }) => {
+  async (params: SendReplyRequest & { listingId: string }, { rejectWithValue, dispatch }) => {
     try {
       const response = await reviewService.sendReviewReply(params);
+      
+      // Refresh summary after successful reply
+      if (params.listingId) {
+        dispatch(fetchReviewSummary(params.listingId));
+      }
+      
       return { ...response, reviewId: params.reviewId, replyText: params.replyText };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to send review reply');
@@ -44,9 +51,15 @@ export const sendReviewReply = createAsyncThunk(
 // Async thunk for deleting review reply
 export const deleteReviewReply = createAsyncThunk(
   'reviews/deleteReply',
-  async (reviewId: string, { rejectWithValue }) => {
+  async ({ reviewId, listingId }: { reviewId: string; listingId: string }, { rejectWithValue, dispatch }) => {
     try {
       const response = await reviewService.deleteReviewReply(reviewId);
+      
+      // Refresh summary after successful delete
+      if (listingId) {
+        dispatch(fetchReviewSummary(listingId));
+      }
+      
       return { ...response, reviewId };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete review reply');
@@ -57,9 +70,15 @@ export const deleteReviewReply = createAsyncThunk(
 // Async thunk for generating AI reply
 export const generateAIReply = createAsyncThunk(
   'reviews/generateAIReply',
-  async (reviewId: number, { rejectWithValue }) => {
+  async ({ reviewId, listingId }: { reviewId: number; listingId: string }, { rejectWithValue, dispatch }) => {
     try {
       const response = await reviewService.generateAIReply(reviewId);
+      
+      // Refresh summary after successful AI reply generation
+      if (listingId) {
+        dispatch(fetchReviewSummary(listingId));
+      }
+      
       return { reviewId, replyText: response.data.replyText };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to generate AI reply');
@@ -77,10 +96,11 @@ export const refreshReviewData = createAsyncThunk(
       
       // If refresh is successful (code 200), fetch updated data
       if (refreshResponse.code === 200) {
-        // Fetch updated reviews
-        await dispatch(fetchReviews(params.reviewParams));
-        // Fetch updated summary
-        await dispatch(fetchReviewSummary(params.locationId));
+        // Fetch updated reviews and summary in parallel
+        await Promise.all([
+          dispatch(fetchReviews(params.reviewParams)),
+          dispatch(fetchReviewSummary(params.locationId))
+        ]);
       }
       
       return refreshResponse;

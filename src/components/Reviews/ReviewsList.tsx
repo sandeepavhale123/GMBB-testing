@@ -191,9 +191,10 @@ export const ReviewsList: React.FC = () => {
   // Show toast for reply errors
   useEffect(() => {
     if (replyError) {
-      toast.error({
+      toast({
         title: "Error Sending Reply",
         description: replyError,
+        variant: "destructive"
       });
       
       // Clear error after showing toast
@@ -208,9 +209,10 @@ export const ReviewsList: React.FC = () => {
   // Show toast for delete reply errors
   useEffect(() => {
     if (deleteReplyError) {
-      toast.error({
+      toast({
         title: "Error Deleting Reply",
         description: deleteReplyError,
+        variant: "destructive"
       });
       
       // Clear error after showing toast
@@ -236,24 +238,28 @@ export const ReviewsList: React.FC = () => {
     const finalReplyText = reply;
     
     if (!finalReplyText?.trim()) {
-      toast.error({
+      toast({
         title: "Error",
         description: "Please enter a reply message",
+        variant: "destructive"
       });
       return;
     }
+
+    if (!selectedListing?.id) return;
 
     try {
       await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
         replyText: finalReplyText,
-        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual'
+        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual',
+        listingId: selectedListing.id
       })).unwrap();
       
       setEditingReply(null);
       setShowingAIGenerator(null);
       
-      toast.success({
+      toast({
         title: "Success",
         description: "Reply sent successfully",
       });
@@ -264,9 +270,15 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleDeleteReply = async (reviewId: string) => {
+    if (!selectedListing?.id) return;
+
     try {
-      await dispatch(deleteReviewReply(reviewId)).unwrap();
-      toast.success({
+      await dispatch(deleteReviewReply({ 
+        reviewId, 
+        listingId: selectedListing.id 
+      })).unwrap();
+      
+      toast({
         title: "Reply Deleted",
         description: "The reply has been deleted successfully",
       });

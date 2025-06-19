@@ -1,11 +1,10 @@
-
 import React, { useMemo } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { MessageSquare, Clock, Bot, User } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 
 export const ReviewStats: React.FC = () => {
-  const { summaryCards, summaryLoading, refreshLoading, reviews } = useAppSelector(state => state.reviews);
+  const { summaryCards, summaryLoading, refreshLoading, reviewsLoading, reviews } = useAppSelector(state => state.reviews);
 
   // Calculate dynamic counts based on current reviews in state
   const dynamicCounts = useMemo(() => {
@@ -25,8 +24,8 @@ export const ReviewStats: React.FC = () => {
     };
   }, [summaryCards, reviews]);
 
-  // Show loading skeleton if data is loading or refreshing
-  if (summaryLoading || refreshLoading || !dynamicCounts) {
+  // Show loading skeleton if data is loading, refreshing, or reviews are loading
+  if (summaryLoading || refreshLoading || reviewsLoading || !dynamicCounts) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         {[1, 2, 3, 4].map((i) => (
