@@ -11,7 +11,7 @@ import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { useToast } from '../../hooks/use-toast';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchInsightsSummary, fetchVisibilityTrends, clearErrors } from '../../store/slices/insightsSlice';
+import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions, clearErrors } from '../../store/slices/insightsSlice';
 import { useListingContext } from '../../context/ListingContext';
 
 export const InsightsCard: React.FC = () => {
@@ -26,11 +26,14 @@ export const InsightsCard: React.FC = () => {
   
   const { 
     summary, 
-    visibilityTrends, 
+    visibilityTrends,
+    customerActions,
     isLoadingSummary, 
-    isLoadingVisibility, 
+    isLoadingVisibility,
+    isLoadingCustomerActions,
     summaryError, 
     visibilityError,
+    customerActionsError,
     lastUpdated 
   } = useAppSelector(state => state.insights);
 
@@ -56,7 +59,8 @@ export const InsightsCard: React.FC = () => {
     try {
       await Promise.all([
         dispatch(fetchInsightsSummary(params)),
-        dispatch(fetchVisibilityTrends(params))
+        dispatch(fetchVisibilityTrends(params)),
+        dispatch(fetchCustomerActions(params))
       ]);
     } catch (error) {
       console.error('Error fetching insights data:', error);
@@ -168,7 +172,13 @@ export const InsightsCard: React.FC = () => {
     return `From: ${format(startDate, 'dd MMM yyyy')} - To: ${format(today, 'dd MMM yyyy')}`;
   };
 
-  const customerActions = summary ? [
+  // Update the customer actions data to use API data when available
+  const customerActionsData = customerActions ? [
+    { icon: Phone, label: 'Calls', value: customerActions.actions_breakdown.phone_calls.total, change: `Daily avg: ${customerActions.actions_breakdown.phone_calls.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.phone_calls.peak_day, peakValue: customerActions.actions_breakdown.phone_calls.peak_value },
+    { icon: MousePointer, label: 'Website', value: customerActions.actions_breakdown.website_clicks.total, change: `Daily avg: ${customerActions.actions_breakdown.website_clicks.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.website_clicks.peak_day, peakValue: customerActions.actions_breakdown.website_clicks.peak_value },
+    { icon: Navigation, label: 'Direction', value: customerActions.actions_breakdown.direction_requests.total, change: `Daily avg: ${customerActions.actions_breakdown.direction_requests.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.direction_requests.peak_day, peakValue: customerActions.actions_breakdown.direction_requests.peak_value },
+    { icon: MessageSquare, label: 'Messages', value: customerActions.actions_breakdown.messages.total, change: `Daily avg: ${customerActions.actions_breakdown.messages.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.messages.peak_day, peakValue: customerActions.actions_breakdown.messages.peak_value },
+  ] : summary ? [
     { icon: Phone, label: 'Calls', value: summary.customer_actions.phone_calls.value, change: `${summary.customer_actions.phone_calls.change_percentage > 0 ? '+' : ''}${summary.customer_actions.phone_calls.change_percentage}%`, trend: summary.customer_actions.phone_calls.trend },
     { icon: MousePointer, label: 'Website', value: summary.customer_actions.website_clicks.value, change: `${summary.customer_actions.website_clicks.change_percentage > 0 ? '+' : ''}${summary.customer_actions.website_clicks.change_percentage}%`, trend: summary.customer_actions.website_clicks.trend },
     { icon: Navigation, label: 'Direction', value: summary.customer_actions.direction_requests.value, change: `${summary.customer_actions.direction_requests.change_percentage > 0 ? '+' : ''}${summary.customer_actions.direction_requests.change_percentage}%`, trend: summary.customer_actions.direction_requests.trend },
@@ -179,22 +189,22 @@ export const InsightsCard: React.FC = () => {
     { icon: MapPin, label: 'Mobile Map', value: summary.customer_actions.mobile_map.value, change: `${summary.customer_actions.mobile_map.change_percentage > 0 ? '+' : ''}${summary.customer_actions.mobile_map.change_percentage}%`, trend: summary.customer_actions.mobile_map.trend },
   ] : [];
 
-  const customerActionsChartData = summary ? [
+  const customerActionsChartData = customerActions?.chart_data || (summary ? [
     { name: 'Website', value: summary.customer_actions.website_clicks.value },
     { name: 'Direction', value: summary.customer_actions.direction_requests.value },
     { name: 'Calls', value: summary.customer_actions.phone_calls.value },
     { name: 'Messages', value: summary.customer_actions.messages.value },
-  ] : [];
+  ] : []);
 
   // Show error state
-  if (summaryError || visibilityError) {
+  if (summaryError || visibilityError || customerActionsError) {
     return (
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6">
             <div className="text-center">
               <p className="text-red-600 mb-4">
-                {summaryError || visibilityError}
+                {summaryError || visibilityError || customerActionsError}
               </p>
               <Button onClick={handleRefresh} variant="outline">
                 <RefreshCw className="w-4 h-4 mr-2" />
@@ -244,10 +254,10 @@ export const InsightsCard: React.FC = () => {
             variant="outline" 
             className="w-full sm:w-auto"
             onClick={handleRefresh}
-            disabled={isLoadingSummary || isLoadingVisibility}
+            disabled={isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions}
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${(isLoadingSummary || isLoadingVisibility) ? 'animate-spin' : ''}`} />
-            {(isLoadingSummary || isLoadingVisibility) ? 'Refreshing...' : 'Refresh'}
+            <RefreshCw className={`w-4 h-4 mr-2 ${(isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions) ? 'animate-spin' : ''}`} />
+            {(isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions) ? 'Refreshing...' : 'Refresh'}
           </Button>
           
           <DropdownMenu>
@@ -376,7 +386,7 @@ export const InsightsCard: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Top Search Queries - Placeholder since API doesn't provide this data */}
+        {/* Visibility Trends Summary */}
         <Card className="h-full">
           <CardHeader>
             <CardTitle className="text-lg font-semibold">Visibility Trends Summary</CardTitle>
@@ -438,7 +448,7 @@ export const InsightsCard: React.FC = () => {
             <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
           </CardHeader>
           <CardContent>
-            {isLoadingSummary ? (
+            {isLoadingSummary || isLoadingCustomerActions ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[...Array(8)].map((_, i) => (
                   <Skeleton key={i} className="h-20" />
@@ -446,7 +456,7 @@ export const InsightsCard: React.FC = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                {customerActions.map((action, index) => (
+                {customerActionsData.map((action, index) => (
                   <div key={index} className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
                       <action.icon className="w-6 h-6 text-blue-600" />
@@ -481,7 +491,7 @@ export const InsightsCard: React.FC = () => {
             <p className="text-sm text-gray-600">Actions taken by customers on your profile</p>
           </CardHeader>
           <CardContent>
-            {isLoadingSummary ? (
+            {isLoadingSummary || isLoadingCustomerActions ? (
               <Skeleton className="h-64" />
             ) : (
               <>
@@ -511,19 +521,19 @@ export const InsightsCard: React.FC = () => {
                 <div className="mt-4 grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-2">
                     <MousePointer className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm text-gray-600">Website: {summary?.customer_actions.website_clicks.value || 0}</span>
+                    <span className="text-sm text-gray-600">Website: {customerActions?.actions_breakdown.website_clicks.total || summary?.customer_actions.website_clicks.value || 0}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4 text-green-600" />
-                    <span className="text-sm text-gray-600">Messages: {summary?.customer_actions.messages.value || 0}</span>
+                    <span className="text-sm text-gray-600">Messages: {customerActions?.actions_breakdown.messages.total || summary?.customer_actions.messages.value || 0}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Navigation className="w-4 h-4 text-orange-600" />
-                    <span className="text-sm text-gray-600">Directions: {summary?.customer_actions.direction_requests.value || 0}</span>
+                    <span className="text-sm text-gray-600">Directions: {customerActions?.actions_breakdown.direction_requests.total || summary?.customer_actions.direction_requests.value || 0}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-purple-600" />
-                    <span className="text-sm text-gray-600">Calls: {summary?.customer_actions.phone_calls.value || 0}</span>
+                    <span className="text-sm text-gray-600">Calls: {customerActions?.actions_breakdown.phone_calls.total || summary?.customer_actions.phone_calls.value || 0}</span>
                   </div>
                 </div>
               </>

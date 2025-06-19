@@ -1,24 +1,30 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse } from '../../services/insightsService';
+import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse } from '../../services/insightsService';
 
 export interface InsightsState {
   summary: InsightsSummaryResponse['data'] | null;
   visibilityTrends: VisibilityTrendsResponse['data'] | null;
+  customerActions: CustomerActionsResponse['data'] | null;
   isLoadingSummary: boolean;
   isLoadingVisibility: boolean;
+  isLoadingCustomerActions: boolean;
   summaryError: string | null;
   visibilityError: string | null;
+  customerActionsError: string | null;
   lastUpdated: string | null;
 }
 
 const initialState: InsightsState = {
   summary: null,
   visibilityTrends: null,
+  customerActions: null,
   isLoadingSummary: false,
   isLoadingVisibility: false,
+  isLoadingCustomerActions: false,
   summaryError: null,
   visibilityError: null,
+  customerActionsError: null,
   lastUpdated: null,
 };
 
@@ -47,6 +53,18 @@ export const fetchVisibilityTrends = createAsyncThunk(
   }
 );
 
+export const fetchCustomerActions = createAsyncThunk(
+  'insights/fetchCustomerActions',
+  async (params: CustomerActionsRequest, { rejectWithValue }) => {
+    try {
+      const response = await insightsService.getCustomerActions(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch customer actions');
+    }
+  }
+);
+
 const insightsSlice = createSlice({
   name: 'insights',
   initialState,
@@ -54,6 +72,7 @@ const insightsSlice = createSlice({
     clearErrors: (state) => {
       state.summaryError = null;
       state.visibilityError = null;
+      state.customerActionsError = null;
     },
     setLastUpdated: (state) => {
       state.lastUpdated = new Date().toISOString();
@@ -89,6 +108,21 @@ const insightsSlice = createSlice({
       .addCase(fetchVisibilityTrends.rejected, (state, action) => {
         state.isLoadingVisibility = false;
         state.visibilityError = action.payload as string;
+      });
+
+    // Customer Actions
+    builder
+      .addCase(fetchCustomerActions.pending, (state) => {
+        state.isLoadingCustomerActions = true;
+        state.customerActionsError = null;
+      })
+      .addCase(fetchCustomerActions.fulfilled, (state, action) => {
+        state.isLoadingCustomerActions = false;
+        state.customerActions = action.payload;
+      })
+      .addCase(fetchCustomerActions.rejected, (state, action) => {
+        state.isLoadingCustomerActions = false;
+        state.customerActionsError = action.payload as string;
       });
   },
 });

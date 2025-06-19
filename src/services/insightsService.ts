@@ -15,6 +15,13 @@ export interface VisibilityTrendsRequest {
   endDate?: string;
 }
 
+export interface CustomerActionsRequest {
+  listingId: number;
+  dateRange: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface InsightsSummaryResponse {
   code: number;
   message: string;
@@ -104,6 +111,47 @@ export interface VisibilityTrendsResponse {
   };
 }
 
+export interface CustomerActionsResponse {
+  code: number;
+  message: string;
+  data: {
+    timeframe: {
+      start_date: string;
+      end_date: string;
+    };
+    actions_breakdown: {
+      website_clicks: {
+        total: number;
+        daily_average: number;
+        peak_day: string;
+        peak_value: number;
+      };
+      direction_requests: {
+        total: number;
+        daily_average: number;
+        peak_day: string;
+        peak_value: number;
+      };
+      phone_calls: {
+        total: number;
+        daily_average: number;
+        peak_day: string;
+        peak_value: number;
+      };
+      messages: {
+        total: number;
+        daily_average: number;
+        peak_day: string;
+        peak_value: number;
+      };
+    };
+    chart_data: Array<{
+      name: string;
+      value: number;
+    }>;
+  };
+}
+
 export const insightsService = {
   getInsightsSummary: async (params: InsightsSummaryRequest): Promise<InsightsSummaryResponse> => {
     const response = await axiosInstance({
@@ -117,6 +165,15 @@ export const insightsService = {
   getVisibilityTrends: async (params: VisibilityTrendsRequest): Promise<VisibilityTrendsResponse> => {
     const response = await axiosInstance({
       url: '/v1/get-visibility-trends',
+      method: 'POST',
+      data: params,
+    });
+    return response.data;
+  },
+
+  getCustomerActions: async (params: CustomerActionsRequest): Promise<CustomerActionsResponse> => {
+    const response = await axiosInstance({
+      url: '/v1/get-customer-actions',
       method: 'POST',
       data: params,
     });
