@@ -122,7 +122,7 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>This button will refresh your review page to get the latest reviews from all platforms</p>
+                <p>This button will refresh your review page to get the latest reviews from google</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
