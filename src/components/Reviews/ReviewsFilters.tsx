@@ -109,12 +109,12 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         {onRefresh && (
           <Button
             variant="outline"
-            size="icon"
+           
             onClick={onRefresh}
             disabled={isRefreshing}
             aria-label="Refresh reviews"
           >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={` ${isRefreshing ? 'animate-spin' : ''}`} />
             Review refresh
           </Button>
         )}
