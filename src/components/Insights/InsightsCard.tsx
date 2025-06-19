@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
@@ -134,23 +133,6 @@ export const InsightsCard: React.FC = () => {
     }
   };
 
-  // Update the customer actions data to use API data when available
-  const customerActionsData = customerActions ? [
-    { icon: Phone, label: 'Calls', value: customerActions.actions_breakdown.phone_calls.total, change: `Daily avg: ${customerActions.actions_breakdown.phone_calls.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.phone_calls.peak_day, peakValue: customerActions.actions_breakdown.phone_calls.peak_value },
-    { icon: MousePointer, label: 'Website', value: customerActions.actions_breakdown.website_clicks.total, change: `Daily avg: ${customerActions.actions_breakdown.website_clicks.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.website_clicks.peak_day, peakValue: customerActions.actions_breakdown.website_clicks.peak_value },
-    { icon: Navigation, label: 'Direction', value: customerActions.actions_breakdown.direction_requests.total, change: `Daily avg: ${customerActions.actions_breakdown.direction_requests.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.direction_requests.peak_day, peakValue: customerActions.actions_breakdown.direction_requests.peak_value },
-    { icon: MessageSquare, label: 'Messages', value: customerActions.actions_breakdown.messages.total, change: `Daily avg: ${customerActions.actions_breakdown.messages.daily_average}`, trend: 'up', peakDay: customerActions.actions_breakdown.messages.peak_day, peakValue: customerActions.actions_breakdown.messages.peak_value },
-  ] : summary ? [
-    { icon: Phone, label: 'Calls', value: summary.customer_actions.phone_calls.value, change: `${summary.customer_actions.phone_calls.change_percentage > 0 ? '+' : ''}${summary.customer_actions.phone_calls.change_percentage}%`, trend: summary.customer_actions.phone_calls.trend },
-    { icon: MousePointer, label: 'Website', value: summary.customer_actions.website_clicks.value, change: `${summary.customer_actions.website_clicks.change_percentage > 0 ? '+' : ''}${summary.customer_actions.website_clicks.change_percentage}%`, trend: summary.customer_actions.website_clicks.trend },
-    { icon: Navigation, label: 'Direction', value: summary.customer_actions.direction_requests.value, change: `${summary.customer_actions.direction_requests.change_percentage > 0 ? '+' : ''}${summary.customer_actions.direction_requests.change_percentage}%`, trend: summary.customer_actions.direction_requests.trend },
-    { icon: MessageSquare, label: 'Messages', value: summary.customer_actions.messages.value, change: `${summary.customer_actions.messages.change_percentage > 0 ? '+' : ''}${summary.customer_actions.messages.change_percentage}%`, trend: summary.customer_actions.messages.trend },
-    { icon: Search, label: 'Desktop Search', value: summary.customer_actions.desktop_search.value, change: `${summary.customer_actions.desktop_search.change_percentage > 0 ? '+' : ''}${summary.customer_actions.desktop_search.change_percentage}%`, trend: summary.customer_actions.desktop_search.trend },
-    { icon: MapPin, label: 'Desktop Map', value: summary.customer_actions.desktop_map.value, change: `${summary.customer_actions.desktop_map.change_percentage > 0 ? '+' : ''}${summary.customer_actions.desktop_map.change_percentage}%`, trend: summary.customer_actions.desktop_map.trend },
-    { icon: Search, label: 'Mobile Search', value: summary.customer_actions.mobile_search.value, change: `${summary.customer_actions.mobile_search.change_percentage > 0 ? '+' : ''}${summary.customer_actions.mobile_search.change_percentage}%`, trend: summary.customer_actions.mobile_search.trend },
-    { icon: MapPin, label: 'Mobile Map', value: summary.customer_actions.mobile_map.value, change: `${summary.customer_actions.mobile_map.change_percentage > 0 ? '+' : ''}${summary.customer_actions.mobile_map.change_percentage}%`, trend: summary.customer_actions.mobile_map.trend },
-  ] : [];
-
   const customerActionsChartData = customerActions?.chart_data || (summary ? [
     { name: 'Website', value: summary.customer_actions.website_clicks.value },
     { name: 'Direction', value: summary.customer_actions.direction_requests.value },
@@ -214,8 +196,7 @@ export const InsightsCard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <CustomerInteractionsCard
           isLoadingSummary={isLoadingSummary}
-          isLoadingCustomerActions={isLoadingCustomerActions}
-          customerActionsData={customerActionsData}
+          summary={summary}
         />
 
         <CustomerActionsChart

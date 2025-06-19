@@ -6,22 +6,32 @@ import { MousePointer, Navigation, Phone, MessageSquare, Search, MapPin, Trendin
 
 interface CustomerInteractionsCardProps {
   isLoadingSummary: boolean;
-  isLoadingCustomerActions: boolean;
-  customerActionsData: any[];
+  summary: any;
 }
 
 export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> = ({
   isLoadingSummary,
-  isLoadingCustomerActions,
-  customerActionsData,
+  summary,
 }) => {
+  // Create customer actions data from summary
+  const customerActionsData = summary ? [
+    { icon: Phone, label: 'Calls', value: summary.customer_actions.phone_calls.value, change: `${summary.customer_actions.phone_calls.change_percentage > 0 ? '+' : ''}${summary.customer_actions.phone_calls.change_percentage}%`, trend: summary.customer_actions.phone_calls.trend },
+    { icon: MousePointer, label: 'Website', value: summary.customer_actions.website_clicks.value, change: `${summary.customer_actions.website_clicks.change_percentage > 0 ? '+' : ''}${summary.customer_actions.website_clicks.change_percentage}%`, trend: summary.customer_actions.website_clicks.trend },
+    { icon: Navigation, label: 'Direction', value: summary.customer_actions.direction_requests.value, change: `${summary.customer_actions.direction_requests.change_percentage > 0 ? '+' : ''}${summary.customer_actions.direction_requests.change_percentage}%`, trend: summary.customer_actions.direction_requests.trend },
+    { icon: MessageSquare, label: 'Messages', value: summary.customer_actions.messages.value, change: `${summary.customer_actions.messages.change_percentage > 0 ? '+' : ''}${summary.customer_actions.messages.change_percentage}%`, trend: summary.customer_actions.messages.trend },
+    { icon: Search, label: 'Desktop Search', value: summary.customer_actions.desktop_search.value, change: `${summary.customer_actions.desktop_search.change_percentage > 0 ? '+' : ''}${summary.customer_actions.desktop_search.change_percentage}%`, trend: summary.customer_actions.desktop_search.trend },
+    { icon: MapPin, label: 'Desktop Map', value: summary.customer_actions.desktop_map.value, change: `${summary.customer_actions.desktop_map.change_percentage > 0 ? '+' : ''}${summary.customer_actions.desktop_map.change_percentage}%`, trend: summary.customer_actions.desktop_map.trend },
+    { icon: Search, label: 'Mobile Search', value: summary.customer_actions.mobile_search.value, change: `${summary.customer_actions.mobile_search.change_percentage > 0 ? '+' : ''}${summary.customer_actions.mobile_search.change_percentage}%`, trend: summary.customer_actions.mobile_search.trend },
+    { icon: MapPin, label: 'Mobile Map', value: summary.customer_actions.mobile_map.value, change: `${summary.customer_actions.mobile_map.change_percentage > 0 ? '+' : ''}${summary.customer_actions.mobile_map.change_percentage}%`, trend: summary.customer_actions.mobile_map.trend },
+  ] : [];
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Customer Interactions</CardTitle>
       </CardHeader>
       <CardContent>
-        {isLoadingSummary || isLoadingCustomerActions ? (
+        {isLoadingSummary ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {[...Array(8)].map((_, i) => (
               <Skeleton key={i} className="h-20" />
