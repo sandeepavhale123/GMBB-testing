@@ -1,12 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { DateRangePicker } from '../ui/date-range-picker';
 import { RefreshCw, Download, FileText, Image } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
+import { CustomPeriodModal } from './CustomPeriodModal';
 
 interface InsightsHeaderProps {
   dateRange: string;
@@ -35,8 +35,25 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   onExportCSV,
   onExportImage,
 }) => {
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
+
+  const handleDateRangeChange = (value: string) => {
+    if (value === 'custom') {
+      setIsCustomModalOpen(true);
+    } else {
+      onDateRangeChange(value);
+    }
+  };
+
+  const handleCustomPeriodSubmit = (selectedDateRange: DateRange | undefined) => {
+    if (selectedDateRange) {
+      onCustomDateRangeChange(selectedDateRange);
+      onDateRangeChange('custom');
+    }
+  };
+
   const getDateRangeLabel = () => {
-    if (showCustomPicker && customDateRange?.from) {
+    if (dateRange === 'custom' && customDateRange?.from) {
       const fromDate = format(customDateRange.from, 'dd MMM yyyy');
       const toDate = customDateRange.to ? format(customDateRange.to, 'dd MMM yyyy') : fromDate;
       return `From: ${fromDate} - To: ${toDate}`;
@@ -87,7 +104,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
-          <Select value={dateRange} onValueChange={onDateRangeChange}>
+          <Select value={dateRange} onValueChange={handleDateRangeChange}>
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Select date range" />
             </SelectTrigger>
@@ -133,16 +150,12 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
         </div>
       </div>
 
-      {showCustomPicker && (
-        <div className="flex justify-center">
-          <DateRangePicker
-            date={customDateRange}
-            onDateChange={onCustomDateRangeChange}
-            placeholder="Select custom date range"
-            className="w-full max-w-md"
-          />
-        </div>
-      )}
+      <CustomPeriodModal
+        isOpen={isCustomModalOpen}
+        onClose={() => setIsCustomModalOpen(false)}
+        onSubmit={handleCustomPeriodSubmit}
+        initialDateRange={customDateRange}
+      />
     </>
   );
 };

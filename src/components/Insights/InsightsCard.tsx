@@ -17,7 +17,6 @@ import { CustomerActionsChart } from './CustomerActionsChart';
 export const InsightsCard: React.FC = () => {
   const [dateRange, setDateRange] = useState('30');
   const [customDateRange, setCustomDateRange] = useState<DateRange | undefined>();
-  const [showCustomPicker, setShowCustomPicker] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   
   const dispatch = useAppDispatch();
@@ -39,7 +38,9 @@ export const InsightsCard: React.FC = () => {
 
   // Fetch data when component mounts or parameters change
   useEffect(() => {
-    if (selectedListing?.id) {
+    if (selectedListing?.id && dateRange !== 'custom') {
+      fetchData();
+    } else if (selectedListing?.id && dateRange === 'custom' && customDateRange?.from && customDateRange?.to) {
       fetchData();
     }
   }, [selectedListing?.id, dateRange, customDateRange]);
@@ -69,12 +70,13 @@ export const InsightsCard: React.FC = () => {
 
   const handleDateRangeChange = (value: string) => {
     setDateRange(value);
-    if (value === 'custom') {
-      setShowCustomPicker(true);
-    } else {
-      setShowCustomPicker(false);
+    if (value !== 'custom') {
       setCustomDateRange(undefined);
     }
+  };
+
+  const handleCustomDateRangeChange = (dateRange: DateRange | undefined) => {
+    setCustomDateRange(dateRange);
   };
 
   const handleRefresh = async () => {
@@ -166,12 +168,12 @@ export const InsightsCard: React.FC = () => {
       <InsightsHeader
         dateRange={dateRange}
         customDateRange={customDateRange}
-        showCustomPicker={showCustomPicker}
+        showCustomPicker={false}
         isLoading={isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions}
         isExporting={isExporting}
         summary={summary}
         onDateRangeChange={handleDateRangeChange}
-        onCustomDateRangeChange={setCustomDateRange}
+        onCustomDateRangeChange={handleCustomDateRangeChange}
         onRefresh={handleRefresh}
         onExportCSV={handleExportCSV}
         onExportImage={handleExportImage}
