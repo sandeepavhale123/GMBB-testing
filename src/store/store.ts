@@ -8,6 +8,7 @@ import themeSlice from "./slices/themeSlice";
 import authReducer from "./slices/auth/authSlice";
 import businessListingsReducer from "./slices/businessListingsSlice";
 import profileReducer from "./slices/profileSlice";
+import insightsReducer from "./slices/insightsSlice";
 import { RESET_STORE } from "./actions/globalActions";
 
 // Combine all reducers
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   auth: authReducer,
   businessListings: businessListingsReducer,
   profile: profileReducer,
+  insights: insightsReducer,
 });
 
 // Root reducer that handles global store reset
