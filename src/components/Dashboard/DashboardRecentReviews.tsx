@@ -76,13 +76,14 @@ export const DashboardRecentReviews: React.FC = () => {
   };
 
   const handleSaveReply = async (reviewId: string, replyText?: string) => {
-    if (!replyText) return;
+    if (!replyText || !selectedListing?.id) return;
 
     try {
       const result = await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
         replyText,
-        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual'
+        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual',
+        listingId: selectedListing.id
       }));
 
       if (sendReviewReply.fulfilled.match(result)) {

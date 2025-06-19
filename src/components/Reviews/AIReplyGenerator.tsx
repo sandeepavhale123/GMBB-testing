@@ -5,6 +5,7 @@ import { Textarea } from '../ui/textarea';
 import { Bot, RotateCcw, Loader2 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { generateAIReply, clearAIGenerationError } from '../../store/slices/reviews';
+import { useListingContext } from '../../context/ListingContext';
 import { useToast } from '../../hooks/use-toast';
 
 interface AIReplyGeneratorProps {
@@ -28,31 +29,39 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
+  const { selectedListing } = useListingContext();
   const { aiGenerationLoading, aiGenerationError } = useAppSelector(state => state.reviews);
   
   const [aiReply, setAiReply] = useState('');
   const [hasGenerated, setHasGenerated] = useState(false);
 
   const generateReply = async () => {
+    if (!selectedListing?.id) return;
+
     try {
       setHasGenerated(false);
       dispatch(clearAIGenerationError());
       
-      const result = await dispatch(generateAIReply(parseInt(reviewId)));
+      const result = await dispatch(generateAIReply({ 
+        reviewId: parseInt(reviewId), 
+        listingId: selectedListing.id 
+      }));
       
       if (generateAIReply.fulfilled.match(result)) {
         setAiReply(result.payload.replyText);
         setHasGenerated(true);
       } else {
-        toast.error({
+        toast({
           title: "AI Generation Failed",
-          description: result.payload as string || "Failed to generate AI reply. Please try again."
+          description: result.payload as string || "Failed to generate AI reply. Please try again.",
+          variant: "destructive"
         });
       }
     } catch (error) {
-      toast.error({
+      toast({
         title: "Error",
-        description: "An unexpected error occurred while generating the reply."
+        description: "An unexpected error occurred while generating the reply.",
+        variant: "destructive"
       });
     }
   };
