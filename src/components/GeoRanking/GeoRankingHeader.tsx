@@ -121,7 +121,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           {/* Single Row Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
             {/* Keyword Section */}
-            <div className="lg:col-span-3 relative">
+            <div className="lg:col-span-3 relative gap-1 ">
                <div className="mb-6">
                 <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
               </div>
