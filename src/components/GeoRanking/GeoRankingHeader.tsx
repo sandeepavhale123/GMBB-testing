@@ -9,20 +9,43 @@ interface GeoRankingHeaderProps {
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
+  listingName?: string;
+  listingAddress?: string;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
-  onKeywordSelect
+  onKeywordSelect,
+  listingName = "Downtown Coffee Shop",
+  listingAddress = "123 Main St, Downtown, City"
 }) => {
+  const reportDate = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
   return (
     <div className="mb-6 sm:mb-8">
       {/* Tool Name and Address */}
-      <div className="mb-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Geo Ranking Tool</h1>
-        <p className="text-sm text-gray-600">Your Business Location • Selected Listing Address</p>
+      <div className="mb-4 flex justify-between items-start">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{listingName}</h1>
+          <p className="text-sm text-gray-600">{listingAddress}</p>
+        </div>
+        
+        {/* Report Date and Branding */}
+        <div className="text-right">
+          <p className="text-sm text-gray-600 mb-2">Report Generated: {reportDate}</p>
+          <div className="flex items-center gap-2 justify-end">
+            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+              <span className="text-white text-xs font-bold">G</span>
+            </div>
+            <span className="text-xs text-gray-500">Powered by GMB-Briefcase</span>
+          </div>
+        </div>
       </div>
 
       {/* Main Header Card */}
