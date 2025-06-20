@@ -3,50 +3,59 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
+import { useListingContext } from '@/context/ListingContext';
 
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
-  listingName?: string;
-  listingAddress?: string;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
-  onKeywordSelect,
-  listingName = "Downtown Coffee Shop",
-  listingAddress = "123 Main St, Downtown, City"
+  onKeywordSelect
 }) => {
+  // Get the selected listing from context
+  const { selectedListing } = useListingContext();
+  
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
+  // Use selected listing data or fallback values
+  const listingName = selectedListing?.name || "Downtown Coffee Shop";
+  const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
+
   return (
     <div className="mb-6 sm:mb-8">
-      {/* Tool Name and Address */}
-      <div className="mb-4 flex justify-between items-start">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{listingName}</h1>
-          <p className="text-sm text-gray-600">{listingAddress}</p>
-        </div>
-        
-        {/* Report Date and Branding */}
-        <div className="text-right">
-          <p className="text-sm text-gray-600 mb-2">Report Generated: {reportDate}</p>
-          <div className="flex items-center gap-2 justify-end">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">G</span>
+      {/* Report Header Card */}
+      <Card className="mb-4">
+        <CardContent className="p-4">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-700 mb-1">{listingName}</h2>
+              <p className="text-sm text-gray-600">{listingAddress}</p>
             </div>
-            <span className="text-xs text-gray-500">Powered by GMB-Briefcase</span>
+            
+            {/* Report Date and Branding */}
+            <div className="text-right">
+              <p className="text-sm text-gray-600 mb-2">Report Generated: {reportDate}</p>
+              <div className="flex items-center gap-2 justify-end">
+                <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">G</span>
+                </div>
+                <span className="text-xs text-gray-500">Powered by GMB-Briefcase</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
