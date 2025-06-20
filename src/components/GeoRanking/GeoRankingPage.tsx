@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -9,13 +8,12 @@ import { RankingMap } from './RankingMap';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
-
 export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [gridSize, setGridSize] = useState('4*4');
   const [headerKeyword, setHeaderKeyword] = useState('Web Design');
-  
+
   // Modal state
   const [modalData, setModalData] = useState<{
     isOpen: boolean;
@@ -36,29 +34,67 @@ export const GeoRankingPage: React.FC = () => {
 
   // User's business name for highlighting
   const userBusinessName = "Your Digital Agency";
-
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
-
   const handleExportPDF = () => {
     console.log('Exporting report as PDF...');
   };
 
   // Generate mock competitor data based on grid position
   const generateCompetitorData = (gridId: string) => {
-    const competitors = [
-      { name: 'J K Digitech', address: 'Laxmi Nagar, Delhi, India', rating: 4.8, reviewCount: 127 },
-      { name: 'Digital Bytz', address: 'Connaught Place, New Delhi, India', rating: 4.6, reviewCount: 89 },
-      { name: 'PUNK DIGITAL MARKETING ACADEMY', address: 'Janakpuri, Delhi, India', rating: 4.7, reviewCount: 156 },
-      { name: userBusinessName, address: 'Karol Bagh, Delhi, India', rating: 4.5, reviewCount: 94, isUserBusiness: true },
-      { name: 'TechnoVista Digital', address: 'Rajouri Garden, Delhi, India', rating: 4.9, reviewCount: 203 },
-      { name: 'Creative Web Hub', address: 'Dwarka, New Delhi, India', rating: 4.4, reviewCount: 78 },
-      { name: 'Digital Storm Agency', address: 'Rohini, Delhi, India', rating: 4.6, reviewCount: 112 },
-      { name: 'NextGen Web Studio', address: 'Pitampura, Delhi, India', rating: 4.3, reviewCount: 67 },
-      { name: 'Elite Digital Services', address: 'Saket, New Delhi, India', rating: 4.8, reviewCount: 145 },
-      { name: 'ProWeb Technologies', address: 'Vasant Kunj, Delhi, India', rating: 4.5, reviewCount: 98 }
-    ];
+    const competitors = [{
+      name: 'J K Digitech',
+      address: 'Laxmi Nagar, Delhi, India',
+      rating: 4.8,
+      reviewCount: 127
+    }, {
+      name: 'Digital Bytz',
+      address: 'Connaught Place, New Delhi, India',
+      rating: 4.6,
+      reviewCount: 89
+    }, {
+      name: 'PUNK DIGITAL MARKETING ACADEMY',
+      address: 'Janakpuri, Delhi, India',
+      rating: 4.7,
+      reviewCount: 156
+    }, {
+      name: userBusinessName,
+      address: 'Karol Bagh, Delhi, India',
+      rating: 4.5,
+      reviewCount: 94,
+      isUserBusiness: true
+    }, {
+      name: 'TechnoVista Digital',
+      address: 'Rajouri Garden, Delhi, India',
+      rating: 4.9,
+      reviewCount: 203
+    }, {
+      name: 'Creative Web Hub',
+      address: 'Dwarka, New Delhi, India',
+      rating: 4.4,
+      reviewCount: 78
+    }, {
+      name: 'Digital Storm Agency',
+      address: 'Rohini, Delhi, India',
+      rating: 4.6,
+      reviewCount: 112
+    }, {
+      name: 'NextGen Web Studio',
+      address: 'Pitampura, Delhi, India',
+      rating: 4.3,
+      reviewCount: 67
+    }, {
+      name: 'Elite Digital Services',
+      address: 'Saket, New Delhi, India',
+      rating: 4.8,
+      reviewCount: 145
+    }, {
+      name: 'ProWeb Technologies',
+      address: 'Vasant Kunj, Delhi, India',
+      rating: 4.5,
+      reviewCount: 98
+    }];
 
     // Shuffle and assign positions based on grid
     const shuffled = [...competitors].sort(() => Math.random() - 0.5);
@@ -67,7 +103,6 @@ export const GeoRankingPage: React.FC = () => {
       ...competitor
     }));
   };
-
   const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
@@ -76,13 +111,13 @@ export const GeoRankingPage: React.FC = () => {
       competitors
     });
   };
-
   const handleCloseModal = () => {
-    setModalData(prev => ({ ...prev, isOpen: false }));
+    setModalData(prev => ({
+      ...prev,
+      isOpen: false
+    }));
   };
-
-  return (
-    <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
+  return <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
       {/* Redesigned Header */}
       <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
@@ -101,9 +136,7 @@ export const GeoRankingPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="flex items-center gap-3">
                     <div className="text-xl sm:text-2xl font-bold text-gray-900">{headerKeyword}</div>
-                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
-                      Monthly Volume: 8.2k
-                    </span>
+                    
                   </div>
                   <Select value={headerKeyword} onValueChange={setHeaderKeyword}>
                     <SelectTrigger className="w-full sm:w-48">
@@ -250,13 +283,6 @@ export const GeoRankingPage: React.FC = () => {
       </div>
 
       {/* GEO Position Modal */}
-      <GeoPositionModal
-        isOpen={modalData.isOpen}
-        onClose={handleCloseModal}
-        gpsCoordinates={modalData.gpsCoordinates}
-        competitors={modalData.competitors}
-        userBusinessName={userBusinessName}
-      />
-    </div>
-  );
+      <GeoPositionModal isOpen={modalData.isOpen} onClose={handleCloseModal} gpsCoordinates={modalData.gpsCoordinates} competitors={modalData.competitors} userBusinessName={userBusinessName} />
+    </div>;
 };
