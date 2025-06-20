@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 
@@ -7,34 +6,31 @@ interface PublicRouteProps {
   redirectTo?: string;
 }
 
-export const PublicRoute = ({
-  children,
-  redirectTo = "/location-dashboard/default",
-}: PublicRouteProps) => {
+export const PublicRoute = ({ children, redirectTo }: PublicRouteProps) => {
+  // Dynamically fetch onboarding from localStorage
+  const onboarding = Number(localStorage.getItem("onboarding"));
+  const resultRedirect =
+    redirectTo ||
+    (onboarding !== 1 ? "/location-dashboard/default" : "/onboarding");
+  console.log("Result redirect.......", resultRedirect);
   const {
-    isLoading,
-    accessToken,
-    user,
+    isAuthenticated,
+    isAuthLoading,
+    shouldWaitForAuth,
     hasAttemptedRefresh,
     isInitialized,
-    isRefreshing,
   } = useAuthRedux();
 
   console.log("PublicRoute state:", {
-    isLoading,
-    hasAuth: !!(accessToken && user),
+    isAuthenticated,
+    isAuthLoading,
+    shouldWaitForAuth,
     hasAttemptedRefresh,
     isInitialized,
-    isRefreshing,
   });
 
   // Show loading while checking authentication status
-  if (
-    isLoading ||
-    !isInitialized ||
-    isRefreshing ||
-    (!hasAttemptedRefresh && sessionStorage.getItem("refresh_token"))
-  ) {
+  if (isAuthLoading || shouldWaitForAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
@@ -45,11 +41,15 @@ export const PublicRoute = ({
     );
   }
 
-  // If user is authenticated, redirect them away from public pages
-  if (accessToken && user) {
-    return <Navigate to={redirectTo} replace />;
+  // Only redirect authenticated users if we've completed all auth checks
+  if (isInitialized && hasAttemptedRefresh && isAuthenticated) {
+    console.log(
+      "PublicRoute: Redirecting authenticated user to:",
+      resultRedirect
+    );
+    return <Navigate to={resultRedirect} replace />;
   }
 
-  // User is not authenticated, show the public page
+  // User is not authenticated or we're still checking, show the public page
   return <>{children}</>;
 };

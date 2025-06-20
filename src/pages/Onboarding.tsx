@@ -1,90 +1,115 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Check } from "lucide-react";
+import BusinessInfoStep from "@/components/Onboarding/BusinessInfoStep";
+import SelectGoalStep from "@/components/Onboarding/SelectGoalStep";
+import ConnectGoogleStep from "@/components/Onboarding/ConnectGoogleStep";
+import SelectListingsStep from "@/components/Onboarding/SelectListingsStep";
+import CompletionStep from "@/components/Onboarding/CompletionStep";
+import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check } from 'lucide-react';
-import BusinessInfoStep from '@/components/Onboarding/BusinessInfoStep';
-import SelectGoalStep from '@/components/Onboarding/SelectGoalStep';
-import ConnectGoogleStep from '@/components/Onboarding/ConnectGoogleStep';
-import SelectListingsStep from '@/components/Onboarding/SelectListingsStep';
-import CompletionStep from '@/components/Onboarding/CompletionStep';
+import { dispatch } from "@/hooks/toast/reducer";
 
 const Onboarding = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    businessName: '',
-    website: '',
-    email: '',
-    timezone: '',
-    businessType: '',
-    goals: [],
-    googleConnected: false,
-    selectedListings: []
-  });
+  const {
+    currentStep,
+    formData,
+    handleNext,
+    handleBack,
+    updateData,
+    complete,
+  } = useOnboarding();
+
   const navigate = useNavigate();
 
   const steps = [
-    { 
-      id: 1, 
-      title: 'Business Information', 
-      description: 'Enter your business details to get started' 
+    {
+      id: 1,
+      title: "Business Information",
+      description: "Enter your business details to get started",
     },
-    { 
-      id: 2, 
-      title: 'Define your goal', 
-      description: 'Choose what you want to achieve with this setup' 
+    {
+      id: 2,
+      title: "Define your goal",
+      description: "Choose what you want to achieve with this setup",
     },
-    { 
-      id: 3, 
-      title: 'Connect google account', 
-      description: 'Securely link your Google account for integration' 
+    {
+      id: 3,
+      title: "Connect google account",
+      description: "Securely link your Google account for integration",
     },
-    { 
-      id: 4, 
-      title: 'Select listings', 
-      description: 'Pick the Google listing you want to manage' 
+    {
+      id: 4,
+      title: "Select listings",
+      description: "Pick the Google listing you want to manage",
     },
-    { 
-      id: 5, 
-      title: 'Complete', 
-      description: 'Setup complete!' 
-    }
+    {
+      id: 5,
+      title: "Complete",
+      description: "Setup complete!",
+    },
   ];
 
   const totalSteps = steps.length;
 
-  const handleNext = () => {
+  const handleNextStep = () => {
     if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
+      handleNext();
     } else {
-      navigate('/');
+      complete();
+      navigate("/");
     }
   };
 
-  const handleBack = () => {
+  const handleBackStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      handleBack();
     }
   };
 
-  const updateFormData = (data: any) => {
-    setFormData(prev => ({ ...prev, ...data }));
-  };
+  if (currentStep === 5) {
+    navigate("/location-dashboard/default");
+  }
 
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <BusinessInfoStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return (
+          <BusinessInfoStep
+            formData={formData}
+            updateFormData={updateData}
+            onNext={handleNextStep}
+          />
+        );
       case 2:
-        return <SelectGoalStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return (
+          <SelectGoalStep
+            formData={formData}
+            updateFormData={updateData}
+            onNext={handleNextStep}
+          />
+        );
       case 3:
-        return <ConnectGoogleStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return <ConnectGoogleStep />;
       case 4:
-        return <SelectListingsStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return (
+          <SelectListingsStep
+            formData={formData}
+            updateFormData={updateData}
+            onNext={handleNextStep}
+          />
+        );
       case 5:
-        return <CompletionStep onComplete={handleNext} />;
+        return <CompletionStep onComplete={handleNextStep} />;
       default:
-        return <BusinessInfoStep formData={formData} updateFormData={updateFormData} onNext={handleNext} />;
+        return (
+          <BusinessInfoStep
+            formData={formData}
+            updateFormData={updateData}
+            onNext={handleNextStep}
+          />
+        );
     }
   };
 
@@ -94,9 +119,9 @@ const Onboarding = () => {
       <div className="hidden lg:flex w-80 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 flex-col fixed left-0 top-0 h-screen z-10">
         {/* Logo */}
         <div className="p-4 xl:p-6 border-b border-white/20">
-          <img 
-            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png" 
-            alt="GMB Briefcase Logo" 
+          <img
+            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+            alt="GMB Briefcase Logo"
             className="h-6 xl:h-8 object-contain brightness-0 invert"
           />
         </div>
@@ -104,7 +129,9 @@ const Onboarding = () => {
         {/* Step Progress */}
         <div className="flex-1 p-4 xl:p-6 relative z-10">
           <div className="mb-6 xl:mb-8">
-            <h3 className="text-base xl:text-lg font-semibold text-white mb-2">Setup Progress</h3>
+            <h3 className="text-base xl:text-lg font-semibold text-white mb-2">
+              Setup Progress
+            </h3>
             <p className="text-sm text-white/80">
               Step {currentStep} of {totalSteps}
             </p>
@@ -118,13 +145,15 @@ const Onboarding = () => {
               return (
                 <div key={step.id} className="flex items-start gap-3 xl:gap-4">
                   {/* Step Circle */}
-                  <div className={`w-12 h-12 rounded flex items-center justify-center text-md xl:text-base font-semibold flex-shrink-0 ${
-                    isCompleted 
-                      ? 'bg-white text-blue-600' 
-                      : isCurrent 
-                        ? 'bg-white text-blue-600'
-                        : 'bg-white/20 text-white/60'
-                  }`}>
+                  <div
+                    className={`w-12 h-12 rounded flex items-center justify-center text-md xl:text-base font-semibold flex-shrink-0 ${
+                      isCompleted
+                        ? "bg-white text-blue-600"
+                        : isCurrent
+                        ? "bg-white text-blue-600"
+                        : "bg-white/20 text-white/60"
+                    }`}
+                  >
                     {isCompleted ? (
                       <Check className="h-3 w-3 xl:h-4 xl:w-4" />
                     ) : (
@@ -133,10 +162,20 @@ const Onboarding = () => {
                   </div>
 
                   {/* Step Content */}
-                  <div className={`${
-                    isCurrent ? 'text-white' : isCompleted ? 'text-white/90' : 'text-white/60'
-                  }`}>
-                    <h4 className={`font-medium text-md xl:text-base mb-1 ${isCurrent ? 'font-semibold' : ''}`}>
+                  <div
+                    className={`${
+                      isCurrent
+                        ? "text-white"
+                        : isCompleted
+                        ? "text-white/90"
+                        : "text-white/60"
+                    }`}
+                  >
+                    <h4
+                      className={`font-medium text-md xl:text-base mb-1 ${
+                        isCurrent ? "font-semibold" : ""
+                      }`}
+                    >
                       {step.title}
                     </h4>
                     <p className="text-sm xl:text-sm opacity-80 leading-relaxed">
@@ -152,16 +191,17 @@ const Onboarding = () => {
         {/* Decorative Background Image */}
         <div
           style={{
-            position: 'absolute',
-            width: '500px',
-            height: '500px',
-            left: '-100px',
-            bottom: '-150px',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
+            position: "absolute",
+            width: "500px",
+            height: "500px",
+            left: "-100px",
+            bottom: "-150px",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
             opacity: 0.05,
-            backgroundImage: "url('https://member.gmbbriefcase.com/content/dist/assets/images/blue-light-2.png')",
-            pointerEvents: 'none',
+            backgroundImage:
+              "url('https://member.gmbbriefcase.com/content/dist/assets/images/blue-light-2.png')",
+            pointerEvents: "none",
           }}
         />
       </div>
@@ -169,9 +209,9 @@ const Onboarding = () => {
       {/* Mobile Header */}
       <div className="lg:hidden w-full bg-gradient-to-r from-blue-500 via-blue-600 to-purple-700 p-3 sm:p-4 fixed top-0 left-0 z-20">
         <div className="flex items-center justify-between">
-          <img 
-            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png" 
-            alt="GMB Briefcase Logo" 
+          <img
+            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+            alt="GMB Briefcase Logo"
             className="h-5 sm:h-6 object-contain brightness-0 invert"
           />
           <div className="text-white text-xs sm:text-sm">
@@ -186,13 +226,16 @@ const Onboarding = () => {
             const isCurrent = step.id === currentStep;
 
             return (
-              <div key={step.id} className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
-                isCompleted 
-                  ? 'bg-white text-blue-600' 
-                  : isCurrent 
-                    ? 'bg-white text-blue-600'
-                    : 'bg-white/20 text-white/60'
-              }`}>
+              <div
+                key={step.id}
+                className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
+                  isCompleted
+                    ? "bg-white text-blue-600"
+                    : isCurrent
+                    ? "bg-white text-blue-600"
+                    : "bg-white/20 text-white/60"
+                }`}
+              >
                 {isCompleted ? (
                   <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 ) : (
@@ -209,9 +252,9 @@ const Onboarding = () => {
         {/* Back Button Header */}
         {currentStep > 1 && currentStep < totalSteps && (
           <div className="bg-white border-b px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4">
-            <Button 
-              variant="outline" 
-              onClick={handleBack}
+            <Button
+              variant="outline"
+              onClick={handleBackStep}
               size="sm"
               className="flex items-center gap-2 hover:bg-gray-50"
             >
@@ -228,7 +271,6 @@ const Onboarding = () => {
       </div>
     </div>
   );
-
 };
 
 export default Onboarding;

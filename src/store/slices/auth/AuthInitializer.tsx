@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -16,7 +15,7 @@ export const AuthInitializer = () => {
     isRefreshing,
   } = useAuthRedux();
 
-  // Rehydrate from sessionStorage on first mount
+  // Rehydrate from localStorage on first mount
   useEffect(() => {
     console.log("AuthInitializer: Rehydrating auth state...");
     dispatch(rehydrateAuth());
@@ -43,12 +42,16 @@ export const AuthInitializer = () => {
 
       // Only save path if we're on a route that should be preserved
       const currentPath = window.location.pathname + window.location.search;
-      const shouldSavePath = !currentPath.startsWith('/login') && 
-                            !currentPath.startsWith('/onboarding') &&
-                            currentPath !== '/';
-      
+      const shouldSavePath =
+        !currentPath.startsWith("/login") &&
+        !currentPath.startsWith("/onboarding") &&
+        currentPath !== "/";
+
       if (shouldSavePath) {
-        console.log("AuthInitializer: Saving path for restoration:", currentPath);
+        console.log(
+          "AuthInitializer: Saving path for restoration:",
+          currentPath
+        );
         sessionStorage.setItem("post_refresh_path", currentPath);
         sessionStorage.setItem("scrollY", window.scrollY.toString());
       } else {

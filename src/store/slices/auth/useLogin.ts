@@ -1,7 +1,11 @@
-
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { setAccessToken, setUser, setLoading } from "./authSlice";
+import {
+  setAccessToken,
+  setUser,
+  setLoading,
+  setIsAuthenticating,
+} from "./authSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
 
 export const useLogin = () => {
@@ -10,6 +14,7 @@ export const useLogin = () => {
 
   const login = async (credentials: LoginCredentials) => {
     try {
+      dispatch(setIsAuthenticating(true));
       dispatch(setLoading(true));
 
       const response = await fetch(`${BASE_URL}/login`, {
@@ -27,13 +32,14 @@ export const useLogin = () => {
       const data: LoginResponse = await response.json();
       console.log("Login response data:", data);
 
-      // Dispatch actions to update Redux state (which also updates sessionStorage)
+      // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
       dispatch(setUser(data.data.profile));
 
-      // Store additional items in sessionStorage
-      sessionStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
-      sessionStorage.setItem("userId", data.data.profile.userId);
+      // Store additional items in localStorage
+      localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
+      localStorage.setItem("userId", data.data.profile.userId);
+      localStorage.setItem("onboarding", data.data.isOnboarding);
 
       return data;
     } catch (error) {
@@ -41,6 +47,7 @@ export const useLogin = () => {
       throw error;
     } finally {
       dispatch(setLoading(false));
+      dispatch(setIsAuthenticating(false));
     }
   };
 

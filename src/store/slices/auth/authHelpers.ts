@@ -1,9 +1,9 @@
-
 export const saveNavigationState = (currentPath: string) => {
-  const shouldSavePath = !currentPath.startsWith('/login') && 
-                        !currentPath.startsWith('/onboarding') &&
-                        currentPath !== '/';
-  
+  const shouldSavePath =
+    !currentPath.startsWith("/login") &&
+    !currentPath.startsWith("/onboarding") &&
+    currentPath !== "/";
+
   if (shouldSavePath) {
     console.log("Saving path for restoration:", currentPath);
     sessionStorage.setItem("post_refresh_path", currentPath);
@@ -15,7 +15,9 @@ export const saveNavigationState = (currentPath: string) => {
   }
 };
 
-export const restoreNavigationState = (navigate: (path: string, options?: any) => void) => {
+export const restoreNavigationState = (
+  navigate: (path: string, options?: any) => void
+) => {
   const pathToRedirect = sessionStorage.getItem("post_refresh_path");
   const scrollY = sessionStorage.getItem("scrollY");
 
@@ -32,7 +34,7 @@ export const restoreNavigationState = (navigate: (path: string, options?: any) =
 };
 
 export const getStoredTokenData = () => {
-  const refreshToken = sessionStorage.getItem("refresh_token");
-  const userId = sessionStorage.getItem("userId");
+  const refreshToken = localStorage.getItem("refresh_token");
+  const userId = localStorage.getItem("userId");
   return { refreshToken, userId };
 };

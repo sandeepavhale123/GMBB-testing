@@ -14,6 +14,7 @@ interface AuthState {
   isRefreshing: boolean;
   hasAttemptedRefresh: boolean;
   isInitialized: boolean; // New flag to track if auth has been initialized
+  isAuthenticating: boolean; // New flag for login attempts
 }
 
 const initialState: AuthState = {
@@ -23,28 +24,29 @@ const initialState: AuthState = {
   isRefreshing: false,
   hasAttemptedRefresh: false,
   isInitialized: false,
+  isAuthenticating: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAccessToken: (state, action: PayloadAction<string | null>) => {
+    setAccessToken: (state, action) => {
       state.accessToken = action.payload;
-      // Store in sessionStorage when setting
+      // Store in loaclStorage when setting
       if (action.payload) {
-        sessionStorage.setItem("access_token", action.payload);
+        localStorage.setItem("access_token", action.payload);
       } else {
-        sessionStorage.removeItem("access_token");
+        localStorage.removeItem("access_token");
       }
     },
-    setUser: (state, action: PayloadAction<User | null>) => {
+    setUser: (state, action) => {
       state.user = action.payload;
-      // Store in sessionStorage when setting
+      // Store in localStorage when setting
       if (action.payload) {
-        sessionStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("user", JSON.stringify(action.payload));
       } else {
-        sessionStorage.removeItem("user");
+        localStorage.removeItem("user");
       }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -59,22 +61,34 @@ const authSlice = createSlice({
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
     },
-    // Action to rehydrate from sessionStorage
+    setIsAuthenticating: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticating = action.payload;
+    },
+    // Action to rehydrate from localStorage
     rehydrateAuth: (state) => {
-      const storedAccessToken = sessionStorage.getItem("access_token");
-      const storedUser = sessionStorage.getItem("user");
+      const storedAccessToken = localStorage.getItem("access_token");
+      const storedUser = localStorage.getItem("user");
 
       if (storedAccessToken && storedUser) {
-        state.accessToken = storedAccessToken;
-        state.user = JSON.parse(storedUser);
+        try {
+          state.accessToken = storedAccessToken;
+          state.user = JSON.parse(storedUser);
+          // Only set hasAttemptedRefresh to true if we have valid auth data
+          state.hasAttemptedRefresh = true;
+        } catch (error) {
+          console.error("Error parsing stored user data:", error);
+          // Clear invalid data
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user");
+        }
       }
       state.isInitialized = true;
-      state.hasAttemptedRefresh = true;
+      // state.hasAttemptedRefresh = true;
     },
     // Enhanced logout with comprehensive cleanup
     logout: (state) => {
-      console.log('🚪 Starting logout process...');
-      
+      console.log("🚪 Starting logout process...");
+
       // Reset auth state to initial values
       state.accessToken = null;
       state.user = null;
@@ -82,26 +96,27 @@ const authSlice = createSlice({
       state.isRefreshing = false;
       state.hasAttemptedRefresh = false;
       state.isInitialized = false;
+      state.isAuthenticating = false;
 
       // Clear authentication storage
       clearAuthStorage();
-      
-      console.log('✅ Logout completed - auth state and storage cleared');
+
+      console.log("✅ Logout completed - auth state and storage cleared");
     },
     // Action for clearing expired tokens
     clearExpiredTokens: (state) => {
-      console.log('⏰ Clearing expired tokens...');
-      
+      console.log("⏰ Clearing expired tokens...");
+
       state.accessToken = null;
       state.user = null;
       state.isRefreshing = false;
       state.hasAttemptedRefresh = true;
-      
+
       // Clear auth storage but keep other data
       clearAuthStorage();
-      
-      console.log('✅ Expired tokens cleared');
-    }
+
+      console.log("✅ Expired tokens cleared");
+    },
   },
 });
 
@@ -112,6 +127,7 @@ export const {
   setIsRefreshing,
   setHasAttemptedRefresh,
   setIsInitialized,
+  setIsAuthenticating,
   rehydrateAuth,
   logout,
   clearExpiredTokens,

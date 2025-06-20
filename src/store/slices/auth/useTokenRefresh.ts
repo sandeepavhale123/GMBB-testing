@@ -1,12 +1,21 @@
-
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
-import { setAccessToken, setUser, setIsRefreshing, setHasAttemptedRefresh, clearExpiredTokens } from "./authSlice";
+import {
+  setAccessToken,
+  setUser,
+  setIsRefreshing,
+  setHasAttemptedRefresh,
+  clearExpiredTokens,
+} from "./authSlice";
 import { TokenRefreshPayload, TokenRefreshResponse } from "./authTypes";
 import { getStoredTokenData, restoreNavigationState } from "./authHelpers";
 
-export const useTokenRefresh = (accessToken: string | null, user: any, isRefreshing: boolean) => {
+export const useTokenRefresh = (
+  accessToken: string | null,
+  user: any,
+  isRefreshing: boolean
+) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -28,13 +37,14 @@ export const useTokenRefresh = (accessToken: string | null, user: any, isRefresh
     }
 
     dispatch(setIsRefreshing(true));
-    dispatch(setHasAttemptedRefresh(true));
+    // dispatch(setHasAttemptedRefresh(true));
 
     const { refreshToken, userId } = getStoredTokenData();
 
     if (!refreshToken) {
       console.log("No refresh token found");
       dispatch(setIsRefreshing(false));
+      dispatch(setHasAttemptedRefresh(true));
       return false;
     }
 
@@ -65,8 +75,8 @@ export const useTokenRefresh = (accessToken: string | null, user: any, isRefresh
       dispatch(setAccessToken(data.accessToken));
       dispatch(setUser(data.user));
 
-      // Update refresh token in sessionStorage
-      sessionStorage.setItem("refresh_token", data.refresh_token);
+      // Update refresh token in localStorage
+      localStorage.setItem("refresh_token", data.refresh_token);
 
       // Restore navigation state if needed
       restoreNavigationState(navigate);
@@ -77,10 +87,11 @@ export const useTokenRefresh = (accessToken: string | null, user: any, isRefresh
 
       // Handle expired or invalid refresh token
       dispatch(clearExpiredTokens());
-      
+
       return false;
     } finally {
       dispatch(setIsRefreshing(false));
+      dispatch(setHasAttemptedRefresh(true));
     }
   };
 

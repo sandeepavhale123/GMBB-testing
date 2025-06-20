@@ -1,11 +1,10 @@
-
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
-import { clearExpiredTokens } from "@/store/slices/auth/authSlice";
+import { clearExpiredTokens, logout } from "@/store/slices/auth/authSlice";
 import { resetStore } from "@/store/actions/globalActions";
 
-const BASE_URL = "https://member.gmbbriefcase.com/api";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const skipAuthRoutes = ["/v1/login", "/v1/refresh-access-token"];
 
@@ -53,10 +52,10 @@ const processQueue = (error: any, token: string | null = null) => {
 // Enhanced function to handle token expiry with store cleanup
 const handleTokenExpiry = () => {
   console.log("🔒 Token expired - performing comprehensive cleanup");
-  
+
   // Clear expired tokens from store
   store.dispatch(clearExpiredTokens());
-  
+
   // If we have a logout handler, use it for complete cleanup
   if (handleLogout) {
     handleLogout();
@@ -119,7 +118,7 @@ axiosInstance.interceptors.response.use(
 
       originalRequest._retry = true;
       isRefreshing = true;
-      
+
       try {
         if (!refreshToken) {
           throw new Error("No refresh function available");
@@ -148,7 +147,7 @@ axiosInstance.interceptors.response.use(
 
         // Handle token expiry with comprehensive cleanup
         handleTokenExpiry();
-        
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

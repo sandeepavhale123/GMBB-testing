@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -33,7 +32,14 @@ export const LoginForm = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
-      navigate("/");
+      const onboarding = Number(localStorage.getItem("onboarding"));
+      const currentStep =
+        onboarding !== 1
+          ? localStorage.setItem("onboarding_current_step", "5")
+          : localStorage.setItem("onboarding_current_step", "1");
+      const resultRedirect =
+        onboarding !== 1 ? "/location-dashboard/default" : "/onboarding";
+      navigate(resultRedirect);
     } catch (err) {
       toast({
         title: "Error",
@@ -115,9 +121,7 @@ export const LoginForm = () => {
             <Checkbox
               id="remember"
               checked={rememberMe}
-              onCheckedChange={(checked) =>
-                setRememberMe(checked as boolean)
-              }
+              onCheckedChange={(checked) => setRememberMe(checked as boolean)}
             />
             <Label htmlFor="remember" className="text-sm text-gray-600">
               Remember me

@@ -1,4 +1,4 @@
-import axiosInstance from '../api/axiosInstance';
+import axiosInstance from "../api/axiosInstance";
 
 export interface ProfileData {
   userId: string;
@@ -35,21 +35,24 @@ export interface VerifyPasswordData {
 
 export const profileService = {
   getUserProfile: async (): Promise<ProfileData> => {
-    const response = await axiosInstance.get('/v1/get-user-profile');
+    const response = await axiosInstance.get("/get-user-profile");
     return response.data.data.profileDetails;
   },
 
   getTimezones: async (): Promise<TimezoneOption> => {
-    const response = await axiosInstance.get('/v1/get-timezone');
+    const response = await axiosInstance.get("/get-timezone");
     return response.data.data.timezones;
   },
 
   updateProfile: async (profileData: UpdateProfileData): Promise<void> => {
-    await axiosInstance.post('/v1/update-profile', profileData);
+    await axiosInstance.post("/v1/update-profile", profileData);
   },
 
-  verifyCurrentPassword: async (data: VerifyPasswordData, storedPassword: string): Promise<boolean> => {
+  verifyCurrentPassword: async (
+    data: VerifyPasswordData,
+    storedPassword: string
+  ): Promise<boolean> => {
     // Compare the entered password with the stored password from profile data
     return data.currentPassword === storedPassword;
-  }
+  },
 };
