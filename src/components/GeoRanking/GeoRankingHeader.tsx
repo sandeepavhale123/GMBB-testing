@@ -36,10 +36,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
     setIsExporting(true);
     try {
-      // Wait longer for components to fully render and settle
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Create a temporary container with padding
       const tempContainer = document.createElement('div');
       tempContainer.style.padding = '40px';
       tempContainer.style.backgroundColor = '#f9fafb';
@@ -48,12 +46,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       tempContainer.style.top = '0';
       tempContainer.style.width = `${exportElement.offsetWidth + 80}px`;
 
-      // Clone the export element
       const clonedElement = exportElement.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedElement);
       document.body.appendChild(tempContainer);
 
-      // Wait a bit more for the cloned element to render
       await new Promise(resolve => setTimeout(resolve, 500));
       const canvas = await html2canvas(tempContainer, {
         backgroundColor: '#f9fafb',
@@ -67,7 +63,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         scrollY: 0
       });
 
-      // Clean up the temporary container
       document.body.removeChild(tempContainer);
       const link = document.createElement('a');
       link.download = `geo-ranking-report-${new Date().toISOString().split('T')[0]}.png`;
@@ -114,7 +109,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
             
-            {/* Export Button and Report Date */}
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
                 <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
@@ -128,53 +122,47 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         </CardContent>
       </Card>
 
-      {/* Main Header Card */}
+      {/* Main Header Card - Single Row Layout */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          {/* GEO ranking report title - now positioned above keyword */}
+          {/* GEO ranking report title */}
+          <div className="mb-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">GEO ranking report</h1>
+          </div>
 
-
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6 items-start">
-            {/* Left Section - Keyword and Details */}
-            <div className="xl:col-span-4 space-y-4">
-              {/* Keyword Section */}
-              <div className="flex-1 flex-col sm:flex-row sm:items-center gap-3 relative">
-                
-                <div className="flex flex-col gap-1">
-                            <div className="mb-4">
-                        <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
-                      </div>
-                  <div className="text-sm text-gray-500 font-medium">Keyword</div>
-                  <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
-                    {headerKeyword}
-                    <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
-                  </div>
-                </div>
-                
-                {/* Keyword Dropdown */}
-                {showKeywordDropdown && (
-                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
-                    <div className="py-1">
-                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
-                        Web Design
-                      </div>
-                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Digital Marketing')}>
-                        Digital Marketing
-                      </div>
-                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('SEO Services')}>
-                        SEO Services
-                      </div>
-                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Local Business')}>
-                        Local Business
-                      </div>
+          {/* Single Row Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+            {/* Keyword Section */}
+            <div className="lg:col-span-3 relative">
+              <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
+                {headerKeyword}
+                <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
+              </div>
+              
+              {/* Keyword Dropdown */}
+              {showKeywordDropdown && (
+                <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                  <div className="py-1">
+                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
+                      Web Design
+                    </div>
+                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Digital Marketing')}>
+                      Digital Marketing
+                    </div>
+                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('SEO Services')}>
+                      SEO Services
+                    </div>
+                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Local Business')}>
+                      Local Business
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Overall Visibility Card */}
-            <div className="xl:col-span-2">
+            <div className="lg:col-span-2">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -190,16 +178,16 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             </div>
 
             {/* Click Rate Card */}
-            <div className="xl:col-span-2">
+            <div className="lg:col-span-2">
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                <div className="text-xs text-orange-600 font-medium mb-1 ">Click Rate</div>
-                <div className="text-2xl font-bold text-orange-900 ">12.4%</div>
-                <div className="text-xs text-red-600 ">-1.2% ↓</div>
+                <div className="text-xs text-orange-600 font-medium mb-1">Click Rate</div>
+                <div className="text-2xl font-bold text-orange-900">12.4%</div>
+                <div className="text-xs text-red-600">-1.2% ↓</div>
               </div>
             </div>
 
             {/* AI Genie Recommendation Card */}
-            <div className="xl:col-span-2">
+            <div className="lg:col-span-2">
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg">
                 <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
                 <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
@@ -209,9 +197,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Right Section - Action Buttons */}
-            <div className="xl:col-span-2 ">
-              <div className="flex flex-col gap-2 w-fit">
+            {/* Action Buttons */}
+            <div className="lg:col-span-3">
+              <div className="flex flex-col gap-2">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-start">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Keyword
