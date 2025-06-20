@@ -115,7 +115,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 {/* Click Rate */}
                 <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
                   <div className="text-xs text-orange-600 font-medium mb-1 ">Click Rate</div>
-                  <div className="text-2xl font-bold text-orange-900 text-center">12.4%</div>
+                  <div className="text-2xl font-bold text-orange-900 ">12.4%</div>
                   <div className="text-xs text-red-600 text-center">-1.2% ↓</div>
                 </div>
 
