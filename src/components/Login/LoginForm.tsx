@@ -34,11 +34,11 @@ export const LoginForm = () => {
       });
       const onboarding = Number(localStorage.getItem("onboarding"));
       const currentStep =
-        onboarding !== 1
+        onboarding === 1
           ? localStorage.setItem("onboarding_current_step", "5")
           : localStorage.setItem("onboarding_current_step", "1");
       const resultRedirect =
-        onboarding !== 1 ? "/location-dashboard/default" : "/onboarding";
+        onboarding === 1 ? "/location-dashboard/default" : "/onboarding";
       navigate(resultRedirect);
     } catch (err) {
       toast({

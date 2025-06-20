@@ -7,12 +7,6 @@ import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 import { useLocation, useNavigate } from "react-router-dom";
 import GoogleAuthHandler from "./GoogleAuthHandler";
 
-// interface ConnectGoogleStepProps {
-//   formData: any;
-//   updateFormData: (data: any) => void;
-//   onNext: () => void;
-// }
-
 const ConnectGoogleStep = () =>
   // {formData,
   // updateFormData,
@@ -27,6 +21,8 @@ const ConnectGoogleStep = () =>
       setOauthParameters,
       oauthParams,
     } = useOnboarding();
+
+    const localdomain = window.location.origin;
 
     const navigate = useNavigate();
     const { search } = useLocation();
@@ -131,7 +127,9 @@ const ConnectGoogleStep = () =>
           </div>
 
           <div className="space-y-2 sm:space-y-3">
-            <a href="https://api.gmbbriefcase.com/api/v1/google-auth?domain=localhost:8080/onboarding">
+            <a
+              href={`https://api.gmbbriefcase.com/api/v1/google-auth?domain=${localdomain}/onboarding`}
+            >
               <Button
                 variant="outline"
                 className="w-full h-10 text-sm sm:text-base"

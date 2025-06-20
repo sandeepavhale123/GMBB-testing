@@ -16,5 +16,6 @@ export const enableDisableListings = async (
   payload: EnableDisableListingsPayload
 ): Promise<EnableDisableListingsResponse> => {
   const response = await axiosInstance.post("/change-listing-status", payload);
+  console.log("listing status response", response);
   return response.data;
 };
