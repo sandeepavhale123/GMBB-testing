@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -5,6 +6,8 @@ import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
 import { Card, CardContent } from '../ui/card';
+import { useInsightsExport } from '@/hooks/useInsightsExport';
+
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
@@ -17,12 +20,18 @@ export const GeoRankingPage = () => {
     competitors: []
   });
   const userBusinessName = "Your Digital Agency";
+  
+  // Get the export ref from the hook
+  const { exportRef } = useInsightsExport(null);
+
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
+  
   const handleExportPDF = () => {
     console.log('Exporting report as PDF...');
   };
+  
   const generateCompetitorData = (gridId: string) => {
     const baseCompetitors = [{
       name: 'J K Digitech',
@@ -56,6 +65,7 @@ export const GeoRankingPage = () => {
       position: index + 1
     }));
   };
+  
   const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
@@ -64,44 +74,63 @@ export const GeoRankingPage = () => {
       competitors
     });
   };
+  
   const handleCloseModal = () => {
     setModalData(prev => ({
       ...prev,
       isOpen: false
     }));
   };
+  
   const handleKeywordSelect = (keyword: string) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
   };
+  
   const handleToggleDropdown = () => {
     setShowKeywordDropdown(!showKeywordDropdown);
   };
-  return <div className=" mx-auto bg-gray-50 min-h-screen">
+  
+  return (
+    <div className="mx-auto bg-gray-50 min-h-screen">
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <GeoRankingHeader headerKeyword={headerKeyword} showKeywordDropdown={showKeywordDropdown} onToggleDropdown={handleToggleDropdown} onKeywordSelect={handleKeywordSelect} />
+          <div ref={exportRef}>
+            <GeoRankingHeader 
+              headerKeyword={headerKeyword} 
+              showKeywordDropdown={showKeywordDropdown} 
+              onToggleDropdown={handleToggleDropdown} 
+              onKeywordSelect={handleKeywordSelect} 
+            />
 
-          <div className="space-y-4 sm:space-y-6">
-            <GeoRankingMapSection gridSize={gridSize} onMarkerClick={handleMarkerClick} />
+            <div className="space-y-4 sm:space-y-6">
+              <GeoRankingMapSection gridSize={gridSize} onMarkerClick={handleMarkerClick} />
 
-            <UnderPerformingTable />
+              <UnderPerformingTable />
 
-            {/* Powered By Section */}
-            <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">
-              <span className="text-sm text-gray-500">Powered by</span>
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">G</span>
+              {/* Powered By Section */}
+              <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">
+                <span className="text-sm text-gray-500">Powered by</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">G</span>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">GMB-Briefcase</span>
                 </div>
-                <span className="text-sm font-medium text-gray-700">GMB-Briefcase</span>
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <SimpleGeoModal isOpen={modalData.isOpen} onClose={handleCloseModal} gpsCoordinates={modalData.gpsCoordinates} competitors={modalData.competitors} userBusinessName={userBusinessName} />
-    </div>;
+      <SimpleGeoModal 
+        isOpen={modalData.isOpen} 
+        onClose={handleCloseModal} 
+        gpsCoordinates={modalData.gpsCoordinates} 
+        competitors={modalData.competitors} 
+        userBusinessName={userBusinessName} 
+      />
+    </div>
+  );
 };

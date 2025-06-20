@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
-import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin } from 'lucide-react';
+import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { useListingContext } from '@/context/ListingContext';
+import { useInsightsExport } from '@/hooks/useInsightsExport';
 
 interface GeoRankingHeaderProps {
   headerKeyword: string;
@@ -20,6 +20,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 }) => {
   // Get the selected listing from context
   const { selectedListing } = useListingContext();
+  
+  // Use the export hook
+  const { isExporting, handleExportImage } = useInsightsExport(selectedListing);
   
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -49,9 +52,21 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
             
-            {/* Report Date and Branding */}
+            {/* Report Date and Export Button */}
             <div className="text-right">
-              <p className="text-sm text-gray-600 mb-2">Report Generated: {reportDate}</p>
+              <div className="flex items-center gap-3 mb-2">
+                <p className="text-sm text-gray-600">Report Generated: {reportDate}</p>
+                <Button
+                  onClick={handleExportImage}
+                  disabled={isExporting}
+                  size="sm"
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  {isExporting ? 'Exporting...' : 'Export Report'}
+                </Button>
+              </div>
               <div className="flex items-center gap-2 justify-end">
                 <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
                   <span className="text-white text-xs font-bold">G</span>
