@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Download, Plus, RefreshCcw, Lightbulb, Copy } from 'lucide-react';
+import { Download, Plus, RefreshCcw, Lightbulb, Copy, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MetricsCards } from './MetricsCards';
 import { RankingMap } from './RankingMap';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
+
 export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [gridSize, setGridSize] = useState('4*4');
   const [headerKeyword, setHeaderKeyword] = useState('Web Design');
+  const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
 
   // Modal state
   const [modalData, setModalData] = useState<{
@@ -37,6 +39,7 @@ export const GeoRankingPage: React.FC = () => {
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
+  
   const handleExportPDF = () => {
     console.log('Exporting report as PDF...');
   };
@@ -103,6 +106,7 @@ export const GeoRankingPage: React.FC = () => {
       ...competitor
     }));
   };
+
   const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
@@ -111,13 +115,22 @@ export const GeoRankingPage: React.FC = () => {
       competitors
     });
   };
+
   const handleCloseModal = () => {
     setModalData(prev => ({
       ...prev,
       isOpen: false
     }));
   };
-  return <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
+
+  const handleKeywordSelect = (keyword: string) => {
+    setHeaderKeyword(keyword);
+    setSelectedKeyword(keyword);
+    setShowKeywordDropdown(false);
+  };
+
+  return (
+    <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
       {/* Redesigned Header */}
       <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
@@ -135,20 +148,46 @@ export const GeoRankingPage: React.FC = () => {
                 {/* Keyword Section */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="text-xl sm:text-2xl font-bold text-gray-900">{headerKeyword}</div>
-                    
+                    <div 
+                      className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer"
+                      onClick={() => setShowKeywordDropdown(!showKeywordDropdown)}
+                    >
+                      {headerKeyword}
+                      <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
+                    </div>
                   </div>
-                  <Select value={headerKeyword} onValueChange={setHeaderKeyword}>
-                    <SelectTrigger className="w-full sm:w-48">
-                      <SelectValue placeholder="Select keyword" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Web Design">Web Design</SelectItem>
-                      <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
-                      <SelectItem value="SEO Services">SEO Services</SelectItem>
-                      <SelectItem value="Local Business">Local Business</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  
+                  {/* Keyword Dropdown */}
+                  {showKeywordDropdown && (
+                    <div className="absolute z-50 mt-12 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                      <div className="py-1">
+                        <div 
+                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleKeywordSelect('Web Design')}
+                        >
+                          Web Design
+                        </div>
+                        <div 
+                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleKeywordSelect('Digital Marketing')}
+                        >
+                          Digital Marketing
+                        </div>
+                        <div 
+                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleKeywordSelect('SEO Services')}
+                        >
+                          SEO Services
+                        </div>
+                        <div 
+                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleKeywordSelect('Local Business')}
+                        >
+                          Local Business
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info Chips */}
@@ -284,5 +323,6 @@ export const GeoRankingPage: React.FC = () => {
 
       {/* GEO Position Modal */}
       <GeoPositionModal isOpen={modalData.isOpen} onClose={handleCloseModal} gpsCoordinates={modalData.gpsCoordinates} competitors={modalData.competitors} userBusinessName={userBusinessName} />
-    </div>;
+    </div>
+  );
 };
