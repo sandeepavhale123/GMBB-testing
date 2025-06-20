@@ -15,10 +15,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
           <div className="mb-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900">GEO Grid Ranking Map</h3>
-              <div className="flex items-center gap-2">
-                <span className="text-xs sm:text-sm text-gray-600">Grid Coverage:</span>
-                <span className="bg-gray-100 px-2 py-1 rounded text-xs sm:text-sm font-medium">16/16 areas</span>
-              </div>
+              
             </div>
             
             {/* Info Badges */}
