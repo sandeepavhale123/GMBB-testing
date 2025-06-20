@@ -4,14 +4,12 @@ import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 
 import { Card, CardContent } from '../ui/card';
 import { useListingContext } from '@/context/ListingContext';
 import { useInsightsExport } from '@/hooks/useInsightsExport';
-
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
-
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
@@ -19,11 +17,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   onKeywordSelect
 }) => {
   // Get the selected listing from context
-  const { selectedListing } = useListingContext();
-  
+  const {
+    selectedListing
+  } = useListingContext();
+
   // Use the export hook
-  const { isExporting, handleExportImage } = useInsightsExport(selectedListing);
-  
+  const {
+    isExporting,
+    handleExportImage
+  } = useInsightsExport(selectedListing);
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -33,9 +35,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   // Use selected listing data or fallback values
   const listingName = selectedListing?.name || "Downtown Coffee Shop";
   const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
-
-  return (
-    <div className="mb-6 sm:mb-8">
+  return <div className="mb-6 sm:mb-8">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -56,23 +56,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
                 <p className="text-sm text-gray-600">Report Generated: {reportDate}</p>
-                <Button
-                  onClick={handleExportImage}
-                  disabled={isExporting}
-                  size="sm"
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
+                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
               </div>
-              <div className="flex items-center gap-2 justify-end">
-                <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">G</span>
-                </div>
-                <span className="text-xs text-gray-500">Powered by GMB-Briefcase</span>
-              </div>
+              
             </div>
           </div>
         </CardContent>
@@ -88,46 +77,29 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 relative">
                 <div className="flex flex-col gap-1">
                   <div className="text-sm text-gray-500 font-medium">Keyword</div>
-                  <div 
-                    className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer"
-                    onClick={onToggleDropdown}
-                  >
+                  <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
                     {headerKeyword}
                     <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
                   </div>
                 </div>
                 
                 {/* Keyword Dropdown */}
-                {showKeywordDropdown && (
-                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                     <div className="py-1">
-                      <div 
-                        className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => onKeywordSelect('Web Design')}
-                      >
+                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                         Web Design
                       </div>
-                      <div 
-                        className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => onKeywordSelect('Digital Marketing')}
-                      >
+                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Digital Marketing')}>
                         Digital Marketing
                       </div>
-                      <div 
-                        className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => onKeywordSelect('SEO Services')}
-                      >
+                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('SEO Services')}>
                         SEO Services
                       </div>
-                      <div 
-                        className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => onKeywordSelect('Local Business')}
-                      >
+                      <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Local Business')}>
                         Local Business
                       </div>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
 
@@ -179,6 +151,5 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
