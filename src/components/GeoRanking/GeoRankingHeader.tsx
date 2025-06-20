@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
@@ -6,23 +5,22 @@ import { Card, CardContent } from '../ui/card';
 import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
 import html2canvas from 'html2canvas';
-
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
-
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isExporting, setIsExporting] = React.useState(false);
-
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -33,11 +31,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       });
       return;
     }
-
     setIsExporting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-
       const tempContainer = document.createElement('div');
       tempContainer.style.padding = '40px';
       tempContainer.style.backgroundColor = '#f9fafb';
@@ -45,11 +41,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       tempContainer.style.left = '-9999px';
       tempContainer.style.top = '0';
       tempContainer.style.width = `${exportElement.offsetWidth + 80}px`;
-
       const clonedElement = exportElement.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedElement);
       document.body.appendChild(tempContainer);
-
       await new Promise(resolve => setTimeout(resolve, 500));
       const canvas = await html2canvas(tempContainer, {
         backgroundColor: '#f9fafb',
@@ -62,7 +56,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         scrollX: 0,
         scrollY: 0
       });
-
       document.body.removeChild(tempContainer);
       const link = document.createElement('a');
       link.download = `geo-ranking-report-${new Date().toISOString().split('T')[0]}.png`;
@@ -83,7 +76,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
-
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -91,9 +83,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
-
-  return (
-    <div className="mb-4 sm:mb-4">
+  return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -127,7 +117,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         <CardContent className="p-4 sm:p-6">
           {/* GEO ranking report title */}
           <div className="mb-6">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">GEO ranking report</h1>
+            <h1 className="text-xl sm:text-1xl font-bold text-gray-900">GEO ranking report</h1>
           </div>
 
           {/* Single Row Layout */}
@@ -141,8 +131,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
               
               {/* Keyword Dropdown */}
-              {showKeywordDropdown && (
-                <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+              {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                   <div className="py-1">
                     <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                       Web Design
@@ -157,8 +146,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                       Local Business
                     </div>
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
 
             {/* Overall Visibility Card */}
@@ -217,6 +205,5 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
