@@ -25,31 +25,60 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
-    if (!exportElement) return;
+    if (!exportElement) {
+      toast({
+        title: "Export Failed",
+        description: "Could not find the report content to export.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     setIsExporting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Wait longer for components to fully render and settle
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      const canvas = await html2canvas(exportElement, {
-        backgroundColor: '#ffffff',
+      // Create a temporary container with padding
+      const tempContainer = document.createElement('div');
+      tempContainer.style.padding = '40px';
+      tempContainer.style.backgroundColor = '#f9fafb';
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.top = '0';
+      tempContainer.style.width = `${exportElement.offsetWidth + 80}px`;
+      
+      // Clone the export element
+      const clonedElement = exportElement.cloneNode(true) as HTMLElement;
+      tempContainer.appendChild(clonedElement);
+      document.body.appendChild(tempContainer);
+      
+      // Wait a bit more for the cloned element to render
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      const canvas = await html2canvas(tempContainer, {
+        backgroundColor: '#f9fafb',
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        height: exportElement.scrollHeight,
-        width: exportElement.scrollWidth,
+        logging: false,
+        width: tempContainer.offsetWidth,
+        height: tempContainer.offsetHeight,
         scrollX: 0,
         scrollY: 0,
       });
       
+      // Clean up the temporary container
+      document.body.removeChild(tempContainer);
+      
       const link = document.createElement('a');
       link.download = `geo-ranking-report-${new Date().toISOString().split('T')[0]}.png`;
-      link.href = canvas.toDataURL('image/png');
+      link.href = canvas.toDataURL('image/png', 0.95);
       link.click();
       
       toast({
         title: "Export Complete",
-        description: "Your geo-ranking report has been downloaded as an image."
+        description: "Your geo-ranking report has been downloaded as an image with padding."
       });
     } catch (error) {
       console.error('Error exporting image:', error);
