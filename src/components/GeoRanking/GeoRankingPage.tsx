@@ -10,36 +10,19 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
-interface Competitor {
-  position: number;
-  name: string;
-  address: string;
-  rating: number;
-  reviewCount: number;
-  isUserBusiness?: boolean;
-}
-
-interface ModalState {
-  isOpen: boolean;
-  gpsCoordinates: string;
-  competitors: Competitor[];
-}
-
-export const GeoRankingPage: React.FC = () => {
+export const GeoRankingPage = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [gridSize, setGridSize] = useState('4*4');
   const [headerKeyword, setHeaderKeyword] = useState('Web Design');
   const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
 
-  // Modal state with proper typing
-  const [modalData, setModalData] = useState<ModalState>({
+  const [modalData, setModalData] = useState({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
   });
 
-  // User's business name for highlighting
   const userBusinessName = "Your Digital Agency";
   
   const handleCreateReport = () => {
@@ -50,8 +33,7 @@ export const GeoRankingPage: React.FC = () => {
     console.log('Exporting report as PDF...');
   };
 
-  // Generate mock competitor data based on grid position
-  const generateCompetitorData = (gridId: string): Competitor[] => {
+  const generateCompetitorData = (gridId) => {
     const baseCompetitors = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
@@ -105,7 +87,6 @@ export const GeoRankingPage: React.FC = () => {
       reviewCount: 98
     }];
 
-    // Shuffle and assign positions based on grid
     const shuffled = [...baseCompetitors].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 10).map((competitor, index) => ({
       position: index + 1,
@@ -113,7 +94,7 @@ export const GeoRankingPage: React.FC = () => {
     }));
   };
 
-  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
+  const handleMarkerClick = (gpsCoordinates, gridId) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
       isOpen: true,
@@ -129,7 +110,7 @@ export const GeoRankingPage: React.FC = () => {
     }));
   };
 
-  const handleKeywordSelect = (keyword: string) => {
+  const handleKeywordSelect = (keyword) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
@@ -284,7 +265,30 @@ export const GeoRankingPage: React.FC = () => {
             </CardContent>
           </Card>
           
-          {/* Position Summary Overlay */}
+          {/* Key Metrics Overlay - Now Top Left */}
+          <Card className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
+            <CardContent className="p-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
+              <div className="flex flex-wrap gap-2">
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ARP</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">8.50</div>
+                </div>
+                
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ATRP</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">6.20</div>
+                </div>
+                
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">SoLV</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">36.0%</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Position Summary Overlay - Now Top Right */}
           <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
             <CardContent className="p-4">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
@@ -316,29 +320,6 @@ export const GeoRankingPage: React.FC = () => {
                     <span className="text-xs text-gray-600">16+</span>
                   </div>
                   <span className="text-sm font-semibold text-gray-900">6</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* KPI Metrics Overlay */}
-          <Card className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
-            <CardContent className="p-4">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
-              <div className="flex flex-wrap gap-2">
-                <div className="flex rounded-md border overflow-hidden shadow-sm">
-                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ARP</div>
-                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">8.50</div>
-                </div>
-                
-                <div className="flex rounded-md border overflow-hidden shadow-sm">
-                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ATRP</div>
-                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">6.20</div>
-                </div>
-                
-                <div className="flex rounded-md border overflow-hidden shadow-sm">
-                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">SoLV</div>
-                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">36.0%</div>
                 </div>
               </div>
             </CardContent>
