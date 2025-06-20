@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -9,6 +10,21 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
+interface Competitor {
+  position: number;
+  name: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  isUserBusiness?: boolean;
+}
+
+interface ModalState {
+  isOpen: boolean;
+  gpsCoordinates: string;
+  competitors: Competitor[];
+}
+
 export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
@@ -16,19 +32,8 @@ export const GeoRankingPage: React.FC = () => {
   const [headerKeyword, setHeaderKeyword] = useState('Web Design');
   const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
 
-  // Modal state
-  const [modalData, setModalData] = useState<{
-    isOpen: boolean;
-    gpsCoordinates: string;
-    competitors: Array<{
-      position: number;
-      name: string;
-      address: string;
-      rating: number;
-      reviewCount: number;
-      isUserBusiness?: boolean;
-    }>;
-  }>({
+  // Modal state with proper typing
+  const [modalData, setModalData] = useState<ModalState>({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
@@ -36,6 +41,7 @@ export const GeoRankingPage: React.FC = () => {
 
   // User's business name for highlighting
   const userBusinessName = "Your Digital Agency";
+  
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
@@ -45,8 +51,8 @@ export const GeoRankingPage: React.FC = () => {
   };
 
   // Generate mock competitor data based on grid position
-  const generateCompetitorData = (gridId: string) => {
-    const competitors = [{
+  const generateCompetitorData = (gridId: string): Competitor[] => {
+    const baseCompetitors = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -100,7 +106,7 @@ export const GeoRankingPage: React.FC = () => {
     }];
 
     // Shuffle and assign positions based on grid
-    const shuffled = [...competitors].sort(() => Math.random() - 0.5);
+    const shuffled = [...baseCompetitors].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 10).map((competitor, index) => ({
       position: index + 1,
       ...competitor
@@ -135,7 +141,7 @@ export const GeoRankingPage: React.FC = () => {
       <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
         <div className="mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Selecting Listing Page</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Geo Ranking Tool</h1>
           <p className="text-sm text-gray-600">Your Business Location • Selected Listing Address</p>
         </div>
 
@@ -344,7 +350,13 @@ export const GeoRankingPage: React.FC = () => {
       </div>
 
       {/* GEO Position Modal */}
-      <GeoPositionModal isOpen={modalData.isOpen} onClose={handleCloseModal} gpsCoordinates={modalData.gpsCoordinates} competitors={modalData.competitors} userBusinessName={userBusinessName} />
+      <GeoPositionModal 
+        isOpen={modalData.isOpen} 
+        onClose={handleCloseModal} 
+        gpsCoordinates={modalData.gpsCoordinates} 
+        competitors={modalData.competitors} 
+        userBusinessName={userBusinessName} 
+      />
     </div>
   );
 };
