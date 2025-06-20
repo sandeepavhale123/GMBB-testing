@@ -10,29 +10,14 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
-interface Competitor {
-  name: string;
-  address: string;
-  rating: number;
-  reviewCount: number;
-  position: number;
-  isUserBusiness?: boolean;
-}
-
-interface ModalState {
-  isOpen: boolean;
-  gpsCoordinates: string;
-  competitors: Competitor[];
-}
-
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
-  const [gridSize, setGridSize] = useState<string>('4*4');
-  const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
-  const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
+  const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
+  const [gridSize, setGridSize] = useState('4*4');
+  const [headerKeyword, setHeaderKeyword] = useState('Web Design');
+  const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
 
-  const [modalData, setModalData] = useState<ModalState>({
+  const [modalData, setModalData] = useState({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
@@ -48,8 +33,8 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
 
-  const generateCompetitorData = (gridId: string): Competitor[] => {
-    const baseCompetitors: Omit<Competitor, 'position'>[] = [{
+  const generateCompetitorData = (gridId) => {
+    const baseCompetitors = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -109,7 +94,7 @@ export const GeoRankingPage = () => {
     }));
   };
 
-  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
+  const handleMarkerClick = (gpsCoordinates, gridId) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
       isOpen: true,
@@ -119,13 +104,13 @@ export const GeoRankingPage = () => {
   };
 
   const handleCloseModal = () => {
-    setModalData(prevData => ({
-      ...prevData,
+    setModalData(prev => ({
+      ...prev,
       isOpen: false
     }));
   };
 
-  const handleKeywordSelect = (keyword: string) => {
+  const handleKeywordSelect = (keyword) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
