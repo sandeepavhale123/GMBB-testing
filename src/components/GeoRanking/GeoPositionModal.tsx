@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Copy, X, Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -11,6 +12,7 @@ interface Competitor {
   address: string;
   rating: number;
   reviewCount: number;
+  isUserBusiness?: boolean;
 }
 
 interface GeoPositionModalProps {
@@ -18,13 +20,15 @@ interface GeoPositionModalProps {
   onClose: () => void;
   gpsCoordinates: string;
   competitors: Competitor[];
+  userBusinessName?: string;
 }
 
 export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   isOpen,
   onClose,
   gpsCoordinates,
-  competitors
+  competitors,
+  userBusinessName
 }) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
@@ -107,7 +111,7 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
+    <div className="fixed inset-0 z-[9999] pointer-events-none">
       <Card
         ref={modalRef}
         className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border"
@@ -150,7 +154,7 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
         {/* Content */}
         <CardContent className="p-0">
           <div className="p-4 pb-2">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Top Results</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Top Result</h3>
           </div>
           
           <ScrollArea className="h-80">
@@ -158,18 +162,39 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
               {competitors.map((competitor) => (
                 <div
                   key={competitor.position}
-                  className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-b-0"
+                  className={`flex items-start gap-3 py-3 border-b border-gray-100 last:border-b-0 ${
+                    competitor.isUserBusiness || competitor.name === userBusinessName
+                      ? 'bg-blue-50 border-blue-200 rounded-lg px-3 -mx-1 mb-2'
+                      : ''
+                  }`}
                 >
-                  {/* Position Number */}
-                  <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-semibold">
-                    {competitor.position}
-                  </div>
+                  {/* Position Avatar */}
+                  <Avatar className="h-10 w-10 flex-shrink-0">
+                    <AvatarFallback className={`text-sm font-semibold ${
+                      competitor.isUserBusiness || competitor.name === userBusinessName
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-blue-100 text-blue-700'
+                    }`}>
+                      {competitor.position}
+                    </AvatarFallback>
+                  </Avatar>
                   
                   {/* Business Info */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {competitor.name}
-                    </h4>
+                    <div className="flex items-center gap-2">
+                      <h4 className={`text-sm font-medium truncate ${
+                        competitor.isUserBusiness || competitor.name === userBusinessName
+                          ? 'text-blue-900'
+                          : 'text-gray-900'
+                      }`}>
+                        {competitor.name}
+                      </h4>
+                      {(competitor.isUserBusiness || competitor.name === userBusinessName) && (
+                        <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                          Your Business
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                       {competitor.address}
                     </p>

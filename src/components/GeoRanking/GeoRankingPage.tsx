@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -29,12 +28,16 @@ export const GeoRankingPage: React.FC = () => {
       address: string;
       rating: number;
       reviewCount: number;
+      isUserBusiness?: boolean;
     }>;
   }>({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
   });
+
+  // User's business name for highlighting
+  const userBusinessName = "Your Digital Agency";
 
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
@@ -50,7 +53,7 @@ export const GeoRankingPage: React.FC = () => {
       { name: 'J K Digitech', address: 'Laxmi Nagar, Delhi, India', rating: 4.8, reviewCount: 127 },
       { name: 'Digital Bytz', address: 'Connaught Place, New Delhi, India', rating: 4.6, reviewCount: 89 },
       { name: 'PUNK DIGITAL MARKETING ACADEMY', address: 'Janakpuri, Delhi, India', rating: 4.7, reviewCount: 156 },
-      { name: 'WebCraft Solutions', address: 'Karol Bagh, Delhi, India', rating: 4.5, reviewCount: 94 },
+      { name: userBusinessName, address: 'Karol Bagh, Delhi, India', rating: 4.5, reviewCount: 94, isUserBusiness: true },
       { name: 'TechnoVista Digital', address: 'Rajouri Garden, Delhi, India', rating: 4.9, reviewCount: 203 },
       { name: 'Creative Web Hub', address: 'Dwarka, New Delhi, India', rating: 4.4, reviewCount: 78 },
       { name: 'Digital Storm Agency', address: 'Rohini, Delhi, India', rating: 4.6, reviewCount: 112 },
@@ -163,6 +166,7 @@ export const GeoRankingPage: React.FC = () => {
         onClose={handleCloseModal}
         gpsCoordinates={modalData.gpsCoordinates}
         competitors={modalData.competitors}
+        userBusinessName={userBusinessName}
       />
     </div>
   );
