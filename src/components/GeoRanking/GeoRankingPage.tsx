@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -6,10 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { MetricsCards } from './MetricsCards';
 import { RankingMap } from './RankingMap';
 import { UnderPerformingTable } from './UnderPerformingTable';
-import { CompetitorAnalysis } from './CompetitorAnalysis';
-import { FiltersSidebar } from './FiltersSidebar';
-import { RankingDistribution } from './RankingDistribution';
-import { AIInsights } from './AIInsights';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
@@ -90,8 +87,8 @@ export const GeoRankingPage: React.FC = () => {
       <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
         <div className="mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Citation Builder Pro</h1>
-          <p className="text-sm text-gray-600">Your Digital Agency • Karol Bagh, Delhi, India</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Selecting Listing Page</h1>
+          <p className="text-sm text-gray-600">Your Business Location • Selected Listing Address</p>
         </div>
 
         {/* Main Header Card */}
@@ -204,74 +201,52 @@ export const GeoRankingPage: React.FC = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 sm:gap-6">
-        {/* Left Section - Main Content */}
-        <div className="xl:col-span-3 space-y-4 sm:space-y-6">
-          {/* Map Section with Ranking Summary */}
-          <div className="relative">
-            <RankingMap onMarkerClick={handleMarkerClick} />
-            
-            {/* Ranking Summary Overlay */}
-            <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg">
-              <CardContent className="p-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-green-500 rounded"></div>
-                      <span className="text-xs text-gray-600">1-3</span>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900">2</span>
+      {/* Full Width Content */}
+      <div className="space-y-4 sm:space-y-6">
+        {/* Map Section with Ranking Summary - Now Full Width */}
+        <div className="relative">
+          <RankingMap onMarkerClick={handleMarkerClick} />
+          
+          {/* Ranking Summary Overlay */}
+          <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded"></div>
+                    <span className="text-xs text-gray-600">1-3</span>
                   </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                      <span className="text-xs text-gray-600">4-10</span>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900">12</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                      <span className="text-xs text-gray-600">11-15</span>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900">8</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-red-500 rounded"></div>
-                      <span className="text-xs text-gray-600">16+</span>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900">6</span>
-                  </div>
+                  <span className="text-sm font-semibold text-gray-900">2</span>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Under-performing Areas Table */}
-          <UnderPerformingTable />
-
-          {/* Competitor Analysis Section */}
-          <CompetitorAnalysis />
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                    <span className="text-xs text-gray-600">4-10</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-900">12</span>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                    <span className="text-xs text-gray-600">11-15</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-900">8</span>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded"></div>
+                    <span className="text-xs text-gray-600">16+</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-900">6</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Right Sidebar */}
-        <div className="space-y-4 sm:space-y-6 xl:sticky xl:top-6 xl:self-start">
-          {/* Filters */}
-          <FiltersSidebar 
-            selectedKeyword={selectedKeyword}
-            setSelectedKeyword={setSelectedKeyword}
-            gridSize={gridSize}
-            setGridSize={setGridSize}
-          />
-
-          {/* Ranking Distribution */}
-          <RankingDistribution />
-
-          {/* AI Insights */}
-          <AIInsights />
-        </div>
+        {/* Under-performing Areas Table */}
+        <UnderPerformingTable />
       </div>
 
       {/* GEO Position Modal */}
