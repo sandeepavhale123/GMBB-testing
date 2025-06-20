@@ -4,14 +4,12 @@ import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 
 import { Card, CardContent } from '../ui/card';
 import { useListingContext } from '@/context/ListingContext';
 import { useInsightsExport } from '@/hooks/useInsightsExport';
-
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
-
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
@@ -19,11 +17,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   onKeywordSelect
 }) => {
   // Get the selected listing from context
-  const { selectedListing } = useListingContext();
+  const {
+    selectedListing
+  } = useListingContext();
 
   // Use the export hook
-  const { isExporting, handleExportImage } = useInsightsExport(selectedListing);
-  
+  const {
+    isExporting,
+    handleExportImage
+  } = useInsightsExport(selectedListing);
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -33,9 +35,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   // Use selected listing data or fallback values
   const listingName = selectedListing?.name || "Downtown Coffee Shop";
   const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
-
-  return (
-    <div className="mb-6 sm:mb-8">
+  return <div className="mb-6 sm:mb-8">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -55,13 +55,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Export Button and Report Date */}
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
-                <Button 
-                  onClick={handleExportImage} 
-                  disabled={isExporting} 
-                  size="sm" 
-                  variant="outline" 
-                  className="flex items-center gap-2"
-                >
+                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
@@ -156,6 +150,5 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
