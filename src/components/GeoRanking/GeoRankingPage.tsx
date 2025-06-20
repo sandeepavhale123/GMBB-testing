@@ -27,10 +27,10 @@ interface ModalState {
 
 export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
-  const [gridSize, setGridSize] = useState<string>('4*4');
-  const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
-  const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
+  const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
+  const [gridSize, setGridSize] = useState('4*4');
+  const [headerKeyword, setHeaderKeyword] = useState('Web Design');
+  const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
 
   // Modal state with proper typing
   const [modalData, setModalData] = useState<ModalState>({
@@ -40,19 +40,19 @@ export const GeoRankingPage: React.FC = () => {
   });
 
   // User's business name for highlighting
-  const userBusinessName: string = "Your Digital Agency";
+  const userBusinessName = "Your Digital Agency";
   
-  const handleCreateReport = (): void => {
+  const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
   
-  const handleExportPDF = (): void => {
+  const handleExportPDF = () => {
     console.log('Exporting report as PDF...');
   };
 
   // Generate mock competitor data based on grid position
   const generateCompetitorData = (gridId: string): Competitor[] => {
-    const competitors: Omit<Competitor, 'position'>[] = [{
+    const baseCompetitors = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -106,14 +106,14 @@ export const GeoRankingPage: React.FC = () => {
     }];
 
     // Shuffle and assign positions based on grid
-    const shuffled = [...competitors].sort(() => Math.random() - 0.5);
+    const shuffled = [...baseCompetitors].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 10).map((competitor, index) => ({
       position: index + 1,
       ...competitor
     }));
   };
 
-  const handleMarkerClick = (gpsCoordinates: string, gridId: string): void => {
+  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
       isOpen: true,
@@ -122,14 +122,14 @@ export const GeoRankingPage: React.FC = () => {
     });
   };
 
-  const handleCloseModal = (): void => {
+  const handleCloseModal = () => {
     setModalData(prev => ({
       ...prev,
       isOpen: false
     }));
   };
 
-  const handleKeywordSelect = (keyword: string): void => {
+  const handleKeywordSelect = (keyword: string) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
@@ -141,7 +141,7 @@ export const GeoRankingPage: React.FC = () => {
       <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
         <div className="mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Selecting Listing Page</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Geo Ranking Tool</h1>
           <p className="text-sm text-gray-600">Your Business Location • Selected Listing Address</p>
         </div>
 
