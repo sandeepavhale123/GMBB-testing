@@ -4,23 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
-import { GeoPositionModal } from './GeoPositionModal';
-
-// Simple, explicit type definitions
-type CompetitorData = {
-  name: string;
-  address: string;
-  rating: number;
-  reviewCount: number;
-  position?: number;
-  isUserBusiness?: boolean;
-};
-
-type ModalData = {
-  isOpen: boolean;
-  gpsCoordinates: string;
-  competitors: CompetitorData[];
-};
+import { SimpleGeoModal } from './SimpleGeoModal';
 
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
@@ -29,7 +13,7 @@ export const GeoRankingPage = () => {
   const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
   const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
 
-  const [modalData, setModalData] = useState<ModalData>({
+  const [modalData, setModalData] = useState({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
@@ -45,8 +29,8 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
 
-  const generateCompetitorData = (gridId: string): CompetitorData[] => {
-    const baseCompetitors: CompetitorData[] = [{
+  const generateCompetitorData = (gridId: string) => {
+    const baseCompetitors = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -72,35 +56,9 @@ export const GeoRankingPage = () => {
       address: 'Rajouri Garden, Delhi, India',
       rating: 4.9,
       reviewCount: 203
-    }, {
-      name: 'Creative Web Hub',
-      address: 'Dwarka, New Delhi, India',
-      rating: 4.4,
-      reviewCount: 78
-    }, {
-      name: 'Digital Storm Agency',
-      address: 'Rohini, Delhi, India',
-      rating: 4.6,
-      reviewCount: 112
-    }, {
-      name: 'NextGen Web Studio',
-      address: 'Pitampura, Delhi, India',
-      rating: 4.3,
-      reviewCount: 67
-    }, {
-      name: 'Elite Digital Services',
-      address: 'Saket, New Delhi, India',
-      rating: 4.8,
-      reviewCount: 145
-    }, {
-      name: 'ProWeb Technologies',
-      address: 'Vasant Kunj, Delhi, India',
-      rating: 4.5,
-      reviewCount: 98
     }];
 
-    const shuffled = [...baseCompetitors].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 10).map((competitor, index) => ({
+    return baseCompetitors.slice(0, 5).map((competitor, index) => ({
       ...competitor,
       position: index + 1
     }));
@@ -141,19 +99,16 @@ export const GeoRankingPage = () => {
         onKeywordSelect={handleKeywordSelect}
       />
 
-      {/* Full Width Content */}
       <div className="space-y-4 sm:space-y-6">
         <GeoRankingMapSection
           gridSize={gridSize}
           onMarkerClick={handleMarkerClick}
         />
 
-        {/* Under-performing Areas Table */}
         <UnderPerformingTable />
       </div>
 
-      {/* GEO Position Modal */}
-      <GeoPositionModal 
+      <SimpleGeoModal 
         isOpen={modalData.isOpen} 
         onClose={handleCloseModal} 
         gpsCoordinates={modalData.gpsCoordinates} 
