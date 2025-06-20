@@ -32,8 +32,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Left Section - Keyword and Details */}
             <div className="xl:col-span-3 space-y-4">
               {/* Keyword Section */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 relative">
+                <div className="flex flex-col gap-1">
+                  <div className="text-sm text-gray-500 font-medium">Keyword</div>
                   <div 
                     className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer"
                     onClick={onToggleDropdown}
@@ -45,7 +46,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 
                 {/* Keyword Dropdown */}
                 {showKeywordDropdown && (
-                  <div className="absolute z-50 mt-12 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                     <div className="py-1">
                       <div 
                         className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
