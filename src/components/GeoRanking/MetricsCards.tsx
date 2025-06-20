@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Eye } from 'lucide-react';
@@ -11,9 +10,9 @@ export const MetricsCards: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <p className="text-xs sm:text-sm text-gray-600 mb-1">Overall Visibility</p>
-              <p className="text-2xl sm:text-3xl font-bold text-gray-900">36%</p>
-              <p className="text-xs text-green-600 mt-1">+5.2% from last month</p>
+              <p className="text-xs sm:text-sm text-gray-600 mb-1 text-left">Overall Visibility</p>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900 text-left">36%</p>
+              <p className="text-xs text-green-600 mt-1 text-left">+5.2% from last month</p>
             </div>
             <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
               <CircularProgress value={36} size={48} className="text-blue-500 sm:w-16 sm:h-16" />
@@ -26,9 +25,9 @@ export const MetricsCards: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <p className="text-xs sm:text-sm text-gray-600 mb-1">Click Rate</p>
-              <p className="text-2xl sm:text-3xl font-bold text-gray-900">12.4%</p>
-              <p className="text-xs text-red-600 mt-1">-1.2% CTR</p>
+              <p className="text-xs sm:text-sm text-gray-600 mb-1 text-left">Click Rate</p>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900 text-left">12.4%</p>
+              <p className="text-xs text-red-600 mt-1 text-left">-1.2% CTR</p>
             </div>
             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
               <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
