@@ -22,7 +22,7 @@ const ConnectGoogleStep = () =>
       oauthParams,
     } = useOnboarding();
 
-    const localdomain = window.location.origin;
+    const localdomain = window.location.host;
 
     const navigate = useNavigate();
     const { search } = useLocation();
