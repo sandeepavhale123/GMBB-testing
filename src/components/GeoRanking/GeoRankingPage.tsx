@@ -10,14 +10,30 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
+// Simple, explicit type definitions
+type CompetitorData = {
+  name: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  position?: number;
+  isUserBusiness?: boolean;
+};
+
+type ModalData = {
+  isOpen: boolean;
+  gpsCoordinates: string;
+  competitors: CompetitorData[];
+};
+
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
-  const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
-  const [gridSize, setGridSize] = useState('4*4');
-  const [headerKeyword, setHeaderKeyword] = useState('Web Design');
-  const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
+  const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
+  const [gridSize, setGridSize] = useState<string>('4*4');
+  const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
+  const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
 
-  const [modalData, setModalData] = useState({
+  const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
@@ -33,8 +49,8 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
 
-  const generateCompetitorData = (gridId) => {
-    const baseCompetitors = [{
+  const generateCompetitorData = (gridId: string): CompetitorData[] => {
+    const baseCompetitors: CompetitorData[] = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -89,12 +105,12 @@ export const GeoRankingPage = () => {
 
     const shuffled = [...baseCompetitors].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 10).map((competitor, index) => ({
-      position: index + 1,
-      ...competitor
+      ...competitor,
+      position: index + 1
     }));
   };
 
-  const handleMarkerClick = (gpsCoordinates, gridId) => {
+  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
       isOpen: true,
@@ -110,7 +126,7 @@ export const GeoRankingPage = () => {
     }));
   };
 
-  const handleKeywordSelect = (keyword) => {
+  const handleKeywordSelect = (keyword: string) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
