@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '../ui/button';
-import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles } from 'lucide-react';
+import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { useListingContext } from '@/context/ListingContext';
 
@@ -39,8 +39,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-700 mb-1">{listingName}</h2>
-              <p className="text-sm text-gray-600">{listingAddress}</p>
+              <div className="flex items-center gap-2 mb-1">
+                <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 flex-shrink-0"></div>
+                <p className="text-sm text-gray-600">{listingAddress}</p>
+              </div>
             </div>
             
             {/* Report Date and Branding */}
