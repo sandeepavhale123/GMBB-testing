@@ -109,9 +109,11 @@ export const GeoRankingPage = () => {
               <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">
                 <span className="text-sm text-gray-500">Powered by</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">G</span>
-                  </div>
+                  <img 
+                    src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" 
+                    alt="GMB-Briefcase favicon" 
+                    className="w-6 h-6"
+                  />
                   <span className="text-sm font-medium text-gray-700">GMB-Briefcase</span>
                 </div>
               </div>
