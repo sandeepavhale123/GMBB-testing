@@ -1,19 +1,15 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
-
 interface GeoRankingMapSectionProps {
   gridSize: string;
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
 }
-
 export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   gridSize,
   onMarkerClick
 }) => {
-  return (
-    <div className="relative">
+  return <div className="relative">
       <Card className="bg-white">
         <CardContent className="p-4 sm:p-6">
           <div className="mb-4">
@@ -44,7 +40,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
               </span>
             </div>
             
-            <p className="text-xs text-gray-500 mb-4">Click on any position marker to view detailed competitor rankings</p>
+            
           </div>
           <div className="bg-gray-50 rounded-lg overflow-hidden">
             <RankingMap onMarkerClick={onMarkerClick} />
@@ -53,7 +49,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
       
       {/* Key Metrics Overlay - Top Left */}
-      <Card className="absolute  bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{ top: '150px',left:'33px',zIndex:'9999' }}>
+      <Card className="absolute  bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
+      top: '150px',
+      left: '33px',
+      zIndex: '9999'
+    }}>
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
           <div className="flex flex-wrap gap-2">
@@ -76,7 +76,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
 
       {/* Position Summary Overlay - Top Right */}
-      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{ top: '150px',right:'33px',zIndex:'9999' }}>
+      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
+      top: '150px',
+      right: '33px',
+      zIndex: '9999'
+    }}>
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
           <div className="space-y-2">
@@ -111,6 +115,5 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
