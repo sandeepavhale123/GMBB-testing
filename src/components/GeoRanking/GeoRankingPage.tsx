@@ -189,25 +189,6 @@ export const GeoRankingPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Info Chips */}
-                <div className="flex flex-wrap gap-2">
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                    GPS: 28.6139, 77.2090
-                  </span>
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                    Grid: {gridSize}
-                  </span>
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                    Distance: 2km
-                  </span>
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                    Engine: Google Maps
-                  </span>
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                    Frequency: Daily
-                  </span>
-                </div>
               </div>
 
               {/* Center Section - Key Metrics */}
@@ -225,24 +206,6 @@ export const GeoRankingPage: React.FC = () => {
                     <div className="text-xs text-orange-600 font-medium mb-1">Click Rate</div>
                     <div className="text-2xl font-bold text-orange-900">12.4%</div>
                     <div className="text-xs text-red-600">-1.2% ↓</div>
-                  </div>
-                </div>
-
-                {/* KPIs Row */}
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <div className="flex rounded-md border overflow-hidden shadow-sm">
-                    <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ARP</div>
-                    <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">8.50</div>
-                  </div>
-                  
-                  <div className="flex rounded-md border overflow-hidden shadow-sm">
-                    <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ATRP</div>
-                    <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">6.20</div>
-                  </div>
-                  
-                  <div className="flex rounded-md border overflow-hidden shadow-sm">
-                    <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">SoLV</div>
-                    <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">36.0%</div>
                   </div>
                 </div>
               </div>
@@ -275,12 +238,48 @@ export const GeoRankingPage: React.FC = () => {
 
       {/* Full Width Content */}
       <div className="space-y-4 sm:space-y-6">
-        {/* Map Section with Ranking Summary - Now Full Width */}
+        {/* Map Section with Overlays - Now Full Width */}
         <div className="relative">
-          <RankingMap onMarkerClick={handleMarkerClick} />
+          <Card className="bg-white">
+            <CardContent className="p-4 sm:p-6">
+              <div className="mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">GEO Grid Ranking Map</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs sm:text-sm text-gray-600">Grid Coverage:</span>
+                    <span className="bg-gray-100 px-2 py-1 rounded text-xs sm:text-sm font-medium">16/16 areas</span>
+                  </div>
+                </div>
+                
+                {/* Info Badges */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                    GPS: 28.6139, 77.2090
+                  </span>
+                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                    Grid: {gridSize}
+                  </span>
+                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                    Distance: 2km
+                  </span>
+                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                    Engine: Google Maps
+                  </span>
+                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                    Frequency: Daily
+                  </span>
+                </div>
+                
+                <p className="text-xs text-gray-500 mb-4">Click on any position marker to view detailed competitor rankings</p>
+              </div>
+              <div className="bg-gray-50 rounded-lg overflow-hidden">
+                <RankingMap onMarkerClick={handleMarkerClick} />
+              </div>
+            </CardContent>
+          </Card>
           
-          {/* Ranking Summary Overlay */}
-          <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg">
+          {/* Position Summary Overlay */}
+          <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
             <CardContent className="p-4">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
               <div className="space-y-2">
@@ -311,6 +310,29 @@ export const GeoRankingPage: React.FC = () => {
                     <span className="text-xs text-gray-600">16+</span>
                   </div>
                   <span className="text-sm font-semibold text-gray-900">6</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* KPI Metrics Overlay */}
+          <Card className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
+            <CardContent className="p-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
+              <div className="flex flex-wrap gap-2">
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ARP</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">8.50</div>
+                </div>
+                
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ATRP</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">6.20</div>
+                </div>
+                
+                <div className="flex rounded-md border overflow-hidden shadow-sm">
+                  <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">SoLV</div>
+                  <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">36.0%</div>
                 </div>
               </div>
             </CardContent>
