@@ -53,7 +53,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
       
       {/* Key Metrics Overlay - Top Left */}
-      <Card className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
+      <Card className="absolute top-10 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
           <div className="flex flex-wrap gap-2">
@@ -76,7 +76,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
 
       {/* Position Summary Overlay - Top Right */}
-      <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
+      <Card className="absolute top-10 right-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
           <div className="space-y-2">
