@@ -123,7 +123,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative">
                <div className="mb-6">
-                <h1 className="text-xl sm:text-1xl font-bold text-gray-900">GEO ranking report</h1>
+                <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
               </div>
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
@@ -189,15 +189,21 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Action Buttons */}
             <div className="lg:col-span-3">
               <div className="flex flex-col gap-2 justify-end">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" style={{width:'fit-content'}}>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" style={{
+                width: 'fit-content'
+              }}>
                   <Plus className="w-4 h-4 mr-2" />
                   Add Keyword
                 </Button>
                 <div className="flex gap-2 ml-auto">
-                  <Button variant="outline" className="justify-center" style={{width:'fit-content'}}>
+                  <Button variant="outline" className="justify-center" style={{
+                  width: 'fit-content'
+                }}>
                     <RefreshCcw className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" className="justify-center" style={{width:'fit-content'}}>
+                  <Button variant="outline" className="justify-center" style={{
+                  width: 'fit-content'
+                }}>
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
