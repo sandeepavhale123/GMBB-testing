@@ -20,7 +20,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 });
-
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
@@ -129,12 +128,7 @@ export const GeoRankingReportPage: React.FC = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
   return <div className="min-h-screen flex w-full">
-      <Sidebar 
-        activeTab="geo-ranking" 
-        onTabChange={() => {}} 
-        collapsed={sidebarCollapsed} 
-        onToggleCollapse={toggleSidebar}
-      />
+      <Sidebar activeTab="geo-ranking" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
       
       <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         <Header onToggleSidebar={toggleSidebar} />
@@ -142,16 +136,7 @@ export const GeoRankingReportPage: React.FC = () => {
         <div className="p-3 sm:p-4 lg:p-6">
           <div className="max-w-7xl mx-auto">
             {/* Page Header with Back Button */}
-            <div className="mb-4 lg:mb-6">
-              <div className="flex items-center gap-4 mb-2">
-                <Button variant="outline" size="sm" onClick={handleBackClick} className="flex items-center gap-2">
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
-                </Button>
-                
-              </div>
-              <p className="text-gray-600 mt-1 lg:mt-2 text-sm lg:text-base">Configure your local search ranking analysis</p>
-            </div>
+            
 
             {/* Main Layout - Responsive Order */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
