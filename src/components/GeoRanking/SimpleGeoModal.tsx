@@ -44,38 +44,38 @@ export const SimpleGeoModal: React.FC<SimpleGeoModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <Card className="w-96 max-h-[500px] bg-white">
-        <div className="p-4 border-b">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700 truncate">
+    <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md max-h-[80vh] bg-white">
+        <div className="p-4 border-b flex items-center justify-between">
+          <div className="flex-1 pr-4">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">Location Results</h3>
+            <span className="text-xs text-gray-600 break-all">
               {gpsCoordinates}
             </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-6 w-6 p-0"
-            >
-              <X className="h-3 w-3" />
-            </Button>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="h-8 w-8 p-0 flex-shrink-0"
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
 
-        <CardContent className="p-4">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Top Results</h3>
-          <div className="space-y-3 max-h-80 overflow-y-auto">
+        <CardContent className="p-0">
+          <div className="max-h-96 overflow-y-auto">
             {competitors.map((competitor) => (
               <div
-                key={competitor.position}
-                className={`p-3 rounded-lg border ${
+                key={`${competitor.position}-${competitor.name}`}
+                className={`p-4 border-b border-gray-100 last:border-b-0 ${
                   competitor.isUserBusiness || competitor.name === userBusinessName
-                    ? 'bg-blue-50 border-blue-200'
-                    : 'bg-gray-50 border-gray-200'
+                    ? 'bg-blue-50'
+                    : 'hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ${
                     competitor.isUserBusiness || competitor.name === userBusinessName
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-600 text-white'
@@ -84,14 +84,21 @@ export const SimpleGeoModal: React.FC<SimpleGeoModalProps> = ({
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {competitor.name}
-                    </h4>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="text-sm font-medium text-gray-900 truncate">
+                        {competitor.name}
+                      </h4>
+                      {(competitor.isUserBusiness || competitor.name === userBusinessName) && (
+                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0">
+                          You
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mb-2 line-clamp-2">
                       {competitor.address}
                     </p>
                     
-                    <div className="flex items-center gap-1 mt-2">
+                    <div className="flex items-center gap-1">
                       <div className="flex">
                         {renderStars(competitor.rating)}
                       </div>

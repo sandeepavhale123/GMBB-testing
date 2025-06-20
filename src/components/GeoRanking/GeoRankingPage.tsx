@@ -7,17 +7,31 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
 import { Card, CardContent } from '../ui/card';
 
+interface ModalData {
+  isOpen: boolean;
+  gpsCoordinates: string;
+  competitors: Array<{
+    position: number;
+    name: string;
+    address: string;
+    rating: number;
+    reviewCount: number;
+    isUserBusiness?: boolean;
+  }>;
+}
+
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
   const [gridSize, setGridSize] = useState<string>('4*4');
   const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
   const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
-  const [modalData, setModalData] = useState({
+  const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
   });
+  
   const userBusinessName = "Your Digital Agency";
 
   const handleCreateReport = () => {
@@ -29,33 +43,40 @@ export const GeoRankingPage = () => {
   };
   
   const generateCompetitorData = (gridId: string) => {
-    const baseCompetitors = [{
-      name: 'J K Digitech',
-      address: 'Laxmi Nagar, Delhi, India',
-      rating: 4.8,
-      reviewCount: 127
-    }, {
-      name: 'Digital Bytz',
-      address: 'Connaught Place, New Delhi, India',
-      rating: 4.6,
-      reviewCount: 89
-    }, {
-      name: 'PUNK DIGITAL MARKETING ACADEMY',
-      address: 'Janakpuri, Delhi, India',
-      rating: 4.7,
-      reviewCount: 156
-    }, {
-      name: userBusinessName,
-      address: 'Karol Bagh, Delhi, India',
-      rating: 4.5,
-      reviewCount: 94,
-      isUserBusiness: true
-    }, {
-      name: 'TechnoVista Digital',
-      address: 'Rajouri Garden, Delhi, India',
-      rating: 4.9,
-      reviewCount: 203
-    }];
+    const baseCompetitors = [
+      {
+        name: 'J K Digitech',
+        address: 'Laxmi Nagar, Delhi, India',
+        rating: 4.8,
+        reviewCount: 127
+      },
+      {
+        name: 'Digital Bytz',
+        address: 'Connaught Place, New Delhi, India',
+        rating: 4.6,
+        reviewCount: 89
+      },
+      {
+        name: 'PUNK DIGITAL MARKETING ACADEMY',
+        address: 'Janakpuri, Delhi, India',
+        rating: 4.7,
+        reviewCount: 156
+      },
+      {
+        name: userBusinessName,
+        address: 'Karol Bagh, Delhi, India',
+        rating: 4.5,
+        reviewCount: 94,
+        isUserBusiness: true
+      },
+      {
+        name: 'TechnoVista Digital',
+        address: 'Rajouri Garden, Delhi, India',
+        rating: 4.9,
+        reviewCount: 203
+      }
+    ];
+    
     return baseCompetitors.slice(0, 5).map((competitor, index) => ({
       ...competitor,
       position: index + 1
