@@ -131,7 +131,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             </div>
 
             {/* Right Section - Action Buttons */}
-            <div className="xl:col-span-3">
+            <div className="xl:col-span-2 ">
               <div className="flex flex-col gap-2 w-fit">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-start">
                   <Plus className="w-4 h-4 mr-2" />
