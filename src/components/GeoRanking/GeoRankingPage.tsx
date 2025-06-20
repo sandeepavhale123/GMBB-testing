@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -187,7 +186,7 @@ export const GeoRankingPage: React.FC = () => {
                     Add Keyword
                   </Button>
                   <Button variant="outline" className="justify-start">
-                    <RefreshCccw className="w-4 h-4 mr-2" />
+                    <RefreshCcw className="w-4 h-4 mr-2" />
                     Refresh
                   </Button>
                   <Button variant="outline" className="justify-start">
