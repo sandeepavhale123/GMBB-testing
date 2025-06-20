@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
@@ -6,23 +5,22 @@ import { Card, CardContent } from '../ui/card';
 import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
 import html2canvas from 'html2canvas';
-
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
-
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isExporting, setIsExporting] = React.useState(false);
-
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -33,12 +31,11 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       });
       return;
     }
-    
     setIsExporting(true);
     try {
       // Wait longer for components to fully render and settle
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Create a temporary container with padding
       const tempContainer = document.createElement('div');
       tempContainer.style.padding = '40px';
@@ -47,15 +44,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       tempContainer.style.left = '-9999px';
       tempContainer.style.top = '0';
       tempContainer.style.width = `${exportElement.offsetWidth + 80}px`;
-      
+
       // Clone the export element
       const clonedElement = exportElement.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedElement);
       document.body.appendChild(tempContainer);
-      
+
       // Wait a bit more for the cloned element to render
       await new Promise(resolve => setTimeout(resolve, 500));
-      
       const canvas = await html2canvas(tempContainer, {
         backgroundColor: '#f9fafb',
         scale: 2,
@@ -65,17 +61,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         width: tempContainer.offsetWidth,
         height: tempContainer.offsetHeight,
         scrollX: 0,
-        scrollY: 0,
+        scrollY: 0
       });
-      
+
       // Clean up the temporary container
       document.body.removeChild(tempContainer);
-      
       const link = document.createElement('a');
       link.download = `geo-ranking-report-${new Date().toISOString().split('T')[0]}.png`;
       link.href = canvas.toDataURL('image/png', 0.95);
       link.click();
-      
       toast({
         title: "Export Complete",
         description: "Your geo-ranking report has been downloaded as an image with padding."
@@ -91,18 +85,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
-
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
-
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
-
-  return (
-    <div className="mb-6 sm:mb-8">
+  return <div className="mb-4 sm:mb-8">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -122,13 +112,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Export Button and Report Date */}
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
-                <Button 
-                  onClick={handleExportImage} 
-                  disabled={isExporting} 
-                  size="sm" 
-                  variant="outline" 
-                  className="flex items-center gap-2 ml-auto"
-                >
+                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
@@ -156,8 +140,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 </div>
                 
                 {/* Keyword Dropdown */}
-                {showKeywordDropdown && (
-                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                     <div className="py-1">
                       <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                         Web Design
@@ -172,8 +155,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                         Local Business
                       </div>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
 
@@ -233,6 +215,5 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
