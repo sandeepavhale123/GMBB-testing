@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -132,34 +131,35 @@ export const GeoRankingPage: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
-      {/* Redesigned Header to match screenshot */}
-      <div className="mb-6 sm:mb-8 bg-white rounded-lg shadow-sm border p-6">
+      {/* Redesigned Header */}
+      <div className="mb-6 sm:mb-8">
         {/* Tool Name and Address */}
-        <div className="mb-6">
-          <h1 className="text-xl font-semibold text-gray-900 mb-1">Citation Builder Pro</h1>
-          <p className="text-sm text-gray-600">T 16 Software Technology Park Of India Nargon Road, Opp. Garware Stadium, Chikalthana, MIDC, Chhatrapati Sambhajinagar, Maharashtra 431006</p>
+        <div className="mb-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Selecting Listing Page</h1>
+          <p className="text-sm text-gray-600">Your Business Location • Selected Listing Address</p>
         </div>
 
-        {/* Main Content Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Section - Keyword and Grid Info */}
-          <div className="lg:col-span-4 space-y-4">
-            {/* Keyword Section */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-700">Keyword :</span>
-                <div className="relative">
-                  <div 
-                    className="text-lg font-semibold text-gray-900 flex items-center gap-2 cursor-pointer"
-                    onClick={() => setShowKeywordDropdown(!showKeywordDropdown)}
-                  >
-                    {headerKeyword}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
+        {/* Main Header Card */}
+        <Card className="bg-white shadow-sm">
+          <CardContent className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6 items-start">
+              {/* Left Section - Keyword and Details */}
+              <div className="xl:col-span-5 space-y-4">
+                {/* Keyword Section */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer"
+                      onClick={() => setShowKeywordDropdown(!showKeywordDropdown)}
+                    >
+                      {headerKeyword}
+                      <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
+                    </div>
                   </div>
                   
                   {/* Keyword Dropdown */}
                   {showKeywordDropdown && (
-                    <div className="absolute z-50 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                    <div className="absolute z-50 mt-12 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                       <div className="py-1">
                         <div 
                           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -190,71 +190,50 @@ export const GeoRankingPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
-              {/* Grid and GPS Info */}
-              <div className="space-y-1 text-sm text-gray-600">
-                <div>Grid Size : 5x5</div>
-                <div>GPS coordinate : 19.8880285,75.371</div>
+
+              {/* Center Section - Key Metrics */}
+              <div className="xl:col-span-4">
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Overall Visibility */}
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                    <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
+                    <div className="text-2xl font-bold text-blue-900">36%</div>
+                    <div className="text-xs text-green-600">+5.2% ↑</div>
+                  </div>
+
+                  {/* Click Rate */}
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+                    <div className="text-xs text-orange-600 font-medium mb-1">Click Rate</div>
+                    <div className="text-2xl font-bold text-orange-900">12.4%</div>
+                    <div className="text-xs text-red-600">-1.2% ↓</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Section - Action Buttons */}
+              <div className="xl:col-span-3">
+                <div className="flex flex-col gap-2">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-start">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Keyword
+                  </Button>
+                  <Button variant="outline" className="justify-start">
+                    <RefreshCcw className="w-4 h-4 mr-2" />
+                    Refresh
+                  </Button>
+                  <Button variant="outline" className="justify-start">
+                    <Lightbulb className="w-4 h-4 mr-2" />
+                    Get AI Recommendations
+                  </Button>
+                  <Button variant="outline" className="justify-start">
+                    <Copy className="w-4 h-4 mr-2" />
+                    Clone
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Center Section - Metrics */}
-          <div className="lg:col-span-4">
-            <div className="grid grid-cols-2 gap-4">
-              {/* Overall Visibility */}
-              <div className="text-center">
-                <div className="text-sm text-gray-600 mb-1">Overall Visibility</div>
-                <div className="text-3xl font-bold text-blue-600 mb-1">36%</div>
-                <div className="text-xs text-green-600">+5.2% from last month</div>
-              </div>
-
-              {/* Click Rate */}
-              <div className="text-center">
-                <div className="text-sm text-gray-600 mb-1">Click Rate</div>
-                <div className="text-3xl font-bold text-blue-600 mb-1">12.4%</div>
-                <div className="text-xs text-red-600">-1.2% CTR</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Section - Action Buttons */}
-          <div className="lg:col-span-4">
-            <div className="grid grid-cols-2 gap-2">
-              {/* Top Row */}
-              <Button variant="outline" size="sm" className="text-xs">
-                Distance: 500 m
-              </Button>
-              <Button variant="outline" size="sm" className="text-xs">
-                GMB Genie AI Insights
-              </Button>
-              
-              {/* Second Row */}
-              <Button variant="outline" size="sm" className="text-xs">
-                Search Engine: Google Search
-              </Button>
-              <Button variant="outline" size="sm" className="text-xs">
-                Get AI Recommendations
-              </Button>
-              
-              {/* Third Row */}
-              <Button variant="outline" size="sm" className="text-xs">
-                Scheduled frequency: onetime
-              </Button>
-              <div className="grid grid-cols-3 gap-1">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white text-xs p-1">
-                  <Plus className="w-3 h-3" />
-                </Button>
-                <Button variant="outline" size="sm" className="text-xs p-1">
-                  <RefreshCcw className="w-3 h-3" />
-                </Button>
-                <Button variant="outline" size="sm" className="text-xs p-1">
-                  <Copy className="w-3 h-3" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Full Width Content */}
