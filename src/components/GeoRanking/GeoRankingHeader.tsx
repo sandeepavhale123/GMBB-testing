@@ -187,16 +187,16 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
             {/* Action Buttons */}
             <div className="lg:col-span-3">
-              <div className="flex flex-col gap-2">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-start">
+              <div className="flex flex-col gap-2 justify-end">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" style={{width:'fit-content'}}>
                   <Plus className="w-4 h-4 mr-2" />
                   Add Keyword
                 </Button>
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1 justify-center">
+                  <Button variant="outline" className="flex-1 justify-center" style={{width:'fit-content'}}>
                     <RefreshCcw className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" className="flex-1 justify-center">
+                  <Button variant="outline" className="flex-1 justify-center" style={{width:'fit-content'}}>
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
