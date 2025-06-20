@@ -5,6 +5,7 @@ import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
+import { Card, CardContent } from '../ui/card';
 
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
@@ -92,21 +93,36 @@ export const GeoRankingPage = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 mx-auto bg-gray-50 min-h-screen">
-      <GeoRankingHeader
-        headerKeyword={headerKeyword}
-        showKeywordDropdown={showKeywordDropdown}
-        onToggleDropdown={handleToggleDropdown}
-        onKeywordSelect={handleKeywordSelect}
-      />
+      <Card className="bg-white shadow-sm">
+        <CardContent className="p-4 sm:p-6">
+          <GeoRankingHeader
+            headerKeyword={headerKeyword}
+            showKeywordDropdown={showKeywordDropdown}
+            onToggleDropdown={handleToggleDropdown}
+            onKeywordSelect={handleKeywordSelect}
+          />
 
-      <div className="space-y-4 sm:space-y-6">
-        <GeoRankingMapSection
-          gridSize={gridSize}
-          onMarkerClick={handleMarkerClick}
-        />
+          <div className="space-y-4 sm:space-y-6">
+            <GeoRankingMapSection
+              gridSize={gridSize}
+              onMarkerClick={handleMarkerClick}
+            />
 
-        <UnderPerformingTable />
-      </div>
+            <UnderPerformingTable />
+
+            {/* Powered By Section */}
+            <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">
+              <span className="text-sm text-gray-500">Powered by</span>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">G</span>
+                </div>
+                <span className="text-sm font-medium text-gray-700">GMB-Briefcase</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <SimpleGeoModal 
         isOpen={modalData.isOpen} 
