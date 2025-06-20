@@ -109,7 +109,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
                   <div className="text-xs text-blue-600 font-medium mb-1 ">Overall Visibility</div>
                   <div className="text-2xl font-bold text-blue-900 ">36%</div>
-                  <div className="text-xs text-green-600 text-center">+5.2% ↑</div>
+                  <div className="text-xs text-green-600 ">+5.2% ↑</div>
                 </div>
 
                 {/* Click Rate */}
