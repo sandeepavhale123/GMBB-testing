@@ -116,14 +116,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           {/* GEO ranking report title */}
-          <div className="mb-6">
-            <h1 className="text-xl sm:text-1xl font-bold text-gray-900">GEO ranking report</h1>
-          </div>
+         
 
           {/* Single Row Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative">
+               <div className="mb-6">
+                <h1 className="text-xl sm:text-1xl font-bold text-gray-900">GEO ranking report</h1>
+              </div>
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
                 {headerKeyword}
@@ -192,11 +193,11 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                   <Plus className="w-4 h-4 mr-2" />
                   Add Keyword
                 </Button>
-                <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1 justify-center" style={{width:'fit-content'}}>
+                <div className="flex gap-2 ml-auto">
+                  <Button variant="outline" className="justify-center" style={{width:'fit-content'}}>
                     <RefreshCcw className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" className="flex-1 justify-center" style={{width:'fit-content'}}>
+                  <Button variant="outline" className="justify-center" style={{width:'fit-content'}}>
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
