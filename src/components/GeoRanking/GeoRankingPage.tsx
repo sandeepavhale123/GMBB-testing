@@ -10,14 +10,29 @@ import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 
+interface Competitor {
+  name: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  position: number;
+  isUserBusiness?: boolean;
+}
+
+interface ModalState {
+  isOpen: boolean;
+  gpsCoordinates: string;
+  competitors: Competitor[];
+}
+
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
-  const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
-  const [gridSize, setGridSize] = useState('4*4');
-  const [headerKeyword, setHeaderKeyword] = useState('Web Design');
-  const [showKeywordDropdown, setShowKeywordDropdown] = useState(false);
+  const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
+  const [gridSize, setGridSize] = useState<string>('4*4');
+  const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
+  const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
 
-  const [modalData, setModalData] = useState({
+  const [modalData, setModalData] = useState<ModalState>({
     isOpen: false,
     gpsCoordinates: '',
     competitors: []
@@ -33,8 +48,8 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
 
-  const generateCompetitorData = (gridId) => {
-    const baseCompetitors = [{
+  const generateCompetitorData = (gridId: string): Competitor[] => {
+    const baseCompetitors: Omit<Competitor, 'position'>[] = [{
       name: 'J K Digitech',
       address: 'Laxmi Nagar, Delhi, India',
       rating: 4.8,
@@ -94,7 +109,7 @@ export const GeoRankingPage = () => {
     }));
   };
 
-  const handleMarkerClick = (gpsCoordinates, gridId) => {
+  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
     const competitors = generateCompetitorData(gridId);
     setModalData({
       isOpen: true,
@@ -104,13 +119,13 @@ export const GeoRankingPage = () => {
   };
 
   const handleCloseModal = () => {
-    setModalData(prev => ({
-      ...prev,
+    setModalData(prevData => ({
+      ...prevData,
       isOpen: false
     }));
   };
 
-  const handleKeywordSelect = (keyword) => {
+  const handleKeywordSelect = (keyword: string) => {
     setHeaderKeyword(keyword);
     setSelectedKeyword(keyword);
     setShowKeywordDropdown(false);
@@ -265,7 +280,7 @@ export const GeoRankingPage = () => {
             </CardContent>
           </Card>
           
-          {/* Key Metrics Overlay - Now Top Left */}
+          {/* Key Metrics Overlay - Top Left */}
           <Card className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
             <CardContent className="p-4">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
@@ -288,7 +303,7 @@ export const GeoRankingPage = () => {
             </CardContent>
           </Card>
 
-          {/* Position Summary Overlay - Now Top Right */}
+          {/* Position Summary Overlay - Top Right */}
           <Card className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm shadow-lg z-50">
             <CardContent className="p-4">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
