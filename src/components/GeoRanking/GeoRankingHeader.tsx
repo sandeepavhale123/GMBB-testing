@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
@@ -5,22 +6,23 @@ import { Card, CardContent } from '../ui/card';
 import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
 import html2canvas from 'html2canvas';
+
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
+
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isExporting, setIsExporting] = React.useState(false);
+
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -31,6 +33,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       });
       return;
     }
+
     setIsExporting(true);
     try {
       // Wait longer for components to fully render and settle
@@ -85,6 +88,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
+
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -92,13 +96,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
-  return <div className="mb-4 sm:mb-4">
+
+  return (
+    <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
               <div className="flex items-center gap-2 mb-1">
                 <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                 <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
@@ -126,6 +131,11 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
+          {/* GEO ranking report title - now positioned above keyword */}
+          <div className="mb-4">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
+          </div>
+
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6 items-start">
             {/* Left Section - Keyword and Details */}
             <div className="xl:col-span-4 space-y-4">
@@ -140,7 +150,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 </div>
                 
                 {/* Keyword Dropdown */}
-                {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                {showKeywordDropdown && (
+                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                     <div className="py-1">
                       <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                         Web Design
@@ -155,7 +166,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                         Local Business
                       </div>
                     </div>
-                  </div>}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -215,5 +227,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
