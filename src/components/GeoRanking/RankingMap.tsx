@@ -106,7 +106,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick }) => {
 
   return (
     <Card className="bg-white">
-      <CardContent className="sm:p-6">
+      <CardContent className="sm:p-0">
         <div className="bg-gray-50 rounded-lg overflow-hidden">
           <div ref={mapRef} className="w-full h-[400px] sm:h-[500px]" />
         </div>
