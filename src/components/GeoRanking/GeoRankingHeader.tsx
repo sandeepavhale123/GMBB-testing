@@ -92,7 +92,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
-  return <div className="mb-4 sm:mb-8">
+  return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
