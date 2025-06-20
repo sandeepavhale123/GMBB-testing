@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Label } from '../ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { Info, MapPin, ArrowLeft } from 'lucide-react';
+import { Info, MapPin } from 'lucide-react';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +27,7 @@ export const GeoRankingReportPage: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [manualMarkers, setManualMarkers] = useState<L.Marker[]>([]);
+  const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [formData, setFormData] = useState({
     searchBusinessType: 'name',
     searchBusiness: '',
@@ -65,12 +65,50 @@ export const GeoRankingReportPage: React.FC = () => {
 
   // Clear all markers from map
   const clearAllMarkers = () => {
-    manualMarkers.forEach(marker => {
+    currentMarkers.forEach(marker => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.removeLayer(marker);
       }
     });
-    setManualMarkers([]);
+    setCurrentMarkers([]);
+  };
+
+  // Add default red badge marker
+  const addDefaultMarker = () => {
+    if (!mapInstanceRef.current) return;
+
+    const defaultIcon = L.divIcon({
+      html: `<div style="
+        background: #dc2626;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      ">●</div>`,
+      className: 'default-marker',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+
+    const marker = L.marker([28.6139, 77.2090], {
+      icon: defaultIcon
+    }).addTo(mapInstanceRef.current);
+
+    marker.bindPopup(`
+      <div style="text-align: center; padding: 5px;">
+        <strong>Default Location</strong><br>
+        <small>Switch to manual to place custom points</small>
+      </div>
+    `);
+
+    setCurrentMarkers([marker]);
   };
 
   // Add automatic grid markers
@@ -80,6 +118,8 @@ export const GeoRankingReportPage: React.FC = () => {
     clearAllMarkers();
     
     const gridData = generateGridData(formData.gridSize);
+    const markers: L.Marker[] = [];
+    
     gridData.forEach(point => {
       const rankingIcon = L.divIcon({
         html: `<div style="
@@ -106,8 +146,10 @@ export const GeoRankingReportPage: React.FC = () => {
       }).addTo(mapInstanceRef.current!);
       
       marker.bindPopup(`Ranking: ${point.ranking}`);
-      setManualMarkers(prev => [...prev, marker]);
+      markers.push(marker);
     });
+    
+    setCurrentMarkers(markers);
   };
 
   // Enable manual point selection
@@ -158,17 +200,17 @@ export const GeoRankingReportPage: React.FC = () => {
         </div>
       `);
 
-      setManualMarkers(prev => [...prev, marker]);
+      setCurrentMarkers(prev => [...prev, marker]);
     };
 
     mapInstanceRef.current.on('click', handleMapClick);
 
     // Add global function to remove markers
     (window as any).removeManualMarker = (markerId: string) => {
-      const marker = manualMarkers.find(m => L.stamp(m).toString() === markerId);
+      const marker = currentMarkers.find(m => L.stamp(m).toString() === markerId);
       if (marker && mapInstanceRef.current) {
         mapInstanceRef.current.removeLayer(marker);
-        setManualMarkers(prev => prev.filter(m => m !== marker));
+        setCurrentMarkers(prev => prev.filter(m => m !== marker));
       }
     };
   };
@@ -191,12 +233,8 @@ export const GeoRankingReportPage: React.FC = () => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Initialize based on current map point setting
-    if (formData.mapPoint === 'Automatic') {
-      addAutomaticMarkers();
-    } else {
-      enableManualSelection();
-    }
+    // Show default red badge marker initially
+    addDefaultMarker();
 
     return () => {
       map.remove();
@@ -234,10 +272,6 @@ export const GeoRankingReportPage: React.FC = () => {
       ...prev,
       [field]: value
     }));
-  };
-
-  const handleBackClick = () => {
-    navigate('/');
   };
 
   const toggleSidebar = () => {
