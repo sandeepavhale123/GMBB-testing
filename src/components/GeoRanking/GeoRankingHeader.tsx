@@ -77,7 +77,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         <CardContent className="p-4 sm:p-6">
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6 items-start">
             {/* Left Section - Keyword and Details */}
-            <div className="xl:col-span-3 space-y-4">
+            <div className="xl:col-span-4 space-y-4">
               {/* Keyword Section */}
               <div className="flex-1 flex-col sm:flex-row sm:items-center gap-3 relative">
                 <div className="flex flex-col gap-1">
@@ -108,38 +108,39 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Center Section - Key Metrics */}
-            <div className="xl:col-span-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Overall Visibility */}
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
-                      <div className="text-2xl font-bold text-blue-900">36%</div>
-                      <div className="text-xs text-green-600">+5.2% ↑</div>
-                    </div>
-                    <div className="w-12 h-12 flex-shrink-0">
-                      <CircularProgress value={36} size={48} className="text-blue-500" />
-                    </div>
+            {/* Overall Visibility Card */}
+            <div className="xl:col-span-2">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
+                    <div className="text-2xl font-bold text-blue-900">36%</div>
+                    <div className="text-xs text-green-600">+5.2% ↑</div>
+                  </div>
+                  <div className="w-12 h-12 flex-shrink-0">
+                    <CircularProgress value={36} size={48} className="text-blue-500" />
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* Click Rate */}
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                  <div className="text-xs text-orange-600 font-medium mb-1 ">Click Rate</div>
-                  <div className="text-2xl font-bold text-orange-900 ">12.4%</div>
-                  <div className="text-xs text-red-600 ">-1.2% ↓</div>
-                </div>
+            {/* Click Rate Card */}
+            <div className="xl:col-span-2">
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+                <div className="text-xs text-orange-600 font-medium mb-1 ">Click Rate</div>
+                <div className="text-2xl font-bold text-orange-900 ">12.4%</div>
+                <div className="text-xs text-red-600 ">-1.2% ↓</div>
+              </div>
+            </div>
 
-                {/* AI Genie Recommendation */}
-                <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg">
-                  <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
-                  <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
-                    <Sparkles className="h-3 w-3 mr-1" />
-                    Get Insights
-                  </Button>
-                </div>
+            {/* AI Genie Recommendation Card */}
+            <div className="xl:col-span-2">
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg">
+                <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
+                <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Get Insights
+                </Button>
               </div>
             </div>
 
