@@ -1,15 +1,19 @@
+
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { useListingContext } from '@/context/ListingContext';
 import { useInsightsExport } from '@/hooks/useInsightsExport';
+import { CircularProgress } from '../ui/circular-progress';
+
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
+
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
@@ -26,6 +30,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     isExporting,
     handleExportImage
   } = useInsightsExport(selectedListing);
+
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -35,6 +40,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   // Use selected listing data or fallback values
   const listingName = selectedListing?.name || "Downtown Coffee Shop";
   const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
+
   return <div className="mb-6 sm:mb-8">
       {/* Report Header Card */}
       <Card className="mb-4">
@@ -107,9 +113,16 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Overall Visibility */}
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-                  <div className="text-xs text-blue-600 font-medium mb-1 ">Overall Visibility</div>
-                  <div className="text-2xl font-bold text-blue-900 ">36%</div>
-                  <div className="text-xs text-green-600 ">+5.2% ↑</div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
+                      <div className="text-2xl font-bold text-blue-900">36%</div>
+                      <div className="text-xs text-green-600">+5.2% ↑</div>
+                    </div>
+                    <div className="w-12 h-12 flex-shrink-0">
+                      <CircularProgress value={36} size={48} className="text-blue-500" />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Click Rate */}
