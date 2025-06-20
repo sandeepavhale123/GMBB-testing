@@ -4,23 +4,30 @@ import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 
 import { Card, CardContent } from '../ui/card';
 import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
+
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
+
+  const handleCheckRank = () => {
+    navigate('/geo-ranking-report');
+  };
+
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -76,6 +83,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
+
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -83,6 +91,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
+
   return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
       <Card className="mb-4">
@@ -115,9 +124,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       {/* Main Header Card - Single Row Layout */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          {/* GEO ranking report title */}
-         
-
           {/* Single Row Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
             {/* Keyword Section */}
@@ -189,21 +195,18 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Action Buttons */}
             <div className="lg:col-span-3">
               <div className="flex flex-col gap-2 justify-end">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" style={{
-                width: 'fit-content'
-              }}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Keyword
+                <Button 
+                  onClick={handleCheckRank}
+                  className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" 
+                  style={{ width: 'fit-content' }}
+                >
+                  Check Rank
                 </Button>
                 <div className="flex gap-2 ml-auto">
-                  <Button variant="outline" className="justify-center" style={{
-                  width: 'fit-content'
-                }}>
+                  <Button variant="outline" className="justify-center" style={{ width: 'fit-content' }}>
                     <RefreshCcw className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" className="justify-center" style={{
-                  width: 'fit-content'
-                }}>
+                  <Button variant="outline" className="justify-center" style={{ width: 'fit-content' }}>
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
