@@ -41,7 +41,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const listingName = selectedListing?.name || "Downtown Coffee Shop";
   const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
 
-  return <div className="mb-6 sm:mb-8">
+  return (
+    <div className="mb-6 sm:mb-8">
       {/* Report Header Card */}
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -61,7 +62,13 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Export Button and Report Date */}
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
-                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
+                <Button 
+                  onClick={handleExportImage} 
+                  disabled={isExporting} 
+                  size="sm" 
+                  variant="outline" 
+                  className="flex items-center gap-2 ml-auto"
+                >
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
@@ -89,7 +96,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 </div>
                 
                 {/* Keyword Dropdown */}
-                {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                {showKeywordDropdown && (
+                  <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                     <div className="py-1">
                       <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                         Web Design
@@ -104,7 +112,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                         Local Business
                       </div>
                     </div>
-                  </div>}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -164,5 +173,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
