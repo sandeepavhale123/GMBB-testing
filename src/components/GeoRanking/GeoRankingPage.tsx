@@ -6,7 +6,6 @@ import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
 import { Card, CardContent } from '../ui/card';
-import { useInsightsExport } from '@/hooks/useInsightsExport';
 
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
@@ -20,9 +19,6 @@ export const GeoRankingPage = () => {
     competitors: []
   });
   const userBusinessName = "Your Digital Agency";
-  
-  // Get the export ref from the hook
-  const { exportRef } = useInsightsExport(null);
 
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
@@ -96,7 +92,7 @@ export const GeoRankingPage = () => {
     <div className="mx-auto bg-gray-50 min-h-screen">
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <div ref={exportRef}>
+          <div data-export-target>
             <GeoRankingHeader 
               headerKeyword={headerKeyword} 
               showKeywordDropdown={showKeywordDropdown} 

@@ -3,9 +3,9 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
-import { useListingContext } from '@/context/ListingContext';
-import { useInsightsExport } from '@/hooks/useInsightsExport';
 import { CircularProgress } from '../ui/circular-progress';
+import { useToast } from '@/hooks/use-toast';
+import html2canvas from 'html2canvas';
 
 interface GeoRankingHeaderProps {
   headerKeyword: string;
@@ -20,16 +20,48 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  // Get the selected listing from context
-  const {
-    selectedListing
-  } = useListingContext();
+  const { toast } = useToast();
+  const [isExporting, setIsExporting] = React.useState(false);
 
-  // Use the export hook
-  const {
-    isExporting,
-    handleExportImage
-  } = useInsightsExport(selectedListing);
+  const handleExportImage = async () => {
+    const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
+    if (!exportElement) return;
+    
+    setIsExporting(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const canvas = await html2canvas(exportElement, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        height: exportElement.scrollHeight,
+        width: exportElement.scrollWidth,
+        scrollX: 0,
+        scrollY: 0,
+      });
+      
+      const link = document.createElement('a');
+      link.download = `geo-ranking-report-${new Date().toISOString().split('T')[0]}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      
+      toast({
+        title: "Export Complete",
+        description: "Your geo-ranking report has been downloaded as an image."
+      });
+    } catch (error) {
+      console.error('Error exporting image:', error);
+      toast({
+        title: "Export Failed",
+        description: "Failed to export image. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -37,9 +69,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     day: 'numeric'
   });
 
-  // Use selected listing data or fallback values
-  const listingName = selectedListing?.name || "Downtown Coffee Shop";
-  const listingAddress = selectedListing?.address || "123 Main St, Downtown, City";
+  const listingName = "Downtown Coffee Shop";
+  const listingAddress = "123 Main St, Downtown, City";
 
   return (
     <div className="mb-6 sm:mb-8">
