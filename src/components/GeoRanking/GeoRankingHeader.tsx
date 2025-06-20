@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '../ui/button';
-import { Plus, RefreshCcw, Lightbulb, Copy, ChevronDown } from 'lucide-react';
+import { Plus, RefreshCcw, Copy, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 
 interface GeoRankingHeaderProps {
@@ -103,18 +103,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                   <Plus className="w-4 h-4 mr-2" />
                   Add Keyword
                 </Button>
-                <Button variant="outline" className="justify-start">
-                  <RefreshCcw className="w-4 h-4 mr-2" />
-                  Refresh
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <Lightbulb className="w-4 h-4 mr-2" />
-                  Get AI Recommendations
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <Copy className="w-4 h-4 mr-2" />
-                  Clone
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1 justify-center">
+                    <RefreshCcw className="w-4 h-4" />
+                  </Button>
+                  <Button variant="outline" className="flex-1 justify-center">
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
