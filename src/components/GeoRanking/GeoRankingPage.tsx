@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Download, Plus } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MetricsCards } from './MetricsCards';
 import { RankingMap } from './RankingMap';
@@ -11,21 +11,73 @@ import { CompetitorAnalysis } from './CompetitorAnalysis';
 import { FiltersSidebar } from './FiltersSidebar';
 import { RankingDistribution } from './RankingDistribution';
 import { AIInsights } from './AIInsights';
+import { GeoPositionModal } from './GeoPositionModal';
 
 export const GeoRankingPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedKeyword, setSelectedKeyword] = useState('Web Design');
   const [gridSize, setGridSize] = useState('4*4');
   const [headerKeyword, setHeaderKeyword] = useState('Web Design');
+  
+  // Modal state
+  const [modalData, setModalData] = useState<{
+    isOpen: boolean;
+    gpsCoordinates: string;
+    competitors: Array<{
+      position: number;
+      name: string;
+      address: string;
+      rating: number;
+      reviewCount: number;
+    }>;
+  }>({
+    isOpen: false,
+    gpsCoordinates: '',
+    competitors: []
+  });
 
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
 
   const handleExportPDF = () => {
-    // PDF export functionality
     console.log('Exporting report as PDF...');
-    // This would integrate with a PDF generation library
+  };
+
+  // Generate mock competitor data based on grid position
+  const generateCompetitorData = (gridId: string) => {
+    const competitors = [
+      { name: 'J K Digitech', address: 'Laxmi Nagar, Delhi, India', rating: 4.8, reviewCount: 127 },
+      { name: 'Digital Bytz', address: 'Connaught Place, New Delhi, India', rating: 4.6, reviewCount: 89 },
+      { name: 'PUNK DIGITAL MARKETING ACADEMY', address: 'Janakpuri, Delhi, India', rating: 4.7, reviewCount: 156 },
+      { name: 'WebCraft Solutions', address: 'Karol Bagh, Delhi, India', rating: 4.5, reviewCount: 94 },
+      { name: 'TechnoVista Digital', address: 'Rajouri Garden, Delhi, India', rating: 4.9, reviewCount: 203 },
+      { name: 'Creative Web Hub', address: 'Dwarka, New Delhi, India', rating: 4.4, reviewCount: 78 },
+      { name: 'Digital Storm Agency', address: 'Rohini, Delhi, India', rating: 4.6, reviewCount: 112 },
+      { name: 'NextGen Web Studio', address: 'Pitampura, Delhi, India', rating: 4.3, reviewCount: 67 },
+      { name: 'Elite Digital Services', address: 'Saket, New Delhi, India', rating: 4.8, reviewCount: 145 },
+      { name: 'ProWeb Technologies', address: 'Vasant Kunj, Delhi, India', rating: 4.5, reviewCount: 98 }
+    ];
+
+    // Shuffle and assign positions based on grid
+    const shuffled = [...competitors].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 10).map((competitor, index) => ({
+      position: index + 1,
+      ...competitor
+    }));
+  };
+
+  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
+    const competitors = generateCompetitorData(gridId);
+    setModalData({
+      isOpen: true,
+      gpsCoordinates,
+      competitors
+    });
+  };
+
+  const handleCloseModal = () => {
+    setModalData(prev => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -78,7 +130,7 @@ export const GeoRankingPage: React.FC = () => {
           <MetricsCards />
 
           {/* Map Section */}
-          <RankingMap />
+          <RankingMap onMarkerClick={handleMarkerClick} />
 
           {/* Under-performing Areas Table */}
           <UnderPerformingTable />
@@ -104,6 +156,14 @@ export const GeoRankingPage: React.FC = () => {
           <AIInsights />
         </div>
       </div>
+
+      {/* GEO Position Modal */}
+      <GeoPositionModal
+        isOpen={modalData.isOpen}
+        onClose={handleCloseModal}
+        gpsCoordinates={modalData.gpsCoordinates}
+        competitors={modalData.competitors}
+      />
     </div>
   );
 };

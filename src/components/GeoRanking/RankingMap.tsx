@@ -3,7 +3,11 @@ import React, { useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
 import L from 'leaflet';
 
-export const RankingMap: React.FC = () => {
+interface RankingMapProps {
+  onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
+}
+
+export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick }) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   // Generate grid overlay data
@@ -65,18 +69,28 @@ export const RankingMap: React.FC = () => {
           font-size: 12px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          cursor: pointer;
         ">${point.ranking}</div>`,
         className: 'custom-ranking-marker',
         iconSize: [32, 32],
         iconAnchor: [16, 16]
       });
 
-      L.marker([point.lat, point.lng], {
+      const marker = L.marker([point.lat, point.lng], {
         icon: rankingIcon
-      }).addTo(map).bindPopup(`
+      }).addTo(map);
+
+      // Add click handler for modal opening
+      marker.on('click', () => {
+        const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
+        onMarkerClick(gpsCoordinates, point.id);
+      });
+
+      marker.bindPopup(`
         <div class="text-sm">
           <strong>Position: ${point.ranking}</strong><br>
-          Location: Grid ${point.id}
+          Location: Grid ${point.id}<br>
+          <em>Click for detailed view</em>
         </div>
       `);
     });
@@ -88,7 +102,7 @@ export const RankingMap: React.FC = () => {
         existingLink.remove();
       }
     };
-  }, []);
+  }, [onMarkerClick]);
 
   return (
     <Card className="bg-white">
@@ -121,6 +135,7 @@ export const RankingMap: React.FC = () => {
               <span className="whitespace-nowrap">Positions 16+</span>
             </div>
           </div>
+          <p className="text-xs text-gray-500 mb-4">Click on any position marker to view detailed competitor rankings</p>
         </div>
         <div className="bg-gray-50 rounded-lg overflow-hidden">
           <div ref={mapRef} className="w-full h-[400px] sm:h-[500px]" />
