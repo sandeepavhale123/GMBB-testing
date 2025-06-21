@@ -4,10 +4,10 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { MapPin, Eye, Edit } from 'lucide-react';
 import { useProfile } from '../../hooks/useProfile';
-import { useListingContext } from '@/context/ListingContext';
+import { useDashboardListing } from '../../hooks/useDashboardListing';
 
 export const BusinessProfileHeader: React.FC = () => {
-  const { selectedListing } = useListingContext();
+  const { listingName, listingAddress } = useDashboardListing();
   const { profileData } = useProfile();
 
   // Get user's first name for greeting
@@ -21,10 +21,6 @@ export const BusinessProfileHeader: React.FC = () => {
     return "Good Evening";
   };
 
-  // Use actual selected listing data
-  const listingName = selectedListing?.name || "KSoft Solution";
-  const listingAddress = selectedListing?.address || "New York, NY";
-  
   return (
     <div className="space-y-3 sm:space-y-4">
       {/* Business Overview Card - Responsive */}
