@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { ExternalLink, MapPin, AlertTriangle, Eye, Edit } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 import { useProfile } from '../../hooks/useProfile';
-import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 
 export const BusinessProfileHeader: React.FC = () => {
   const {
@@ -16,24 +15,6 @@ export const BusinessProfileHeader: React.FC = () => {
   
   // Get user's first name for greeting
   const userFirstName = profileData?.first_name || "User";
-  
-  // Get user info for avatar
-  const userName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
-  const userInitials = profileData ? 
-    `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
-    "U";
-
-  // Dynamic greeting based on time
-  const getTimeBasedGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning";
-    if (hour < 17) return "Good Afternoon";
-    return "Good Evening";
-  };
-
-  // Use actual listing name or fallback
-  const listingName = businessProfile?.name || "KSoft Solution";
-  const listingAddress = businessProfile?.address || "New York, NY";
 
   return (
     <div className="space-y-3 sm:space-y-4">
@@ -44,19 +25,10 @@ export const BusinessProfileHeader: React.FC = () => {
             <div className="flex-1">
               <div className="mb-3 sm:mb-4">
                 <div className="text-xs sm:text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
-                <div className="flex items-center gap-3 mb-2">
-                  {/* Profile Image */}
-                  <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-                    <AvatarImage src={profileData?.profile_picture} alt={userName} />
-                    <AvatarFallback className="bg-white/20 text-white text-sm font-semibold">
-                      {userInitials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <h2 className="text-xl sm:text-2xl font-bold">
-                    {getTimeBasedGreeting()}, {userFirstName} 👋
-                  </h2>
-                </div>
-                <p className="text-sm sm:text-base text-purple-100">Here's the summary for: "{listingName}"</p>
+                <h2 className="text-xl sm:text-2xl font-bold mb-2 flex items-center gap-2">
+                  Good Morning, {userFirstName} 👋
+                </h2>
+                <p className="text-sm sm:text-base text-purple-100">Here's the summary for: "XYZ Plumbing Services"</p>
               </div>
               
               {/* Status indicators - Responsive layout */}
@@ -67,7 +39,7 @@ export const BusinessProfileHeader: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
-                  <span className="text-purple-100">{listingAddress}</span>
+                  <span className="text-purple-100">New York, NY</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
