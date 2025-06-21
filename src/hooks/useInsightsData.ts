@@ -4,12 +4,7 @@ import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { useToast } from './use-toast';
 import { useAppDispatch, useAppSelector } from './useRedux';
-import { 
-  fetchInsightsSummary, 
-  fetchVisibilityTrends, 
-  fetchCustomerActions,
-  refreshInsightsData
-} from '../store/slices/insightsSlice';
+import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions } from '../store/slices/insightsSlice';
 import { useListingContext } from '../context/ListingContext';
 
 export const useInsightsData = () => {
@@ -27,11 +22,9 @@ export const useInsightsData = () => {
     isLoadingSummary, 
     isLoadingVisibility,
     isLoadingCustomerActions,
-    isRefreshing,
     summaryError, 
     visibilityError,
     customerActionsError,
-    refreshError,
     lastUpdated 
   } = useAppSelector(state => state.insights);
 
@@ -82,35 +75,15 @@ export const useInsightsData = () => {
     if (!selectedListing?.id) return;
     
     try {
-      // Step 1: Refresh insights data from Google Business Profile
-      toast({
-        title: "Refreshing from Google...",
-        description: "Syncing your latest data from Google Business Profile."
-      });
-
-      const refreshParams = {
-        listingId: parseInt(selectedListing.id, 10)
-      };
-
-      await dispatch(refreshInsightsData(refreshParams)).unwrap();
-
-      // Step 2: Fetch the updated data
-      toast({
-        title: "Loading latest data...",
-        description: "Retrieving your updated insights."
-      });
-
       await fetchData();
-
       toast({
-        title: "Data Refreshed Successfully",
+        title: "Data Refreshed",
         description: "Your insights have been updated with the latest data from Google Business Profile."
       });
-    } catch (error: any) {
-      console.error('Error refreshing insights:', error);
+    } catch (error) {
       toast({
         title: "Refresh Failed",
-        description: refreshError || "Failed to refresh data. Please try again.",
+        description: "Failed to refresh data. Please try again.",
         variant: "destructive"
       });
     }
@@ -125,7 +98,6 @@ export const useInsightsData = () => {
     isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
-    isRefreshing,
     summaryError,
     visibilityError,
     customerActionsError,

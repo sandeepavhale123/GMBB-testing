@@ -16,7 +16,6 @@ export const InsightsCard: React.FC = () => {
     isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
-    isRefreshing,
     summaryError,
     visibilityError,
     customerActionsError,
@@ -45,7 +44,6 @@ export const InsightsCard: React.FC = () => {
         customDateRange={customDateRange}
         showCustomPicker={false}
         isLoading={isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions}
-        isRefreshing={isRefreshing}
         isExporting={isExporting}
         summary={summary}
         onDateRangeChange={handleDateRangeChange}

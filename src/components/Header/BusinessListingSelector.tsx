@@ -17,7 +17,7 @@ export const BusinessListingSelector: React.FC = () => {
   const { isRefreshing } = useAuthRedux();
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
-  const displayListings: BusinessListing[] = searchQuery ? searchResults : listings;
+  const displayListings = searchQuery ? searchResults : listings;
 
   console.log('🖥️ BusinessListingSelector: selectedListing:', selectedListing);
   console.log('🖥️ BusinessListingSelector: isLoading:', isLoading);
@@ -40,7 +40,7 @@ export const BusinessListingSelector: React.FC = () => {
     );
   }
 
-  const currentBusiness: BusinessListing | null = selectedListing || (listings.length > 0 ? listings[0] : null);
+  const currentBusiness = selectedListing || (listings.length > 0 ? listings[0] : null);
 
   if (!currentBusiness) {
     return (
@@ -51,13 +51,6 @@ export const BusinessListingSelector: React.FC = () => {
       </div>
     );
   }
-
-  const handleSelect = (business: BusinessListing): void => {
-    console.log('🖥️ BusinessListingSelector: Selected business:', business);
-    switchListing(business);
-    setOpen(false);
-    setSearchQuery('');
-  };
 
   return (
     <div className="hidden md:block">
@@ -108,11 +101,16 @@ export const BusinessListingSelector: React.FC = () => {
             <CommandEmpty>No listing found.</CommandEmpty>
             <CommandList>
               <CommandGroup>
-                {displayListings.map((business: BusinessListing) => (
+                {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
                     value={`${business.name}-${business.id}`}
-                    onSelect={() => handleSelect(business)}
+                    onSelect={() => {
+                      console.log('🖥️ BusinessListingSelector: Selected business:', business);
+                      switchListing(business);
+                      setOpen(false);
+                      setSearchQuery('');
+                    }}
                     className="flex items-start gap-3 p-3"
                   >
                     <Check className={`w-4 h-4 mt-0.5 shrink-0 ${selectedListing?.id === business.id ? 'opacity-100' : 'opacity-0'}`} />

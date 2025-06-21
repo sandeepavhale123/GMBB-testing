@@ -22,18 +22,6 @@ export interface CustomerActionsRequest {
   endDate?: string;
 }
 
-export interface RefreshInsightsRequest {
-  listingId: number;
-}
-
-export interface RefreshInsightsResponse {
-  code: number;
-  message: string;
-  data: {
-    listingId: number;
-  };
-}
-
 export interface InsightsSummaryResponse {
   code: number;
   message: string;
@@ -224,15 +212,6 @@ export const insightsService = {
   getInsightsComparison: async (params: InsightsComparisonRequest): Promise<InsightsComparisonResponse> => {
     const response = await axiosInstance({
       url: '/get-insights-comparison',
-      method: 'POST',
-      data: params,
-    });
-    return response.data;
-  },
-
-  refreshInsights: async (params: RefreshInsightsRequest): Promise<RefreshInsightsResponse> => {
-    const response = await axiosInstance({
-      url: '/refresh-insights',
       method: 'POST',
       data: params,
     });

@@ -35,7 +35,7 @@ const loadSelectedBusinessId = (): string | null => {
 };
 
 // Save to localStorage
-const saveToLocalStorage = (listings: BusinessListing[]): void => {
+const saveToLocalStorage = (listings: BusinessListing[]) => {
   try {
     localStorage.setItem('userBusinessListings', JSON.stringify(listings));
   } catch (error) {
@@ -44,7 +44,7 @@ const saveToLocalStorage = (listings: BusinessListing[]): void => {
 };
 
 // Save selected business ID to localStorage
-const saveSelectedBusinessId = (businessId: string | null): void => {
+const saveSelectedBusinessId = (businessId: string | null) => {
   try {
     if (businessId) {
       localStorage.setItem('selectedBusinessId', businessId);
