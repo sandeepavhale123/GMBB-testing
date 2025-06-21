@@ -5,11 +5,12 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
+import { AnimatedRadialChart } from '../ui/animated-radial-chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Edit, Clock, AlertCircle, MoreVertical } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { EditableBusinessHours } from "./EditableBusinessHours";
+
 export const BusinessManagement: React.FC = () => {
   const [editMode, setEditMode] = useState(false);
   const [activeTab, setActiveTab] = useState("business-info");
@@ -182,15 +183,16 @@ export const BusinessManagement: React.FC = () => {
 
             {/* Right Section (col-8) */}
             <div className="lg:col-span-5 space-y-4">
-              {/* Top Action Bar */}
-
-              {/* Visibility Progress */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between w-[200px] ml-auto">
-                  <span className="text-sm font-medium text-gray-700">Visibility</span>
-                  <span className="text-sm font-bold text-gray-900">{stats.visibility}%</span>
-                </div>
-                <Progress value={stats.visibility} className="h-3 w-[200px] ml-auto" />
+              {/* Visibility Chart */}
+              <div className="flex flex-col items-center space-y-2">
+                <span className="text-sm font-medium text-gray-700">Visibility</span>
+                <AnimatedRadialChart 
+                  value={stats.visibility} 
+                  size={140} 
+                  showLabels={false}
+                  duration={2}
+                  className="mx-auto"
+                />
               </div>
 
               {/* Mobile Edit Button */}
