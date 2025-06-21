@@ -142,27 +142,28 @@ const SelectListingsStep = ({
       </div>
 
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Found {listings.length} business listings
-        </h3>
+        {/* Single row with Found listings, Search, and Select All */}
+        <div className="flex items-center gap-4 mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
+            Found {listings.length} business listing{listings.length !== 1 ? 's' : ''}
+          </h3>
+          
+          {/* Search Input */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search listings by name, address, or category..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
 
-        {/* Search Input */}
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Search listings by name, address, or category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-
-        <div className="flex justify-end mb-4">
           <Button
             variant="outline"
             onClick={handleSelectAll}
-            className="text-sm"
+            className="text-sm whitespace-nowrap"
           >
             {allSelected ? "Deselect All" : "Select All"}
           </Button>
@@ -245,7 +246,7 @@ const SelectListingsStep = ({
               Connecting...
             </>
           ) : (
-            `Connect with ${selectedCount} listing`
+            `Connect with ${selectedCount} listing${selectedCount !== 1 ? 's' : ''}`
           )}
         </Button>
       </div>
@@ -253,7 +254,12 @@ const SelectListingsStep = ({
       <div className="text-center mt-6">
         <p className="text-sm text-gray-500">
           Don't see your business? You can{" "}
-          <a href="#" className="text-blue-600 hover:underline">
+          <a 
+            href="https://support.gmbbriefcase.com/" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
             contact support
           </a>
         </p>
