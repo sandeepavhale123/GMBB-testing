@@ -4,11 +4,14 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { MapPin, Eye, Edit } from 'lucide-react';
 import { useProfile } from '../../hooks/useProfile';
-import { useDashboardListing } from '../../hooks/useDashboardListing';
+import { useListingContext } from '@/context/ListingContext';
 
 export const BusinessProfileHeader: React.FC = () => {
-  const { listingName, listingAddress } = useDashboardListing();
+  const { selectedListing } = useListingContext();
   const { profileData } = useProfile();
+
+  const listingName = selectedListing?.name || "KSoft Solution";
+  const listingAddress = selectedListing?.address || "New York, NY";
 
   // Get user's first name for greeting
   const userFirstName = profileData?.first_name || "User";

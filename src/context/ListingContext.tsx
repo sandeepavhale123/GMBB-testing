@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BusinessListing } from '@/components/Header/types';
 import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
@@ -39,59 +39,68 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  // Get the current route without the listing ID
-  const getBaseRoute = () => {
+  // Memoize the base route calculation
+  const baseRoute = useMemo(() => {
     const pathParts = location.pathname.split('/');
     return pathParts[1] || 'location-dashboard';
-  };
+  }, [location.pathname]);
 
-  useEffect(() => {
-    if (!listingsLoading && listings.length > 0 && !hasInitialized) {
-      console.log('🔄 ListingContext: Initializing with listings:', listings.length);
-      console.log('🔄 ListingContext: URL listingId:', listingId);
-      console.log('🔄 ListingContext: Persisted selectedBusinessId:', selectedBusinessId);
+  // Memoize the initialization logic
+  const initializeSelectedListing = useCallback(() => {
+    if (listingsLoading || !listings.length || hasInitialized) return;
 
-      let targetListing: BusinessListing | null = null;
+    console.log('🔄 ListingContext: Initializing with listings:', listings.length);
+    
+    let targetListing: BusinessListing | null = null;
 
-      // Priority 1: Use URL listingId if valid and not 'default'
-      if (listingId && listingId !== 'default') {
-        targetListing = listings.find(l => l.id === listingId) || null;
-        console.log('🔄 ListingContext: Found listing from URL:', targetListing?.name);
-      }
-
-      // Priority 2: Use persisted selectedBusinessId if URL doesn't have a valid listing
-      if (!targetListing && selectedBusinessId) {
-        targetListing = listings.find(l => l.id === selectedBusinessId) || null;
-        console.log('🔄 ListingContext: Found listing from persisted ID:', targetListing?.name);
-      }
-
-      // Priority 3: Fallback to first listing
-      if (!targetListing) {
-        targetListing = listings[0];
-        console.log('🔄 ListingContext: Using fallback listing:', targetListing?.name);
-      }
-
-      if (targetListing) {
-        setSelectedListing(targetListing);
-        dispatch(setSelectedBusiness(targetListing.id));
-
-        // Only redirect if URL is pointing to 'default' or invalid listing
-        const shouldRedirect = !listingId || 
-                              listingId === 'default' || 
-                              !listings.find(l => l.id === listingId);
-
-        if (shouldRedirect) {
-          const baseRoute = getBaseRoute();
-          console.log('🔄 ListingContext: Redirecting to:', `/${baseRoute}/${targetListing.id}`);
-          navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
-        }
-      }
-
-      setHasInitialized(true);
+    // Priority 1: Use URL listingId if valid and not 'default'
+    if (listingId && listingId !== 'default') {
+      targetListing = listings.find(l => l.id === listingId) || null;
     }
-  }, [listings, listingsLoading, listingId, selectedBusinessId, hasInitialized, navigate, location.pathname, dispatch]);
 
-  const switchListing = async (listing: BusinessListing) => {
+    // Priority 2: Use persisted selectedBusinessId if URL doesn't have a valid listing
+    if (!targetListing && selectedBusinessId) {
+      targetListing = listings.find(l => l.id === selectedBusinessId) || null;
+    }
+
+    // Priority 3: Fallback to first listing
+    if (!targetListing) {
+      targetListing = listings[0];
+    }
+
+    if (targetListing) {
+      setSelectedListing(targetListing);
+      dispatch(setSelectedBusiness(targetListing.id));
+
+      // Only redirect if URL is pointing to 'default' or invalid listing
+      const shouldRedirect = !listingId || 
+                            listingId === 'default' || 
+                            !listings.find(l => l.id === listingId);
+
+      if (shouldRedirect) {
+        console.log('🔄 ListingContext: Redirecting to:', `/${baseRoute}/${targetListing.id}`);
+        navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
+      }
+    }
+
+    setHasInitialized(true);
+  }, [
+    listings, 
+    listingsLoading, 
+    listingId, 
+    selectedBusinessId, 
+    hasInitialized, 
+    navigate, 
+    baseRoute, 
+    dispatch
+  ]);
+
+  // Initialize selected listing
+  useEffect(() => {
+    initializeSelectedListing();
+  }, [initializeSelectedListing]);
+
+  const switchListing = useCallback(async (listing: BusinessListing) => {
     if (listing.id === selectedListing?.id) return;
     
     setIsLoading(true);
@@ -115,26 +124,28 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     setSelectedListing(listing);
     dispatch(setSelectedBusiness(listing.id));
     
-    const baseRoute = getBaseRoute();
     navigate(`/${baseRoute}/${listing.id}`);
     
-    // Simulate loading time for better UX
+    // Reduce loading time for better performance
     setTimeout(() => {
       setIsLoading(false);
-    }, 500);
-  };
+    }, 200);
+  }, [selectedListing?.id, listings, addNewListing, dispatch, baseRoute, navigate]);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    selectedListing, 
+    isLoading, 
+    isInitialLoading: listingsLoading,
+    listings, 
+    switchListing 
+  }), [selectedListing, isLoading, listingsLoading, listings, switchListing]);
 
   return (
-    <ListingContext.Provider 
-      value={{ 
-        selectedListing, 
-        isLoading, 
-        isInitialLoading: listingsLoading,
-        listings, 
-        switchListing 
-      }}
-    >
+    <ListingContext.Provider value={contextValue}>
       {children}
     </ListingContext.Provider>
   );
 };
+
+export { ListingContext };
