@@ -103,6 +103,11 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 <div className="w-5 h-5 flex-shrink-0"></div>
                 <p className="text-sm text-gray-600">{listingAddress}</p>
               </div>
+              
+              {/* Moved section after listing name and address */}
+              <div className="mb-6">
+                
+              </div>
             </div>
             
             <div className="text-right">
@@ -129,11 +134,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
                 {headerKeyword}
                 <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
-              </div>
-              
-              {/* Moved section after keyword */}
-              <div className="mb-6">
-                
               </div>
               
               {/* Keyword Dropdown */}
