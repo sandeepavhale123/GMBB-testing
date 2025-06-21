@@ -111,7 +111,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
               
               {/* Moved section after keyword */}
-              <div className="mb-6">
+              <div className="mt-4">
                  <div className="flex items-center gap-2 mb-1">
                   <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
