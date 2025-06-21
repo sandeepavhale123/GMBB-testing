@@ -142,18 +142,9 @@ const SelectListingsStep = ({
       </div>
 
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Found {listings.length} business listings
-          </h3>
-          <Button
-            variant="outline"
-            onClick={handleSelectAll}
-            className="text-sm"
-          >
-            {allSelected ? "Deselect All" : "Select All"}
-          </Button>
-        </div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Found {listings.length} business listings
+        </h3>
 
         {/* Search Input */}
         <div className="relative mb-4">
@@ -165,6 +156,16 @@ const SelectListingsStep = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
           />
+        </div>
+
+        <div className="flex justify-end mb-4">
+          <Button
+            variant="outline"
+            onClick={handleSelectAll}
+            className="text-sm"
+          >
+            {allSelected ? "Deselect All" : "Select All"}
+          </Button>
         </div>
       </div>
 
