@@ -36,6 +36,8 @@ const SelectListingsStep = ({
   // Mock business listings data
   const listings = googleBusinessData?.locations || [];
 
+  console.log(listings);
+
   // Filter listings based on search term
   const filteredListings = listings.filter((listing) =>
     listing.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -125,6 +127,7 @@ const SelectListingsStep = ({
 
   return (
     <div className="max-w-3xl mx-auto px-6">
+      
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Select your business listings
