@@ -6,6 +6,7 @@ import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
@@ -124,13 +125,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 items-center">
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative gap-1 ">
-               <div className="mb-6">
-                
-              </div>
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
                 {headerKeyword}
                 <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
+              </div>
+              
+              {/* Moved section after keyword */}
+              <div className="mb-6">
+                
               </div>
               
               {/* Keyword Dropdown */}
