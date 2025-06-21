@@ -1,15 +1,16 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { MapPin, Eye, Edit } from 'lucide-react';
 import { useProfile } from '../../hooks/useProfile';
 import { useListingContext } from '@/context/ListingContext';
-
 export const BusinessProfileHeader: React.FC = () => {
-  const { selectedListing } = useListingContext();
-  const { profileData } = useProfile();
-
+  const {
+    selectedListing
+  } = useListingContext();
+  const {
+    profileData
+  } = useProfile();
   const listingName = selectedListing?.name || "KSoft Solution";
   const listingAddress = selectedListing?.address || "New York, NY";
 
@@ -23,9 +24,7 @@ export const BusinessProfileHeader: React.FC = () => {
     if (hour < 17) return "Good Afternoon";
     return "Good Evening";
   };
-
-  return (
-    <div className="space-y-3 sm:space-y-4">
+  return <div className="space-y-3 sm:space-y-4">
       {/* Business Overview Card - Responsive */}
       <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white border-0">
         <CardContent className="p-4 sm:p-6">
@@ -51,10 +50,7 @@ export const BusinessProfileHeader: React.FC = () => {
                   <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
                   <span className="text-purple-100">{listingAddress}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-purple-100">Profile Health: 78%</span>
-                </div>
+                
               </div>
             </div>
             
@@ -74,6 +70,5 @@ export const BusinessProfileHeader: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
