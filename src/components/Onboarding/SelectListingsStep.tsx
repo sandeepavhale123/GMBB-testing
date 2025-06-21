@@ -207,12 +207,12 @@ const SelectListingsStep = ({
                       </div>
                       <div
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          listing.isVerified === 1
+                          listing.isVerified === "1"
                             ? "bg-green-100 text-green-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {listing.isVerified === 1 ? "Verified" : "Not-Verified"}
+                        {listing.isVerified === "1" ? "Verified" : "Not-Verified"}
                       </div>
                     </div>
 
