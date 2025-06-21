@@ -11,6 +11,7 @@ export interface LoginResponse {
       refresh_token: string;
     };
     profile: any;
+    isOnboarding?: boolean | number;
   };
 }
 
