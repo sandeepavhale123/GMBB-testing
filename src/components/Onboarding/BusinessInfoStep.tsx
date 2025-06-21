@@ -9,6 +9,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useGetAllTimeZoneQuery } from "@/api/timeZoneApi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
@@ -48,6 +63,8 @@ const BusinessInfoStep = ({
     businessType: formData.businessType || "",
     locationCount: formData.locationCount || "",
   });
+
+  const [timezoneOpen, setTimezoneOpen] = useState(false);
 
   // Fetch business details on mount
   useEffect(() => {
@@ -233,37 +250,68 @@ const BusinessInfoStep = ({
             >
               Preferred Timezone *
             </Label>
-            <Select
-              value={localData.timezone}
-              onValueChange={(value) => handleChange("timezone", value)}
-            >
-              <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-                <SelectValue placeholder="Select your timezone" />
-              </SelectTrigger>
-              <SelectContent>
-                {timeZoneData && Array.isArray(timeZoneData)
-                  ? timeZoneData.map((timezone) => (
-                      <SelectItem
-                        key={timezone}
-                        value={timezone}
-                        className="text-sm sm:text-base py-2 sm:py-3"
-                      >
-                        {timezone}
-                      </SelectItem>
-                    ))
-                  : timeZoneData && typeof timeZoneData === "object"
-                  ? Object.entries(timeZoneData).map(([value, label]) => (
-                      <SelectItem
-                        key={value}
-                        value={value}
-                        className="text-sm sm:text-base py-2 sm:py-3"
-                      >
-                        {String(label)}
-                      </SelectItem>
-                    ))
-                  : null}
-              </SelectContent>
-            </Select>
+            <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={timezoneOpen}
+                  className="h-10 w-full justify-between text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                >
+                  {localData.timezone || "Select your timezone"}
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Command>
+                  <CommandInput placeholder="Search timezone..." className="h-9" />
+                  <CommandList>
+                    <CommandEmpty>No timezone found.</CommandEmpty>
+                    <CommandGroup>
+                      {timeZoneData && Array.isArray(timeZoneData)
+                        ? timeZoneData.map((timezone) => (
+                            <CommandItem
+                              key={timezone}
+                              value={timezone}
+                              onSelect={(currentValue) => {
+                                handleChange("timezone", currentValue);
+                                setTimezoneOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  localData.timezone === timezone ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {timezone}
+                            </CommandItem>
+                          ))
+                        : timeZoneData && typeof timeZoneData === "object"
+                        ? Object.entries(timeZoneData).map(([value, label]) => (
+                            <CommandItem
+                              key={value}
+                              value={value}
+                              onSelect={(currentValue) => {
+                                handleChange("timezone", currentValue);
+                                setTimezoneOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  localData.timezone === value ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {String(label)}
+                            </CommandItem>
+                          ))
+                        : null}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
