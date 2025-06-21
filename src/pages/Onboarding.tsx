@@ -22,7 +22,11 @@ const Onboarding = () => {
   } = useOnboarding();
 
   const navigate = useNavigate();
-
+  const localOnboardingStep = localStorage.getItem("onboarding_current_step");
+  console.log("local onboarding step", localOnboardingStep);
+  if (localOnboardingStep === "6") {
+    navigate("/location-dashboard/default");
+  }
   const steps = [
     {
       id: 1,
@@ -67,10 +71,6 @@ const Onboarding = () => {
       handleBack();
     }
   };
-
-  if (currentStep === 5) {
-    navigate("/location-dashboard/default");
-  }
 
   const renderStep = () => {
     switch (currentStep) {

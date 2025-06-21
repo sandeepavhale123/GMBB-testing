@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
 import { setAccessToken, setUser } from "@/store/slices/auth/authSlice";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
+import { Loader2 } from "lucide-react";
 
 const GoogleAuthHandler = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -95,7 +96,8 @@ const GoogleAuthHandler = () => {
   }, [clearOauthParameters, markOauthProcessed]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center flex-col gap-2">
+      <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
       <p className="text-lg">Authenticating with Google...</p>
     </div>
   );

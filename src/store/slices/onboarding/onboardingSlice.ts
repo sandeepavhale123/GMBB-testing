@@ -234,6 +234,8 @@ const onboardingSlice = createSlice({
     },
     completeOnboarding: (state) => {
       state.isCompleted = true;
+      localStorage.setItem("onboarding", "0");
+      localStorage.setItem("onboarding_current_step", "6");
     },
     resetOnboarding: (state) => {
       localStorage.removeItem("onboarding_current_step");

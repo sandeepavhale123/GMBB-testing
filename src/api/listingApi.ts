@@ -1,4 +1,3 @@
-
 import axiosInstance from "./axiosInstance";
 
 export interface EnableDisableListingsPayload {
@@ -18,8 +17,5 @@ export const enableDisableListings = async (
 ): Promise<EnableDisableListingsResponse> => {
   const response = await axiosInstance.post("/change-listing-status", payload);
   console.log("listing status response", response.data.status);
-  if (response.data.status === 200) {
-    localStorage.setItem("onboarding", "0");
-  }
   return response.data;
 };
