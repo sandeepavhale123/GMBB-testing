@@ -95,9 +95,8 @@ const Onboarding = () => {
       case 4:
         return (
           <SelectListingsStep
-            formData={formData}
-            updateFormData={updateData}
             onNext={handleNextStep}
+            onBack={handleBackStep}
           />
         );
       case 5:

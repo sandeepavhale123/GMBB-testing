@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Check, MapPin, Star } from 'lucide-react';
+import { useOnboarding } from '@/store/slices/onboarding/useOnboarding';
 
 interface SelectListingsStepProps {
   onNext: () => void;
@@ -11,23 +12,23 @@ interface SelectListingsStepProps {
 }
 
 export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, onBack }) => {
-  // Mock data for now - this would come from your business listings API
-  const listings = [
-    {
-      id: '1',
-      business_name: 'Sample Restaurant',
-      address: '123 Main St, City, State',
-      platform: 'Google',
-      rating: 4.5,
-      review_count: 120,
-      verification_status: 'verified',
-      status: 'active'
-    }
-  ];
-
+  const { googleBusinessData, toggleListingSelection } = useOnboarding();
+  
+  // Use the actual Google Business data from the store
+  const listings = googleBusinessData?.locations || [];
   const [selectedListings, setSelectedListings] = React.useState<string[]>([]);
   const loading = false;
   const error = null;
+
+  // Initialize selected listings based on isActive status
+  useEffect(() => {
+    if (listings.length > 0) {
+      const activeListings = listings
+        .filter(listing => listing.isActive === 1)
+        .map(listing => listing.id);
+      setSelectedListings(activeListings);
+    }
+  }, [listings]);
 
   const handleListingToggle = (listingId: string) => {
     const isSelected = selectedListings.includes(listingId);
@@ -36,6 +37,9 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
     } else {
       setSelectedListings(prev => [...prev, listingId]);
     }
+    
+    // Update the store as well
+    toggleListingSelection(listingId);
   };
 
   const canProceed = selectedListings.length > 0;
@@ -84,7 +88,7 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
 
       {listings.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-600">No business listings found. Please add some businesses first.</p>
+          <p className="text-gray-600">No business listings found. Please connect your Google account first.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -104,7 +108,7 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-lg font-semibold text-gray-900 flex-1">
-                      {listing.business_name}
+                      {listing.locationName}
                     </CardTitle>
                     {isSelected && (
                       <div className="ml-2 p-1 bg-blue-500 rounded-full">
@@ -121,33 +125,18 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
                       <span className="flex-1">{listing.address}</span>
                     </div>
                     
-                    <div className="flex items-center gap-4 text-sm">
-                      {listing.rating && (
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="font-medium">{listing.rating}</span>
-                        </div>
-                      )}
-                      
-                      {listing.review_count && (
-                        <span className="text-gray-600">
-                          {listing.review_count} reviews
-                        </span>
-                      )}
-                    </div>
-
                     <div className="flex flex-wrap gap-1 mt-2">
                       <Badge variant="secondary" className="text-xs">
-                        {listing.platform}
+                        {listing.country}
                       </Badge>
                       
-                      {listing.verification_status === 'verified' && (
+                      {listing.isVerified === 1 && (
                         <Badge variant="default" className="text-xs bg-green-100 text-green-800">
                           Verified
                         </Badge>
                       )}
                       
-                      {listing.status === 'active' && (
+                      {listing.isActive === 1 && (
                         <Badge variant="default" className="text-xs bg-blue-100 text-blue-800">
                           Active
                         </Badge>
