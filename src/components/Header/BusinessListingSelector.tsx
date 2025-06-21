@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ChevronDown, MapPin, Check, RefreshCw, Loader2 } from 'lucide-react';
+import { ChevronDown, MapPin, Check, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
@@ -13,25 +13,8 @@ import { useListingContext } from '@/context/ListingContext';
 
 export const BusinessListingSelector: React.FC = () => {
   const [open, setOpen] = useState(false);
-  
-  // Check if ListingProvider context is available
-  let hasListingContext = true;
-  let contextData;
-  
-  try {
-    contextData = useListingContext();
-  } catch (error) {
-    hasListingContext = false;
-  }
-
+  const { selectedListing, listings, isLoading, switchListing } = useListingContext();
   const { isRefreshing } = useAuthRedux();
-
-  // If no listing context available, don't render the component
-  if (!hasListingContext) {
-    return null;
-  }
-
-  const { selectedListing, listings, isLoading, switchListing } = contextData;
   const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
 
   const displayListings = searchQuery ? searchResults : listings;
@@ -57,7 +40,17 @@ export const BusinessListingSelector: React.FC = () => {
     );
   }
 
-  const currentBusiness = selectedListing || listings[0];
+  const currentBusiness = selectedListing || (listings.length > 0 ? listings[0] : null);
+
+  if (!currentBusiness) {
+    return (
+      <div className="hidden md:block">
+        <Button variant="outline" className="w-72 lg:w-96 justify-between border-gray-200">
+          Loading...
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:block">
@@ -78,14 +71,14 @@ export const BusinessListingSelector: React.FC = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-medium text-gray-700 block leading-tight">
-                  {currentBusiness?.name}
+                  {currentBusiness.name}
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500 truncate">
-                    {currentBusiness?.address}
+                    {currentBusiness.address}
                   </span>
                   <Badge variant="secondary" className="shrink-0 text-xs">
-                    {currentBusiness?.type}
+                    {currentBusiness.type}
                   </Badge>
                 </div>
               </div>

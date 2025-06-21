@@ -14,7 +14,13 @@ interface ListingContextType {
   switchListing: (listing: BusinessListing) => void;
 }
 
-const ListingContext = createContext<ListingContextType | null>(null);
+const ListingContext = createContext<ListingContextType>({
+  selectedListing: null,
+  isLoading: false,
+  isInitialLoading: false,
+  listings: [],
+  switchListing: () => {}
+});
 
 export const useListingContext = () => {
   const context = useContext(ListingContext);
@@ -35,17 +41,15 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
   const navigate = useNavigate();
-  const { listingId } = useParams();
+  const { listingId } = useParams<{ listingId?: string }>();
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  // Memoize the base route calculation
   const baseRoute = useMemo(() => {
     const pathParts = location.pathname.split('/');
     return pathParts[1] || 'location-dashboard';
   }, [location.pathname]);
 
-  // Memoize the initialization logic
   const initializeSelectedListing = useCallback(() => {
     if (listingsLoading || !listings.length || hasInitialized) return;
 
@@ -53,18 +57,15 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     
     let targetListing: BusinessListing | null = null;
 
-    // Priority 1: Use URL listingId if valid and not 'default'
     if (listingId && listingId !== 'default') {
       targetListing = listings.find(l => l.id === listingId) || null;
     }
 
-    // Priority 2: Use persisted selectedBusinessId if URL doesn't have a valid listing
     if (!targetListing && selectedBusinessId) {
       targetListing = listings.find(l => l.id === selectedBusinessId) || null;
     }
 
-    // Priority 3: Fallback to first listing
-    if (!targetListing) {
+    if (!targetListing && listings.length > 0) {
       targetListing = listings[0];
     }
 
@@ -72,7 +73,6 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
-      // Only redirect if URL is pointing to 'default' or invalid listing
       const shouldRedirect = !listingId || 
                             listingId === 'default' || 
                             !listings.find(l => l.id === listingId);
@@ -95,7 +95,6 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     dispatch
   ]);
 
-  // Initialize selected listing
   useEffect(() => {
     initializeSelectedListing();
   }, [initializeSelectedListing]);
@@ -105,15 +104,12 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     
     setIsLoading(true);
     
-    // Check if the listing exists in current listings
     const existsInListings = listings.some(l => l.id === listing.id);
     
     if (!existsInListings) {
-      // If it doesn't exist, add it to stored listings first
       console.log('🔄 ListingContext: Auto-storing new listing:', listing.name);
       addNewListing(listing);
     } else {
-      // If it exists in user listings, move it to top for "most recently used" behavior
       const isInUserListings = listings.slice(0, listings.length).some(l => l.id === listing.id);
       if (isInUserListings) {
         console.log('🔝 ListingContext: Moving existing listing to top:', listing.name);
@@ -126,13 +122,11 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     
     navigate(`/${baseRoute}/${listing.id}`);
     
-    // Reduce loading time for better performance
     setTimeout(() => {
       setIsLoading(false);
     }, 200);
   }, [selectedListing?.id, listings, addNewListing, dispatch, baseRoute, navigate]);
 
-  // Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => ({
     selectedListing, 
     isLoading, 
