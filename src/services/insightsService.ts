@@ -1,4 +1,3 @@
-
 import axiosInstance from '../api/axiosInstance';
 
 export interface InsightsSummaryRequest {
@@ -20,6 +19,30 @@ export interface CustomerActionsRequest {
   dateRange: string;
   startDate?: string;
   endDate?: string;
+}
+
+export interface TopKeywordQueryRequest {
+  listingId: number;
+  month: string;
+}
+
+export interface TopKeywordQueryResponse {
+  code: number;
+  message: string;
+  data: {
+    MonthName: string;
+    Monthdata: Array<{
+      id: string;
+      gmb_id: string;
+      user_id: string;
+      acc_id: string;
+      keyword: string;
+      impressions: string;
+      yearmonth: string;
+      fetched_at: string;
+    }>;
+    avaialbleRecords: string[];
+  };
 }
 
 export interface InsightsSummaryResponse {
@@ -212,6 +235,15 @@ export const insightsService = {
   getInsightsComparison: async (params: InsightsComparisonRequest): Promise<InsightsComparisonResponse> => {
     const response = await axiosInstance({
       url: '/get-insights-comparison',
+      method: 'POST',
+      data: params,
+    });
+    return response.data;
+  },
+
+  getTopKeywordQuery: async (params: TopKeywordQueryRequest): Promise<TopKeywordQueryResponse> => {
+    const response = await axiosInstance({
+      url: '/api/v1/get-top-keyword-query',
       method: 'POST',
       data: params,
     });

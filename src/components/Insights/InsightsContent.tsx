@@ -9,18 +9,26 @@ interface InsightsContentProps {
   isLoadingSummary: boolean;
   isLoadingVisibility: boolean;
   isLoadingCustomerActions: boolean;
+  isLoadingTopQueries: boolean;
   summary: any;
   visibilityTrends: any;
   customerActions: any;
+  topKeywordQueries: any;
+  selectedMonth: string;
+  onMonthChange: (month: string) => void;
 }
 
 export const InsightsContent: React.FC<InsightsContentProps> = ({
   isLoadingSummary,
   isLoadingVisibility,
   isLoadingCustomerActions,
+  isLoadingTopQueries,
   summary,
   visibilityTrends,
   customerActions,
+  topKeywordQueries,
+  selectedMonth,
+  onMonthChange,
 }) => {
   const customerActionsChartData = customerActions?.chart_data || (summary ? [
     { name: 'Website', value: summary.customer_actions.website_clicks.value },
@@ -41,8 +49,10 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
         />
 
         <TopSearchQueriesCard
-          isLoading={isLoadingSummary}
-          summary={summary}
+          isLoading={isLoadingTopQueries}
+          topKeywordQueries={topKeywordQueries}
+          selectedMonth={selectedMonth}
+          onMonthChange={onMonthChange}
         />
       </div>
 

@@ -4,12 +4,13 @@ import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { useToast } from './use-toast';
 import { useAppDispatch, useAppSelector } from './useRedux';
-import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions } from '../store/slices/insightsSlice';
+import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions, fetchTopKeywordQuery } from '../store/slices/insightsSlice';
 import { useListingContext } from '../context/ListingContext';
 
 export const useInsightsData = () => {
   const [dateRange, setDateRange] = useState('30');
   const [customDateRange, setCustomDateRange] = useState<DateRange | undefined>();
+  const [selectedMonth, setSelectedMonth] = useState<string>('');
   
   const dispatch = useAppDispatch();
   const { toast } = useToast();
@@ -19,12 +20,15 @@ export const useInsightsData = () => {
     summary, 
     visibilityTrends,
     customerActions,
+    topKeywordQueries,
     isLoadingSummary, 
     isLoadingVisibility,
     isLoadingCustomerActions,
+    isLoadingTopQueries,
     summaryError, 
     visibilityError,
     customerActionsError,
+    topQueriesError,
     lastUpdated 
   } = useAppSelector(state => state.insights);
 
@@ -36,6 +40,20 @@ export const useInsightsData = () => {
       fetchData();
     }
   }, [selectedListing?.id, dateRange, customDateRange]);
+
+  // Fetch top keyword queries when month changes
+  useEffect(() => {
+    if (selectedListing?.id && selectedMonth) {
+      fetchTopKeywordData();
+    }
+  }, [selectedListing?.id, selectedMonth]);
+
+  // Set default month when top keyword queries are loaded
+  useEffect(() => {
+    if (topKeywordQueries?.avaialbleRecords && topKeywordQueries.avaialbleRecords.length > 0 && !selectedMonth) {
+      setSelectedMonth(topKeywordQueries.avaialbleRecords[0]);
+    }
+  }, [topKeywordQueries?.avaialbleRecords, selectedMonth]);
 
   const fetchData = async () => {
     if (!selectedListing?.id) return;
@@ -55,8 +73,31 @@ export const useInsightsData = () => {
         dispatch(fetchVisibilityTrends(params)),
         dispatch(fetchCustomerActions(params))
       ]);
+
+      // Fetch initial top keyword queries with default month
+      if (!selectedMonth) {
+        const currentDate = new Date();
+        const defaultMonth = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        await dispatch(fetchTopKeywordQuery({
+          listingId: parseInt(selectedListing.id, 10),
+          month: defaultMonth
+        }));
+      }
     } catch (error) {
       console.error('Error fetching insights data:', error);
+    }
+  };
+
+  const fetchTopKeywordData = async () => {
+    if (!selectedListing?.id || !selectedMonth) return;
+
+    try {
+      await dispatch(fetchTopKeywordQuery({
+        listingId: parseInt(selectedListing.id, 10),
+        month: selectedMonth
+      }));
+    } catch (error) {
+      console.error('Error fetching top keyword data:', error);
     }
   };
 
@@ -71,11 +112,18 @@ export const useInsightsData = () => {
     setCustomDateRange(dateRange);
   };
 
+  const handleMonthChange = (month: string) => {
+    setSelectedMonth(month);
+  };
+
   const handleRefresh = async () => {
     if (!selectedListing?.id) return;
     
     try {
       await fetchData();
+      if (selectedMonth) {
+        await fetchTopKeywordData();
+      }
       toast({
         title: "Data Refreshed",
         description: "Your insights have been updated with the latest data from Google Business Profile."
@@ -92,19 +140,24 @@ export const useInsightsData = () => {
   return {
     dateRange,
     customDateRange,
+    selectedMonth,
     summary,
     visibilityTrends,
     customerActions,
+    topKeywordQueries,
     isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
+    isLoadingTopQueries,
     summaryError,
     visibilityError,
     customerActionsError,
+    topQueriesError,
     lastUpdated,
     selectedListing,
     handleDateRangeChange,
     handleCustomDateRangeChange,
+    handleMonthChange,
     handleRefresh
   };
 };

@@ -1,19 +1,22 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse } from '../../services/insightsService';
+import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse, TopKeywordQueryRequest, TopKeywordQueryResponse } from '../../services/insightsService';
 
 export interface InsightsState {
   summary: InsightsSummaryResponse['data'] | null;
   visibilityTrends: VisibilityTrendsResponse['data'] | null;
   customerActions: CustomerActionsResponse['data'] | null;
   comparisonData: InsightsComparisonResponse['data']['chart_data'] | null;
+  topKeywordQueries: TopKeywordQueryResponse['data'] | null;
   isLoadingSummary: boolean;
   isLoadingVisibility: boolean;
   isLoadingCustomerActions: boolean;
   isLoadingComparison: boolean;
+  isLoadingTopQueries: boolean;
   summaryError: string | null;
   visibilityError: string | null;
   customerActionsError: string | null;
   comparisonError: string | null;
+  topQueriesError: string | null;
   lastUpdated: string | null;
 }
 
@@ -22,14 +25,17 @@ const initialState: InsightsState = {
   visibilityTrends: null,
   customerActions: null,
   comparisonData: null,
+  topKeywordQueries: null,
   isLoadingSummary: false,
   isLoadingVisibility: false,
   isLoadingCustomerActions: false,
   isLoadingComparison: false,
+  isLoadingTopQueries: false,
   summaryError: null,
   visibilityError: null,
   customerActionsError: null,
   comparisonError: null,
+  topQueriesError: null,
   lastUpdated: null,
 };
 
@@ -82,6 +88,18 @@ export const fetchInsightsComparison = createAsyncThunk(
   }
 );
 
+export const fetchTopKeywordQuery = createAsyncThunk(
+  'insights/fetchTopKeywordQuery',
+  async (params: TopKeywordQueryRequest, { rejectWithValue }) => {
+    try {
+      const response = await insightsService.getTopKeywordQuery(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch top keyword queries');
+    }
+  }
+);
+
 const insightsSlice = createSlice({
   name: 'insights',
   initialState,
@@ -91,6 +109,7 @@ const insightsSlice = createSlice({
       state.visibilityError = null;
       state.customerActionsError = null;
       state.comparisonError = null;
+      state.topQueriesError = null;
     },
     setLastUpdated: (state) => {
       state.lastUpdated = new Date().toISOString();
@@ -156,6 +175,21 @@ const insightsSlice = createSlice({
       .addCase(fetchInsightsComparison.rejected, (state, action) => {
         state.isLoadingComparison = false;
         state.comparisonError = action.payload as string;
+      });
+
+    // Top Keyword Queries
+    builder
+      .addCase(fetchTopKeywordQuery.pending, (state) => {
+        state.isLoadingTopQueries = true;
+        state.topQueriesError = null;
+      })
+      .addCase(fetchTopKeywordQuery.fulfilled, (state, action) => {
+        state.isLoadingTopQueries = false;
+        state.topKeywordQueries = action.payload;
+      })
+      .addCase(fetchTopKeywordQuery.rejected, (state, action) => {
+        state.isLoadingTopQueries = false;
+        state.topQueriesError = action.payload as string;
       });
   },
 });

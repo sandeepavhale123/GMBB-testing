@@ -3,14 +3,7 @@ import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Check, MapPin, Clock, Star } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { 
-  fetchBusinessListings, 
-  selectListing, 
-  deselectListing 
-} from '../../store/slices/businessListingsSlice';
-import { BusinessListing } from '../../services/businessListingsService';
+import { Check, MapPin, Star } from 'lucide-react';
 
 interface SelectListingsStepProps {
   onNext: () => void;
@@ -18,21 +11,30 @@ interface SelectListingsStepProps {
 }
 
 export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, onBack }) => {
-  const dispatch = useAppDispatch();
-  const { listings, loading, error, selectedListings } = useAppSelector(state => state.businessListings);
-
-  useEffect(() => {
-    if (listings.length === 0) {
-      dispatch(fetchBusinessListings());
+  // Mock data for now - this would come from your business listings API
+  const listings = [
+    {
+      id: '1',
+      business_name: 'Sample Restaurant',
+      address: '123 Main St, City, State',
+      platform: 'Google',
+      rating: 4.5,
+      review_count: 120,
+      verification_status: 'verified',
+      status: 'active'
     }
-  }, [dispatch, listings.length]);
+  ];
 
-  const handleListingToggle = (listing: BusinessListing) => {
-    const isSelected = selectedListings.some(selected => selected.id === listing.id);
+  const [selectedListings, setSelectedListings] = React.useState<string[]>([]);
+  const loading = false;
+  const error = null;
+
+  const handleListingToggle = (listingId: string) => {
+    const isSelected = selectedListings.includes(listingId);
     if (isSelected) {
-      dispatch(deselectListing(listing.id));
+      setSelectedListings(prev => prev.filter(id => id !== listingId));
     } else {
-      dispatch(selectListing(listing));
+      setSelectedListings(prev => [...prev, listingId]);
     }
   };
 
@@ -64,7 +66,7 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-bold text-gray-900">Error Loading Businesses</h2>
         <p className="text-red-600">{error}</p>
-        <Button onClick={() => dispatch(fetchBusinessListings())}>
+        <Button onClick={() => {}}>
           Try Again
         </Button>
       </div>
@@ -87,7 +89,7 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {listings.map((listing) => {
-            const isSelected = selectedListings.some(selected => selected.id === listing.id);
+            const isSelected = selectedListings.includes(listing.id);
             
             return (
               <Card 
@@ -97,7 +99,7 @@ export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, 
                     ? 'ring-2 ring-blue-500 bg-blue-50' 
                     : 'hover:ring-1 hover:ring-gray-300'
                 }`}
-                onClick={() => handleListingToggle(listing)}
+                onClick={() => handleListingToggle(listing.id)}
               >
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between">
