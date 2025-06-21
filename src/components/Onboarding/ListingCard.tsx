@@ -22,7 +22,6 @@ const ListingCard = ({ listing, isSelected, onToggle }: ListingCardProps) => {
       }`}
       onClick={() => onToggle(listing.id)}
     >
-      { console.log(listing)}
       <div className="flex items-start gap-4">
         <Checkbox checked={isSelected} className="mt-1" />
         <div className="flex-1">
