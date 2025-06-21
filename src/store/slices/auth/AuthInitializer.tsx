@@ -3,74 +3,35 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { rehydrateAuth } from "./authSlice";
 import { useAuthRedux } from "./useAuthRedux";
+import { saveNavigationState } from "./authHelpers";
 
 export const AuthInitializer = () => {
   const dispatch: AppDispatch = useDispatch();
   const {
     accessToken,
     user,
-    refreshAccessToken,
     hasAttemptedRefresh,
     isInitialized,
     isRefreshing,
   } = useAuthRedux();
+
+  // Save current route when component mounts (for page refresh scenarios)
+  useEffect(() => {
+    const currentPath = window.location.pathname + window.location.search;
+    console.log("AuthInitializer mounted on path:", currentPath);
+
+    // Only save the route if we have stored auth data and are on a valid route
+    const hasStoredTokens = localStorage.getItem("refresh_token");
+    if (hasStoredTokens) {
+      saveNavigationState(currentPath);
+    }
+  }, []);
 
   // Rehydrate from localStorage on first mount
   useEffect(() => {
     console.log("AuthInitializer: Rehydrating auth state...");
     dispatch(rehydrateAuth());
   }, [dispatch]);
-
-  // Attempt token refresh if needed
-  useEffect(() => {
-    const storedRefreshToken = sessionStorage.getItem("refresh_token");
-
-    // Only attempt refresh if:
-    // 1. Auth has been initialized (rehydrated)
-    // 2. We haven't attempted refresh yet
-    // 3. We don't have valid auth data
-    // 4. We have a refresh token
-    // 5. We're not currently refreshing
-    if (
-      isInitialized &&
-      !hasAttemptedRefresh &&
-      (!accessToken || !user) &&
-      storedRefreshToken &&
-      !isRefreshing
-    ) {
-      console.log("AuthInitializer: Attempting token refresh...");
-
-      // Only save path if we're on a route that should be preserved
-      const currentPath = window.location.pathname + window.location.search;
-      const shouldSavePath =
-        !currentPath.startsWith("/login") &&
-        !currentPath.startsWith("/onboarding") &&
-        currentPath !== "/";
-
-      if (shouldSavePath) {
-        console.log(
-          "AuthInitializer: Saving path for restoration:",
-          currentPath
-        );
-        sessionStorage.setItem("post_refresh_path", currentPath);
-        sessionStorage.setItem("scrollY", window.scrollY.toString());
-      } else {
-        console.log("AuthInitializer: Not saving path for:", currentPath);
-        // Clear any previously saved path that shouldn't be restored
-        sessionStorage.removeItem("post_refresh_path");
-        sessionStorage.removeItem("scrollY");
-      }
-
-      refreshAccessToken();
-    }
-  }, [
-    isInitialized,
-    hasAttemptedRefresh,
-    accessToken,
-    user,
-    refreshAccessToken,
-    isRefreshing,
-  ]);
 
   return null;
 };
