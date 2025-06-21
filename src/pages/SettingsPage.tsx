@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
+import { useParams, useLocation, Navigate } from 'react-router-dom';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
@@ -15,32 +16,50 @@ import { ListingManagementPage } from '../components/Settings/ListingManagementP
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('google-account');
-  const [currentView, setCurrentView] = useState<'main' | 'listings'>('main');
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+  const { accountId } = useParams();
+  const location = useLocation();
 
-  const handleManageListings = (accountId: string) => {
-    setSelectedAccountId(accountId);
-    setCurrentView('listings');
+  // Determine current view from route
+  const getCurrentView = () => {
+    const path = location.pathname;
+    if (path.includes('/listings/')) {
+      return 'listings';
+    }
+    return 'main';
   };
 
-  const handleBackToMain = () => {
-    setCurrentView('main');
-    setSelectedAccountId(null);
+  // Get active tab from route
+  const getActiveTab = () => {
+    const path = location.pathname;
+    if (path.includes('/genie-subscription')) {
+      return 'genie-subscription';
+    }
+    if (path.includes('/google-account')) {
+      return 'google-account';
+    }
+    return 'google-account'; // default
   };
+
+  // Redirect base /settings to /settings/google-account
+  if (location.pathname === '/settings') {
+    return <Navigate to="/settings/google-account" replace />;
+  }
+
+  const currentView = getCurrentView();
+  const activeTab = getActiveTab();
 
   const renderTabContent = () => {
-    if (currentView === 'listings') {
-      return <ListingManagementPage onBack={handleBackToMain} />;
+    if (currentView === 'listings' && accountId) {
+      return <ListingManagementPage accountId={accountId} />;
     }
 
     switch (activeTab) {
       case 'google-account':
-        return <ManageGoogleAccountPage onManageListings={handleManageListings} />;
+        return <ManageGoogleAccountPage />;
       case 'genie-subscription':
         return <GenieSubscriptionPage />;
       default:
-        return <ManageGoogleAccountPage onManageListings={handleManageListings} />;
+        return <ManageGoogleAccountPage />;
     }
   };
 
@@ -88,10 +107,7 @@ const SettingsPage = () => {
 
             {/* Settings Sub Header - Only show on main view */}
             {currentView === 'main' && (
-              <SettingsSubHeader
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
+              <SettingsSubHeader activeTab={activeTab} />
             )}
 
             {/* Page Content */}

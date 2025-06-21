@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Search, Plus, Grid3X3, List, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -48,17 +49,16 @@ const mockAccounts = [
   }
 ];
 
-interface ManageGoogleAccountPageProps {
-  onManageListings: (accountId: string) => void;
-}
-
-export const ManageGoogleAccountPage: React.FC<ManageGoogleAccountPageProps> = ({
-  onManageListings
-}) => {
+export const ManageGoogleAccountPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleManageListings = (accountId: string) => {
+    navigate(`/settings/listings/${accountId}`);
+  };
 
   const totalActiveListings = mockAccounts.reduce((sum, account) => sum + account.activeListings, 0);
 
@@ -168,7 +168,7 @@ export const ManageGoogleAccountPage: React.FC<ManageGoogleAccountPageProps> = (
               key={account.id}
               account={account}
               viewMode={viewMode}
-              onManageListings={onManageListings}
+              onManageListings={handleManageListings}
             />
           ))}
         </div>
