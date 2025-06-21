@@ -78,8 +78,12 @@ export const useTokenRefresh = (
       // Update refresh token in localStorage
       localStorage.setItem("refresh_token", data.refresh_token);
 
-      // Restore navigation state if needed
-      restoreNavigationState(navigate);
+      // Attempt to restore navigation state
+      const navigationRestored = restoreNavigationState(navigate);
+
+      if (!navigationRestored) {
+        console.log("No saved navigation state to restore");
+      }
 
       return true;
     } catch (error) {

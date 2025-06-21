@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { clearAllStorage, clearAuthStorage } from "@/utils/storageUtils";
+import { clearAuthStorage } from "@/utils/storageUtils";
 
 interface User {
   userId: string;
@@ -83,7 +83,6 @@ const authSlice = createSlice({
         }
       }
       state.isInitialized = true;
-      // state.hasAttemptedRefresh = true;
     },
     // Enhanced logout with comprehensive cleanup
     logout: (state) => {
