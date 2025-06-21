@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -143,11 +144,21 @@ const ConnectGoogleStep = () =>
         <div className="text-center mt-4 sm:mt-6">
           <p className="text-xs sm:text-sm text-gray-500">
             By connecting, you agree to our{" "}
-            <a href="#" className="text-blue-600 hover:underline">
+            <a 
+              href="https://gmbbriefcase.com/payment-refund/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="text-blue-600 hover:underline">
+            <a 
+              href="https://gmbbriefcase.com/privacy-policy/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
               Privacy Policy
             </a>
           </p>
