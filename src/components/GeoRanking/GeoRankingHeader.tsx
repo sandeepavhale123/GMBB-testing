@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
@@ -125,9 +126,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           {/* Single Row Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 items-center">
             {/* Keyword Section */}
-            <div className="lg:col-span-3 relative gap-1 ">
+            <div className="lg:col-span-2 relative gap-1 ">
                <div className="mb-6">
                 <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
               </div>
@@ -182,7 +183,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             </div>
 
             {/* AI Genie Recommendation Card */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg">
                 <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
                 <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
@@ -193,20 +194,19 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="lg:col-span-3">
-              <div className="flex flex-col gap-2 justify-end">
+            <div className="lg:col-span-1">
+              <div className="flex flex-col gap-2">
                 <Button 
                   onClick={handleCheckRank}
-                  className="bg-blue-600 hover:bg-blue-700 text-white justify-center ml-auto" 
-                  style={{ width: 'fit-content' }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-full" 
                 >
                   Check Rank
                 </Button>
-                <div className="flex gap-2 ml-auto">
-                  <Button variant="outline" className="justify-center" style={{ width: 'fit-content' }}>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1">
                     <RefreshCcw className="w-4 h-4" />
                   </Button>
-                  <Button variant="outline" className="justify-center" style={{ width: 'fit-content' }}>
+                  <Button variant="outline" className="flex-1">
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
