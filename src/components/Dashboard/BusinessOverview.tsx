@@ -3,14 +3,16 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Building2, Star, FileText, MessageSquare } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
+import { useListingContext } from '@/context/ListingContext';
 
 export const BusinessOverview: React.FC = () => {
-  const { totalBusinesses, totalPosts, totalReviews, avgRating, businessProfile } = useAppSelector(
+  const { totalBusinesses, totalPosts, totalReviews, avgRating } = useAppSelector(
     (state) => state.dashboard
   );
+  const { selectedListing } = useListingContext();
 
-  // Use actual listing name or fallback
-  const listingName = businessProfile?.name || "KSoft Solution";
+  // Use actual selected listing name
+  const listingName = selectedListing?.name || "KSoft Solution";
 
   const overview = [
     {
