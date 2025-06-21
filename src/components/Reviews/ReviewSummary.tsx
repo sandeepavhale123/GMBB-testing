@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User, TrendingUp } from 'lucide-react';
+import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
@@ -129,74 +128,54 @@ export const ReviewSummary: React.FC = () => {
     }
   ];
 
-  // Enhanced stats data for the first 4 cards with better styling
+  // Stats data for the first 4 cards
   const stats = [
     {
       title: 'Total Reviews',
       value: summaryCards.total_reviews.toString(),
       icon: MessageSquare,
       color: 'text-blue-600',
-      bgColor: 'bg-gradient-to-br from-blue-50 to-blue-100',
-      iconBg: 'bg-blue-500',
-      change: '+12%',
-      changeColor: 'text-green-600'
+      bgColor: 'bg-blue-100'
     },
     {
       title: 'Pending Replies',
       value: summaryCards.pending_replies.toString(),
       icon: Clock,
       color: 'text-orange-600',
-      bgColor: 'bg-gradient-to-br from-orange-50 to-orange-100',
-      iconBg: 'bg-orange-500',
-      change: '-8%',
-      changeColor: 'text-green-600'
+      bgColor: 'bg-orange-100'
     },
     {
       title: 'AI Replies',
       value: summaryCards.ai_replies.toString(),
       icon: Bot,
-      color: 'text-purple-600',
-      bgColor: 'bg-gradient-to-br from-purple-50 to-purple-100',
-      iconBg: 'bg-purple-500',
-      change: '+24%',
-      changeColor: 'text-green-600'
+      color: 'text-green-600',
+      bgColor: 'bg-green-100'
     },
     {
       title: 'Manual Replies',
       value: summaryCards.manual_replies.toString(),
       icon: User,
-      color: 'text-green-600',
-      bgColor: 'bg-gradient-to-br from-green-50 to-green-100',
-      iconBg: 'bg-green-500',
-      change: '+5%',
-      changeColor: 'text-green-600'
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100'
     }
   ];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* First Column - Enhanced Stats Cards (4 cards in 2x2 grid) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* First Column - Stats Cards (4 cards in 2x2 grid) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title} className={`${stat.bgColor} border-0 shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-1`}>
+            <Card key={stat.title} className="bg-white border border-gray-200">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div className={`p-2.5 rounded-xl ${stat.iconBg} shadow-sm`}>
-                    <Icon className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-green-600" />
-                    <span className={`text-xs font-medium ${stat.changeColor}`}>
-                      {stat.change}
-                    </span>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-medium text-gray-600 truncate">{stat.title}</p>
+                  <div className={`p-2 rounded-lg ${stat.bgColor} flex-shrink-0`}>
+                    <Icon className={`w-4 h-4 ${stat.color}`} />
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                  <p className="text-xs font-medium text-gray-600">{stat.title}</p>
-                </div>
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
               </CardContent>
             </Card>
           );
@@ -204,7 +183,7 @@ export const ReviewSummary: React.FC = () => {
       </div>
 
       {/* Second Column - Overall Rating Card with Star Distribution */}
-      <Card className="bg-white border border-gray-200 shadow-sm">
+      <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-gray-600">Overall Rating</p>
@@ -243,7 +222,7 @@ export const ReviewSummary: React.FC = () => {
       </Card>
 
       {/* Third Column - Sentiment Analysis Card */}
-      <Card className="bg-white border border-gray-200 shadow-sm">
+      <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-gray-600">Sentiment Analysis</p>

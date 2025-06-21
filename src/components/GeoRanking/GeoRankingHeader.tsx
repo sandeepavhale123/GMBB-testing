@@ -13,20 +13,21 @@ interface GeoRankingHeaderProps {
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
+
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
+
   const handleCheckRank = () => {
     navigate('/geo-ranking-report');
   };
+
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -82,6 +83,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
+
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -89,13 +91,35 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
+
   return <div className="mb-4 sm:mb-4">
-         <div className="flex justify-end mb-3">
-           <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
+      {/* Report Header Card */}
+      <Card className="mb-4">
+        <CardContent className="p-4">
+          <div className="flex justify-between items-start">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 flex-shrink-0"></div>
+                <p className="text-sm text-gray-600">{listingAddress}</p>
+              </div>
+            </div>
+            
+            <div className="text-right">
+              <div className="flex items-center gap-3 mb-2">
+                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
-         </div>
+              </div>
+              <p className="text-sm text-gray-600">Report Generated: {reportDate}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Main Header Card - Single Row Layout */}
       <Card className="bg-white shadow-sm">
@@ -104,22 +128,13 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 items-center">
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative gap-1 ">
+               <div className="mb-6">
+                <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
+              </div>
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
                 {headerKeyword}
                 <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
-              </div>
-              
-              {/* Moved section after keyword */}
-              <div className="mt-4">
-                 <div className="flex items-center gap-2 mb-1">
-                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-600">{listingAddress}</p>
-                </div>
               </div>
               
               {/* Keyword Dropdown */}
@@ -180,7 +195,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Action Buttons */}
             <div className="lg:col-span-1">
               <div className="flex flex-col gap-2">
-                <Button onClick={handleCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white w-full">
+                <Button 
+                  onClick={handleCheckRank}
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-full" 
+                >
                   Check Rank
                 </Button>
                 <div className="flex gap-2">
