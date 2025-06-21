@@ -12,6 +12,7 @@ interface InsightsHeaderProps {
   customDateRange: DateRange | undefined;
   showCustomPicker: boolean;
   isLoading: boolean;
+  isRefreshing?: boolean;
   isExporting: boolean;
   summary: any;
   onDateRangeChange: (value: string) => void;
@@ -25,6 +26,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   customDateRange,
   showCustomPicker,
   isLoading,
+  isRefreshing = false,
   isExporting,
   summary,
   onDateRangeChange,
@@ -86,6 +88,12 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
     return `From: ${format(startDate, 'dd MMM yyyy')} - To: ${format(today, 'dd MMM yyyy')}`;
   };
 
+  const getRefreshButtonText = () => {
+    if (isRefreshing) return 'Refreshing from Google...';
+    if (isLoading) return 'Loading latest data...';
+    return 'Refresh';
+  };
+
   return (
     <>
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -120,10 +128,10 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             variant="outline" 
             className="w-full sm:w-auto"
             onClick={onRefresh}
-            disabled={isLoading}
+            disabled={isLoading || isRefreshing}
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            {isLoading ? 'Refreshing...' : 'Refresh'}
+            <RefreshCw className={`w-4 h-4 mr-2 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />
+            {getRefreshButtonText()}
           </Button>
           
           <Button 
