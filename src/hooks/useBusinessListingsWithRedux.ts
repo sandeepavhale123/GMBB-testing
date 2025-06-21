@@ -24,10 +24,10 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   const dispatch = useAppDispatch();
   const { userAddedListings } = useAppSelector(state => state.businessListings);
 
-  // Combine user-added listings first, then API listings (user-added at top)
-  const allListings = [...userAddedListings, ...apiListings];
+  // Simple combination - user listings first, then API listings
+  const combinedListings: BusinessListing[] = userAddedListings.concat(apiListings);
 
-  const fetchListings = async (retryCount = 0) => {
+  const fetchListings = async (retryCount = 0): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
@@ -71,11 +71,11 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
     }
   };
 
-  const addNewListing = (business: BusinessListing) => {
+  const addNewListing = (business: BusinessListing): void => {
     console.log('📋➕ useBusinessListingsWithRedux: Attempting to add business listing:', business.name);
     
     // Check if business already exists in combined listings (by ID)
-    const existsInListings = allListings.some(listing => listing.id === business.id);
+    const existsInListings = combinedListings.some(listing => listing.id === business.id);
     
     if (existsInListings) {
       console.log('📋➕ useBusinessListingsWithRedux: Business already exists in listings:', business.name);
@@ -108,7 +108,7 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   }, [accessToken, isInitialized, hasAttemptedRefresh]);
 
   return {
-    listings: allListings,
+    listings: combinedListings,
     loading,
     error,
     refetch: fetchListings,
