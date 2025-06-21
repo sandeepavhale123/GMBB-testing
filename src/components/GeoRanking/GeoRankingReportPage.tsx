@@ -22,13 +22,31 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
 });
 
+interface FormData {
+  searchBusinessType: string;
+  searchBusiness: string;
+  searchDataEngine: string;
+  keywords: string;
+  mapPoint: string;
+  distanceUnit: string;
+  gridSize: string;
+  scheduleCheck: string;
+}
+
+interface GridPoint {
+  lat: number;
+  lng: number;
+  ranking: number;
+  id: string;
+}
+
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
     searchBusiness: '',
     searchDataEngine: 'Map API',
@@ -40,9 +58,9 @@ export const GeoRankingReportPage: React.FC = () => {
   });
 
   // Generate grid overlay data for automatic mode
-  const generateGridData = (gridSize: string) => {
+  const generateGridData = (gridSize: string): GridPoint[] => {
     const [rows, cols] = gridSize.split('x').map(Number);
-    const gridData = [];
+    const gridData: GridPoint[] = [];
     const centerLat = 28.6139;
     const centerLng = 77.2090;
     const spacing = 0.003;
@@ -64,7 +82,7 @@ export const GeoRankingReportPage: React.FC = () => {
   };
 
   // Clear all markers from map
-  const clearAllMarkers = () => {
+  const clearAllMarkers = (): void => {
     currentMarkers.forEach(marker => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.removeLayer(marker);
@@ -74,7 +92,7 @@ export const GeoRankingReportPage: React.FC = () => {
   };
 
   // Add default red badge marker
-  const addDefaultMarker = () => {
+  const addDefaultMarker = (): void => {
     if (!mapInstanceRef.current) return;
 
     const defaultIcon = L.divIcon({
@@ -112,7 +130,7 @@ export const GeoRankingReportPage: React.FC = () => {
   };
 
   // Add automatic grid markers
-  const addAutomaticMarkers = () => {
+  const addAutomaticMarkers = (): void => {
     if (!mapInstanceRef.current) return;
 
     clearAllMarkers();
@@ -153,7 +171,7 @@ export const GeoRankingReportPage: React.FC = () => {
   };
 
   // Enable manual point selection
-  const enableManualSelection = () => {
+  const enableManualSelection = (): void => {
     if (!mapInstanceRef.current) return;
 
     clearAllMarkers();
@@ -237,7 +255,9 @@ export const GeoRankingReportPage: React.FC = () => {
     addDefaultMarker();
 
     return () => {
-      map.remove();
+      if (map) {
+        map.remove();
+      }
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
