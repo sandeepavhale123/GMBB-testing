@@ -41,10 +41,7 @@ export const BusinessProfileHeader: React.FC = () => {
                 <div className="text-xs sm:text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
                 <div className="flex items-center gap-3 mb-2">
                   {/* Profile Image */}
-                  <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-                    <AvatarImage src={profileData?.profile_picture} alt={userName} />
-                    
-                  </Avatar>
+                  
                   <h2 className="text-xl sm:text-2xl font-bold">
                     {getTimeBasedGreeting()}, {userFirstName} 👋
                   </h2>
