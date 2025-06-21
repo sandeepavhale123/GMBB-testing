@@ -243,7 +243,7 @@ export const insightsService = {
 
   getTopKeywordQuery: async (params: TopKeywordQueryRequest): Promise<TopKeywordQueryResponse> => {
     const response = await axiosInstance({
-      url: '/api/v1/get-top-keyword-query',
+      url: '/get-top-keyword-query',
       method: 'POST',
       data: params,
     });
