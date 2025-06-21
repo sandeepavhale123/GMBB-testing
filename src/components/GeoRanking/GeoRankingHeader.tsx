@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
@@ -139,7 +138,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
               
               {/* Keyword Dropdown */}
-              {showKeywordDropdown && <div className="absolute z-50 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+              {showKeywordDropdown && <div className="absolute z-[9999] top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                   <div className="py-1">
                     <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
                       Web Design
