@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BusinessListing } from '@/components/Header/types';
 import { useBusinessListingsWithRedux } from '@/hooks/useBusinessListingsWithRedux';
@@ -14,15 +14,9 @@ interface ListingContextType {
   switchListing: (listing: BusinessListing) => void;
 }
 
-const ListingContext = createContext<ListingContextType>({
-  selectedListing: null,
-  isLoading: false,
-  isInitialLoading: false,
-  listings: [],
-  switchListing: () => {}
-});
+const ListingContext = createContext<ListingContextType | undefined>(undefined);
 
-export const useListingContext = () => {
+export const useListingContext = (): ListingContextType => {
   const context = useContext(ListingContext);
   if (!context) {
     throw new Error('useListingContext must be used within a ListingProvider');
@@ -40,16 +34,16 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   const [selectedListing, setSelectedListing] = useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
+  
   const navigate = useNavigate();
   const { listingId } = useParams<{ listingId?: string }>();
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  const baseRoute = useMemo(() => {
-    const pathParts = location.pathname.split('/');
-    return pathParts[1] || 'location-dashboard';
-  }, [location.pathname]);
+  // Get base route
+  const baseRoute = location.pathname.split('/')[1] || 'location-dashboard';
 
+  // Initialize selected listing
   const initializeSelectedListing = useCallback(() => {
     if (listingsLoading || !listings.length || hasInitialized) return;
 
@@ -57,14 +51,17 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     
     let targetListing: BusinessListing | null = null;
 
+    // Try to find listing by URL param
     if (listingId && listingId !== 'default') {
       targetListing = listings.find(l => l.id === listingId) || null;
     }
 
+    // Try to find by selected business ID
     if (!targetListing && selectedBusinessId) {
       targetListing = listings.find(l => l.id === selectedBusinessId) || null;
     }
 
+    // Default to first listing
     if (!targetListing && listings.length > 0) {
       targetListing = listings[0];
     }
@@ -84,21 +81,13 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     }
 
     setHasInitialized(true);
-  }, [
-    listings, 
-    listingsLoading, 
-    listingId, 
-    selectedBusinessId, 
-    hasInitialized, 
-    navigate, 
-    baseRoute, 
-    dispatch
-  ]);
+  }, [listings, listingsLoading, listingId, selectedBusinessId, hasInitialized, navigate, baseRoute, dispatch]);
 
   useEffect(() => {
     initializeSelectedListing();
   }, [initializeSelectedListing]);
 
+  // Switch listing function
   const switchListing = useCallback(async (listing: BusinessListing) => {
     if (listing.id === selectedListing?.id) return;
     
@@ -127,13 +116,14 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     }, 200);
   }, [selectedListing?.id, listings, addNewListing, dispatch, baseRoute, navigate]);
 
-  const contextValue = useMemo(() => ({
+  // Simple context value without complex memoization
+  const contextValue: ListingContextType = {
     selectedListing, 
     isLoading, 
     isInitialLoading: listingsLoading,
     listings, 
     switchListing 
-  }), [selectedListing, isLoading, listingsLoading, listings, switchListing]);
+  };
 
   return (
     <ListingContext.Provider value={contextValue}>
