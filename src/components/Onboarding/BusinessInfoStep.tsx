@@ -15,7 +15,6 @@ import { AppDispatch, RootState } from "@/store/store";
 import {
   fetchBusinessDetails,
   saveBusinessDetails,
-  setPrefilledState,
 } from "@/store/slices/onboarding/onboardingSlice";
 
 interface BusinessInfoStepProps {
@@ -39,7 +38,6 @@ const BusinessInfoStep = ({
     businessDetailsLoading,
     businessDetailsError,
     saveInProgress,
-    prefiiledState,
   } = useSelector((state: RootState) => state.onboarding);
 
   const [localData, setLocalData] = useState({

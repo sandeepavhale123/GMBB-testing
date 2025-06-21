@@ -61,15 +61,6 @@ const SelectListingsStep = ({
     setAllListingsSelection(!allSelected);
   };
 
-  // const handleNext = () => {
-  //   // Update formData with selected listing IDs for persistence
-  //   const selectedListingIds = listings
-  //     .filter((listing) => listing.isActive)
-  //     .map((listing) => listing.id);
-  //   updateFormData({ selectedListings: selectedListingIds });
-  //   onNext();
-  // };
-
   const handleNext = async () => {
     try {
       setIsConnecting(true);
@@ -119,7 +110,7 @@ const SelectListingsStep = ({
         title: "Connection Failed",
         description:
           error instanceof Error
-            ? error.response.data.message
+            ? (error as any).response?.data?.message || error.message
             : "Failed to connect listings. Please try again.",
       });
     } finally {

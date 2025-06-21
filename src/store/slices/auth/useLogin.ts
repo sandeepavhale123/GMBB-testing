@@ -1,3 +1,4 @@
+
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import {
@@ -39,7 +40,7 @@ export const useLogin = () => {
       // Store additional items in localStorage
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
       localStorage.setItem("userId", data.data.profile.userId);
-      localStorage.setItem("onboarding", data.data.isOnboarding);
+      localStorage.setItem("onboarding", String(data.data.isOnboarding || 0));
 
       return data;
     } catch (error) {

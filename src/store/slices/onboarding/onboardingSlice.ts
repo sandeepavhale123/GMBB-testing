@@ -284,14 +284,14 @@ const onboardingSlice = createSlice({
           (loc) => loc.id === listingId
         );
         if (listing) {
-          listing.isActive = !listing.isActive;
+          listing.isActive = listing.isActive ? 0 : 1;
         }
       }
     },
     setAllListingsActive: (state, action: PayloadAction<boolean>) => {
       if (state.googleBusinessData?.locations) {
         state.googleBusinessData.locations.forEach((listing) => {
-          listing.isActive = action.payload;
+          listing.isActive = action.payload ? 1 : 0;
         });
       }
     },
