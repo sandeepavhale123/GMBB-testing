@@ -1,3 +1,4 @@
+
 import axiosInstance from '../api/axiosInstance';
 
 export interface ReviewSummaryRequest {
@@ -148,38 +149,38 @@ export interface RefreshReviewsResponse {
 
 export const reviewService = {
   getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
-    const response = await axiosInstance.post('/v1/get-review-summary', {
+    const response = await axiosInstance.post('/get-review-summary', {
       listingId
     });
     return response.data;
   },
 
   getReviews: async (params: GetReviewsRequest): Promise<GetReviewsResponse> => {
-    const response = await axiosInstance.post('/v1/get-reviews', params);
+    const response = await axiosInstance.post('/get-reviews', params);
     return response.data;
   },
 
   sendReviewReply: async (params: SendReplyRequest): Promise<SendReplyResponse> => {
-    const response = await axiosInstance.post('/v1/sent-review-reply', params);
+    const response = await axiosInstance.post('/sent-review-reply', params);
     return response.data;
   },
 
   deleteReviewReply: async (reviewId: string): Promise<SendReplyResponse> => {
-    const response = await axiosInstance.post('/v1/delete-review-reply', {
+    const response = await axiosInstance.post('/delete-review-reply', {
       reviewId
     });
     return response.data;
   },
 
   generateAIReply: async (reviewId: number): Promise<GenerateAIReplyResponse> => {
-    const response = await axiosInstance.post('/v1/generate-ai-responce', {
+    const response = await axiosInstance.post('/generate-ai-responce', {
       reviewId
     });
     return response.data;
   },
 
   refreshReviews: async (locationId: string): Promise<RefreshReviewsResponse> => {
-    const response = await axiosInstance.post('/v1/refresh-review', {
+    const response = await axiosInstance.post('/refresh-review', {
       locationId: parseInt(locationId)
     });
     return response.data;

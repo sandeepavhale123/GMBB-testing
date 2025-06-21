@@ -1,3 +1,4 @@
+
 import axiosInstance from "../api/axiosInstance";
 
 export interface ProfileData {
@@ -45,7 +46,7 @@ export const profileService = {
   },
 
   updateProfile: async (profileData: UpdateProfileData): Promise<void> => {
-    await axiosInstance.post("/v1/update-profile", profileData);
+    await axiosInstance.post("/update-profile", profileData);
   },
 
   verifyCurrentPassword: async (

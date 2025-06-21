@@ -1,3 +1,4 @@
+
 import axiosInstance from '../api/axiosInstance';
 
 export interface InsightsSummaryRequest {
@@ -183,7 +184,7 @@ export interface InsightsComparisonResponse {
 export const insightsService = {
   getInsightsSummary: async (params: InsightsSummaryRequest): Promise<InsightsSummaryResponse> => {
     const response = await axiosInstance({
-      url: '/v1/get-insights-summary',
+      url: '/get-insights-summary',
       method: 'POST',
       data: params,
     });
@@ -192,7 +193,7 @@ export const insightsService = {
 
   getVisibilityTrends: async (params: VisibilityTrendsRequest): Promise<VisibilityTrendsResponse> => {
     const response = await axiosInstance({
-      url: '/v1/get-visibility-trends',
+      url: '/get-visibility-trends',
       method: 'POST',
       data: params,
     });
@@ -201,7 +202,7 @@ export const insightsService = {
 
   getCustomerActions: async (params: CustomerActionsRequest): Promise<CustomerActionsResponse> => {
     const response = await axiosInstance({
-      url: '/v1/get-customer-actions',
+      url: '/get-customer-actions',
       method: 'POST',
       data: params,
     });
@@ -210,7 +211,7 @@ export const insightsService = {
 
   getInsightsComparison: async (params: InsightsComparisonRequest): Promise<InsightsComparisonResponse> => {
     const response = await axiosInstance({
-      url: '/v1/get-insights-comparison',
+      url: '/get-insights-comparison',
       method: 'POST',
       data: params,
     });

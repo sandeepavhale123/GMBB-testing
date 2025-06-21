@@ -6,7 +6,7 @@ import { resetStore } from "@/store/actions/globalActions";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const skipAuthRoutes = ["/v1/login", "/v1/refresh-access-token"];
+const skipAuthRoutes = ["/login", "/refresh-access-token"];
 
 // Auth helper functions - will be injected by useAxiosAuth hook
 let getAccessToken: (() => string | null) | null = null;
