@@ -90,33 +90,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
   return <div className="mb-4 sm:mb-4">
-      {/* Report Header Card */}
-      <Card className="mb-4">
-        <CardContent className="p-4">
-          <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-5 h-5 flex-shrink-0"></div>
-                <p className="text-sm text-gray-600">{listingAddress}</p>
-              </div>
-            </div>
-            
-            <div className="text-right">
-              <div className="flex items-center gap-3 mb-2">
-                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
+         <div className="flex justify-end mb-3">
+           <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
-              </div>
-              <p className="text-sm text-gray-600">Report Generated: {reportDate}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+         </div>
 
       {/* Main Header Card - Single Row Layout */}
       <Card className="bg-white shadow-sm">
@@ -133,7 +112,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               
               {/* Moved section after keyword */}
               <div className="mb-6">
-                
+                 <div className="flex items-center gap-2 mb-1">
+                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 flex-shrink-0"></div>
+                  <p className="text-sm text-gray-600">{listingAddress}</p>
+                </div>
               </div>
               
               {/* Keyword Dropdown */}
