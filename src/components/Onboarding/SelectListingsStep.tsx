@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect } from 'react';
 import { Button } from '../ui/button';
-import { Card, CardContent } from '../ui/card';
-import { Checkbox } from '../ui/checkbox';
-import { Input } from '../ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { MapPin, Search, Building2, ExternalLink, Users, Star } from 'lucide-react';
+import { Check, MapPin, Clock, Star } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchBusinessListings, selectListing, deselectListing } from '../../store/slices/businessListingsSlice';
+import { 
+  fetchBusinessListings, 
+  selectListing, 
+  deselectListing 
+} from '../../store/slices/businessListingsSlice';
 import { BusinessListing } from '../../services/businessListingsService';
 
 interface SelectListingsStepProps {
@@ -17,186 +20,160 @@ interface SelectListingsStepProps {
 export const SelectListingsStep: React.FC<SelectListingsStepProps> = ({ onNext, onBack }) => {
   const dispatch = useAppDispatch();
   const { listings, loading, error, selectedListings } = useAppSelector(state => state.businessListings);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedListingId, setSelectedListingId] = useState<string | null>(null);
 
   useEffect(() => {
-    dispatch(fetchBusinessListings());
-  }, [dispatch]);
-
-  const filteredListings = listings.filter(listing =>
-    listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    listing.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    listing.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleListingSelect = (listing: BusinessListing, isSelected: boolean) => {
-    if (isSelected) {
-      dispatch(selectListing(listing));
-    } else {
-      dispatch(deselectListing(listing.id.toString()));
+    if (listings.length === 0) {
+      dispatch(fetchBusinessListings());
     }
-  };
+  }, [dispatch, listings.length]);
 
-  const handlePrimarySelection = (listingId: string) => {
-    setSelectedListingId(listingId);
+  const handleListingToggle = (listing: BusinessListing) => {
+    const isSelected = selectedListings.some(selected => selected.id === listing.id);
+    if (isSelected) {
+      dispatch(deselectListing(listing.id));
+    } else {
+      dispatch(selectListing(listing));
+    }
   };
 
   const canProceed = selectedListings.length > 0;
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
-        <h2 className="text-2xl font-semibold">Select Your Business Listings</h2>
-        <p>Loading listings...</p>
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Loading your businesses...</h2>
+          <p className="text-gray-600">Please wait while we fetch your business listings.</p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="animate-pulse">
+              <CardContent className="p-4">
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
-        <h2 className="text-2xl font-semibold">Select Your Business Listings</h2>
-        <p className="text-red-500">Error: {error}</p>
+      <div className="text-center space-y-4">
+        <h2 className="text-2xl font-bold text-gray-900">Error Loading Businesses</h2>
+        <p className="text-red-600">{error}</p>
+        <Button onClick={() => dispatch(fetchBusinessListings())}>
+          Try Again
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* Header section */}
+    <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold">Select Your Business Listings</h2>
-        <p className="text-gray-600">Choose the listings you want to manage with our platform.</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Select Your Business Listings</h2>
+        <p className="text-gray-600">
+          Choose the business listings you want to manage with our platform.
+        </p>
       </div>
 
-      {/* Search bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-        <Input
-          placeholder="Search listings by name, address, or category..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
-        />
-      </div>
-
-      {/* Listings grid */}
-      <div className="grid gap-4 md:gap-6">
-        {filteredListings.map((listing) => {
-          const isSelected = selectedListings.some(selected => selected.id.toString() === listing.id.toString());
-          const isPrimary = listing.id.toString() === selectedListingId;
-
-          return (
-            <Card 
-              key={listing.id} 
-              className={`transition-all duration-200 hover:shadow-md cursor-pointer ${
-                isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : 'hover:bg-gray-50'
-              } ${isPrimary ? 'ring-2 ring-green-500 bg-green-50' : ''}`}
-            >
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <Checkbox
-                    checked={isSelected}
-                    onCheckedChange={(checked) => handleListingSelect(listing, checked as boolean)}
-                    className="mt-1"
-                  />
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold text-lg text-gray-900 truncate">
-                            {listing.name}
-                          </h3>
-                          {listing.verification_status === 'verified' && (
-                            <Badge variant="secondary" className="bg-green-100 text-green-700">
-                              Verified
-                            </Badge>
-                          )}
-                          {isPrimary && (
-                            <Badge className="bg-green-500 text-white">
-                              Primary
-                            </Badge>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-gray-600 mb-2">
-                          <MapPin className="w-4 h-4 flex-shrink-0" />
-                          <span className="text-sm truncate">{listing.address}</span>
-                        </div>
-                        
-                        {listing.category && (
-                          <div className="flex items-center gap-2 text-gray-600 mb-3">
-                            <Building2 className="w-4 h-4 flex-shrink-0" />
-                            <span className="text-sm">{listing.category}</span>
-                          </div>
-                        )}
-
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
-                          {listing.total_reviews !== undefined && (
-                            <div className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
-                              <span>{listing.total_reviews} reviews</span>
-                            </div>
-                          )}
-                          {listing.average_rating !== undefined && (
-                            <div className="flex items-center gap-1">
-                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                              <span>{listing.average_rating.toFixed(1)}</span>
-                            </div>
-                          )}
-                        </div>
+      {listings.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-gray-600">No business listings found. Please add some businesses first.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {listings.map((listing) => {
+            const isSelected = selectedListings.some(selected => selected.id === listing.id);
+            
+            return (
+              <Card 
+                key={listing.id} 
+                className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+                  isSelected 
+                    ? 'ring-2 ring-blue-500 bg-blue-50' 
+                    : 'hover:ring-1 hover:ring-gray-300'
+                }`}
+                onClick={() => handleListingToggle(listing)}
+              >
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-lg font-semibold text-gray-900 flex-1">
+                      {listing.business_name}
+                    </CardTitle>
+                    {isSelected && (
+                      <div className="ml-2 p-1 bg-blue-500 rounded-full">
+                        <Check className="w-4 h-4 text-white" />
                       </div>
+                    )}
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2 text-sm text-gray-600">
+                      <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                      <span className="flex-1">{listing.address}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-4 text-sm">
+                      {listing.rating && (
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                          <span className="font-medium">{listing.rating}</span>
+                        </div>
+                      )}
                       
-                      <div className="flex flex-col gap-2">
-                        {listing.google_my_business_url && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              window.open(listing.google_my_business_url, '_blank');
-                            }}
-                            className="flex items-center gap-1"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            View
-                          </Button>
-                        )}
-                        
-                        {isSelected && !isPrimary && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handlePrimarySelection(listing.id.toString());
-                            }}
-                            className="text-green-600 border-green-200 hover:bg-green-50"
-                          >
-                            Set Primary
-                          </Button>
-                        )}
-                      </div>
+                      {listing.review_count && (
+                        <span className="text-gray-600">
+                          {listing.review_count} reviews
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      <Badge variant="secondary" className="text-xs">
+                        {listing.platform}
+                      </Badge>
+                      
+                      {listing.verification_status === 'verified' && (
+                        <Badge variant="default" className="text-xs bg-green-100 text-green-800">
+                          Verified
+                        </Badge>
+                      )}
+                      
+                      {listing.status === 'active' && (
+                        <Badge variant="default" className="text-xs bg-blue-100 text-blue-800">
+                          Active
+                        </Badge>
+                      )}
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
 
-      {/* Navigation buttons */}
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-6">
         <Button variant="outline" onClick={onBack}>
           Back
         </Button>
-        <Button onClick={onNext} disabled={!canProceed}>
-          Next
+        
+        <Button 
+          onClick={onNext} 
+          disabled={!canProceed}
+          className={canProceed ? 'bg-blue-600 hover:bg-blue-700' : ''}
+        >
+          Continue ({selectedListings.length} selected)
         </Button>
       </div>
     </div>
   );
 };
+
+export default SelectListingsStep;
