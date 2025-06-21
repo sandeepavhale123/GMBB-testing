@@ -56,21 +56,10 @@ export const ReviewsList: React.FC = () => {
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
 
-  // Set default 90-day date range on component mount
+  // Clear date range filter on component mount (reset to default)
   useEffect(() => {
-    const today = new Date();
-    const ninetyDaysAgo = subDays(today, 90);
-    
-    const defaultDateRange = {
-      from: ninetyDaysAgo,
-      to: today
-    };
-    
-    setLocalDateRange(defaultDateRange);
-    dispatch(setDateRange({
-      startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
-      endDate: format(today, 'yyyy-MM-dd')
-    }));
+    setLocalDateRange(undefined);
+    dispatch(clearDateRange());
   }, [dispatch]);
 
   // Function to fetch reviews with current filters
