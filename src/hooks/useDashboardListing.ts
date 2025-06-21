@@ -1,18 +1,12 @@
 
-import { useListingContext } from '@/context/ListingContext';
+import { useContext } from 'react';
+import { ListingContext } from '@/context/ListingContext';
 
 // Simple hook to get listing data for dashboard components
 export const useDashboardListing = () => {
-  // Check if ListingProvider context is available
-  let hasListingContext = true;
-  let contextData;
+  // Always call useContext - this is safe and follows Rules of Hooks
+  const context = useContext(ListingContext);
   
-  try {
-    contextData = useListingContext();
-  } catch (error) {
-    hasListingContext = false;
-  }
-
   // Fallback listing data when context is not available
   const fallbackData = {
     selectedListing: null,
@@ -20,11 +14,12 @@ export const useDashboardListing = () => {
     listingAddress: "New York, NY"
   };
 
-  if (!hasListingContext || !contextData) {
+  // If no context provider, return fallback
+  if (!context) {
     return fallbackData;
   }
 
-  const { selectedListing } = contextData;
+  const { selectedListing } = context;
 
   return {
     selectedListing,
