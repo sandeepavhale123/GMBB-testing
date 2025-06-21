@@ -60,14 +60,7 @@ const ConnectGoogleStep = () =>
 
     return (
       <div className="max-w-2xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Connect your Google Business Profile
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600">
-            Connect your Google account to start managing your business profile
-          </p>
-        </div>
+       
 
         <Card className="p-4 sm:p-6 lg:p-8 border-2 border-gray-200">
           <div className="text-center mb-6 sm:mb-8">
