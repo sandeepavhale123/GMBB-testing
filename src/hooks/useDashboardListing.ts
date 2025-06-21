@@ -1,25 +1,34 @@
 
-import { useAppSelector } from './useRedux';
-import { BusinessListing } from '@/components/Header/types';
+import { useListingContext } from '@/context/ListingContext';
 
 // Simple hook to get listing data for dashboard components
 export const useDashboardListing = () => {
-  // Try to get from Redux dashboard state first
-  const dashboardState = useAppSelector(state => state.dashboard);
+  // Check if ListingProvider context is available
+  let hasListingContext = true;
+  let contextData;
   
-  // Fallback listing data
-  const fallbackListing: Partial<BusinessListing> = {
-    name: "KSoft Solution",
-    address: "New York, NY",
-    type: "Business"
+  try {
+    contextData = useListingContext();
+  } catch (error) {
+    hasListingContext = false;
+  }
+
+  // Fallback listing data when context is not available
+  const fallbackData = {
+    selectedListing: null,
+    listingName: "KSoft Solution",
+    listingAddress: "New York, NY"
   };
 
-  // Use dashboard business profile if available, otherwise use fallback
-  const selectedListing = dashboardState.businessProfile || fallbackListing;
+  if (!hasListingContext || !contextData) {
+    return fallbackData;
+  }
+
+  const { selectedListing } = contextData;
 
   return {
     selectedListing,
-    listingName: selectedListing.name || "KSoft Solution",
-    listingAddress: selectedListing.address || "New York, NY"
+    listingName: selectedListing?.name || "KSoft Solution",
+    listingAddress: selectedListing?.address || "New York, NY"
   };
 };
