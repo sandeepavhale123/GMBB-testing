@@ -148,7 +148,7 @@ export const QAManagementPage: React.FC = () => {
      
 
       {/* Summary Stats */}
-      {summary && (
+      { /*summary && (
         <div className="bg-white rounded-lg border border-gray-200 p-4 grid grid-cols-3 gap-4">
           <div className="text-center">
             <p className="text-2xl font-bold text-gray-900">{summary.totalQuestions}</p>
@@ -163,7 +163,7 @@ export const QAManagementPage: React.FC = () => {
             <p className="text-sm text-gray-600">Unanswered</p>
           </div>
         </div>
-      )}
+      )*/}
 
       {isLoading ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
