@@ -89,12 +89,12 @@ export const BusinessManagement: React.FC = () => {
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Website</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.website)}</span>
+                    <span className="text-sm text-gray-900 w-2/3  break-all">{formatFieldValue(transformedBusinessInfo.website)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Store code</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.storeCode)}</span>
+                    <span className="text-sm text-gray-900 w-2/3 ">{formatFieldValue(transformedBusinessInfo.storeCode)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
@@ -104,22 +104,22 @@ export const BusinessManagement: React.FC = () => {
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Additional category</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.additionalCategory)}</span>
+                    <span className="text-sm text-gray-900 w-2/3 ">{formatFieldValue(transformedBusinessInfo.additionalCategory)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Labels</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.labels)}</span>
+                    <span className="text-sm text-gray-900 w-2/3 ">{formatFieldValue(transformedBusinessInfo.labels)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Appointment url</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.appointmentUrl)}</span>
+                    <span className="text-sm text-gray-900 w-2/3  break-all">{formatFieldValue(transformedBusinessInfo.appointmentUrl)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Map url</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.mapUrl)}</span>
+                    <span className="text-sm text-gray-900 w-2/3  break-all">{formatFieldValue(transformedBusinessInfo.mapUrl)}</span>
                   </div>
                   
                   <div className="flex justify-between items-start py-4">
