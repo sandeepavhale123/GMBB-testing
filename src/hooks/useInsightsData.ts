@@ -4,7 +4,7 @@ import { DateRange } from 'react-day-picker';
 import { format } from 'date-fns';
 import { useToast } from './use-toast';
 import { useAppDispatch, useAppSelector } from './useRedux';
-import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions } from '../store/slices/insightsSlice';
+import { fetchInsightsSummary, fetchVisibilityTrends, fetchCustomerActions, refreshInsights } from '../store/slices/insightsSlice';
 import { useListingContext } from '../context/ListingContext';
 
 export const useInsightsData = () => {
@@ -22,9 +22,11 @@ export const useInsightsData = () => {
     isLoadingSummary, 
     isLoadingVisibility,
     isLoadingCustomerActions,
+    isRefreshing,
     summaryError, 
     visibilityError,
     customerActionsError,
+    refreshError,
     lastUpdated 
   } = useAppSelector(state => state.insights);
 
@@ -75,15 +77,23 @@ export const useInsightsData = () => {
     if (!selectedListing?.id) return;
     
     try {
+      // First call the refresh insights API
+      await dispatch(refreshInsights({
+        listingId: parseInt(selectedListing.id, 10)
+      })).unwrap();
+      
+      // Then fetch the updated data
       await fetchData();
+      
       toast({
         title: "Data Refreshed",
         description: "Your insights have been updated with the latest data from Google Business Profile."
       });
     } catch (error) {
+      console.error('Error refreshing insights:', error);
       toast({
         title: "Refresh Failed",
-        description: "Failed to refresh data. Please try again.",
+        description: refreshError || "Failed to refresh data. Please try again.",
         variant: "destructive"
       });
     }
@@ -98,9 +108,11 @@ export const useInsightsData = () => {
     isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
+    isRefreshing,
     summaryError,
     visibilityError,
     customerActionsError,
+    refreshError,
     lastUpdated,
     selectedListing,
     handleDateRangeChange,

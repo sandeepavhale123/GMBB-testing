@@ -1,5 +1,6 @@
+
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse } from '../../services/insightsService';
+import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse, RefreshInsightsRequest } from '../../services/insightsService';
 
 export interface InsightsState {
   summary: InsightsSummaryResponse['data'] | null;
@@ -10,10 +11,12 @@ export interface InsightsState {
   isLoadingVisibility: boolean;
   isLoadingCustomerActions: boolean;
   isLoadingComparison: boolean;
+  isRefreshing: boolean;
   summaryError: string | null;
   visibilityError: string | null;
   customerActionsError: string | null;
   comparisonError: string | null;
+  refreshError: string | null;
   lastUpdated: string | null;
 }
 
@@ -26,10 +29,12 @@ const initialState: InsightsState = {
   isLoadingVisibility: false,
   isLoadingCustomerActions: false,
   isLoadingComparison: false,
+  isRefreshing: false,
   summaryError: null,
   visibilityError: null,
   customerActionsError: null,
   comparisonError: null,
+  refreshError: null,
   lastUpdated: null,
 };
 
@@ -82,6 +87,18 @@ export const fetchInsightsComparison = createAsyncThunk(
   }
 );
 
+export const refreshInsights = createAsyncThunk(
+  'insights/refreshInsights',
+  async (params: RefreshInsightsRequest, { rejectWithValue }) => {
+    try {
+      const response = await insightsService.refreshInsights(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to refresh insights');
+    }
+  }
+);
+
 const insightsSlice = createSlice({
   name: 'insights',
   initialState,
@@ -91,6 +108,7 @@ const insightsSlice = createSlice({
       state.visibilityError = null;
       state.customerActionsError = null;
       state.comparisonError = null;
+      state.refreshError = null;
     },
     setLastUpdated: (state) => {
       state.lastUpdated = new Date().toISOString();
@@ -156,6 +174,20 @@ const insightsSlice = createSlice({
       .addCase(fetchInsightsComparison.rejected, (state, action) => {
         state.isLoadingComparison = false;
         state.comparisonError = action.payload as string;
+      });
+
+    // Refresh Insights
+    builder
+      .addCase(refreshInsights.pending, (state) => {
+        state.isRefreshing = true;
+        state.refreshError = null;
+      })
+      .addCase(refreshInsights.fulfilled, (state, action) => {
+        state.isRefreshing = false;
+      })
+      .addCase(refreshInsights.rejected, (state, action) => {
+        state.isRefreshing = false;
+        state.refreshError = action.payload as string;
       });
   },
 });

@@ -13,6 +13,7 @@ interface InsightsHeaderProps {
   showCustomPicker: boolean;
   isLoading: boolean;
   isExporting: boolean;
+  isRefreshing?: boolean;
   summary: any;
   onDateRangeChange: (value: string) => void;
   onCustomDateRangeChange: (date: DateRange | undefined) => void;
@@ -26,6 +27,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
   showCustomPicker,
   isLoading,
   isExporting,
+  isRefreshing = false,
   summary,
   onDateRangeChange,
   onCustomDateRangeChange,
@@ -120,10 +122,10 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             variant="outline" 
             className="w-full sm:w-auto"
             onClick={onRefresh}
-            disabled={isLoading}
+            disabled={isLoading || isRefreshing}
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            {isLoading ? 'Refreshing...' : 'Refresh'}
+            <RefreshCw className={`w-4 h-4 mr-2 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />
+            {isRefreshing ? 'Refreshing...' : isLoading ? 'Loading...' : 'Refresh'}
           </Button>
           
           <Button 

@@ -16,9 +16,11 @@ export const InsightsCard: React.FC = () => {
     isLoadingSummary,
     isLoadingVisibility,
     isLoadingCustomerActions,
+    isRefreshing,
     summaryError,
     visibilityError,
     customerActionsError,
+    refreshError,
     selectedListing,
     handleDateRangeChange,
     handleCustomDateRangeChange,
@@ -28,10 +30,10 @@ export const InsightsCard: React.FC = () => {
   const { isExporting, exportRef, handleExportImage } = useInsightsExport(selectedListing);
 
   // Show error state
-  if (summaryError || visibilityError || customerActionsError) {
+  if (summaryError || visibilityError || customerActionsError || refreshError) {
     return (
       <InsightsErrorState
-        error={summaryError || visibilityError || customerActionsError}
+        error={summaryError || visibilityError || customerActionsError || refreshError}
         onRetry={handleRefresh}
       />
     );
@@ -45,6 +47,7 @@ export const InsightsCard: React.FC = () => {
         showCustomPicker={false}
         isLoading={isLoadingSummary || isLoadingVisibility || isLoadingCustomerActions}
         isExporting={isExporting}
+        isRefreshing={isRefreshing}
         summary={summary}
         onDateRangeChange={handleDateRangeChange}
         onCustomDateRangeChange={handleCustomDateRangeChange}
