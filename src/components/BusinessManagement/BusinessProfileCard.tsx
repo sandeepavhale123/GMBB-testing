@@ -24,7 +24,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         <CardContent className="p-6">
           <div className="animate-pulse">
             <div className="flex items-start gap-4 mb-6">
-              <div className="w-20 h-20 bg-gray-200 rounded-lg"></div>
+              <div className="w-24 h-24 bg-gray-200 rounded-lg"></div>
               <div className="flex-1">
                 <div className="h-6 bg-gray-200 rounded w-48 mb-2"></div>
                 <div className="h-4 bg-gray-200 rounded w-24"></div>
@@ -48,14 +48,14 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-start gap-4">
-            {/* Business Logo/Avatar */}
-            <div className="w-20 h-20 bg-gray-800 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+            {/* Business Logo/Avatar - Increased size */}
+            <div className="w-24 h-24 bg-gray-800 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
               {businessInfo?.name?.charAt(0) || 'B'}
             </div>
             
             {/* Business Info */}
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold text-gray-900">
                   {businessInfo?.name || 'Business Name'}
                 </h2>
@@ -63,7 +63,23 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />
                 )}
               </div>
-              <p className="text-sm text-gray-500">On Google</p>
+              
+              {/* Profile views and Position stats moved here */}
+              <div className="flex items-center gap-6">
+                <div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {statistics?.profile_views || 0}
+                  </div>
+                  <div className="text-xs text-gray-500">Profile views</div>
+                </div>
+                
+                <div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {statistics?.position || 0}
+                  </div>
+                  <div className="text-xs text-gray-500">Position</div>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -78,26 +94,10 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           </div>
         </div>
 
-        {/* Statistics Section */}
-        <div className="grid grid-cols-3 gap-8">
-          {/* Profile Views */}
-          <div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
-              {statistics?.profile_views || 0}
-            </div>
-            <div className="text-sm text-gray-500">Profile views</div>
-          </div>
-          
-          {/* Position */}
-          <div>
-            <div className="text-3xl font-bold text-gray-900 mb-1">
-              {statistics?.position || 0}
-            </div>
-            <div className="text-sm text-gray-500">Position</div>
-          </div>
-          
+        {/* Statistics Section - Only Visibility remaining */}
+        <div className="flex justify-start">
           {/* Visibility */}
-          <div>
+          <div className="w-64">
             <div className="flex items-center justify-between mb-2">
               <div className="text-sm text-gray-500">Visibility</div>
               <div className="text-sm font-medium text-gray-900">
