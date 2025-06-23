@@ -151,7 +151,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-600">{listingAddress.length > 5 ? listingAddress.slice(0,5)+'...' : listingAddress}</p>
+                  <p className="text-sm text-gray-600">{listingAddress.length > 20 ? listingAddress.slice(0,5)+'...' : listingAddress}</p>
                 </div>
               </div>
             </div>
