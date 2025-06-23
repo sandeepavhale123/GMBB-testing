@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { Clock, Edit } from "lucide-react";
+import type { TransformedWorkingHour } from '../../utils/businessDataTransform';
 
 type WorkingHour = {
   day: string;
@@ -13,9 +13,9 @@ type WorkingHour = {
 };
 
 interface EditableBusinessHoursProps {
-  initialWorkingHours: WorkingHour[];
+  initialWorkingHours: TransformedWorkingHour[];
   editMode: boolean;
-  onSave: (workingHours: WorkingHour[]) => void;
+  onSave: (workingHours: TransformedWorkingHour[]) => void;
   onCancel: () => void;
   onEdit?: () => void;
 }
@@ -82,7 +82,7 @@ export const EditableBusinessHours: React.FC<EditableBusinessHoursProps> = ({
   onCancel,
   onEdit,
 }) => {
-  const [hoursState, setHoursState] = useState<WorkingHour[]>(initialWorkingHours);
+  const [hoursState, setHoursState] = useState<TransformedWorkingHour[]>(initialWorkingHours);
 
   useEffect(() => {
     setHoursState(initialWorkingHours);

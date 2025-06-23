@@ -1,4 +1,6 @@
+
 import axiosInstance from "./axiosInstance";
+import type { BusinessInfoRequest, BusinessInfoResponse } from "../types/businessInfoTypes";
 
 export interface BusinessDetails {
   companyName: string;
@@ -30,7 +32,7 @@ export const getBusinessDetails = async (): Promise<BusinessDetails | null> => {
     if (result.data && result.data.data) {
       return result.data.data;
     }
-    return null; // No business details found (first-time user)
+    return null;
   } catch (error) {
     console.error("Failed to fetch business details:", error);
     throw error;
@@ -51,6 +53,22 @@ export const updateBusinessDetails = async (
     return result.data.data;
   } catch (error) {
     console.error("Failed to update business details:", error);
+    throw error;
+  }
+};
+
+export const getBusinessInfo = async (payload: BusinessInfoRequest): Promise<BusinessInfoResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/get-business-info",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Business info API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch business info:", error);
     throw error;
   }
 };
