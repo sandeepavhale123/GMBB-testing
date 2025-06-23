@@ -132,7 +132,7 @@ export const QAManagementPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <QAHeader />
+      {/* <QAHeader /> */}
       
       <QAFilters
         searchTerm={filters.search}
@@ -145,9 +145,7 @@ export const QAManagementPage: React.FC = () => {
         onRefresh={handleRefresh}
       />
 
-      {showTipBanner && (
-        <QASEOTipBanner onDismiss={() => dispatch(dismissTipBanner())} />
-      )}
+     
 
       {/* Summary Stats */}
       {summary && (
