@@ -2,8 +2,6 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
 import { MoreHorizontal, Check } from 'lucide-react';
 import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
 
@@ -31,11 +29,6 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               </div>
               <div className="h-10 bg-gray-200 rounded w-32"></div>
             </div>
-            <div className="grid grid-cols-3 gap-8 mb-6">
-              <div className="h-16 bg-gray-200 rounded"></div>
-              <div className="h-16 bg-gray-200 rounded"></div>
-              <div className="h-16 bg-gray-200 rounded"></div>
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -46,39 +39,22 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
     <Card className="w-full border border-gray-200 shadow-sm">
       <CardContent className="p-6">
         {/* Header Section */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex items-start justify-between">
           <div className="flex items-start gap-4">
-            {/* Business Logo/Avatar - Increased size */}
+            {/* Business Logo/Avatar */}
             <div className="w-24 h-24 bg-gray-800 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
               {businessInfo?.name?.charAt(0) || 'B'}
             </div>
             
             {/* Business Info */}
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2">
                 <h2 className="text-xl font-semibold text-gray-900">
                   {businessInfo?.name || 'Business Name'}
                 </h2>
                 {businessInfo?.verification_status === 'verified' && (
                   <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />
                 )}
-              </div>
-              
-              {/* Profile views and Position stats moved here */}
-              <div className="flex items-center gap-6">
-                <div className="bg-secondary p-2 rounded" style={{width:'110px'}}> 
-                  <div className="text-lg font-bold text-gray-900">
-                    {statistics?.profile_views || 0}
-                  </div>
-                  <div className="text-xs text-gray-500">Profile views</div>
-                </div>
-                
-                <div className="bg-secondary p-2 rounded" style={{width:'110px'}}>
-                  <div className="text-lg font-bold text-gray-900">
-                    {statistics?.position || 0}
-                  </div>
-                  <div className="text-xs text-gray-500">Position</div>
-                </div>
               </div>
             </div>
           </div>
@@ -91,23 +67,6 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             <Button variant="ghost" size="sm" className="p-2">
               <MoreHorizontal className="w-4 h-4" />
             </Button>
-          </div>
-        </div>
-
-        {/* Statistics Section - Only Visibility remaining */}
-        <div className="flex justify-start">
-          {/* Visibility */}
-          <div className="w-64">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-gray-500">Visibility</div>
-              <div className="text-sm font-medium text-gray-900">
-                {statistics?.visibility_score || 0}%
-              </div>
-            </div>
-            <Progress 
-              value={statistics?.visibility_score || 0} 
-              className="h-2 bg-gray-200"
-            />
           </div>
         </div>
       </CardContent>
