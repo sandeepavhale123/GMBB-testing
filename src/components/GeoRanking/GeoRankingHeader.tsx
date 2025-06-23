@@ -94,7 +94,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
-       <div className="flex justify-end">
+       <div className="flex justify-end mb-4">
           <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
