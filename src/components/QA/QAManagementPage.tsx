@@ -149,20 +149,20 @@ export const QAManagementPage: React.FC = () => {
 
       {/* Summary Stats */}
       {summary && (
-        // <div className="bg-white rounded-lg border border-gray-200 p-4 grid grid-cols-3 gap-4">
-        //   <div className="text-center">
-        //     <p className="text-2xl font-bold text-gray-900">{summary.totalQuestions}</p>
-        //     <p className="text-sm text-gray-600">Total Questions</p>
-        //   </div>
-        //   <div className="text-center">
-        //     <p className="text-2xl font-bold text-green-600">{summary.answeredQuestions}</p>
-        //     <p className="text-sm text-gray-600">Answered</p>
-        //   </div>
-        //   <div className="text-center">
-        //     <p className="text-2xl font-bold text-yellow-600">{summary.unansweredQuestions}</p>
-        //     <p className="text-sm text-gray-600">Unanswered</p>
-        //   </div>
-        // </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-4 grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-900">{summary.totalQuestions}</p>
+            <p className="text-sm text-gray-600">Total Questions</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-green-600">{summary.answeredQuestions}</p>
+            <p className="text-sm text-gray-600">Answered</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-yellow-600">{summary.unansweredQuestions}</p>
+            <p className="text-sm text-gray-600">Unanswered</p>
+          </div>
+        </div>
       )}
 
       {isLoading ? (
