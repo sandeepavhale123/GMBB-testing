@@ -55,7 +55,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             
             {/* Business Info */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold text-gray-900">
                   {businessInfo?.name || 'Business Name'}
                 </h2>
@@ -64,26 +64,22 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 )}
               </div>
               
-              {/* Profile views and Position stats in separate card */}
-              <Card className="bg-gray-50 border border-gray-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-6">
-                    <div>
-                      <div className="text-lg font-bold text-gray-900">
-                        {statistics?.profile_views || 0}
-                      </div>
-                      <div className="text-xs text-gray-500">Profile views</div>
-                    </div>
-                    
-                    <div>
-                      <div className="text-lg font-bold text-gray-900">
-                        {statistics?.position || 0}
-                      </div>
-                      <div className="text-xs text-gray-500">Position</div>
-                    </div>
+              {/* Profile views and Position stats moved here */}
+              <div className="flex items-center gap-6">
+                <div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {statistics?.profile_views || 0}
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="text-xs text-gray-500">Profile views</div>
+                </div>
+                
+                <div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {statistics?.position || 0}
+                  </div>
+                  <div className="text-xs text-gray-500">Position</div>
+                </div>
+              </div>
             </div>
           </div>
           
