@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User } from 'lucide-react';
@@ -74,11 +75,11 @@ export const ReviewSummary: React.FC = () => {
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="bg-white border border-gray-200">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="h-3 bg-gray-200 rounded animate-pulse w-20"></div>
-                  <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
+                <div className="text-center">
+                  <div className="w-8 h-8 bg-gray-200 rounded animate-pulse mx-auto mb-3"></div>
+                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded animate-pulse w-20 mx-auto"></div>
                 </div>
-                <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
               </CardContent>
             </Card>
           ))}
@@ -169,13 +170,13 @@ export const ReviewSummary: React.FC = () => {
           return (
             <Card key={stat.title} className="bg-white border border-gray-200">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-medium text-gray-600 truncate">{stat.title}</p>
-                  <div className={`p-2 rounded-lg ${stat.bgColor} flex-shrink-0`}>
-                    <Icon className={`w-4 h-4 ${stat.color}`} />
+                <div className="text-center">
+                  <div className={`p-3 rounded-lg ${stat.bgColor} inline-flex mb-3`}>
+                    <Icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
+                  <p className="text-xs font-medium text-gray-600">{stat.title}</p>
                 </div>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
               </CardContent>
             </Card>
           );
