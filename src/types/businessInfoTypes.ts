@@ -3,6 +3,19 @@ export interface BusinessInfoRequest {
   listingId: number;
 }
 
+export interface RefreshBusinessInfoRequest {
+  listingId: number;
+}
+
+export interface RefreshBusinessInfoResponse {
+  code: number;
+  message: string;
+  data: {
+    locationId: number;
+    updated: boolean;
+  };
+}
+
 export interface BusinessInfo {
   id: string | null;
   name: string;

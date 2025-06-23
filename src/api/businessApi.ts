@@ -1,6 +1,6 @@
 
 import axiosInstance from "./axiosInstance";
-import type { BusinessInfoRequest, BusinessInfoResponse } from "../types/businessInfoTypes";
+import type { BusinessInfoRequest, BusinessInfoResponse, RefreshBusinessInfoRequest, RefreshBusinessInfoResponse } from "../types/businessInfoTypes";
 
 export interface BusinessDetails {
   companyName: string;
@@ -69,6 +69,22 @@ export const getBusinessInfo = async (payload: BusinessInfoRequest): Promise<Bus
     return result.data;
   } catch (error) {
     console.error("Failed to fetch business info:", error);
+    throw error;
+  }
+};
+
+export const refreshBusinessInfo = async (payload: RefreshBusinessInfoRequest): Promise<RefreshBusinessInfoResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/refresh-business-info",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Refresh business info API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to refresh business info:", error);
     throw error;
   }
 };

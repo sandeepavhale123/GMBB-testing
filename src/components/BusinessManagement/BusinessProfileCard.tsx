@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import { MoreHorizontal, Check } from 'lucide-react';
+import { MoreHorizontal, Check, RefreshCw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
 
@@ -11,16 +12,20 @@ interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
   statistics: BusinessStatistics | null;
   isLoading?: boolean;
+  isRefreshing?: boolean;
   activeTab?: 'business-info' | 'opening-hours' | 'edit-log';
   onTabChange?: (tab: 'business-info' | 'opening-hours' | 'edit-log') => void;
+  onRefresh?: () => void;
 }
 
 export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   businessInfo,
   statistics,
   isLoading,
+  isRefreshing = false,
   activeTab = 'business-info',
-  onTabChange
+  onTabChange,
+  onRefresh
 }) => {
   const tabs = [
     { id: 'business-info' as const, label: 'Business Information' },
@@ -49,6 +54,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         </CardContent>
       </Card>;
   }
+
   return (
     <Card className="w-full border border-gray-200 shadow-sm">
       <CardContent className="p-6">
@@ -103,8 +109,19 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           {/* Action Buttons with Visibility after */}
           <div className="flex flex-col items-end gap-4">
             <div className="flex gap-2">
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">
-                Refresh
+              <Button 
+                onClick={onRefresh}
+                disabled={isRefreshing}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm"
+              >
+                {isRefreshing ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Refreshing...
+                  </>
+                ) : (
+                  'Refresh'
+                )}
               </Button>
               <Button variant="outline" className="px-4 py-2 text-sm">
                 Edit access
