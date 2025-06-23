@@ -66,14 +66,14 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               
               {/* Profile views and Position stats moved here */}
               <div className="flex items-center gap-6">
-                <div className="bg-secondary p-2 rounded" style={{widht:'150px !important'}}> 
+                <div className="bg-secondary p-2 rounded" style={{width:'150px !important'}}> 
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.profile_views || 0}
                   </div>
                   <div className="text-xs text-gray-500">Profile views</div>
                 </div>
                 
-                <div className="bg-secondary p-2 rounded" style={{widht:'150px !important'}}>
+                <div className="bg-secondary p-2 rounded" style={{width:'150px !important'}}>
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.position || 0}
                   </div>
