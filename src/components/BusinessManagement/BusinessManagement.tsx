@@ -6,6 +6,8 @@ import { fetchBusinessInfo } from '../../store/slices/businessInfoSlice';
 import { BusinessProfileCard } from './BusinessProfileCard';
 import { EditableBusinessHours } from './EditableBusinessHours';
 import { transformBusinessInfo, transformWorkingHours, transformEditLogs } from '../../utils/businessDataTransform';
+import { Alert, AlertDescription } from '../ui/alert';
+import { AlertTriangle, ExternalLink } from 'lucide-react';
 
 type TabType = 'business-info' | 'opening-hours' | 'edit-log';
 
@@ -45,6 +47,10 @@ export const BusinessManagement: React.FC = () => {
     setEditMode(true);
   };
 
+  const formatFieldValue = (value: string | null | undefined): string => {
+    return value && value.trim() !== '' ? value : '-';
+  };
+
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -68,52 +74,98 @@ export const BusinessManagement: React.FC = () => {
       />
 
       {/* Tab Content */}
-      <div className="bg-white">
+      <div className="bg-white rounded-lg border border-gray-200">
         {activeTab === 'business-info' && (
-          <div className="p-6">
+          <div className="p-8">
             {isLoading ? (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-5/6 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  {[...Array(10)].map((_, i) => (
+                    <div key={i} className="flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
+                      <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : transformedBusinessInfo ? (
               <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Business Details</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.name}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.category}</p>
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.address}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.phone || 'Not provided'}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.website || 'Not provided'}</p>
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                      <p className="text-gray-900">{transformedBusinessInfo.description || 'No description available'}</p>
-                    </div>
+                {/* Business Details */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Name</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.name)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Address</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.address)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Phone</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.phone)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Website</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.website)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Store code</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.storeCode)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Category</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.category)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Additional category</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.additionalCategory)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Labels</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.labels)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Appointment url</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.appointmentUrl)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center py-4 border-b border-gray-100">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Map url</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right break-all">{formatFieldValue(transformedBusinessInfo.mapUrl)}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-start py-4">
+                    <span className="text-sm font-medium text-gray-700 w-1/3">Description</span>
+                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.description)}</span>
                   </div>
                 </div>
+
+                {/* Yellow Warning Banner */}
+                <Alert className="border-yellow-200 bg-yellow-50">
+                  <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                  <AlertDescription className="text-yellow-800">
+                    <div className="flex items-center justify-between">
+                      <span>To avoid getting suspended, don't add fake info to get more reviews and other policy violating content.</span>
+                      <button className="flex items-center text-yellow-800 hover:text-yellow-900 font-medium">
+                        Learn more
+                        <ExternalLink className="h-3 w-3 ml-1" />
+                      </button>
+                    </div>
+                  </AlertDescription>
+                </Alert>
               </div>
             ) : (
-              <div>No business information available</div>
+              <div className="text-center py-8">
+                <p className="text-gray-500">No business information available</p>
+              </div>
             )}
           </div>
         )}
