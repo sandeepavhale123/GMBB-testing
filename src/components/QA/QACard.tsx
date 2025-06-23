@@ -5,21 +5,35 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Reply, CheckCircle, XCircle } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
-import { Question } from './QAList';
+import { Question } from '@/api/qaApi';
+import { useListingContext } from '@/context/ListingContext';
 
 interface QACardProps {
   question: Question;
 }
 
 export const QACard: React.FC<QACardProps> = ({ question }) => {
+  const { selectedListing } = useListingContext();
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
 
   const handleReply = () => {
-    // Handle reply submission
+    // Handle reply submission - would need another API endpoint
     console.log('Reply submitted:', replyText);
     setIsReplying(false);
     setReplyText('');
+  };
+
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.ceil(diffDays / 7)} week${Math.ceil(diffDays / 7) > 1 ? 's' : ''} ago`;
+    return `${Math.ceil(diffDays / 30)} month${Math.ceil(diffDays / 30) > 1 ? 's' : ''} ago`;
   };
 
   const highlightKeywords = (text: string) => {
@@ -47,10 +61,10 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
               </h3>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="secondary" className="text-xs">
-                  {question.listingName}
+                  {selectedListing?.name || 'Business Listing'}
                 </Badge>
                 <span className="text-xs text-gray-500">•</span>
-                <span className="text-xs text-gray-500">{question.location}</span>
+                <span className="text-xs text-gray-500">{selectedListing?.address || 'Location'}</span>
               </div>
             </div>
             
@@ -71,7 +85,7 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
 
           {/* User Info */}
           <div className="text-xs text-gray-500">
-            Asked by <span className="font-medium">{question.userName}</span> • {question.timestamp}
+            Asked by <span className="font-medium">Anonymous User</span> • {formatTimestamp(question.timestamp)}
           </div>
 
           {/* Answer or Reply Section */}
@@ -79,6 +93,11 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
             <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
               <div className="text-sm text-gray-700 leading-relaxed" 
                    dangerouslySetInnerHTML={{ __html: highlightKeywords(question.answer) }} />
+              {question.answerTimestamp && (
+                <div className="text-xs text-gray-500 mt-2">
+                  Answered {formatTimestamp(question.answerTimestamp)}
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-3">

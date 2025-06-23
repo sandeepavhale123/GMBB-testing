@@ -1,3 +1,4 @@
+
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import dashboardSlice from "./slices/dashboardSlice";
 import postsSlice from "./slices/postsSlice";
@@ -8,9 +9,11 @@ import authReducer from "./slices/auth/authSlice";
 import businessListingsReducer from "./slices/businessListingsSlice";
 import profileReducer from "./slices/profileSlice";
 import insightsReducer from "./slices/insightsSlice";
+import qaReducer from "./slices/qaSlice";
 import { RESET_STORE } from "./actions/globalActions";
 import onboardingReducer from "./slices/onboarding/onboardingSlice";
 import { timeZoneApi } from "@/api/timeZoneApi";
+import { qaApi } from "@/api/qaApi";
 
 // Combine all reducers
 const appReducer = combineReducers({
@@ -23,8 +26,10 @@ const appReducer = combineReducers({
   businessListings: businessListingsReducer,
   profile: profileReducer,
   insights: insightsReducer,
+  qa: qaReducer,
   onboarding: onboardingReducer,
   [timeZoneApi.reducerPath]: timeZoneApi.reducer,
+  [qaApi.reducerPath]: qaApi.reducer,
 });
 
 // Root reducer that handles global store reset
@@ -49,7 +54,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST"],
       },
-    }).concat(timeZoneApi.middleware),
+    }).concat(timeZoneApi.middleware, qaApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

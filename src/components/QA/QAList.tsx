@@ -1,17 +1,7 @@
 
 import React from 'react';
 import { QACard } from './QACard';
-
-export interface Question {
-  id: string;
-  question: string;
-  listingName: string;
-  location: string;
-  userName: string;
-  timestamp: string;
-  status: 'answered' | 'unanswered';
-  answer?: string | null;
-}
+import { Question } from '@/api/qaApi';
 
 interface QAListProps {
   questions: Question[];

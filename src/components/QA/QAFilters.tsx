@@ -8,8 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 interface QAFiltersProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
-  statusFilter: string;
-  onStatusChange: (value: string) => void;
+  statusFilter: 'all' | 'answered' | 'unanswered';
+  onStatusChange: (value: 'all' | 'answered' | 'unanswered') => void;
   dateFilter: string;
   onDateChange: (value: string) => void;
   isRefreshing?: boolean;

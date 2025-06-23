@@ -1,75 +1,97 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { QAHeader } from './QAHeader';
 import { QAFilters } from './QAFilters';
 import { QASEOTipBanner } from './QASEOTipBanner';
 import { QAList } from './QAList';
 import { QAEmptyState } from './QAEmptyState';
+import { QAPagination } from './QAPagination';
 import { useListingContext } from '@/context/ListingContext';
 import { useToast } from '@/hooks/use-toast';
-
-const mockQuestions = [
-  {
-    id: '1',
-    question: 'What are your business hours on weekends?',
-    listingName: 'Downtown Coffee Shop',
-    location: 'New York, NY',
-    userName: 'Sarah M.',
-    timestamp: '2 days ago',
-    status: 'unanswered' as const,
-    answer: null
-  },
-  {
-    id: '2',
-    question: 'Do you offer delivery services in Brooklyn?',
-    listingName: 'Downtown Coffee Shop',
-    location: 'New York, NY',
-    userName: 'Mike Johnson',
-    timestamp: '5 days ago',
-    status: 'answered' as const,
-    answer: 'Yes, we offer delivery services throughout Brooklyn and Manhattan. Our delivery partners cover most areas within 5 miles of our downtown NYC location.'
-  },
-  {
-    id: '3',
-    question: 'Is parking available near your restaurant?',
-    listingName: 'Italian Bistro',
-    location: 'Brooklyn, NY',
-    userName: 'Anonymous',
-    timestamp: '1 week ago',
-    status: 'unanswered' as const,
-    answer: null
-  }
-];
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { useGetQASummaryQuery, useLazyGetQASummaryQuery } from '@/api/qaApi';
+import { setFilters, setPagination, setSorting, dismissTipBanner, setError } from '@/store/slices/qaSlice';
 
 export const QAManagementPage: React.FC = () => {
   const { selectedListing } = useListingContext();
   const { toast } = useToast();
-  const [questions, setQuestions] = useState(mockQuestions);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [dateFilter, setDateFilter] = useState('30');
-  const [showTipBanner, setShowTipBanner] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const dispatch = useAppDispatch();
+  
+  const {
+    filters,
+    pagination,
+    sorting,
+    showTipBanner,
+  } = useAppSelector((state) => state.qa);
 
-  // Filter questions by selected listing
-  const listingQuestions = selectedListing 
-    ? questions.filter(q => q.listingName === selectedListing.name)
-    : questions;
-
-  const filteredQuestions = listingQuestions.filter(question => {
-    const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         question.listingName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || question.status === statusFilter;
+  // Prepare API request
+  const qaRequest = useMemo(() => {
+    if (!selectedListing?.id) return null;
     
-    return matchesSearch && matchesStatus;
+    return {
+      listingId: parseInt(selectedListing.id),
+      pagination,
+      filters,
+      sorting,
+    };
+  }, [selectedListing?.id, pagination, filters, sorting]);
+
+  // API query
+  const {
+    data: qaData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetQASummaryQuery(qaRequest!, {
+    skip: !qaRequest,
   });
 
+  const [triggerRefresh, { isLoading: isRefreshing }] = useLazyGetQASummaryQuery();
+
+  // Handle errors
+  useEffect(() => {
+    if (error) {
+      dispatch(setError('Failed to load Q&A data'));
+      toast({
+        title: "Error",
+        description: "Failed to load Q&A data",
+        variant: "destructive",
+      });
+    }
+  }, [error, dispatch, toast]);
+
+  const handleSearchChange = (searchTerm: string) => {
+    dispatch(setFilters({ search: searchTerm }));
+  };
+
+  const handleStatusChange = (status: 'all' | 'answered' | 'unanswered') => {
+    dispatch(setFilters({ status }));
+  };
+
+  const handleDateChange = (dateFilter: string) => {
+    // Convert date filter to actual date range if needed
+    const today = new Date();
+    let startDate = '';
+    let endDate = '';
+
+    if (dateFilter === '7') {
+      startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      endDate = today.toISOString();
+    } else if (dateFilter === '30') {
+      startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      endDate = today.toISOString();
+    }
+
+    dispatch(setFilters({ 
+      dateRange: { startDate, endDate } 
+    }));
+  };
+
   const handleRefresh = async () => {
-    setIsRefreshing(true);
+    if (!qaRequest) return;
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await triggerRefresh(qaRequest);
       toast({
         title: "Success",
         description: "Q&A data refreshed successfully",
@@ -80,9 +102,15 @@ export const QAManagementPage: React.FC = () => {
         description: "Failed to refresh Q&A data",
         variant: "destructive",
       });
-    } finally {
-      setIsRefreshing(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    dispatch(setPagination({ page }));
+  };
+
+  const handleLimitChange = (limit: number) => {
+    dispatch(setPagination({ limit, page: 1 }));
   };
 
   if (!selectedListing) {
@@ -98,29 +126,69 @@ export const QAManagementPage: React.FC = () => {
     );
   }
 
+  const questions = qaData?.data?.questions || [];
+  const paginationInfo = qaData?.data?.pagination;
+  const summary = qaData?.data?.summary;
+
   return (
     <div className="space-y-6">
       <QAHeader />
       
       <QAFilters
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
-        dateFilter={dateFilter}
-        onDateChange={setDateFilter}
+        searchTerm={filters.search}
+        onSearchChange={handleSearchChange}
+        statusFilter={filters.status}
+        onStatusChange={handleStatusChange}
+        dateFilter="30" // Convert back from dateRange if needed
+        onDateChange={handleDateChange}
         isRefreshing={isRefreshing}
         onRefresh={handleRefresh}
       />
 
       {showTipBanner && (
-        <QASEOTipBanner onDismiss={() => setShowTipBanner(false)} />
+        <QASEOTipBanner onDismiss={() => dispatch(dismissTipBanner())} />
       )}
 
-      {filteredQuestions.length > 0 ? (
-        <QAList questions={filteredQuestions} />
+      {/* Summary Stats */}
+      {summary && (
+        <div className="bg-white rounded-lg border border-gray-200 p-4 grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-900">{summary.totalQuestions}</p>
+            <p className="text-sm text-gray-600">Total Questions</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-green-600">{summary.answeredQuestions}</p>
+            <p className="text-sm text-gray-600">Answered</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-yellow-600">{summary.unansweredQuestions}</p>
+            <p className="text-sm text-gray-600">Unanswered</p>
+          </div>
+        </div>
+      )}
+
+      {isLoading ? (
+        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <p className="text-gray-600">Loading Q&A data...</p>
+        </div>
+      ) : questions.length > 0 ? (
+        <>
+          <QAList questions={questions} />
+          {paginationInfo && (
+            <QAPagination
+              currentPage={paginationInfo.page}
+              totalPages={paginationInfo.totalPages}
+              total={paginationInfo.total}
+              limit={pagination.limit}
+              hasNext={paginationInfo.hasNext}
+              hasPrev={paginationInfo.hasPrev}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
+          )}
+        </>
       ) : (
-        <QAEmptyState hasQuestions={listingQuestions.length > 0} />
+        <QAEmptyState hasQuestions={false} />
       )}
     </div>
   );
