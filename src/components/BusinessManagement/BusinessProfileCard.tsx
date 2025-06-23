@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
@@ -6,21 +5,18 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { MoreHorizontal, Check } from 'lucide-react';
 import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
-
 interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
   statistics: BusinessStatistics | null;
   isLoading?: boolean;
 }
-
 export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   businessInfo,
   statistics,
   isLoading
 }) => {
   if (isLoading) {
-    return (
-      <Card className="w-full">
+    return <Card className="w-full">
         <CardContent className="p-6">
           <div className="animate-pulse">
             <div className="flex items-start gap-4 mb-6">
@@ -38,29 +34,18 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             </div>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>;
   }
-
-  return (
-    <Card className="w-full border border-gray-200 shadow-sm">
+  return <Card className="w-full border border-gray-200 shadow-sm">
       <CardContent className="p-6">
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-start gap-4">
             {/* Business Logo/Avatar - Updated to use profile photo */}
             <div className="w-24 h-24 rounded-lg overflow-hidden">
-              {businessInfo?.profile_photo ? (
-                <img 
-                  src={businessInfo.profile_photo} 
-                  alt={`${businessInfo.name} profile`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-800 flex items-center justify-center text-white font-bold text-2xl">
+              {businessInfo?.profile_photo ? <img src={businessInfo.profile_photo} alt={`${businessInfo.name} profile`} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-gray-800 flex items-center justify-center text-white font-bold text-2xl">
                   {businessInfo?.name?.charAt(0) || 'B'}
-                </div>
-              )}
+                </div>}
             </div>
             
             {/* Business Info */}
@@ -69,21 +54,23 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 <h2 className="text-xl font-semibold text-gray-900">
                   {businessInfo?.name || 'Business Name'}
                 </h2>
-                {businessInfo?.verification_status === 'verified' && (
-                  <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />
-                )}
+                {businessInfo?.verification_status === 'verified' && <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />}
               </div>
               
               {/* Profile views and Position stats moved here */}
               <div className="flex items-center gap-6">
-                <div className="bg-secondary p-2 rounded" style={{width:'110px'}}> 
+                <div className="bg-secondary p-2 rounded" style={{
+                width: '110px'
+              }}> 
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.profile_views || 0}
                   </div>
                   <div className="text-xs text-gray-500">Profile views</div>
                 </div>
                 
-                <div className="bg-secondary p-2 rounded" style={{width:'110px'}}>
+                <div className="bg-secondary p-2 rounded" style={{
+                width: '110px'
+              }}>
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.position || 0}
                   </div>
@@ -98,9 +85,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">
               Refresh
             </Button>
-            <Button variant="ghost" size="sm" className="p-2">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
+            
           </div>
         </div>
 
@@ -114,13 +99,9 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 {statistics?.visibility_score || 0}%
               </div>
             </div>
-            <Progress 
-              value={statistics?.visibility_score || 0} 
-              className="h-2 bg-gray-200"
-            />
+            <Progress value={statistics?.visibility_score || 0} className="h-2 bg-gray-200" />
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
