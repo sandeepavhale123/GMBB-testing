@@ -5,8 +5,8 @@ import { QAFilters } from './QAFilters';
 import { QASEOTipBanner } from './QASEOTipBanner';
 import { QAList } from './QAList';
 import { QAEmptyState } from './QAEmptyState';
-import { CreateQAModal } from './CreateQAModal';
 import { useListingContext } from '@/context/ListingContext';
+import { useToast } from '@/hooks/use-toast';
 
 const mockQuestions = [
   {
@@ -43,12 +43,13 @@ const mockQuestions = [
 
 export const QAManagementPage: React.FC = () => {
   const { selectedListing } = useListingContext();
+  const { toast } = useToast();
   const [questions, setQuestions] = useState(mockQuestions);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('30');
   const [showTipBanner, setShowTipBanner] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Filter questions by selected listing
   const listingQuestions = selectedListing 
@@ -63,20 +64,25 @@ export const QAManagementPage: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const unansweredCount = listingQuestions.filter(q => q.status === 'unanswered').length;
-
-  const handleAddQA = (question: string, answer: string) => {
-    const newQA = {
-      id: Date.now().toString(),
-      question,
-      listingName: selectedListing?.name || 'Manual Entry',
-      location: selectedListing?.address || 'Multiple Locations',
-      userName: 'Admin',
-      timestamp: 'Just now',
-      status: 'answered' as const,
-      answer
-    };
-    setQuestions([newQA, ...questions]);
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Success",
+        description: "Q&A data refreshed successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to refresh Q&A data",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   if (!selectedListing) {
@@ -103,8 +109,8 @@ export const QAManagementPage: React.FC = () => {
         onStatusChange={setStatusFilter}
         dateFilter={dateFilter}
         onDateChange={setDateFilter}
-        unansweredCount={unansweredCount}
-        onAddQA={() => setShowCreateModal(true)}
+        isRefreshing={isRefreshing}
+        onRefresh={handleRefresh}
       />
 
       {showTipBanner && (
@@ -116,12 +122,6 @@ export const QAManagementPage: React.FC = () => {
       ) : (
         <QAEmptyState hasQuestions={listingQuestions.length > 0} />
       )}
-
-      <CreateQAModal
-        open={showCreateModal}
-        onOpenChange={setShowCreateModal}
-        onSubmit={handleAddQA}
-      />
     </div>
   );
 };

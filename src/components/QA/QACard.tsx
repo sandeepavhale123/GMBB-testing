@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
-import { MoreHorizontal, Reply, CheckCircle, XCircle } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Reply, CheckCircle, XCircle } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Question } from './QAList';
 
@@ -67,19 +66,6 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
                 )}
                 {question.status === 'answered' ? 'Answered' : 'Unanswered'}
               </Badge>
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-white">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-600">Mark as Spam</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </div>
 
