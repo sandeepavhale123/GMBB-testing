@@ -55,8 +55,9 @@ export const ReviewsList: React.FC = () => {
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Set default 90-day date range on component mount
+  // Reset date range to default 90-day range on component mount and page load
   useEffect(() => {
     const today = new Date();
     const ninetyDaysAgo = subDays(today, 90);
@@ -66,16 +67,19 @@ export const ReviewsList: React.FC = () => {
       to: today
     };
     
+    // Always reset to default on page load
     setLocalDateRange(defaultDateRange);
     dispatch(setDateRange({
       startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
       endDate: format(today, 'yyyy-MM-dd')
     }));
-  }, [dispatch]);
+    
+    setIsInitialized(true);
+  }, [dispatch, selectedListing?.id]); // Reset when listing changes too
 
   // Function to fetch reviews with current filters
   const fetchReviewsWithFilters = () => {
-    if (selectedListing?.id) {
+    if (selectedListing?.id && isInitialized) {
       // Determine the correct sortOrder based on sortBy
       let apiSortOrder: 'asc' | 'desc' = 'desc';
       if (sortBy === 'oldest' || sortBy === 'rating-low') {
@@ -113,10 +117,12 @@ export const ReviewsList: React.FC = () => {
     return Promise.resolve();
   };
 
-  // Fetch reviews when listing or filters change
+  // Fetch reviews when listing or filters change (only after initialization)
   useEffect(() => {
-    fetchReviewsWithFilters();
-  }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy]);
+    if (isInitialized) {
+      fetchReviewsWithFilters();
+    }
+  }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy, isInitialized]);
 
   // Handle refresh button click with new API
   const handleRefresh = async () => {
@@ -305,8 +311,20 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleClearDateRange = () => {
-    setLocalDateRange(undefined);
-    dispatch(clearDateRange());
+    // Reset to default 90-day range instead of clearing completely
+    const today = new Date();
+    const ninetyDaysAgo = subDays(today, 90);
+    
+    const defaultDateRange = {
+      from: ninetyDaysAgo,
+      to: today
+    };
+    
+    setLocalDateRange(defaultDateRange);
+    dispatch(setDateRange({
+      startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
+      endDate: format(today, 'yyyy-MM-dd')
+    }));
   };
 
   // Check if there are active filters
