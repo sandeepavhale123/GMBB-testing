@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { fetchBusinessInfo } from '../../store/slices/businessInfoSlice';
 import { BusinessProfileCard } from './BusinessProfileCard';
-import { BusinessTabs } from './BusinessTabs';
 import { EditableBusinessHours } from './EditableBusinessHours';
 import { transformBusinessInfo, transformWorkingHours, transformEditLogs } from '../../utils/businessDataTransform';
 
@@ -59,15 +58,11 @@ export const BusinessManagement: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Business Profile Card */}
+      {/* Business Profile Card with integrated tabs */}
       <BusinessProfileCard
         businessInfo={businessInfo}
         statistics={statistics}
         isLoading={isLoading}
-      />
-
-      {/* Tab Navigation */}
-      <BusinessTabs
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />

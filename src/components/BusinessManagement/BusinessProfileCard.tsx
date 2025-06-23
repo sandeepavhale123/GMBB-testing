@@ -1,22 +1,34 @@
+
 import React from 'react';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent, CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { MoreHorizontal, Check } from 'lucide-react';
+import { cn } from '../../lib/utils';
 import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
 
 interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
   statistics: BusinessStatistics | null;
   isLoading?: boolean;
+  activeTab?: 'business-info' | 'opening-hours' | 'edit-log';
+  onTabChange?: (tab: 'business-info' | 'opening-hours' | 'edit-log') => void;
 }
 
 export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   businessInfo,
   statistics,
-  isLoading
+  isLoading,
+  activeTab = 'business-info',
+  onTabChange
 }) => {
+  const tabs = [
+    { id: 'business-info' as const, label: 'Business Information' },
+    { id: 'opening-hours' as const, label: 'Opening Hours' },
+    { id: 'edit-log' as const, label: 'Edit Log' }
+  ];
+
   if (isLoading) {
     return <Card className="w-full">
         <CardContent className="p-6">
@@ -108,6 +120,28 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           </div>
         </div>
       </CardContent>
+      
+      {/* Footer with Tabs */}
+      <CardFooter className="p-0">
+        <div className="w-full border-t border-gray-200">
+          <nav className="flex space-x-8 px-6">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => onTabChange?.(tab.id)}
+                className={cn(
+                  "py-4 px-1 border-b-2 font-medium text-sm transition-colors",
+                  activeTab === tab.id
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </CardFooter>
     </Card>
   );
 };
