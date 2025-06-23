@@ -48,9 +48,19 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-start gap-4">
-            {/* Business Logo/Avatar - Increased size */}
-            <div className="w-24 h-24 bg-gray-800 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-              {businessInfo?.name?.charAt(0) || 'B'}
+            {/* Business Logo/Avatar - Updated to use profile photo */}
+            <div className="w-24 h-24 rounded-lg overflow-hidden">
+              {businessInfo?.profile_photo ? (
+                <img 
+                  src={businessInfo.profile_photo} 
+                  alt={`${businessInfo.name} profile`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-800 flex items-center justify-center text-white font-bold text-2xl">
+                  {businessInfo?.name?.charAt(0) || 'B'}
+                </div>
+              )}
             </div>
             
             {/* Business Info */}
