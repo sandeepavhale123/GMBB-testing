@@ -2,7 +2,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './axiosBaseQuery';
 
-// API Request Interfaces
+// Base interfaces without circular references
 export interface QAFilters {
   search: string;
   status: 'all' | 'answered' | 'unanswered';
@@ -30,7 +30,6 @@ export interface QARequest {
   sorting: QASorting;
 }
 
-// API Response Interfaces
 export interface Question {
   id: string;
   question: string;
@@ -56,14 +55,16 @@ export interface QAResponsePagination {
   hasPrev: boolean;
 }
 
+export interface QAData {
+  questions: Question[];
+  pagination: QAResponsePagination;
+  summary: QASummary;
+}
+
 export interface QAResponse {
   code: number;
   message: string;
-  data: {
-    questions: Question[];
-    pagination: QAResponsePagination;
-    summary: QASummary;
-  };
+  data: QAData;
 }
 
 export const qaApi = createApi({

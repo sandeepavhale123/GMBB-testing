@@ -1,6 +1,32 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { QAFilters, QAPagination, QASorting, QASummary } from '@/api/qaApi';
+
+// Simple type definitions to avoid circular references
+interface QAFilters {
+  search: string;
+  status: 'all' | 'answered' | 'unanswered';
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
+}
+
+interface QAPagination {
+  page: number;
+  limit: number;
+  offset: number;
+}
+
+interface QASorting {
+  sortBy: 'timestamp';
+  sortOrder: 'asc' | 'desc';
+}
+
+interface QASummary {
+  totalQuestions: number;
+  answeredQuestions: number;
+  unansweredQuestions: number;
+}
 
 export interface QAState {
   filters: QAFilters;
@@ -42,13 +68,11 @@ const qaSlice = createSlice({
   reducers: {
     setFilters: (state, action: PayloadAction<Partial<QAFilters>>) => {
       state.filters = { ...state.filters, ...action.payload };
-      // Reset to first page when filters change
       state.pagination.page = 1;
       state.pagination.offset = 0;
     },
     setPagination: (state, action: PayloadAction<Partial<QAPagination>>) => {
       state.pagination = { ...state.pagination, ...action.payload };
-      // Update offset based on page
       if (action.payload.page) {
         state.pagination.offset = (action.payload.page - 1) * state.pagination.limit;
       }
