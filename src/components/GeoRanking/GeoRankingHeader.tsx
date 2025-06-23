@@ -119,9 +119,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 items-center">
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative gap-1 ">
-               <div className="mb-6">
-                <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
-              </div>
+            
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer mb-4" onClick={onToggleDropdown}>
                 {headerKeyword}
@@ -147,7 +145,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 </div>}
 
               <div>
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 mt-4">
                   <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
                 </div>
