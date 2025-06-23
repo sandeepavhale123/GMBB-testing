@@ -97,7 +97,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       <Card className="mb-4">
         <CardContent className="p-4">
           <div className="flex justify-between items-start">
-            
+            <div></div>
             
             <div className="text-right">
               <div className="flex items-center gap-3 mb-2">
@@ -123,7 +123,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 <h1 className="text-xl sm:text-1xl font-bold text-gray-900 mb-1">GEO ranking report</h1>
               </div>
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
-              <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer" onClick={onToggleDropdown}>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer mb-4" onClick={onToggleDropdown}>
                 {headerKeyword}
                 <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
               </div>
