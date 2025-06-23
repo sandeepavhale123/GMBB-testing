@@ -74,7 +74,7 @@ export const qaApi = createApi({
   endpoints: (builder) => ({
     getQASummary: builder.query<QAResponse, QARequest>({
       query: (params) => ({
-        url: '/api/v1/get-qa-summary',
+        url: '/get-qa-summary',
         method: 'POST',
         data: params,
       }),
