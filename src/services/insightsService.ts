@@ -231,7 +231,7 @@ export const insightsService = {
 
   refreshInsights: async (params: RefreshInsightsRequest): Promise<RefreshInsightsResponse> => {
     const response = await axiosInstance({
-      url: '/api/v1/refresh-insights',
+      url: '/refresh-insights',
       method: 'POST',
       data: params,
     });
