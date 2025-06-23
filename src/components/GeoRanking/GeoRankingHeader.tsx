@@ -94,23 +94,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
-      <Card className="mb-4">
-        <CardContent className="p-4">
-          <div className="flex justify-between items-start">
-            <div></div>
-            
-            <div className="text-right">
-              <div className="flex items-center gap-3 mb-2">
-                <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
+       <div className="flex justify-end">
+          <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
                   <Download className="w-4 h-4" />
                   {isExporting ? 'Exporting...' : 'Export Report'}
                 </Button>
-              </div>
-              <p className="text-sm text-gray-600">Report Generated: {reportDate}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+       </div>
 
       {/* Main Header Card - Single Row Layout */}
       <Card className="bg-white shadow-sm">
