@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
@@ -103,9 +102,14 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           
           {/* Action Buttons with Visibility after */}
           <div className="flex flex-col items-end gap-4">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">
-              Refresh
-            </Button>
+            <div className="flex gap-2">
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">
+                Refresh
+              </Button>
+              <Button variant="outline" className="px-4 py-2 text-sm">
+                Edit access
+              </Button>
+            </div>
             
             {/* Visibility Section */}
             <div className="w-64">
