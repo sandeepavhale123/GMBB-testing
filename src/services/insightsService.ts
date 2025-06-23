@@ -192,6 +192,30 @@ export interface InsightsComparisonResponse {
   };
 }
 
+export interface TopKeywordQueryRequest {
+  listingId: number;
+  month: string;
+}
+
+export interface TopKeywordQueryResponse {
+  code: number;
+  message: string;
+  data: {
+    MonthName: string;
+    Monthdata: Array<{
+      id: string;
+      gmb_id: string;
+      user_id: string;
+      acc_id: string;
+      keyword: string;
+      impressions: string;
+      yearmonth: string;
+      fetched_at: string;
+    }>;
+    avaialbleRecords: string[];
+  };
+}
+
 export const insightsService = {
   getInsightsSummary: async (params: InsightsSummaryRequest): Promise<InsightsSummaryResponse> => {
     const response = await axiosInstance({
@@ -232,6 +256,15 @@ export const insightsService = {
   refreshInsights: async (params: RefreshInsightsRequest): Promise<RefreshInsightsResponse> => {
     const response = await axiosInstance({
       url: '/refresh-insights',
+      method: 'POST',
+      data: params,
+    });
+    return response.data;
+  },
+
+  getTopKeywordQuery: async (params: TopKeywordQueryRequest): Promise<TopKeywordQueryResponse> => {
+    const response = await axiosInstance({
+      url: '/get-top-keyword-query',
       method: 'POST',
       data: params,
     });

@@ -1,6 +1,5 @@
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse, RefreshInsightsRequest } from '../../services/insightsService';
+import { insightsService, InsightsSummaryRequest, InsightsSummaryResponse, VisibilityTrendsRequest, VisibilityTrendsResponse, CustomerActionsRequest, CustomerActionsResponse, InsightsComparisonRequest, InsightsComparisonResponse, RefreshInsightsRequest, TopKeywordQueryRequest, TopKeywordQueryResponse } from '../../services/insightsService';
 
 export interface InsightsState {
   summary: InsightsSummaryResponse['data'] | null;
@@ -18,6 +17,9 @@ export interface InsightsState {
   comparisonError: string | null;
   refreshError: string | null;
   lastUpdated: string | null;
+  topKeywordQuery: TopKeywordQueryResponse['data'] | null;
+  isLoadingTopKeywordQuery: boolean;
+  topKeywordQueryError: string | null;
 }
 
 const initialState: InsightsState = {
@@ -36,6 +38,9 @@ const initialState: InsightsState = {
   comparisonError: null,
   refreshError: null,
   lastUpdated: null,
+  topKeywordQuery: null,
+  isLoadingTopKeywordQuery: false,
+  topKeywordQueryError: null,
 };
 
 // Async thunks
@@ -99,6 +104,18 @@ export const refreshInsights = createAsyncThunk(
   }
 );
 
+export const fetchTopKeywordQuery = createAsyncThunk(
+  'insights/fetchTopKeywordQuery',
+  async (params: TopKeywordQueryRequest, { rejectWithValue }) => {
+    try {
+      const response = await insightsService.getTopKeywordQuery(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch top keyword query');
+    }
+  }
+);
+
 const insightsSlice = createSlice({
   name: 'insights',
   initialState,
@@ -109,6 +126,7 @@ const insightsSlice = createSlice({
       state.customerActionsError = null;
       state.comparisonError = null;
       state.refreshError = null;
+      state.topKeywordQueryError = null;
     },
     setLastUpdated: (state) => {
       state.lastUpdated = new Date().toISOString();
@@ -188,6 +206,21 @@ const insightsSlice = createSlice({
       .addCase(refreshInsights.rejected, (state, action) => {
         state.isRefreshing = false;
         state.refreshError = action.payload as string;
+      });
+
+    // Top Keyword Query
+    builder
+      .addCase(fetchTopKeywordQuery.pending, (state) => {
+        state.isLoadingTopKeywordQuery = true;
+        state.topKeywordQueryError = null;
+      })
+      .addCase(fetchTopKeywordQuery.fulfilled, (state, action) => {
+        state.isLoadingTopKeywordQuery = false;
+        state.topKeywordQuery = action.payload;
+      })
+      .addCase(fetchTopKeywordQuery.rejected, (state, action) => {
+        state.isLoadingTopKeywordQuery = false;
+        state.topKeywordQueryError = action.payload as string;
       });
   },
 });

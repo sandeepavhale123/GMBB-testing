@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { VisibilitySummaryCard } from './VisibilitySummaryCard';
-import { TopSearchQueriesCard } from './TopSearchQueriesCard';
+import { TopSearchQueriesWithAPI } from './TopSearchQueriesWithAPI';
 import { CustomerInteractionsCard } from './CustomerInteractionsCard';
 import { CustomerActionsChart } from './CustomerActionsChart';
 
@@ -40,10 +40,7 @@ export const InsightsContent: React.FC<InsightsContentProps> = ({
           visibilityTrends={visibilityTrends}
         />
 
-        <TopSearchQueriesCard
-          isLoading={isLoadingSummary}
-          summary={summary}
-        />
+        <TopSearchQueriesWithAPI />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
