@@ -9,7 +9,7 @@ import { QAPagination } from './QAPagination';
 import { useListingContext } from '@/context/ListingContext';
 import { useToast } from '@/hooks/use-toast';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import { useGetQASummaryQuery, useLazyGetQASummaryQuery } from '@/api/qaApi';
+import { useGetQASummaryQuery } from '@/api/qaApi';
 import { setFilters, setPagination, setSorting, dismissTipBanner, setError } from '@/store/slices/qaSlice';
 
 export const QAManagementPage: React.FC = () => {
@@ -46,8 +46,6 @@ export const QAManagementPage: React.FC = () => {
     skip: !qaRequest,
   });
 
-  const [triggerRefresh, { isLoading: isRefreshing }] = useLazyGetQASummaryQuery();
-
   // Handle errors
   useEffect(() => {
     if (error) {
@@ -66,43 +64,6 @@ export const QAManagementPage: React.FC = () => {
 
   const handleStatusChange = (status: 'all' | 'answered' | 'unanswered') => {
     dispatch(setFilters({ status }));
-  };
-
-  const handleDateChange = (dateFilter: string) => {
-    // Convert date filter to actual date range if needed
-    const today = new Date();
-    let startDate = '';
-    let endDate = '';
-
-    if (dateFilter === '7') {
-      startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      endDate = today.toISOString();
-    } else if (dateFilter === '30') {
-      startDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-      endDate = today.toISOString();
-    }
-
-    dispatch(setFilters({ 
-      dateRange: { startDate, endDate } 
-    }));
-  };
-
-  const handleRefresh = async () => {
-    if (!qaRequest) return;
-
-    try {
-      await triggerRefresh(qaRequest);
-      toast({
-        title: "Success",
-        description: "Q&A data refreshed successfully",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to refresh Q&A data",
-        variant: "destructive",
-      });
-    }
   };
 
   const handlePageChange = (page: number) => {
@@ -132,38 +93,12 @@ export const QAManagementPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* <QAHeader /> */}
-      
       <QAFilters
         searchTerm={filters.search}
         onSearchChange={handleSearchChange}
         statusFilter={filters.status}
         onStatusChange={handleStatusChange}
-        dateFilter="30" // Convert back from dateRange if needed
-        onDateChange={handleDateChange}
-        isRefreshing={isRefreshing}
-        onRefresh={handleRefresh}
       />
-
-     
-
-      {/* Summary Stats */}
-      { /*summary && (
-        <div className="bg-white rounded-lg border border-gray-200 p-4 grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-gray-900">{summary.totalQuestions}</p>
-            <p className="text-sm text-gray-600">Total Questions</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-green-600">{summary.answeredQuestions}</p>
-            <p className="text-sm text-gray-600">Answered</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-yellow-600">{summary.unansweredQuestions}</p>
-            <p className="text-sm text-gray-600">Unanswered</p>
-          </div>
-        </div>
-      )*/}
 
       {isLoading ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">

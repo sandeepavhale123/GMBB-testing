@@ -1,32 +1,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-// Simple type definitions to avoid circular references
-interface QAFilters {
-  search: string;
-  status: 'all' | 'answered' | 'unanswered';
-  dateRange: {
-    startDate: string;
-    endDate: string;
-  };
-}
-
-interface QAPagination {
-  page: number;
-  limit: number;
-  offset: number;
-}
-
-interface QASorting {
-  sortBy: 'timestamp';
-  sortOrder: 'asc' | 'desc';
-}
-
-interface QASummary {
-  totalQuestions: number;
-  answeredQuestions: number;
-  unansweredQuestions: number;
-}
+import type { QAFilters, QAPagination, QASorting, QASummary } from '../../types/qaTypes';
 
 export interface QAState {
   filters: QAFilters;
@@ -42,10 +16,6 @@ const initialState: QAState = {
   filters: {
     search: '',
     status: 'all',
-    dateRange: {
-      startDate: '',
-      endDate: '',
-    },
   },
   pagination: {
     page: 1,

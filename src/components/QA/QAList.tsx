@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { QACard } from './QACard';
-import { Question } from '@/api/qaApi';
+import { Question } from '../../types/qaTypes';
 
 interface QAListProps {
   questions: Question[];

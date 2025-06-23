@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
-import { Reply, CheckCircle, XCircle } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Reply, CheckCircle, XCircle, User } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
-import { Question } from '@/api/qaApi';
+import { Question } from '../../types/qaTypes';
 import { useListingContext } from '@/context/ListingContext';
 
 interface QACardProps {
@@ -83,9 +84,22 @@ export const QACard: React.FC<QACardProps> = ({ question }) => {
             </div>
           </div>
 
-          {/* User Info */}
-          <div className="text-xs text-gray-500">
-            Asked by <span className="font-medium">Anonymous User</span> • {formatTimestamp(question.timestamp)}
+          {/* User Info with Avatar */}
+          <div className="flex items-center gap-3">
+            <Avatar className="h-8 w-8">
+              {question.photo ? (
+                <AvatarImage 
+                  src={question.photo.startsWith('//') ? `https:${question.photo}` : question.photo} 
+                  alt={question.name || 'User'} 
+                />
+              ) : null}
+              <AvatarFallback>
+                <User className="h-4 w-4" />
+              </AvatarFallback>
+            </Avatar>
+            <div className="text-xs text-gray-500">
+              Asked by <span className="font-medium">{question.name || 'Anonymous User'}</span> • {formatTimestamp(question.timestamp)}
+            </div>
           </div>
 
           {/* Answer or Reply Section */}
