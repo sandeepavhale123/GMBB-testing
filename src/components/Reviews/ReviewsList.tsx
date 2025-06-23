@@ -57,22 +57,11 @@ export const ReviewsList: React.FC = () => {
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Reset date range to default 90-day range on component mount and page load
+  // Reset to show last 10 reviews by default on component mount and page load
   useEffect(() => {
-    const today = new Date();
-    const ninetyDaysAgo = subDays(today, 90);
-    
-    const defaultDateRange = {
-      from: ninetyDaysAgo,
-      to: today
-    };
-    
-    // Always reset to default on page load
-    setLocalDateRange(defaultDateRange);
-    dispatch(setDateRange({
-      startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
-      endDate: format(today, 'yyyy-MM-dd')
-    }));
+    // Clear date range to show all reviews, but limit to 10 with pagination
+    setLocalDateRange(undefined);
+    dispatch(clearDateRange());
     
     setIsInitialized(true);
   }, [dispatch, selectedListing?.id]); // Reset when listing changes too
@@ -89,8 +78,8 @@ export const ReviewsList: React.FC = () => {
       const params = {
         pagination: {
           page: currentPage,
-          limit: pageSize,
-          offset: (currentPage - 1) * pageSize
+          limit: 10, // Set default limit to 10 for last 10 reviews
+          offset: (currentPage - 1) * 10
         },
         filters: {
           search: searchQuery,
@@ -122,7 +111,7 @@ export const ReviewsList: React.FC = () => {
     if (isInitialized) {
       fetchReviewsWithFilters();
     }
-  }, [dispatch, selectedListing?.id, currentPage, pageSize, searchQuery, filter, sentimentFilter, dateRange, sortBy, isInitialized]);
+  }, [dispatch, selectedListing?.id, currentPage, searchQuery, filter, sentimentFilter, dateRange, sortBy, isInitialized]);
 
   // Handle refresh button click with new API
   const handleRefresh = async () => {
@@ -137,8 +126,8 @@ export const ReviewsList: React.FC = () => {
     const reviewParams = {
       pagination: {
         page: currentPage,
-        limit: pageSize,
-        offset: (currentPage - 1) * pageSize
+        limit: 10, // Use 10 as default limit
+        offset: (currentPage - 1) * 10
       },
       filters: {
         search: searchQuery,
@@ -311,20 +300,9 @@ export const ReviewsList: React.FC = () => {
   };
 
   const handleClearDateRange = () => {
-    // Reset to default 90-day range instead of clearing completely
-    const today = new Date();
-    const ninetyDaysAgo = subDays(today, 90);
-    
-    const defaultDateRange = {
-      from: ninetyDaysAgo,
-      to: today
-    };
-    
-    setLocalDateRange(defaultDateRange);
-    dispatch(setDateRange({
-      startDate: format(ninetyDaysAgo, 'yyyy-MM-dd'),
-      endDate: format(today, 'yyyy-MM-dd')
-    }));
+    // Clear date range completely to show last 10 reviews
+    setLocalDateRange(undefined);
+    dispatch(clearDateRange());
   };
 
   // Check if there are active filters
