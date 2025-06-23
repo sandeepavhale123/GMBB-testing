@@ -17,6 +17,7 @@ export interface BusinessInfo {
   map_url: string;
   description: string;
   verification_status: string;
+  profile_photo?: string;
   created_at: string;
   updated_at: string;
 }
