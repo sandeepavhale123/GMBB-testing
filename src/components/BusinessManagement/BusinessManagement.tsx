@@ -79,7 +79,7 @@ export const BusinessManagement: React.FC = () => {
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
                     <span className="text-sm font-medium text-gray-700 w-1/3">Address</span>
-                    <span className="text-sm text-gray-900 w-2/3 text-right">{formatFieldValue(transformedBusinessInfo.address)}</span>
+                    <span className="text-sm text-gray-900 w-2/3 ">{formatFieldValue(transformedBusinessInfo.address)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center py-4 border-b border-gray-100">
