@@ -86,7 +86,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
             <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">
-              Edit GMB Access
+              Refresh
             </Button>
             <Button variant="ghost" size="sm" className="p-2">
               <MoreHorizontal className="w-4 h-4" />
