@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Plus, Grid3X3, List, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -8,73 +7,68 @@ import { Badge } from '../ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { GoogleAccountCard } from './GoogleAccountCard';
 import { AddAccountModal } from './AddAccountModal';
-
-const mockAccounts = [
-  {
-    id: '1',
-    name: 'John Smith',
-    email: 'john@restaurant.com',
-    avatar: null,
-    listings: 9,
-    activeListings: 3,
-    lastSynced: '2 hours ago',
-    isEnabled: true,
-    visibilityScore: 85,
-    reviewResponseRate: 92,
-    keywordsTracked: 15,
-    qaResponseHealth: 78,
-    teamMembers: [
-      { name: 'Sarah Wilson', role: 'Manager' },
-      { name: 'Mike Chen', role: 'Editor' }
-    ]
-  },
-  {
-    id: '2',
-    name: 'Restaurant Chain Corp',
-    email: 'admin@chainrestaurant.com',
-    avatar: null,
-    listings: 24,
-    activeListings: 18,
-    lastSynced: '1 hour ago',
-    isEnabled: true,
-    visibilityScore: 78,
-    reviewResponseRate: 85,
-    keywordsTracked: 32,
-    qaResponseHealth: 65,
-    teamMembers: [
-      { name: 'David Kim', role: 'Admin' },
-      { name: 'Lisa Wang', role: 'Manager' },
-      { name: 'Tom Brown', role: 'Editor' }
-    ]
-  }
-];
-
+const mockAccounts = [{
+  id: '1',
+  name: 'John Smith',
+  email: 'john@restaurant.com',
+  avatar: null,
+  listings: 9,
+  activeListings: 3,
+  lastSynced: '2 hours ago',
+  isEnabled: true,
+  visibilityScore: 85,
+  reviewResponseRate: 92,
+  keywordsTracked: 15,
+  qaResponseHealth: 78,
+  teamMembers: [{
+    name: 'Sarah Wilson',
+    role: 'Manager'
+  }, {
+    name: 'Mike Chen',
+    role: 'Editor'
+  }]
+}, {
+  id: '2',
+  name: 'Restaurant Chain Corp',
+  email: 'admin@chainrestaurant.com',
+  avatar: null,
+  listings: 24,
+  activeListings: 18,
+  lastSynced: '1 hour ago',
+  isEnabled: true,
+  visibilityScore: 78,
+  reviewResponseRate: 85,
+  keywordsTracked: 32,
+  qaResponseHealth: 65,
+  teamMembers: [{
+    name: 'David Kim',
+    role: 'Admin'
+  }, {
+    name: 'Lisa Wang',
+    role: 'Manager'
+  }, {
+    name: 'Tom Brown',
+    role: 'Editor'
+  }]
+}];
 export const ManageGoogleAccountPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const navigate = useNavigate();
-
   const handleManageListings = (accountId: string) => {
     navigate(`/settings/listings/${accountId}`);
   };
-
   const totalActiveListings = mockAccounts.reduce((sum, account) => sum + account.activeListings, 0);
-
   const filteredAccounts = mockAccounts.filter(account => {
-    const matchesSearch = account.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         account.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const matchesSearch = account.name.toLowerCase().includes(searchTerm.toLowerCase()) || account.email.toLowerCase().includes(searchTerm.toLowerCase());
     if (filterStatus === 'all') return matchesSearch;
     if (filterStatus === 'active') return matchesSearch && account.isEnabled;
     if (filterStatus === 'inactive') return matchesSearch && !account.isEnabled;
-    
     return matchesSearch;
   });
-
-  return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+  return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
@@ -90,12 +84,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             {/* Search Bar */}
             <div className="relative flex-1 max-w-full sm:max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search accounts by name or email"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+              <Input placeholder="Search accounts by name or email" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
             </div>
 
             {/* Active Listings Badge */}
@@ -120,20 +109,10 @@ export const ManageGoogleAccountPage: React.FC = () => {
           <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
             {/* View Switcher */}
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className="h-8 w-8 p-0"
-              >
+              <Button variant={viewMode === 'grid' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('grid')} className="h-8 w-8 p-0">
                 <Grid3X3 className="h-4 w-4" />
               </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className="h-8 w-8 p-0"
-              >
+              <Button variant={viewMode === 'list' ? 'default' : 'ghost'} size="sm" onClick={() => setViewMode('list')} className="h-8 w-8 p-0">
                 <List className="h-4 w-4" />
               </Button>
             </div>
@@ -149,32 +128,20 @@ export const ManageGoogleAccountPage: React.FC = () => {
       </div>
 
       {/* List View Headers */}
-      {viewMode === 'list' && filteredAccounts.length > 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-t-lg">
+      {viewMode === 'list' && filteredAccounts.length > 0 && <div className="bg-gray-50 border border-gray-200 rounded-t-lg">
           <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm font-medium text-gray-500 uppercase tracking-wide">
             <div className="col-span-4">Account</div>
             <div className="col-span-2 text-center">Listings in Account</div>
             <div className="col-span-2 text-center">Active Listings</div>
             <div className="col-span-4 text-right">Action</div>
           </div>
-        </div>
-      )}
+        </div>}
 
       {/* Account Cards Grid/List */}
-      {filteredAccounts.length > 0 ? (
-        <div className={`${viewMode === 'list' ? 'space-y-0' : 'grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
-          {filteredAccounts.map((account) => (
-            <GoogleAccountCard
-              key={account.id}
-              account={account}
-              viewMode={viewMode}
-              onManageListings={handleManageListings}
-            />
-          ))}
-        </div>
-      ) : (
-        /* Empty State */
-        <div className="text-center py-12">
+      {filteredAccounts.length > 0 ? <div className={`${viewMode === 'list' ? 'space-y-0' : 'grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
+          {filteredAccounts.map(account => <GoogleAccountCard key={account.id} account={account} viewMode={viewMode} onManageListings={handleManageListings} />)}
+        </div> : (/* Empty State */
+    <div className="text-center py-12">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Zap className="h-8 w-8 text-gray-400" />
           </div>
@@ -186,14 +153,9 @@ export const ManageGoogleAccountPage: React.FC = () => {
             <Plus className="h-4 w-4" />
             Add New Account
           </Button>
-        </div>
-      )}
+        </div>)}
 
       {/* Add Account Modal */}
-      <AddAccountModal
-        open={showAddModal}
-        onOpenChange={setShowAddModal}
-      />
-    </div>
-  );
+      <AddAccountModal open={showAddModal} onOpenChange={setShowAddModal} />
+    </div>;
 };
