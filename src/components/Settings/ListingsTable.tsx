@@ -2,8 +2,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { MoreHorizontal } from 'lucide-react';
+import { Switch } from '../ui/switch';
 
 interface Listing {
   id: string;
@@ -12,14 +11,15 @@ interface Listing {
   group_name: string;
   state: string;
   status: 'verified' | 'pending' | 'suspended';
+  isActive: boolean;
 }
 
 interface ListingsTableProps {
   listings: Listing[];
-  onManageListing: (listingId: string) => void;
+  onToggleListing: (listingId: string, isActive: boolean) => void;
 }
 
-export const ListingsTable: React.FC<ListingsTableProps> = ({ listings, onManageListing }) => {
+export const ListingsTable: React.FC<ListingsTableProps> = ({ listings, onToggleListing }) => {
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case 'verified':
@@ -56,7 +56,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ listings, onManage
             <TableHead className="font-medium text-gray-700">Group name</TableHead>
             <TableHead className="font-medium text-gray-700">State</TableHead>
             <TableHead className="font-medium text-gray-700">Status</TableHead>
-            <TableHead className="font-medium text-gray-700">Action</TableHead>
+            <TableHead className="font-medium text-gray-700">Enable/Disable</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -74,14 +74,11 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ listings, onManage
                 </Badge>
               </TableCell>
               <TableCell>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onManageListing(listing.id)}
-                  className="h-8 w-8 p-0"
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
+                <Switch
+                  checked={listing.isActive}
+                  onCheckedChange={(checked) => onToggleListing(listing.id, checked)}
+                  disabled={listing.status === 'suspended'}
+                />
               </TableCell>
             </TableRow>
           ))}

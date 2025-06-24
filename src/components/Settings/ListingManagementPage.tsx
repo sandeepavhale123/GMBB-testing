@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { ListingStatisticsCards } from './ListingStatisticsCards';
 import { ListingSearchFilters } from './ListingSearchFilters';
 import { ListingsTable } from './ListingsTable';
+import { useToast } from '@/hooks/use-toast';
 
 interface ListingManagementPageProps {
   accountId: string;
@@ -13,6 +14,7 @@ interface ListingManagementPageProps {
 
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ accountId }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -20,15 +22,16 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
     navigate('/settings/google-account');
   };
 
-  // Mock data with updated structure
-  const mockListings = [
+  // Mock data with updated structure including isActive field
+  const [mockListings, setMockListings] = useState([
     {
       id: '1',
       name: 'Downtown Restaurant',
       store_code: 'DR001',
       group_name: 'Restaurant Group A',
       state: 'New York',
-      status: 'verified' as const
+      status: 'verified' as const,
+      isActive: true
     },
     {
       id: '2',
@@ -36,7 +39,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       store_code: 'UB002',
       group_name: 'Restaurant Group A',
       state: 'New York',
-      status: 'pending' as const
+      status: 'pending' as const,
+      isActive: true
     },
     {
       id: '3',
@@ -44,7 +48,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       store_code: 'MC003',
       group_name: 'Cafe Group B',
       state: 'California',
-      status: 'verified' as const
+      status: 'verified' as const,
+      isActive: false
     },
     {
       id: '4',
@@ -52,7 +57,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       store_code: 'SD004',
       group_name: 'Diner Group C',
       state: 'Texas',
-      status: 'suspended' as const
+      status: 'suspended' as const,
+      isActive: false
     },
     {
       id: '5',
@@ -60,9 +66,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       store_code: 'HVR005',
       group_name: 'Restaurant Group A',
       state: 'Florida',
-      status: 'verified' as const
+      status: 'verified' as const,
+      isActive: true
     }
-  ];
+  ]);
 
   // Filter listings based on search and status
   const filteredListings = mockListings.filter(listing => {
@@ -80,9 +87,25 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
   const verifiedListings = mockListings.filter(l => l.status === 'verified').length;
   const managedListings = mockListings.filter(l => l.status !== 'suspended').length;
 
-  const handleManageListing = (listingId: string) => {
-    console.log('Managing listing:', listingId);
-    // TODO: Navigate to individual listing management page
+  const handleToggleListing = (listingId: string, isActive: boolean) => {
+    setMockListings(prevListings => 
+      prevListings.map(listing => 
+        listing.id === listingId 
+          ? { ...listing, isActive }
+          : listing
+      )
+    );
+
+    const listing = mockListings.find(l => l.id === listingId);
+    if (listing) {
+      toast({
+        title: isActive ? "Listing Enabled" : "Listing Disabled",
+        description: `${listing.name} has been ${isActive ? 'enabled' : 'disabled'}.`,
+      });
+    }
+
+    console.log(`Toggling listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
+    // TODO: Implement API call to enable/disable listing
   };
 
   return (
@@ -126,7 +149,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       {/* Listings Table */}
       <ListingsTable
         listings={filteredListings}
-        onManageListing={handleManageListing}
+        onToggleListing={handleToggleListing}
       />
 
       {/* Results count */}
