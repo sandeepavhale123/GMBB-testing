@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LayoutDashboard, FileText, Image, BarChart3, MapPin, Star, Building, Settings, Crown, Sparkles, MessageCircleQuestion, ChevronLeft, ChevronRight } from "lucide-react";
 import { useProfile } from '../hooks/useProfile';
 
@@ -77,6 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const userInitials = profileData ? 
     `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
     "U";
+  const userProfilePic = profileData?.profilePic || null;
 
   // Determine active tab based on current path
   const getActiveTab = () => {
@@ -155,9 +156,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* User Profile Section */}
         <div className="border-t border-gray-800 p-4">
           <Button variant="ghost" className={cn("w-full justify-start h-12 text-gray-300 hover:bg-gray-800 hover:text-white", collapsed ? "px-2 justify-center" : "px-3")} onClick={() => navigate('/profile')} title={collapsed ? userName : undefined}>
-            <div className={cn("w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center", collapsed ? "mx-auto" : "mr-3")}>
-              <span className="text-sm font-medium text-gray-200">{userInitials}</span>
-            </div>
+            <Avatar className={cn("w-8 h-8", collapsed ? "mx-auto" : "mr-3")}>
+              <AvatarImage src={userProfilePic || ''} />
+              <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
+                {userInitials}
+              </AvatarFallback>
+            </Avatar>
             {!collapsed && <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-white">{userName}</p>
                 <p className="text-xs text-gray-400">{userEmail}</p>
