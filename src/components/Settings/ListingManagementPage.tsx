@@ -98,8 +98,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
 
   // Calculate statistics
   const totalListings = mockListings.length;
+  const activeListings = mockListings.filter(l => l.isActive).length;
   const inactiveListings = mockListings.filter(l => !l.isActive).length;
-  const managedListings = mockListings.filter(l => l.status !== 'suspended').length;
 
   const handleToggleListing = (listingId: string, isActive: boolean) => {
     setMockListings(prevListings => 
@@ -148,8 +148,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       {/* Statistics Cards */}
       <ListingStatisticsCards
         totalListings={totalListings}
+        activeListings={activeListings}
         inactiveListings={inactiveListings}
-        managedListings={managedListings}
       />
 
       {/* Search and Filters */}
