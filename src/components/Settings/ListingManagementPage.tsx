@@ -121,10 +121,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   return <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header with Back Button */}
       <div className="mb-6">
-        <Button variant="ghost" onClick={handleBack} className="mb-4 p-0 h-auto font-normal text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Google Accounts
-        </Button>
+        
         
         <div className="mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
