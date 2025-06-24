@@ -117,13 +117,13 @@ export const BusinessListingSelector: React.FC = () => {
                     <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">
-                        {business.name}
+                        {business.name.length > 30 ? business.name.slice(0,30) : business.name}
                       </p>
                       <div className="flex items-center gap-2">
                         <p className="text-xs text-gray-500 truncate">
                           {business.address}
                         </p>
-                        <Badge variant="secondary" className="shrink-0 text-xs">
+                        <Badge variant="secondary" className="shrink-0 text-xs ml-auto">
                           {business.type}
                         </Badge>
                       </div>
