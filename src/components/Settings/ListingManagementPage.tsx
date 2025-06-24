@@ -22,7 +22,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
     navigate('/settings/google-account');
   };
 
-  // Mock data with updated structure including isActive field
+  // Mock data with updated structure including profile_image, address, and zipcode
   const [mockListings, setMockListings] = useState([
     {
       id: '1',
@@ -31,7 +31,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       group_name: 'Restaurant Group A',
       state: 'New York',
       status: 'verified' as const,
-      isActive: true
+      isActive: true,
+      profile_image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100',
+      address: '123 Main Street, Downtown',
+      zipcode: '10001'
     },
     {
       id: '2',
@@ -40,7 +43,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       group_name: 'Restaurant Group A',
       state: 'New York',
       status: 'pending' as const,
-      isActive: true
+      isActive: true,
+      profile_image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100',
+      address: '456 Broadway Avenue, Uptown',
+      zipcode: '10025'
     },
     {
       id: '3',
@@ -49,7 +55,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       group_name: 'Cafe Group B',
       state: 'California',
       status: 'verified' as const,
-      isActive: false
+      isActive: false,
+      profile_image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100',
+      address: '789 Central Park West',
+      zipcode: '90210'
     },
     {
       id: '4',
@@ -58,7 +67,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       group_name: 'Diner Group C',
       state: 'Texas',
       status: 'suspended' as const,
-      isActive: false
+      isActive: false,
+      address: '321 Sunset Boulevard, West End',
+      zipcode: '75001'
     },
     {
       id: '5',
@@ -67,7 +78,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       group_name: 'Restaurant Group A',
       state: 'Florida',
       status: 'verified' as const,
-      isActive: true
+      isActive: true,
+      profile_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100',
+      address: '987 Harbor Drive, Waterfront',
+      zipcode: '33101'
     }
   ]);
 
@@ -75,7 +89,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
   const filteredListings = mockListings.filter(listing => {
     const matchesSearch = listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          listing.store_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         listing.group_name.toLowerCase().includes(searchTerm.toLowerCase());
+                         listing.group_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         listing.address.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = filterStatus === 'all' || listing.status === filterStatus;
     
