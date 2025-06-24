@@ -4,10 +4,14 @@ import { Trash2, RefreshCw, Eye } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
+import { ConnectedListingItem } from './ConnectedListingItem';
 
-interface TeamMember {
+interface ConnectedListing {
+  id: string;
   name: string;
-  role: string;
+  address: string;
+  status: 'connected' | 'disconnected' | 'pending';
+  type: 'Restaurant' | 'Retail' | 'Service' | 'Healthcare';
 }
 
 interface GoogleAccount {
@@ -23,7 +27,7 @@ interface GoogleAccount {
   reviewResponseRate: number;
   keywordsTracked: number;
   qaResponseHealth: number;
-  teamMembers: TeamMember[];
+  connectedListings: ConnectedListing[];
 }
 
 interface GoogleAccountGridViewProps {
@@ -104,14 +108,14 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
           </div>
           <div className="text-center p-3 bg-gray-50 rounded-lg">
             <div className="text-xl font-bold text-gray-900">{account.activeListings}</div>
-            <div className="text-xs text-gray-500">Enabled Listings</div>
+            <div className="text-xs text-gray-500">Connected</div>
           </div>
         </div>
 
         {/* Row 4: Progress Bar */}
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs text-gray-500">Enabled Progress</span>
+            <span className="text-xs text-gray-500">Connection Progress</span>
             <span className="text-xs text-gray-700 font-medium">
               {Math.round((account.activeListings / account.listings) * 100)}%
             </span>
@@ -124,16 +128,16 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
           </div>
         </div>
 
-        {/* Row 5: Listing Profile Avatars */}
+        {/* Row 5: Connected Listings */}
         <div className="flex items-center justify-center">
           <div className="flex -space-x-1">
-            {account.teamMembers.slice(0, 4).map((member, index) => (
-              <GoogleAccountAvatar key={index} name={member.name} avatar={null} size="sm" />
+            {account.connectedListings.slice(0, 4).map((listing) => (
+              <ConnectedListingItem key={listing.id} listing={listing} size="sm" />
             ))}
-            {account.teamMembers.length > 4 && (
-              <div className="h-8 w-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center">
+            {account.connectedListings.length > 4 && (
+              <div className="h-6 w-6 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center">
                 <span className="text-xs text-white font-medium">
-                  +{account.teamMembers.length - 4}
+                  +{account.connectedListings.length - 4}
                 </span>
               </div>
             )}

@@ -5,10 +5,14 @@ import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
+import { ConnectedListingItem } from './ConnectedListingItem';
 
-interface TeamMember {
+interface ConnectedListing {
+  id: string;
   name: string;
-  role: string;
+  address: string;
+  status: 'connected' | 'disconnected' | 'pending';
+  type: 'Restaurant' | 'Retail' | 'Service' | 'Healthcare';
 }
 
 interface GoogleAccount {
@@ -24,7 +28,7 @@ interface GoogleAccount {
   reviewResponseRate: number;
   keywordsTracked: number;
   qaResponseHealth: number;
-  teamMembers: TeamMember[];
+  connectedListings: ConnectedListing[];
 }
 
 interface GoogleAccountListViewProps {
@@ -37,10 +41,6 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   onManageListings
 }) => {
   const [isEnabled, setIsEnabled] = useState(account.isEnabled);
-
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
 
   const handleCardClick = () => {
     onManageListings?.(account.id);
@@ -58,21 +58,21 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
           </div>
         </div>
 
-        {/* Listings in Account */}
+        {/* Total Listings */}
         <div className="col-span-2 text-center">
           <span className="font-medium text-gray-900">{account.listings}</span>
         </div>
 
-        {/* Active Listings */}
+        {/* Connected Listings */}
         <div className="col-span-2 flex justify-center">
           <div className="flex -space-x-1">
-            {account.teamMembers.slice(0, 3).map((member, index) => (
-              <GoogleAccountAvatar key={index} name={member.name} avatar={null} size="sm" />
+            {account.connectedListings.slice(0, 3).map((listing) => (
+              <ConnectedListingItem key={listing.id} listing={listing} size="sm" />
             ))}
-            {account.teamMembers.length > 3 && (
+            {account.connectedListings.length > 3 && (
               <div className="h-6 w-6 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center">
                 <span className="text-xs text-white font-medium">
-                  +{account.teamMembers.length - 3}
+                  +{account.connectedListings.length - 3}
                 </span>
               </div>
             )}

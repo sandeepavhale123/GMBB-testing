@@ -3,9 +3,12 @@ import React from 'react';
 import { GoogleAccountListView } from './GoogleAccountListView';
 import { GoogleAccountGridView } from './GoogleAccountGridView';
 
-interface TeamMember {
+interface ConnectedListing {
+  id: string;
   name: string;
-  role: string;
+  address: string;
+  status: 'connected' | 'disconnected' | 'pending';
+  type: 'Restaurant' | 'Retail' | 'Service' | 'Healthcare';
 }
 
 interface GoogleAccount {
@@ -21,7 +24,7 @@ interface GoogleAccount {
   reviewResponseRate: number;
   keywordsTracked: number;
   qaResponseHealth: number;
-  teamMembers: TeamMember[];
+  connectedListings: ConnectedListing[];
 }
 
 interface GoogleAccountCardProps {
