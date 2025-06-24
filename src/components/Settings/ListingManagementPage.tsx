@@ -128,9 +128,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Manage Listings
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base">
-            Monitor and manage your Google Business Profile listings for Account {accountId}
-          </p>
+          
         </div>
       </div>
 
