@@ -33,12 +33,12 @@ export const ListingStatisticsCards: React.FC<StatisticsCardsProps> = ({
       <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <Check className="h-6 w-6 text-red-600" />
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <Check className="h-6 w-6 text-green-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{verifiedListings}</p>
-              <p className="text-sm text-gray-600">Inactive listings</p>
+              <p className="text-sm text-gray-600">Active listings</p>
             </div>
           </div>
         </CardContent>
