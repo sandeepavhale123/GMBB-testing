@@ -1,9 +1,8 @@
 
-import React, { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import React from 'react';
+import { Trash2, RefreshCw, Eye } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
 
 interface TeamMember {
@@ -36,35 +35,55 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
   account,
   onManageListings
 }) => {
-  const [isEnabled, setIsEnabled] = useState(account.isEnabled);
-
   const handleCardClick = () => {
     onManageListings?.(account.id);
+  };
+
+  const handleRefresh = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle refresh action
+    console.log('Refresh account:', account.id);
+  };
+
+  const handleView = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onManageListings?.(account.id);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle delete action
+    console.log('Delete account:', account.id);
   };
 
   return (
     <Card className="transition-all duration-200 hover:shadow-md border border-gray-200 cursor-pointer" onClick={handleCardClick}>
       <CardContent className="p-4">
-        {/* Row 1: Account Profile (left) + Toggle & Delete (right) */}
+        {/* Row 1: Account Profile (left) + Action Buttons (right) */}
         <div className="flex items-center justify-between mb-3">
           <GoogleAccountAvatar name={account.name} avatar={account.avatar} size="lg" />
           <div className="flex items-center space-x-2">
-            <Switch
-              checked={isEnabled}
-              onCheckedChange={(checked) => {
-                setIsEnabled(checked);
-              }}
-              className="data-[state=checked]:bg-blue-500"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
+              onClick={handleRefresh}
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+              onClick={handleView}
+            >
+              <Eye className="h-4 w-4" />
+            </Button>
             <Button 
               variant="ghost" 
               size="sm" 
               className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
-              onClick={(e) => {
-                e.stopPropagation();
-                // Handle delete action
-              }}
+              onClick={handleDelete}
             >
               <Trash2 className="h-4 w-4" />
             </Button>
