@@ -1,21 +1,17 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Building, Check, User } from 'lucide-react';
-
 interface StatisticsCardsProps {
   totalListings: number;
   verifiedListings: number;
   managedListings: number;
 }
-
 export const ListingStatisticsCards: React.FC<StatisticsCardsProps> = ({
   totalListings,
   verifiedListings,
   managedListings
 }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+  return <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center space-x-4">
@@ -38,7 +34,7 @@ export const ListingStatisticsCards: React.FC<StatisticsCardsProps> = ({
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{verifiedListings}</p>
-              <p className="text-sm text-gray-600">Verified listings</p>
+              <p className="text-sm text-gray-600">Active listings</p>
             </div>
           </div>
         </CardContent>
@@ -57,6 +53,5 @@ export const ListingStatisticsCards: React.FC<StatisticsCardsProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
