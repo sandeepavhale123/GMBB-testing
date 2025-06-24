@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Switch } from '../ui/switch';
-
 interface Listing {
   id: string;
   name: string;
@@ -18,13 +17,11 @@ interface Listing {
   address: string;
   zipcode: string;
 }
-
 interface ListingsTableProps {
   listings: Listing[];
   onViewListing?: (listingId: string) => void;
   onToggleListing?: (listingId: string, isActive: boolean) => void;
 }
-
 export const ListingsTable: React.FC<ListingsTableProps> = ({
   listings,
   onViewListing,
@@ -42,30 +39,22 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
-
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
-
   const truncateAddress = (address: string, maxLength = 30) => {
     return address.length > maxLength ? `${address.substring(0, maxLength)}...` : address;
   };
-
   const handleToggle = (listingId: string, checked: boolean, e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleListing?.(listingId, checked);
   };
-
   if (listings.length === 0) {
-    return (
-      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+    return <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
         <p className="text-gray-600">No listings found matching your criteria.</p>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+  return <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-50">
@@ -79,8 +68,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {listings.map((listing) => (
-            <TableRow key={listing.id} className="hover:bg-gray-50">
+          {listings.map(listing => <TableRow key={listing.id} className="hover:bg-gray-50">
               <TableCell>
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-10 w-10">
@@ -107,10 +95,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                 <span className="text-sm text-gray-600">{listing.zipcode}</span>
               </TableCell>
               <TableCell>
-                <Badge
-                  variant="secondary"
-                  className={`${getStatusColor(listing.status)} border-0 font-medium`}
-                >
+                <Badge variant="secondary" className={`${getStatusColor(listing.status)} border-0 font-medium`}>
                   {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
                 </Badge>
               </TableCell>
@@ -119,25 +104,12 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
               </TableCell>
               <TableCell>
                 <div className="flex items-center justify-center space-x-3">
-                  <Switch
-                    checked={listing.isActive}
-                    onCheckedChange={(checked) => handleToggle(listing.id, checked, {} as React.MouseEvent)}
-                    className="data-[state=checked]:bg-blue-500"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onViewListing?.(listing.id)}
-                    className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
+                  <Switch checked={listing.isActive} onCheckedChange={checked => handleToggle(listing.id, checked, {} as React.MouseEvent)} className="data-[state=checked]:bg-blue-500" />
+                  
                 </div>
               </TableCell>
-            </TableRow>
-          ))}
+            </TableRow>)}
         </TableBody>
       </Table>
-    </div>
-  );
+    </div>;
 };
