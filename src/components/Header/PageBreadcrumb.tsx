@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -42,6 +42,11 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'Settings', path: '/settings' }
   ],
+  '/settings/listings': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings' },
+    { title: 'Manage Listings', path: '/settings/listings' }
+  ],
   '/insights': [
     { title: 'Dashboard', path: '/' },
     { title: 'Insights', path: '/insights' }
@@ -71,18 +76,32 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
 
 export const PageBreadcrumb: React.FC = () => {
   const location = useLocation();
+  const { accountId } = useParams();
   
   // Extract the base route from the pathname (handle routes with listing IDs)
   const getBaseRoute = (pathname: string) => {
     const segments = pathname.split('/');
     if (segments.length >= 2) {
+      // Handle special case for settings/listings route
+      if (segments[1] === 'settings' && segments[2] === 'listings') {
+        return '/settings/listings';
+      }
       return `/${segments[1]}`;
     }
     return pathname;
   };
   
   const baseRoute = getBaseRoute(location.pathname);
-  const breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
+  let breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
+
+  // Customize breadcrumb for listings management page
+  if (baseRoute === '/settings/listings' && accountId) {
+    breadcrumbItems = [
+      { title: 'Dashboard', path: '/' },
+      { title: 'Settings', path: '/settings/google-account' },
+      { title: `Account ${accountId} Listings`, path: `/settings/listings/${accountId}` }
+    ];
+  }
 
   return (
     <Breadcrumb className="flex">

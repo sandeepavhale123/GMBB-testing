@@ -6,19 +6,20 @@ import { ListingStatisticsCards } from './ListingStatisticsCards';
 import { ListingSearchFilters } from './ListingSearchFilters';
 import { ListingsTable } from './ListingsTable';
 import { useToast } from '@/hooks/use-toast';
+
 interface ListingManagementPageProps {
   accountId: string;
 }
+
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   accountId
 }) => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterActive, setFilterActive] = useState('all');
+
   const handleBack = () => {
     navigate('/settings/google-account');
   };
@@ -92,8 +93,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   const totalListings = mockListings.length;
   const activeListings = mockListings.filter(l => l.isActive).length;
   const inactiveListings = mockListings.filter(l => !l.isActive).length;
+
+  // Event handlers
   const handleViewListing = (listingId: string) => {
-    // Navigate to the individual listing page
     navigate(`/business-info/${listingId}`);
     const listing = mockListings.find(l => l.id === listingId);
     if (listing) {
@@ -104,6 +106,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     }
     console.log(`Navigating to listing page for listing ${listingId}`);
   };
+
   const handleToggleListing = (listingId: string, isActive: boolean) => {
     setMockListings(prev => prev.map(listing => listing.id === listingId ? {
       ...listing,
@@ -118,16 +121,27 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     }
     console.log(`Toggled listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
   };
-  return <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+
+  return (
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header with Back Button */}
       <div className="mb-6">
-        
+        <Button
+          variant="ghost"
+          onClick={handleBack}
+          className="mb-4 text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Google Accounts
+        </Button>
         
         <div className="mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Manage Listings - Account {accountId}
+            Manage Listings
           </h2>
-          
+          <p className="text-gray-600 text-sm sm:text-base">
+            Monitor and manage your Google Business Profile listings for Account {accountId}
+          </p>
         </div>
       </div>
 
@@ -144,5 +158,6 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       {searchTerm || filterStatus !== 'all' ? <div className="mt-4 text-sm text-gray-600">
           Showing {filteredListings.length} of {totalListings} listings
         </div> : null}
-    </div>;
+    </div>
+  );
 };
