@@ -16,6 +16,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [filterActive, setFilterActive] = useState('all');
 
   const handleBack = () => {
     navigate('/settings/google-account');
@@ -84,7 +85,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
     }
   ]);
 
-  // Filter listings based on search and status
+  // Filter listings based on search, status, and active state
   const filteredListings = mockListings.filter(listing => {
     const matchesSearch = listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          listing.store_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -93,7 +94,11 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
     
     const matchesStatus = filterStatus === 'all' || listing.status === filterStatus;
     
-    return matchesSearch && matchesStatus;
+    const matchesActive = filterActive === 'all' || 
+                         (filterActive === 'active' && listing.isActive) ||
+                         (filterActive === 'inactive' && !listing.isActive);
+    
+    return matchesSearch && matchesStatus && matchesActive;
   });
 
   // Calculate statistics
@@ -158,6 +163,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
         onSearchChange={setSearchTerm}
         filterStatus={filterStatus}
         onFilterChange={setFilterStatus}
+        filterActive={filterActive}
+        onActiveFilterChange={setFilterActive}
       />
 
       {/* Listings Table */}

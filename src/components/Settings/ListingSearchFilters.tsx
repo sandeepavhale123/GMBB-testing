@@ -9,13 +9,17 @@ interface ListingSearchFiltersProps {
   onSearchChange: (value: string) => void;
   filterStatus: string;
   onFilterChange: (value: string) => void;
+  filterActive?: string;
+  onActiveFilterChange?: (value: string) => void;
 }
 
 export const ListingSearchFilters: React.FC<ListingSearchFiltersProps> = ({
   searchTerm,
   onSearchChange,
   filterStatus,
-  onFilterChange
+  onFilterChange,
+  filterActive = 'all',
+  onActiveFilterChange
 }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -38,6 +42,17 @@ export const ListingSearchFilters: React.FC<ListingSearchFiltersProps> = ({
           <SelectItem value="verified">Verified</SelectItem>
           <SelectItem value="pending">Pending</SelectItem>
           <SelectItem value="suspended">Suspended</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={filterActive} onValueChange={onActiveFilterChange}>
+        <SelectTrigger className="w-full sm:w-48">
+          <SelectValue placeholder="Filter by activity" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All Listings</SelectItem>
+          <SelectItem value="active">Active Only</SelectItem>
+          <SelectItem value="inactive">Inactive Only</SelectItem>
         </SelectContent>
       </Select>
     </div>
