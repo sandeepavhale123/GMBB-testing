@@ -7,6 +7,7 @@ import {
   setLoading,
   setIsAuthenticating,
 } from "./authSlice";
+import { clearUserListings } from "../businessListingsSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
 
 export const useLogin = () => {
@@ -33,6 +34,10 @@ export const useLogin = () => {
       const data: LoginResponse = await response.json();
       console.log("Login response data:", data);
 
+      // Clear any existing business listings data before setting new user
+      dispatch(clearUserListings());
+      console.log("🧹 Cleared existing business listings data on login");
+
       // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
       dispatch(setUser(data.data.profile));
@@ -41,6 +46,10 @@ export const useLogin = () => {
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
       localStorage.setItem("userId", data.data.profile.userId);
       localStorage.setItem("onboarding", String(data.data.isOnboarding || 0));
+      
+      // Store current user session for tracking user changes
+      localStorage.setItem("current_user_session", data.data.profile.userId);
+      console.log("💾 Stored user session ID:", data.data.profile.userId);
 
       return data;
     } catch (error) {

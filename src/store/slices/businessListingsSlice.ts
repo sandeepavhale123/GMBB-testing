@@ -5,11 +5,13 @@ import { BusinessListing } from '@/components/Header/types';
 interface BusinessListingsState {
   userAddedListings: BusinessListing[];
   selectedBusinessId: string | null;
+  lastUserSession: string | null;
 }
 
 const initialState: BusinessListingsState = {
   userAddedListings: [],
   selectedBusinessId: null,
+  lastUserSession: null,
 };
 
 // Load from localStorage on initialization
@@ -34,6 +36,30 @@ const loadSelectedBusinessId = (): string | null => {
   }
 };
 
+// Load last user session
+const loadLastUserSession = (): string | null => {
+  try {
+    const stored = localStorage.getItem('current_user_session');
+    return stored || null;
+  } catch (error) {
+    console.error('Failed to load user session from localStorage:', error);
+    return null;
+  }
+};
+
+// Check if user has changed
+const checkUserChanged = (): boolean => {
+  const currentSession = localStorage.getItem('current_user_session');
+  const lastSession = localStorage.getItem('last_user_session');
+  
+  if (currentSession && lastSession && currentSession !== lastSession) {
+    console.log('🔄 User change detected:', { lastSession, currentSession });
+    return true;
+  }
+  
+  return false;
+};
+
 // Save to localStorage
 const saveToLocalStorage = (listings: BusinessListing[]) => {
   try {
@@ -56,13 +82,36 @@ const saveSelectedBusinessId = (businessId: string | null) => {
   }
 };
 
-const businessListingsSlice = createSlice({
-  name: 'businessListings',
-  initialState: {
+// Initialize state with user change detection
+const getInitialState = (): BusinessListingsState => {
+  const userChanged = checkUserChanged();
+  
+  if (userChanged) {
+    console.log('🔄 User changed - clearing business listings data');
+    localStorage.removeItem('userBusinessListings');
+    localStorage.removeItem('selectedBusinessId');
+    // Update last session tracker
+    const currentSession = localStorage.getItem('current_user_session');
+    if (currentSession) {
+      localStorage.setItem('last_user_session', currentSession);
+    }
+    return {
+      ...initialState,
+      lastUserSession: loadLastUserSession(),
+    };
+  }
+  
+  return {
     ...initialState,
     userAddedListings: loadFromLocalStorage(),
     selectedBusinessId: loadSelectedBusinessId(),
-  },
+    lastUserSession: loadLastUserSession(),
+  };
+};
+
+const businessListingsSlice = createSlice({
+  name: 'businessListings',
+  initialState: getInitialState(),
   reducers: {
     addBusinessListing: (state, action: PayloadAction<BusinessListing>) => {
       const existingIndex = state.userAddedListings.findIndex(
@@ -109,6 +158,11 @@ const businessListingsSlice = createSlice({
       localStorage.removeItem('userBusinessListings');
       localStorage.removeItem('selectedBusinessId');
       console.log('🧹 Cleared all user business listings and selected business');
+    },
+    updateUserSession: (state, action: PayloadAction<string>) => {
+      state.lastUserSession = action.payload;
+      localStorage.setItem('last_user_session', action.payload);
+      console.log('📝 Updated user session:', action.payload);
     }
   },
 });
@@ -118,7 +172,8 @@ export const {
   moveListingToTop,
   removeBusinessListing, 
   setSelectedBusiness,
-  clearUserListings 
+  clearUserListings,
+  updateUserSession
 } = businessListingsSlice.actions;
 
 export default businessListingsSlice.reducer;

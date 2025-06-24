@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearAuthStorage } from "@/utils/storageUtils";
 
@@ -33,7 +34,7 @@ const authSlice = createSlice({
   reducers: {
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
-      // Store in loaclStorage when setting
+      // Store in localStorage when setting
       if (action.payload) {
         localStorage.setItem("access_token", action.payload);
       } else {
@@ -99,6 +100,10 @@ const authSlice = createSlice({
 
       // Clear authentication storage
       clearAuthStorage();
+      
+      // Clear user session tracking
+      localStorage.removeItem('current_user_session');
+      localStorage.removeItem('last_user_session');
 
       console.log("✅ Logout completed - auth state and storage cleared");
     },
