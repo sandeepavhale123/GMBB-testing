@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -99,7 +98,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
 
   // Calculate statistics
   const totalListings = mockListings.length;
-  const activeListings = mockListings.filter(l => l.isActive).length;
+  const inactiveListings = mockListings.filter(l => !l.isActive).length;
   const managedListings = mockListings.filter(l => l.status !== 'suspended').length;
 
   const handleToggleListing = (listingId: string, isActive: boolean) => {
@@ -149,7 +148,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       {/* Statistics Cards */}
       <ListingStatisticsCards
         totalListings={totalListings}
-        verifiedListings={activeListings}
+        inactiveListings={inactiveListings}
         managedListings={managedListings}
       />
 
