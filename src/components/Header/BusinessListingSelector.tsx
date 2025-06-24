@@ -63,7 +63,7 @@ export const BusinessListingSelector: React.FC = () => {
             className="w-72 lg:w-96 justify-between border-gray-200 hover:bg-gray-50 h-auto min-h-[48px] py-2"
             disabled={isLoading}
           >
-            <div className="flex items-center gap-2 flex-1 text-left min-w-0">
+            <div className="flex items-start gap-2 flex-1 text-left min-w-0">
               {isLoading ? (
                 <Loader2 className="w-4 h-4 text-gray-500 shrink-0 animate-spin" />
               ) : (
