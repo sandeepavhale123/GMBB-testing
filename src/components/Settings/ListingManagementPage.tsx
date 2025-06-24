@@ -1,10 +1,11 @@
 
-import React from 'react';
-import { ArrowLeft, Building, MapPin, Clock, Phone, Globe, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
+import { ListingStatisticsCards } from './ListingStatisticsCards';
+import { ListingSearchFilters } from './ListingSearchFilters';
+import { ListingsTable } from './ListingsTable';
 
 interface ListingManagementPageProps {
   accountId: string;
@@ -12,36 +13,77 @@ interface ListingManagementPageProps {
 
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ accountId }) => {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
 
   const handleBack = () => {
     navigate('/settings/google-account');
   };
 
-  // Mock data based on account ID
+  // Mock data with updated structure
   const mockListings = [
     {
       id: '1',
       name: 'Downtown Restaurant',
-      address: '123 Main St, Downtown, NY 10001',
-      phone: '+1 (555) 123-4567',
-      website: 'www.downtownrestaurant.com',
-      status: 'verified',
-      rating: 4.8,
-      reviewCount: 247,
-      lastUpdated: '2 hours ago'
+      store_code: 'DR001',
+      group_name: 'Restaurant Group A',
+      state: 'New York',
+      status: 'verified' as const
     },
     {
       id: '2',
       name: 'Uptown Bistro',
-      address: '456 Park Ave, Uptown, NY 10002',
-      phone: '+1 (555) 987-6543',
-      website: 'www.uptownbistro.com',
-      status: 'pending',
-      rating: 4.5,
-      reviewCount: 189,
-      lastUpdated: '1 day ago'
+      store_code: 'UB002',
+      group_name: 'Restaurant Group A',
+      state: 'New York',
+      status: 'pending' as const
+    },
+    {
+      id: '3',
+      name: 'Midtown Cafe',
+      store_code: 'MC003',
+      group_name: 'Cafe Group B',
+      state: 'California',
+      status: 'verified' as const
+    },
+    {
+      id: '4',
+      name: 'Sunset Diner',
+      store_code: 'SD004',
+      group_name: 'Diner Group C',
+      state: 'Texas',
+      status: 'suspended' as const
+    },
+    {
+      id: '5',
+      name: 'Harbor View Restaurant',
+      store_code: 'HVR005',
+      group_name: 'Restaurant Group A',
+      state: 'Florida',
+      status: 'verified' as const
     }
   ];
+
+  // Filter listings based on search and status
+  const filteredListings = mockListings.filter(listing => {
+    const matchesSearch = listing.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         listing.store_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         listing.group_name.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = filterStatus === 'all' || listing.status === filterStatus;
+    
+    return matchesSearch && matchesStatus;
+  });
+
+  // Calculate statistics
+  const totalListings = mockListings.length;
+  const verifiedListings = mockListings.filter(l => l.status === 'verified').length;
+  const managedListings = mockListings.filter(l => l.status !== 'suspended').length;
+
+  const handleManageListing = (listingId: string) => {
+    console.log('Managing listing:', listingId);
+    // TODO: Navigate to individual listing management page
+  };
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
@@ -66,66 +108,33 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
         </div>
       </div>
 
-      {/* Listings Grid */}
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {mockListings.map((listing) => (
-          <Card key={listing.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Building className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg">{listing.name}</CardTitle>
-                    <Badge 
-                      variant={listing.status === 'verified' ? 'default' : 'secondary'}
-                      className="mt-1"
-                    >
-                      {listing.status}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div className="flex items-start space-x-2 text-sm">
-                  <MapPin className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">{listing.address}</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <Phone className="h-4 w-4 text-gray-500" />
-                  <span className="text-gray-700">{listing.phone}</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <Globe className="h-4 w-4 text-gray-500" />
-                  <span className="text-gray-700">{listing.website}</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <Star className="h-4 w-4 text-yellow-500" />
-                  <span className="text-gray-700">{listing.rating} ({listing.reviewCount} reviews)</span>
-                </div>
-                
-                <div className="flex items-center space-x-2 text-sm">
-                  <Clock className="h-4 w-4 text-gray-500" />
-                  <span className="text-gray-500">Updated {listing.lastUpdated}</span>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t border-gray-200">
-                <Button variant="outline" className="w-full">
-                  Manage Listing
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* Statistics Cards */}
+      <ListingStatisticsCards
+        totalListings={totalListings}
+        verifiedListings={verifiedListings}
+        managedListings={managedListings}
+      />
+
+      {/* Search and Filters */}
+      <ListingSearchFilters
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        filterStatus={filterStatus}
+        onFilterChange={setFilterStatus}
+      />
+
+      {/* Listings Table */}
+      <ListingsTable
+        listings={filteredListings}
+        onManageListing={handleManageListing}
+      />
+
+      {/* Results count */}
+      {searchTerm || filterStatus !== 'all' ? (
+        <div className="mt-4 text-sm text-gray-600">
+          Showing {filteredListings.length} of {totalListings} listings
+        </div>
+      ) : null}
     </div>
   );
 };
