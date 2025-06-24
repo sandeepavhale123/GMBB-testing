@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
-import { ConnectedListingItem } from './ConnectedListingItem';
 
 interface ConnectedListing {
   id: string;
@@ -63,20 +62,9 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
           <span className="font-medium text-gray-900">{account.listings}</span>
         </div>
 
-        {/* Connected Listings */}
-        <div className="col-span-2 flex justify-center">
-          <div className="flex -space-x-1">
-            {account.connectedListings.slice(0, 3).map((listing) => (
-              <ConnectedListingItem key={listing.id} listing={listing} size="sm" />
-            ))}
-            {account.connectedListings.length > 3 && (
-              <div className="h-6 w-6 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center">
-                <span className="text-xs text-white font-medium">
-                  +{account.connectedListings.length - 3}
-                </span>
-              </div>
-            )}
-          </div>
+        {/* Connected Count */}
+        <div className="col-span-2 text-center">
+          <span className="font-medium text-gray-900">{account.activeListings}</span>
         </div>
 
         {/* Action Column */}

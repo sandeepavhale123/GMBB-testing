@@ -4,7 +4,6 @@ import { Trash2, RefreshCw, Eye } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
-import { ConnectedListingItem } from './ConnectedListingItem';
 
 interface ConnectedListing {
   id: string;
@@ -125,22 +124,6 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
               className="h-2 bg-blue-500 rounded-full transition-all duration-300"
               style={{ width: `${(account.activeListings / account.listings) * 100}%` }}
             />
-          </div>
-        </div>
-
-        {/* Row 5: Connected Listings */}
-        <div className="flex items-center justify-center">
-          <div className="flex -space-x-1">
-            {account.connectedListings.slice(0, 4).map((listing) => (
-              <ConnectedListingItem key={listing.id} listing={listing} size="sm" />
-            ))}
-            {account.connectedListings.length > 4 && (
-              <div className="h-6 w-6 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center">
-                <span className="text-xs text-white font-medium">
-                  +{account.connectedListings.length - 4}
-                </span>
-              </div>
-            )}
           </div>
         </div>
       </CardContent>
