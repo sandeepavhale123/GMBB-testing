@@ -3,6 +3,7 @@ import React from 'react';
 import { User, LogOut, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '../ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useProfile } from '../../hooks/useProfile';
@@ -22,15 +23,19 @@ export const UserProfileDropdown: React.FC = () => {
   const userInitials = profileData ? 
     `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
     "U";
+  const userProfilePic = profileData?.profilePic || null;
 
   return (
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="p-0 rounded-full hover:bg-gray-100">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer">
-              <span className="text-white font-semibold text-xs">{userInitials}</span>
-            </div>
+            <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
+              <AvatarImage src={userProfilePic || ''} />
+              <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">
+                {userInitials}
+              </AvatarFallback>
+            </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg border">
