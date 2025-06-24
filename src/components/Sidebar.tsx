@@ -164,7 +164,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </Avatar>
             {!collapsed && <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-white">{userName}</p>
-                <p className="text-xs text-gray-400">{userEmail}</p>
+                <p className="text-xs text-gray-400">{userEmail.length>20 ? userEmail.slice(0,19) + '...' : userEmail }</p>
               </div>}
           </Button>
         </div>
