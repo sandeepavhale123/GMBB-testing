@@ -36,7 +36,7 @@ export const UserProfileDropdown: React.FC = () => {
         <DropdownMenuContent align="end" className="w-56 bg-white shadow-lg border">
           <div className="px-3 py-2 border-b">
             <p className="font-medium text-gray-900">{userName}</p>
-            <p className="text-sm text-gray-500">{userEmail}</p>
+            <p className="text-sm text-gray-500">{userEmail.length > 20? userEmail.slice(0,19)+'...' : userEmail}</p>
           </div>
           <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
             <User className="w-4 h-4 mr-2" />
