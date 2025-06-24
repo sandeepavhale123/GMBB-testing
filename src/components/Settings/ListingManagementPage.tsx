@@ -121,6 +121,26 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
     console.log(`Navigating to listing page for listing ${listingId}`);
   };
 
+  const handleToggleListing = (listingId: string, isActive: boolean) => {
+    setMockListings(prev => 
+      prev.map(listing => 
+        listing.id === listingId 
+          ? { ...listing, isActive }
+          : listing
+      )
+    );
+
+    const listing = mockListings.find(l => l.id === listingId);
+    if (listing) {
+      toast({
+        title: isActive ? "Listing Enabled" : "Listing Disabled",
+        description: `${listing.name} has been ${isActive ? 'enabled' : 'disabled'}.`,
+      });
+    }
+
+    console.log(`Toggled listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
+  };
+
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header with Back Button */}
@@ -165,6 +185,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       <ListingsTable
         listings={filteredListings}
         onViewListing={handleViewListing}
+        onToggleListing={handleToggleListing}
       />
 
       {/* Results count */}

@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Eye } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Switch } from '../ui/switch';
 
 interface Listing {
   id: string;
@@ -22,11 +22,13 @@ interface Listing {
 interface ListingsTableProps {
   listings: Listing[];
   onViewListing?: (listingId: string) => void;
+  onToggleListing?: (listingId: string, isActive: boolean) => void;
 }
 
 export const ListingsTable: React.FC<ListingsTableProps> = ({
   listings,
-  onViewListing
+  onViewListing,
+  onToggleListing
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,6 +49,11 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
 
   const truncateAddress = (address: string, maxLength = 30) => {
     return address.length > maxLength ? `${address.substring(0, maxLength)}...` : address;
+  };
+
+  const handleToggle = (listingId: string, checked: boolean, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleListing?.(listingId, checked);
   };
 
   if (listings.length === 0) {
@@ -111,7 +118,12 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                 <span className="text-sm text-gray-600">{listing.state}</span>
               </TableCell>
               <TableCell>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center space-x-3">
+                  <Switch
+                    checked={listing.isActive}
+                    onCheckedChange={(checked) => handleToggle(listing.id, checked, {} as React.MouseEvent)}
+                    className="data-[state=checked]:bg-blue-500"
+                  />
                   <Button
                     variant="ghost"
                     size="sm"
