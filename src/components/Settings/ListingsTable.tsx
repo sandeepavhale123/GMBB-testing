@@ -1,8 +1,9 @@
 
 import React from 'react';
+import { Eye } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Switch } from '../ui/switch';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface Listing {
@@ -20,90 +21,106 @@ interface Listing {
 
 interface ListingsTableProps {
   listings: Listing[];
-  onToggleListing: (listingId: string, isActive: boolean) => void;
+  onViewListing?: (listingId: string) => void;
 }
 
-export const ListingsTable: React.FC<ListingsTableProps> = ({ listings, onToggleListing }) => {
-  const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-      case 'verified':
-        return 'default';
-      case 'pending':
-        return 'secondary';
-      case 'suspended':
-        return 'destructive';
-      default:
-        return 'secondary';
-    }
-  };
-
+export const ListingsTable: React.FC<ListingsTableProps> = ({
+  listings,
+  onViewListing
+}) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'verified':
-        return 'bg-green-100 text-green-800 hover:bg-green-100';
+        return 'bg-green-100 text-green-800';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
+        return 'bg-yellow-100 text-yellow-800';
       case 'suspended':
-        return 'bg-red-100 text-red-800 hover:bg-red-100';
+        return 'bg-red-100 text-red-800';
       default:
-        return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const truncateAddress = (address: string, maxLength: number = 25) => {
-    if (address.length <= maxLength) return address;
-    return address.substring(0, maxLength) + '...';
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
+  const truncateAddress = (address: string, maxLength = 30) => {
+    return address.length > maxLength ? `${address.substring(0, maxLength)}...` : address;
+  };
+
+  if (listings.length === 0) {
+    return (
+      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+        <p className="text-gray-600">No listings found matching your criteria.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow className="border-b border-gray-200">
-            <TableHead className="font-medium text-gray-700">Profile</TableHead>
-            <TableHead className="font-medium text-gray-700">Name</TableHead>
-            <TableHead className="font-medium text-gray-700">Address</TableHead>
-            <TableHead className="font-medium text-gray-700">Store code</TableHead>
-            <TableHead className="font-medium text-gray-700">Group name</TableHead>
-            <TableHead className="font-medium text-gray-700">State</TableHead>
-            <TableHead className="font-medium text-gray-700">Status</TableHead>
-            <TableHead className="font-medium text-gray-700">Enable/Disable</TableHead>
+          <TableRow className="bg-gray-50">
+            <TableHead className="font-semibold text-gray-900">Business</TableHead>
+            <TableHead className="font-semibold text-gray-900">Store Code</TableHead>
+            <TableHead className="font-semibold text-gray-900">Group</TableHead>
+            <TableHead className="font-semibold text-gray-900">Location</TableHead>
+            <TableHead className="font-semibold text-gray-900">Status</TableHead>
+            <TableHead className="font-semibold text-gray-900">State</TableHead>
+            <TableHead className="font-semibold text-gray-900 text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {listings.map((listing) => (
-            <TableRow key={listing.id} className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50">
-              <TableCell className="w-16">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={listing.profile_image} alt={listing.name} />
-                  <AvatarFallback className="bg-gray-200 text-gray-600 text-sm">
-                    {listing.name.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-              </TableCell>
-              <TableCell className="font-medium text-gray-900">{listing.name}</TableCell>
-              <TableCell className="text-gray-600">
-                <div className="flex flex-col">
-                  <span className="text-sm">{truncateAddress(listing.address)}</span>
-                  <span className="text-xs text-gray-500">{listing.zipcode}</span>
+            <TableRow key={listing.id} className="hover:bg-gray-50">
+              <TableCell>
+                <div className="flex items-center space-x-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={listing.profile_image} />
+                    <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold text-sm">
+                      {getInitials(listing.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 truncate">{listing.name}</p>
+                    <p className="text-sm text-gray-500 truncate">
+                      {truncateAddress(listing.address)}
+                    </p>
+                  </div>
                 </div>
               </TableCell>
-              <TableCell className="text-gray-600">{listing.store_code}</TableCell>
-              <TableCell className="text-gray-600">{listing.group_name}</TableCell>
-              <TableCell className="text-gray-600">{listing.state}</TableCell>
               <TableCell>
-                <Badge 
+                <span className="font-mono text-sm text-gray-900">{listing.store_code}</span>
+              </TableCell>
+              <TableCell>
+                <span className="text-sm text-gray-600">{listing.group_name}</span>
+              </TableCell>
+              <TableCell>
+                <span className="text-sm text-gray-600">{listing.zipcode}</span>
+              </TableCell>
+              <TableCell>
+                <Badge
+                  variant="secondary"
                   className={`${getStatusColor(listing.status)} border-0 font-medium`}
                 >
                   {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
                 </Badge>
               </TableCell>
               <TableCell>
-                <Switch
-                  checked={listing.isActive}
-                  onCheckedChange={(checked) => onToggleListing(listing.id, checked)}
-                  disabled={listing.status === 'suspended'}
-                />
+                <span className="text-sm text-gray-600">{listing.state}</span>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center justify-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onViewListing?.(listing.id)}
+                    className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

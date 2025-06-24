@@ -106,25 +106,19 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
   const activeListings = mockListings.filter(l => l.isActive).length;
   const inactiveListings = mockListings.filter(l => !l.isActive).length;
 
-  const handleToggleListing = (listingId: string, isActive: boolean) => {
-    setMockListings(prevListings => 
-      prevListings.map(listing => 
-        listing.id === listingId 
-          ? { ...listing, isActive }
-          : listing
-      )
-    );
-
+  const handleViewListing = (listingId: string) => {
+    // Navigate to the individual listing page
+    navigate(`/business-info/${listingId}`);
+    
     const listing = mockListings.find(l => l.id === listingId);
     if (listing) {
       toast({
-        title: isActive ? "Listing Enabled" : "Listing Disabled",
-        description: `${listing.name} has been ${isActive ? 'enabled' : 'disabled'}.`,
+        title: "Opening Listing",
+        description: `Opening ${listing.name} listing page.`,
       });
     }
 
-    console.log(`Toggling listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
-    // TODO: Implement API call to enable/disable listing
+    console.log(`Navigating to listing page for listing ${listingId}`);
   };
 
   return (
@@ -170,7 +164,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({ ac
       {/* Listings Table */}
       <ListingsTable
         listings={filteredListings}
-        onToggleListing={handleToggleListing}
+        onViewListing={handleViewListing}
       />
 
       {/* Results count */}
