@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from 'react';
 import { Upload, FileImage, FileVideo, AlertCircle } from 'lucide-react';
 
@@ -11,7 +10,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
   const [error, setError] = useState<string | null>(null);
 
   const validateFile = (file: File): boolean => {
-    const maxSize = 50 * 1024 * 1024; // 50MB
+    const maxSize = 10 * 1024 * 1024; // 10MB
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/quicktime'];
 
     if (!allowedTypes.includes(file.type)) {
@@ -20,7 +19,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
     }
 
     if (file.size > maxSize) {
-      setError('File size must be less than 50MB');
+      setError('File size must be less than 10MB');
       return false;
     }
 
@@ -126,7 +125,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
               <FileVideo className="w-4 h-4" />
               <span>MP4, MOV</span>
             </div>
-            <span>• Max 50MB</span>
+            <span>• Max 10MB</span>
           </div>
         </div>
       </div>
