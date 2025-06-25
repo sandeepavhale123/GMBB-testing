@@ -4,7 +4,8 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
-import { Calendar } from 'lucide-react';
+import { Calendar, Clock, Globe } from 'lucide-react';
+import { convertLocalDateTimeToUTC, getUserTimezone } from '../../utils/dateUtils';
 
 interface MediaFormProps {
   formData: {
@@ -61,6 +62,31 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     { value: 'now', label: 'Publish Now' },
     { value: 'schedule', label: 'Schedule' }
   ];
+
+  const handleScheduleDateChange = (localDateTime: string) => {
+    // Convert local datetime to UTC and store
+    const utcDateTime = convertLocalDateTimeToUTC(localDateTime);
+    onChange({ scheduleDate: utcDateTime });
+  };
+
+  // Convert UTC back to local for display in the input
+  const getLocalDateTimeValue = (): string => {
+    if (!formData.scheduleDate) return '';
+    
+    try {
+      const utcDate = new Date(formData.scheduleDate);
+      // Format for datetime-local input (YYYY-MM-DDTHH:MM)
+      const year = utcDate.getFullYear();
+      const month = String(utcDate.getMonth() + 1).padStart(2, '0');
+      const day = String(utcDate.getDate()).padStart(2, '0');
+      const hours = String(utcDate.getHours()).padStart(2, '0');
+      const minutes = String(utcDate.getMinutes()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      return '';
+    }
+  };
 
   if (!hasFiles) return null;
 
@@ -131,17 +157,24 @@ export const MediaForm: React.FC<MediaFormProps> = ({
 
         {formData.publishOption === 'schedule' && (
           <div className="space-y-2">
-            <Label htmlFor="schedule-date" className="text-sm font-medium text-gray-700">
+            <Label htmlFor="schedule-date" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Clock className="w-4 h-4" />
               Schedule Date & Time
             </Label>
-            <div className="relative">
+            <div className="space-y-2">
               <Input
                 id="schedule-date"
                 type="datetime-local"
-                value={formData.scheduleDate || ''}
-                onChange={(e) => onChange({ scheduleDate: e.target.value })}
+                value={getLocalDateTimeValue()}
+                onChange={(e) => handleScheduleDateChange(e.target.value)}
                 className="w-full"
               />
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <Globe className="w-3 h-3" />
+                <span>Your timezone: {getUserTimezone()}</span>
+                <span>•</span>
+                <span>Will be converted to UTC for API</span>
+              </div>
             </div>
           </div>
         )}

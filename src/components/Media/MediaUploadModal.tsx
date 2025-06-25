@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -6,6 +7,9 @@ import { MediaDropzone } from './MediaDropzone';
 import { MediaPreview } from './MediaPreview';
 import { MediaForm } from './MediaForm';
 import { AIMediaGenerationModal } from './AIMediaGenerationModal';
+import { useListingContext } from '../../context/ListingContext';
+import { uploadMedia } from '../../api/mediaApi';
+import { useToast } from '../../hooks/use-toast';
 
 interface MediaFile {
   id: string;
@@ -47,6 +51,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     scheduleDate: ''
   });
 
+  const { selectedListing } = useListingContext();
+  const { toast } = useToast();
+
   const handleFilesAdded = (newFiles: File[]) => {
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
@@ -72,30 +79,65 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
 
   const handleUpload = async () => {
-    if (!file) return;
+    if (!file || !selectedListing) {
+      toast({
+        title: "Upload Error",
+        description: "Please select a file and ensure a business listing is selected.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsUploading(true);
     
-    // Simulate upload process
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const mediaItem: MediaItem = {
-      id: file.id,
-      name: formData.title || file.file.name.replace(/\.[^/.]+$/, ""),
-      views: '0 views',
-      type: file.type,
-      url: file.url,
-      uploadDate: new Date().toISOString().split('T')[0]
-    };
+    try {
+      const uploadData = {
+        file: file.file,
+        title: formData.title || file.file.name.replace(/\.[^/.]+$/, ""),
+        category: formData.category || 'additional',
+        publishOption: formData.publishOption,
+        scheduleDate: formData.scheduleDate,
+        listingId: selectedListing.id
+      };
 
-    onUpload([mediaItem]);
-    setIsUploading(false);
-    setUploadComplete(true);
-    
-    // Close modal after showing success briefly
-    setTimeout(() => {
-      handleClose();
-    }, 1500);
+      const response = await uploadMedia(uploadData);
+      
+      if (response.code === 200) {
+        // Create media item for local state update
+        const mediaItem: MediaItem = {
+          id: file.id,
+          name: uploadData.title,
+          views: '0 views',
+          type: file.type,
+          url: file.url,
+          uploadDate: new Date().toISOString().split('T')[0]
+        };
+
+        onUpload([mediaItem]);
+        setUploadComplete(true);
+        
+        toast({
+          title: "Upload Successful",
+          description: response.message,
+        });
+        
+        // Close modal after showing success briefly
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      } else {
+        throw new Error(response.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : "Failed to upload media. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleClose = () => {
@@ -223,7 +265,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </Button>
                   <Button
                     onClick={handleUpload}
-                    disabled={!file || isUploading}
+                    disabled={!file || isUploading || !selectedListing}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8"
                   >
                     {isUploading ? 'Uploading...' : 'Upload Media'}
