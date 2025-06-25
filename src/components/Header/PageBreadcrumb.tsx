@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
+import { useAccountListings } from '../../hooks/useAccountListings';
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -78,6 +79,13 @@ export const PageBreadcrumb: React.FC = () => {
   const location = useLocation();
   const { accountId } = useParams();
   
+  // Fetch account data to get the profile email
+  const { data } = useAccountListings({
+    accountId: accountId || '',
+    page: 1,
+    limit: 1,
+  });
+  
   // Extract the base route from the pathname (handle routes with listing IDs)
   const getBaseRoute = (pathname: string) => {
     const segments = pathname.split('/');
@@ -95,13 +103,12 @@ export const PageBreadcrumb: React.FC = () => {
   let breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
 
   // Customize breadcrumb for listings management page
-  if (baseRoute === '/settings/listings' && accountId) {
-    const profileEmail = 'sandeepa@citationbuilderpro.com'; // This would come from API
+  if (baseRoute === '/settings/listings' && accountId && data?.profileEmail) {
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
       { title: 'Settings', path: '/settings/google-account' },
       { title: 'Manage Google Account', path: '/settings/google-account' },
-      { title: profileEmail, path: `/settings/listings/${accountId}` }
+      { title: data.profileEmail, path: `/settings/listings/${accountId}` }
     ];
   }
 
