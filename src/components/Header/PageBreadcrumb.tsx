@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import { useAccountListings } from '../../hooks/useAccountListings';
@@ -80,7 +79,7 @@ export const PageBreadcrumb: React.FC = () => {
   const { accountId } = useParams();
   
   // Fetch account data to get the profile email
-  const { data } = useAccountListings({
+  const { profileEmail } = useAccountListings({
     accountId: accountId || '',
     page: 1,
     limit: 1,
@@ -103,12 +102,12 @@ export const PageBreadcrumb: React.FC = () => {
   let breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
 
   // Customize breadcrumb for listings management page
-  if (baseRoute === '/settings/listings' && accountId && data?.profileEmail) {
+  if (baseRoute === '/settings/listings' && accountId && profileEmail) {
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
       { title: 'Settings', path: '/settings/google-account' },
       { title: 'Manage Google Account', path: '/settings/google-account' },
-      { title: data.profileEmail, path: `/settings/listings/${accountId}` }
+      { title: profileEmail, path: `/settings/listings/${accountId}` }
     ];
   }
 

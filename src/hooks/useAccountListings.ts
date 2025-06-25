@@ -89,6 +89,7 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
     activeListings: data?.activeCount || 0,
     inactiveListings: data?.inactiveCount || 0,
     pagination: data?.pagination,
+    profileEmail: data?.profileEmail, // Add this line to expose profileEmail
     loading,
     error,
     refetch,
