@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Switch } from '../ui/switch';
+import { Skeleton } from '../ui/skeleton';
 
 interface Listing {
   id: string;
@@ -23,13 +24,15 @@ interface Listing {
 interface ListingsTableProps {
   listings: Listing[];
   onViewListing?: (listingId: string) => void;
-  onToggleListing?: (listingId: string, isActive: boolean) => void;
+  onToggleListing?: (listingId: string, isActive: boolean) => Promise<void>;
+  loadingStates?: Record<string, boolean>;
 }
 
 export const ListingsTable: React.FC<ListingsTableProps> = ({
   listings,
   onViewListing,
-  onToggleListing
+  onToggleListing,
+  loadingStates = {}
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -52,8 +55,15 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
     return address.length > maxLength ? `${address.substring(0, maxLength)}...` : address;
   };
 
-  const handleToggle = (listingId: string, checked: boolean) => {
-    onToggleListing?.(listingId, checked);
+  const handleToggle = async (listingId: string, checked: boolean) => {
+    if (onToggleListing) {
+      try {
+        await onToggleListing(listingId, checked);
+      } catch (error) {
+        // Error is already handled in the hook, no need to do anything here
+        console.error('Toggle failed:', error);
+      }
+    }
   };
 
   if (listings.length === 0) {
@@ -79,55 +89,64 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {listings.map((listing) => (
-            <TableRow key={listing.id} className="hover:bg-gray-50">
-              <TableCell>
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src={listing.profile_image} />
-                    <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold text-sm">
-                      {getInitials(listing.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0">
-                    <p className="font-medium text-gray-900 truncate">{listing.name}</p>
-                    <p className="text-sm text-gray-500 truncate">
-                      {truncateAddress(listing.address)}
-                    </p>
+          {listings.map((listing) => {
+            const isLoading = loadingStates[listing.id];
+            
+            return (
+              <TableRow key={listing.id} className="hover:bg-gray-50">
+                <TableCell>
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={listing.profile_image} />
+                      <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold text-sm">
+                        {getInitials(listing.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0">
+                      <p className="font-medium text-gray-900 truncate">{listing.name}</p>
+                      <p className="text-sm text-gray-500 truncate">
+                        {truncateAddress(listing.address)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <span className="font-mono text-sm text-gray-900">{listing.store_code}</span>
-              </TableCell>
-              <TableCell>
-                <span className="text-sm text-gray-600">{listing.group_name}</span>
-              </TableCell>
-              <TableCell>
-                <span className="text-sm text-gray-600">{listing.zipcode}</span>
-              </TableCell>
-              <TableCell>
-                <Badge 
-                  variant="secondary" 
-                  className={`${getStatusColor(listing.status)} border-0 font-medium`}
-                >
-                  {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <span className="text-sm text-gray-600">{listing.state}</span>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center justify-center space-x-3">
-                  <Switch 
-                    checked={listing.isActive} 
-                    onCheckedChange={(checked) => handleToggle(listing.id, checked)}
-                    className="data-[state=checked]:bg-blue-500" 
-                  />
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm text-gray-900">{listing.store_code}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm text-gray-600">{listing.group_name}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm text-gray-600">{listing.zipcode}</span>
+                </TableCell>
+                <TableCell>
+                  <Badge 
+                    variant="secondary" 
+                    className={`${getStatusColor(listing.status)} border-0 font-medium`}
+                  >
+                    {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm text-gray-600">{listing.state}</span>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center justify-center space-x-3">
+                    {isLoading ? (
+                      <Skeleton className="h-6 w-11 rounded-full" />
+                    ) : (
+                      <Switch 
+                        checked={listing.isActive} 
+                        onCheckedChange={(checked) => handleToggle(listing.id, checked)}
+                        disabled={isLoading}
+                        className="data-[state=checked]:bg-blue-500" 
+                      />
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>

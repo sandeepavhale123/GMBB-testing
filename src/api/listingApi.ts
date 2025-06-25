@@ -1,3 +1,4 @@
+
 import axiosInstance from "./axiosInstance";
 
 export interface EnableDisableListingsPayload {
@@ -7,15 +8,18 @@ export interface EnableDisableListingsPayload {
 }
 
 export interface EnableDisableListingsResponse {
-  success: boolean;
+  code: number;
   message: string;
-  data?: any;
+  data: {
+    activeListings: number;
+    allowedListings: string;
+  };
 }
 
 export const enableDisableListings = async (
   payload: EnableDisableListingsPayload
 ): Promise<EnableDisableListingsResponse> => {
   const response = await axiosInstance.post("/change-listing-status", payload);
-  console.log("listing status response", response.data.status);
+  console.log("listing status response", response.data);
   return response.data;
 };

@@ -7,6 +7,7 @@ import { ListingSearchFilters } from './ListingSearchFilters';
 import { ListingsTable } from './ListingsTable';
 import { AccountListingPagination } from './AccountListingPagination';
 import { useAccountListings } from '../../hooks/useAccountListings';
+import { useListingStatusToggle } from '../../hooks/useListingStatusToggle';
 import { Skeleton } from '../ui/skeleton';
 
 interface ListingManagementPageProps {
@@ -54,6 +55,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     sortOrder,
   });
 
+  const { toggleListingStatus, isLoading } = useListingStatusToggle();
+
   const handleSearchChange = useCallback((value: string) => {
     setSearchTerm(value);
   }, []);
@@ -79,23 +82,32 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     console.log(`Navigating to listing page for listing ${listingId}`);
   }, [navigate, listings, toast]);
 
-  const handleToggleListing = useCallback((listingId: string, isActive: boolean) => {
-    // This would typically make an API call to update the listing status
-    // For now, we'll just show a toast and potentially refetch the data
-    const listing = listings.find(l => l.id === listingId);
-    if (listing) {
-      toast({
-        title: isActive ? "Listing Enabled" : "Listing Disabled",
-        description: `${listing.name} has been ${isActive ? 'enabled' : 'disabled'}.`
-      });
+  const handleToggleListing = useCallback(async (listingId: string, isActive: boolean) => {
+    try {
+      await toggleListingStatus(
+        listingId, 
+        parseInt(accountId), 
+        isActive,
+        (data) => {
+          // Refetch data to get updated statistics and listing states
+          refetch();
+          console.log('Updated active listings count:', data.activeListings);
+        }
+      );
+    } catch (error) {
+      // Error handling is done in the hook
+      console.error('Failed to toggle listing:', error);
     }
-    console.log(`Toggled listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
-    
-    // Refetch data to get updated status
-    setTimeout(() => {
-      refetch();
-    }, 1000);
-  }, [listings, toast, refetch]);
+  }, [toggleListingStatus, accountId, refetch]);
+
+  // Create loading states object for the table
+  const loadingStates = React.useMemo(() => {
+    const states: Record<string, boolean> = {};
+    listings.forEach(listing => {
+      states[listing.id] = isLoading(listing.id);
+    });
+    return states;
+  }, [listings, isLoading]);
 
   if (error) {
     return (
@@ -165,6 +177,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
           listings={listings}
           onViewListing={handleViewListing}
           onToggleListing={handleToggleListing}
+          loadingStates={loadingStates}
         />
       )}
 
