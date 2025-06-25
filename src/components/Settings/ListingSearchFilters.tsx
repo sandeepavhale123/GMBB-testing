@@ -40,21 +40,24 @@ export const ListingSearchFilters: React.FC<ListingSearchFiltersProps> = ({
         <SelectContent>
           <SelectItem value="all">All Status</SelectItem>
           <SelectItem value="verified">Verified</SelectItem>
-          <SelectItem value="pending">Pending</SelectItem>
-          <SelectItem value="suspended">Suspended</SelectItem>
+          <SelectItem value="unverified">Unverified</SelectItem>
+          <SelectItem value="active">Active</SelectItem>
+          <SelectItem value="inactive">Inactive</SelectItem>
         </SelectContent>
       </Select>
 
-      <Select value={filterActive} onValueChange={onActiveFilterChange}>
-        <SelectTrigger className="w-full sm:w-48">
-          <SelectValue placeholder="Filter by activity" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Listings</SelectItem>
-          <SelectItem value="active">Active Only</SelectItem>
-          <SelectItem value="inactive">Inactive Only</SelectItem>
-        </SelectContent>
-      </Select>
+      {onActiveFilterChange && (
+        <Select value={filterActive} onValueChange={onActiveFilterChange}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Filter by activity" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Listings</SelectItem>
+            <SelectItem value="active">Active Only</SelectItem>
+            <SelectItem value="inactive">Inactive Only</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
     </div>
   );
 };

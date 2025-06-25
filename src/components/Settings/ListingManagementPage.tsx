@@ -1,102 +1,75 @@
-import React, { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { ListingStatisticsCards } from './ListingStatisticsCards';
 import { ListingSearchFilters } from './ListingSearchFilters';
 import { ListingsTable } from './ListingsTable';
-import { useToast } from '@/hooks/use-toast';
+import { AccountListingPagination } from './AccountListingPagination';
+import { useAccountListings } from '../../hooks/useAccountListings';
+import { Skeleton } from '../ui/skeleton';
+
 interface ListingManagementPageProps {
   accountId: string;
 }
+
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   accountId
 }) => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-  const [filterActive, setFilterActive] = useState('all');
-  const handleBack = () => {
-    navigate('/settings/google-account');
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  // Mock data with updated structure including profile_image, address, and zipcode
-  const [mockListings, setMockListings] = useState([{
-    id: '1',
-    name: 'Downtown Restaurant',
-    store_code: 'DR001',
-    group_name: 'Restaurant Group A',
-    state: 'New York',
-    status: 'verified' as const,
-    isActive: true,
-    profile_image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100',
-    address: '123 Main Street, Downtown',
-    zipcode: '10001'
-  }, {
-    id: '2',
-    name: 'Uptown Bistro',
-    store_code: 'UB002',
-    group_name: 'Restaurant Group A',
-    state: 'New York',
-    status: 'pending' as const,
-    isActive: true,
-    profile_image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100',
-    address: '456 Broadway Avenue, Uptown',
-    zipcode: '10025'
-  }, {
-    id: '3',
-    name: 'Midtown Cafe',
-    store_code: 'MC003',
-    group_name: 'Cafe Group B',
-    state: 'California',
-    status: 'verified' as const,
-    isActive: false,
-    profile_image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100',
-    address: '789 Central Park West',
-    zipcode: '90210'
-  }, {
-    id: '4',
-    name: 'Sunset Diner',
-    store_code: 'SD004',
-    group_name: 'Diner Group C',
-    state: 'Texas',
-    status: 'suspended' as const,
-    isActive: false,
-    address: '321 Sunset Boulevard, West End',
-    zipcode: '75001'
-  }, {
-    id: '5',
-    name: 'Harbor View Restaurant',
-    store_code: 'HVR005',
-    group_name: 'Restaurant Group A',
-    state: 'Florida',
-    status: 'verified' as const,
-    isActive: true,
-    profile_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100',
-    address: '987 Harbor Drive, Waterfront',
-    zipcode: '33101'
-  }]);
+  // Debounced search to prevent excessive API calls
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setCurrentPage(1); // Reset to first page when searching
+    }, 300);
 
-  // Filter listings based on search, status, and active state
-  const filteredListings = mockListings.filter(listing => {
-    const matchesSearch = listing.name.toLowerCase().includes(searchTerm.toLowerCase()) || listing.store_code.toLowerCase().includes(searchTerm.toLowerCase()) || listing.group_name.toLowerCase().includes(searchTerm.toLowerCase()) || listing.address.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || listing.status === filterStatus;
-    const matchesActive = filterActive === 'all' || filterActive === 'active' && listing.isActive || filterActive === 'inactive' && !listing.isActive;
-    return matchesSearch && matchesStatus && matchesActive;
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const {
+    listings,
+    totalListings,
+    activeListings,
+    inactiveListings,
+    pagination,
+    loading,
+    error,
+    refetch,
+  } = useAccountListings({
+    accountId,
+    page: currentPage,
+    limit: 10,
+    search: debouncedSearchTerm,
+    status: filterStatus as any,
+    sortOrder,
   });
 
-  // Calculate statistics
-  const totalListings = mockListings.length;
-  const activeListings = mockListings.filter(l => l.isActive).length;
-  const inactiveListings = mockListings.filter(l => !l.isActive).length;
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchTerm(value);
+  }, []);
 
-  // Event handlers
-  const handleViewListing = (listingId: string) => {
+  const handleFilterChange = useCallback((value: string) => {
+    setFilterStatus(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const handleViewListing = useCallback((listingId: string) => {
     navigate(`/business-info/${listingId}`);
-    const listing = mockListings.find(l => l.id === listingId);
+    const listing = listings.find(l => l.id === listingId);
     if (listing) {
       toast({
         title: "Opening Listing",
@@ -104,13 +77,12 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       });
     }
     console.log(`Navigating to listing page for listing ${listingId}`);
-  };
-  const handleToggleListing = (listingId: string, isActive: boolean) => {
-    setMockListings(prev => prev.map(listing => listing.id === listingId ? {
-      ...listing,
-      isActive
-    } : listing));
-    const listing = mockListings.find(l => l.id === listingId);
+  }, [navigate, listings, toast]);
+
+  const handleToggleListing = useCallback((listingId: string, isActive: boolean) => {
+    // This would typically make an API call to update the listing status
+    // For now, we'll just show a toast and potentially refetch the data
+    const listing = listings.find(l => l.id === listingId);
     if (listing) {
       toast({
         title: isActive ? "Listing Enabled" : "Listing Disabled",
@@ -118,32 +90,103 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       });
     }
     console.log(`Toggled listing ${listingId} to ${isActive ? 'active' : 'inactive'}`);
-  };
-  return <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-      {/* Header with Back Button */}
-      <div className="mb-6">
-        
-        
+    
+    // Refetch data to get updated status
+    setTimeout(() => {
+      refetch();
+    }, 1000);
+  }, [listings, toast, refetch]);
+
+  if (error) {
+    return (
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto">
         <div className="mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Manage Listings
           </h2>
-          
         </div>
+        
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <p className="text-red-800 mb-4">{error}</p>
+          <button 
+            onClick={refetch}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          Manage Listings
+        </h2>
       </div>
 
       {/* Statistics Cards */}
-      <ListingStatisticsCards totalListings={totalListings} activeListings={activeListings} inactiveListings={inactiveListings} />
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-24 w-full rounded-lg" />
+          ))}
+        </div>
+      ) : (
+        <ListingStatisticsCards 
+          totalListings={totalListings} 
+          activeListings={activeListings} 
+          inactiveListings={inactiveListings} 
+        />
+      )}
 
       {/* Search and Filters */}
-      <ListingSearchFilters searchTerm={searchTerm} onSearchChange={setSearchTerm} filterStatus={filterStatus} onFilterChange={setFilterStatus} filterActive={filterActive} onActiveFilterChange={setFilterActive} />
+      <ListingSearchFilters 
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        filterStatus={filterStatus}
+        onFilterChange={handleFilterChange}
+      />
 
       {/* Listings Table */}
-      <ListingsTable listings={filteredListings} onViewListing={handleViewListing} onToggleListing={handleToggleListing} />
+      {loading ? (
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <Skeleton key={i} className="h-16 w-full" />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <ListingsTable 
+          listings={listings}
+          onViewListing={handleViewListing}
+          onToggleListing={handleToggleListing}
+        />
+      )}
+
+      {/* Pagination */}
+      {pagination && pagination.total_pages && pagination.total_pages > 1 && (
+        <div className="mt-6">
+          <AccountListingPagination
+            currentPage={currentPage}
+            totalPages={pagination.total_pages}
+            hasNext={pagination.has_next || false}
+            hasPrev={pagination.has_prev || false}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
 
       {/* Results count */}
-      {searchTerm || filterStatus !== 'all' ? <div className="mt-4 text-sm text-gray-600">
-          Showing {filteredListings.length} of {totalListings} listings
-        </div> : null}
-    </div>;
+      {!loading && (searchTerm || filterStatus !== 'all') && (
+        <div className="mt-4 text-sm text-gray-600">
+          Showing {listings.length} of {totalListings} listings
+        </div>
+      )}
+    </div>
+  );
 };
