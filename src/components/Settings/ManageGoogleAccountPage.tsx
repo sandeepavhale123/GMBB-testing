@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { GoogleAccountCard } from './GoogleAccountCard';
 import { AddAccountModal } from './AddAccountModal';
 
@@ -106,22 +105,23 @@ const mockAccounts: GoogleAccount[] = [{
 
 export const ManageGoogleAccountPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const navigate = useNavigate();
+  
   const handleManageListings = (accountId: string) => {
     navigate(`/settings/listings/${accountId}`);
   };
+  
   const totalActiveListings = mockAccounts.reduce((sum, account) => sum + account.activeListings, 0);
+  
   const filteredAccounts = mockAccounts.filter(account => {
-    const matchesSearch = account.name.toLowerCase().includes(searchTerm.toLowerCase()) || account.email.toLowerCase().includes(searchTerm.toLowerCase());
-    if (filterStatus === 'all') return matchesSearch;
-    if (filterStatus === 'active') return matchesSearch && account.isEnabled;
-    if (filterStatus === 'inactive') return matchesSearch && !account.isEnabled;
-    return matchesSearch;
+    return account.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+           account.email.toLowerCase().includes(searchTerm.toLowerCase());
   });
-  return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+
+  return (
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
@@ -149,19 +149,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
             <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
               Active Listings: {totalActiveListings}/100
             </Badge>
-
-            {/* Filter Dropdown */}
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-full sm:w-36">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="sync-failed">Sync Failed</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
@@ -238,5 +225,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
       {/* Add Account Modal */}
       <AddAccountModal open={showAddModal} onOpenChange={setShowAddModal} />
-    </div>;
+    </div>
+  );
 };
