@@ -38,11 +38,12 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
+  // Fetch filtered listings for the table
   const {
     listings,
-    totalListings,
-    activeListings,
-    inactiveListings,
+    totalListings: filteredTotalListings,
+    activeListings: filteredActiveListings,
+    inactiveListings: filteredInactiveListings,
     pagination,
     loading,
     error,
@@ -54,6 +55,21 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     search: debouncedSearchTerm,
     status: filterStatus as any,
     sortOrder,
+  });
+
+  // Fetch unfiltered statistics for summary cards
+  const {
+    totalListings: summaryTotalListings,
+    activeListings: summaryActiveListings,
+    inactiveListings: summaryInactiveListings,
+    refetch: refetchSummary,
+  } = useAccountListings({
+    accountId,
+    page: 1,
+    limit: 1, // We only need the counts, not the actual listings
+    search: '',
+    status: 'all',
+    sortOrder: 'asc',
   });
 
   const { toggleListingStatus, isLoading } = useListingStatusToggle();
@@ -90,8 +106,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         parseInt(accountId), 
         isActive,
         (data) => {
-          // Refetch data to get updated statistics and listing states
+          // Refetch both filtered data and summary statistics
           refetch();
+          refetchSummary();
           console.log('Updated active listings count:', data.activeListings);
         }
       );
@@ -99,7 +116,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       // Error handling is done in the hook
       console.error('Failed to toggle listing:', error);
     }
-  }, [toggleListingStatus, accountId, refetch]);
+  }, [toggleListingStatus, accountId, refetch, refetchSummary]);
 
   // Create loading states object for the table
   const loadingStates = React.useMemo(() => {
@@ -146,7 +163,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         </h2>
       </div>
 
-      {/* Statistics Cards */}
+      {/* Statistics Cards - Always show unfiltered totals */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {[1, 2, 3].map((i) => (
@@ -155,9 +172,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         </div>
       ) : (
         <ListingStatisticsCards 
-          totalListings={totalListings} 
-          activeListings={activeListings} 
-          inactiveListings={inactiveListings} 
+          totalListings={summaryTotalListings} 
+          activeListings={summaryActiveListings} 
+          inactiveListings={summaryInactiveListings} 
         />
       )}
 
@@ -220,10 +237,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         </div>
       )}
 
-      {/* Results count */}
+      {/* Results count - Show filtered results count */}
       {!loading && !showNoResultsMessage && (searchTerm || filterStatus !== 'all') && (
         <div className="mt-4 text-sm text-gray-600">
-          Showing {listings.length} of {totalListings} listings
+          Showing {listings.length} of {filteredTotalListings} listings
         </div>
       )}
     </div>
