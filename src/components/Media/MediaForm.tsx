@@ -15,14 +15,16 @@ interface MediaFormProps {
   };
   onChange: (data: Partial<MediaFormProps['formData']>) => void;
   hasFiles: boolean;
+  fileType?: 'image' | 'video';
 }
 
 export const MediaForm: React.FC<MediaFormProps> = ({
   formData,
   onChange,
-  hasFiles
+  hasFiles,
+  fileType
 }) => {
-  const categories = [
+  const allCategories = [
     'Unspecified category',
     'Cover photo',
     'Profile photo', 
@@ -38,6 +40,22 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     'Teams media',
     'Additional'
   ];
+
+  const videoCategories = [
+    'Unspecified category',
+    'Exterior media',
+    'Interior media',
+    'Product media',
+    'At-work media',
+    'Food and drink',
+    'Menu media',
+    'Common area media',
+    'Rooms media',
+    'Teams media',
+    'Additional'
+  ];
+
+  const categories = fileType === 'video' ? videoCategories : allCategories;
 
   const publishOptions = [
     { value: 'now', label: 'Publish Now' },

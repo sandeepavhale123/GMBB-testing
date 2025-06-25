@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -210,6 +209,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   formData={formData}
                   onChange={handleFormDataChange}
                   hasFiles={!!file}
+                  fileType={file?.type}
                 />
 
                 {/* Action Buttons */}
