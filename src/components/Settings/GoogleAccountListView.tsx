@@ -1,9 +1,8 @@
 
-import React, { useState } from 'react';
-import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
+import React from 'react';
+import { RefreshCw, Trash2, Eye } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Badge } from '../ui/badge';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
 
 interface ConnectedListing {
@@ -33,86 +32,92 @@ interface GoogleAccount {
 interface GoogleAccountListViewProps {
   account: GoogleAccount;
   onManageListings?: (accountId: string) => void;
+  onRefresh?: (accountId: string) => void;
+  onDelete?: (accountId: string) => void;
 }
 
 export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   account,
-  onManageListings
+  onManageListings,
+  onRefresh,
+  onDelete
 }) => {
-  const [isEnabled, setIsEnabled] = useState(account.isEnabled);
-
-  const handleCardClick = () => {
-    onManageListings?.(account.id);
+  const getStatusColor = (status: string) => {
+    return account.isEnabled 
+      ? 'bg-green-100 text-green-800' 
+      : 'bg-gray-100 text-gray-800';
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer" onClick={handleCardClick}>
-      <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm">
-        {/* Account Column */}
-        <div className="col-span-4 flex items-center space-x-3">
+    <tr className="hover:bg-gray-50 border-b">
+      {/* Account Column */}
+      <td className="p-4">
+        <div className="flex items-center space-x-3">
           <GoogleAccountAvatar name={account.name} avatar={account.avatar} />
           <div className="min-w-0">
-            <h3 className="font-medium text-gray-900 truncate">{account.name}</h3>
-            <p className="text-gray-500 text-xs truncate">{account.email}</p>
+            <p className="font-medium text-gray-900 truncate">{account.name}</p>
+            <p className="text-sm text-gray-500 truncate">{account.email}</p>
           </div>
         </div>
+      </td>
 
-        {/* Total Listings */}
-        <div className="col-span-2 text-center">
-          <span className="font-medium text-gray-900">{account.listings}</span>
-        </div>
+      {/* Total Listings */}
+      <td className="p-4 text-center">
+        <span className="font-medium text-gray-900">{account.listings}</span>
+      </td>
 
-        {/* Connected Count */}
-        <div className="col-span-2 text-center">
-          <span className="font-medium text-gray-900">{account.activeListings}</span>
-        </div>
+      {/* Connected Count */}
+      <td className="p-4 text-center">
+        <span className="font-medium text-gray-900">{account.activeListings}</span>
+      </td>
 
-        {/* Action Column */}
-        <div className="col-span-4 flex items-center justify-end space-x-3">
-          <Switch
-            checked={isEnabled}
-            onCheckedChange={setIsEnabled}
-            className="data-[state=checked]:bg-blue-500"
-          />
-          <Button 
-            variant="outline" 
+      {/* Status */}
+      <td className="p-4">
+        <Badge 
+          variant="secondary" 
+          className={`${getStatusColor(account.isEnabled ? 'active' : 'inactive')} border-0 font-medium`}
+        >
+          {account.isEnabled ? 'Active' : 'Inactive'}
+        </Badge>
+      </td>
+
+      {/* Last Synced */}
+      <td className="p-4 text-sm text-gray-600">
+        {account.lastSynced}
+      </td>
+
+      {/* Actions */}
+      <td className="p-4">
+        <div className="flex items-center justify-center space-x-2">
+          <Button
+            variant="ghost"
             size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onManageListings?.(account.id);
-            }}
-            className="text-gray-600 hover:text-gray-900"
+            onClick={() => onManageListings?.(account.id)}
+            className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
+            title="View Account"
           >
-            View
+            <Eye className="h-4 w-4" />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onManageListings?.(account.id)}>
-                <Edit className="h-4 w-4 mr-2" />
-                Manage Listings
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Refresh
-              </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600">
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onRefresh?.(account.id)}
+            className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+            title="Refresh Account"
+          >
+            <RefreshCw className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete?.(account.id)}
+            className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
+            title="Delete Account"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
