@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Upload, Eye, Trash2, MoreVertical, Play } from 'lucide-react';
@@ -9,6 +10,9 @@ import { MediaUploadModal } from './MediaUploadModal';
 import { MediaStatsChart } from './MediaStatsChart';
 import { MediaFilters } from './MediaFilters';
 import { EnhancedMediaCard } from './EnhancedMediaCard';
+import { MediaPagination } from './MediaPagination';
+import { getMediaList, MediaListItem } from '../../api/mediaApi';
+import { useListingContext } from '../../context/ListingContext';
 
 interface MediaItem {
   id: string;
@@ -24,102 +28,96 @@ interface MediaItem {
 
 export const MediaPage: React.FC = () => {
   const { toast } = useToast();
+  const { selectedListing } = useListingContext();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [mediaTypeTab, setMediaTypeTab] = useState('all');
-  
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([
-    {
-      id: '1',
-      name: 'Digital Marketing Banner',
-      views: '12.4k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
-      uploadDate: '2024-06-08',
-      size: '2.4 MB',
-      status: 'approved',
-      category: 'marketing'
-    },
-    {
-      id: '2',
-      name: 'Coffee Shop Interior',
-      views: '8.2k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300',
-      uploadDate: '2024-06-07',
-      size: '1.8 MB',
-      status: 'uploaded',
-      category: 'products'
-    },
-    {
-      id: '3',
-      name: 'Fresh Bakery Products',
-      views: '6.1k',
-      type: 'video',
-      url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300',
-      uploadDate: '2024-06-06',
-      size: '15.2 MB',
-      status: 'scheduled',
-      category: 'products'
-    },
-    {
-      id: '4',
-      name: 'Restaurant Ambiance',
-      views: '4.8k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300',
-      uploadDate: '2024-06-05',
-      size: '1.2 MB',
-      status: 'approved',
-      category: 'products'
-    },
-    {
-      id: '5',
-      name: 'Team Meeting',
-      views: '3.2k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300',
-      uploadDate: '2024-06-04',
-      size: '1.5 MB',
-      status: 'uploaded',
-      category: 'events'
-    },
-    {
-      id: '6',
-      name: 'Product Showcase',
-      views: '2.9k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300',
-      uploadDate: '2024-06-03',
-      size: '2.0 MB',
-      status: 'approved',
-      category: 'products'
-    },
-    {
-      id: '7',
-      name: 'Office Space',
-      views: '2.1k',
-      type: 'video',
-      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=300',
-      uploadDate: '2024-06-02',
-      size: '1.9 MB',
-      status: 'scheduled',
-      category: 'office'
-    },
-    {
-      id: '8',
-      name: 'Modern Architecture',
-      views: '1.8k',
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300',
-      uploadDate: '2024-06-01',
-      size: '1.7 MB',
-      status: 'approved',
-      category: 'architecture'
+  const [sortBy, setSortBy] = useState('postdate');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(12);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [hasNext, setHasNext] = useState(false);
+  const [hasPrev, setHasPrev] = useState(false);
+
+  // Map API response to MediaItem format
+  const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
+    return {
+      id: apiItem.id,
+      name: apiItem.category.charAt(0).toUpperCase() + apiItem.category.slice(1).toLowerCase(),
+      views: `${apiItem.insights || 0}`,
+      type: apiItem.media_type === 'image' ? 'image' : 'video',
+      url: apiItem.googleUrl,
+      uploadDate: apiItem.postdate,
+      size: '2.1 MB', // API doesn't provide size, using placeholder
+      status: apiItem.status === 'Live' ? 'approved' : apiItem.status === 'Schedule' ? 'scheduled' : 'uploaded',
+      category: apiItem.category.toLowerCase()
+    };
+  };
+
+  // Fetch media list from API
+  const fetchMediaList = async () => {
+    if (!selectedListing) {
+      console.log('No listing selected');
+      return;
     }
-  ]);
+
+    setIsLoading(true);
+    try {
+      const response = await getMediaList({
+        listingId: selectedListing.id,
+        page: currentPage,
+        limit: itemsPerPage,
+        search: searchQuery,
+        category: categoryFilter,
+        status: statusFilter,
+        type: mediaTypeTab === 'all' ? '' : mediaTypeTab,
+        sort_by: sortBy,
+        sort_order: sortOrder
+      });
+
+      if (response.code === 200) {
+        const mappedItems = response.data.media.map(mapApiToMediaItem);
+        setMediaItems(mappedItems);
+        setTotalItems(response.data.total);
+        setTotalPages(response.data.pagination.total_pages);
+        setHasNext(response.data.pagination.has_next);
+        setHasPrev(response.data.pagination.has_prev);
+      } else {
+        toast({
+          title: "Error",
+          description: response.message || "Failed to fetch media list",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching media list:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch media list. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch media list when dependencies change
+  useEffect(() => {
+    fetchMediaList();
+  }, [selectedListing, currentPage, searchQuery, categoryFilter, statusFilter, mediaTypeTab, sortBy, sortOrder]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }, [searchQuery, categoryFilter, statusFilter, mediaTypeTab, sortBy, sortOrder]);
 
   const handleViewImage = (item: MediaItem) => {
     window.open(item.url, '_blank');
@@ -141,7 +139,6 @@ export const MediaPage: React.FC = () => {
   };
 
   const handleDownloadMedia = (item: MediaItem) => {
-    // Create a temporary link to download the file
     const link = document.createElement('a');
     link.href = item.url;
     link.download = item.name;
@@ -163,36 +160,32 @@ export const MediaPage: React.FC = () => {
   };
 
   const handleMediaUpload = (newMedia: any[]) => {
-    const mediaItems: MediaItem[] = newMedia.map((file) => ({
-      id: file.id,
-      name: file.name,
-      views: '0',
-      type: file.type,
-      url: file.url,
-      uploadDate: new Date().toISOString().split('T')[0],
-      size: '2.1 MB',
-      status: 'uploaded' as const,
-      category: 'marketing'
-    }));
-
-    setMediaItems(prev => [...mediaItems, ...prev]);
+    // Refresh the media list after successful upload
+    fetchMediaList();
     toast({
       title: "Media Uploaded",
       description: `${newMedia.length} media file(s) uploaded successfully.`
     });
   };
 
-  // Filter media based on search, category, status, and media type tab
-  const filteredMedia = mediaItems.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
-    const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
-    const matchesMediaType = mediaTypeTab === 'all' || item.type === mediaTypeTab;
-    
-    return matchesSearch && matchesCategory && matchesStatus && matchesMediaType;
-  });
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
-  const mostViewedImage = mediaItems[0];
+  const mostViewedImage = mediaItems.find(item => item.type === 'image') || mediaItems[0];
+
+  if (!selectedListing) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900">Your Media</h2>
+        </div>
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+          <p className="text-yellow-800">Please select a business listing to view media.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -216,41 +209,43 @@ export const MediaPage: React.FC = () => {
             </div>
             <div className="space-y-6">
               <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">354</div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">{totalItems}</div>
               </div>
               <hr />
               <div>
-                <div className="text-md text-black mb-2">Last month uploaded</div>
-                <div className="text-3xl font-bold text-gray-900">04</div>
+                <div className="text-md text-black mb-2">Current page items</div>
+                <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
-            </div>
-            <div className="grid grid-cols-12 gap-4">
-              <div className="col-span-7">
-                <div className="mb-4">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">12.4k views</div>
-                  <div className="text-sm text-gray-500">Image name</div>
-                </div>
-                <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => mostViewedImage && handleViewImage(mostViewedImage)}>
-                  View Image
-                </Button>
+        {mostViewedImage && (
+          <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
               </div>
-              
-              <div className="col-span-5">
-                <div className="aspect-square rounded-lg overflow-hidden">
-                  <img src={mostViewedImage?.url} alt={mostViewedImage?.name} className="w-full h-full object-cover" />
+              <div className="grid grid-cols-12 gap-4">
+                <div className="col-span-7">
+                  <div className="mb-4">
+                    <div className="text-3xl font-bold text-gray-900 mb-1">{mostViewedImage.views} views</div>
+                    <div className="text-sm text-gray-500">{mostViewedImage.name}</div>
+                  </div>
+                  <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => handleViewImage(mostViewedImage)}>
+                    View Image
+                  </Button>
+                </div>
+                
+                <div className="col-span-5">
+                  <div className="aspect-square rounded-lg overflow-hidden">
+                    <img src={mostViewedImage.url} alt={mostViewedImage.name} className="w-full h-full object-cover" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Media Stats Chart */}
         <MediaStatsChart />
@@ -281,33 +276,59 @@ export const MediaPage: React.FC = () => {
             onCategoryChange={setCategoryFilter}
             status={statusFilter}
             onStatusChange={setStatusFilter}
+            sortBy={sortBy}
+            onSortByChange={setSortBy}
+            sortOrder={sortOrder}
+            onSortOrderChange={setSortOrder}
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
-            {filteredMedia.map(item => (
-              <EnhancedMediaCard
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                url={item.url}
-                type={item.type}
-                size={item.size}
-                uploadDate={item.uploadDate}
-                status={item.status}
-                views={item.views}
-                onView={() => handleViewImage(item)}
-                onEdit={() => handleEditMedia(item.id)}
-                onDelete={() => handleDeleteImage(item.id)}
-                onDownload={() => handleDownloadMedia(item)}
-                onSetAsCover={() => handleSetAsCover(item.id)}
-              />
-            ))}
-          </div>
-          
-          {filteredMedia.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
-              <p>No media files match your current filters.</p>
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="text-gray-500">Loading media...</div>
             </div>
+          ) : (
+            <>
+              {/* Media Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
+                {mediaItems.map(item => (
+                  <EnhancedMediaCard
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    url={item.url}
+                    type={item.type}
+                    size={item.size}
+                    uploadDate={item.uploadDate}
+                    status={item.status}
+                    views={item.views}
+                    onView={() => handleViewImage(item)}
+                    onEdit={() => handleEditMedia(item.id)}
+                    onDelete={() => handleDeleteImage(item.id)}
+                    onDownload={() => handleDownloadMedia(item)}
+                    onSetAsCover={() => handleSetAsCover(item.id)}
+                  />
+                ))}
+              </div>
+              
+              {/* Empty State */}
+              {mediaItems.length === 0 && !isLoading && (
+                <div className="text-center py-12 text-gray-500">
+                  <p>No media files found.</p>
+                </div>
+              )}
+
+              {/* Pagination */}
+              <MediaPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+                onPageChange={handlePageChange}
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+              />
+            </>
           )}
         </CardContent>
       </Card>

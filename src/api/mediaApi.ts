@@ -16,6 +16,47 @@ export interface MediaUploadResponse {
   data: any[];
 }
 
+export interface MediaListRequest {
+  listingId: string;
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  status: string;
+  type: string;
+  sort_by: string;
+  sort_order: string;
+}
+
+export interface MediaListItem {
+  id: string;
+  gloc_id: string;
+  googleUrl: string;
+  category: string;
+  insights: number;
+  postdate: string;
+  posttime: string;
+  status: string;
+  media_type: string;
+}
+
+export interface MediaListResponse {
+  code: number;
+  message: string;
+  data: {
+    total: number;
+    media: MediaListItem[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      total_pages: number;
+      has_next: boolean;
+      has_prev: boolean;
+    };
+  };
+}
+
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
   const formData = new FormData();
   
@@ -40,5 +81,10 @@ export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadRes
     },
   });
 
+  return response.data;
+};
+
+export const getMediaList = async (params: MediaListRequest): Promise<MediaListResponse> => {
+  const response = await axiosInstance.post<MediaListResponse>('/get-media-list', params);
   return response.data;
 };

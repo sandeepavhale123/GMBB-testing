@@ -11,6 +11,10 @@ interface MediaFiltersProps {
   onCategoryChange: (category: string) => void;
   status: string;
   onStatusChange: (status: string) => void;
+  sortBy: string;
+  onSortByChange: (sortBy: string) => void;
+  sortOrder: string;
+  onSortOrderChange: (sortOrder: string) => void;
 }
 
 export const MediaFilters: React.FC<MediaFiltersProps> = ({
@@ -19,8 +23,46 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   category,
   onCategoryChange,
   status,
-  onStatusChange
+  onStatusChange,
+  sortBy,
+  onSortByChange,
+  sortOrder,
+  onSortOrderChange
 }) => {
+  const categories = [
+    { value: '', label: 'All Categories' },
+    { value: 'COVER', label: 'Cover' },
+    { value: 'PROFILE', label: 'Profile' },
+    { value: 'LOGO', label: 'Logo' },
+    { value: 'EXTERIOR', label: 'Exterior' },
+    { value: 'INTERIOR', label: 'Interior' },
+    { value: 'PRODUCT', label: 'Product' },
+    { value: 'AT_WORK', label: 'At Work' },
+    { value: 'FOOD_AND_DRINK', label: 'Food and Drink' },
+    { value: 'MENU', label: 'Menu' },
+    { value: 'COMMON_AREA', label: 'Common Area' },
+    { value: 'ROOMS', label: 'Rooms' },
+    { value: 'TEAMS', label: 'Teams' },
+    { value: 'ADDITIONAL', label: 'Additional' }
+  ];
+
+  const statuses = [
+    { value: '', label: 'All Status' },
+    { value: 'Live', label: 'Live' },
+    { value: 'Schedule', label: 'Scheduled' }
+  ];
+
+  const sortOptions = [
+    { value: 'postdate', label: 'Upload Date' },
+    { value: 'category', label: 'Category' },
+    { value: 'insights', label: 'Views' }
+  ];
+
+  const sortOrderOptions = [
+    { value: 'desc', label: 'Descending' },
+    { value: 'asc', label: 'Ascending' }
+  ];
+
   return (
     <div className="flex flex-col sm:flex-row gap-4 mb-6">
       <div className="relative flex-1">
@@ -33,17 +75,17 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
         />
       </div>
       
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         <Select value={category} onValueChange={onCategoryChange}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="marketing">Marketing</SelectItem>
-            <SelectItem value="products">Products</SelectItem>
-            <SelectItem value="events">Events</SelectItem>
-            <SelectItem value="team">Team</SelectItem>
+            {categories.map((cat) => (
+              <SelectItem key={cat.value} value={cat.value}>
+                {cat.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
@@ -52,10 +94,37 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="uploaded">Uploaded</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
+            {statuses.map((stat) => (
+              <SelectItem key={stat.value} value={stat.value}>
+                {stat.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={sortBy} onValueChange={onSortByChange}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            {sortOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={sortOrder} onValueChange={onSortOrderChange}>
+          <SelectTrigger className="w-32">
+            <SelectValue placeholder="Order" />
+          </SelectTrigger>
+          <SelectContent>
+            {sortOrderOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
