@@ -4,7 +4,7 @@ import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { TableCell, TableRow } from '../ui/table';
 
 interface ConnectedListing {
   id: string;
@@ -44,6 +44,18 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
     onManageListings?.(account.id);
   };
 
+  const handleRefresh = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle refresh action
+    console.log('Refresh account:', account.id);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Handle delete action
+    console.log('Delete account:', account.id);
+  };
+
   return (
     <TableRow className="hover:bg-gray-50 cursor-pointer" onClick={handleCardClick}>
       <TableCell>
@@ -79,11 +91,11 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
                 <Edit className="h-4 w-4 mr-2" />
                 Manage Listings
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleRefresh}>
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600">
+              <DropdownMenuItem className="text-red-600" onClick={handleDelete}>
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </DropdownMenuItem>

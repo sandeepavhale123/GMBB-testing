@@ -116,13 +116,17 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs text-gray-500">Connection Progress</span>
             <span className="text-xs text-gray-700 font-medium">
-              {Math.round((account.activeListings / account.listings) * 100)}%
+              {account.listings > 0 ? Math.round((account.activeListings / account.listings) * 100) : 0}%
             </span>
           </div>
           <div className="h-2 bg-gray-200 rounded-full">
             <div 
               className="h-2 bg-blue-500 rounded-full transition-all duration-300"
-              style={{ width: `${(account.activeListings / account.listings) * 100}%` }}
+              style={{ 
+                width: account.listings > 0 
+                  ? `${(account.activeListings / account.listings) * 100}%` 
+                  : '0%' 
+              }}
             />
           </div>
         </div>
