@@ -109,6 +109,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     return states;
   }, [listings, isLoading]);
 
+  // Check if we have search term and no results
+  const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
+  const showNoResultsMessage = hasSearchTerm && !loading && listings.length === 0;
+
   if (error) {
     return (
       <div className="p-4 sm:p-6 max-w-7xl mx-auto">
@@ -162,6 +166,15 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         filterStatus={filterStatus}
         onFilterChange={handleFilterChange}
       />
+
+      {/* No Results Message */}
+      {showNoResultsMessage && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+          <p className="text-yellow-800 text-sm">
+            No listings found for "{debouncedSearchTerm}". Try adjusting your search terms or filters.
+          </p>
+        </div>
+      )}
 
       {/* Listings Table */}
       {loading ? (

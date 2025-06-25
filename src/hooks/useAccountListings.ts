@@ -54,7 +54,7 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
           offset: (page - 1) * limit,
         },
         filters: {
-          search,
+          search: search.toLowerCase().trim(), // Make search case-insensitive
           status,
         },
         sorting: {
@@ -89,7 +89,7 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
     activeListings: data?.activeCount || 0,
     inactiveListings: data?.inactiveCount || 0,
     pagination: data?.pagination,
-    profileEmail: data?.profileEmail, // Add this line to expose profileEmail
+    profileEmail: data?.profileEmail,
     loading,
     error,
     refetch,
