@@ -9,6 +9,7 @@ import { AccountListingPagination } from './AccountListingPagination';
 import { useAccountListings } from '../../hooks/useAccountListings';
 import { useListingStatusToggle } from '../../hooks/useListingStatusToggle';
 import { Skeleton } from '../ui/skeleton';
+import { Search } from 'lucide-react';
 
 interface ListingManagementPageProps {
   accountId: string;
@@ -111,7 +112,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
 
   // Check if we have search term and no results
   const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
-  const showNoResultsMessage = hasSearchTerm && !loading && listings.length === 0;
+  const hasFilters = filterStatus !== 'all';
+  const showNoResultsMessage = !loading && listings.length === 0 && (hasSearchTerm || hasFilters);
 
   if (error) {
     return (
@@ -169,10 +171,21 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
 
       {/* No Results Message */}
       {showNoResultsMessage && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-          <p className="text-yellow-800 text-sm">
-            No listings found for "{debouncedSearchTerm}". Try adjusting your search terms or filters.
-          </p>
+        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center mb-6">
+          <div className="flex flex-col items-center">
+            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+              <Search className="w-6 h-6 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No listings found
+            </h3>
+            <p className="text-gray-500 text-sm max-w-md">
+              {hasSearchTerm 
+                ? `No listings match "${debouncedSearchTerm}". Try a different search term.`
+                : "No listings match your current filters. Try adjusting your filters."
+              }
+            </p>
+          </div>
         </div>
       )}
 
@@ -185,17 +198,17 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
             ))}
           </div>
         </div>
-      ) : (
+      ) : !showNoResultsMessage ? (
         <ListingsTable 
           listings={listings}
           onViewListing={handleViewListing}
           onToggleListing={handleToggleListing}
           loadingStates={loadingStates}
         />
-      )}
+      ) : null}
 
       {/* Pagination */}
-      {pagination && pagination.total_pages && pagination.total_pages > 1 && (
+      {pagination && pagination.total_pages && pagination.total_pages > 1 && !showNoResultsMessage && (
         <div className="mt-6">
           <AccountListingPagination
             currentPage={currentPage}
@@ -208,7 +221,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       )}
 
       {/* Results count */}
-      {!loading && (searchTerm || filterStatus !== 'all') && (
+      {!loading && !showNoResultsMessage && (searchTerm || filterStatus !== 'all') && (
         <div className="mt-4 text-sm text-gray-600">
           Showing {listings.length} of {totalListings} listings
         </div>
