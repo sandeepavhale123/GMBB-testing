@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Switch } from '../ui/switch';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
 
@@ -38,18 +39,10 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   account,
   onManageListings
 }) => {
+  const [isEnabled, setIsEnabled] = useState(account.isEnabled);
+
   const handleCardClick = () => {
     onManageListings?.(account.id);
-  };
-
-  const handleRefresh = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    console.log('Refresh account:', account.id);
-  };
-
-  const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    console.log('Delete account:', account.id);
   };
 
   return (
@@ -76,14 +69,11 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
 
         {/* Action Column */}
         <div className="col-span-4 flex items-center justify-end space-x-3">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
-            onClick={handleRefresh}
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
+          <Switch
+            checked={isEnabled}
+            onCheckedChange={setIsEnabled}
+            className="data-[state=checked]:bg-blue-500"
+          />
           <Button 
             variant="outline" 
             size="sm"
@@ -94,14 +84,6 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
             className="text-gray-600 hover:text-gray-900"
           >
             View
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
-            onClick={handleDelete}
-          >
-            <Trash2 className="h-4 w-4" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -119,11 +101,11 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
                 <Edit className="h-4 w-4 mr-2" />
                 Manage Listings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleRefresh}>
+              <DropdownMenuItem>
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600" onClick={handleDelete}>
+              <DropdownMenuItem className="text-red-600">
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </DropdownMenuItem>
