@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { GoogleAccountAvatar } from './GoogleAccountAvatar';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 interface ConnectedListing {
   id: string;
@@ -39,52 +39,30 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   account,
   onManageListings
 }) => {
-  const [isEnabled, setIsEnabled] = useState(account.isEnabled);
 
   const handleCardClick = () => {
     onManageListings?.(account.id);
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer" onClick={handleCardClick}>
-      <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm">
-        {/* Account Column */}
-        <div className="col-span-4 flex items-center space-x-3">
+    <TableRow className="hover:bg-gray-50 cursor-pointer" onClick={handleCardClick}>
+      <TableCell>
+        <div className="flex items-center space-x-3">
           <GoogleAccountAvatar name={account.name} avatar={account.avatar} />
           <div className="min-w-0">
             <h3 className="font-medium text-gray-900 truncate">{account.name}</h3>
             <p className="text-gray-500 text-xs truncate">{account.email}</p>
           </div>
         </div>
-
-        {/* Total Listings */}
-        <div className="col-span-2 text-center">
-          <span className="font-medium text-gray-900">{account.listings}</span>
-        </div>
-
-        {/* Connected Count */}
-        <div className="col-span-2 text-center">
-          <span className="font-medium text-gray-900">{account.activeListings}</span>
-        </div>
-
-        {/* Action Column */}
-        <div className="col-span-4 flex items-center justify-end space-x-3">
-          <Switch
-            checked={isEnabled}
-            onCheckedChange={setIsEnabled}
-            className="data-[state=checked]:bg-blue-500"
-          />
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onManageListings?.(account.id);
-            }}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            View
-          </Button>
+      </TableCell>
+      <TableCell className="text-center">
+        <span className="font-medium text-gray-900">{account.listings}</span>
+      </TableCell>
+      <TableCell className="text-center">
+        <span className="font-medium text-gray-900">{account.activeListings}</span>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button 
@@ -112,7 +90,7 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   );
 };

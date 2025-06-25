@@ -5,7 +5,9 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { GoogleAccountCard } from './GoogleAccountCard';
+import { GoogleAccountListView } from './GoogleAccountListView';
 import { AddAccountModal } from './AddAccountModal';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '../ui/table';
 
 interface ConnectedListing {
   id: string;
@@ -105,7 +107,7 @@ const mockAccounts: GoogleAccount[] = [{
 
 export const ManageGoogleAccountPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [showAddModal, setShowAddModal] = useState(false);
   const navigate = useNavigate();
   
@@ -131,7 +133,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
       </div>
 
       {/* Top Controls Panel */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full lg:w-auto">
             {/* Search Bar */}
@@ -182,30 +184,42 @@ export const ManageGoogleAccountPage: React.FC = () => {
         </div>
       </div>
 
-      {/* List View Headers */}
-      {viewMode === 'list' && filteredAccounts.length > 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-t-lg">
-          <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm font-medium text-gray-500 uppercase tracking-wide">
-            <div className="col-span-4">Account</div>
-            <div className="col-span-2 text-center">Total Listings</div>
-            <div className="col-span-2 text-center">Connected Listings</div>
-            <div className="col-span-4 text-right">Action</div>
-          </div>
-        </div>
-      )}
-
       {/* Account Cards Grid/List */}
       {filteredAccounts.length > 0 ? (
-        <div className={`${viewMode === 'list' ? 'space-y-0' : 'grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
-          {filteredAccounts.map((account) => (
-            <GoogleAccountCard
-              key={account.id}
-              account={account}
-              viewMode={viewMode}
-              onManageListings={handleManageListings}
-            />
-          ))}
-        </div>
+        viewMode === 'list' ? (
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50">
+                  <TableHead className="font-semibold text-gray-900">Account</TableHead>
+                  <TableHead className="font-semibold text-gray-900 text-center">Total Listings</TableHead>
+                  <TableHead className="font-semibold text-gray-900 text-center">Connected Listings</TableHead>
+                  <TableHead className="font-semibold text-gray-900 text-center">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredAccounts.map((account) => (
+                  <GoogleAccountListView
+                    key={account.id}
+                    account={account}
+                    onManageListings={handleManageListings}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {filteredAccounts.map((account) => (
+              <GoogleAccountCard
+                key={account.id}
+                account={account}
+                viewMode={viewMode}
+                onManageListings={handleManageListings}
+              />
+            ))}
+          </div>
+        )
       ) : (
         /* Empty State */
         <div className="text-center py-12">
