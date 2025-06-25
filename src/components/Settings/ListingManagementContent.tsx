@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -31,7 +30,8 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
   const [isSearching, setIsSearching] = useState(false);
   
   React.useEffect(() => {
-    if (searchTerm !== debouncedSearchTerm) {
+    // Only set searching to true if we have a search term and it's different from debounced
+    if (searchTerm.trim() && searchTerm !== debouncedSearchTerm) {
       setIsSearching(true);
     }
 
@@ -42,7 +42,7 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
     }, 3000); // 3 second delay
 
     return () => clearTimeout(timer);
-  }, [searchTerm, debouncedSearchTerm]);
+  }, [searchTerm]); // Remove debouncedSearchTerm from dependencies to prevent infinite loop
 
   const {
     listings,
@@ -123,7 +123,7 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
     return states;
   }, [listings, isLoading]);
 
-  // Check if we have search term and no results - Updated logic
+  // Check if we have search term and no results - Fixed logic
   const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
   const searchCompleted = !isSearching && !loading;
   const showWarningPage = hasSearchTerm && searchCompleted && listings.length === 0;
@@ -149,8 +149,8 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
         onFilterChange={handleFilterChange}
       />
 
-      {/* Search in progress indicator */}
-      {isSearching && (
+      {/* Search in progress indicator - only show when actively searching */}
+      {isSearching && searchTerm.trim() && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <p className="text-blue-800 text-sm flex items-center">
             <span className="animate-spin mr-2">⏳</span>
