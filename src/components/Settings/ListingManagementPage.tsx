@@ -59,8 +59,12 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     return <ListingManagementLoading />;
   }
 
+  const handleClearSearch = () => {
+    handleSearchChange('');
+  };
+
   if (error) {
-    return <ListingManagementError error={error} onRetry={refetch} />;
+    return <ListingManagementError error={error} onRetry={refetch} onClearSearch={handleClearSearch} />;
   }
 
   return (
