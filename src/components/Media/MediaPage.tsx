@@ -1,16 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { Upload, Eye, Trash2, MoreVertical, Play } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 import { MediaUploadModal } from './MediaUploadModal';
 import { MediaStatsChart } from './MediaStatsChart';
-import { MediaFilters } from './MediaFilters';
-import { EnhancedMediaCard } from './EnhancedMediaCard';
-import { MediaPagination } from './MediaPagination';
+import { MediaStatsCards } from './MediaStatsCards';
+import { MediaMostViewedCard } from './MediaMostViewedCard';
+import { MediaLibraryCard } from './MediaLibraryCard';
+import { MediaEmptyState } from './MediaEmptyState';
 import { getMediaList, MediaListItem } from '../../api/mediaApi';
 import { useListingContext } from '../../context/ListingContext';
 
@@ -175,16 +173,7 @@ export const MediaPage: React.FC = () => {
   const mostViewedImage = mediaItems.find(item => item.type === 'image') || mediaItems[0];
 
   if (!selectedListing) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Your Media</h2>
-        </div>
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-          <p className="text-yellow-800">Please select a business listing to view media.</p>
-        </div>
-      </div>
-    );
+    return <MediaEmptyState />;
   }
 
   return (
@@ -202,136 +191,40 @@ export const MediaPage: React.FC = () => {
 
       {/* Overview Stats Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-md text-black mb-2">Total media uploaded</h3>
-            </div>
-            <div className="space-y-6">
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">{totalItems}</div>
-              </div>
-              <hr />
-              <div>
-                <div className="text-md text-black mb-2">Current page items</div>
-                <div className="text-3xl font-bold text-gray-900">{mediaItems.length}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {mostViewedImage && (
-          <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
-              </div>
-              <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-7">
-                  <div className="mb-4">
-                    <div className="text-3xl font-bold text-gray-900 mb-1">{mostViewedImage.views} views</div>
-                    <div className="text-sm text-gray-500">{mostViewedImage.name}</div>
-                  </div>
-                  <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => handleViewImage(mostViewedImage)}>
-                    View Image
-                  </Button>
-                </div>
-                
-                <div className="col-span-5">
-                  <div className="aspect-square rounded-lg overflow-hidden">
-                    <img src={mostViewedImage.url} alt={mostViewedImage.name} className="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Media Stats Chart */}
+        <MediaStatsCards totalItems={totalItems} currentPageItems={mediaItems.length} />
+        <MediaMostViewedCard mostViewedImage={mostViewedImage} onViewImage={handleViewImage} />
         <MediaStatsChart />
       </div>
 
       {/* Media Library */}
-      <Card className="overflow-hidden">
-        <CardHeader className="pb-4">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-gray-700">
-              Media Library
-            </CardTitle>
-            <Tabs value={mediaTypeTab} onValueChange={setMediaTypeTab} className="w-auto">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="image">Images</TabsTrigger>
-                <TabsTrigger value="video">Videos</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Filters */}
-          <MediaFilters
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            category={categoryFilter}
-            onCategoryChange={setCategoryFilter}
-            status={statusFilter}
-            onStatusChange={setStatusFilter}
-            sortBy={sortBy}
-            onSortByChange={setSortBy}
-            sortOrder={sortOrder}
-            onSortOrderChange={setSortOrder}
-          />
-
-          {/* Loading State */}
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="text-gray-500">Loading media...</div>
-            </div>
-          ) : (
-            <>
-              {/* Media Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
-                {mediaItems.map(item => (
-                  <EnhancedMediaCard
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    url={item.url}
-                    type={item.type}
-                    size={item.size}
-                    uploadDate={item.uploadDate}
-                    status={item.status}
-                    views={item.views}
-                    onView={() => handleViewImage(item)}
-                    onEdit={() => handleEditMedia(item.id)}
-                    onDelete={() => handleDeleteImage(item.id)}
-                    onDownload={() => handleDownloadMedia(item)}
-                    onSetAsCover={() => handleSetAsCover(item.id)}
-                  />
-                ))}
-              </div>
-              
-              {/* Empty State */}
-              {mediaItems.length === 0 && !isLoading && (
-                <div className="text-center py-12 text-gray-500">
-                  <p>No media files found.</p>
-                </div>
-              )}
-
-              {/* Pagination */}
-              <MediaPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                hasNext={hasNext}
-                hasPrev={hasPrev}
-                onPageChange={handlePageChange}
-                totalItems={totalItems}
-                itemsPerPage={itemsPerPage}
-              />
-            </>
-          )}
-        </CardContent>
-      </Card>
+      <MediaLibraryCard
+        mediaTypeTab={mediaTypeTab}
+        onMediaTypeTabChange={setMediaTypeTab}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        categoryFilter={categoryFilter}
+        onCategoryChange={setCategoryFilter}
+        statusFilter={statusFilter}
+        onStatusChange={setStatusFilter}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+        sortOrder={sortOrder}
+        onSortOrderChange={setSortOrder}
+        isLoading={isLoading}
+        mediaItems={mediaItems}
+        onViewImage={handleViewImage}
+        onEditMedia={handleEditMedia}
+        onDeleteImage={handleDeleteImage}
+        onDownloadMedia={handleDownloadMedia}
+        onSetAsCover={handleSetAsCover}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        hasNext={hasNext}
+        hasPrev={hasPrev}
+        onPageChange={handlePageChange}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+      />
 
       <MediaUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleMediaUpload} />
     </div>

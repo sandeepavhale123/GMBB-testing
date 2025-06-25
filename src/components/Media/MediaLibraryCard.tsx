@@ -1,0 +1,160 @@
+
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
+import { MediaFilters } from './MediaFilters';
+import { EnhancedMediaCard } from './EnhancedMediaCard';
+import { MediaPagination } from './MediaPagination';
+
+interface MediaItem {
+  id: string;
+  name: string;
+  views: string;
+  type: 'image' | 'video';
+  url: string;
+  uploadDate: string;
+  size: string;
+  status: 'uploaded' | 'scheduled' | 'approved';
+  category: string;
+}
+
+interface MediaLibraryCardProps {
+  mediaTypeTab: string;
+  onMediaTypeTabChange: (value: string) => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  categoryFilter: string;
+  onCategoryChange: (category: string) => void;
+  statusFilter: string;
+  onStatusChange: (status: string) => void;
+  sortBy: string;
+  onSortByChange: (sortBy: string) => void;
+  sortOrder: string;
+  onSortOrderChange: (sortOrder: string) => void;
+  isLoading: boolean;
+  mediaItems: MediaItem[];
+  onViewImage: (item: MediaItem) => void;
+  onEditMedia: (id: string) => void;
+  onDeleteImage: (id: string) => void;
+  onDownloadMedia: (item: MediaItem) => void;
+  onSetAsCover: (id: string) => void;
+  currentPage: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+export const MediaLibraryCard: React.FC<MediaLibraryCardProps> = ({
+  mediaTypeTab,
+  onMediaTypeTabChange,
+  searchQuery,
+  onSearchChange,
+  categoryFilter,
+  onCategoryChange,
+  statusFilter,
+  onStatusChange,
+  sortBy,
+  onSortByChange,
+  sortOrder,
+  onSortOrderChange,
+  isLoading,
+  mediaItems,
+  onViewImage,
+  onEditMedia,
+  onDeleteImage,
+  onDownloadMedia,
+  onSetAsCover,
+  currentPage,
+  totalPages,
+  hasNext,
+  hasPrev,
+  onPageChange,
+  totalItems,
+  itemsPerPage
+}) => {
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold text-gray-700">
+            Media Library
+          </CardTitle>
+          <Tabs value={mediaTypeTab} onValueChange={onMediaTypeTabChange} className="w-auto">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="image">Images</TabsTrigger>
+              <TabsTrigger value="video">Videos</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Filters */}
+        <MediaFilters
+          searchQuery={searchQuery}
+          onSearchChange={onSearchChange}
+          category={categoryFilter}
+          onCategoryChange={onCategoryChange}
+          status={statusFilter}
+          onStatusChange={onStatusChange}
+          sortBy={sortBy}
+          onSortByChange={onSortByChange}
+          sortOrder={sortOrder}
+          onSortOrderChange={onSortOrderChange}
+        />
+
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="text-center py-12">
+            <div className="text-gray-500">Loading media...</div>
+          </div>
+        ) : (
+          <>
+            {/* Media Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
+              {mediaItems.map(item => (
+                <EnhancedMediaCard
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  url={item.url}
+                  type={item.type}
+                  size={item.size}
+                  uploadDate={item.uploadDate}
+                  status={item.status}
+                  views={item.views}
+                  onView={() => onViewImage(item)}
+                  onEdit={() => onEditMedia(item.id)}
+                  onDelete={() => onDeleteImage(item.id)}
+                  onDownload={() => onDownloadMedia(item)}
+                  onSetAsCover={() => onSetAsCover(item.id)}
+                />
+              ))}
+            </div>
+            
+            {/* Empty State */}
+            {mediaItems.length === 0 && !isLoading && (
+              <div className="text-center py-12 text-gray-500">
+                <p>No media files found.</p>
+              </div>
+            )}
+
+            {/* Pagination */}
+            <MediaPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasNext={hasNext}
+              hasPrev={hasPrev}
+              onPageChange={onPageChange}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+            />
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
