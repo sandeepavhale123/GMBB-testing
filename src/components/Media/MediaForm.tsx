@@ -26,34 +26,32 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   fileType
 }) => {
   const allCategories = [
-    'Unspecified category',
-    'Cover photo',
-    'Profile photo', 
-    'Logo photo',
-    'Exterior media',
-    'Interior media',
-    'Product media',
-    'At-work media',
-    'Food and drink',
-    'Menu media',
-    'Common area media',
-    'Rooms media',
-    'Teams media',
-    'Additional'
+    { value: 'COVER', label: 'Cover' },
+    { value: 'PROFILE', label: 'Profile' },
+    { value: 'LOGO', label: 'Logo' },
+    { value: 'EXTERIOR', label: 'Exterior' },
+    { value: 'INTERIOR', label: 'Interior' },
+    { value: 'PRODUCT', label: 'Product' },
+    { value: 'AT_WORK', label: 'At Work' },
+    { value: 'FOOD_AND_DRINK', label: 'Food and Drink' },
+    { value: 'MENU', label: 'Menu' },
+    { value: 'COMMON_AREA', label: 'Common Area' },
+    { value: 'ROOMS', label: 'Rooms' },
+    { value: 'TEAMS', label: 'Teams' },
+    { value: 'ADDITIONAL', label: 'Additional' }
   ];
 
   const videoCategories = [
-    'Unspecified category',
-    'Exterior media',
-    'Interior media',
-    'Product media',
-    'At-work media',
-    'Food and drink',
-    'Menu media',
-    'Common area media',
-    'Rooms media',
-    'Teams media',
-    'Additional'
+    { value: 'EXTERIOR', label: 'Exterior' },
+    { value: 'INTERIOR', label: 'Interior' },
+    { value: 'PRODUCT', label: 'Product' },
+    { value: 'AT_WORK', label: 'At Work' },
+    { value: 'FOOD_AND_DRINK', label: 'Food and Drink' },
+    { value: 'MENU', label: 'Menu' },
+    { value: 'COMMON_AREA', label: 'Common Area' },
+    { value: 'ROOMS', label: 'Rooms' },
+    { value: 'TEAMS', label: 'Teams' },
+    { value: 'ADDITIONAL', label: 'Additional' }
   ];
 
   const categories = fileType === 'video' ? videoCategories : allCategories;
@@ -123,8 +121,8 @@ export const MediaForm: React.FC<MediaFormProps> = ({
             </SelectTrigger>
             <SelectContent>
               {categories.map((category) => (
-                <SelectItem key={category} value={category.toLowerCase().replace(/\s+/g, '-')}>
-                  {category}
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
                 </SelectItem>
               ))}
             </SelectContent>
