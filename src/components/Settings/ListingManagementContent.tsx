@@ -28,15 +28,21 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
 
   // Debounced search with 3 second delay
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   
   React.useEffect(() => {
+    if (searchTerm !== debouncedSearchTerm) {
+      setIsSearching(true);
+    }
+
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
       setCurrentPage(1); // Reset to first page when searching
+      setIsSearching(false);
     }, 3000); // 3 second delay
 
     return () => clearTimeout(timer);
-  }, [searchTerm]);
+  }, [searchTerm, debouncedSearchTerm]);
 
   const {
     listings,
@@ -75,6 +81,7 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
     setDebouncedSearchTerm('');
     setFilterStatus('all');
     setCurrentPage(1);
+    setIsSearching(false);
   }, []);
 
   const handleViewListing = useCallback((listingId: string) => {
@@ -116,11 +123,12 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
     return states;
   }, [listings, isLoading]);
 
-  // Check if we have search term and no results
+  // Check if we have search term and no results - Updated logic
   const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
-  const showWarningPage = hasSearchTerm && !loading && listings.length === 0;
+  const searchCompleted = !isSearching && !loading;
+  const showWarningPage = hasSearchTerm && searchCompleted && listings.length === 0;
 
-  if (loading) {
+  if (loading && !isSearching) {
     return <ListingLoadingState />;
   }
 
@@ -140,6 +148,16 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
         filterStatus={filterStatus}
         onFilterChange={handleFilterChange}
       />
+
+      {/* Search in progress indicator */}
+      {isSearching && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <p className="text-blue-800 text-sm flex items-center">
+            <span className="animate-spin mr-2">⏳</span>
+            Searching listings...
+          </p>
+        </div>
+      )}
 
       {/* Warning Page for No Results */}
       {showWarningPage ? (
@@ -171,7 +189,7 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
           )}
 
           {/* Results count */}
-          {!loading && (searchTerm || filterStatus !== 'all') && (
+          {!loading && !isSearching && (searchTerm || filterStatus !== 'all') && (
             <div className="mt-4 text-sm text-gray-600">
               Showing {listings.length} of {totalListings} listings
             </div>
