@@ -45,7 +45,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/settings/listings': [
     { title: 'Dashboard', path: '/' },
     { title: 'Settings', path: '/settings' },
-    { title: 'Manage Listings', path: '/settings/listings' }
+    { title: 'Manage Google Account', path: '/settings/google-account' }
   ],
   '/insights': [
     { title: 'Dashboard', path: '/' },
@@ -96,10 +96,12 @@ export const PageBreadcrumb: React.FC = () => {
 
   // Customize breadcrumb for listings management page
   if (baseRoute === '/settings/listings' && accountId) {
+    const profileEmail = 'sandeepa@citationbuilderpro.com'; // This would come from API
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
       { title: 'Settings', path: '/settings/google-account' },
-      { title: `Account ${accountId} Listings`, path: `/settings/listings/${accountId}` }
+      { title: 'Manage Google Account', path: '/settings/google-account' },
+      { title: profileEmail, path: `/settings/listings/${accountId}` }
     ];
   }
 
