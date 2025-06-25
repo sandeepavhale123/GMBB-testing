@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { FileImage, Video } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { FileImage } from 'lucide-react';
 
 const data = [
   {
@@ -29,28 +29,39 @@ export const MediaStatsChart: React.FC = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-64">
+        <div className="h-[200px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip 
-                formatter={(value, name) => [value, name === 'count' ? 'Total Files' : 'Total Views']}
+            <PieChart>
+              <Pie
+                data={data}
+                cx="40%"
+                cy="50%"
+                innerRadius={40}
+                outerRadius={70}
+                paddingAngle={5}
+                dataKey="count"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Pie>
+              <Legend 
+                verticalAlign="middle" 
+                align="right"
+                layout="vertical"
+                iconType="circle"
+                wrapperStyle={{
+                  paddingLeft: '20px',
+                  fontSize: '14px'
+                }}
+                formatter={(value, entry) => (
+                  <span style={{ color: entry.color }}>
+                    {entry.payload.count} {value}
+                  </span>
+                )}
               />
-              <Bar dataKey="count" name="count" radius={[4, 4, 0, 0]} />
-            </BarChart>
+            </PieChart>
           </ResponsiveContainer>
-        </div>
-        <div className="flex justify-between items-center mt-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span>245 Images</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span>89 Videos</span>
-          </div>
         </div>
       </CardContent>
     </Card>
