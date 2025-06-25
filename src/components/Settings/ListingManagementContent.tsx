@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -26,14 +25,14 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  // Debounced search to prevent excessive API calls
+  // Debounced search with 3 second delay
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
       setCurrentPage(1); // Reset to first page when searching
-    }, 300);
+    }, 3000); // 3 second delay
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
