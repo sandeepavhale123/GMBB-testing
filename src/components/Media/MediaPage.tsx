@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Upload, Eye, Trash2, MoreVertical, Play } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 import { MediaUploadModal } from './MediaUploadModal';
 import { MediaStatsChart } from './MediaStatsChart';
 import { MediaFilters } from './MediaFilters';
@@ -27,6 +28,7 @@ export const MediaPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [mediaTypeTab, setMediaTypeTab] = useState('all');
   
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([
     {
@@ -180,13 +182,14 @@ export const MediaPage: React.FC = () => {
     });
   };
 
-  // Filter media based on search, category and status
+  // Filter media based on search, category, status, and media type tab
   const filteredMedia = mediaItems.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
     const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
+    const matchesMediaType = mediaTypeTab === 'all' || item.type === mediaTypeTab;
     
-    return matchesSearch && matchesCategory && matchesStatus;
+    return matchesSearch && matchesCategory && matchesStatus && matchesMediaType;
   });
 
   const mostViewedImage = mediaItems[0];
@@ -256,9 +259,18 @@ export const MediaPage: React.FC = () => {
       {/* Media Library */}
       <Card className="overflow-hidden">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold text-gray-700">
-            Media Library
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg font-semibold text-gray-700">
+              Media Library
+            </CardTitle>
+            <Tabs value={mediaTypeTab} onValueChange={setMediaTypeTab} className="w-auto">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="image">Images</TabsTrigger>
+                <TabsTrigger value="video">Videos</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Filters */}
