@@ -29,8 +29,8 @@ export const MediaPage: React.FC = () => {
   const { selectedListing } = useListingContext();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [mediaTypeTab, setMediaTypeTab] = useState('all');
   const [sortBy, setSortBy] = useState('postdate');
   const [sortOrder, setSortOrder] = useState('desc');
@@ -67,13 +67,21 @@ export const MediaPage: React.FC = () => {
 
     setIsLoading(true);
     try {
+      console.log('Fetching media list with filters:', {
+        listingId: selectedListing.id,
+        page: currentPage,
+        category: categoryFilter === 'all' ? '' : categoryFilter,
+        status: statusFilter === 'all' ? '' : statusFilter,
+        type: mediaTypeTab === 'all' ? '' : mediaTypeTab
+      });
+
       const response = await getMediaList({
         listingId: selectedListing.id,
         page: currentPage,
         limit: itemsPerPage,
         search: searchQuery,
-        category: categoryFilter,
-        status: statusFilter,
+        category: categoryFilter === 'all' ? '' : categoryFilter,
+        status: statusFilter === 'all' ? '' : statusFilter,
         type: mediaTypeTab === 'all' ? '' : mediaTypeTab,
         sort_by: sortBy,
         sort_order: sortOrder
@@ -170,6 +178,14 @@ export const MediaPage: React.FC = () => {
     setCurrentPage(page);
   };
 
+  const handleCategoryChange = (category: string) => {
+    setCategoryFilter(category);
+  };
+
+  const handleStatusChange = (status: string) => {
+    setStatusFilter(status);
+  };
+
   const mostViewedImage = mediaItems.find(item => item.type === 'image') || mediaItems[0];
 
   if (!selectedListing) {
@@ -203,9 +219,9 @@ export const MediaPage: React.FC = () => {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         categoryFilter={categoryFilter}
-        onCategoryChange={setCategoryFilter}
+        onCategoryChange={handleCategoryChange}
         statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
+        onStatusChange={handleStatusChange}
         sortBy={sortBy}
         onSortByChange={setSortBy}
         sortOrder={sortOrder}

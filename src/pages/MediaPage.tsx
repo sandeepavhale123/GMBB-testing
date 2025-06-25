@@ -6,6 +6,7 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { MediaPage as Media } from '../components/Media/MediaPage';
+import { MediaErrorBoundary } from '../components/Media/MediaErrorBoundary';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
@@ -57,7 +58,9 @@ const MediaPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <Media />
+              <MediaErrorBoundary>
+                <Media />
+              </MediaErrorBoundary>
             </main>
           </div>
 

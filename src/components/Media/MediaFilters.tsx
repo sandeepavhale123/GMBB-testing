@@ -30,7 +30,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   onSortOrderChange
 }) => {
   const categories = [
-    { value: '', label: 'All Categories' },
+    { value: 'all', label: 'All Categories' },
     { value: 'COVER', label: 'Cover' },
     { value: 'PROFILE', label: 'Profile' },
     { value: 'LOGO', label: 'Logo' },
@@ -47,7 +47,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   ];
 
   const statuses = [
-    { value: '', label: 'All Status' },
+    { value: 'all', label: 'All Status' },
     { value: 'Live', label: 'Live' },
     { value: 'Schedule', label: 'Scheduled' }
   ];
@@ -76,7 +76,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
       </div>
       
       <div className="flex gap-3 flex-wrap">
-        <Select value={category} onValueChange={onCategoryChange}>
+        <Select value={category || 'all'} onValueChange={onCategoryChange}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
@@ -89,7 +89,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={status} onValueChange={onStatusChange}>
+        <Select value={status || 'all'} onValueChange={onStatusChange}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
