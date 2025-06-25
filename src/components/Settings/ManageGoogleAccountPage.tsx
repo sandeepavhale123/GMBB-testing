@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Search, Plus, Grid3X3, List, Zap } from 'lucide-react';
+import { Search, Plus, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { GoogleAccountCard } from './GoogleAccountCard';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { GoogleAccountAvatar } from './GoogleAccountAvatar';
 import { AddAccountModal } from './AddAccountModal';
+import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
 interface ConnectedListing {
   id: string;
@@ -105,12 +108,19 @@ const mockAccounts: GoogleAccount[] = [{
 
 export const ManageGoogleAccountPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const navigate = useNavigate();
   
   const handleManageListings = (accountId: string) => {
     navigate(`/settings/listings/${accountId}`);
+  };
+
+  const handleRefresh = (accountId: string) => {
+    console.log('Refresh account:', accountId);
+  };
+
+  const handleDelete = (accountId: string) => {
+    console.log('Delete account:', accountId);
   };
   
   const totalActiveListings = mockAccounts.reduce((sum, account) => sum + account.activeListings, 0);
@@ -121,7 +131,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
   });
 
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Page Title */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
@@ -151,27 +161,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
             </Badge>
           </div>
 
-          <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
-            {/* View Switcher */}
-            <div className="flex items-center bg-gray-100 rounded-lg p-1">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className="h-8 w-8 p-0"
-              >
-                <Grid3X3 className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className="h-8 w-8 p-0"
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-
+          <div className="flex items-center gap-3 w-full lg:w-auto justify-end">
             {/* Add New Account Button */}
             <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
@@ -182,29 +172,93 @@ export const ManageGoogleAccountPage: React.FC = () => {
         </div>
       </div>
 
-      {/* List View Headers */}
-      {viewMode === 'list' && filteredAccounts.length > 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-t-lg">
-          <div className="grid grid-cols-12 gap-4 items-center p-4 text-sm font-medium text-gray-500 uppercase tracking-wide">
-            <div className="col-span-4">Account</div>
-            <div className="col-span-2 text-center">Total Listings</div>
-            <div className="col-span-2 text-center">Connected Listings</div>
-            <div className="col-span-4 text-right">Action</div>
-          </div>
-        </div>
-      )}
-
-      {/* Account Cards Grid/List */}
+      {/* Google Accounts Table */}
       {filteredAccounts.length > 0 ? (
-        <div className={`${viewMode === 'list' ? 'space-y-0' : 'grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
-          {filteredAccounts.map((account) => (
-            <GoogleAccountCard
-              key={account.id}
-              account={account}
-              viewMode={viewMode}
-              onManageListings={handleManageListings}
-            />
-          ))}
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="font-semibold text-gray-900">Account</TableHead>
+                <TableHead className="font-semibold text-gray-900">Total Listings</TableHead>
+                <TableHead className="font-semibold text-gray-900">Connected Listings</TableHead>
+                <TableHead className="font-semibold text-gray-900 text-center">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredAccounts.map((account) => (
+                <TableRow key={account.id} className="hover:bg-gray-50">
+                  <TableCell>
+                    <div className="flex items-center space-x-3">
+                      <GoogleAccountAvatar name={account.name} avatar={account.avatar} />
+                      <div className="min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{account.name}</h3>
+                        <p className="text-gray-500 text-xs truncate">{account.email}</p>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-medium text-gray-900">{account.listings}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-medium text-gray-900">{account.activeListings}</span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center space-x-3">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
+                        onClick={() => handleRefresh(account.id)}
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleManageListings(account.id)}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        View
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
+                        onClick={() => handleDelete(account.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleManageListings(account.id)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Manage Listings
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleRefresh(account.id)}>
+                            <RefreshCw className="h-4 w-4 mr-2" />
+                            Refresh
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(account.id)}>
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       ) : (
         /* Empty State */
