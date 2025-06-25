@@ -2,11 +2,11 @@
 import React from 'react';
 import { ListingStatisticsCards } from './ListingStatisticsCards';
 import { ListingSearchFilters } from './ListingSearchFilters';
+import { ListingManagementSearchError } from './ListingManagementSearchError';
 import { ListingsTable } from './ListingsTable';
 import { AccountListingPagination } from './AccountListingPagination';
 import { ListingManagementLoading } from './ListingManagementLoading';
 import { ListingManagementError } from './ListingManagementError';
-import { ListingManagementEmpty } from './ListingManagementEmpty';
 import { ListingManagementSummary } from './ListingManagementSummary';
 import { useListingManagement } from '../../hooks/useListingManagement';
 
@@ -28,7 +28,8 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     summaryActiveListings,
     summaryInactiveListings,
     pagination,
-    loading,
+    filteredDataLoading,
+    summaryDataLoading,
     error,
     handleSearchChange,
     handleFilterChange,
@@ -51,9 +52,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   // Check if we have search term and no results
   const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
   const hasFilters = filterStatus !== 'all';
-  const showNoResultsMessage = !loading && listings.length === 0 && (hasSearchTerm || hasFilters);
+  const showSearchError = !filteredDataLoading && listings.length === 0 && (hasSearchTerm || hasFilters);
 
-  if (loading) {
+  // Show loading only on initial page load (when we have no data yet)
+  if (summaryDataLoading && summaryTotalListings === 0) {
     return <ListingManagementLoading />;
   }
 
@@ -70,7 +72,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         </h2>
       </div>
 
-      {/* Statistics Cards - Always show unfiltered totals */}
+      {/* Statistics Cards - Never show loading after initial load */}
       <ListingStatisticsCards 
         totalListings={summaryTotalListings} 
         activeListings={summaryActiveListings} 
@@ -85,16 +87,21 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
         onFilterChange={handleFilterChange}
       />
 
-      {/* No Results Message */}
-      {showNoResultsMessage && (
-        <ListingManagementEmpty 
+      {/* Search Error Message - appears below search box */}
+      {showSearchError && (
+        <ListingManagementSearchError 
           hasSearchTerm={hasSearchTerm}
           searchTerm={debouncedSearchTerm}
+          hasFilters={hasFilters}
         />
       )}
 
-      {/* Listings Table */}
-      {!showNoResultsMessage && (
+      {/* Listings Table - show loading state for table data only */}
+      {filteredDataLoading ? (
+        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <p className="text-gray-600">Loading listings...</p>
+        </div>
+      ) : !showSearchError && (
         <ListingsTable 
           listings={listings}
           onViewListing={handleViewListing}
@@ -104,7 +111,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       )}
 
       {/* Pagination */}
-      {pagination && pagination.total_pages && pagination.total_pages > 1 && !showNoResultsMessage && (
+      {pagination && pagination.total_pages && pagination.total_pages > 1 && !showSearchError && (
         <div className="mt-6">
           <AccountListingPagination
             currentPage={currentPage}
@@ -117,7 +124,7 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
       )}
 
       {/* Results count - Show filtered results count */}
-      {!showNoResultsMessage && (searchTerm || filterStatus !== 'all') && (
+      {!showSearchError && (searchTerm || filterStatus !== 'all') && (
         <ListingManagementSummary 
           listingsCount={listings.length}
           totalListings={filteredTotalListings}

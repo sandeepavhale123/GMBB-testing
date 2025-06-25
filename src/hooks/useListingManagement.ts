@@ -37,7 +37,7 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     activeListings: filteredActiveListings,
     inactiveListings: filteredInactiveListings,
     pagination,
-    loading,
+    loading: filteredDataLoading,
     error,
     refetch,
   } = useAccountListings({
@@ -49,11 +49,12 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     sortOrder,
   });
 
-  // Fetch unfiltered statistics for summary cards
+  // Fetch unfiltered statistics for summary cards - separate loading state
   const {
     totalListings: summaryTotalListings,
     activeListings: summaryActiveListings,
     inactiveListings: summaryInactiveListings,
+    loading: summaryDataLoading,
     refetch: refetchSummary,
   } = useAccountListings({
     accountId,
@@ -126,7 +127,10 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     summaryActiveListings,
     summaryInactiveListings,
     pagination,
-    loading,
+    
+    // Loading states - separate for filtered data and summary
+    filteredDataLoading,
+    summaryDataLoading,
     error,
     
     // Handlers
