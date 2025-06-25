@@ -54,7 +54,7 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
           offset: (page - 1) * limit,
         },
         filters: {
-          search: search.toLowerCase().trim(), // Make search case-insensitive
+          search: search.toLowerCase().trim(), // Ensure case-insensitive search
           status,
         },
         sorting: {
@@ -80,8 +80,17 @@ export const useAccountListings = (params: UseAccountListingsParams) => {
     fetchListings();
   }, [fetchListings]);
 
-  // Transform locations to listings format
-  const listings = data?.locations ? data.locations.map(transformLocationToListing) : [];
+  // Transform locations to listings format and apply client-side case-insensitive filtering as backup
+  const listings = data?.locations ? data.locations
+    .map(transformLocationToListing)
+    .filter(listing => {
+      if (!search.trim()) return true;
+      const searchLower = search.toLowerCase();
+      return listing.name.toLowerCase().includes(searchLower) ||
+             listing.address.toLowerCase().includes(searchLower) ||
+             listing.state.toLowerCase().includes(searchLower) ||
+             listing.group_name.toLowerCase().includes(searchLower);
+    }) : [];
 
   return {
     listings,
