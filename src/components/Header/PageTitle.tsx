@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { useAccountListings } from '../../hooks/useAccountListings';
 
 const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' },
@@ -42,29 +41,10 @@ export const PageTitle: React.FC = () => {
   const baseRoute = getBaseRoute(location.pathname);
   const pageInfo = routeToTitle[baseRoute] || { title: 'Dashboard', subtitle: 'Welcome back to your business dashboard' };
 
-  // Get profile email for listings management page
-  const { listings } = useAccountListings({
-    accountId: accountId || '',
-    page: 1,
-    limit: 1,
-  });
-
-  // Get profile email from API response - we'll use the first listing's profile email
-  const profileEmail = listings.length > 0 ? 'sandeepa@citationbuilderpro.com' : '';
-
-  // Customize title for listings management page
-  let displayTitle = pageInfo.title;
-  let displaySubtitle = pageInfo.subtitle;
-  
-  if (baseRoute === '/settings/listings' && accountId && profileEmail) {
-    displayTitle = `Manage listings of ${profileEmail}`;
-    displaySubtitle = `Monitor and manage your Google Business Profile listings for ${profileEmail}`;
-  }
-
   return (
     <div className="min-w-0">
       <h5 className="font-semibold text-gray-900 mb-1">
-        {displayTitle}
+        {pageInfo.title}
       </h5>
     </div>
   );
