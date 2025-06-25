@@ -1,11 +1,14 @@
-
 import React, { useState } from 'react';
+import { Search, Plus, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { GoogleAccountsHeader } from './GoogleAccountsHeader';
-import { GoogleAccountsSearchBar } from './GoogleAccountsSearchBar';
-import { GoogleAccountsTable } from './GoogleAccountsTable';
-import { GoogleAccountsEmptyState } from './GoogleAccountsEmptyState';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { GoogleAccountAvatar } from './GoogleAccountAvatar';
 import { AddAccountModal } from './AddAccountModal';
+import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
 interface ConnectedListing {
   id: string;
@@ -129,26 +132,152 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-      <GoogleAccountsHeader />
-      
-      <GoogleAccountsSearchBar
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        totalActiveListings={totalActiveListings}
-        onAddAccount={() => setShowAddModal(true)}
-      />
+      {/* Page Title */}
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Manage Google Account</h2>
+        <p className="text-gray-600 text-sm sm:text-base">
+          Connect and monitor your Google Business Profiles to maximize local visibility and SEO performance.
+        </p>
+      </div>
 
+      {/* Top Controls Panel */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-6">
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full lg:w-auto">
+            {/* Search Bar */}
+            <div className="relative flex-1 max-w-full sm:max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search accounts by name or email"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Active Listings Badge */}
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
+              Active Listings: {totalActiveListings}/100
+            </Badge>
+          </div>
+
+          <div className="flex items-center gap-3 w-full lg:w-auto justify-end">
+            {/* Add New Account Button */}
+            <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">Add New Account</span>
+              <span className="sm:hidden">Add</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Google Accounts Table */}
       {filteredAccounts.length > 0 ? (
-        <GoogleAccountsTable
-          accounts={filteredAccounts}
-          onManageListings={handleManageListings}
-          onRefresh={handleRefresh}
-          onDelete={handleDelete}
-        />
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="font-semibold text-gray-900">Account</TableHead>
+                <TableHead className="font-semibold text-gray-900">Total Listings</TableHead>
+                <TableHead className="font-semibold text-gray-900">Connected Listings</TableHead>
+                <TableHead className="font-semibold text-gray-900 text-center">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredAccounts.map((account) => (
+                <TableRow key={account.id} className="hover:bg-gray-50">
+                  <TableCell>
+                    <div className="flex items-center space-x-3">
+                      <GoogleAccountAvatar name={account.name} avatar={account.avatar} />
+                      <div className="min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{account.name}</h3>
+                        <p className="text-gray-500 text-xs truncate">{account.email}</p>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-medium text-gray-900">{account.listings}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-medium text-gray-900">{account.activeListings}</span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center space-x-3">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
+                        onClick={() => handleRefresh(account.id)}
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleManageListings(account.id)}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        View
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
+                        onClick={() => handleDelete(account.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleManageListings(account.id)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Manage Listings
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleRefresh(account.id)}>
+                            <RefreshCw className="h-4 w-4 mr-2" />
+                            Refresh
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(account.id)}>
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       ) : (
-        <GoogleAccountsEmptyState onAddAccount={() => setShowAddModal(true)} />
+        /* Empty State */
+        <div className="text-center py-12">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Zap className="h-8 w-8 text-gray-400" />
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No accounts connected</h3>
+          <p className="text-gray-600 mb-6 text-sm sm:text-base">
+            Click 'Add New Account' to sync your Google Business Profile.
+          </p>
+          <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 mx-auto">
+            <Plus className="h-4 w-4" />
+            Add New Account
+          </Button>
+        </div>
       )}
 
+      {/* Add Account Modal */}
       <AddAccountModal open={showAddModal} onOpenChange={setShowAddModal} />
     </div>
   );
