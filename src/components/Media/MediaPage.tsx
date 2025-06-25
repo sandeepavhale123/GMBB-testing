@@ -8,7 +8,6 @@ import { MediaUploadModal } from './MediaUploadModal';
 import { MediaStatsChart } from './MediaStatsChart';
 import { MediaFilters } from './MediaFilters';
 import { EnhancedMediaCard } from './EnhancedMediaCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 interface MediaItem {
   id: string;
@@ -25,7 +24,6 @@ interface MediaItem {
 export const MediaPage: React.FC = () => {
   const { toast } = useToast();
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -182,31 +180,16 @@ export const MediaPage: React.FC = () => {
     });
   };
 
-  // Filter media based on search, category, status, and tab
+  // Filter media based on search, category and status
   const filteredMedia = mediaItems.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
     const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
     
-    let matchesTab = true;
-    if (activeTab === 'scheduled') {
-      matchesTab = item.status === 'scheduled';
-    } else if (activeTab === 'live') {
-      matchesTab = item.status === 'approved';
-    }
-    
-    return matchesSearch && matchesCategory && matchesStatus && matchesTab;
+    return matchesSearch && matchesCategory && matchesStatus;
   });
 
   const mostViewedImage = mediaItems[0];
-
-  const tabItems = [
-    { value: 'all', label: 'All Media', shortLabel: 'All' },
-    { value: 'live', label: 'Live Media', shortLabel: 'Live' },
-    { value: 'scheduled', label: 'Scheduled Media', shortLabel: 'Scheduled' },
-    { value: 'images', label: 'Images Only', shortLabel: 'Images' },
-    { value: 'videos', label: 'Videos Only', shortLabel: 'Videos' }
-  ];
 
   return (
     <div className="space-y-6">
@@ -288,45 +271,32 @@ export const MediaPage: React.FC = () => {
             onStatusChange={setStatusFilter}
           />
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full bg-gray-100 p-1 h-auto overflow-x-auto">
-              {tabItems.map(item => (
-                <TabsTrigger key={item.value} value={item.value} className="flex-1 min-w-0 px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  <span className="hidden sm:inline">{item.label}</span>
-                  <span className="sm:hidden">{item.shortLabel}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            <TabsContent value={activeTab} className="mt-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
-                {filteredMedia.map(item => (
-                  <EnhancedMediaCard
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    url={item.url}
-                    type={item.type}
-                    size={item.size}
-                    uploadDate={item.uploadDate}
-                    status={item.status}
-                    views={item.views}
-                    onView={() => handleViewImage(item)}
-                    onEdit={() => handleEditMedia(item.id)}
-                    onDelete={() => handleDeleteImage(item.id)}
-                    onDownload={() => handleDownloadMedia(item)}
-                    onSetAsCover={() => handleSetAsCover(item.id)}
-                  />
-                ))}
-              </div>
-              
-              {filteredMedia.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
-                  <p>No media files match your current filters.</p>
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 gap-4">
+            {filteredMedia.map(item => (
+              <EnhancedMediaCard
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                url={item.url}
+                type={item.type}
+                size={item.size}
+                uploadDate={item.uploadDate}
+                status={item.status}
+                views={item.views}
+                onView={() => handleViewImage(item)}
+                onEdit={() => handleEditMedia(item.id)}
+                onDelete={() => handleDeleteImage(item.id)}
+                onDownload={() => handleDownloadMedia(item)}
+                onSetAsCover={() => handleSetAsCover(item.id)}
+              />
+            ))}
+          </div>
+          
+          {filteredMedia.length === 0 && (
+            <div className="text-center py-12 text-gray-500">
+              <p>No media files match your current filters.</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
