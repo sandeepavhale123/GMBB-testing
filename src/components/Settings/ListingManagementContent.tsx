@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -6,7 +7,7 @@ import { ListingSearchFilters } from './ListingSearchFilters';
 import { ListingsTable } from './ListingsTable';
 import { AccountListingPagination } from './AccountListingPagination';
 import { ListingLoadingState } from './ListingLoadingState';
-import { NoResultsMessage } from './NoResultsMessage';
+import { ListingSearchWarning } from './ListingSearchWarning';
 import { useAccountListings } from '../../hooks/useAccountListings';
 import { useListingStatusToggle } from '../../hooks/useListingStatusToggle';
 
@@ -69,6 +70,13 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
     setCurrentPage(page);
   }, []);
 
+  const handleClearSearch = useCallback(() => {
+    setSearchTerm('');
+    setDebouncedSearchTerm('');
+    setFilterStatus('all');
+    setCurrentPage(1);
+  }, []);
+
   const handleViewListing = useCallback((listingId: string) => {
     navigate(`/business-info/${listingId}`);
     const listing = listings.find(l => l.id === listingId);
@@ -110,7 +118,7 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
 
   // Check if we have search term and no results
   const hasSearchTerm = debouncedSearchTerm.trim().length > 0;
-  const showNoResultsMessage = hasSearchTerm && !loading && listings.length === 0;
+  const showWarningPage = hasSearchTerm && !loading && listings.length === 0;
 
   if (loading) {
     return <ListingLoadingState />;
@@ -133,37 +141,42 @@ export const ListingManagementContent: React.FC<ListingManagementContentProps> =
         onFilterChange={handleFilterChange}
       />
 
-      {/* No Results Message */}
-      {showNoResultsMessage && (
-        <NoResultsMessage searchTerm={debouncedSearchTerm} />
-      )}
-
-      {/* Listings Table */}
-      <ListingsTable 
-        listings={listings}
-        onViewListing={handleViewListing}
-        onToggleListing={handleToggleListing}
-        loadingStates={loadingStates}
-      />
-
-      {/* Pagination */}
-      {pagination && pagination.total_pages && pagination.total_pages > 1 && (
-        <div className="mt-6">
-          <AccountListingPagination
-            currentPage={currentPage}
-            totalPages={pagination.total_pages}
-            hasNext={pagination.has_next || false}
-            hasPrev={pagination.has_prev || false}
-            onPageChange={handlePageChange}
+      {/* Warning Page for No Results */}
+      {showWarningPage ? (
+        <ListingSearchWarning 
+          searchTerm={debouncedSearchTerm} 
+          onClearSearch={handleClearSearch}
+        />
+      ) : (
+        <>
+          {/* Listings Table */}
+          <ListingsTable 
+            listings={listings}
+            onViewListing={handleViewListing}
+            onToggleListing={handleToggleListing}
+            loadingStates={loadingStates}
           />
-        </div>
-      )}
 
-      {/* Results count */}
-      {!loading && (searchTerm || filterStatus !== 'all') && (
-        <div className="mt-4 text-sm text-gray-600">
-          Showing {listings.length} of {totalListings} listings
-        </div>
+          {/* Pagination */}
+          {pagination && pagination.total_pages && pagination.total_pages > 1 && (
+            <div className="mt-6">
+              <AccountListingPagination
+                currentPage={currentPage}
+                totalPages={pagination.total_pages}
+                hasNext={pagination.has_next || false}
+                hasPrev={pagination.has_prev || false}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+
+          {/* Results count */}
+          {!loading && (searchTerm || filterStatus !== 'all') && (
+            <div className="mt-4 text-sm text-gray-600">
+              Showing {listings.length} of {totalListings} listings
+            </div>
+          )}
+        </>
       )}
     </>
   );
