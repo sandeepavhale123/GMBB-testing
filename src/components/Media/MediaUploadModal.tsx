@@ -37,8 +37,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   onClose,
   onUpload
 }) => {
-  const [files, setFiles] = useState<MediaFile[]>([]);
+  const [file, setFile] = useState<MediaFile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadComplete, setUploadComplete] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -48,17 +49,23 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   });
 
   const handleFilesAdded = (newFiles: File[]) => {
-    const mediaFiles: MediaFile[] = newFiles.map((file) => ({
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-      file,
-      url: URL.createObjectURL(file),
-      type: file.type.startsWith('image/') ? 'image' : 'video'
-    }));
-    setFiles(prev => [...prev, ...mediaFiles]);
+    // Only take the first file to enforce single upload
+    const firstFile = newFiles[0];
+    if (firstFile) {
+      const mediaFile: MediaFile = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        file: firstFile,
+        url: URL.createObjectURL(firstFile),
+        type: firstFile.type.startsWith('image/') ? 'image' : 'video'
+      };
+      setFile(mediaFile);
+      setUploadComplete(false);
+    }
   };
 
-  const handleFileRemove = (id: string) => {
-    setFiles(prev => prev.filter(file => file.id !== id));
+  const handleFileRemove = () => {
+    setFile(null);
+    setUploadComplete(false);
   };
 
   const handleFormDataChange = (data: Partial<typeof formData>) => {
@@ -66,29 +73,35 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   };
 
   const handleUpload = async () => {
-    if (files.length === 0) return;
+    if (!file) return;
 
     setIsUploading(true);
     
     // Simulate upload process
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    const mediaItems: MediaItem[] = files.map((file) => ({
+    const mediaItem: MediaItem = {
       id: file.id,
       name: formData.title || file.file.name.replace(/\.[^/.]+$/, ""),
       views: '0 views',
       type: file.type,
       url: file.url,
       uploadDate: new Date().toISOString().split('T')[0]
-    }));
+    };
 
-    onUpload(mediaItems);
+    onUpload([mediaItem]);
     setIsUploading(false);
-    handleClose();
+    setUploadComplete(true);
+    
+    // Close modal after showing success briefly
+    setTimeout(() => {
+      handleClose();
+    }, 1500);
   };
 
   const handleClose = () => {
-    setFiles([]);
+    setFile(null);
+    setUploadComplete(false);
     setFormData({
       title: '',
       category: '',
@@ -108,7 +121,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       title: generatedMedia.prompt.slice(0, 50) + '...'
     };
     
-    setFiles(prev => [...prev, aiFile]);
+    setFile(aiFile);
+    setUploadComplete(false);
     setShowAIModal(false);
   };
 
@@ -120,7 +134,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             <DialogHeader className="p-6 pb-4">
               <div className="flex items-center justify-between">
                 <DialogTitle className="text-2xl font-bold text-gray-900">
-                  Upload Media
+                  Upload Media (Single Item)
                 </DialogTitle>
                 <Button
                   variant="ghost"
@@ -132,66 +146,91 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                 </Button>
               </div>
             </DialogHeader>
-            
           </div>
 
           <div className="p-6 space-y-6">
-            {/* Dropzone Area */}
-            <div className="flex items-end justify-end">
-             <Button
-                onClick={() => setShowAIModal(true)}
-                variant="outline"
-                className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto ml-auto"
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Generate with AI
-              </Button>
-            </div>
-            <MediaDropzone onFilesAdded={handleFilesAdded} />
-            
-
-            {/* File Previews */}
-            {files.length > 0 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Media Preview ({files.length})
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {files.map((file) => (
-                    <MediaPreview
-                      key={file.id}
-                      file={file}
-                      onRemove={() => handleFileRemove(file.id)}
-                    />
-                  ))}
+            {/* Upload Complete State */}
+            {uploadComplete && file && (
+              <div className="text-center space-y-4 py-8">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
+                <h3 className="text-lg font-semibold text-gray-900">Upload Complete!</h3>
+                <p className="text-gray-600">
+                  Your <span className="font-medium text-blue-600">{file.type}</span> has been uploaded successfully.
+                </p>
               </div>
             )}
 
-            {/* Form Fields */}
-            <MediaForm
-              formData={formData}
-              onChange={handleFormDataChange}
-              hasFiles={files.length > 0}
-            />
+            {/* Upload Interface */}
+            {!uploadComplete && (
+              <>
+                {/* AI Generate Button */}
+                <div className="flex items-end justify-end">
+                  <Button
+                    onClick={() => setShowAIModal(true)}
+                    variant="outline"
+                    className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto ml-auto"
+                  >
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Generate with AI
+                  </Button>
+                </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-              <Button
-                variant="outline"
-                onClick={handleClose}
-                disabled={isUploading}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleUpload}
-                disabled={files.length === 0 || isUploading}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-              >
-                {isUploading ? 'Uploading...' : `Upload ${files.length > 0 ? `(${files.length})` : ''}`}
-              </Button>
-            </div>
+                {/* Dropzone Area - Only show if no file selected */}
+                {!file && <MediaDropzone onFilesAdded={handleFilesAdded} />}
+
+                {/* File Preview */}
+                {file && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        Media Preview
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-500">Type:</span>
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                          {file.type.toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="max-w-xs mx-auto">
+                      <MediaPreview
+                        file={file}
+                        onRemove={handleFileRemove}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Form Fields */}
+                <MediaForm
+                  formData={formData}
+                  onChange={handleFormDataChange}
+                  hasFiles={!!file}
+                />
+
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                  <Button
+                    variant="outline"
+                    onClick={handleClose}
+                    disabled={isUploading}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleUpload}
+                    disabled={!file || isUploading}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+                  >
+                    {isUploading ? 'Uploading...' : 'Upload Media'}
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </DialogContent>
       </Dialog>

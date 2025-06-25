@@ -33,19 +33,21 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
     setIsDragging(false);
 
     const droppedFiles = Array.from(e.dataTransfer.files);
-    const validFiles = droppedFiles.filter(validateFile);
+    // Only take the first file for single upload
+    const firstFile = droppedFiles[0];
     
-    if (validFiles.length > 0) {
-      onFilesAdded(validFiles);
+    if (firstFile && validateFile(firstFile)) {
+      onFilesAdded([firstFile]);
     }
   }, [onFilesAdded]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
-    const validFiles = selectedFiles.filter(validateFile);
+    // Only take the first file for single upload
+    const firstFile = selectedFiles[0];
     
-    if (validFiles.length > 0) {
-      onFilesAdded(validFiles);
+    if (firstFile && validateFile(firstFile)) {
+      onFilesAdded([firstFile]);
     }
     
     // Reset input value to allow selecting the same file again
@@ -78,7 +80,6 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
       >
         <input
           type="file"
-          multiple
           accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
           onChange={handleFileSelect}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -100,7 +101,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
           
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              {isDragging ? 'Drop your files here' : 'Drag & drop your media'}
+              {isDragging ? 'Drop your file here' : 'Drag & drop your media file'}
             </h3>
             <p className="text-gray-600 mb-4">
               or{' '}
@@ -108,8 +109,11 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
                 htmlFor="media-upload" 
                 className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer underline"
               >
-                browse to choose files
+                browse to choose a file
               </label>
+            </p>
+            <p className="text-sm text-gray-500">
+              Upload one file at a time
             </p>
           </div>
           
