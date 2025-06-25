@@ -54,11 +54,14 @@ export const MediaStatsChart: React.FC = () => {
                   paddingLeft: '20px',
                   fontSize: '14px'
                 }}
-                formatter={(value, entry) => (
-                  <span style={{ color: entry.color }}>
-                    {entry.payload.count} {value}
-                  </span>
-                )}
+                formatter={(value) => {
+                  const item = data.find(d => d.name === value);
+                  return (
+                    <span style={{ color: item?.fill }}>
+                      {item?.count} {value}
+                    </span>
+                  );
+                }}
               />
             </PieChart>
           </ResponsiveContainer>
