@@ -1,10 +1,11 @@
-
 import React from 'react';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { Calendar, Clock, Globe } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '../../lib/utils';
 import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
 import { useProfile } from '../../hooks/useProfile';
 
@@ -27,6 +28,8 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   fileType
 }) => {
   const { profileData } = useProfile();
+  const [selectedDate, setSelectedDate] = React.useState<Date>();
+  const [selectedTime, setSelectedTime] = React.useState('');
 
   const allCategories = [
     { value: 'COVER', label: 'Cover' },
@@ -64,30 +67,48 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     { value: 'schedule', label: 'Schedule' }
   ];
 
-  const handleScheduleDateChange = (localDateTime: string) => {
-    // Convert local datetime to UTC and store
-    const utcDateTime = convertLocalDateTimeToUTC(localDateTime);
-    onChange({ scheduleDate: utcDateTime });
+  // Generate time options with AM/PM format
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        const timeValue = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+        const ampm = hour < 12 ? 'AM' : 'PM';
+        const displayTime = `${displayHour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+        times.push({ value: timeValue, label: displayTime });
+      }
+    }
+    return times;
   };
 
-  // Convert UTC back to local for display in the input
-  const getLocalDateTimeValue = (): string => {
-    if (!formData.scheduleDate) return '';
-    
-    try {
-      const utcDate = new Date(formData.scheduleDate);
-      // Format for datetime-local input (YYYY-MM-DDTHH:MM)
-      const year = utcDate.getFullYear();
-      const month = String(utcDate.getMonth() + 1).padStart(2, '0');
-      const day = String(utcDate.getDate()).padStart(2, '0');
-      const hours = String(utcDate.getHours()).padStart(2, '0');
-      const minutes = String(utcDate.getMinutes()).padStart(2, '0');
+  const timeOptions = generateTimeOptions();
+
+  const handleDateTimeChange = (date: Date | undefined, time: string) => {
+    if (date && time) {
+      const [hours, minutes] = time.split(':');
+      const combinedDateTime = new Date(date);
+      combinedDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
       
-      return `${year}-${month}-${day}T${hours}:${minutes}`;
-    } catch (error) {
-      return '';
+      // Convert to UTC and store
+      const utcDateTime = convertLocalDateTimeToUTC(combinedDateTime.toISOString().slice(0, 16));
+      onChange({ scheduleDate: utcDateTime });
     }
   };
+
+  // Initialize date and time from stored UTC value
+  React.useEffect(() => {
+    if (formData.scheduleDate) {
+      try {
+        const utcDate = new Date(formData.scheduleDate);
+        setSelectedDate(utcDate);
+        const timeString = `${utcDate.getHours().toString().padStart(2, '0')}:${utcDate.getMinutes().toString().padStart(2, '0')}`;
+        setSelectedTime(timeString);
+      } catch (error) {
+        console.error('Error parsing schedule date:', error);
+      }
+    }
+  }, [formData.scheduleDate]);
 
   // Get user's timezone from profile or fallback to system timezone
   const getUserTimezone = (): string => {
@@ -165,23 +186,72 @@ export const MediaForm: React.FC<MediaFormProps> = ({
         </div>
 
         {formData.publishOption === 'schedule' && (
-          <div className="space-y-2">
-            <Label htmlFor="schedule-date" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <div className="space-y-4">
+            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <Clock className="w-4 h-4" />
               Schedule Date & Time
             </Label>
-            <div className="space-y-2">
-              <Input
-                id="schedule-date"
-                type="datetime-local"
-                value={getLocalDateTimeValue()}
-                onChange={(e) => handleScheduleDateChange(e.target.value)}
-                className="w-full"
-              />
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <Globe className="w-3 h-3" />
-                <span>Your timezone: {getUserTimezone()}</span>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Date Picker */}
+              <div className="space-y-2">
+                <Label className="text-xs text-gray-600">Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !selectedDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={(date) => {
+                        setSelectedDate(date);
+                        handleDateTimeChange(date, selectedTime);
+                      }}
+                      disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
+
+              {/* Time Picker */}
+              <div className="space-y-2">
+                <Label className="text-xs text-gray-600">Time</Label>
+                <Select 
+                  value={selectedTime} 
+                  onValueChange={(time) => {
+                    setSelectedTime(time);
+                    handleDateTimeChange(selectedDate, time);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select time" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px]">
+                    {timeOptions.map((time) => (
+                      <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              <Globe className="w-3 h-3" />
+              <span>Your timezone: {getUserTimezone()}</span>
             </div>
           </div>
         )}
