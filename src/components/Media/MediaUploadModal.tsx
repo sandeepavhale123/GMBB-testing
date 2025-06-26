@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { X, Sparkles } from 'lucide-react';
+import { X } from 'lucide-react';
 import { MediaDropzone } from './MediaDropzone';
 import { MediaPreview } from './MediaPreview';
 import { MediaForm } from './MediaForm';
@@ -9,6 +9,7 @@ import { AIMediaGenerationModal } from './AIMediaGenerationModal';
 import { useListingContext } from '../../context/ListingContext';
 import { uploadMedia } from '../../api/mediaApi';
 import { useToast } from '../../hooks/use-toast';
+
 interface MediaFile {
   id: string;
   file?: File;
@@ -207,7 +208,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
             <DialogHeader className="p-6 pb-4">
               <div className="flex items-center justify-between">
-                <DialogTitle className="text-2xl font-bold text-gray-900">Upload Media </DialogTitle>
+                <DialogTitle className="text-2xl font-bold text-gray-900">Upload Media </DialogTitle>
                 <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 w-8 p-0">
                   <X className="h-4 w-4" />
                 </Button>
@@ -231,16 +232,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
             {/* Upload Interface */}
             {!uploadComplete && <>
-                {/* AI Generate Button */}
-                <div className="flex items-end justify-end">
-                  <Button onClick={() => setShowAIModal(true)} variant="outline" className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto ml-auto">
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Generate with Genie
-                  </Button>
-                </div>
-
                 {/* Dropzone Area - Only show if no file selected */}
-                {!file && <MediaDropzone onFilesAdded={handleFilesAdded} />}
+                {!file && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} />}
 
                 {/* File Preview */}
                 {file && <div className="space-y-4">

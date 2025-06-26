@@ -1,11 +1,14 @@
+
 import React, { useCallback, useState } from 'react';
-import { Upload, FileImage, FileVideo, AlertCircle } from 'lucide-react';
+import { Upload, FileImage, FileVideo, AlertCircle, Sparkles } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
+  onAIGenerate: () => void;
 }
 
-export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) => {
+export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded, onAIGenerate }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +80,19 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded }) =>
           }
         `}
       >
+        {/* AI Generate Button - Top Right */}
+        <div className="absolute top-4 right-4">
+          <Button 
+            onClick={onAIGenerate} 
+            variant="outline" 
+            size="sm"
+            className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
+          >
+            <Sparkles className="w-4 h-4 mr-1" />
+            Generate with Genie
+          </Button>
+        </div>
+
         <input
           type="file"
           accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
