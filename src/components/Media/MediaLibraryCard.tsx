@@ -14,7 +14,7 @@ interface MediaItem {
   url: string;
   uploadDate: string;
   size: string;
-  status:string;
+  status: string;
   category: string;
 }
 

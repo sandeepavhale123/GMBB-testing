@@ -13,7 +13,7 @@ interface MediaCardProps {
   type: 'image' | 'video';
   size: string;
   uploadDate: string;
-  status: 'uploaded' | 'scheduled' | 'approved';
+  status: string;
   views: string;
   onView: () => void;
   onEdit: () => void;
