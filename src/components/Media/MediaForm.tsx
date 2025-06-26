@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -32,33 +31,8 @@ export const MediaForm: React.FC<MediaFormProps> = ({
 }) => {
   const { profileData } = useProfile();
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
-  const [selectedTime, setSelectedTime] = React.useState<string>('');
-
-  // Generate time options with AM/PM
-  const generateTimeOptions = () => {
-    const options = [];
-    for (let hour = 1; hour <= 12; hour++) {
-      for (let minute = 0; minute < 60; minute += 15) {
-        const displayHour = hour;
-        const displayMinute = minute.toString().padStart(2, '0');
-        
-        // AM times
-        options.push({
-          value: `${hour === 12 ? 0 : hour}:${displayMinute}`,
-          label: `${displayHour}:${displayMinute} AM`
-        });
-        
-        // PM times
-        options.push({
-          value: `${hour === 12 ? 12 : hour + 12}:${displayMinute}`,
-          label: `${displayHour}:${displayMinute} PM`
-        });
-      }
-    }
-    return options;
-  };
-
-  const timeOptions = generateTimeOptions();
+  const [timeInput, setTimeInput] = React.useState<string>('');
+  const [amPm, setAmPm] = React.useState<'AM' | 'PM'>('AM');
 
   // Initialize date and time from existing schedule date
   React.useEffect(() => {
@@ -66,9 +40,18 @@ export const MediaForm: React.FC<MediaFormProps> = ({
       try {
         const date = new Date(formData.scheduleDate);
         setSelectedDate(date);
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        setSelectedTime(`${hours}:${minutes}`);
+        
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const period = hours >= 12 ? 'PM' : 'AM';
+        
+        // Convert to 12-hour format
+        if (hours === 0) hours = 12;
+        else if (hours > 12) hours = hours - 12;
+        
+        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        setTimeInput(timeString);
+        setAmPm(period);
       } catch (error) {
         console.error('Error parsing schedule date:', error);
       }
@@ -76,10 +59,19 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   }, [formData.scheduleDate, selectedDate]);
 
   const handleDateTimeChange = () => {
-    if (selectedDate && selectedTime) {
-      const [hours, minutes] = selectedTime.split(':').map(Number);
+    if (selectedDate && timeInput) {
+      const [hours, minutes] = timeInput.split(':').map(Number);
+      
+      // Convert to 24-hour format
+      let adjustedHours = hours;
+      if (amPm === 'AM' && hours === 12) {
+        adjustedHours = 0;
+      } else if (amPm === 'PM' && hours !== 12) {
+        adjustedHours = hours + 12;
+      }
+      
       const combinedDateTime = new Date(selectedDate);
-      combinedDateTime.setHours(hours, minutes, 0, 0);
+      combinedDateTime.setHours(adjustedHours, minutes, 0, 0);
       
       const utcDateTime = convertLocalDateTimeToUTC(combinedDateTime.toISOString().slice(0, 16));
       onChange({ scheduleDate: utcDateTime });
@@ -88,7 +80,18 @@ export const MediaForm: React.FC<MediaFormProps> = ({
 
   React.useEffect(() => {
     handleDateTimeChange();
-  }, [selectedDate, selectedTime]);
+  }, [selectedDate, timeInput, amPm]);
+
+  const handleTimeInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Validate time format (HH:MM)
+    if (/^([0-1]?[0-9]):([0-5][0-9])$/.test(value) || value === '') {
+      const [hours] = value.split(':').map(Number);
+      if (hours >= 1 && hours <= 12) {
+        setTimeInput(value);
+      }
+    }
+  };
 
   const allCategories = [
     { value: 'COVER', label: 'Cover' },
@@ -208,7 +211,7 @@ export const MediaForm: React.FC<MediaFormProps> = ({
               Schedule Date & Time
             </Label>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Date Picker */}
               <div className="space-y-2">
                 <Label className="text-xs text-gray-600">Date</Label>
@@ -238,19 +241,31 @@ export const MediaForm: React.FC<MediaFormProps> = ({
                 </Popover>
               </div>
 
-              {/* Time Picker */}
+              {/* Time Input */}
               <div className="space-y-2">
                 <Label className="text-xs text-gray-600">Time</Label>
-                <Select value={selectedTime} onValueChange={setSelectedTime}>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="time"
+                    value={timeInput}
+                    onChange={handleTimeInputChange}
+                    placeholder="HH:MM"
+                    className="flex-1"
+                    step="900" // 15 minute intervals
+                  />
+                </div>
+              </div>
+
+              {/* AM/PM Selector */}
+              <div className="space-y-2">
+                <Label className="text-xs text-gray-600">Period</Label>
+                <Select value={amPm} onValueChange={(value: 'AM' | 'PM') => setAmPm(value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select time" />
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {timeOptions.map((time) => (
-                      <SelectItem key={time.value} value={time.value}>
-                        {time.label}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="AM">AM</SelectItem>
+                    <SelectItem value="PM">PM</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
