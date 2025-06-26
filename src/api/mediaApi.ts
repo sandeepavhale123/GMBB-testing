@@ -57,6 +57,17 @@ export interface MediaListResponse {
   };
 }
 
+export interface MediaDeleteRequest {
+  listingId: string;
+  mediaId: string;
+}
+
+export interface MediaDeleteResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
   const formData = new FormData();
   
@@ -86,5 +97,13 @@ export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadRes
 
 export const getMediaList = async (params: MediaListRequest): Promise<MediaListResponse> => {
   const response = await axiosInstance.post<MediaListResponse>('/get-media-list', params);
+  return response.data;
+};
+
+export const deleteMedia = async (params: MediaDeleteRequest): Promise<MediaDeleteResponse> => {
+  const response = await axiosInstance.post<MediaDeleteResponse>('/delete-media', {
+    listingId: parseInt(params.listingId),
+    mediaId: parseInt(params.mediaId)
+  });
   return response.data;
 };

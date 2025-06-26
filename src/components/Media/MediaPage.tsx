@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Upload } from 'lucide-react';
@@ -8,7 +9,8 @@ import { MediaStatsCards } from './MediaStatsCards';
 import { MediaMostViewedCard } from './MediaMostViewedCard';
 import { MediaLibraryCard } from './MediaLibraryCard';
 import { MediaEmptyState } from './MediaEmptyState';
-import { getMediaList, MediaListItem } from '../../api/mediaApi';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
+import { getMediaList, MediaListItem, deleteMedia } from '../../api/mediaApi';
 import { useListingContext } from '../../context/ListingContext';
 
 interface MediaItem {
@@ -41,6 +43,9 @@ export const MediaPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrev, setHasPrev] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Map API response to MediaItem format
   const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
@@ -136,11 +141,50 @@ export const MediaPage: React.FC = () => {
   };
 
   const handleDeleteImage = (id: string) => {
-    setMediaItems(prev => prev.filter(item => item.id !== id));
-    toast({
-      title: "Media Deleted",
-      description: "Media has been deleted successfully."
-    });
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteMedia = async () => {
+    if (!itemToDelete || !selectedListing || isDeleting) return;
+
+    setIsDeleting(true);
+    try {
+      console.log('Deleting media:', { listingId: selectedListing.id, mediaId: itemToDelete });
+      
+      const response = await deleteMedia({
+        listingId: selectedListing.id,
+        mediaId: itemToDelete
+      });
+
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: response.message || "Media deleted successfully.",
+          variant: "default",
+        });
+        
+        // Refresh the media list after successful deletion
+        await fetchMediaList();
+      } else {
+        toast({
+          title: "Error",
+          description: response.message || "Failed to delete media",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting media:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete media. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+      setDeleteDialogOpen(false);
+      setItemToDelete(null);
+    }
   };
 
   const handleDownloadMedia = (item: MediaItem) => {
@@ -242,6 +286,28 @@ export const MediaPage: React.FC = () => {
       />
 
       <MediaUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleMediaUpload} />
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the media file.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteMedia} 
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
