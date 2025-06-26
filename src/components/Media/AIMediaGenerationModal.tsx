@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { X, Sparkles, Wand2, RefreshCw, Check } from 'lucide-react';
@@ -78,7 +78,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-blue-600" />
-                Create Image with AI
+                Create Image with Genie
               </DialogTitle>
               <Button
                 variant="ghost"
@@ -100,13 +100,12 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 <Label htmlFor="ai-prompt" className="text-sm font-medium text-gray-900">
                   Describe the image you want to create
                 </Label>
-                <Input
+                <Textarea
                   id="ai-prompt"
-                  type="text"
                   placeholder="e.g., A chef preparing pasta in an open kitchen with warm lighting"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="w-full h-12 text-base"
+                  className="w-full min-h-[100px] text-base resize-none"
                   maxLength={200}
                 />
                 <p className="text-xs text-gray-500">

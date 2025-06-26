@@ -216,7 +216,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto ml-auto"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
-                    Generate with AI
+                    Generate with Genie
                   </Button>
                 </div>
 
