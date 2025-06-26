@@ -7,6 +7,7 @@ import GeoRankingPage from "@/pages/GeoRankingPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
+import GMBHealthPage from "@/pages/GMBHealthPage";
 import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
@@ -122,6 +123,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <BusinessesPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    )
+  },
+  
+  // GMB Health routes
+  {
+    path: "/gmb-health",
+    element: <Navigate to="/gmb-health/default" replace />
+  },
+  {
+    path: "/gmb-health/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <GMBHealthPage />
         </ListingProvider>
       </ProtectedRoute>
     )
