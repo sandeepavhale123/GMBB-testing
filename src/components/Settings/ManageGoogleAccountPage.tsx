@@ -153,7 +153,9 @@ export const ManageGoogleAccountPage: React.FC = () => {
     }
   };
 
-  const handleRefreshListingGroupsSubmit = async (selectedGroups: string[]) => {
+  const handleRefreshListingGroupsSubmit = async (
+    selectedGroups: [string, string][]
+  ) => {
     if (!currentAccountId) return;
 
     try {

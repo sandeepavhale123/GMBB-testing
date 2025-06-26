@@ -91,7 +91,7 @@ export const refreshGmbAccount = async (
 
 export const updateGmbAccount = async (
   accountId: string,
-  accountGrpIds: string[]
+  accountGrpIds: [string, string][]
 ): Promise<UpdateAccountResponse> => {
   console.log(
     "Calling update API for account:",
@@ -140,7 +140,7 @@ export const googleAccountApi = {
   // Update Account
   updateAccount: async (
     accountId: string,
-    accountGrpIds: string[]
+    accountGrpIds: [string, string][]
   ): Promise<UpdateAccountResponse> => {
     return updateGmbAccount(accountId, accountGrpIds);
   },

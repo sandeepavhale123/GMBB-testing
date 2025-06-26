@@ -95,7 +95,7 @@ export const useGoogleAccounts = (params: UseGoogleAccountsParams = {}) => {
   const updateAccount = useCallback(
     async (
       accountId: string,
-      accountGrpIds: string[]
+      accountGrpIds: [string, string][]
     ): Promise<UpdateAccountResponse> => {
       setIsUpdating(true);
       try {
