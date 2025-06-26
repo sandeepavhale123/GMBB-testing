@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -12,11 +13,13 @@ import { useToast } from '../../hooks/use-toast';
 
 interface MediaFile {
   id: string;
-  file: File;
+  file?: File;
   url: string;
   type: 'image' | 'video';
   title?: string;
   category?: string;
+  selectedImage: 'local' | 'ai';
+  aiImageUrl?: string;
 } 
 
 interface MediaItem {
@@ -62,7 +65,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         file: firstFile,
         url: URL.createObjectURL(firstFile),
-        type: firstFile.type.startsWith('image/') ? 'image' : 'video'
+        type: firstFile.type.startsWith('image/') ? 'image' : 'video',
+        selectedImage: 'local'
       };
       setFile(mediaFile);
       setUploadComplete(false);
@@ -90,10 +94,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
     console.log('Starting upload process...');
     console.log('File details:', {
-      name: file.file.name,
-      size: file.file.size,
-      type: file.file.type,
-      lastModified: file.file.lastModified
+      selectedImage: file.selectedImage,
+      url: file.url,
+      aiImageUrl: file.aiImageUrl,
+      file: file.file ? {
+        name: file.file.name,
+        size: file.file.size,
+        type: file.file.type
+      } : null
     });
 
     setIsUploading(true);
@@ -101,19 +109,23 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     try {
       const uploadData = {
         file: file.file,
-        title: formData.title || file.file.name.replace(/\.[^/.]+$/, ""),
+        title: formData.title || (file.file?.name.replace(/\.[^/.]+$/, "") || 'AI Generated Image'),
         category: formData.category || 'additional',
         publishOption: formData.publishOption,
         scheduleDate: formData.scheduleDate,
-        listingId: selectedListing.id
+        listingId: selectedListing.id,
+        selectedImage: file.selectedImage,
+        aiImageUrl: file.aiImageUrl
       };
 
       console.log('Upload data prepared:', {
-        fileName: uploadData.file.name,
+        fileName: uploadData.file?.name,
         title: uploadData.title,
         category: uploadData.category,
         publishOption: uploadData.publishOption,
-        listingId: uploadData.listingId
+        listingId: uploadData.listingId,
+        selectedImage: uploadData.selectedImage,
+        aiImageUrl: uploadData.aiImageUrl
       });
 
       const response = await uploadMedia(uploadData);
@@ -169,21 +181,22 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     onClose();
   };
 
-  const handleAIGenerated = (generatedMedia: { file: File; type: 'image'; prompt: string }) => {
+  const handleAIGenerated = (generatedMedia: { imageUrl: string; prompt: string; variants: number; style: string }) => {
     console.log('AI generated media received:', {
-      fileName: generatedMedia.file.name,
-      fileSize: generatedMedia.file.size,
-      fileType: generatedMedia.file.type,
-      prompt: generatedMedia.prompt
+      imageUrl: generatedMedia.imageUrl,
+      prompt: generatedMedia.prompt,
+      style: generatedMedia.style,
+      variants: generatedMedia.variants
     });
     
-    // Convert AI generated file to MediaFile
+    // Convert AI generated image to MediaFile
     const aiFile: MediaFile = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-      file: generatedMedia.file,
-      url: URL.createObjectURL(generatedMedia.file),
-      type: generatedMedia.type,
-      title: generatedMedia.prompt.slice(0, 50) + (generatedMedia.prompt.length > 50 ? '...' : '')
+      url: generatedMedia.imageUrl,
+      type: 'image',
+      title: generatedMedia.prompt.slice(0, 50) + (generatedMedia.prompt.length > 50 ? '...' : ''),
+      selectedImage: 'ai',
+      aiImageUrl: generatedMedia.imageUrl
     };
     
     setFile(aiFile);
@@ -193,7 +206,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     // Pre-fill form data with AI image info
     setFormData(prev => ({
       ...prev,
-      title: generatedMedia.file.name.replace(/\.[^/.]+$/, ""),
+      title: `AI: ${generatedMedia.prompt.slice(0, 30)}${generatedMedia.prompt.length > 30 ? '...' : ''}`,
       category: prev.category || 'additional'
     }));
   };
@@ -264,7 +277,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Type:</span>
                         <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
-                          {file.type.toUpperCase()}
+                          {file.selectedImage === 'ai' ? 'AI IMAGE' : file.type.toUpperCase()}
                         </span>
                       </div>
                     </div>

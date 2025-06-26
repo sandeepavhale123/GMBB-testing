@@ -5,7 +5,6 @@ import { Button } from '../ui/button';
 import { X, Sparkles } from 'lucide-react';
 import { generateAIImage } from '../../api/mediaApi';
 import { useToast } from '../../hooks/use-toast';
-import { downloadImageAsFile, generateAIImageFilename } from '../../utils/imageUtils';
 import { AIPromptInput } from './AIGeneration/AIPromptInput';
 import { AIParameters } from './AIGeneration/AIParameters';
 import { AIImagePreview } from './AIGeneration/AIImagePreview';
@@ -14,7 +13,7 @@ import { AIActionButtons } from './AIGeneration/AIActionButtons';
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerated: (media: { file: File; type: 'image'; prompt: string; variants: number; style: string }) => void;
+  onGenerated: (media: { imageUrl: string; prompt: string; variants: number; style: string }) => void;
 }
 
 export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
@@ -28,7 +27,6 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
 
   const handleGenerate = async () => {
@@ -74,39 +72,23 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     }
   };
 
-  const handleUseMedia = async () => {
+  const handleUseMedia = () => {
     if (generatedImages.length > 0 && generatedImages[selectedImageIndex]) {
-      setIsDownloading(true);
+      const imageUrl = generatedImages[selectedImageIndex];
       
-      try {
-        const imageUrl = generatedImages[selectedImageIndex];
-        const filename = generateAIImageFilename(prompt, style);
-        
-        console.log('Converting AI image to file:', imageUrl);
-        const downloadedFile = await downloadImageAsFile(imageUrl, filename);
-        
-        onGenerated({
-          file: downloadedFile,
-          type: 'image',
-          prompt: prompt,
-          variants: variants,
-          style: style
-        });
-        
-        toast({
-          title: "Image Ready",
-          description: "AI-generated image has been prepared for upload.",
-        });
-      } catch (error) {
-        console.error('Failed to process AI image:', error);
-        toast({
-          title: "Processing Failed",
-          description: error instanceof Error ? error.message : "Failed to process AI-generated image.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsDownloading(false);
-      }
+      console.log('Using AI image URL:', imageUrl);
+      
+      onGenerated({
+        imageUrl: imageUrl,
+        prompt: prompt,
+        variants: variants,
+        style: style
+      });
+      
+      toast({
+        title: "Image Ready",
+        description: "AI-generated image has been prepared for upload.",
+      });
     }
   };
 
@@ -123,7 +105,6 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     setGeneratedImages([]);
     setSelectedImageIndex(0);
     setIsGenerating(false);
-    setIsDownloading(false);
     onClose();
   };
 
@@ -177,7 +158,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 hasGenerated={false}
                 prompt={prompt}
                 onGenerate={handleGenerate}
-                isDownloading={isDownloading}
+                isDownloading={false}
                 onRegenerate={handleRegenerate}
                 onUseMedia={handleUseMedia}
               />
@@ -199,7 +180,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 hasGenerated={true}
                 prompt={prompt}
                 onGenerate={handleGenerate}
-                isDownloading={isDownloading}
+                isDownloading={false}
                 onRegenerate={handleRegenerate}
                 onUseMedia={handleUseMedia}
               />

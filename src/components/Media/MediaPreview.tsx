@@ -5,13 +5,15 @@ import { Button } from '../ui/button';
 
 interface MediaFile {
   id: string;
-  file: File;
+  file?: File;
   url: string;
   type: 'image' | 'video';
   title?: string;
   altText?: string;
   category?: string;
   location?: string;
+  selectedImage: 'local' | 'ai';
+  aiImageUrl?: string;
 }
 
 interface MediaPreviewProps {
@@ -24,13 +26,27 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({ file, onRemove }) =>
     window.open(file.url, '_blank');
   };
 
+  const getFileName = () => {
+    if (file.selectedImage === 'ai') {
+      return file.title || 'AI Generated Image';
+    }
+    return file.title || file.file?.name || 'Unknown';
+  };
+
+  const getFileSize = () => {
+    if (file.selectedImage === 'ai') {
+      return 'AI Generated';
+    }
+    return file.file ? `${(file.file.size / 1024 / 1024).toFixed(1)}MB` : 'Unknown size';
+  };
+
   return (
     <div className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-200">
       {/* Media Content */}
       {file.type === 'image' ? (
         <img 
           src={file.url} 
-          alt={file.title || file.file.name}
+          alt={file.title || getFileName()}
           className="w-full h-full object-cover"
         />
       ) : (
@@ -74,9 +90,9 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({ file, onRemove }) =>
       {/* File Info */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="text-white text-xs">
-          <p className="font-medium truncate">{file.title || file.file.name}</p>
+          <p className="font-medium truncate">{getFileName()}</p>
           <p className="text-gray-300">
-            {file.type} • {(file.file.size / 1024 / 1024).toFixed(1)}MB
+            {file.type} • {getFileSize()}
           </p>
         </div>
       </div>

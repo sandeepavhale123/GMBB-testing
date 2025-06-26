@@ -1,12 +1,14 @@
 import axiosInstance from './axiosInstance';
 
 export interface MediaUploadData {
-  file: File;
+  file?: File;
   title: string;
   category: string;
   publishOption: string;
   scheduleDate?: string;
   listingId: string;
+  selectedImage: "local" | "ai";
+  aiImageUrl?: string;
 }
 
 export interface MediaUploadResponse {
@@ -85,26 +87,37 @@ export interface AIImageGenerationResponse {
 
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
   console.log('uploadMedia called with:', {
-    fileName: data.file.name,
-    fileSize: data.file.size,
-    fileType: data.file.type,
+    fileName: data.file?.name,
+    fileSize: data.file?.size,
+    fileType: data.file?.type,
     title: data.title,
     category: data.category,
     publishOption: data.publishOption,
-    listingId: data.listingId
+    listingId: data.listingId,
+    selectedImage: data.selectedImage,
+    aiImageUrl: data.aiImageUrl
   });
 
   const formData = new FormData();
   
-  // Add the file
-  formData.append('userfile', data.file);
+  // Add the file only for local uploads
+  if (data.selectedImage === 'local' && data.file) {
+    formData.append('userfile', data.file);
+    formData.append('type', data.file.type.startsWith('image/') ? 'photo' : 'video');
+  }
   
   // Add other form fields
   formData.append('title', data.title);
   formData.append('category', data.category.toUpperCase());
-  formData.append('type', data.file.type.startsWith('image/') ? 'photo' : 'video');
   formData.append('publish_option', data.publishOption);
   formData.append('listingId', data.listingId);
+  formData.append('selectedImage', data.selectedImage);
+  
+  // Add AI image URL if it's an AI-generated image
+  if (data.selectedImage === 'ai' && data.aiImageUrl) {
+    formData.append('aiImageUrl', data.aiImageUrl);
+    formData.append('type', 'photo');
+  }
   
   // Add schedule date if provided (should already be in UTC format)
   if (data.scheduleDate && data.publishOption === 'schedule') {
