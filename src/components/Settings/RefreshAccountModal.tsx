@@ -15,7 +15,7 @@ interface SelectRefreshListingGroupsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   listingGroups: RefreshListingGroup[];
-  onSubmit: (selectedGroups: string[]) => void;
+  onSubmit: (selectedGroups: string[][]) => void;
   accountId: string;
   isUpdating?: boolean;
 }
@@ -47,9 +47,15 @@ export const RefreshAccountModal: React.FC<
       setSelectedGroups([]);
     }
   };
-
   const handleSubmit = () => {
-    onSubmit(selectedGroups);
+    // Transform selected group IDs to [id, name] pairs
+    const selectedGroupPairs = selectedGroups.map((groupId) => {
+      const group = listingGroups.find((g) => g.accountId === groupId);
+      return [groupId, group?.name || ""];
+    });
+
+    console.log("Submitting with accountGrpIds format:", selectedGroupPairs);
+    onSubmit(selectedGroupPairs);
     setSelectedGroups([]);
   };
 
