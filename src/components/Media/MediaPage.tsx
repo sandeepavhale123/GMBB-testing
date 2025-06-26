@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Upload } from 'lucide-react';
@@ -53,7 +52,7 @@ export const MediaPage: React.FC = () => {
       url: apiItem.googleUrl,
       uploadDate: apiItem.postdate,
       size: '2.1 MB', // API doesn't provide size, using placeholder
-      status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'scheduled' : 'Failed',
+      status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'Schedule' : 'Failed',
       category: apiItem.category.toLowerCase()
     };
   };

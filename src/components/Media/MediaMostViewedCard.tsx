@@ -11,7 +11,7 @@ interface MediaItem {
   url: string;
   uploadDate: string;
   size: string;
-  status: 'uploaded' | 'scheduled' | 'approved';
+  status: 'Live' | 'Schedule' | 'Failed';
   category: string;
 }
 
