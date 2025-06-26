@@ -43,6 +43,15 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   onDownload,
   onSetAsCover
 }) => {
+  const handleDropdownClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleMenuItemClick = (action: () => void) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    action();
+  };
+
   return (
     <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
@@ -76,23 +85,23 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         </div>
 
         {/* Action menu */}
-        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleDropdownClick}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
+              <Button size="sm" variant="ghost"ClassName="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
                 <MoreVertical className="w-4 h-4 text-gray-700" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onView}>
+              <DropdownMenuItem onClick={handleMenuItemClick(onView)}>
                 <Eye className="w-4 h-4 mr-2" />
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onDownload}>
+              <DropdownMenuItem onClick={handleMenuItemClick(onDownload)}>
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onDelete} className="text-red-600">
+              <DropdownMenuItem onClick={handleMenuItemClick(onDelete)} className="text-red-600">
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete
               </DropdownMenuItem>
