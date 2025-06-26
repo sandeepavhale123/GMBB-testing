@@ -1,13 +1,15 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { X, Sparkles, Wand2, RefreshCw, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 import { generateAIImage } from '../../api/mediaApi';
 import { useToast } from '../../hooks/use-toast';
 import { downloadImageAsFile, generateAIImageFilename } from '../../utils/imageUtils';
+import { AIPromptInput } from './AIGeneration/AIPromptInput';
+import { AIParameters } from './AIGeneration/AIParameters';
+import { AIImagePreview } from './AIGeneration/AIImagePreview';
+import { AIActionButtons } from './AIGeneration/AIActionButtons';
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
@@ -158,185 +160,50 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         <div className="p-6 space-y-6">
           {generatedImages.length === 0 ? (
             <>
-              {/* Prompt Input */}
-              <div className="space-y-2">
-                <Label htmlFor="ai-prompt" className="text-sm font-medium text-gray-900">
-                  Describe the image you want to create
-                </Label>
-                <Textarea
-                  id="ai-prompt"
-                  placeholder="e.g., A chef preparing pasta in an open kitchen with warm lighting"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  className="w-full min-h-[100px] text-base resize-none"
-                  maxLength={200}
-                />
-                <p className="text-xs text-gray-500">
-                  Be specific and descriptive • {prompt.length}/200 characters
-                </p>
-              </div>
+              <AIPromptInput
+                prompt={prompt}
+                onPromptChange={setPrompt}
+              />
 
-              {/* Parameters Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Variants Parameter */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-gray-900">
-                    Number of Variants
-                  </Label>
-                  <Select value={variants.toString()} onValueChange={(value) => setVariants(parseInt(value))}>
-                    <SelectTrigger className="w-full bg-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                      <SelectItem value="1">1 variant</SelectItem>
-                      <SelectItem value="2">2 variants</SelectItem>
-                      <SelectItem value="3">3 variants</SelectItem>
-                      <SelectItem value="4">4 variants</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <AIParameters
+                variants={variants}
+                style={style}
+                onVariantsChange={setVariants}
+                onStyleChange={setStyle}
+              />
 
-                {/* Style Parameter */}
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-gray-900">
-                    Style
-                  </Label>
-                  <Select value={style} onValueChange={setStyle}>
-                    <SelectTrigger className="w-full bg-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                      <SelectItem value="realistic">Realistic</SelectItem>
-                      <SelectItem value="artistic">Artistic</SelectItem>
-                      <SelectItem value="cartoon">Cartoon</SelectItem>
-                      <SelectItem value="abstract">Abstract</SelectItem>
-                      <SelectItem value="minimalist">Minimalist</SelectItem>
-                      <SelectItem value="vintage">Vintage</SelectItem>
-                      <SelectItem value="modern">Modern</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Generate Button */}
-              <Button
-                onClick={handleGenerate}
-                disabled={!prompt.trim() || isGenerating}
-                className="w-full h-12 text-base font-medium bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                {isGenerating ? (
-                  <>
-                    <Wand2 className="w-5 h-5 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Generate Image
-                  </>
-                )}
-              </Button>
+              <AIActionButtons
+                isGenerating={isGenerating}
+                hasGenerated={false}
+                prompt={prompt}
+                onGenerate={handleGenerate}
+                isDownloading={isDownloading}
+                onRegenerate={handleRegenerate}
+                onUseMedia={handleUseMedia}
+              />
             </>
           ) : (
-            /* Generated Media Preview */
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Your AI-generated image{generatedImages.length > 1 ? 's' : ''}
-                </h3>
-                <p className="text-gray-600 text-sm">"{prompt}"</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Style: {style.charAt(0).toUpperCase() + style.slice(1)} • Generated: {generatedImages.length} variant{generatedImages.length > 1 ? 's' : ''}
-                </p>
-                {generatedImages.length > 1 && (
-                  <p className="text-xs text-blue-600 mt-1">
-                    Viewing {selectedImageIndex + 1} of {generatedImages.length}
-                  </p>
-                )}
-              </div>
+            <>
+              <AIImagePreview
+                images={generatedImages}
+                selectedIndex={selectedImageIndex}
+                prompt={prompt}
+                style={style}
+                onPreviousImage={handlePreviousImage}
+                onNextImage={handleNextImage}
+                onSelectImage={setSelectedImageIndex}
+              />
 
-              <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                <img 
-                  src={generatedImages[selectedImageIndex]} 
-                  alt={prompt}
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Navigation arrows for multiple variants */}
-                {generatedImages.length > 1 && (
-                  <>
-                    <Button
-                      onClick={handlePreviousImage}
-                      variant="ghost"
-                      size="sm"
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full h-8 w-8 p-0"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      onClick={handleNextImage}
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full h-8 w-8 p-0"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </>
-                )}
-              </div>
-
-              {/* Variant thumbnails for multiple images */}
-              {generatedImages.length > 1 && (
-                <div className="flex justify-center gap-2">
-                  {generatedImages.map((imageUrl, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImageIndex(index)}
-                      className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                        selectedImageIndex === index 
-                          ? 'border-blue-500 ring-2 ring-blue-200' 
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                    >
-                      <img 
-                        src={imageUrl} 
-                        alt={`Variant ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleRegenerate}
-                  variant="outline"
-                  className="flex-1 h-12"
-                  disabled={isGenerating || isDownloading}
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Regenerate
-                </Button>
-                <Button
-                  onClick={handleUseMedia}
-                  className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white"
-                  disabled={isDownloading}
-                >
-                  {isDownloading ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <Check className="w-4 h-4 mr-2" />
-                      Use This
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
+              <AIActionButtons
+                isGenerating={isGenerating}
+                hasGenerated={true}
+                prompt={prompt}
+                onGenerate={handleGenerate}
+                isDownloading={isDownloading}
+                onRegenerate={handleRegenerate}
+                onUseMedia={handleUseMedia}
+              />
+            </>
           )}
         </div>
       </DialogContent>
