@@ -85,6 +85,34 @@ export interface AIImageGenerationResponse {
   };
 }
 
+export interface MediaStatsRequest {
+  listingId: string;
+}
+
+export interface MediaStatsResponse {
+  code: number;
+  message: string;
+  data: {
+    totalMediaUploaded: number;
+    lastWeekUploadedImages: number;
+    mediaDistribution: {
+      images: {
+        count: number;
+      };
+      videos: {
+        count: number;
+      };
+    };
+    lastUpdatedImage: {
+      views: number;
+      url: string;
+      uploadDate: string;
+      category: string;
+      status: string;
+    } | null;
+  };
+}
+
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
   console.log('uploadMedia called with:', {
     fileName: data.file?.name,
@@ -164,5 +192,12 @@ export const deleteMedia = async (params: MediaDeleteRequest): Promise<MediaDele
 
 export const generateAIImage = async (data: AIImageGenerationRequest): Promise<AIImageGenerationResponse> => {
   const response = await axiosInstance.post<AIImageGenerationResponse>('/generate-ai-image', data);
+  return response.data;
+};
+
+export const getMediaStats = async (params: MediaStatsRequest): Promise<MediaStatsResponse> => {
+  const response = await axiosInstance.post<MediaStatsResponse>('/get-media-stats', {
+    listingId: parseInt(params.listingId)
+  });
   return response.data;
 };

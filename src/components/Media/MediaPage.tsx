@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Upload } from 'lucide-react';
@@ -12,6 +11,7 @@ import { MediaEmptyState } from './MediaEmptyState';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { getMediaList, MediaListItem, deleteMedia } from '../../api/mediaApi';
 import { useListingContext } from '../../context/ListingContext';
+import { useMediaStats } from '../../hooks/useMediaStats';
 
 interface MediaItem {
   id: string;
@@ -46,6 +46,9 @@ export const MediaPage: React.FC = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Use the media stats hook
+  const { stats, isLoading: statsLoading, refetch: refetchStats } = useMediaStats(selectedListing?.id || null);
 
   // Map API response to MediaItem format
   const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
@@ -209,8 +212,9 @@ export const MediaPage: React.FC = () => {
   };
 
   const handleMediaUpload = (newMedia: any[]) => {
-    // Refresh the media list after successful upload
+    // Refresh both the media list and stats after successful upload
     fetchMediaList();
+    refetchStats();
     toast({
       title: "Media Uploaded",
       description: `${newMedia.length} media file(s) uploaded successfully.`
@@ -231,6 +235,10 @@ export const MediaPage: React.FC = () => {
 
   const mostViewedImage = mediaItems.find(item => item.type === 'image') || mediaItems[0];
 
+  const handleViewLastUpdatedImage = (imageData: any) => {
+    window.open(imageData.url, '_blank');
+  };
+
   if (!selectedListing) {
     return <MediaEmptyState />;
   }
@@ -250,9 +258,21 @@ export const MediaPage: React.FC = () => {
 
       {/* Overview Stats Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        <MediaStatsCards totalItems={totalItems} currentPageItems={mediaItems.length} />
-        <MediaMostViewedCard mostViewedImage={mostViewedImage} onViewImage={handleViewImage} />
-        <MediaStatsChart />
+        <MediaStatsCards 
+          totalItems={stats?.totalMediaUploaded || 0} 
+          currentPageItems={stats?.lastWeekUploadedImages || 0} 
+          isLoading={statsLoading}
+        />
+        <MediaMostViewedCard 
+          lastUpdatedImage={stats?.lastUpdatedImage || null} 
+          onViewImage={handleViewLastUpdatedImage}
+          isLoading={statsLoading}
+        />
+        <MediaStatsChart 
+          imageCount={stats?.mediaDistribution.images.count || 0}
+          videoCount={stats?.mediaDistribution.videos.count || 0}
+          isLoading={statsLoading}
+        />
       </div>
 
       {/* Media Library */}

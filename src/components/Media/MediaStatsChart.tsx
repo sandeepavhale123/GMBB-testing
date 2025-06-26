@@ -3,23 +3,52 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { FileImage } from 'lucide-react';
+import { Skeleton } from '../ui/skeleton';
 
-const data = [
-  {
-    name: 'Images',
-    count: 245,
-    views: 12400,
-    fill: '#3b82f6'
-  },
-  {
-    name: 'Videos', 
-    count: 89,
-    views: 8200,
-    fill: '#10b981'
+interface MediaStatsChartProps {
+  imageCount: number;
+  videoCount: number;
+  isLoading?: boolean;
+}
+
+export const MediaStatsChart: React.FC<MediaStatsChartProps> = ({
+  imageCount,
+  videoCount,
+  isLoading = false
+}) => {
+  const data = [
+    {
+      name: 'Images',
+      count: imageCount,
+      views: imageCount * 50, // Placeholder calculation
+      fill: '#3b82f6'
+    },
+    {
+      name: 'Videos', 
+      count: videoCount,
+      views: videoCount * 92, // Placeholder calculation
+      fill: '#10b981'
+    }
+  ];
+
+  if (isLoading) {
+    return (
+      <Card className="col-span-1">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <FileImage className="w-5 h-5" />
+            Media Distribution
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[200px] flex items-center justify-center">
+            <Skeleton className="w-32 h-32 rounded-full" />
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
-];
 
-export const MediaStatsChart: React.FC = () => {
   return (
     <Card className="col-span-1">
       <CardHeader>

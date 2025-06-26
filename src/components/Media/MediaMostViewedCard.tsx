@@ -2,29 +2,65 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
 
-interface MediaItem {
-  id: string;
-  name: string;
-  views: string;
-  type: 'image' | 'video';
+interface LastUpdatedImage {
+  views: number;
   url: string;
   uploadDate: string;
-  size: string;
-  status: 'Live' | 'Schedule' | 'Failed';
   category: string;
+  status: string;
 }
 
 interface MediaMostViewedCardProps {
-  mostViewedImage: MediaItem | undefined;
-  onViewImage: (item: MediaItem) => void;
+  lastUpdatedImage: LastUpdatedImage | null;
+  onViewImage: (imageData: LastUpdatedImage) => void;
+  isLoading?: boolean;
 }
 
 export const MediaMostViewedCard: React.FC<MediaMostViewedCardProps> = ({
-  mostViewedImage,
-  onViewImage
+  lastUpdatedImage,
+  onViewImage,
+  isLoading = false
 }) => {
-  if (!mostViewedImage) return null;
+  if (isLoading) {
+    return (
+      <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <Skeleton className="h-6 w-40" />
+          </div>
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-7">
+              <div className="mb-4">
+                <Skeleton className="h-8 w-24 mb-1" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+              <Skeleton className="h-8 w-24" />
+            </div>
+            <div className="col-span-5">
+              <Skeleton className="aspect-square rounded-lg" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!lastUpdatedImage) {
+    return (
+      <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-4">
+            <h3 className="text-lg font-medium text-gray-900">Last updated image</h3>
+          </div>
+          <div className="text-center py-8">
+            <p className="text-gray-500">No images uploaded yet</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -35,14 +71,14 @@ export const MediaMostViewedCard: React.FC<MediaMostViewedCardProps> = ({
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
             <div className="mb-4">
-              <div className="text-3xl font-bold text-gray-900 mb-1">{mostViewedImage.views} views</div>
-              <div className="text-sm text-gray-500">{mostViewedImage.name}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{lastUpdatedImage.views} views</div>
+              <div className="text-sm text-gray-500">{lastUpdatedImage.category}</div>
             </div>
             <Button 
               variant="default" 
               size="sm" 
               className="bg-gray-800 text-white hover:bg-gray-700 px-6" 
-              onClick={() => onViewImage(mostViewedImage)}
+              onClick={() => onViewImage(lastUpdatedImage)}
             >
               View Image
             </Button>
@@ -51,8 +87,8 @@ export const MediaMostViewedCard: React.FC<MediaMostViewedCardProps> = ({
           <div className="col-span-5">
             <div className="aspect-square rounded-lg overflow-hidden">
               <img 
-                src={mostViewedImage.url} 
-                alt={mostViewedImage.name} 
+                src={lastUpdatedImage.url} 
+                alt={lastUpdatedImage.category} 
                 className="w-full h-full object-cover" 
               />
             </div>
