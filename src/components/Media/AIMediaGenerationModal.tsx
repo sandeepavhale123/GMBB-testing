@@ -99,6 +99,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   };
 
   const handleClose = () => {
+    // Clear all AI generation state
     setPrompt('');
     setVariants(1);
     setStyle('realistic');

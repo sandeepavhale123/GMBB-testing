@@ -5,7 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { Calendar, Clock, Globe } from 'lucide-react';
-import { convertLocalDateTimeToUTC, getUserTimezone } from '../../utils/dateUtils';
+import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
+import { useProfile } from '../../hooks/useProfile';
 
 interface MediaFormProps {
   formData: {
@@ -25,6 +26,8 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   hasFiles,
   fileType
 }) => {
+  const { profileData } = useProfile();
+
   const allCategories = [
     { value: 'COVER', label: 'Cover' },
     { value: 'PROFILE', label: 'Profile' },
@@ -84,6 +87,14 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     } catch (error) {
       return '';
     }
+  };
+
+  // Get user's timezone from profile or fallback to system timezone
+  const getUserTimezone = (): string => {
+    if (profileData?.timezone) {
+      return profileData.timezone;
+    }
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
   };
 
   if (!hasFiles) return null;
@@ -170,8 +181,6 @@ export const MediaForm: React.FC<MediaFormProps> = ({
               <div className="flex items-center gap-2 text-xs text-gray-500">
                 <Globe className="w-3 h-3" />
                 <span>Your timezone: {getUserTimezone()}</span>
-                <span>•</span>
-                <span>Will be converted to UTC for API</span>
               </div>
             </div>
           </div>
