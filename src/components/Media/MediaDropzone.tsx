@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from 'react';
 import { Upload, FileImage, FileVideo, AlertCircle, Sparkles } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -81,7 +80,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({ onFilesAdded, onAI
         `}
       >
         {/* AI Generate Button - Top Right */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-20">
           <Button 
             onClick={onAIGenerate} 
             variant="outline" 
