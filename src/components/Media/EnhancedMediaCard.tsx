@@ -88,17 +88,9 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
                 <Eye className="w-4 h-4 mr-2" />
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onEdit}>
-                <Edit className="w-4 h-4 mr-2" />
-                Edit
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={onDownload}>
                 <Download className="w-4 h-4 mr-2" />
                 Download
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onSetAsCover}>
-                <Star className="w-4 h-4 mr-2" />
-                Set as Cover
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onDelete} className="text-red-600">
                 <Trash2 className="w-4 h-4 mr-2" />
