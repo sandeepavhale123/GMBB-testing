@@ -6,6 +6,7 @@ import {
   setUser,
   setLoading,
   setIsAuthenticating,
+  setHasAttemptedRefresh,
 } from "./authSlice";
 import { clearUserListings } from "../businessListingsSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
@@ -41,6 +42,10 @@ export const useLogin = () => {
       // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
       dispatch(setUser(data.data.profile));
+      
+      // Set hasAttemptedRefresh to true since this is a fresh login with valid tokens
+      dispatch(setHasAttemptedRefresh(true));
+      console.log("✅ Set hasAttemptedRefresh to true after successful login");
 
       // Store additional items in localStorage
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);

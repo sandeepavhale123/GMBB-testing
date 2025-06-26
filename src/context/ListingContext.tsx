@@ -38,10 +38,11 @@ interface ListingProviderProps {
 export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) => {
   const { listings, loading: listingsLoading, addNewListing } = useBusinessListingsWithRedux();
   const { selectedBusinessId } = useAppSelector(state => state.businessListings);
-  const { user, isInitialized } = useAuthRedux();
+  const { user, isInitialized, isAuthenticated } = useAuthRedux();
   const [selectedListing, setSelectedListing] = useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
+  const [initTimeout, setInitTimeout] = useState<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const { listingId } = useParams<{ listingId?: string }>();
   const location = useLocation();
@@ -66,7 +67,43 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
   }, [user?.userId, isInitialized, dispatch]);
 
   const initializeSelectedListing = useCallback(() => {
-    if (listingsLoading || !listings.length || hasInitialized || !isInitialized) return;
+    console.log('🔄 ListingContext: initializeSelectedListing called', {
+      listingsLoading,
+      listingsCount: listings.length,
+      hasInitialized,
+      isInitialized,
+      isAuthenticated,
+      selectedBusinessId,
+      listingId
+    });
+
+    if (listingsLoading || hasInitialized || !isInitialized || !isAuthenticated) {
+      console.log('🔄 ListingContext: Skipping initialization - conditions not met');
+      return;
+    }
+
+    // Set a timeout to force initialization even if no listings are found
+    if (!initTimeout) {
+      const timeout = setTimeout(() => {
+        console.log('🔄 ListingContext: Initialization timeout reached');
+        if (!hasInitialized && listings.length === 0) {
+          console.log('🔄 ListingContext: No listings found after timeout, marking as initialized');
+          setHasInitialized(true);
+        }
+      }, 5000); // 5 second timeout
+      setInitTimeout(timeout);
+    }
+
+    if (listings.length === 0) {
+      console.log('🔄 ListingContext: No listings available yet, waiting...');
+      return;
+    }
+
+    // Clear timeout if we have listings
+    if (initTimeout) {
+      clearTimeout(initTimeout);
+      setInitTimeout(null);
+    }
 
     console.log('🔄 ListingContext: Initializing with listings:', listings.length);
     console.log('🔄 ListingContext: Current selectedBusinessId:', selectedBusinessId);
@@ -93,6 +130,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     }
 
     if (targetListing) {
+      console.log('🔄 ListingContext: Setting selected listing:', targetListing.name);
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
@@ -117,13 +155,22 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({ children }) =>
     selectedBusinessId, 
     hasInitialized,
     isInitialized,
+    isAuthenticated,
     navigate, 
     baseRoute, 
-    dispatch
+    dispatch,
+    initTimeout
   ]);
 
   useEffect(() => {
     initializeSelectedListing();
+    
+    // Cleanup timeout on unmount
+    return () => {
+      if (initTimeout) {
+        clearTimeout(initTimeout);
+      }
+    };
   }, [initializeSelectedListing]);
 
   const switchListing = useCallback(async (listing: BusinessListing) => {

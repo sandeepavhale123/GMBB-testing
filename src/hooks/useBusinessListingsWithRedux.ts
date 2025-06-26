@@ -19,7 +19,7 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   const [apiListings, setApiListings] = useState<BusinessListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { accessToken, isInitialized, hasAttemptedRefresh, refreshAccessToken } = useAuthRedux();
+  const { accessToken, isInitialized, hasAttemptedRefresh, isAuthenticated, refreshAccessToken } = useAuthRedux();
   
   const dispatch = useAppDispatch();
   const { userAddedListings } = useAppSelector(state => state.businessListings);
@@ -32,6 +32,7 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
       setLoading(true);
       setError(null);
       console.log('📋🔄 useBusinessListingsWithRedux: Fetching API business listings...');
+      console.log('📋🔄 Auth state:', { accessToken: !!accessToken, isAuthenticated, hasAttemptedRefresh, isInitialized });
       
       const data = await businessListingsService.getActiveListings({ limit: 10 });
       console.log('📋🔄 useBusinessListingsWithRedux: Received', data.length, 'API listings');
@@ -97,15 +98,32 @@ export const useBusinessListingsWithRedux = (): UseBusinessListingsWithReduxRetu
   };
 
   useEffect(() => {
-    if (isInitialized && hasAttemptedRefresh) {
-      if (accessToken) {
-        fetchListings();
-      } else {
-        setError('Authentication required');
-        setLoading(false);
-      }
+    console.log('📋🔄 useBusinessListingsWithRedux: Dependencies changed', {
+      isInitialized,
+      hasAttemptedRefresh,
+      isAuthenticated,
+      accessToken: !!accessToken
+    });
+
+    // For fresh login scenarios, allow fetching if we have valid auth state
+    // even if hasAttemptedRefresh is false (since we just logged in successfully)
+    const canFetchData = isInitialized && (
+      (hasAttemptedRefresh && isAuthenticated) || 
+      (isAuthenticated && accessToken) // Allow immediate fetch after successful login
+    );
+
+    if (canFetchData) {
+      console.log('📋🔄 useBusinessListingsWithRedux: Conditions met, fetching listings...');
+      fetchListings();
+    } else if (isInitialized && !isAuthenticated) {
+      console.log('📋🔄 useBusinessListingsWithRedux: Not authenticated, clearing data');
+      setError('Authentication required');
+      setLoading(false);
+      setApiListings([]);
+    } else {
+      console.log('📋🔄 useBusinessListingsWithRedux: Waiting for auth initialization...');
     }
-  }, [accessToken, isInitialized, hasAttemptedRefresh]);
+  }, [accessToken, isInitialized, hasAttemptedRefresh, isAuthenticated]);
 
   return {
     listings: allListings,

@@ -58,6 +58,7 @@ const authSlice = createSlice({
     },
     setHasAttemptedRefresh: (state, action: PayloadAction<boolean>) => {
       state.hasAttemptedRefresh = action.payload;
+      console.log('🔄 AuthSlice: setHasAttemptedRefresh set to:', action.payload);
     },
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
@@ -74,8 +75,9 @@ const authSlice = createSlice({
         try {
           state.accessToken = storedAccessToken;
           state.user = JSON.parse(storedUser);
-          // Only set hasAttemptedRefresh to true if we have valid auth data
+          // Set hasAttemptedRefresh to true if we have valid auth data from storage
           state.hasAttemptedRefresh = true;
+          console.log('🔄 AuthSlice: Rehydrated auth state with hasAttemptedRefresh = true');
         } catch (error) {
           console.error("Error parsing stored user data:", error);
           // Clear invalid data
