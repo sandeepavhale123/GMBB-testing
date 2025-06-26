@@ -30,7 +30,7 @@ export const MediaMostViewedCard: React.FC<MediaMostViewedCardProps> = ({
     <Card className="bg-white border border-gray-200 rounded-lg overflow-hidden">
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-lg font-medium text-gray-900">Most view Image</h3>
+          <h3 className="text-lg font-medium text-gray-900">Last updated image</h3>
         </div>
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">

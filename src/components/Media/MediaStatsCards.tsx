@@ -23,7 +23,7 @@ export const MediaStatsCards: React.FC<MediaStatsCardsProps> = ({
           </div>
           <hr />
           <div>
-            <div className="text-md text-black mb-2">Current page items</div>
+            <div className="text-md text-black mb-2">Last week uploaded image</div>
             <div className="text-3xl font-bold text-gray-900">{currentPageItems}</div>
           </div>
         </div>
