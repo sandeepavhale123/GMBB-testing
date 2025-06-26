@@ -3,7 +3,9 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
-import { Calendar, Clock, Globe } from 'lucide-react';
+import { Calendar, Clock, Globe, CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarComponent } from '../ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { format } from 'date-fns';
 import { cn } from '../../lib/utils';
 import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
@@ -210,7 +212,7 @@ export const MediaForm: React.FC<MediaFormProps> = ({
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
+                    <CalendarComponent
                       mode="single"
                       selected={selectedDate}
                       onSelect={(date) => {
