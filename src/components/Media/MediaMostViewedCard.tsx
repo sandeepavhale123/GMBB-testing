@@ -60,7 +60,7 @@ export const MediaMostViewedCard: React.FC<MediaMostViewedCardProps> = ({
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
             <div className="mb-4">
-              <div className="text-3xl font-bold text-gray-900 mb-1">{lastUpdatedImage.views} views</div>
+              
               <div className="text-md text-gray-500">{lastUpdatedImage.category}</div>
             </div>
             <Button variant="default" size="sm" className="bg-gray-800 text-white hover:bg-gray-700 px-6" onClick={() => onViewImage(lastUpdatedImage)}>
