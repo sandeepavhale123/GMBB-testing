@@ -1,17 +1,21 @@
-
-import React from 'react';
-import { MoreVertical, Edit, Trash2, RefreshCw } from 'lucide-react';
-import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { GoogleAccountAvatar } from './GoogleAccountAvatar';
-import { TableCell, TableRow } from '../ui/table';
+import React from "react";
+import { MoreVertical, Edit, Trash2, RefreshCw } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { GoogleAccountAvatar } from "./GoogleAccountAvatar";
+import { TableCell, TableRow } from "../ui/table";
 
 interface ConnectedListing {
   id: string;
   name: string;
   address: string;
-  status: 'connected' | 'disconnected' | 'pending';
-  type: 'Restaurant' | 'Retail' | 'Service' | 'Healthcare';
+  status: "connected" | "disconnected" | "pending";
+  type: "Restaurant" | "Retail" | "Service" | "Healthcare";
 }
 
 interface GoogleAccount {
@@ -33,36 +37,50 @@ interface GoogleAccount {
 interface GoogleAccountListViewProps {
   account: GoogleAccount;
   onManageListings?: (accountId: string) => void;
+  onDeleteAccount?: (
+    accountId: string,
+    accountName: string,
+    accountEmail: string
+  ) => void;
+  onRefreshAccount?: (accountId: string) => void;
+  isRefreshing?: boolean;
 }
 
 export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   account,
-  onManageListings
+  onManageListings,
+  onDeleteAccount,
+  onRefreshAccount,
+  isRefreshing,
 }) => {
-
   const handleCardClick = () => {
     onManageListings?.(account.id);
   };
 
   const handleRefresh = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Handle refresh action
-    console.log('Refresh account:', account.id);
+    console.log("Refresh account:", account.id);
+    onRefreshAccount?.(account.id);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Handle delete action
-    console.log('Delete account:', account.id);
+    console.log("Delete account:", account.id);
+    onDeleteAccount?.(account.id, account.name, account.email);
   };
 
   return (
-    <TableRow className="hover:bg-gray-50 cursor-pointer" onClick={handleCardClick}>
+    <TableRow
+      className="hover:bg-gray-50 cursor-pointer"
+      onClick={handleCardClick}
+    >
       <TableCell>
         <div className="flex items-center space-x-3">
           <GoogleAccountAvatar name={account.name} avatar={account.avatar} />
           <div className="min-w-0">
-            <h3 className="font-medium text-gray-900 truncate">{account.name}</h3>
+            <h3 className="font-medium text-gray-900 truncate">
+              {account.name}
+            </h3>
             <p className="text-gray-500 text-xs truncate">{account.email}</p>
           </div>
         </div>
@@ -71,15 +89,17 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
         <span className="font-medium text-gray-900">{account.listings}</span>
       </TableCell>
       <TableCell className="text-center">
-        <span className="font-medium text-gray-900">{account.activeListings}</span>
+        <span className="font-medium text-gray-900">
+          {account.activeListings}
+        </span>
       </TableCell>
       <TableCell>
         <div className="flex items-center justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -91,8 +111,12 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
                 <Edit className="h-4 w-4 mr-2" />
                 Manage Listings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleRefresh}>
-                <RefreshCw className="h-4 w-4 mr-2" />
+              <DropdownMenuItem onClick={handleRefresh} disabled={isRefreshing}>
+                <RefreshCw
+                  className={`h-4 w-4 mr-2 ${
+                    isRefreshing ? "animate-spin" : ""
+                  }`}
+                />
                 Refresh
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-600" onClick={handleDelete}>
