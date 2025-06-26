@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -8,11 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { X, Sparkles, Wand2, RefreshCw, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generateAIImage } from '../../api/mediaApi';
 import { useToast } from '../../hooks/use-toast';
+import { downloadImageAsFile, generateAIImageFilename } from '../../utils/imageUtils';
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerated: (media: { url: string; type: 'image'; prompt: string; variants: number; style: string }) => void;
+  onGenerated: (media: { file: File; type: 'image'; prompt: string; variants: number; style: string }) => void;
 }
 
 export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
@@ -26,6 +26,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
 
   const handleGenerate = async () => {
@@ -71,15 +72,39 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     }
   };
 
-  const handleUseMedia = () => {
+  const handleUseMedia = async () => {
     if (generatedImages.length > 0 && generatedImages[selectedImageIndex]) {
-      onGenerated({
-        url: generatedImages[selectedImageIndex],
-        type: 'image',
-        prompt: prompt,
-        variants: variants,
-        style: style
-      });
+      setIsDownloading(true);
+      
+      try {
+        const imageUrl = generatedImages[selectedImageIndex];
+        const filename = generateAIImageFilename(prompt, style);
+        
+        console.log('Converting AI image to file:', imageUrl);
+        const downloadedFile = await downloadImageAsFile(imageUrl, filename);
+        
+        onGenerated({
+          file: downloadedFile,
+          type: 'image',
+          prompt: prompt,
+          variants: variants,
+          style: style
+        });
+        
+        toast({
+          title: "Image Ready",
+          description: "AI-generated image has been prepared for upload.",
+        });
+      } catch (error) {
+        console.error('Failed to process AI image:', error);
+        toast({
+          title: "Processing Failed",
+          description: error instanceof Error ? error.message : "Failed to process AI-generated image.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsDownloading(false);
+      }
     }
   };
 
@@ -96,6 +121,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     setGeneratedImages([]);
     setSelectedImageIndex(0);
     setIsGenerating(false);
+    setIsDownloading(false);
     onClose();
   };
 
@@ -287,7 +313,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                   onClick={handleRegenerate}
                   variant="outline"
                   className="flex-1 h-12"
-                  disabled={isGenerating}
+                  disabled={isGenerating || isDownloading}
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Regenerate
@@ -295,9 +321,19 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 <Button
                   onClick={handleUseMedia}
                   className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white"
+                  disabled={isDownloading}
                 >
-                  <Check className="w-4 h-4 mr-2" />
-                  Use This
+                  {isDownloading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Use This
+                    </>
+                  )}
                 </Button>
               </div>
             </div>

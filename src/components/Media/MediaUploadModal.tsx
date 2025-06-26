@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -58,6 +57,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
     if (firstFile) {
+      console.log('File added:', firstFile.name, firstFile.size, 'bytes', firstFile.type);
       const mediaFile: MediaFile = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         file: firstFile,
@@ -88,6 +88,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       return;
     }
 
+    console.log('Starting upload process...');
+    console.log('File details:', {
+      name: file.file.name,
+      size: file.file.size,
+      type: file.file.type,
+      lastModified: file.file.lastModified
+    });
+
     setIsUploading(true);
     
     try {
@@ -100,7 +108,16 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         listingId: selectedListing.id
       };
 
+      console.log('Upload data prepared:', {
+        fileName: uploadData.file.name,
+        title: uploadData.title,
+        category: uploadData.category,
+        publishOption: uploadData.publishOption,
+        listingId: uploadData.listingId
+      });
+
       const response = await uploadMedia(uploadData);
+      console.log('Upload response:', response);
       
       if (response.code === 200) {
         // Create media item for local state update
@@ -152,19 +169,33 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     onClose();
   };
 
-  const handleAIGenerated = (generatedMedia: { url: string; type: 'image' | 'video'; prompt: string }) => {
-    // Convert AI generated content to a file-like object
+  const handleAIGenerated = (generatedMedia: { file: File; type: 'image'; prompt: string }) => {
+    console.log('AI generated media received:', {
+      fileName: generatedMedia.file.name,
+      fileSize: generatedMedia.file.size,
+      fileType: generatedMedia.file.type,
+      prompt: generatedMedia.prompt
+    });
+    
+    // Convert AI generated file to MediaFile
     const aiFile: MediaFile = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-      file: new File([], 'ai-generated-media'), // Placeholder file
-      url: generatedMedia.url,
+      file: generatedMedia.file,
+      url: URL.createObjectURL(generatedMedia.file),
       type: generatedMedia.type,
-      title: generatedMedia.prompt.slice(0, 50) + '...'
+      title: generatedMedia.prompt.slice(0, 50) + (generatedMedia.prompt.length > 50 ? '...' : '')
     };
     
     setFile(aiFile);
     setUploadComplete(false);
     setShowAIModal(false);
+    
+    // Pre-fill form data with AI image info
+    setFormData(prev => ({
+      ...prev,
+      title: generatedMedia.file.name.replace(/\.[^/.]+$/, ""),
+      category: prev.category || 'additional'
+    }));
   };
 
   return (

@@ -84,6 +84,16 @@ export interface AIImageGenerationResponse {
 }
 
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
+  console.log('uploadMedia called with:', {
+    fileName: data.file.name,
+    fileSize: data.file.size,
+    fileType: data.file.type,
+    title: data.title,
+    category: data.category,
+    publishOption: data.publishOption,
+    listingId: data.listingId
+  });
+
   const formData = new FormData();
   
   // Add the file
@@ -101,13 +111,29 @@ export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadRes
     formData.append('schedule_date', data.scheduleDate);
   }
 
-  const response = await axiosInstance.post<MediaUploadResponse>('/upload-media', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  // Log FormData contents
+  console.log('FormData contents:');
+  for (const [key, value] of formData.entries()) {
+    if (value instanceof File) {
+      console.log(`${key}: File(${value.name}, ${value.size} bytes, ${value.type})`);
+    } else {
+      console.log(`${key}: ${value}`);
+    }
+  }
 
-  return response.data;
+  try {
+    const response = await axiosInstance.post<MediaUploadResponse>('/upload-media', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log('Upload API response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Upload API error:', error);
+    throw error;
+  }
 };
 
 export const getMediaList = async (params: MediaListRequest): Promise<MediaListResponse> => {
