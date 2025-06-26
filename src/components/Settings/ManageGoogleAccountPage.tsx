@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, Plus, Grid3X3, List, Zap, RefreshCw } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -170,16 +171,18 @@ export const ManageGoogleAccountPage: React.FC = () => {
       setRefreshListingGroups([]);
       setCurrentAccountId("");
       refetch(); // Refresh the accounts list
-    } catch (error) {
-      console.log(
-        "Error updating listing groups:",
-        error.response.data.message
-      );
+    } catch (error: any) {
+      console.log("Error updating listing groups:", error);
       toast({
         title: "Update Failed",
         description:
-          error instanceof Error
+          error && typeof error === 'object' && 'response' in error && error.response && 
+          typeof error.response === 'object' && 'data' in error.response && 
+          error.response.data && typeof error.response.data === 'object' && 
+          'message' in error.response.data
             ? error.response.data.message
+            : error instanceof Error
+            ? error.message
             : "Failed to update listing groups. Please try again.",
         variant: "destructive",
       });
