@@ -4,22 +4,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { X, Sparkles, Wand2, RefreshCw, Check } from 'lucide-react';
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerated: (media: { url: string; type: 'image' | 'video'; prompt: string }) => void;
+  onGenerated: (media: { url: string; type: 'image'; prompt: string; variants: number; style: string }) => void;
 }
-
-const businessTypePrompts = [
-  "A chef preparing fresh ingredients in an open kitchen",
-  "Customers enjoying a meal in a cozy restaurant atmosphere",
-  "A beautifully plated signature dish with elegant presentation",
-  "Professional team member providing excellent customer service",
-  "Modern store interior showcasing featured products",
-  "Happy customers using our products or services"
-];
 
 const sampleGeneratedImages = [
   "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
@@ -33,7 +25,8 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   onGenerated
 }) => {
   const [prompt, setPrompt] = useState('');
-  const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+  const [variants, setVariants] = useState(1);
+  const [style, setStyle] = useState('realistic');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedMedia, setGeneratedMedia] = useState<string | null>(null);
 
@@ -55,8 +48,10 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     if (generatedMedia) {
       onGenerated({
         url: generatedMedia,
-        type: mediaType,
-        prompt: prompt
+        type: 'image',
+        prompt: prompt,
+        variants: variants,
+        style: style
       });
     }
   };
@@ -68,14 +63,11 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
 
   const handleClose = () => {
     setPrompt('');
-    setMediaType('image');
+    setVariants(1);
+    setStyle('realistic');
     setGeneratedMedia(null);
     setIsGenerating(false);
     onClose();
-  };
-
-  const handlePromptChipClick = (chipPrompt: string) => {
-    setPrompt(chipPrompt);
   };
 
   return (
@@ -86,7 +78,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
             <div className="flex items-center justify-between">
               <DialogTitle className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-blue-600" />
-                Create Media with AI
+                Create Image with AI
               </DialogTitle>
               <Button
                 variant="ghost"
@@ -106,7 +98,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
               {/* Prompt Input */}
               <div className="space-y-2">
                 <Label htmlFor="ai-prompt" className="text-sm font-medium text-gray-900">
-                  Describe the media you want to create
+                  Describe the image you want to create
                 </Label>
                 <Input
                   id="ai-prompt"
@@ -122,58 +114,45 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 </p>
               </div>
 
-              {/* Suggested Prompts */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium text-gray-900">
-                  Suggested prompts for your business
-                </Label>
-                <div className="grid grid-cols-1 gap-2">
-                  {businessTypePrompts.map((suggestedPrompt, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handlePromptChipClick(suggestedPrompt)}
-                      className="text-left p-3 text-sm bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg transition-colors duration-200"
-                    >
-                      {suggestedPrompt}
-                    </button>
-                  ))}
+              {/* Parameters Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Variants Parameter */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-900">
+                    Number of Variants
+                  </Label>
+                  <Select value={variants.toString()} onValueChange={(value) => setVariants(parseInt(value))}>
+                    <SelectTrigger className="w-full bg-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                      <SelectItem value="1">1 variant</SelectItem>
+                      <SelectItem value="2">2 variants</SelectItem>
+                      <SelectItem value="3">3 variants</SelectItem>
+                      <SelectItem value="4">4 variants</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-              </div>
 
-              {/* Media Type Selector */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium text-gray-900">
-                  Media Type
-                </Label>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setMediaType('image')}
-                    className={`flex-1 p-4 rounded-lg border-2 transition-all duration-200 ${
-                      mediaType === 'image'
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="text-center">
-                      <div className="text-2xl mb-2">🖼️</div>
-                      <div className="font-medium">Image</div>
-                      <div className="text-xs text-gray-500">High-quality photos</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => setMediaType('video')}
-                    className={`flex-1 p-4 rounded-lg border-2 transition-all duration-200 ${
-                      mediaType === 'video'
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="text-center">
-                      <div className="text-2xl mb-2">🎥</div>
-                      <div className="font-medium">Video</div>
-                      <div className="text-xs text-gray-500">Short clips</div>
-                    </div>
-                  </button>
+                {/* Style Parameter */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-900">
+                    Style
+                  </Label>
+                  <Select value={style} onValueChange={setStyle}>
+                    <SelectTrigger className="w-full bg-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                      <SelectItem value="realistic">Realistic</SelectItem>
+                      <SelectItem value="artistic">Artistic</SelectItem>
+                      <SelectItem value="cartoon">Cartoon</SelectItem>
+                      <SelectItem value="abstract">Abstract</SelectItem>
+                      <SelectItem value="minimalist">Minimalist</SelectItem>
+                      <SelectItem value="vintage">Vintage</SelectItem>
+                      <SelectItem value="modern">Modern</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -191,7 +170,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5 mr-2" />
-                    Generate {mediaType}
+                    Generate Image
                   </>
                 )}
               </Button>
@@ -201,9 +180,12 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
             <div className="space-y-6">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Your AI-generated {mediaType}
+                  Your AI-generated image
                 </h3>
                 <p className="text-gray-600 text-sm">"{prompt}"</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Style: {style.charAt(0).toUpperCase() + style.slice(1)} • Variants: {variants}
+                </p>
               </div>
 
               <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
