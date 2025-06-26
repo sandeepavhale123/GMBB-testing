@@ -168,17 +168,17 @@ export const ManageGoogleAccountPage: React.FC = () => {
       setRefreshListingGroups([]);
       setCurrentAccountId("");
       refetch(); // Refresh the accounts list
-    } catch (error) {
-      console.log(
-        "Error updating listing groups:",
-        error.response.data.message
-      );
+    } catch (error: any) {
+      console.log("Error updating listing groups:", error);
+      
+      // Check if it's an Axios error with response property
+      const errorMessage = error?.response?.data?.message || 
+                           error?.message || 
+                           "Failed to update listing groups. Please try again.";
+      
       toast({
         title: "Update Failed",
-        description:
-          error instanceof Error
-            ? error.response.data.message
-            : "Failed to update listing groups. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
