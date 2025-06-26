@@ -15,7 +15,7 @@ export interface UseAccountListingsParams {
 const transformLocationToListing = (location: any) => ({
   id: location.id,
   name: location.locationName,
-  store_code: location.storeCode, // Use ID as store code since not provided
+  store_code: location.storeCode ?? "-", // Use ID as store code since not provided
   group_name: location.category, // Use category as group name
   state: location.state,
   status: location.isVerified === '1' ? 'verified' as const : 'pending' as const,
