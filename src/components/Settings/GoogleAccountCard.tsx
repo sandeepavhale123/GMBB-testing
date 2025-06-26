@@ -1,14 +1,13 @@
-
-import React from 'react';
-import { GoogleAccountListView } from './GoogleAccountListView';
-import { GoogleAccountGridView } from './GoogleAccountGridView';
+import React from "react";
+import { GoogleAccountListView } from "./GoogleAccountListView";
+import { GoogleAccountGridView } from "./GoogleAccountGridView";
 
 interface ConnectedListing {
   id: string;
   name: string;
   address: string;
-  status: 'connected' | 'disconnected' | 'pending';
-  type: 'Restaurant' | 'Retail' | 'Service' | 'Healthcare';
+  status: "connected" | "disconnected" | "pending";
+  type: "Restaurant" | "Retail" | "Service" | "Healthcare";
 }
 
 interface GoogleAccount {
@@ -29,20 +28,33 @@ interface GoogleAccount {
 
 interface GoogleAccountCardProps {
   account: GoogleAccount;
-  viewMode: 'grid' | 'list';
+  viewMode: "grid" | "list";
   onManageListings?: (accountId: string) => void;
+  onDeleteAccount?: (
+    accountId: string,
+    accountName: string,
+    accountEmail: string
+  ) => void;
+  onRefreshAccount?: (accountId: string) => void;
+  isRefreshing?: boolean;
 }
 
 export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
   account,
   viewMode,
-  onManageListings
+  onManageListings,
+  onDeleteAccount,
+  onRefreshAccount,
+  isRefreshing,
 }) => {
-  if (viewMode === 'list') {
+  if (viewMode === "list") {
     return (
       <GoogleAccountListView
         account={account}
         onManageListings={onManageListings}
+        onDeleteAccount={onDeleteAccount}
+        onRefreshAccount={onRefreshAccount}
+        isRefreshing={isRefreshing}
       />
     );
   }
@@ -51,6 +63,9 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
     <GoogleAccountGridView
       account={account}
       onManageListings={onManageListings}
+      onDeleteAccount={onDeleteAccount}
+      onRefreshAccount={onRefreshAccount}
+      isRefreshing={isRefreshing}
     />
   );
 };
