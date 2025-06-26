@@ -88,7 +88,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleDropdownClick}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="ghost"ClassName="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
                 <MoreVertical className="w-4 h-4 text-gray-700" />
               </Button>
             </DropdownMenuTrigger>
