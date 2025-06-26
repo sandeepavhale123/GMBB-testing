@@ -5,19 +5,15 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { X, Sparkles, Wand2, RefreshCw, Check } from 'lucide-react';
+import { X, Sparkles, Wand2, RefreshCw, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { generateAIImage } from '../../api/mediaApi';
+import { useToast } from '../../hooks/use-toast';
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onGenerated: (media: { url: string; type: 'image'; prompt: string; variants: number; style: string }) => void;
 }
-
-const sampleGeneratedImages = [
-  "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-  "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400",
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400"
-];
 
 export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   isOpen,
@@ -28,26 +24,57 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   const [variants, setVariants] = useState(1);
   const [style, setStyle] = useState('realistic');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedMedia, setGeneratedMedia] = useState<string | null>(null);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const { toast } = useToast();
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim()) {
+      toast({
+        title: "Missing Prompt",
+        description: "Please describe the image you want to create.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsGenerating(true);
     
-    // Simulate AI generation process
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Use a sample image for demo
-    const randomImage = sampleGeneratedImages[Math.floor(Math.random() * sampleGeneratedImages.length)];
-    setGeneratedMedia(randomImage);
-    setIsGenerating(false);
+    try {
+      const response = await generateAIImage({
+        prompt: prompt.trim(),
+        variants,
+        style
+      });
+
+      if (response.code === 200 && response.data.results.length > 0) {
+        const imageUrls = response.data.results.map(result => result.url);
+        setGeneratedImages(imageUrls);
+        setSelectedImageIndex(0);
+        
+        toast({
+          title: "Images Generated",
+          description: `Successfully generated ${imageUrls.length} image${imageUrls.length > 1 ? 's' : ''}.`,
+        });
+      } else {
+        throw new Error(response.message || 'Failed to generate images');
+      }
+    } catch (error) {
+      console.error('AI image generation error:', error);
+      toast({
+        title: "Generation Failed",
+        description: error instanceof Error ? error.message : "Failed to generate images. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleUseMedia = () => {
-    if (generatedMedia) {
+    if (generatedImages.length > 0 && generatedImages[selectedImageIndex]) {
       onGenerated({
-        url: generatedMedia,
+        url: generatedImages[selectedImageIndex],
         type: 'image',
         prompt: prompt,
         variants: variants,
@@ -57,7 +84,8 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   };
 
   const handleRegenerate = () => {
-    setGeneratedMedia(null);
+    setGeneratedImages([]);
+    setSelectedImageIndex(0);
     handleGenerate();
   };
 
@@ -65,9 +93,18 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     setPrompt('');
     setVariants(1);
     setStyle('realistic');
-    setGeneratedMedia(null);
+    setGeneratedImages([]);
+    setSelectedImageIndex(0);
     setIsGenerating(false);
     onClose();
+  };
+
+  const handlePreviousImage = () => {
+    setSelectedImageIndex(prev => (prev > 0 ? prev - 1 : generatedImages.length - 1));
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex(prev => (prev < generatedImages.length - 1 ? prev + 1 : 0));
   };
 
   return (
@@ -93,7 +130,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         </div>
 
         <div className="p-6 space-y-6">
-          {!generatedMedia ? (
+          {generatedImages.length === 0 ? (
             <>
               {/* Prompt Input */}
               <div className="space-y-2">
@@ -179,21 +216,71 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
             <div className="space-y-6">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Your AI-generated image
+                  Your AI-generated image{generatedImages.length > 1 ? 's' : ''}
                 </h3>
                 <p className="text-gray-600 text-sm">"{prompt}"</p>
                 <p className="text-xs text-gray-500 mt-1">
-                  Style: {style.charAt(0).toUpperCase() + style.slice(1)} • Variants: {variants}
+                  Style: {style.charAt(0).toUpperCase() + style.slice(1)} • Generated: {generatedImages.length} variant{generatedImages.length > 1 ? 's' : ''}
                 </p>
+                {generatedImages.length > 1 && (
+                  <p className="text-xs text-blue-600 mt-1">
+                    Viewing {selectedImageIndex + 1} of {generatedImages.length}
+                  </p>
+                )}
               </div>
 
               <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
                 <img 
-                  src={generatedMedia} 
+                  src={generatedImages[selectedImageIndex]} 
                   alt={prompt}
                   className="w-full h-full object-cover"
                 />
+                
+                {/* Navigation arrows for multiple variants */}
+                {generatedImages.length > 1 && (
+                  <>
+                    <Button
+                      onClick={handlePreviousImage}
+                      variant="ghost"
+                      size="sm"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full h-8 w-8 p-0"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      onClick={handleNextImage}
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full h-8 w-8 p-0"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </>
+                )}
               </div>
+
+              {/* Variant thumbnails for multiple images */}
+              {generatedImages.length > 1 && (
+                <div className="flex justify-center gap-2">
+                  {generatedImages.map((imageUrl, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        selectedImageIndex === index 
+                          ? 'border-blue-500 ring-2 ring-blue-200' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <img 
+                        src={imageUrl} 
+                        alt={`Variant ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <div className="flex gap-3">
                 <Button

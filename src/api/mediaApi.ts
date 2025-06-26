@@ -1,4 +1,3 @@
-
 import axiosInstance from './axiosInstance';
 
 export interface MediaUploadData {
@@ -68,6 +67,22 @@ export interface MediaDeleteResponse {
   data: any[];
 }
 
+export interface AIImageGenerationRequest {
+  prompt: string;
+  variants: number;
+  style: string;
+}
+
+export interface AIImageGenerationResponse {
+  code: number;
+  message: string;
+  data: {
+    results: Array<{
+      url: string;
+    }>;
+  };
+}
+
 export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
   const formData = new FormData();
   
@@ -105,5 +120,10 @@ export const deleteMedia = async (params: MediaDeleteRequest): Promise<MediaDele
     listingId: parseInt(params.listingId),
     mediaId: parseInt(params.mediaId)
   });
+  return response.data;
+};
+
+export const generateAIImage = async (data: AIImageGenerationRequest): Promise<AIImageGenerationResponse> => {
+  const response = await axiosInstance.post<AIImageGenerationResponse>('/generate-ai-image', data);
   return response.data;
 };
