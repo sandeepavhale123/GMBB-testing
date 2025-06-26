@@ -20,7 +20,7 @@ interface MediaItem {
   url: string;
   uploadDate: string;
   size: string;
-  status: 'uploaded' | 'scheduled' | 'approved';
+  status: 'Live' | 'Schedule' | 'Failed';
   category: string;
 }
 
@@ -53,7 +53,7 @@ export const MediaPage: React.FC = () => {
       url: apiItem.googleUrl,
       uploadDate: apiItem.postdate,
       size: '2.1 MB', // API doesn't provide size, using placeholder
-      status: apiItem.status === 'Live' ? 'approved' : apiItem.status === 'Schedule' ? 'scheduled' : 'uploaded',
+      status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'scheduled' : 'Failed',
       category: apiItem.category.toLowerCase()
     };
   };
