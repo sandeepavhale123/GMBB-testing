@@ -1,13 +1,10 @@
+
 import React from 'react';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
-import { Calendar } from '../ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Calendar as CalendarIcon, Clock, Globe } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '../../lib/utils';
+import { Calendar, Clock, Globe } from 'lucide-react';
 import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
 import { useProfile } from '../../hooks/useProfile';
 
@@ -30,68 +27,6 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   fileType
 }) => {
   const { profileData } = useProfile();
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
-  const [timeInput, setTimeInput] = React.useState<string>('');
-  const [amPm, setAmPm] = React.useState<'AM' | 'PM'>('AM');
-
-  // Initialize date and time from existing schedule date
-  React.useEffect(() => {
-    if (formData.scheduleDate && !selectedDate) {
-      try {
-        const date = new Date(formData.scheduleDate);
-        setSelectedDate(date);
-        
-        let hours = date.getHours();
-        const minutes = date.getMinutes();
-        const period = hours >= 12 ? 'PM' : 'AM';
-        
-        // Convert to 12-hour format
-        if (hours === 0) hours = 12;
-        else if (hours > 12) hours = hours - 12;
-        
-        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        setTimeInput(timeString);
-        setAmPm(period);
-      } catch (error) {
-        console.error('Error parsing schedule date:', error);
-      }
-    }
-  }, [formData.scheduleDate, selectedDate]);
-
-  const handleDateTimeChange = () => {
-    if (selectedDate && timeInput) {
-      const [hours, minutes] = timeInput.split(':').map(Number);
-      
-      // Convert to 24-hour format
-      let adjustedHours = hours;
-      if (amPm === 'AM' && hours === 12) {
-        adjustedHours = 0;
-      } else if (amPm === 'PM' && hours !== 12) {
-        adjustedHours = hours + 12;
-      }
-      
-      const combinedDateTime = new Date(selectedDate);
-      combinedDateTime.setHours(adjustedHours, minutes, 0, 0);
-      
-      const utcDateTime = convertLocalDateTimeToUTC(combinedDateTime.toISOString().slice(0, 16));
-      onChange({ scheduleDate: utcDateTime });
-    }
-  };
-
-  React.useEffect(() => {
-    handleDateTimeChange();
-  }, [selectedDate, timeInput, amPm]);
-
-  const handleTimeInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Validate time format (HH:MM)
-    if (/^([0-1]?[0-9]):([0-5][0-9])$/.test(value) || value === '') {
-      const [hours] = value.split(':').map(Number);
-      if (hours >= 1 && hours <= 12) {
-        setTimeInput(value);
-      }
-    }
-  };
 
   const allCategories = [
     { value: 'COVER', label: 'Cover' },
@@ -128,6 +63,31 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     { value: 'now', label: 'Publish Now' },
     { value: 'schedule', label: 'Schedule' }
   ];
+
+  const handleScheduleDateChange = (localDateTime: string) => {
+    // Convert local datetime to UTC and store
+    const utcDateTime = convertLocalDateTimeToUTC(localDateTime);
+    onChange({ scheduleDate: utcDateTime });
+  };
+
+  // Convert UTC back to local for display in the input
+  const getLocalDateTimeValue = (): string => {
+    if (!formData.scheduleDate) return '';
+    
+    try {
+      const utcDate = new Date(formData.scheduleDate);
+      // Format for datetime-local input (YYYY-MM-DDTHH:MM)
+      const year = utcDate.getFullYear();
+      const month = String(utcDate.getMonth() + 1).padStart(2, '0');
+      const day = String(utcDate.getDate()).padStart(2, '0');
+      const hours = String(utcDate.getHours()).padStart(2, '0');
+      const minutes = String(utcDate.getMinutes()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      return '';
+    }
+  };
 
   // Get user's timezone from profile or fallback to system timezone
   const getUserTimezone = (): string => {
@@ -205,75 +165,23 @@ export const MediaForm: React.FC<MediaFormProps> = ({
         </div>
 
         {formData.publishOption === 'schedule' && (
-          <div className="space-y-4">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+          <div className="space-y-2">
+            <Label htmlFor="schedule-date" className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <Clock className="w-4 h-4" />
               Schedule Date & Time
             </Label>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Date Picker */}
-              <div className="space-y-2">
-                <Label className="text-xs text-gray-600">Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !selectedDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={setSelectedDate}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                      className={cn("p-3 pointer-events-auto")}
-                    />
-                  </PopoverContent>
-                </Popover>
+            <div className="space-y-2">
+              <Input
+                id="schedule-date"
+                type="datetime-local"
+                value={getLocalDateTimeValue()}
+                onChange={(e) => handleScheduleDateChange(e.target.value)}
+                className="w-full"
+              />
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <Globe className="w-3 h-3" />
+                <span>Your timezone: {getUserTimezone()}</span>
               </div>
-
-              {/* Time Input */}
-              <div className="space-y-2">
-                <Label className="text-xs text-gray-600">Time</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="time"
-                    value={timeInput}
-                    onChange={handleTimeInputChange}
-                    placeholder="HH:MM"
-                    className="flex-1"
-                    step="900" // 15 minute intervals
-                  />
-                </div>
-              </div>
-
-              {/* AM/PM Selector */}
-              <div className="space-y-2">
-                <Label className="text-xs text-gray-600">Period</Label>
-                <Select value={amPm} onValueChange={(value: 'AM' | 'PM') => setAmPm(value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="AM">AM</SelectItem>
-                    <SelectItem value="PM">PM</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <Globe className="w-3 h-3" />
-              <span>Your timezone: {getUserTimezone()}</span>
             </div>
           </div>
         )}
