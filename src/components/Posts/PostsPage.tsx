@@ -143,7 +143,7 @@ export const PostsPage = () => {
               <SelectContent>
                 <SelectItem value="all">All Posts</SelectItem>
                 <SelectItem value="scheduled">Scheduled Posts</SelectItem>
-                <SelectItem value="published">Live Posts</SelectItem>
+                <SelectItem value="live">Live Posts</SelectItem>
                 <SelectItem value="failed">Failed Posts</SelectItem>
               </SelectContent>
             </Select>
