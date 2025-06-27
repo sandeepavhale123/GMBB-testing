@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Calendar, Trash2, Copy, Eye, MousePointer, Share } from 'lucide-react';
+import { Calendar, Trash2, Copy, Eye } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
@@ -17,13 +18,18 @@ interface Post {
     clicks: number;
     shares: number;
   };
+  searchUrl?: string;
+  media?: {
+    images: string;
+  };
+  tags?: string;
 }
+
 interface PostCardProps {
   post: Post;
 }
-export const PostCard: React.FC<PostCardProps> = ({
-  post
-}) => {
+
+export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const getStatusColor = (status: string) => {
@@ -40,6 +46,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
+
   const getStatusText = (status: string) => {
     switch (status) {
       case 'published':
@@ -54,17 +61,28 @@ export const PostCard: React.FC<PostCardProps> = ({
         return status;
     }
   };
+
   return (
     <>
       <Card className="overflow-hidden hover:shadow-md transition-shadow">
-        {/* Post Image Placeholder */}
-        <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-          <span className="text-white font-medium">Post Image</span>
+        {/* Post Image */}
+        <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+          {post.media?.images ? (
+            <img 
+              src={post.media.images} 
+              alt="Post" 
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-white font-medium">Post Image</span>
+          )}
         </div>
 
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-2">
-            <h3 className="font-semibold text-gray-900 line-clamp-2">{post.title}</h3>
+            <h3 className="font-semibold text-gray-900 line-clamp-2">
+              {post.title || 'Untitled Post'}
+            </h3>
             <Badge className={getStatusColor(post.status)}>
               {getStatusText(post.status)}
             </Badge>
@@ -77,8 +95,12 @@ export const PostCard: React.FC<PostCardProps> = ({
             {new Date(post.publishDate).toLocaleDateString()}
           </div>
 
-          {/* Engagement Stats */}
-          
+          {/* Tags */}
+          {post.tags && (
+            <div className="text-xs text-blue-600 mb-2">
+              {post.tags}
+            </div>
+          )}
         </CardContent>
 
         <CardFooter className="p-4 pt-0 flex justify-between">

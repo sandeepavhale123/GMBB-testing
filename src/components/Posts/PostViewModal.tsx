@@ -17,6 +17,11 @@ interface Post {
     clicks: number;
     shares: number;
   };
+  searchUrl?: string;
+  media?: {
+    images: string;
+  };
+  tags?: string;
 }
 
 interface PostViewModalProps {
@@ -63,9 +68,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   };
 
   const handleOpenPost = () => {
-    // Open the actual post in a new tab
-    // You can customize this URL based on your post structure
-    const postUrl = `/post/${post.id}`;
+    // Use searchUrl from API if available, otherwise fallback to a default URL structure
+    const postUrl = post.searchUrl || `/post/${post.id}`;
     window.open(postUrl, '_blank');
   };
 
@@ -77,14 +81,24 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Post Image Placeholder */}
-          <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-medium">Post Image</span>
+          {/* Post Image */}
+          <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
+            {post.media?.images ? (
+              <img 
+                src={post.media.images} 
+                alt="Post" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-white font-medium">Post Image</span>
+            )}
           </div>
 
           {/* Post Header */}
           <div className="flex items-start justify-between">
-            <h3 className="font-semibold text-gray-900 text-lg">{post.title}</h3>
+            <h3 className="font-semibold text-gray-900 text-lg">
+              {post.title || 'Untitled Post'}
+            </h3>
             <Badge className={getStatusColor(post.status)}>
               {getStatusText(post.status)}
             </Badge>
@@ -92,6 +106,13 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
           {/* Post Content */}
           <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
+
+          {/* Tags */}
+          {post.tags && (
+            <div className="text-sm text-blue-600">
+              {post.tags}
+            </div>
+          )}
 
           {/* Post Meta */}
           <div className="flex items-center text-xs text-gray-500 gap-4">
