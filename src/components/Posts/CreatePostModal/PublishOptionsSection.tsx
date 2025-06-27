@@ -75,7 +75,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
           <Label className="text-sm text-gray-600">Post Tags</Label>
           <Input 
@@ -87,7 +87,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           />
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 pb-2">
           <Checkbox 
             id="silo-post"
             checked={formData.siloPost}
