@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Wand2, Loader2, ZoomIn, RotateCcw } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -21,7 +22,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     prompt: '',
-    variants: '4',
+    variants: '1',
     style: ''
   });
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
@@ -36,9 +37,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
     // Mock generated images using placeholder service
     const mockImages = [
       'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop', 
-      'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop', 
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop', 
-      'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=200&fit=crop'
+      'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop'
     ];
     setGeneratedImages(mockImages.slice(0, parseInt(formData.variants)));
     setIsGenerating(false);
@@ -101,10 +100,8 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="1">1 Image</SelectItem>
                     <SelectItem value="2">2 Images</SelectItem>
-                    <SelectItem value="4">4 Images</SelectItem>
-                    <SelectItem value="6">6 Images</SelectItem>
-                    <SelectItem value="8">8 Images</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

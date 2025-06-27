@@ -17,7 +17,8 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     description: '',
-    variants: '3'
+    variants: '3',
+    tone: 'professional'
   });
   const [generatedVariants, setGeneratedVariants] = useState<string[]>([]);
   const [selectedVariant, setSelectedVariant] = useState<string>('');
@@ -74,8 +75,8 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
                   />
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
-                  <div className="flex-1 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
                     <Label className="text-sm font-medium mb-2 block">Number of Variants</Label>
                     <Select value={formData.variants} onValueChange={(value) => setFormData(prev => ({ ...prev, variants: value }))}>
                       <SelectTrigger className="w-full">
@@ -91,24 +92,41 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
                     </Select>
                   </div>
 
-                  <Button 
-                    onClick={handleGenerate} 
-                    disabled={isGenerating} 
-                    className="flex-shrink-0 w-full sm:w-auto min-h-[44px]"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Wand2 className="w-4 h-4 mr-2" />
-                        Generate
-                      </>
-                    )}
-                  </Button>
+                  <div>
+                    <Label className="text-sm font-medium mb-2 block">Tone</Label>
+                    <Select value={formData.tone} onValueChange={(value) => setFormData(prev => ({ ...prev, tone: value }))}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="professional">Professional</SelectItem>
+                        <SelectItem value="friendly">Friendly</SelectItem>
+                        <SelectItem value="casual">Casual</SelectItem>
+                        <SelectItem value="formal">Formal</SelectItem>
+                        <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
+                        <SelectItem value="persuasive">Persuasive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
+
+                <Button 
+                  onClick={handleGenerate} 
+                  disabled={isGenerating} 
+                  className="w-full min-h-[44px]"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      Generate
+                    </>
+                  )}
+                </Button>
               </div>
 
               {/* Generated Variants - Scrollable without custom scrollbar */}
