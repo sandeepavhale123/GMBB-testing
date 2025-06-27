@@ -123,8 +123,18 @@ export const PostsPage = () => {
       <div className="bg-white rounded-lg border p-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
+            {/* Total Count Display */}
+            <div className="text-sm text-gray-600 whitespace-nowrap">
+              {!loading && (
+                <span className="font-medium">
+                  {pagination.totalPosts} {pagination.totalPosts === 1 ? 'post' : 'posts'}
+                  {hasActiveFilters && ' found'}
+                </span>
+              )}
+            </div>
+
             {/* Search */}
-            <div className="relative flex-1 sm:max-w-64">
+            <div className="relative flex-1">
               <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <Input 
                 placeholder="Search posts..." 
