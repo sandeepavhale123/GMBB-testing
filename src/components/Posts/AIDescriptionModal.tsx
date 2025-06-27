@@ -64,7 +64,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
               {/* Input Form - Always visible */}
               <div className="space-y-4 p-4 bg-gray-50 rounded-lg flex-shrink-0">
                 <div>
-                  <Label htmlFor="ai-description" className="text-sm font-medium mb-2 block">Short Description (Optional)</Label>
+                  <Label htmlFor="ai-description" className="text-sm font-medium mb-2 block">Short Description</Label>
                   <Textarea
                     id="ai-description"
                     value={formData.description}
