@@ -5,7 +5,7 @@ interface Post {
   id: string;
   title: string;
   content: string;
-  status: 'published' | 'draft' | 'scheduled';
+  status: 'published' | 'draft' | 'scheduled' | 'failed';
   business: string;
   publishDate: string;
   engagement: {
