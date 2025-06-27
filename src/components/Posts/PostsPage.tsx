@@ -1,25 +1,42 @@
+
 import React, { useState } from 'react';
 import { Plus, Grid2x2, List, Search, Filter } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { DateRangePicker } from '../ui/date-range-picker';
 import { PostCard } from './PostCard';
 import { PostListItem } from './PostListItem';
 import { CreatePostModal } from './CreatePostModal';
 import { useAppSelector } from '../../hooks/useRedux';
+import { DateRange } from 'react-day-picker';
+
 export const PostsPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const {
     posts
   } = useAppSelector(state => state.posts);
+
   const filteredPosts = posts.filter(post => {
     const matchesFilter = filter === 'all' || filter === 'scheduled' && post.status === 'scheduled' || filter === 'live' && post.status === 'published';
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.content.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
+    
+    // Date range filter
+    let matchesDateRange = true;
+    if (dateRange?.from && dateRange?.to) {
+      const postDate = new Date(post.publishDate);
+      const fromDate = new Date(dateRange.from);
+      const toDate = new Date(dateRange.to);
+      matchesDateRange = postDate >= fromDate && postDate <= toDate;
+    }
+    
+    return matchesFilter && matchesSearch && matchesDateRange;
   });
+
   return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -55,6 +72,16 @@ export const PostsPage = () => {
                 <SelectItem value="live">Live Posts</SelectItem>
               </SelectContent>
             </Select>
+
+            {/* Date Range Filter */}
+            <div className="w-full sm:w-60">
+              <DateRangePicker
+                date={dateRange}
+                onDateChange={setDateRange}
+                placeholder="Filter by date range"
+                className="w-full"
+              />
+            </div>
           </div>
 
           {/* View Toggle */}
