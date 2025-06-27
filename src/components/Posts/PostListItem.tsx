@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Calendar, Edit, Trash2, Copy, Eye, MousePointer, Share } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -8,7 +7,7 @@ interface Post {
   id: string;
   title: string;
   content: string;
-  status: 'published' | 'draft' | 'scheduled';
+  status: 'published' | 'draft' | 'scheduled' | 'failed';
   business: string;
   publishDate: string;
   engagement: {
@@ -31,6 +30,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
         return 'bg-blue-100 text-blue-800';
       case 'draft':
         return 'bg-gray-100 text-gray-800';
+      case 'failed':
+        return 'bg-red-100 text-red-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -44,6 +45,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
         return 'Scheduled';
       case 'draft':
         return 'Draft';
+      case 'failed':
+        return 'Failed';
       default:
         return status;
     }
