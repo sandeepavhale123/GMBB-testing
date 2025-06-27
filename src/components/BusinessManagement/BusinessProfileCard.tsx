@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
+import { Loader } from '../ui/loader';
 import { MoreHorizontal, Check, RefreshCw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
@@ -121,7 +122,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               >
                 {isRefreshing ? (
                   <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader size="sm" className="mr-2" />
                     Refreshing...
                   </>
                 ) : (

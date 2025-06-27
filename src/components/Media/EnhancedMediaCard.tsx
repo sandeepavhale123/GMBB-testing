@@ -3,7 +3,8 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Badge } from '../ui/badge';
-import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage, Loader } from 'lucide-react';
+import { Loader } from '../ui/loader';
+import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage } from 'lucide-react';
 
 interface MediaCardProps {
   id: string;
@@ -65,7 +66,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         {/* Loading indicator */}
         {imageLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-            <Loader className="w-8 h-8 text-gray-400 animate-spin" />
+            <Loader size="md" />
           </div>
         )}
 

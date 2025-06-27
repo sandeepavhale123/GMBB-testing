@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader } from './loader';
 
 interface ListingLoaderProps {
   isLoading: boolean;
@@ -14,10 +14,7 @@ export const ListingLoader: React.FC<ListingLoaderProps> = ({ isLoading, childre
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="flex flex-col items-center space-y-4">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-        <p className="text-sm text-gray-600 font-medium">Loading...</p>
-      </div>
+      <Loader size="lg" text="Loading..." />
     </div>
   );
 };
