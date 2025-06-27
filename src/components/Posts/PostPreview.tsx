@@ -8,7 +8,7 @@ interface PostPreviewProps {
     description: string;
     ctaButton: string;
     ctaUrl: string;
-    image: File | null;
+    image: File | string | null;
     platforms: string[];
   };
 }
@@ -16,6 +16,21 @@ interface PostPreviewProps {
 export const PostPreview: React.FC<PostPreviewProps> = ({
   data
 }) => {
+  // Helper function to get image URL
+  const getImageUrl = () => {
+    if (!data.image) return null;
+    
+    if (typeof data.image === 'string') {
+      // It's a URL from AI generation
+      return data.image;
+    } else {
+      // It's a File object - create object URL
+      return URL.createObjectURL(data.image);
+    }
+  };
+
+  const imageUrl = getImageUrl();
+
   return (
     <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
@@ -38,8 +53,8 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       </div>
 
       {/* Image */}
-      {data.image ? (
-        <img src={URL.createObjectURL(data.image)} alt="Post" className="w-full h-48 object-cover" />
+      {imageUrl ? (
+        <img src={imageUrl} alt="Post" className="w-full h-48 object-cover" />
       ) : (
         <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
           <span className="text-white font-medium">Upload an image</span>

@@ -27,7 +27,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     title: '',
     postType: '',
     description: '',
-    image: null as File | null,
+    image: null as File | string | null, // Updated to support both File and string
     ctaButton: '',
     ctaUrl: '',
     publishOption: 'now',
@@ -148,6 +148,31 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     onClose();
   };
 
+  // Helper function to determine if image is a File or URL
+  const getImageDisplay = () => {
+    if (!formData.image) return null;
+    
+    if (typeof formData.image === 'string') {
+      // It's a URL from AI generation
+      return {
+        isFile: false,
+        url: formData.image,
+        name: 'AI Generated Image',
+        size: 'Generated'
+      };
+    } else {
+      // It's a File object
+      return {
+        isFile: true,
+        url: URL.createObjectURL(formData.image),
+        name: formData.image.name,
+        size: `${(formData.image.size / 1024 / 1024).toFixed(2)} MB`
+      };
+    }
+  };
+
+  const imageDisplay = getImageDisplay();
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -214,7 +239,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                   >
-                    {/* ... keep existing code (image upload section) */}
                     <input 
                       type="file" 
                       accept="image/*" 
@@ -222,15 +246,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                       className="hidden" 
                       id="image-upload" 
                     />
-                    {formData.image ? (
+                    {imageDisplay ? (
                       <div className="space-y-2">
                         <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
                           <Upload className="w-6 h-6 text-green-600" />
                         </div>
-                        <p className="text-sm font-medium text-green-700">{formData.image.name}</p>
-                        <p className="text-xs text-gray-500">
-                          {(formData.image.size / 1024 / 1024).toFixed(2)} MB
-                        </p>
+                        <p className="text-sm font-medium text-green-700">{imageDisplay.name}</p>
+                        <p className="text-xs text-gray-500">{imageDisplay.size}</p>
                         <Button 
                           type="button" 
                           variant="outline" 
@@ -271,7 +293,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
                   {showCTAButton && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-4 border-l-2 border-blue-200">
-                      {/* ... keep existing code (CTA button fields) */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Button Type</Label>
                         <Select 
@@ -320,7 +341,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
                   {showAdvancedOptions && (
                     <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
-                      {/* ... keep existing code (advanced options content with responsive grid changes) */}
                       {/* Select Listings and Post Title in Single Row */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
@@ -377,7 +397,6 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         </div>
                       </div>
 
-                      {/* ... keep existing code (rest of advanced options - post type, event fields, offer fields, publish options) */}
                       {/* Post Type */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Post Type</Label>
@@ -564,8 +583,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <AIImageModal 
         isOpen={isAIImageOpen} 
         onClose={() => setIsAIImageOpen(false)} 
-        onSelect={image => {
-          setFormData(prev => ({ ...prev, image }));
+        onSelect={imageUrl => {
+          setFormData(prev => ({ ...prev, image: imageUrl }));
           setIsAIImageOpen(false);
         }} 
       />

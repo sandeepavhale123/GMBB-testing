@@ -12,7 +12,7 @@ interface PostPreviewModalProps {
     description: string;
     ctaButton: string;
     ctaUrl: string;
-    image: File | null;
+    image: File | string | null;
     platforms: string[];
   };
 }
