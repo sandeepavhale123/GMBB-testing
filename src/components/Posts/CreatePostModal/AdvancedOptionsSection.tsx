@@ -11,10 +11,17 @@ interface FormData {
   listings: string[];
   title: string;
   postType: string;
+  description: string;
+  image: File | string | null;
+  ctaButton: string;
+  ctaUrl: string;
   publishOption: string;
   scheduleDate: string;
+  platforms: string[];
+  // Event fields
   eventStartDate: string;
   eventEndDate: string;
+  // Offer fields
   offerStartDate: string;
   offerEndDate: string;
   couponCode: string;
