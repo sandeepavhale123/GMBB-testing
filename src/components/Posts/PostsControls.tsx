@@ -1,0 +1,114 @@
+
+import React from 'react';
+import { Grid2x2, List, Search, Filter, X } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { DateRangePicker } from '../ui/date-range-picker';
+import { DateRange } from 'react-day-picker';
+
+interface PostsControlsProps {
+  loading: boolean;
+  totalPosts: number;
+  hasActiveFilters: boolean;
+  localSearchQuery: string;
+  onSearchChange: (query: string) => void;
+  filter: string;
+  onFilterChange: (filter: string) => void;
+  dateRange: DateRange | undefined;
+  onDateRangeChange: (dateRange: DateRange | undefined) => void;
+  onResetFilters: () => void;
+  viewMode: 'grid' | 'list';
+  onViewModeChange: (mode: 'grid' | 'list') => void;
+}
+
+export const PostsControls: React.FC<PostsControlsProps> = ({
+  loading,
+  totalPosts,
+  hasActiveFilters,
+  localSearchQuery,
+  onSearchChange,
+  filter,
+  onFilterChange,
+  dateRange,
+  onDateRangeChange,
+  onResetFilters,
+  viewMode,
+  onViewModeChange
+}) => {
+  return (
+    <div className="bg-white rounded-lg border p-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
+          {/* Total Count Display */}
+          <div className="text-sm text-gray-600 whitespace-nowrap">
+            {!loading && (
+              <span className="font-medium">
+                {totalPosts} {totalPosts === 1 ? 'post' : 'posts'}
+                {hasActiveFilters && ' found'}
+              </span>
+            )}
+          </div>
+
+          {/* Search */}
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Input 
+              placeholder="Search posts..." 
+              value={localSearchQuery} 
+              onChange={e => onSearchChange(e.target.value)} 
+              className="pl-10 w-full" 
+            />
+          </div>
+
+          {/* Filter */}
+          <Select value={filter} onValueChange={onFilterChange}>
+            <SelectTrigger className="w-full sm:w-40">
+              <Filter className="w-4 h-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Posts</SelectItem>
+              <SelectItem value="scheduled">Scheduled Posts</SelectItem>
+              <SelectItem value="live">Live Posts</SelectItem>
+              <SelectItem value="failed">Failed Posts</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Date Range Filter */}
+          <div className="w-full sm:w-60">
+            <DateRangePicker
+              date={dateRange}
+              onDateChange={onDateRangeChange}
+              placeholder="Filter by date range"
+              className="w-full"
+            />
+          </div>
+
+          {/* Reset Filters Button */}
+          {hasActiveFilters && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onResetFilters}
+              className="whitespace-nowrap"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Reset Filters
+            </Button>
+          )}
+        </div>
+
+        {/* View Toggle */}
+        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 self-center">
+          <Button variant={viewMode === 'grid' ? 'default' : 'ghost'} size="sm" onClick={() => onViewModeChange('grid')} className="h-8">
+            <Grid2x2 className="w-4 h-4" />
+          </Button>
+          <Button variant={viewMode === 'list' ? 'default' : 'ghost'} size="sm" onClick={() => onViewModeChange('list')} className="h-8">
+            <List className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
