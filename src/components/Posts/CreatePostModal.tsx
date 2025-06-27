@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
 import { PostPreview } from './PostPreview';
 import { PostPreviewModal } from './PostPreviewModal';
 import { AIDescriptionModal } from './AIDescriptionModal';
@@ -66,6 +68,9 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     console.log('Creating post:', formData);
     onClose();
   };
+
+  // Check if Create Post button should be enabled
+  const isCreatePostEnabled = formData.description.trim().length > 0;
 
   return (
     <>
@@ -145,7 +150,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
                 Cancel
               </Button>
-              <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto">
+              <Button 
+                onClick={handleSubmit} 
+                disabled={!isCreatePostEnabled}
+                className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Create Post
               </Button>
             </div>

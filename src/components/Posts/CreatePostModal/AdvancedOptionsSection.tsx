@@ -2,6 +2,7 @@
 import React from 'react';
 import { Switch } from '../../ui/switch';
 import { Label } from '../../ui/label';
+import { Separator } from '../../ui/separator';
 import { PostTypeSelector } from './PostTypeSelector';
 import { TitleField } from './TitleField';
 import { EventFields } from './EventFields';
@@ -67,11 +68,17 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
             <TitleField formData={formData} onFormDataChange={onFormDataChange} />
           </div>
 
+          {/* Divider after Post Type */}
+          <Separator />
+
           <EventFields formData={formData} onFormDataChange={onFormDataChange} />
 
           <OfferFields formData={formData} onFormDataChange={onFormDataChange} />
 
           <PublishOptionsSection formData={formData} onFormDataChange={onFormDataChange} />
+
+          {/* Divider after Publish Options */}
+          <Separator />
         </div>
       )}
     </div>
