@@ -6,6 +6,8 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
+import { generatePostDescription, GeneratedContent } from '../../api/aiContentApi';
+import { useToast } from '../../hooks/use-toast';
 
 interface AIDescriptionModalProps {
   isOpen: boolean;
@@ -20,31 +22,72 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
     variants: '3',
     tone: 'professional'
   });
-  const [generatedVariants, setGeneratedVariants] = useState<string[]>([]);
+  const [generatedVariants, setGeneratedVariants] = useState<GeneratedContent[]>([]);
   const [selectedVariant, setSelectedVariant] = useState<string>('');
+  const { toast } = useToast();
 
   const handleGenerate = async () => {
+    if (!formData.description.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a description to generate content.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsGenerating(true);
     
-    // Simulate AI generation
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const variants = [
-      `🎉 Exciting news! ${formData.description} Don't miss out on this amazing opportunity. Visit us today! #NewArrivals #ExcitingNews`,
-      `✨ Discover something amazing! ${formData.description} Perfect for anyone looking for quality and excellence. Come experience the difference! #Quality #Excellence`,
-      `🚀 Ready to try our newest addition? ${formData.description} Join hundreds of satisfied customers who've already made the switch! #CustomerFirst #Innovation`
-    ];
-    
-    const generatedResults = variants.slice(0, parseInt(formData.variants));
-    setGeneratedVariants(generatedResults);
-    if (generatedResults.length > 0) {
-      setSelectedVariant(generatedResults[0]);
+    try {
+      const response = await generatePostDescription({
+        description: formData.description,
+        tone: formData.tone,
+        variants: parseInt(formData.variants)
+      });
+
+      if (response.code === 200 && response.data) {
+        setGeneratedVariants(response.data);
+        if (response.data.length > 0) {
+          // Combine title and content for display
+          const firstVariantText = response.data[0].title 
+            ? `${response.data[0].title}\n\n${response.data[0].content}`
+            : response.data[0].content;
+          setSelectedVariant(firstVariantText);
+        }
+        toast({
+          title: "Success",
+          description: response.message || "Content generated successfully!"
+        });
+      } else {
+        throw new Error(response.message || 'Failed to generate content');
+      }
+    } catch (error: any) {
+      console.error('Error generating content:', error);
+      toast({
+        title: "Generation Failed",
+        description: error?.response?.data?.message || error.message || "Failed to generate content. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGenerating(false);
     }
-    setIsGenerating(false);
   };
 
-  const handleVariantSelect = (variant: string) => {
-    setSelectedVariant(variant);
+  const handleVariantSelect = (variant: GeneratedContent) => {
+    const variantText = variant.title 
+      ? `${variant.title}\n\n${variant.content}`
+      : variant.content;
+    setSelectedVariant(variantText);
+  };
+
+  const handleReset = () => {
+    setFormData({
+      description: '',
+      variants: '3',
+      tone: 'professional'
+    });
+    setGeneratedVariants([]);
+    setSelectedVariant('');
   };
 
   return (
@@ -110,54 +153,77 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({ isOpen, 
                   </div>
                 </div>
 
-                <Button 
-                  onClick={handleGenerate} 
-                  disabled={isGenerating} 
-                  className="w-full min-h-[44px]"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Wand2 className="w-4 h-4 mr-2" />
-                      Generate
-                    </>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={handleGenerate} 
+                    disabled={isGenerating || !formData.description.trim()} 
+                    className="flex-1 min-h-[44px]"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Generate
+                      </>
+                    )}
+                  </Button>
+                  
+                  {generatedVariants.length > 0 && (
+                    <Button 
+                      variant="outline" 
+                      onClick={handleReset}
+                      className="min-h-[44px]"
+                    >
+                      Reset
+                    </Button>
                   )}
-                </Button>
+                </div>
               </div>
 
-              {/* Generated Variants - Scrollable without custom scrollbar */}
+              {/* Generated Variants - Scrollable */}
               {generatedVariants.length > 0 && (
                 <div className="flex-1 min-h-0">
                   <h3 className="font-medium mb-3 text-sm sm:text-base flex-shrink-0">Generated Variants</h3>
                   <div className="max-h-[40vh] lg:max-h-[50vh] overflow-y-auto">
                     <div className="space-y-3">
-                      {generatedVariants.map((variant, index) => (
-                        <div 
-                          key={index} 
-                          className={`border rounded-lg p-3 sm:p-4 space-y-3 cursor-pointer transition-colors ${
-                            selectedVariant === variant ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
-                          }`}
-                          onClick={() => handleVariantSelect(variant)}
-                        >
-                          <div className="text-sm text-gray-700 leading-relaxed">{variant}</div>
-                          <div className="flex gap-2">
-                            <Button 
-                              size="sm" 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleVariantSelect(variant);
-                              }}
-                              className="text-xs"
-                            >
-                              Select
-                            </Button>
+                      {generatedVariants.map((variant, index) => {
+                        const variantText = variant.title 
+                          ? `${variant.title}\n\n${variant.content}`
+                          : variant.content;
+                        const isSelected = selectedVariant === variantText;
+                        
+                        return (
+                          <div 
+                            key={index} 
+                            className={`border rounded-lg p-3 sm:p-4 space-y-3 cursor-pointer transition-colors ${
+                              isSelected ? 'border-blue-500 bg-blue-50' : 'hover:bg-gray-50'
+                            }`}
+                            onClick={() => handleVariantSelect(variant)}
+                          >
+                            {variant.title && (
+                              <div className="font-medium text-sm text-gray-900">{variant.title}</div>
+                            )}
+                            <div className="text-sm text-gray-700 leading-relaxed">{variant.content}</div>
+                            <div className="flex gap-2">
+                              <Button 
+                                size="sm" 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleVariantSelect(variant);
+                                }}
+                                className="text-xs"
+                                variant={isSelected ? "default" : "outline"}
+                              >
+                                {isSelected ? "Selected" : "Select"}
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
