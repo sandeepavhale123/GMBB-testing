@@ -2,7 +2,8 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Badge } from '../ui/badge';
-import { Calendar, Eye, MousePointer, Share } from 'lucide-react';
+import { Calendar, ArrowUpRight } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface Post {
   id: string;
@@ -61,6 +62,13 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     }
   };
 
+  const handleOpenPost = () => {
+    // Open the actual post in a new tab
+    // You can customize this URL based on your post structure
+    const postUrl = `/post/${post.id}`;
+    window.open(postUrl, '_blank');
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
@@ -94,22 +102,16 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
             <span>{post.business}</span>
           </div>
 
-          {/* Engagement Stats */}
-          <div className="flex items-center justify-between pt-4 border-t">
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <div className="flex items-center">
-                <Eye className="w-4 h-4 mr-1" />
-                {post.engagement.views}
-              </div>
-              <div className="flex items-center">
-                <MousePointer className="w-4 h-4 mr-1" />
-                {post.engagement.clicks}
-              </div>
-              <div className="flex items-center">
-                <Share className="w-4 h-4 mr-1" />
-                {post.engagement.shares}
-              </div>
-            </div>
+          {/* View Post Button */}
+          <div className="flex justify-center pt-4 border-t">
+            <Button
+              onClick={handleOpenPost}
+              className="flex items-center gap-2"
+              size="sm"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+              View Post
+            </Button>
           </div>
         </div>
       </DialogContent>
