@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Calendar, Edit, Trash2, Copy, Eye, MousePointer, Share } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
-
 interface Post {
   id: string;
   title: string;
@@ -18,12 +16,12 @@ interface Post {
     shares: number;
   };
 }
-
 interface PostCardProps {
   post: Post;
 }
-
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard: React.FC<PostCardProps> = ({
+  post
+}) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published':
@@ -36,7 +34,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-
   const getStatusText = (status: string) => {
     switch (status) {
       case 'published':
@@ -49,9 +46,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         return status;
     }
   };
-
-  return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow">
+  return <Card className="overflow-hidden hover:shadow-md transition-shadow">
       {/* Post Image Placeholder */}
       <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
         <span className="text-white font-medium">Post Image</span>
@@ -73,20 +68,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
         </div>
 
         {/* Engagement Stats */}
-        <div className="flex items-center gap-4 text-xs text-gray-500">
-          <div className="flex items-center">
-            <Eye className="w-3 h-3 mr-1" />
-            {post.engagement.views}
-          </div>
-          <div className="flex items-center">
-            <MousePointer className="w-3 h-3 mr-1" />
-            {post.engagement.clicks}
-          </div>
-          <div className="flex items-center">
-            <Share className="w-3 h-3 mr-1" />
-            {post.engagement.shares}
-          </div>
-        </div>
+        
       </CardContent>
 
       <CardFooter className="p-4 pt-0 flex justify-between">
@@ -103,6 +85,5 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           </Button>
         </div>
       </CardFooter>
-    </Card>
-  );
+    </Card>;
 };
