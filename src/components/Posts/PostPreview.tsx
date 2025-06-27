@@ -47,6 +47,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     return selectedListing.name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
   };
 
+  // Helper function to limit description text to 200 characters
+  const getLimitedDescription = (description: string) => {
+    if (!description) return '';
+    return description.length > 200 
+      ? description.slice(0, 200) + '...'
+      : description;
+  };
+
   const imageUrl = getImageUrl();
 
   return (
@@ -70,7 +78,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       {/* Post Content */}
       <div className="p-4">
         {data.title && <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>}
-        {data.description && <p className="text-gray-700 text-sm mb-4 leading-relaxed">{data.description}</p>}
+        {data.description && <p className="text-gray-700 text-sm mb-4 leading-relaxed">{getLimitedDescription(data.description)}</p>}
       </div>
 
       {/* Image */}

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
+import { ScrollArea } from '../ui/scroll-area';
 import { PostPreview } from './PostPreview';
 import { PostPreviewModal } from './PostPreviewModal';
 import { AIDescriptionModal } from './AIDescriptionModal';
@@ -115,11 +116,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             </div>
 
             {/* Right Panel - Preview (hidden on mobile/tablet, visible on large screens) */}
-            <div className="hidden lg:flex lg:flex-[4] border-l bg-gray-50/50 p-6 overflow-y-auto">
-              <div className="sticky top-0 space-y-4 w-full">
-                <h3 className="font-semibold text-lg">Live Preview</h3>
-                <PostPreview data={formData} />
-              </div>
+            <div className="hidden lg:flex lg:flex-[4] border-l bg-gray-50/50 p-6">
+              <ScrollArea className="w-full h-full">
+                <div className="space-y-4 w-full">
+                  <h3 className="font-semibold text-lg">Live Preview</h3>
+                  <PostPreview data={formData} />
+                </div>
+              </ScrollArea>
             </div>
           </div>
 
