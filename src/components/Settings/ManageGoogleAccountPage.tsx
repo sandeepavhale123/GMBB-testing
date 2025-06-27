@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, Plus, Grid3X3, List, Zap, RefreshCw } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -252,7 +251,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full lg:w-auto">
             {/* Search Bar */}
-            <div className="relative flex-1 max-w-full sm:max-w-md">
+            <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 placeholder="Search accounts by name or email"
@@ -272,20 +271,6 @@ export const ManageGoogleAccountPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
-            {/* Refresh Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefresh}
-              disabled={loading}
-              className="flex items-center gap-2"
-            >
-              <RefreshCw
-                className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
-              />
-              <span className="hidden sm:inline">Refresh</span>
-            </Button>
-
             {/* View Switcher */}
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <Button
