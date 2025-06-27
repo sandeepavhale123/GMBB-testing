@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Plus, Grid2x2, List, Search, Filter } from 'lucide-react';
+import { Plus, Grid2x2, List, Search, Filter, X } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -17,6 +17,7 @@ export const PostsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  
   const {
     posts
   } = useAppSelector(state => state.posts);
@@ -37,12 +38,20 @@ export const PostsPage = () => {
     return matchesFilter && matchesSearch && matchesDateRange;
   });
 
-  return <div className="space-y-6">
+  const resetAllFilters = () => {
+    setFilter('all');
+    setSearchQuery('');
+    setDateRange(undefined);
+  };
+
+  const hasActiveFilters = filter !== 'all' || searchQuery !== '' || dateRange?.from || dateRange?.to;
+
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Posts</h1>
-          
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="w-4 h-4 sm:mr-2" />
@@ -82,6 +91,19 @@ export const PostsPage = () => {
                 className="w-full"
               />
             </div>
+
+            {/* Reset Filters Button */}
+            {hasActiveFilters && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={resetAllFilters}
+                className="whitespace-nowrap"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Reset Filters
+              </Button>
+            )}
           </div>
 
           {/* View Toggle */}
@@ -97,14 +119,23 @@ export const PostsPage = () => {
       </div>
 
       {/* Posts Display */}
-      {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredPosts.map(post => <PostCard key={post.id} post={post} />)}
-        </div> : <div className="bg-white rounded-lg border divide-y">
-          {filteredPosts.map(post => <PostListItem key={post.id} post={post} />)}
-        </div>}
+      {viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredPosts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg border divide-y">
+          {filteredPosts.map(post => (
+            <PostListItem key={post.id} post={post} />
+          ))}
+        </div>
+      )}
 
       {/* Empty State */}
-      {filteredPosts.length === 0 && <div className="text-center py-12">
+      {filteredPosts.length === 0 && (
+        <div className="text-center py-12">
           <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <Plus className="w-8 h-8 text-gray-400" />
           </div>
@@ -114,9 +145,11 @@ export const PostsPage = () => {
             <Plus className="w-4 h-4 mr-2" />
             Create Post
           </Button>
-        </div>}
+        </div>
+      )}
 
       {/* Create Post Modal */}
       <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
-    </div>;
+    </div>
+  );
 };
