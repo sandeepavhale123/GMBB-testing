@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Button } from '../ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useListingContext } from '../../context/ListingContext';
 
 interface PostPreviewProps {
   data: {
@@ -16,6 +18,8 @@ interface PostPreviewProps {
 export const PostPreview: React.FC<PostPreviewProps> = ({
   data
 }) => {
+  const { selectedListing } = useListingContext();
+
   // Helper function to get image URL
   const getImageUrl = () => {
     if (!data.image) return null;
@@ -29,6 +33,20 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     }
   };
 
+  // Helper function to get business name with character limit
+  const getBusinessName = () => {
+    if (!selectedListing?.name) return 'Business Name';
+    return selectedListing.name.length > 40 
+      ? selectedListing.name.slice(0, 40) + '...'
+      : selectedListing.name;
+  };
+
+  // Helper function to get business initials for avatar fallback
+  const getBusinessInitials = () => {
+    if (!selectedListing?.name) return 'B';
+    return selectedListing.name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+  };
+
   const imageUrl = getImageUrl();
 
   return (
@@ -36,11 +54,14 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       {/* Mock Business Header */}
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-            <span className="text-white font-semibold text-sm">B</span>
-          </div>
+          <Avatar className="w-10 h-10">
+            <AvatarImage src={selectedListing?.profileImage || ''} />
+            <AvatarFallback className="bg-blue-600 text-white font-semibold text-sm">
+              {getBusinessInitials()}
+            </AvatarFallback>
+          </Avatar>
           <div>
-            <h4 className="font-medium text-sm">Business Name</h4>
+            <h4 className="font-medium text-sm">{getBusinessName()}</h4>
             <p className="text-xs text-gray-500">2 hours ago</p>
           </div>
         </div>
