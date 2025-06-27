@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -79,7 +80,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     if (!dateString) return 'No date';
     
     // If the date is already in a readable format (like "27/06/2025 11:30 AM"), return as is
-    if (dateString.includes('/') && dateString.includes('AM' || 'PM')) {
+    if (dateString.includes('/') && (dateString.includes('AM') || dateString.includes('PM'))) {
       return dateString;
     }
     
