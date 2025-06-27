@@ -47,7 +47,7 @@ export const PostsPage = () => {
         },
         pagination: {
           page: pagination.currentPage,
-          limit: 10,
+          limit: 12,
         },
       }));
     }
@@ -99,7 +99,7 @@ export const PostsPage = () => {
       },
       pagination: {
         page,
-        limit: 10,
+        limit: 12,
       },
     }));
   };
