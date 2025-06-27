@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Calendar, Trash2, Copy, Eye } from 'lucide-react';
+import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
@@ -31,6 +30,8 @@ interface PostCardProps {
 
 export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -62,17 +63,42 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     }
   };
 
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+    setImageError(true);
+  };
+
   return (
     <>
       <Card className="overflow-hidden hover:shadow-md transition-shadow">
         {/* Post Image */}
-        <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+        <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
           {post.media?.images ? (
-            <img 
-              src={post.media.images} 
-              alt="Post" 
-              className="w-full h-full object-cover"
-            />
+            <>
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                </div>
+              )}
+              {imageError ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <span className="text-gray-500 text-sm font-medium">Image not available</span>
+                </div>
+              ) : (
+                <img 
+                  src={post.media.images} 
+                  alt="Post" 
+                  className="w-full h-full object-cover"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  style={{ display: imageLoading ? 'none' : 'block' }}
+                />
+              )}
+            </>
           ) : (
             <span className="text-white font-medium">Post Image</span>
           )}
