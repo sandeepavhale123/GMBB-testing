@@ -61,19 +61,24 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-start gap-4">
-            {/* Business Logo/Avatar - Updated to use profile photo */}
-            <div className="w-24 h-24 rounded-lg overflow-hidden">
+            {/* Business Logo/Avatar - Updated with shadow and better image handling */}
+            <div className="w-24 h-24 rounded-lg overflow-hidden shadow-md border border-gray-200">
               {businessInfo?.profile_photo ? (
                 <img 
                   src={businessInfo.profile_photo} 
                   alt={`${businessInfo.name} profile`} 
-                  className="w-full h-full object-cover" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to default avatar if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.nextElementSibling?.classList.remove('hidden');
+                  }}
                 />
-              ) : (
-                <div className="w-full h-full bg-gray-800 flex items-center justify-center text-white font-bold text-2xl">
-                  {businessInfo?.name?.charAt(0) || 'B'}
-                </div>
-              )}
+              ) : null}
+              <div className={`w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-2xl ${businessInfo?.profile_photo ? 'hidden' : ''}`}>
+                {businessInfo?.name?.charAt(0) || 'B'}
+              </div>
             </div>
             
             {/* Business Info */}
