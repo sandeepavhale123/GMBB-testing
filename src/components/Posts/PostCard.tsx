@@ -75,6 +75,22 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setImageError(true);
   };
 
+  const formatPublishDate = (dateString: string) => {
+    if (!dateString) return 'No date';
+    
+    // If the date is already in a readable format (like "27/06/2025 11:30 AM"), return as is
+    if (dateString.includes('/') && dateString.includes('AM' || 'PM')) {
+      return dateString;
+    }
+    
+    // Otherwise, try to format it using Date
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch (error) {
+      return dateString; // Return original string if parsing fails
+    }
+  };
+
   return (
     <>
       <Card className="overflow-hidden hover:shadow-md transition-shadow">
@@ -123,7 +139,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           
           <div className="flex items-center text-xs text-gray-500 mb-3">
             <Calendar className="w-3 h-3 mr-1" />
-            {new Date(post.publishDate).toLocaleDateString()}
+            {formatPublishDate(post.publishDate)}
           </div>
 
           {/* Tags */}
