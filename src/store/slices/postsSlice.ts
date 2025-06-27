@@ -52,9 +52,10 @@ const initialState: PostsState = {
 
 // Helper function to map API status to frontend status
 const mapApiStatusToFrontendStatus = (apiStatus: string): 'published' | 'draft' | 'scheduled' | 'failed' => {
-  console.log('Mapping API status:', apiStatus);
-  switch (apiStatus) {
+  const normalizedStatus = apiStatus.toUpperCase();
+  switch (normalizedStatus) {
     case 'LIVE':
+    case 'PUBLISHED':
       return 'published';
     case 'DRAFT':
       return 'draft';
@@ -63,14 +64,12 @@ const mapApiStatusToFrontendStatus = (apiStatus: string): 'published' | 'draft' 
     case 'FAILED':
       return 'failed';
     default:
-      console.warn('Unknown API status:', apiStatus, 'defaulting to draft');
       return 'draft';
   }
 };
 
 // Helper function to map frontend filter to API filter
 const mapFilterToApiStatus = (filter: string): string => {
-  console.log('Mapping filter to API status:', filter);
   switch (filter) {
     case 'published':
       return 'LIVE';
@@ -104,7 +103,6 @@ const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => {
     tags: apiPost.tags,
   };
   
-  console.log('Transformed post:', transformedPost);
   return transformedPost;
 };
 
