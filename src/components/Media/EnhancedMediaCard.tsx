@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Badge } from '../ui/badge';
-import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage } from 'lucide-react';
+import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage, Loader } from 'lucide-react';
+
 interface MediaCardProps {
   id: string;
   name: string;
@@ -39,40 +40,66 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   onDownload,
   onSetAsCover
 }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
   const handleDropdownClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
   const handleMenuItemClick = (action: () => void) => (e: React.MouseEvent) => {
     e.stopPropagation();
     action();
   };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+  };
+
   return <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
       <div className="aspect-square bg-gray-100 relative overflow-hidden cursor-pointer" onClick={onView}>
-        <img src={url} alt={name} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+        {/* Loading indicator */}
+        {imageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            <Loader className="w-8 h-8 text-gray-400 animate-spin" />
+          </div>
+        )}
+
+        <img 
+          src={url} 
+          alt={name} 
+          className="w-full h-full object-cover transition-transform group-hover:scale-105" 
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+          style={{ display: imageLoading ? 'none' : 'block' }}
+        />
         
         {/* Video indicator */}
-        {type === 'video' && <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
+        {type === 'video' && !imageLoading && <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
             <div className="bg-black bg-opacity-50 rounded-full p-2">
               <Play className="w-6 h-6 text-white fill-white" />
             </div>
           </div>}
 
         {/* Views counter */}
-        <div className="absolute top-2 left-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+        {!imageLoading && <div className="absolute top-2 left-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
           <Eye className="w-3 h-3" />
           {views}
-        </div>
+        </div>}
 
         {/* Status badge */}
-        <div className="absolute top-2 right-2">
+        {!imageLoading && <div className="absolute top-2 right-2">
           <Badge className={`text-xs ${statusColors[status]}`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </Badge>
-        </div>
+        </div>}
 
         {/* Action menu */}
-        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleDropdownClick}>
+        {!imageLoading && <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={handleDropdownClick}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white bg-opacity-90 hover:bg-white rounded-full">
@@ -91,7 +118,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </div>}
       </div>
 
       {/* Metadata */}
