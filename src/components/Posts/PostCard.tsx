@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Calendar, Edit, Trash2, Copy, Eye, MousePointer, Share } from 'lucide-react';
+import { Calendar, Trash2, Copy, Eye, MousePointer, Share } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
@@ -79,7 +80,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         <span className="text-xs text-gray-500">{post.business}</span>
         <div className="flex gap-1">
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Edit className="w-3 h-3" />
+            <Eye className="w-3 h-3" />
           </Button>
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
             <Copy className="w-3 h-3" />
