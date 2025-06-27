@@ -103,12 +103,12 @@ export const SubscriptionPage: React.FC = () => {
   const renderFeatureValue = (value: boolean | number | string) => {
     if (typeof value === 'boolean') {
       return value ? (
-        <Check className="w-5 h-5 text-green-500" />
+        <Check className="w-5 h-5 text-green-500 mx-auto" />
       ) : (
-        <X className="w-5 h-5 text-red-400" />
+        <X className="w-5 h-5 text-red-400 mx-auto" />
       );
     }
-    return <span className="text-sm font-medium">{value}</span>;
+    return <span className="text-sm font-medium text-gray-900">{value}</span>;
   };
 
   const handlePayNow = (planId: string) => {
@@ -139,20 +139,22 @@ export const SubscriptionPage: React.FC = () => {
           {/* Pricing Table */}
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
             {/* Header Row */}
-            <div className="grid grid-cols-6 bg-gray-50 border-b border-gray-200">
-              <div className="p-4 font-semibold text-gray-900">
+            <div className="grid grid-cols-5 bg-gray-50 border-b border-gray-200">
+              <div className="p-4 font-semibold text-gray-900 flex items-center">
                 Features
               </div>
               {plans.map((plan) => (
-                <div key={plan.id} className="p-4 text-center relative">
-                  <div className={`${plan.color} text-white py-2 px-4 rounded-t-lg -mx-4 -mt-4 mb-2`}>
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="font-semibold">{plan.name}</span>
-                      {plan.popular && <Crown className="w-4 h-4" />}
+                <div key={plan.id} className="p-4 text-center relative min-h-[120px] flex flex-col justify-between">
+                  <div className="absolute inset-0 flex flex-col">
+                    <div className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}>
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="font-semibold text-lg">{plan.name}</span>
+                        {plan.popular && <Crown className="w-4 h-4" />}
+                      </div>
                     </div>
                   </div>
                   {plan.popular && (
-                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs">
+                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
                       Most Popular
                     </Badge>
                   )}
@@ -161,7 +163,7 @@ export const SubscriptionPage: React.FC = () => {
             </div>
 
             {/* Price Row */}
-            <div className="grid grid-cols-6 border-b border-gray-200 bg-white">
+            <div className="grid grid-cols-5 border-b border-gray-200 bg-white">
               <div className="p-4 font-medium text-gray-700">
                 Price/PM
               </div>
@@ -177,27 +179,27 @@ export const SubscriptionPage: React.FC = () => {
 
             {/* Feature Rows */}
             {planFeatures.map((feature, index) => (
-              <div key={index} className="grid grid-cols-6 border-b border-gray-200 hover:bg-gray-50">
-                <div className="p-4 text-sm text-gray-700">
+              <div key={index} className="grid grid-cols-5 border-b border-gray-200 hover:bg-gray-50">
+                <div className="p-4 text-sm text-gray-700 font-medium">
                   {feature.name}
                 </div>
-                <div className="p-4 text-center">
+                <div className="p-4 text-center flex items-center justify-center">
                   {renderFeatureValue(feature.business)}
                 </div>
-                <div className="p-4 text-center">
+                <div className="p-4 text-center flex items-center justify-center">
                   {renderFeatureValue(feature.pro)}
                 </div>
-                <div className="p-4 text-center">
+                <div className="p-4 text-center flex items-center justify-center">
                   {renderFeatureValue(feature.agency)}
                 </div>
-                <div className="p-4 text-center">
+                <div className="p-4 text-center flex items-center justify-center">
                   {renderFeatureValue(feature.enterprise)}
                 </div>
               </div>
             ))}
 
             {/* Action Buttons Row */}
-            <div className="grid grid-cols-6 bg-gray-50">
+            <div className="grid grid-cols-5 bg-gray-50">
               <div className="p-4"></div>
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center">
