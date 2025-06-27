@@ -145,7 +145,12 @@ export const SubscriptionPage: React.FC = () => {
               </div>
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center relative min-h-[120px] flex flex-col justify-between">
-                  <div className="absolute inset-0 flex flex-col">
+                  {plan.popular && (
+                    <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs px-3 py-1 z-20 shadow-md">
+                      Most Popular
+                    </Badge>
+                  )}
+                  <div className="absolute inset-0 flex flex-col mt-3">
                     <div className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}>
                       <div className="flex items-center justify-center gap-2">
                         <span className="font-semibold text-lg">{plan.name}</span>
@@ -153,11 +158,6 @@ export const SubscriptionPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  {plan.popular && (
-                    <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
-                      Most Popular
-                    </Badge>
-                  )}
                 </div>
               ))}
             </div>
