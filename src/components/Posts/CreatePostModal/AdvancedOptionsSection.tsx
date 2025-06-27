@@ -39,8 +39,6 @@ interface AdvancedOptionsSectionProps {
   onListingToggle: (listing: string) => void;
 }
 
-const businessListings = ['Downtown Coffee Shop', 'Uptown Bakery', 'Westside Restaurant', 'East End Boutique', 'Central Park Gym', 'Sunset Spa & Wellness'];
-
 const postTypes = [{
   value: 'regular',
   label: 'Regular Post'
@@ -75,10 +73,6 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
   onListingsSearchChange,
   onListingToggle
 }) => {
-  const filteredListings = businessListings.filter(listing => 
-    listing.toLowerCase().includes(listingsSearch.toLowerCase())
-  );
-
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-3">
@@ -92,62 +86,6 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
 
       {showAdvancedOptions && (
         <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
-          {/* Select Listings and Post Title in Single Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Select Business Listings</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue 
-                    placeholder={
-                      formData.listings.length > 0 
-                        ? `${formData.listings.length} selected` 
-                        : "Choose listings"
-                    } 
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <div className="p-2">
-                    <Input 
-                      placeholder="Search listings..." 
-                      value={listingsSearch} 
-                      onChange={e => onListingsSearchChange(e.target.value)} 
-                      className="mb-2" 
-                    />
-                  </div>
-                  {filteredListings.map(listing => (
-                    <SelectItem 
-                      key={listing} 
-                      value={listing} 
-                      onClick={() => onListingToggle(listing)}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <input 
-                          type="checkbox" 
-                          checked={formData.listings.includes(listing)} 
-                          onChange={() => onListingToggle(listing)} 
-                          className="rounded" 
-                        />
-                        <span>{listing}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="title" className="text-sm font-medium">Post Title (Optional)</Label>
-              <Input 
-                id="title" 
-                value={formData.title} 
-                onChange={e => onFormDataChange(prev => ({ ...prev, title: e.target.value }))} 
-                placeholder="Enter an engaging post title..." 
-                className="transition-all focus:ring-2" 
-              />
-            </div>
-          </div>
-
           {/* Post Type */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Post Type</Label>
@@ -167,6 +105,20 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
               </SelectContent>
             </Select>
           </div>
+
+          {/* Title Field - Only show for Event or Offer posts */}
+          {(formData.postType === 'event' || formData.postType === 'offer') && (
+            <div className="space-y-2">
+              <Label htmlFor="title" className="text-sm font-medium">Title</Label>
+              <Input 
+                id="title" 
+                value={formData.title} 
+                onChange={e => onFormDataChange(prev => ({ ...prev, title: e.target.value }))} 
+                placeholder="Enter title..." 
+                className="transition-all focus:ring-2" 
+              />
+            </div>
+          )}
 
           {/* Event Post Fields */}
           {formData.postType === 'event' && (
