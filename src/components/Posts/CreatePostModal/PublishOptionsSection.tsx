@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Calendar, Clock, Wand2 } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Input } from '../../ui/input';
@@ -23,10 +23,6 @@ const publishOptions = [{
   value: 'schedule',
   label: 'Schedule Post',
   icon: Calendar
-}, {
-  value: 'auto',
-  label: 'Auto Reschedule',
-  icon: Wand2
 }];
 
 export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
