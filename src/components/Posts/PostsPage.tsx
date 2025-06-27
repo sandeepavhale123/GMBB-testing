@@ -23,7 +23,10 @@ export const PostsPage = () => {
   } = useAppSelector(state => state.posts);
 
   const filteredPosts = posts.filter(post => {
-    const matchesFilter = filter === 'all' || filter === 'scheduled' && post.status === 'scheduled' || filter === 'live' && post.status === 'published';
+    const matchesFilter = filter === 'all' || 
+                         (filter === 'scheduled' && post.status === 'scheduled') || 
+                         (filter === 'live' && post.status === 'published') ||
+                         (filter === 'failed' && post.status === 'failed');
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || post.content.toLowerCase().includes(searchQuery.toLowerCase());
     
     // Date range filter
@@ -79,6 +82,7 @@ export const PostsPage = () => {
                 <SelectItem value="all">All Posts</SelectItem>
                 <SelectItem value="scheduled">Scheduled Posts</SelectItem>
                 <SelectItem value="live">Live Posts</SelectItem>
+                <SelectItem value="failed">Failed Posts</SelectItem>
               </SelectContent>
             </Select>
 
