@@ -58,16 +58,17 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           </Select>
         </div>
         
-        <div className="space-y-2">
-          <Label className="text-sm text-gray-600">Schedule Date & Time</Label>
-          <Input 
-            type="datetime-local" 
-            value={formData.scheduleDate} 
-            onChange={e => onFormDataChange(prev => ({ ...prev, scheduleDate: e.target.value }))} 
-            className="w-full" 
-            disabled={formData.publishOption !== 'schedule'}
-          />
-        </div>
+        {formData.publishOption === 'schedule' && (
+          <div className="space-y-2">
+            <Label className="text-sm text-gray-600">Schedule Date & Time</Label>
+            <Input 
+              type="datetime-local" 
+              value={formData.scheduleDate} 
+              onChange={e => onFormDataChange(prev => ({ ...prev, scheduleDate: e.target.value }))} 
+              className="w-full" 
+            />
+          </div>
+        )}
       </div>
     </div>
   );
