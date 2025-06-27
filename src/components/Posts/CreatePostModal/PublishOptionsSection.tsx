@@ -32,8 +32,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
   return (
     <div className="space-y-3">
       <Label className="text-sm font-medium">Publish Options</Label>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
+          <Label className="text-sm text-gray-600">Publish Option</Label>
           <Select 
             value={formData.publishOption} 
             onValueChange={value => onFormDataChange(prev => ({ ...prev, publishOption: value }))}
@@ -57,17 +58,16 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           </Select>
         </div>
         
-        {formData.publishOption === 'schedule' && (
-          <div className="space-y-2">
-            <Label className="text-sm text-gray-600">Schedule Date & Time</Label>
-            <Input 
-              type="datetime-local" 
-              value={formData.scheduleDate} 
-              onChange={e => onFormDataChange(prev => ({ ...prev, scheduleDate: e.target.value }))} 
-              className="w-full" 
-            />
-          </div>
-        )}
+        <div className="space-y-2">
+          <Label className="text-sm text-gray-600">Schedule Date & Time</Label>
+          <Input 
+            type="datetime-local" 
+            value={formData.scheduleDate} 
+            onChange={e => onFormDataChange(prev => ({ ...prev, scheduleDate: e.target.value }))} 
+            className="w-full" 
+            disabled={formData.publishOption !== 'schedule'}
+          />
+        </div>
       </div>
     </div>
   );
