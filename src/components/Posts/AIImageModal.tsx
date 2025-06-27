@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Wand2, Loader2, ZoomIn, RotateCcw } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
@@ -78,7 +77,7 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
           <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div>
               <Label htmlFor="image-prompt" className="text-sm font-medium mb-2 block">Image Title / Prompt</Label>
-              <Input 
+              <Textarea 
                 id="image-prompt" 
                 value={formData.prompt} 
                 onChange={e => setFormData(prev => ({
@@ -86,7 +85,8 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
                   prompt: e.target.value
                 }))} 
                 placeholder="Describe the image you want to generate..." 
-                className="text-sm sm:text-base"
+                className="text-sm sm:text-base min-h-[80px]"
+                rows={3}
               />
             </div>
 
