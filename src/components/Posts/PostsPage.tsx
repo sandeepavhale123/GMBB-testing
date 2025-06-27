@@ -84,7 +84,7 @@ export const PostsPage = () => {
     setDateRange(undefined);
   };
 
-  const hasActiveFilters = filter !== 'all' || searchQuery !== '' || dateRange?.from || dateRange?.to;
+  const hasActiveFilters = filter !== 'all' || searchQuery !== '' || !!(dateRange?.from) || !!(dateRange?.to);
 
   const handlePageChange = (page: number) => {
     dispatch(fetchPosts({

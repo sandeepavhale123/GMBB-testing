@@ -40,12 +40,12 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
     <div className="bg-white rounded-lg border p-4">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
-          {/* Total Count Display */}
+          {/* Total Posts Display */}
           <div className="text-sm text-gray-600 whitespace-nowrap">
             {!loading && (
               <span className="font-medium">
-                {totalPosts} {totalPosts === 1 ? 'post' : 'posts'}
-                {hasActiveFilters && ' found'}
+                Total Posts: {totalPosts}
+                {hasActiveFilters && ' (filtered)'}
               </span>
             )}
           </div>
