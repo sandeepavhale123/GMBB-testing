@@ -16,27 +16,24 @@ interface CTAButtonSectionProps {
 }
 
 const ctaOptions = [{
-  value: 'learn-more',
+  value: 'LEARN_MORE',
   label: 'Learn More'
 }, {
-  value: 'book-now',
+  value: 'BOOK',
   label: 'Book Now'
 }, {
-  value: 'call-now',
+  value: 'CALL',
   label: 'Call Now'
 }, {
-  value: 'order-online',
+  value: 'ORDER',
   label: 'Order Online'
 }, {
-  value: 'get-offer',
-  label: 'Get Offer'
+  value: 'SHOP',
+  label: 'Shop Now'
 }, {
-  value: 'sign-up',
+  value: 'SIGN_UP',
   label: 'Sign Up'
-}, {
-  value: 'download',
-  label: 'Download'
-}];
+}, ];
 
 export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
   showCTAButton,
