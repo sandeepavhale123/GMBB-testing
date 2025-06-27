@@ -127,6 +127,14 @@ export const PostsPage = () => {
 
       {!loading && (
         <>
+          {/* Total Posts Display */}
+          <div className="text-sm text-gray-600">
+            <span className="font-medium">
+              Total Posts: {pagination.totalPosts}
+              {hasActiveFilters && ' (filtered)'}
+            </span>
+          </div>
+
           {posts.length === 0 ? (
             <PostsEmptyState 
               hasActiveFilters={hasActiveFilters}

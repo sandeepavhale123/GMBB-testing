@@ -40,16 +40,6 @@ export const PostsControls: React.FC<PostsControlsProps> = ({
     <div className="bg-white rounded-lg border p-4">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-1">
-          {/* Total Posts Display */}
-          <div className="text-sm text-gray-600 whitespace-nowrap">
-            {!loading && (
-              <span className="font-medium">
-                Total Posts: {totalPosts}
-                {hasActiveFilters && ' (filtered)'}
-              </span>
-            )}
-          </div>
-
           {/* Search */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
