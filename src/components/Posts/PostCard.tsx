@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -32,6 +33,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+
+  // Debug logging to check post status
+  console.log('PostCard - Post ID:', post.id, 'Status:', post.status, 'Post:', post);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -100,7 +104,9 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
               )}
             </>
           ) : (
-            <span className="text-white font-medium">Post Image</span>
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <span className="text-gray-500 text-sm font-medium">Image not available</span>
+            </div>
           )}
         </div>
 

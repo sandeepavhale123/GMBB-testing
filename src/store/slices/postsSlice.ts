@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postsApi, GetPostsRequest, ApiPost } from '../../api/postsApi';
 
@@ -53,6 +52,7 @@ const initialState: PostsState = {
 
 // Helper function to map API status to frontend status
 const mapApiStatusToFrontendStatus = (apiStatus: string): 'published' | 'draft' | 'scheduled' | 'failed' => {
+  console.log('Mapping API status:', apiStatus);
   switch (apiStatus) {
     case 'LIVE':
       return 'published';
@@ -63,12 +63,14 @@ const mapApiStatusToFrontendStatus = (apiStatus: string): 'published' | 'draft' 
     case 'FAILED':
       return 'failed';
     default:
+      console.warn('Unknown API status:', apiStatus, 'defaulting to draft');
       return 'draft';
   }
 };
 
 // Helper function to map frontend filter to API filter
 const mapFilterToApiStatus = (filter: string): string => {
+  console.log('Mapping filter to API status:', filter);
   switch (filter) {
     case 'published':
       return 'LIVE';
@@ -84,22 +86,27 @@ const mapFilterToApiStatus = (filter: string): string => {
 };
 
 // Helper function to transform API post to frontend post
-const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => ({
-  id: apiPost.id,
-  title: apiPost.title || 'Untitled Post',
-  content: apiPost.content,
-  status: mapApiStatusToFrontendStatus(apiPost.status),
-  business: 'Business Name', // You might want to get this from context or API
-  publishDate: apiPost.publishDate || new Date().toISOString().split('T')[0],
-  engagement: {
-    views: 0,
-    clicks: 0,
-    shares: 0,
-  },
-  searchUrl: apiPost.searchUrl,
-  media: apiPost.media,
-  tags: apiPost.tags,
-});
+const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => {
+  const transformedPost = {
+    id: apiPost.id,
+    title: apiPost.title || 'Untitled Post',
+    content: apiPost.content,
+    status: mapApiStatusToFrontendStatus(apiPost.status),
+    business: 'Business Name', // You might want to get this from context or API
+    publishDate: apiPost.publishDate || new Date().toISOString().split('T')[0],
+    engagement: {
+      views: 0,
+      clicks: 0,
+      shares: 0,
+    },
+    searchUrl: apiPost.searchUrl,
+    media: apiPost.media,
+    tags: apiPost.tags,
+  };
+  
+  console.log('Transformed post:', transformedPost);
+  return transformedPost;
+};
 
 // Async thunk for fetching posts
 export const fetchPosts = createAsyncThunk(
@@ -162,6 +169,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setFilter: (state, action) => {
+      console.log('Setting filter to:', action.payload);
       state.filter = action.payload;
     },
     setSearchQuery: (state, action) => {
@@ -188,7 +196,9 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false;
+        console.log('Raw API response:', action.payload);
         state.posts = action.payload.data.posts.map(transformApiPostToFrontendPost);
+        console.log('Transformed posts:', state.posts);
         state.pagination = action.payload.data.pagination;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
