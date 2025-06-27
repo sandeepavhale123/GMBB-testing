@@ -78,7 +78,7 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
           <PublishOptionsSection formData={formData} onFormDataChange={onFormDataChange} />
 
           {/* Divider after Publish Options */}
-          <Separator />
+         
         </div>
       )}
     </div>

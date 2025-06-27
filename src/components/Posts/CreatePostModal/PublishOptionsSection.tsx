@@ -5,6 +5,7 @@ import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Input } from '../../ui/input';
 import { Checkbox } from '../../ui/checkbox';
+import { Separator } from '../../ui/separator';
 
 interface FormData {
   publishOption: string;
@@ -74,6 +75,8 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           </div>
         )}
       </div>
+
+       <Separator />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
