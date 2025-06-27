@@ -145,7 +145,7 @@ export const fetchPosts = createAsyncThunk(
       },
       pagination: {
         page: pagination?.page || 1,
-        limit: pagination?.limit || 10,
+        limit: pagination?.limit || 12,
         total: 0,
         total_pages: 1,
         has_next: false,
