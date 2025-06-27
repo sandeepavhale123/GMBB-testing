@@ -7,11 +7,13 @@ import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
+import { generateAIImage } from '../../api/mediaApi';
+import { useToast } from '../../hooks/use-toast';
 
 interface AIImageModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (image: File) => void;
+  onSelect: (imageUrl: string) => void;
 }
 
 export const AIImageModal: React.FC<AIImageModalProps> = ({
@@ -27,20 +29,50 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
   });
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const handleGenerate = async () => {
+    if (!formData.prompt.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a prompt to generate images.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
+    setGeneratedImages([]);
+    setSelectedImages([]);
 
-    // Simulate AI generation
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    try {
+      const response = await generateAIImage({
+        prompt: formData.prompt,
+        variants: parseInt(formData.variants),
+        style: formData.style
+      });
 
-    // Mock generated images using placeholder service
-    const mockImages = [
-      'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop', 
-      'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop'
-    ];
-    setGeneratedImages(mockImages.slice(0, parseInt(formData.variants)));
-    setIsGenerating(false);
+      if (response.code === 200 && response.data.results) {
+        const imageUrls = response.data.results.map(result => result.url);
+        setGeneratedImages(imageUrls);
+        
+        toast({
+          title: "Success",
+          description: `Generated ${imageUrls.length} image(s) successfully.`,
+        });
+      } else {
+        throw new Error(response.message || 'Failed to generate images');
+      }
+    } catch (error) {
+      console.error('AI Image generation error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate images. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const toggleImageSelection = (image: string) => {
@@ -53,11 +85,9 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
 
   const handleUseSelected = () => {
     if (selectedImages.length > 0) {
-      // Convert URL to File object (in real app, you'd handle this properly)
-      const mockFile = new File([], 'generated-image.jpg', {
-        type: 'image/jpeg'
-      });
-      onSelect(mockFile);
+      // Use the first selected image URL
+      onSelect(selectedImages[0]);
+      onClose();
     }
   };
 
