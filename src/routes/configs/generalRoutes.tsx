@@ -7,6 +7,7 @@ import NotFound from "@/pages/NotFound";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { RouteConfig } from "../routeConfig";
 import { ManageGoogleAccountPage } from "@/components/Settings/ManageGoogleAccountPage";
+import { SubscriptionPage } from "@/components/Settings/SubscriptionPage";
 import { GenieSubscriptionPage } from "@/components/Settings/GenieSubscriptionPage";
 import { ListingManagementPage } from "@/components/Settings/ListingManagementPage";
 import { Navigate } from "react-router-dom";
@@ -46,6 +47,14 @@ export const generalRoutes: RouteConfig[] = [
   },
   {
     path: "/settings/google-account",
+    element: (
+      <ProtectedRoute>
+        <SettingsPage />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/settings/subscription",
     element: (
       <ProtectedRoute>
         <SettingsPage />

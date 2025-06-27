@@ -10,6 +10,7 @@ import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
 import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAccountPage';
+import { SubscriptionPage } from '../components/Settings/SubscriptionPage';
 import { GenieSubscriptionPage } from '../components/Settings/GenieSubscriptionPage';
 import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
 
@@ -31,6 +32,9 @@ const SettingsPage = () => {
   // Get active tab from route
   const getActiveTab = () => {
     const path = location.pathname;
+    if (path.includes('/subscription')) {
+      return 'subscription';
+    }
     if (path.includes('/genie-subscription')) {
       return 'genie-subscription';
     }
@@ -56,6 +60,8 @@ const SettingsPage = () => {
     switch (activeTab) {
       case 'google-account':
         return <ManageGoogleAccountPage />;
+      case 'subscription':
+        return <SubscriptionPage />;
       case 'genie-subscription':
         return <GenieSubscriptionPage />;
       default:
