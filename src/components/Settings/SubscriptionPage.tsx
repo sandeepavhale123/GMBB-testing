@@ -154,7 +154,7 @@ export const SubscriptionPage: React.FC = () => {
                     </div>
                   </div>
                   {plan.popular && (
-                    <Badge className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
+                    <Badge className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
                       Most Popular
                     </Badge>
                   )}
