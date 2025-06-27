@@ -28,6 +28,9 @@ interface FormData {
   couponCode: string;
   redeemOnlineUrl: string;
   termsConditions: string;
+  // New fields
+  postTags: string;
+  siloPost: boolean;
 }
 
 interface AdvancedOptionsSectionProps {

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -41,7 +40,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     offerEndDate: '',
     couponCode: '',
     redeemOnlineUrl: '',
-    termsConditions: ''
+    termsConditions: '',
+    // New fields
+    postTags: '',
+    siloPost: false
   });
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);

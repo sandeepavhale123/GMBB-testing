@@ -4,10 +4,13 @@ import { Calendar, Clock } from 'lucide-react';
 import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Input } from '../../ui/input';
+import { Checkbox } from '../../ui/checkbox';
 
 interface FormData {
   publishOption: string;
   scheduleDate: string;
+  postTags: string;
+  siloPost: boolean;
 }
 
 interface PublishOptionsSectionProps {
@@ -30,8 +33,9 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
   onFormDataChange
 }) => {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <Label className="text-sm font-medium">Publish Options</Label>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
           <Label className="text-sm text-gray-600">Publish Option</Label>
@@ -69,6 +73,30 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
             />
           </div>
         )}
+      </div>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label className="text-sm text-gray-600">Post Tags</Label>
+          <Input 
+            type="text" 
+            placeholder="Enter tags separated by commas"
+            value={formData.postTags} 
+            onChange={e => onFormDataChange(prev => ({ ...prev, postTags: e.target.value }))} 
+            className="w-full" 
+          />
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox 
+            id="silo-post"
+            checked={formData.siloPost}
+            onCheckedChange={checked => onFormDataChange(prev => ({ ...prev, siloPost: checked as boolean }))}
+          />
+          <Label htmlFor="silo-post" className="text-sm text-gray-600">
+            Add previous post tag url by this post (Silo post)
+          </Label>
+        </div>
       </div>
     </div>
   );
