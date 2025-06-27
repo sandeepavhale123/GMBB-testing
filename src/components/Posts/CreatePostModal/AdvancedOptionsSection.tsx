@@ -59,9 +59,10 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
 
       {showAdvancedOptions && (
         <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
-          <PostTypeSelector formData={formData} onFormDataChange={onFormDataChange} />
-          
-          <TitleField formData={formData} onFormDataChange={onFormDataChange} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <PostTypeSelector formData={formData} onFormDataChange={onFormDataChange} />
+            <TitleField formData={formData} onFormDataChange={onFormDataChange} />
+          </div>
 
           <EventFields formData={formData} onFormDataChange={onFormDataChange} />
 
