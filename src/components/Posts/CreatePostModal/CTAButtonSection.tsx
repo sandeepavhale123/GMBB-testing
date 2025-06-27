@@ -43,6 +43,11 @@ export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
   ctaUrl,
   onCTAUrlChange
 }) => {
+  // Hide the entire component if Call Now is selected
+  if (ctaButton === 'CALL') {
+    return null;
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center space-x-3">
