@@ -1,4 +1,3 @@
-
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
@@ -22,38 +21,35 @@ export const useTokenRefresh = (
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const refreshAccessToken = async (): Promise<boolean> => {
-    console.log("🔄 Starting token refresh...", { 
-      hasCurrentToken: !!accessToken, 
-      hasUser: !!user, 
-      isRefreshing 
-    });
+    console.log("Starting token refresh...");
 
     // If already authenticated, no need to refresh
     if (accessToken && user) {
-      console.log("✅ Already authenticated, skipping refresh");
+      console.log("Already authenticated, skipping refresh");
       dispatch(setHasAttemptedRefresh(true));
       return true;
     }
 
     // If already refreshing, wait for it to complete
     if (isRefreshing) {
-      console.log("⏳ Refresh already in progress");
+      console.log("Refresh already in progress");
       return false;
     }
 
     dispatch(setIsRefreshing(true));
+    // dispatch(setHasAttemptedRefresh(true));
 
     const { refreshToken, userId } = getStoredTokenData();
 
     if (!refreshToken) {
-      console.log("❌ No refresh token found");
+      console.log("No refresh token found");
       dispatch(setIsRefreshing(false));
       dispatch(setHasAttemptedRefresh(true));
       return false;
     }
 
     try {
-      console.log("🔄 Attempting token refresh with refresh token...");
+      console.log("Attempting token refresh...");
 
       const payload: TokenRefreshPayload = {
         refresh_token: refreshToken,
@@ -73,7 +69,7 @@ export const useTokenRefresh = (
       }
 
       const data: TokenRefreshResponse = await response.json();
-      console.log("✅ Token refresh successful, updating auth state");
+      console.log("Token refresh successful");
 
       // Update Redux state (which also updates sessionStorage)
       dispatch(setAccessToken(data.accessToken));
@@ -82,18 +78,16 @@ export const useTokenRefresh = (
       // Update refresh token in localStorage
       localStorage.setItem("refresh_token", data.refresh_token);
 
-      console.log("🔄 Auth state updated, new token available:", !!data.accessToken);
-
       // Attempt to restore navigation state
       const navigationRestored = restoreNavigationState(navigate);
 
       if (!navigationRestored) {
-        console.log("ℹ️ No saved navigation state to restore");
+        console.log("No saved navigation state to restore");
       }
 
       return true;
     } catch (error) {
-      console.error("❌ Token refresh failed:", error);
+      console.error("Token refresh failed:", error);
 
       // Handle expired or invalid refresh token
       dispatch(clearExpiredTokens());

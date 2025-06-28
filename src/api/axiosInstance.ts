@@ -1,4 +1,3 @@
-
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
@@ -19,7 +18,6 @@ export const setAuthHelpers = (
   logout: () => void,
   refresh: () => Promise<boolean>
 ) => {
-  console.log('🔧 Axios: Setting auth helpers');
   getAccessToken = getToken;
   handleLogout = logout;
   refreshToken = refresh;
@@ -76,19 +74,12 @@ axiosInstance.interceptors.request.use(
       config.url?.includes(route)
     );
 
-    console.log(`🌐 Making ${config.method?.toUpperCase()} request to ${config.url}`, {
-      hasToken: !!token,
-      isAuthRoute,
-      tokenPreview: token ? `${token.substring(0, 10)}...` : 'none'
-    });
-
     if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('✅ Authorization header added to request');
-    } else if (!isAuthRoute) {
-      console.log('⚠️ No token available for non-auth route');
     }
-
+    console.log(
+      `Making ${config.method?.toUpperCase()} request to ${config.url}`
+    );
     return config;
   },
   (error) => Promise.reject(error)
@@ -96,20 +87,12 @@ axiosInstance.interceptors.request.use(
 
 // Enhanced response interceptor for automatic token refresh with store cleanup
 axiosInstance.interceptors.response.use(
-  (response) => {
-    console.log(`✅ Request successful: ${response.config.method?.toUpperCase()} ${response.config.url}`);
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
     const isAuthRoute = skipAuthRoutes.some((route) =>
       originalRequest.url?.includes(route)
     );
-
-    console.log(`❌ Request failed: ${error.response?.status} ${originalRequest.method?.toUpperCase()} ${originalRequest.url}`, {
-      isAuthRoute,
-      hasRetried: !!originalRequest._retry
-    });
 
     // Only handle 401 errors on non-auth routes
     if (
@@ -117,11 +100,11 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry &&
       !isAuthRoute
     ) {
-      console.log("🔄 Axios: 401 error detected, attempting token refresh");
+      console.log("Axios: 401 error detected, attempting token refresh");
 
       if (isRefreshing) {
         // If refresh is already in progress, queue this request
-        console.log("⏳ Axios: Token refresh in progress, queueing request");
+        console.log("Axios: Token refresh in progress, queueing request");
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -143,14 +126,15 @@ axiosInstance.interceptors.response.use(
 
         const success = await refreshToken();
         if (success) {
-          console.log("✅ Axios: Token refresh successful, retrying original request");
+          console.log(
+            "Axios: Token refresh successful, retrying original request"
+          );
           processQueue(null);
 
           // Get the new token and retry the original request
           const newToken = getAccessToken?.();
           if (newToken) {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            console.log('🔄 Retrying request with new token');
           }
 
           return axiosInstance(originalRequest);
@@ -158,7 +142,7 @@ axiosInstance.interceptors.response.use(
           throw new Error("Token refresh failed");
         }
       } catch (refreshError) {
-        console.error("❌ Axios: Token refresh failed:", refreshError);
+        console.error("Axios: Token refresh failed:", refreshError);
         processQueue(refreshError, null);
 
         // Handle token expiry with comprehensive cleanup
@@ -175,7 +159,7 @@ axiosInstance.interceptors.response.use(
       (error.response?.status === 401 || error.response?.status === 403) &&
       !isAuthRoute
     ) {
-      console.log("🔒 Axios: Authentication error detected");
+      console.log("Axios: Authentication error detected");
       handleTokenExpiry();
     }
 
