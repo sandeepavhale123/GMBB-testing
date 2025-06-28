@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
 import { useListingContext } from '../../context/ListingContext';
 import { toast } from '@/hooks/use-toast';
+import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -113,12 +114,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         ctaButton: showCTAButton ? formData.ctaButton : undefined,
         ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
         publishOption: formData.publishOption,
-        scheduleDate: formData.publishOption === 'schedule' ? formData.scheduleDate : undefined,
+        scheduleDate: formData.publishOption === 'schedule' && formData.scheduleDate ? 
+          convertLocalDateTimeToUTC(formData.scheduleDate) : undefined,
         platforms: formData.platforms,
-        eventStartDate: formData.postType === 'event' ? formData.eventStartDate : undefined,
-        eventEndDate: formData.postType === 'event' ? formData.eventEndDate : undefined,
-        offerStartDate: formData.postType === 'offer' ? formData.offerStartDate : undefined,
-        offerEndDate: formData.postType === 'offer' ? formData.offerEndDate : undefined,
+        eventStartDate: formData.postType === 'event' && formData.eventStartDate ? 
+          convertLocalDateTimeToUTC(formData.eventStartDate) : undefined,
+        eventEndDate: formData.postType === 'event' && formData.eventEndDate ? 
+          convertLocalDateTimeToUTC(formData.eventEndDate) : undefined,
+        offerStartDate: formData.postType === 'offer' && formData.offerStartDate ? 
+          convertLocalDateTimeToUTC(formData.offerStartDate) : undefined,
+        offerEndDate: formData.postType === 'offer' && formData.offerEndDate ? 
+          convertLocalDateTimeToUTC(formData.offerEndDate) : undefined,
         couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
         redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
         termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
