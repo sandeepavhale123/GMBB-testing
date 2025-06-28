@@ -138,10 +138,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.content}</p>
           
-          <div className="flex items-center text-xs text-gray-500 mb-3">
-            <Calendar className="w-3 h-3 mr-1" />
-            {formatPublishDate(post.publishDate)}
-          </div>
+         
 
           {/* Tags */}
           {post.tags && (
@@ -151,8 +148,11 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
         </CardContent>
 
-        <CardFooter className="p-4 pt-0 flex justify-end">
-         
+        <CardFooter className="p-4 pt-0 flex justify-between">
+          <div className="flex items-center text-xs text-gray-500 mb-3">
+            <Calendar className="w-3 h-3 mr-1" />
+            {formatPublishDate(post.publishDate)}
+          </div>
           <div className="flex gap-1">
             <Button 
               variant="ghost" 
