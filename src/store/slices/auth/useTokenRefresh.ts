@@ -63,7 +63,9 @@ export const useTokenRefresh = (
         },
         body: JSON.stringify(payload),
       });
-
+      console.log(payload);
+      return
+      
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`❌ Refresh failed with status: ${response.status}, response: ${errorText}`);
