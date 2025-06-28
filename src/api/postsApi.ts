@@ -89,6 +89,17 @@ export interface GetPostsResponse {
   };
 }
 
+export interface DeletePostRequest {
+  postId: number[];
+  listingId: number;
+}
+
+export interface DeletePostResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
 export const postsApi = {
   getPosts: async (request: GetPostsRequest): Promise<GetPostsResponse> => {
     const response = await axiosInstance.post('/get-posts', request);
@@ -152,6 +163,11 @@ export const postsApi = {
         'Content-Type': 'multipart/form-data',
       },
     });
+    return response.data;
+  },
+
+  deletePost: async (request: DeletePostRequest): Promise<DeletePostResponse> => {
+    const response = await axiosInstance.post('/delete-posts', request);
     return response.data;
   }
 };

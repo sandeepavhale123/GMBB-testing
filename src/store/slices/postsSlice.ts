@@ -1,6 +1,5 @@
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postsApi, GetPostsRequest, ApiPost, CreatePostRequest } from '../../api/postsApi';
+import { postsApi, GetPostsRequest, ApiPost, CreatePostRequest, DeletePostRequest } from '../../api/postsApi';
 
 interface Post {
   id: string;
@@ -36,6 +35,8 @@ interface PostsState {
   };
   createLoading: boolean;
   createError: string | null;
+  deleteLoading: boolean;
+  deleteError: string | null;
 }
 
 const initialState: PostsState = {
@@ -53,6 +54,8 @@ const initialState: PostsState = {
   },
   createLoading: false,
   createError: null,
+  deleteLoading: false,
+  deleteError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -176,6 +179,15 @@ export const createPost = createAsyncThunk(
   }
 );
 
+// Async thunk for deleting posts (handles both single and multi-delete)
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async (deleteData: DeletePostRequest) => {
+    const response = await postsApi.deletePost(deleteData);
+    return { ...response, deletedPostIds: deleteData.postId };
+  }
+);
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -201,6 +213,9 @@ const postsSlice = createSlice({
     },
     clearCreateError: (state) => {
       state.createError = null;
+    },
+    clearDeleteError: (state) => {
+      state.deleteError = null;
     },
   },
   extraReducers: (builder) => {
@@ -233,9 +248,26 @@ const postsSlice = createSlice({
       .addCase(createPost.rejected, (state, action) => {
         state.createLoading = false;
         state.createError = action.error.message || 'Failed to create post';
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.deleteLoading = true;
+        state.deleteError = null;
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.deleteLoading = false;
+        console.log('Posts deleted successfully:', action.payload);
+        // Remove deleted posts from state
+        const deletedIds = action.payload.deletedPostIds.map(id => id.toString());
+        state.posts = state.posts.filter(post => !deletedIds.includes(post.id));
+        // Update pagination totals
+        state.pagination.totalPosts -= deletedIds.length;
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.deleteLoading = false;
+        state.deleteError = action.error.message || 'Failed to delete posts';
       });
   },
 });
 
-export const { setFilter, setSearchQuery, addPost, updatePost, clearError, clearCreateError } = postsSlice.actions;
+export const { setFilter, setSearchQuery, addPost, updatePost, clearError, clearCreateError, clearDeleteError } = postsSlice.actions;
 export default postsSlice.reducer;

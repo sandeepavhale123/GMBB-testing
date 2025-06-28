@@ -1,9 +1,13 @@
-
 import React, { useState } from 'react';
-import { Calendar, Edit, Trash2, Copy, Eye } from 'lucide-react';
+import { Calendar, Edit, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { PostViewModal } from './PostViewModal';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { deletePost, fetchPosts, clearDeleteError } from '../../store/slices/postsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { toast } from '@/hooks/use-toast';
 
 interface Post {
   id: string;
@@ -29,6 +33,9 @@ interface PostListItemProps {
 }
 
 export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  const { deleteLoading, deleteError } = useAppSelector(state => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const getStatusColor = (status: string) => {
@@ -60,6 +67,61 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
         return status;
     }
   };
+
+  const handleDeletePost = async () => {
+    // Get listingId from context or URL
+    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    
+    if (!listingId) {
+      toast({
+        title: "Error",
+        description: "No business listing selected. Please select a listing first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Clear any previous errors
+      dispatch(clearDeleteError());
+
+      await dispatch(deletePost({
+        postId: [parseInt(post.id)],
+        listingId: parseInt(listingId.toString())
+      })).unwrap();
+
+      toast({
+        title: "Post Deleted",
+        description: "Post has been successfully deleted.",
+      });
+
+      // Refresh posts list
+      dispatch(fetchPosts({
+        listingId: parseInt(listingId.toString()),
+        filters: { status: 'all', search: '' },
+        pagination: { page: 1, limit: 12 },
+      }));
+
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      toast({
+        title: "Failed to Delete Post",
+        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Show error toast if there's a delete error
+  React.useEffect(() => {
+    if (deleteError) {
+      toast({
+        title: "Error",
+        description: deleteError,
+        variant: "destructive",
+      });
+    }
+  }, [deleteError]);
 
   return (
     <>
@@ -113,9 +175,36 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
             <Copy className="w-3 h-3" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700">
-            <Trash2 className="w-3 h-3" />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Trash2 className="w-3 h-3" />
+                )}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Post</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete this post? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeletePost} disabled={deleteLoading}>
+                  {deleteLoading ? "Deleting..." : "Delete"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 

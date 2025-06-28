@@ -3,7 +3,12 @@ import { Button } from '../ui/button';
 import { PostCard } from './PostCard';
 import { PostListItem } from './PostListItem';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Loader2 } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { deletePost, fetchPosts, clearDeleteError } from '../../store/slices/postsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { toast } from '@/hooks/use-toast';
+
 interface Post {
   id: string;
   title: string;
@@ -39,8 +44,12 @@ export const PostsContent: React.FC<PostsContentProps> = ({
   pagination,
   onPageChange
 }) => {
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  const { deleteLoading, deleteError } = useAppSelector(state => state.posts);
   const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+
   const handleSelectPost = (postId: string, isSelected: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
     if (isSelected) {
@@ -57,16 +66,81 @@ export const PostsContent: React.FC<PostsContentProps> = ({
       setSelectedPosts(new Set(posts.map(post => post.id)));
     }
   };
-  const handleDeleteSelected = () => {
-    console.log('Deleting posts:', Array.from(selectedPosts));
-    // Here you would implement the actual delete logic
-    setSelectedPosts(new Set());
-    setIsSelectionMode(false);
+  const handleDeleteSelected = async () => {
+    // Get listingId from context or URL
+    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    
+    if (!listingId) {
+      toast({
+        title: "Error",
+        description: "No business listing selected. Please select a listing first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (selectedPosts.size === 0) {
+      toast({
+        title: "No Posts Selected",
+        description: "Please select posts to delete.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Clear any previous errors
+      dispatch(clearDeleteError());
+
+      const postIds = Array.from(selectedPosts).map(id => parseInt(id));
+
+      await dispatch(deletePost({
+        postId: postIds,
+        listingId: parseInt(listingId.toString())
+      })).unwrap();
+
+      toast({
+        title: "Posts Deleted",
+        description: `${selectedPosts.size} post${selectedPosts.size > 1 ? 's' : ''} have been successfully deleted.`,
+      });
+
+      // Reset selection and exit selection mode
+      setSelectedPosts(new Set());
+      setIsSelectionMode(false);
+
+      // Refresh posts list
+      dispatch(fetchPosts({
+        listingId: parseInt(listingId.toString()),
+        filters: { status: 'all', search: '' },
+        pagination: { page: 1, limit: 12 },
+      }));
+
+    } catch (error) {
+      console.error('Error deleting posts:', error);
+      toast({
+        title: "Failed to Delete Posts",
+        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
+
+  // Show error toast if there's a delete error
+  React.useEffect(() => {
+    if (deleteError) {
+      toast({
+        title: "Error",
+        description: deleteError,
+        variant: "destructive",
+      });
+    }
+  }, [deleteError]);
+
   const toggleSelectionMode = () => {
     setIsSelectionMode(!isSelectionMode);
     setSelectedPosts(new Set());
   };
+
   return <>
       {/* Single Row Layout: Total Posts Count and Selection Controls */}
       <div className="flex items-center justify-between mb-4">
@@ -86,9 +160,13 @@ export const PostsContent: React.FC<PostsContentProps> = ({
 
               {selectedPosts.size > 0 && <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="sm">
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete Selected ({selectedPosts.size})
+                    <Button variant="destructive" size="sm" disabled={deleteLoading}>
+                      {deleteLoading ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <Trash2 className="w-4 h-4 mr-2" />
+                      )}
+                      {deleteLoading ? "Deleting..." : `Delete Selected (${selectedPosts.size})`}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -100,8 +178,8 @@ export const PostsContent: React.FC<PostsContentProps> = ({
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDeleteSelected}>
-                        Delete
+                      <AlertDialogAction onClick={handleDeleteSelected} disabled={deleteLoading}>
+                        {deleteLoading ? "Deleting..." : "Delete"}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
