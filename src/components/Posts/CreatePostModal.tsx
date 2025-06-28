@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -37,6 +36,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     postType: '',
     description: '',
     image: null as File | string | null,
+    imageSource: null as 'local' | 'ai' | null, // Track image source
     ctaButton: '',
     ctaUrl: '',
     publishOption: 'now',
@@ -69,6 +69,21 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         ? prev.listings.filter(l => l !== listing) 
         : [...prev.listings, listing]
     }));
+  };
+
+  // Updated image change handler to track source
+  const handleImageChange = (image: File | string | null, source: 'local' | 'ai' | null = null) => {
+    setFormData(prev => ({
+      ...prev,
+      image,
+      imageSource: source
+    }));
+  };
+
+  // Updated AI image selection handler
+  const handleAIImageSelect = (imageUrl: string) => {
+    handleImageChange(imageUrl, 'ai');
+    setIsAIImageOpen(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,10 +124,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
         postTags: formData.postTags,
         siloPost: formData.siloPost,
-        // Handle image
-        userfile: formData.image instanceof File ? formData.image : undefined,
-        selectedImage: typeof formData.image === 'string' ? formData.image : undefined,
-        allImageUrl: typeof formData.image === 'string' ? formData.image : undefined,
+        // Handle image based on source
+        selectedImage: formData.imageSource, // Set to "local" or "ai"
+        userfile: formData.imageSource === 'local' && formData.image instanceof File ? formData.image : undefined,
+        allImageUrl: formData.imageSource === 'ai' && typeof formData.image === 'string' ? formData.image : undefined,
       };
 
       const response = await dispatch(createPost(createPostData)).unwrap();
@@ -137,6 +152,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postType: '',
         description: '',
         image: null,
+        imageSource: null,
         ctaButton: '',
         ctaUrl: '',
         publishOption: 'now',
@@ -203,7 +219,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 {/* Post Image Upload */}
                 <PostImageSection
                   image={formData.image}
-                  onImageChange={(image) => setFormData(prev => ({ ...prev, image }))}
+                  onImageChange={(image) => handleImageChange(image, image instanceof File ? 'local' : null)}
                   onOpenAIImage={() => setIsAIImageOpen(true)}
                 />
 
@@ -284,10 +300,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <AIImageModal 
         isOpen={isAIImageOpen} 
         onClose={() => setIsAIImageOpen(false)} 
-        onSelect={imageUrl => {
-          setFormData(prev => ({ ...prev, image: imageUrl }));
-          setIsAIImageOpen(false);
-        }} 
+        onSelect={handleAIImageSelect}
       />
 
       {/* Preview Modal - only for mobile/tablet */}
