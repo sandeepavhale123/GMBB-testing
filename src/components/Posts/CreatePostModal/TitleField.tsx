@@ -30,6 +30,7 @@ export const TitleField: React.FC<TitleFieldProps> = ({
         onChange={e => onFormDataChange(prev => ({ ...prev, title: e.target.value }))} 
         placeholder="Enter title..." 
         className="transition-all focus:ring-2" 
+        maxLength={60}
       />
     </div>
   );
