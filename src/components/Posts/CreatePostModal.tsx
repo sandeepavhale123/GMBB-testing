@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -17,7 +16,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
 import { useListingContext } from '../../context/ListingContext';
 import { toast } from '@/hooks/use-toast';
-import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -138,12 +136,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
         publishOption: formData.publishOption,
         scheduleDate: formData.publishOption === 'schedule' && formData.scheduleDate ? 
-          convertLocalDateTimeToUTC(formData.scheduleDate) : undefined,
+          formData.scheduleDate : undefined,
         platforms: formData.platforms,
         startDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.startDate ? 
-          convertLocalDateTimeToUTC(formData.startDate) : undefined,
+          formData.startDate : undefined,
         endDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.endDate ? 
-          convertLocalDateTimeToUTC(formData.endDate) : undefined,
+          formData.endDate : undefined,
         couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
         redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
         termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
