@@ -127,7 +127,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         // Handle image based on source
         selectedImage: formData.imageSource, // Set to "local" or "ai"
         userfile: formData.imageSource === 'local' && formData.image instanceof File ? formData.image : undefined,
-        allImageUrl: formData.imageSource === 'ai' && typeof formData.image === 'string' ? formData.image : undefined,
+        aiImageUrl: formData.imageSource === 'ai' && typeof formData.image === 'string' ? formData.image : undefined,
       };
 
       const response = await dispatch(createPost(createPostData)).unwrap();

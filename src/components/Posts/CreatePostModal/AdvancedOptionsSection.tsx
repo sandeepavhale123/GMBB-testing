@@ -15,6 +15,7 @@ interface FormData {
   postType: string;
   description: string;
   image: File | string | null;
+  imageSource: 'local' | 'ai' | null;
   ctaButton: string;
   ctaUrl: string;
   publishOption: string;
