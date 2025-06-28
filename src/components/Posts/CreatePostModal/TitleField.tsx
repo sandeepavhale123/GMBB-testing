@@ -21,17 +21,25 @@ export const TitleField: React.FC<TitleFieldProps> = ({
     return null;
   }
 
+  const characterCount = formData.title.length;
+  const maxLength = 60;
+
   return (
     <div className="space-y-2">
       <Label htmlFor="title" className="text-sm font-medium">Title</Label>
-      <Input 
-        id="title" 
-        value={formData.title} 
-        onChange={e => onFormDataChange(prev => ({ ...prev, title: e.target.value }))} 
-        placeholder="Enter title..." 
-        className="transition-all focus:ring-2" 
-        maxLength={60}
-      />
+      <div className="relative">
+        <Input 
+          id="title" 
+          value={formData.title} 
+          onChange={e => onFormDataChange(prev => ({ ...prev, title: e.target.value }))} 
+          placeholder="Enter title..." 
+          className="transition-all focus:ring-2 pr-16" 
+          maxLength={maxLength}
+        />
+        <div className="absolute top-2 right-3 text-xs text-gray-500">
+          {characterCount}/{maxLength}
+        </div>
+      </div>
     </div>
   );
 };
