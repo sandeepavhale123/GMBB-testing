@@ -1,11 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { PostCard } from './PostCard';
 import { PostListItem } from './PostListItem';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Trash2 } from 'lucide-react';
-
 interface Post {
   id: string;
   title: string;
@@ -24,7 +22,6 @@ interface Post {
   };
   tags?: string;
 }
-
 interface PostsContentProps {
   posts: Post[];
   viewMode: 'grid' | 'list';
@@ -36,7 +33,6 @@ interface PostsContentProps {
   };
   onPageChange: (page: number) => void;
 }
-
 export const PostsContent: React.FC<PostsContentProps> = ({
   posts,
   viewMode,
@@ -45,7 +41,6 @@ export const PostsContent: React.FC<PostsContentProps> = ({
 }) => {
   const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
-
   const handleSelectPost = (postId: string, isSelected: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
     if (isSelected) {
@@ -55,7 +50,6 @@ export const PostsContent: React.FC<PostsContentProps> = ({
     }
     setSelectedPosts(newSelectedPosts);
   };
-
   const handleSelectAll = () => {
     if (selectedPosts.size === posts.length) {
       setSelectedPosts(new Set());
@@ -63,48 +57,34 @@ export const PostsContent: React.FC<PostsContentProps> = ({
       setSelectedPosts(new Set(posts.map(post => post.id)));
     }
   };
-
   const handleDeleteSelected = () => {
     console.log('Deleting posts:', Array.from(selectedPosts));
     // Here you would implement the actual delete logic
     setSelectedPosts(new Set());
     setIsSelectionMode(false);
   };
-
   const toggleSelectionMode = () => {
     setIsSelectionMode(!isSelectionMode);
     setSelectedPosts(new Set());
   };
-
-  return (
-    <>
+  return <>
       {/* Single Row Layout: Total Posts Count and Selection Controls */}
       <div className="flex items-center justify-between mb-4">
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600 ">
           Total Posts: {posts.length}
         </div>
         
         <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            onClick={toggleSelectionMode}
-            size="sm"
-          >
+          <Button variant="outline" onClick={toggleSelectionMode} size="sm">
             {isSelectionMode ? 'Cancel Selection' : 'Select Posts'}
           </Button>
           
-          {isSelectionMode && (
-            <>
-              <Button
-                variant="outline"
-                onClick={handleSelectAll}
-                size="sm"
-              >
+          {isSelectionMode && <>
+              <Button variant="outline" onClick={handleSelectAll} size="sm">
                 {selectedPosts.size === posts.length ? 'Deselect All' : 'Select All'}
               </Button>
 
-              {selectedPosts.size > 0 && (
-                <AlertDialog>
+              {selectedPosts.size > 0 && <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive" size="sm">
                       <Trash2 className="w-4 h-4 mr-2" />
@@ -125,42 +105,20 @@ export const PostsContent: React.FC<PostsContentProps> = ({
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
-                </AlertDialog>
-              )}
-            </>
-          )}
+                </AlertDialog>}
+            </>}
         </div>
       </div>
 
-      {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {posts.map(post => (
-            <PostCard 
-              key={post.id} 
-              post={post} 
-              isSelectionMode={isSelectionMode}
-              isSelected={selectedPosts.has(post.id)}
-              onSelect={handleSelectPost}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-lg border divide-y">
-          {posts.map(post => (
-            <PostListItem key={post.id} post={post} />
-          ))}
-        </div>
-      )}
+      {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {posts.map(post => <PostCard key={post.id} post={post} isSelectionMode={isSelectionMode} isSelected={selectedPosts.has(post.id)} onSelect={handleSelectPost} />)}
+        </div> : <div className="bg-white rounded-lg border divide-y">
+          {posts.map(post => <PostListItem key={post.id} post={post} />)}
+        </div>}
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-center space-x-2 mt-8">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onPageChange(pagination.currentPage - 1)}
-            disabled={!pagination.hasPrevious}
-          >
+      {pagination.totalPages > 1 && <div className="flex items-center justify-center space-x-2 mt-8">
+          <Button variant="outline" size="sm" onClick={() => onPageChange(pagination.currentPage - 1)} disabled={!pagination.hasPrevious}>
             Previous
           </Button>
           
@@ -168,16 +126,9 @@ export const PostsContent: React.FC<PostsContentProps> = ({
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onPageChange(pagination.currentPage + 1)}
-            disabled={!pagination.hasNext}
-          >
+          <Button variant="outline" size="sm" onClick={() => onPageChange(pagination.currentPage + 1)} disabled={!pagination.hasNext}>
             Next
           </Button>
-        </div>
-      )}
-    </>
-  );
+        </div>}
+    </>;
 };
