@@ -41,13 +41,15 @@ interface AdvancedOptionsSectionProps {
   listingsSearch: string;
   onListingsSearchChange: (value: string) => void;
   onListingToggle: (listing: string) => void;
+  validationErrors?: {[key: string]: string};
 }
 
 export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
   showAdvancedOptions,
   onShowAdvancedOptionsChange,
   formData,
-  onFormDataChange
+  onFormDataChange,
+  validationErrors = {}
 }) => {
   return (
     <div className="space-y-4">
@@ -64,7 +66,11 @@ export const AdvancedOptionsSection: React.FC<AdvancedOptionsSectionProps> = ({
         <div className="space-y-4 sm:space-y-6 p-4 border rounded-lg bg-gray-50">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <PostTypeSelector formData={formData} onFormDataChange={onFormDataChange} />
-            <TitleField formData={formData} onFormDataChange={onFormDataChange} />
+            <TitleField 
+              formData={formData} 
+              onFormDataChange={onFormDataChange}
+              error={validationErrors.title}
+            />
           </div>
 
           {/* Divider after Post Type */}

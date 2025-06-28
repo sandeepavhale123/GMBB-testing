@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -60,6 +61,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [listingsSearch, setListingsSearch] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
 
   const handleListingToggle = (listing: string) => {
     setFormData(prev => ({
@@ -85,8 +87,31 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     setIsAIImageOpen(false);
   };
 
+  // Validation function
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    // Title validation for event and offer post types
+    if ((formData.postType === 'event' || formData.postType === 'offer') && !formData.title.trim()) {
+      errors.title = 'Title is required for event and offer posts';
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the validation errors before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     // Get listingId from context or URL
     const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
@@ -166,6 +191,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postTags: '',
         siloPost: false
       });
+      setValidationErrors({});
       setShowCTAButton(false);
       setShowAdvancedOptions(false);
       onClose();
@@ -193,6 +219,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       });
     }
   }, [createError]);
+
+  // Clear validation errors when form data changes
+  React.useEffect(() => {
+    if (Object.keys(validationErrors).length > 0) {
+      validateForm();
+    }
+  }, [formData.title, formData.postType]);
 
   return (
     <>
@@ -240,6 +273,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   listingsSearch={listingsSearch}
                   onListingsSearchChange={setListingsSearch}
                   onListingToggle={handleListingToggle}
+                  validationErrors={validationErrors}
                 />
               </form>
             </div>
