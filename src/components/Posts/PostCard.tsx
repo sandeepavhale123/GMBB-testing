@@ -4,7 +4,9 @@ import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
+import { Checkbox } from '../ui/checkbox';
 import { PostViewModal } from './PostViewModal';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 
 interface Post {
   id: string;
@@ -27,9 +29,17 @@ interface Post {
 
 interface PostCardProps {
   post: Post;
+  isSelectionMode?: boolean;
+  isSelected?: boolean;
+  onSelect?: (postId: string, isSelected: boolean) => void;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard: React.FC<PostCardProps> = ({ 
+  post, 
+  isSelectionMode = false, 
+  isSelected = false, 
+  onSelect 
+}) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -92,9 +102,31 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     }
   };
 
+  const handleCheckboxChange = (checked: boolean) => {
+    if (onSelect) {
+      onSelect(post.id, checked);
+    }
+  };
+
+  const handleDeletePost = () => {
+    console.log('Deleting post:', post.id);
+    // Here you would implement the actual delete logic for single post
+  };
+
   return (
     <>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Card className="overflow-hidden hover:shadow-md transition-shadow relative">
+        {/* Selection Checkbox */}
+        {isSelectionMode && (
+          <div className="absolute top-2 left-2 z-10">
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={handleCheckboxChange}
+              className="bg-white border-2"
+            />
+          </div>
+        )}
+
         {/* Post Image */}
         <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
           {post.media?.images ? (
@@ -137,8 +169,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           </div>
           
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.content}</p>
-          
-         
 
           {/* Tags */}
           {post.tags && (
@@ -165,9 +195,29 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
               <Copy className="w-3 h-3" />
             </Button>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700">
-              <Trash2 className="w-3 h-3" />
-            </Button>
+            {!isSelectionMode && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700">
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Post</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete this post? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeletePost}>
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
           </div>
         </CardFooter>
       </Card>
