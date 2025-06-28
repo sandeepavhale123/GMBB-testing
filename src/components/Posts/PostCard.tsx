@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardFooter } from '../ui/card';
+import { Checkbox } from '../ui/checkbox';
 import { PostViewModal } from './PostViewModal';
 
 interface Post {
@@ -27,9 +27,19 @@ interface Post {
 
 interface PostCardProps {
   post: Post;
+  isSelected?: boolean;
+  onSelect?: (postId: string, selected: boolean) => void;
+  onDelete?: (postId: string) => void;
+  showSelection?: boolean;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export const PostCard: React.FC<PostCardProps> = ({ 
+  post, 
+  isSelected = false, 
+  onSelect, 
+  onDelete,
+  showSelection = false 
+}) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -92,9 +102,32 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     }
   };
 
+  const handleCheckboxChange = (checked: boolean) => {
+    if (onSelect) {
+      onSelect(post.id, checked);
+    }
+  };
+
+  const handleDeleteClick = () => {
+    if (onDelete) {
+      onDelete(post.id);
+    }
+  };
+
   return (
     <>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Card className="overflow-hidden hover:shadow-md transition-shadow relative">
+        {/* Selection Checkbox */}
+        {showSelection && (
+          <div className="absolute top-3 left-3 z-10">
+            <Checkbox
+              checked={isSelected}
+              onCheckedChange={handleCheckboxChange}
+              className="bg-white border-2 border-gray-300"
+            />
+          </div>
+        )}
+
         {/* Post Image */}
         <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
           {post.media?.images ? (
@@ -138,8 +171,6 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.content}</p>
           
-         
-
           {/* Tags */}
           {post.tags && (
             <div className="text-xs text-blue-600 mb-2">
@@ -165,7 +196,12 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
               <Copy className="w-3 h-3" />
             </Button>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+              onClick={handleDeleteClick}
+            >
               <Trash2 className="w-3 h-3" />
             </Button>
           </div>
