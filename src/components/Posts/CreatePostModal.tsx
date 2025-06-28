@@ -13,6 +13,10 @@ import { PostDescriptionSection } from './CreatePostModal/PostDescriptionSection
 import { PostImageSection } from './CreatePostModal/PostImageSection';
 import { CTAButtonSection } from './CreatePostModal/CTAButtonSection';
 import { AdvancedOptionsSection } from './CreatePostModal/AdvancedOptionsSection';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { toast } from '@/hooks/use-toast';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -23,6 +27,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isOpen,
   onClose
 }) => {
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  const { createLoading, createError } = useAppSelector(state => state.posts);
+  
   const [formData, setFormData] = useState({
     listings: [] as string[],
     title: '',
@@ -63,14 +71,114 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating post:', formData);
-    onClose();
+    
+    // Get listingId from context or URL
+    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    
+    if (!listingId) {
+      toast({
+        title: "Error",
+        description: "No business listing selected. Please select a listing first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Clear any previous errors
+      dispatch(clearCreateError());
+
+      const createPostData = {
+        listingId: parseInt(listingId.toString()),
+        title: formData.title,
+        postType: formData.postType,
+        description: formData.description,
+        ctaButton: showCTAButton ? formData.ctaButton : undefined,
+        ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+        publishOption: formData.publishOption,
+        scheduleDate: formData.publishOption === 'schedule' ? formData.scheduleDate : undefined,
+        platforms: formData.platforms,
+        eventStartDate: formData.postType === 'event' ? formData.eventStartDate : undefined,
+        eventEndDate: formData.postType === 'event' ? formData.eventEndDate : undefined,
+        offerStartDate: formData.postType === 'offer' ? formData.offerStartDate : undefined,
+        offerEndDate: formData.postType === 'offer' ? formData.offerEndDate : undefined,
+        couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
+        redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
+        termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
+        postTags: formData.postTags,
+        siloPost: formData.siloPost,
+        // Handle image
+        userfile: formData.image instanceof File ? formData.image : undefined,
+        selectedImage: typeof formData.image === 'string' ? formData.image : undefined,
+        allImageUrl: typeof formData.image === 'string' ? formData.image : undefined,
+      };
+
+      const response = await dispatch(createPost(createPostData)).unwrap();
+      
+      // Show success message
+      toast({
+        title: "Post Created Successfully",
+        description: `Post created with ID: ${response.data.postId}`,
+      });
+
+      // Refresh posts list
+      dispatch(fetchPosts({
+        listingId: parseInt(listingId.toString()),
+        filters: { status: 'all', search: '' },
+        pagination: { page: 1, limit: 12 },
+      }));
+
+      // Reset form and close modal
+      setFormData({
+        listings: [],
+        title: '',
+        postType: '',
+        description: '',
+        image: null,
+        ctaButton: '',
+        ctaUrl: '',
+        publishOption: 'now',
+        scheduleDate: '',
+        platforms: [],
+        eventStartDate: '',
+        eventEndDate: '',
+        offerStartDate: '',
+        offerEndDate: '',
+        couponCode: '',
+        redeemOnlineUrl: '',
+        termsConditions: '',
+        postTags: '',
+        siloPost: false
+      });
+      setShowCTAButton(false);
+      setShowAdvancedOptions(false);
+      onClose();
+      
+    } catch (error) {
+      console.error('Error creating post:', error);
+      toast({
+        title: "Failed to Create Post",
+        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Check if Create Post button should be enabled
-  const isCreatePostEnabled = formData.description.trim().length > 0;
+  const isCreatePostEnabled = formData.description.trim().length > 0 && !createLoading;
+
+  // Show error toast if there's a create error
+  React.useEffect(() => {
+    if (createError) {
+      toast({
+        title: "Error",
+        description: createError,
+        variant: "destructive",
+      });
+    }
+  }, [createError]);
 
   return (
     <>
@@ -151,11 +259,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 Cancel
               </Button>
               <Button 
+                type="submit"
                 onClick={handleSubmit} 
                 disabled={!isCreatePostEnabled}
                 className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Post
+                {createLoading ? "Creating..." : "Create Post"}
               </Button>
             </div>
           </div>

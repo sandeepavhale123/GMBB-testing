@@ -1,5 +1,6 @@
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postsApi, GetPostsRequest, ApiPost } from '../../api/postsApi';
+import { postsApi, GetPostsRequest, ApiPost, CreatePostRequest } from '../../api/postsApi';
 
 interface Post {
   id: string;
@@ -33,6 +34,8 @@ interface PostsState {
     hasNext: boolean;
     hasPrevious: boolean;
   };
+  createLoading: boolean;
+  createError: string | null;
 }
 
 const initialState: PostsState = {
@@ -48,6 +51,8 @@ const initialState: PostsState = {
     hasNext: false,
     hasPrevious: false,
   },
+  createLoading: false,
+  createError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -162,6 +167,15 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+// Async thunk for creating posts
+export const createPost = createAsyncThunk(
+  'posts/createPost',
+  async (postData: CreatePostRequest) => {
+    const response = await postsApi.createPost(postData);
+    return response;
+  }
+);
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -185,6 +199,9 @@ const postsSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    clearCreateError: (state) => {
+      state.createError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -202,9 +219,23 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch posts';
+      })
+      .addCase(createPost.pending, (state) => {
+        state.createLoading = true;
+        state.createError = null;
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.createLoading = false;
+        console.log('Post created successfully:', action.payload);
+        // Increment total posts count
+        state.pagination.totalPosts += 1;
+      })
+      .addCase(createPost.rejected, (state, action) => {
+        state.createLoading = false;
+        state.createError = action.error.message || 'Failed to create post';
       });
   },
 });
 
-export const { setFilter, setSearchQuery, addPost, updatePost, clearError } = postsSlice.actions;
+export const { setFilter, setSearchQuery, addPost, updatePost, clearError, clearCreateError } = postsSlice.actions;
 export default postsSlice.reducer;
