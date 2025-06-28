@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useListingContext } from '../../context/ListingContext';
+
 interface PostPreviewProps {
   data: {
     title: string;
@@ -12,6 +14,28 @@ interface PostPreviewProps {
     platforms: string[];
   };
 }
+
+// CTA button options mapping
+const ctaOptions = [{
+  value: 'LEARN_MORE',
+  label: 'Learn More'
+}, {
+  value: 'BOOK',
+  label: 'Book Now'
+}, {
+  value: 'CALL',
+  label: 'Call Now'
+}, {
+  value: 'ORDER',
+  label: 'Order Online'
+}, {
+  value: 'SHOP',
+  label: 'Shop Now'
+}, {
+  value: 'SIGN_UP',
+  label: 'Sign Up'
+}];
+
 export const PostPreview: React.FC<PostPreviewProps> = ({
   data
 }) => {
@@ -48,6 +72,13 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     if (!description) return '';
     return description.length > 200 ? description.slice(0, 200) + '...' : description;
   };
+
+  // Helper function to get CTA button label
+  const getCTAButtonLabel = (value: string) => {
+    const option = ctaOptions.find(opt => opt.value === value);
+    return option ? option.label : value;
+  };
+
   const imageUrl = getImageUrl();
   return <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
@@ -80,7 +111,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       {/* CTA Button */}
       {data.ctaButton && <div className="p-4">
           <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium">
-            {data.ctaButton.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            {getCTAButtonLabel(data.ctaButton)}
           </Button>
         </div>}
 
