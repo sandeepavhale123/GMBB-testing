@@ -21,12 +21,10 @@ interface FormData {
   publishOption: string;
   scheduleDate: string;
   platforms: string[];
-  // Event fields
-  eventStartDate: string;
-  eventEndDate: string;
+  // Unified date fields for both event and offer
+  startDate: string;
+  endDate: string;
   // Offer fields
-  offerStartDate: string;
-  offerEndDate: string;
   couponCode: string;
   redeemOnlineUrl: string;
   termsConditions: string;
