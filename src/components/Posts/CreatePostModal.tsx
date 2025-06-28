@@ -43,12 +43,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     publishOption: 'now',
     scheduleDate: '',
     platforms: [] as string[],
-    // Event fields
-    eventStartDate: '',
-    eventEndDate: '',
+    // Unified date fields for both event and offer
+    startDate: '',
+    endDate: '',
     // Offer fields
-    offerStartDate: '',
-    offerEndDate: '',
     couponCode: '',
     redeemOnlineUrl: '',
     termsConditions: '',
@@ -117,14 +115,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         scheduleDate: formData.publishOption === 'schedule' && formData.scheduleDate ? 
           convertLocalDateTimeToUTC(formData.scheduleDate) : undefined,
         platforms: formData.platforms,
-        eventStartDate: formData.postType === 'event' && formData.eventStartDate ? 
-          convertLocalDateTimeToUTC(formData.eventStartDate) : undefined,
-        eventEndDate: formData.postType === 'event' && formData.eventEndDate ? 
-          convertLocalDateTimeToUTC(formData.eventEndDate) : undefined,
-        offerStartDate: formData.postType === 'offer' && formData.offerStartDate ? 
-          convertLocalDateTimeToUTC(formData.offerStartDate) : undefined,
-        offerEndDate: formData.postType === 'offer' && formData.offerEndDate ? 
-          convertLocalDateTimeToUTC(formData.offerEndDate) : undefined,
+        startDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.startDate ? 
+          convertLocalDateTimeToUTC(formData.startDate) : undefined,
+        endDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.endDate ? 
+          convertLocalDateTimeToUTC(formData.endDate) : undefined,
         couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
         redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
         termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
@@ -164,10 +158,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         publishOption: 'now',
         scheduleDate: '',
         platforms: [],
-        eventStartDate: '',
-        eventEndDate: '',
-        offerStartDate: '',
-        offerEndDate: '',
+        startDate: '',
+        endDate: '',
         couponCode: '',
         redeemOnlineUrl: '',
         termsConditions: '',

@@ -1,4 +1,3 @@
-
 import axiosInstance from './axiosInstance';
 
 export interface GetPostsRequest {
@@ -38,10 +37,8 @@ export interface CreatePostRequest {
   publishOption: string;
   scheduleDate?: string;
   platforms: string[];
-  eventStartDate?: string;
-  eventEndDate?: string;
-  offerStartDate?: string;
-  offerEndDate?: string;
+  startDate?: string;
+  endDate?: string;
   couponCode?: string;
   redeemOnlineUrl?: string;
   termsConditions?: string;
@@ -128,17 +125,11 @@ export const postsApi = {
     if (request.scheduleDate) {
       formData.append('scheduleDate', request.scheduleDate);
     }
-    if (request.eventStartDate) {
-      formData.append('eventStartDate', request.eventStartDate);
+    if (request.startDate) {
+      formData.append('startDate', request.startDate);
     }
-    if (request.eventEndDate) {
-      formData.append('eventEndDate', request.eventEndDate);
-    }
-    if (request.offerStartDate) {
-      formData.append('offerStartDate', request.offerStartDate);
-    }
-    if (request.offerEndDate) {
-      formData.append('offerEndDate', request.offerEndDate);
+    if (request.endDate) {
+      formData.append('endDate', request.endDate);
     }
     if (request.couponCode) {
       formData.append('couponCode', request.couponCode);

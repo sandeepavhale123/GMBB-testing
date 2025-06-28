@@ -5,8 +5,8 @@ import { Input } from '../../ui/input';
 
 interface FormData {
   postType: string;
-  eventStartDate: string;
-  eventEndDate: string;
+  startDate: string;
+  endDate: string;
 }
 
 interface EventFieldsProps {
@@ -28,16 +28,16 @@ export const EventFields: React.FC<EventFieldsProps> = ({
         <Label className="text-sm font-medium">Start Date & Time</Label>
         <Input 
           type="datetime-local" 
-          value={formData.eventStartDate} 
-          onChange={e => onFormDataChange(prev => ({ ...prev, eventStartDate: e.target.value }))} 
+          value={formData.startDate} 
+          onChange={e => onFormDataChange(prev => ({ ...prev, startDate: e.target.value }))} 
         />
       </div>
       <div className="space-y-2">
         <Label className="text-sm font-medium">End Date & Time</Label>
         <Input 
           type="datetime-local" 
-          value={formData.eventEndDate} 
-          onChange={e => onFormDataChange(prev => ({ ...prev, eventEndDate: e.target.value }))} 
+          value={formData.endDate} 
+          onChange={e => onFormDataChange(prev => ({ ...prev, endDate: e.target.value }))} 
         />
       </div>
     </div>
