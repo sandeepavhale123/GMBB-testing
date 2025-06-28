@@ -78,8 +78,12 @@ export const PostsContent: React.FC<PostsContentProps> = ({
 
   return (
     <>
-      {/* Selection Controls */}
+      {/* Single Row Layout: Total Posts Count and Selection Controls */}
       <div className="flex items-center justify-between mb-4">
+        <div className="text-sm text-gray-600">
+          Total Posts: {posts.length}
+        </div>
+        
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
@@ -90,40 +94,42 @@ export const PostsContent: React.FC<PostsContentProps> = ({
           </Button>
           
           {isSelectionMode && (
-            <Button
-              variant="outline"
-              onClick={handleSelectAll}
-              size="sm"
-            >
-              {selectedPosts.size === posts.length ? 'Deselect All' : 'Select All'}
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                onClick={handleSelectAll}
+                size="sm"
+              >
+                {selectedPosts.size === posts.length ? 'Deselect All' : 'Select All'}
+              </Button>
+
+              {selectedPosts.size > 0 && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="sm">
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete Selected ({selectedPosts.size})
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Posts</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete {selectedPosts.size} selected post{selectedPosts.size > 1 ? 's' : ''}? This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDeleteSelected}>
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
+            </>
           )}
         </div>
-
-        {isSelectionMode && selectedPosts.size > 0 && (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm">
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete Selected ({selectedPosts.size})
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Posts</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete {selectedPosts.size} selected post{selectedPosts.size > 1 ? 's' : ''}? This action cannot be undone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteSelected}>
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
       </div>
 
       {viewMode === 'grid' ? (
