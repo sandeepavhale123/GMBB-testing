@@ -151,7 +151,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
         </CardContent>
 
-        <CardFooter className="p-4 pt-0 flex justify-between">
+        <CardFooter className="p-4 pt-0 flex justify-end">
          
           <div className="flex gap-1">
             <Button 
