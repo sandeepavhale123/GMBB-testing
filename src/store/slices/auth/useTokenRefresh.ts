@@ -63,9 +63,7 @@ export const useTokenRefresh = (
         },
         body: JSON.stringify(payload),
       });
-      console.log('-===========test payload ==============-')
-      console.log(payload);
-      return
+  
       
       if (!response.ok) {
         const errorText = await response.text();
