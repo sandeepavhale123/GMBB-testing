@@ -26,10 +26,10 @@ const CURRENCY_OPTIONS = [
 const PLAN_OPTIONS = [
   { value: "0", label: "Select Plan" },
   { value: "50", label: "7$ for 7-day trial" },
-  { value: "55", label: "Briefcase-Enterprise - $560 PM" },
-  { value: "54", label: "Briefcase-Agency - $299 PM" },
-  { value: "53", label: "Briefcase-Pro - $199 PM" },
-  { value: "52", label: "Briefcase-Business - $99 PM" },
+  { value: "55", label: "Enterprise - $560 PM" },
+  { value: "54", label: "Agency - $299 PM" },
+  { value: "53", label: "Pro - $199 PM" },
+  { value: "52", label: "Business - $99 PM" },
 ];
 
 export const SignupForm = () => {
