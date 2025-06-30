@@ -149,9 +149,6 @@ export const PostsPage = () => {
 
       {!loading && (
         <>
-          {/* Total Posts Display */}
-          
-
           {posts.length === 0 ? (
             <PostsEmptyState 
               hasActiveFilters={hasActiveFilters}
@@ -162,6 +159,7 @@ export const PostsPage = () => {
               posts={posts}
               viewMode={viewMode}
               pagination={pagination}
+              hasActiveFilters={hasActiveFilters}
               onPageChange={handlePageChange}
               onClonePost={handleClonePost}
             />

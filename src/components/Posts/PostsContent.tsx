@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { PostCard } from './PostCard';
@@ -16,16 +17,20 @@ interface PostsContentProps {
   pagination: {
     currentPage: number;
     totalPages: number;
+    totalPosts: number;
     hasNext: boolean;
     hasPrevious: boolean;
   };
+  hasActiveFilters: boolean;
   onPageChange: (page: number) => void;
   onClonePost: (post: Post) => void;
 }
+
 export const PostsContent: React.FC<PostsContentProps> = ({
   posts,
   viewMode,
   pagination,
+  hasActiveFilters,
   onPageChange,
   onClonePost
 }) => {
