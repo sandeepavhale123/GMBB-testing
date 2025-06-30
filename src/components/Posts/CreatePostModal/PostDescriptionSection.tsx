@@ -35,7 +35,7 @@ export const PostDescriptionSection: React.FC<PostDescriptionSectionProps> = ({
         value={description} 
         onChange={e => onDescriptionChange(e.target.value)} 
         placeholder="Write your post description..." 
-        rows={4} 
+        rows={7} 
         className="resize-none text-sm sm:text-base" 
       />
     </div>
