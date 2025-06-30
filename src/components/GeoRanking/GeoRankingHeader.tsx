@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
@@ -8,62 +7,51 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-
 interface GeoRankingHeaderProps {
   headerKeyword: string;
   showKeywordDropdown: boolean;
   onToggleDropdown: () => void;
   onKeywordSelect: (keyword: string) => void;
 }
-
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   headerKeyword,
   showKeywordDropdown,
   onToggleDropdown,
   onKeywordSelect
 }) => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedReportDate, setSelectedReportDate] = React.useState('2024-06-30');
-
-  const allKeywords = [
-    'Web Design',
-    'Digital Marketing', 
-    'SEO Services',
-    'Local Business',
-    'Social Media Marketing',
-    'Content Creation',
-    'E-commerce Solutions',
-    'Mobile App Development',
-    'Brand Strategy',
-    'Online Advertising'
-  ];
-
-  const previousReports = [
-    { value: '2024-06-30', label: 'June 30, 2024' },
-    { value: '2024-06-23', label: 'June 23, 2024' },
-    { value: '2024-06-16', label: 'June 16, 2024' },
-    { value: '2024-06-09', label: 'June 9, 2024' },
-    { value: '2024-06-02', label: 'June 2, 2024' }
-  ];
-
-  const filteredKeywords = allKeywords.filter(keyword =>
-    keyword.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  const allKeywords = ['Web Design', 'Digital Marketing', 'SEO Services', 'Local Business', 'Social Media Marketing', 'Content Creation', 'E-commerce Solutions', 'Mobile App Development', 'Brand Strategy', 'Online Advertising'];
+  const previousReports = [{
+    value: '2024-06-30',
+    label: 'June 30, 2024'
+  }, {
+    value: '2024-06-23',
+    label: 'June 23, 2024'
+  }, {
+    value: '2024-06-16',
+    label: 'June 16, 2024'
+  }, {
+    value: '2024-06-09',
+    label: 'June 9, 2024'
+  }, {
+    value: '2024-06-02',
+    label: 'June 2, 2024'
+  }];
+  const filteredKeywords = allKeywords.filter(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()));
   const displayedKeywords = searchTerm ? filteredKeywords : allKeywords.slice(0, 5);
-
   const handleKeywordSelect = (keyword: string) => {
     onKeywordSelect(keyword);
     setSearchTerm('');
   };
-
   const handleCheckRank = () => {
     navigate('/geo-ranking-report');
   };
-
   const handleExportImage = async () => {
     const exportElement = document.querySelector('[data-export-target]') as HTMLElement;
     if (!exportElement) {
@@ -119,7 +107,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       setIsExporting(false);
     }
   };
-
   const reportDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -127,7 +114,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   });
   const listingName = "Downtown Coffee Shop";
   const listingAddress = "123 Main St, Downtown, City";
-
   return <div className="mb-4 sm:mb-4">
       {/* Report Header Card */}
        <div className="flex justify-end mb-4">
@@ -153,36 +139,21 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                   <div className="p-3 border-b border-gray-100">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <input
-                        type="text"
-                        placeholder="Search keywords..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
+                      <input type="text" placeholder="Search keywords..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                     </div>
                   </div>
-                  {displayedKeywords.length > 0 ? (
-                    displayedKeywords.map((keyword) => (
-                      <SelectItem key={keyword} value={keyword}>
+                  {displayedKeywords.length > 0 ? displayedKeywords.map(keyword => <SelectItem key={keyword} value={keyword}>
                         {keyword}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <div className="px-4 py-2 text-sm text-gray-500">
+                      </SelectItem>) : <div className="px-4 py-2 text-sm text-gray-500">
                       No keywords found
-                    </div>
-                  )}
+                    </div>}
                 </SelectContent>
               </Select>
 
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
-                </div>
+                
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 flex-shrink-0"></div>
+                  
                   <div className="w-full">
                     <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
                     <Select value={selectedReportDate} onValueChange={setSelectedReportDate}>
@@ -190,11 +161,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                         <SelectValue placeholder="Select report date" />
                       </SelectTrigger>
                       <SelectContent>
-                        {previousReports.map((report) => (
-                          <SelectItem key={report.value} value={report.value}>
+                        {previousReports.map(report => <SelectItem key={report.value} value={report.value}>
                             {report.label}
-                          </SelectItem>
-                        ))}
+                          </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </div>
@@ -241,10 +210,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Action Buttons */}
             <div className="lg:col-span-1">
               <div className="flex flex-col gap-2">
-                <Button 
-                  onClick={handleCheckRank}
-                  className="bg-blue-600 hover:bg-blue-700 text-white w-full" 
-                >
+                <Button onClick={handleCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white w-full">
                   Check Rank
                 </Button>
                 <div className="flex gap-2">
