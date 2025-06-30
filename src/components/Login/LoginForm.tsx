@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -10,6 +9,7 @@ import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { toast } from "@/hooks/use-toast";
 import { setLoading } from "@/store/slices/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { ForgotPasswordModal } from "./ForgotPasswordModal";
 
 export const LoginForm = () => {
   const [credentials, setCredentials] = useState({
@@ -21,6 +21,7 @@ export const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuthRedux();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -144,9 +145,13 @@ export const LoginForm = () => {
               Remember me
             </Label>
           </div>
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
+          <button
+            type="button"
+            onClick={() => setIsForgotPasswordOpen(true)}
+            className="text-sm text-blue-600 hover:text-blue-500"
+          >
             Forgot Password?
-          </a>
+          </button>
         </div>
 
         <Button
@@ -178,6 +183,11 @@ export const LoginForm = () => {
           </p>
         </div>
       </form>
+
+      <ForgotPasswordModal
+        isOpen={isForgotPasswordOpen}
+        onClose={() => setIsForgotPasswordOpen(false)}
+      />
     </div>
   );
 };
