@@ -8,31 +8,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { deletePost, fetchPosts, clearDeleteError } from '../../store/slices/postsSlice';
 import { useListingContext } from '../../context/ListingContext';
 import { toast } from '@/hooks/use-toast';
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  status: 'published' | 'draft' | 'scheduled' | 'failed';
-  business: string;
-  publishDate: string;
-  engagement: {
-    views: number;
-    clicks: number;
-    shares: number;
-  };
-  searchUrl?: string;
-  media?: {
-    images: string;
-  };
-  tags?: string;
-}
+import { Post } from '../../types/postTypes';
 
 interface PostListItemProps {
   post: Post;
+  onClonePost?: (post: Post) => void;
 }
 
-export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
+export const PostListItem: React.FC<PostListItemProps> = ({ post, onClonePost }) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const { deleteLoading, deleteError } = useAppSelector(state => state.posts);
@@ -112,6 +95,12 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
     }
   };
 
+  const handleClonePost = () => {
+    if (onClonePost) {
+      onClonePost(post);
+    }
+  };
+
   // Show error toast if there's a delete error
   React.useEffect(() => {
     if (deleteError) {
@@ -172,7 +161,12 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
           >
             <Eye className="w-3 h-3" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-8 w-8 p-0"
+            onClick={handleClonePost}
+          >
             <Copy className="w-3 h-3" />
           </Button>
           <AlertDialog>

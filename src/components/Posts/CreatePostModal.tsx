@@ -16,43 +16,60 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
 import { useListingContext } from '../../context/ListingContext';
 import { toast } from '@/hooks/use-toast';
+import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialData?: CreatePostFormData | null;
+  isCloning?: boolean;
 }
 
 export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isOpen,
-  onClose
+  onClose,
+  initialData = null,
+  isCloning = false
 }) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const { createLoading, createError } = useAppSelector(state => state.posts);
   
-  const [formData, setFormData] = useState({
-    listings: [] as string[],
-    title: '',
-    postType: '',
-    description: '',
-    image: null as File | string | null,
-    imageSource: null as 'local' | 'ai' | null, // Track image source
-    ctaButton: '',
-    ctaUrl: '',
-    publishOption: 'now',
-    scheduleDate: '',
-    platforms: [] as string[],
-    // Unified date fields for both event and offer
-    startDate: '',
-    endDate: '',
-    // Offer fields
-    couponCode: '',
-    redeemOnlineUrl: '',
-    termsConditions: '',
-    // New fields
-    postTags: '',
-    siloPost: false
-  });
+  const getInitialFormData = () => {
+    if (initialData) {
+      return initialData;
+    }
+    return {
+      listings: [] as string[],
+      title: '',
+      postType: '',
+      description: '',
+      image: null as File | string | null,
+      imageSource: null as 'local' | 'ai' | null,
+      ctaButton: '',
+      ctaUrl: '',
+      publishOption: 'now',
+      scheduleDate: '',
+      platforms: [] as string[],
+      startDate: '',
+      endDate: '',
+      couponCode: '',
+      redeemOnlineUrl: '',
+      termsConditions: '',
+      postTags: '',
+      siloPost: false
+    };
+  };
+
+  const [formData, setFormData] = useState(getInitialFormData());
+
+  // Reset form data when modal opens/closes or initialData changes
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData(getInitialFormData());
+    }
+  }, [isOpen, initialData]);
+
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
   const [isAIImageOpen, setIsAIImageOpen] = useState(false);
@@ -157,8 +174,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       
       // Show success message
       toast({
-        title: "Post Created Successfully",
-        description: `Post created with ID: ${response.data.postId}`,
+        title: isCloning ? "Post Cloned Successfully" : "Post Created Successfully",
+        description: `Post ${isCloning ? 'cloned' : 'created'} with ID: ${response.data.postId}`,
       });
 
       // Refresh posts list
@@ -197,7 +214,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     } catch (error) {
       console.error('Error creating post:', error);
       toast({
-        title: "Failed to Create Post",
+        title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
         description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
@@ -230,7 +247,9 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
-            <DialogTitle className="text-xl sm:text-2xl font-semibold">Create Post</DialogTitle>
+            <DialogTitle className="text-xl sm:text-2xl font-semibold">
+              {isCloning ? 'Clone Post' : 'Create Post'}
+            </DialogTitle>
           </DialogHeader>
 
           <div className="flex flex-1 min-h-0">
@@ -310,7 +329,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 disabled={!isCreatePostEnabled}
                 className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {createLoading ? "Creating..." : "Create Post"}
+                {createLoading ? (isCloning ? "Cloning..." : "Creating...") : (isCloning ? "Clone Post" : "Create Post")}
               </Button>
             </div>
           </div>
