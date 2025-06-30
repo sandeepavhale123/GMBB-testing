@@ -129,8 +129,9 @@ export const PostsContent: React.FC<PostsContentProps> = ({
   return <>
       {/* Single Row Layout: Total Posts Count and Selection Controls */}
       <div className="flex items-center justify-between mb-4">
-        <div className="text-sm text-gray-600 ">
-          Total Posts: {posts.length}
+        <div className="text-md">
+           Total Posts: {pagination.totalPosts}
+          {hasActiveFilters && ' (filtered)'}
         </div>
         
         <div className="flex items-center gap-4">
