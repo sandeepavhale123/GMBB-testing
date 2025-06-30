@@ -259,7 +259,7 @@ export const SignupForm = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-3 flex flex-row">
+        <div className="space-y-3">
           <Button
             type="submit"
             className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
@@ -271,7 +271,7 @@ export const SignupForm = () => {
                 Creating Account...
               </span>
             ) : (
-              "Pay with Selected Plan"
+              "Pay"
             )}
           </Button>
 
