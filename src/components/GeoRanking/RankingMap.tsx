@@ -103,7 +103,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
           for (let j = 0; j < 4; j++) {
             const lat = centerLat + (i - 1.5) * spacing;
             const lng = centerLng + (j - 1.5) * spacing;
-            const ranking = Math.floor(Math.random() * 15) + 1;
+            const ranking = Math.floor(Math.random() * 20) + 1;
             gridData.push({
               lat,
               lng,

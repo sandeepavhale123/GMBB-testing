@@ -25,7 +25,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       '1-3': 0,
       '4-10': 0,
       '11-15': 0,
-      '16+': 0
+      '16-20+': 0
     };
 
     rankDetails.forEach(detail => {
@@ -36,8 +36,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
         summary['4-10']++;
       } else if (rank >= 11 && rank <= 15) {
         summary['11-15']++;
-      } else {
-        summary['16+']++;
+      } else if (rank >= 16) {
+        summary['16-20+']++;
       }
     });
 
@@ -153,9 +153,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-red-500 rounded"></div>
-                <span className="text-xs text-gray-600">16+</span>
+                <span className="text-xs text-gray-600">16-20+</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">{positionSummary['16+']}</span>
+              <span className="text-sm font-semibold text-gray-900">{positionSummary['16-20+']}</span>
             </div>
           </div>
         </CardContent>
