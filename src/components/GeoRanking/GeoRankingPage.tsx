@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
 import { Card, CardContent } from '../ui/card';
+import { useGeoRanking } from '../../hooks/useGeoRanking';
 
 interface ModalData {
   isOpen: boolean;
@@ -22,10 +23,19 @@ interface ModalData {
 
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('Web Design');
-  const [gridSize, setGridSize] = useState<string>('4*4');
-  const [headerKeyword, setHeaderKeyword] = useState<string>('Web Design');
-  const [showKeywordDropdown, setShowKeywordDropdown] = useState<boolean>(false);
+  const { listingId } = useParams();
+  const numericListingId = listingId ? parseInt(listingId, 10) : 0;
+  
+  const {
+    keywords,
+    selectedKeyword,
+    keywordDetails,
+    loading,
+    keywordsLoading,
+    error,
+    handleKeywordChange
+  } = useGeoRanking(numericListingId);
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
@@ -99,15 +109,8 @@ export const GeoRankingPage = () => {
     }));
   };
   
-  const handleKeywordSelect = (keyword: string) => {
-    setHeaderKeyword(keyword);
-    setSelectedKeyword(keyword);
-    setShowKeywordDropdown(false);
-  };
-  
-  const handleToggleDropdown = () => {
-    setShowKeywordDropdown(!showKeywordDropdown);
-  };
+  const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
+  const gridSize = keywordDetails?.projectDetails?.grid ? `${keywordDetails.projectDetails.grid}*${keywordDetails.projectDetails.grid}` : '4*4';
   
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
@@ -115,14 +118,22 @@ export const GeoRankingPage = () => {
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
             <GeoRankingHeader 
-              headerKeyword={headerKeyword} 
-              showKeywordDropdown={showKeywordDropdown} 
-              onToggleDropdown={handleToggleDropdown} 
-              onKeywordSelect={handleKeywordSelect} 
+              keywords={keywords}
+              selectedKeyword={selectedKeyword}
+              keywordDetails={keywordDetails}
+              onKeywordChange={handleKeywordChange}
+              loading={keywordsLoading}
+              error={error}
             />
 
             <div className="space-y-4 sm:space-y-6">
-              <GeoRankingMapSection gridSize={gridSize} onMarkerClick={handleMarkerClick} />
+              <GeoRankingMapSection 
+                gridSize={gridSize}
+                onMarkerClick={handleMarkerClick}
+                rankDetails={keywordDetails?.rankDetails || []}
+                rankStats={keywordDetails?.rankStats}
+                loading={loading}
+              />
 
               <UnderPerformingTable />
 
