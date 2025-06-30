@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
@@ -6,6 +7,7 @@ import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface GeoRankingHeaderProps {
   headerKeyword: string;
@@ -24,6 +26,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [selectedReportDate, setSelectedReportDate] = React.useState('2024-06-30');
 
   const allKeywords = [
     'Web Design',
@@ -36,6 +39,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     'Mobile App Development',
     'Brand Strategy',
     'Online Advertising'
+  ];
+
+  const previousReports = [
+    { value: '2024-06-30', label: 'June 30, 2024' },
+    { value: '2024-06-23', label: 'June 23, 2024' },
+    { value: '2024-06-16', label: 'June 16, 2024' },
+    { value: '2024-06-09', label: 'June 9, 2024' },
+    { value: '2024-06-02', label: 'June 2, 2024' }
   ];
 
   const filteredKeywords = allKeywords.filter(keyword =>
@@ -132,17 +143,13 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           {/* Single Row Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 items-center">
             {/* Keyword Section */}
-            <div className="lg:col-span-3 relative gap-1 ">
-            
+            <div className="lg:col-span-3 relative gap-1">
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
-              <div className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 cursor-pointer mb-4" onClick={onToggleDropdown}>
-                {headerKeyword}
-                <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
-              </div>
-              
-              {/* Enhanced Keyword Dropdown with Search */}
-              {showKeywordDropdown && <div className="absolute z-[9999] top-full mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg">
-                  {/* Search Input */}
+              <Select value={headerKeyword} onValueChange={onKeywordSelect}>
+                <SelectTrigger className="w-full mb-4">
+                  <SelectValue placeholder="Select keyword" />
+                </SelectTrigger>
+                <SelectContent>
                   <div className="p-3 border-b border-gray-100">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -155,35 +162,42 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                       />
                     </div>
                   </div>
-                  
-                  {/* Keywords List */}
-                  <div className="py-1 max-h-48 overflow-y-auto">
-                    {displayedKeywords.length > 0 ? (
-                      displayedKeywords.map((keyword) => (
-                        <div 
-                          key={keyword}
-                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors"
-                          onClick={() => handleKeywordSelect(keyword)}
-                        >
-                          {keyword}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="px-4 py-2 text-sm text-gray-500">
-                        No keywords found
-                      </div>
-                    )}
-                  </div>
-                </div>}
+                  {displayedKeywords.length > 0 ? (
+                    displayedKeywords.map((keyword) => (
+                      <SelectItem key={keyword} value={keyword}>
+                        {keyword}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-sm text-gray-500">
+                      No keywords found
+                    </div>
+                  )}
+                </SelectContent>
+              </Select>
 
               <div>
-                <div className="flex items-center gap-2 mb-1 mt-4">
+                <div className="flex items-center gap-2 mb-1">
                   <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <h2 className="text-lg sm:text-xl font-semibold text-gray-700">{listingName}</h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 flex-shrink-0"></div>
-                  <p className="text-sm text-gray-600">{listingAddress}</p>
+                  <div className="w-full">
+                    <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
+                    <Select value={selectedReportDate} onValueChange={setSelectedReportDate}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select report date" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {previousReports.map((report) => (
+                          <SelectItem key={report.value} value={report.value}>
+                            {report.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
