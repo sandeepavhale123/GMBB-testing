@@ -19,17 +19,20 @@ interface SignupFormData {
 }
 
 const CURRENCY_OPTIONS = [
-  { value: "usd", label: "USD" },
-  { value: "inr", label: "INR" },
+  { value: "USD", label: "USD - US Dollar" },
+  { value: "EUR", label: "EUR - Euro" },
+  { value: "GBP", label: "GBP - British Pound" },
+  { value: "CAD", label: "CAD - Canadian Dollar" },
+  { value: "AUD", label: "AUD - Australian Dollar" },
 ];
 
 const PLAN_OPTIONS = [
   { value: "0", label: "Select Plan" },
   { value: "50", label: "7$ for 7-day trial" },
-  { value: "55", label: "Briefcase-Enterprise - $560 PM" },
-  { value: "54", label: "Briefcase-Agency - $299 PM" },
-  { value: "53", label: "Briefcase-Pro - $199 PM" },
-  { value: "52", label: "Briefcase-Business - $99 PM" },
+  { value: "55", label: "Enterprise - $560 PM" },
+  { value: "54", label: "Agency - $299 PM" },
+  { value: "53", label: "Pro - $199 PM" },
+  { value: "52", label: "Business - $99 PM" },
 ];
 
 export const SignupForm = () => {
@@ -39,7 +42,7 @@ export const SignupForm = () => {
     agencyName: "",
     email: "",
     password: "",
-    currency: "usd",
+    currency: "USD",
     plan: "0",
   });
   
@@ -61,21 +64,13 @@ export const SignupForm = () => {
       agencyName: "",
       email: "",
       password: "",
-      currency: "usd",
+      currency: "USD",
       plan: "0",
     });
     toast({
       title: "Form Reset",
       description: "All fields have been cleared.",
     });
-  };
-
-  const getPayButtonLabel = () => {
-    if (formData.plan === "0") {
-      return "Pay - Select Plan";
-    }
-    const selectedPlan = PLAN_OPTIONS.find(option => option.value === formData.plan);
-    return `Pay - ${selectedPlan?.label || "Select Plan"}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -222,63 +217,61 @@ export const SignupForm = () => {
           </div>
         </div>
 
-        {/* Business Configuration - Single Row */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="currency" className="text-gray-700">
-              Currency
-            </Label>
-            <Select value={formData.currency} onValueChange={(value) => handleChange("currency", value)}>
-              <SelectTrigger className="mt-1 h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {CURRENCY_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label htmlFor="plan" className="text-gray-700">
-              Select Plan *
-            </Label>
-            <Select value={formData.plan} onValueChange={(value) => handleChange("plan", value)}>
-              <SelectTrigger className="mt-1 h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PLAN_OPTIONS.map((option) => (
-                  <SelectItem 
-                    key={option.value} 
-                    value={option.value}
-                    disabled={option.value === "0"}
-                  >
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* Business Configuration */}
+        <div>
+          <Label htmlFor="currency" className="text-gray-700">
+            Currency
+          </Label>
+          <Select value={formData.currency} onValueChange={(value) => handleChange("currency", value)}>
+            <SelectTrigger className="mt-1 h-12">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {CURRENCY_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Action Buttons - Single Row */}
-        <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label htmlFor="plan" className="text-gray-700">
+            Select Plan *
+          </Label>
+          <Select value={formData.plan} onValueChange={(value) => handleChange("plan", value)}>
+            <SelectTrigger className="mt-1 h-12">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {PLAN_OPTIONS.map((option) => (
+                <SelectItem 
+                  key={option.value} 
+                  value={option.value}
+                  disabled={option.value === "0"}
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="space-y-3">
           <Button
             type="submit"
-            className="h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
+            className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
             disabled={isLoading || formData.plan === "0"}
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <LoaderCircle className="animate-spin" size={16} />
-                Creating...
+                <LoaderCircle className="animate-spin" />
+                Creating Account...
               </span>
             ) : (
-              getPayButtonLabel()
+              "Pay with Selected Plan"
             )}
           </Button>
 
@@ -286,7 +279,7 @@ export const SignupForm = () => {
             type="button"
             variant="outline"
             onClick={handleReset}
-            className="h-12 font-medium rounded-lg"
+            className="w-full h-12 font-medium rounded-lg"
             disabled={isLoading}
           >
             Reset
