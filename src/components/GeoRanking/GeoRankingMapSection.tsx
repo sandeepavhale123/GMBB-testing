@@ -2,13 +2,14 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
-import { RankDetail, RankStats } from '../../api/geoRankingApi';
+import { RankDetail, RankStats, ProjectDetails } from '../../api/geoRankingApi';
 
 interface GeoRankingMapSectionProps {
   gridSize: string;
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
   rankDetails: RankDetail[];
   rankStats?: RankStats;
+  projectDetails?: ProjectDetails;
   loading: boolean;
 }
 
@@ -17,6 +18,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   onMarkerClick,
   rankDetails,
   rankStats,
+  projectDetails,
   loading
 }) => {
   // Calculate position summary from rank details
@@ -46,6 +48,19 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
 
   const positionSummary = calculatePositionSummary();
 
+  // Get dynamic values from projectDetails
+  const distance = projectDetails?.distance ? `${projectDetails.distance}km` : '2km';
+  const getFrequency = (schedule?: string) => {
+    if (!schedule) return 'Daily';
+    switch (schedule.toLowerCase()) {
+      case 'daily': return 'Daily';
+      case 'weekly': return 'Weekly';  
+      case 'monthly': return 'Monthly';
+      default: return schedule;
+    }
+  };
+  const frequency = getFrequency(projectDetails?.schedule);
+
   return (
     <div className="relative">
       <Card className="bg-white">
@@ -64,13 +79,13 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
                 Grid: {gridSize}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                Distance: 2km
+                Distance: {distance}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                 Engine: Google Maps
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                Frequency: Daily
+                Frequency: {frequency}
               </span>
             </div>
           </div>

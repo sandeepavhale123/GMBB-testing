@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -110,7 +109,10 @@ export const GeoRankingPage = () => {
   };
   
   const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
-  const gridSize = keywordDetails?.projectDetails?.grid ? `${keywordDetails.projectDetails.grid}*${keywordDetails.projectDetails.grid}` : '4*4';
+  const projectDetails = keywordDetails?.projectDetails;
+  
+  // Create grid size display
+  const grid = projectDetails?.grid ? `${projectDetails.grid}*${projectDetails.grid}` : '4*4';
   
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
@@ -128,10 +130,11 @@ export const GeoRankingPage = () => {
 
             <div className="space-y-4 sm:space-y-6">
               <GeoRankingMapSection 
-                gridSize={gridSize}
+                gridSize={grid}
                 onMarkerClick={handleMarkerClick}
                 rankDetails={keywordDetails?.rankDetails || []}
                 rankStats={keywordDetails?.rankStats}
+                projectDetails={keywordDetails?.projectDetails}
                 loading={loading}
               />
 

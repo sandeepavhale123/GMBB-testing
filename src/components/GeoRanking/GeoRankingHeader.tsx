@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
@@ -127,8 +126,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   };
 
   const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
-  const solvability = keywordDetails?.rankStats?.solvability || '36.0';
-  const visibilityValue = parseFloat(solvability);
+  
+  // Use ATRP for Overall Visibility as requested
+  const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
+  const visibilityValue = parseFloat(overallVisibility);
 
   return (
     <div className="mb-4 sm:mb-4">
@@ -199,13 +200,13 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Overall Visibility Card */}
+            {/* Overall Visibility Card - Using ATRP */}
             <div className="lg:col-span-2">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
-                    <div className="text-2xl font-bold text-blue-900">{solvability}%</div>
+                    <div className="text-2xl font-bold text-blue-900">{overallVisibility}%</div>
                     <div className="text-xs text-green-600">+5.2% ↑</div>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">
