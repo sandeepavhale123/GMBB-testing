@@ -178,7 +178,8 @@ export const NewPasswordForm = () => {
 
         <Button
           type="submit"
-          className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg"
+          className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
+          
           disabled={isLoading}
         >
           {isLoading ? (
