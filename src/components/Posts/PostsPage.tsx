@@ -152,7 +152,7 @@ export const PostsPage = () => {
           {/* Total Posts Display */}
           <div className="text-sm text-gray-600">
             <span className="font-medium">
-              Total Posts: {pagination.totalPosts}
+              Total Posts sd: {pagination.totalPosts}
               {hasActiveFilters && ' (filtered)'}
             </span>
           </div>
