@@ -266,10 +266,10 @@ export const SignupForm = () => {
         </div>
 
         {/* Action Buttons - Single Row */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-12 gap-3">
           <Button
             type="submit"
-            className="h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
+            className="h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg grid-cols-8"
             disabled={isLoading || formData.plan === "0"}
           >
             {isLoading ? (
@@ -286,7 +286,7 @@ export const SignupForm = () => {
             type="button"
             variant="outline"
             onClick={handleReset}
-            className="h-12 font-medium rounded-lg"
+            className="h-12 font-medium rounded-lg grid-cols-4"
             disabled={isLoading}
           >
             Reset
