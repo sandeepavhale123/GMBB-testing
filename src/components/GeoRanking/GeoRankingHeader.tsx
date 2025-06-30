@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../ui/button';
-import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download } from 'lucide-react';
+import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { CircularProgress } from '../ui/circular-progress';
 import { useToast } from '@/hooks/use-toast';
@@ -23,6 +23,31 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  const allKeywords = [
+    'Web Design',
+    'Digital Marketing', 
+    'SEO Services',
+    'Local Business',
+    'Social Media Marketing',
+    'Content Creation',
+    'E-commerce Solutions',
+    'Mobile App Development',
+    'Brand Strategy',
+    'Online Advertising'
+  ];
+
+  const filteredKeywords = allKeywords.filter(keyword =>
+    keyword.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const displayedKeywords = searchTerm ? filteredKeywords : allKeywords.slice(0, 5);
+
+  const handleKeywordSelect = (keyword: string) => {
+    onKeywordSelect(keyword);
+    setSearchTerm('');
+  };
 
   const handleCheckRank = () => {
     navigate('/geo-ranking-report');
@@ -115,21 +140,39 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 <ChevronDown className={`w-5 h-5 transition-transform ${showKeywordDropdown ? 'rotate-180' : ''}`} />
               </div>
               
-              {/* Keyword Dropdown */}
-              {showKeywordDropdown && <div className="absolute z-[9999] top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
-                  <div className="py-1">
-                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Web Design')}>
-                      Web Design
+              {/* Enhanced Keyword Dropdown with Search */}
+              {showKeywordDropdown && <div className="absolute z-[9999] top-full mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg">
+                  {/* Search Input */}
+                  <div className="p-3 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search keywords..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
                     </div>
-                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Digital Marketing')}>
-                      Digital Marketing
-                    </div>
-                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('SEO Services')}>
-                      SEO Services
-                    </div>
-                    <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => onKeywordSelect('Local Business')}>
-                      Local Business
-                    </div>
+                  </div>
+                  
+                  {/* Keywords List */}
+                  <div className="py-1 max-h-48 overflow-y-auto">
+                    {displayedKeywords.length > 0 ? (
+                      displayedKeywords.map((keyword) => (
+                        <div 
+                          key={keyword}
+                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors"
+                          onClick={() => handleKeywordSelect(keyword)}
+                        >
+                          {keyword}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-2 text-sm text-gray-500">
+                        No keywords found
+                      </div>
+                    )}
                   </div>
                 </div>}
 
