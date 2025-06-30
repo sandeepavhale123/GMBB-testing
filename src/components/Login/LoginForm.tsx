@@ -27,7 +27,23 @@ export const LoginForm = () => {
     dispatch(setLoading(true));
 
     try {
-      await login(credentials);
+      const loginResult = await login(credentials);
+      // Check if subscription expired
+      if (loginResult?.subscriptionExpired) {
+        console.log(
+          "🚫 Login successful but subscription expired - redirecting to subscription page"
+        );
+
+        toast({
+          title: "Subscription Expired",
+          description: "Your plan has expired. Please renew to continue.",
+          variant: "destructive",
+        });
+
+        navigate("/settings/subscription");
+        return;
+      }
+
       toast({
         title: "Success",
         description: "Logged in successfully!",

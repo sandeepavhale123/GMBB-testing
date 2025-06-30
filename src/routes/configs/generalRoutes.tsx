@@ -1,4 +1,3 @@
-
 import Profile from "@/pages/Profile";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import TeamPage from "@/pages/TeamPage";
@@ -11,6 +10,8 @@ import { SubscriptionPage } from "@/components/Settings/SubscriptionPage";
 import { GenieSubscriptionPage } from "@/components/Settings/GenieSubscriptionPage";
 import { ListingManagementPage } from "@/components/Settings/ListingManagementPage";
 import { Navigate } from "react-router-dom";
+import { PaymentSuccess } from "@/pages/PaymentSuccess";
+import { VerifyPayment } from "@/pages/VerifyPayment";
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -19,7 +20,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <Profile />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/analytics",
@@ -27,7 +28,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <AnalyticsPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/team",
@@ -35,7 +36,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <TeamPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/settings",
@@ -43,7 +44,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <SettingsPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/settings/google-account",
@@ -51,7 +52,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <SettingsPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/settings/subscription",
@@ -59,7 +60,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <SettingsPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/settings/genie-subscription",
@@ -67,7 +68,7 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <SettingsPage />
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/settings/listings/:accountId",
@@ -75,12 +76,27 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <SettingsPage />
       </ProtectedRoute>
-    )
+    ),
   },
-  
+  {
+    path: "/verify-payment",
+    element: (
+      <ProtectedRoute>
+        <VerifyPayment />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/payment-success",
+    element: (
+      <ProtectedRoute>
+        <PaymentSuccess />
+      </ProtectedRoute>
+    ),
+  },
   // Catch-all route - must be last
   {
     path: "*",
-    element: <NotFound />
-  }
+    element: <NotFound />,
+  },
 ];

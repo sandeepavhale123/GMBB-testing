@@ -1,4 +1,3 @@
-
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import {
@@ -10,6 +9,7 @@ import {
 } from "./authSlice";
 import { clearUserListings } from "../businessListingsSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
+import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,6 +22,7 @@ export const useLogin = () => {
 
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
+        // credentials: "include", // 👈 This is critical!
         headers: {
           "Content-Type": "application/json",
         },
@@ -35,6 +36,13 @@ export const useLogin = () => {
       const data: LoginResponse = await response.json();
       console.log("Login response data:", data);
 
+      // Check if subscription is expired based on planExpDate in profile
+      const planExpDate = data.data.profile.planExpDate;
+      const subscriptionExpired = isSubscriptionExpired(planExpDate);
+
+      console.log("Plan expiration date:", planExpDate);
+      console.log("Is subscription expired:", subscriptionExpired);
+
       // Clear any existing business listings data before setting new user
       dispatch(clearUserListings());
       console.log("🧹 Cleared existing business listings data on login");
@@ -42,7 +50,7 @@ export const useLogin = () => {
       // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
       dispatch(setUser(data.data.profile));
-      
+
       // Set hasAttemptedRefresh to true since this is a fresh login with valid tokens
       dispatch(setHasAttemptedRefresh(true));
       console.log("✅ Set hasAttemptedRefresh to true after successful login");
@@ -51,12 +59,13 @@ export const useLogin = () => {
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
       localStorage.setItem("userId", data.data.profile.userId);
       localStorage.setItem("onboarding", String(data.data.isOnboarding || 0));
-      
+
       // Store current user session for tracking user changes
       localStorage.setItem("current_user_session", data.data.profile.userId);
       console.log("💾 Stored user session ID:", data.data.profile.userId);
 
-      return data;
+      // Return the response with our added subscriptionExpired flag
+      return { ...data, subscriptionExpired };
     } catch (error) {
       console.error("Login error:", error);
       throw error;

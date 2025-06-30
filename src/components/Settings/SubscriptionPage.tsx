@@ -1,10 +1,23 @@
+import React, { useEffect, useState } from "react";
+import { Check, X, Crown } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "@/hooks/use-toast";
+import axiosInstance from "@/api/axiosInstance";
+import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 
-import React, { useState } from 'react';
-import { Check, X, Crown } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+// ⚠️ Load Stripe publishable key from .env
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+);
+
+console.log(
+  "stripe promise......",
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
 
 interface PlanFeature {
   name: string;
@@ -20,88 +33,92 @@ const planFeatures: PlanFeature[] = [
     business: 40,
     pro: 100,
     agency: 200,
-    enterprise: 400
+    enterprise: 400,
   },
   {
     name: "KW Rank Check P/day",
     business: 600,
     pro: 1000,
     agency: 1500,
-    enterprise: 2000
+    enterprise: 2000,
   },
   {
     name: "Organic KW listing",
     business: 20,
     pro: 20,
     agency: 20,
-    enterprise: 20
+    enterprise: 20,
   },
   {
     name: "GEO KW Check",
     business: "Unlimited",
     pro: "Unlimited",
     agency: "Unlimited",
-    enterprise: "Unlimited"
+    enterprise: "Unlimited",
   },
   {
     name: "Add Team",
     business: true,
     pro: true,
     agency: true,
-    enterprise: true
+    enterprise: true,
   },
   {
     name: "White Label Report",
     business: false,
     pro: true,
     agency: true,
-    enterprise: true
+    enterprise: true,
   },
   {
     name: "White Label Subdomain",
     business: false,
     pro: true,
     agency: true,
-    enterprise: true
-  }
+    enterprise: true,
+  },
 ];
 
 const plans = [
   {
-    id: 'business',
-    name: 'Business',
+    id: "12",
+    name: "Business",
     price: 99,
-    color: 'bg-blue-500',
-    popular: false
+    color: "bg-blue-500",
+    popular: false,
   },
   {
-    id: 'pro',
-    name: 'Pro',
+    id: "13",
+    name: "Pro",
     price: 199,
-    color: 'bg-blue-600',
-    popular: true
+    color: "bg-blue-600",
+    popular: true,
   },
   {
-    id: 'agency',
-    name: 'Agency',
+    id: "14",
+    name: "Agency",
     price: 299,
-    color: 'bg-blue-700',
-    popular: false
+    color: "bg-blue-700",
+    popular: false,
   },
   {
-    id: 'enterprise',
-    name: 'Enterprise',
+    id: "15",
+    name: "Enterprise",
     price: 560,
-    color: 'bg-blue-800',
-    popular: false
-  }
+    color: "bg-blue-800",
+    popular: false,
+  },
 ];
 
 export const SubscriptionPage: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState<string | null>(null);
+  const [activePlanId, setActivePlanId] = useState<string | null>(null);
+  const [planExpDate, setPlanExpDate] = useState<string | null>(null);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
 
   const renderFeatureValue = (value: boolean | number | string) => {
-    if (typeof value === 'boolean') {
+    if (typeof value === "boolean") {
       return value ? (
         <Check className="w-5 h-5 text-green-500 mx-auto" />
       ) : (
@@ -111,10 +128,120 @@ export const SubscriptionPage: React.FC = () => {
     return <span className="text-sm font-medium text-gray-900">{value}</span>;
   };
 
-  const handlePayNow = (planId: string) => {
+  useEffect(() => {
+    const fetchUserPlan = async () => {
+      try {
+        const response = await axiosInstance.get("/get-user-profile");
+        console.log(
+          "user data from user profile",
+          response.data.data.profileDetails
+        );
+        const { planId, planExpDate, planName } =
+          response.data.data.profileDetails;
+
+        if (planId) {
+          setActivePlanId(planId);
+        }
+
+        if (planExpDate) {
+          setPlanExpDate(planExpDate);
+          const expired = isSubscriptionExpired(planExpDate);
+          setIsExpired(expired);
+          console.log("Plan expiration check:", {
+            planExpDate,
+            isExpired: expired,
+            planId,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch user plan:", error);
+      }
+    };
+
+    fetchUserPlan();
+  }, []);
+
+  const isPlanActive = (planId: string) => {
+    return activePlanId === planId && !isExpired;
+  };
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const year = String(date.getFullYear()).slice(-2); // Last 2 digits
+    return `${day}/${month}/${year}`;
+  };
+
+  const getButtonText = (planId: string) => {
+    if (isPlanActive(planId)) {
+      return "Active";
+    }
+    return isProcessing === planId ? "Processing..." : "Pay Now";
+  };
+
+  const getButtonClass = (planId: string, planColor: string) => {
+    if (isPlanActive(planId)) {
+      return "w-full bg-green-700 text-white";
+    }
+    return `w-full ${planColor} hover:opacity-90 text-white`;
+  };
+
+  const handlePayNow = async (planId: string) => {
+    setIsProcessing(planId);
     setSelectedPlan(planId);
-    // Here you would integrate with your payment system
-    console.log(`Selected plan: ${planId}`);
+    try {
+      // Here you would integrate with your payment system
+      console.log(`Selected plan: ${planId}`);
+
+      // Call custom backend API to create subscription
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_BASE_URL}/create-subscription`,
+        {
+          planId: planId,
+          successUrl: `${window.location.origin}/verify-payment`,
+          cancelUrl: `${window.location.origin}/settings/subscription`,
+        }
+      );
+
+      const data = response.data;
+      console.log("response from the backend", response.data);
+
+      if (data.id) {
+        // Get Stripe instance and redirect to checkout
+        const stripe = await stripePromise;
+        console.log("stripe key", stripe);
+        if (!stripe) {
+          throw new Error("Stripe failed to initialize");
+        }
+
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.id,
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+      } else if (data.url) {
+        // Fallback: Direct redirect to Stripe Checkout URL
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout session or URL received");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast({
+        title: "Payment Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to process payment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(null);
+      setSelectedPlan(null);
+    }
   };
 
   return (
@@ -125,8 +252,31 @@ export const SubscriptionPage: React.FC = () => {
           Subscription Plans
         </h2>
         <p className="text-gray-600 text-sm sm:text-base">
-          Choose the perfect plan for your business needs. Upgrade or downgrade at any time.
+          Choose the perfect plan for your business needs. Upgrade or downgrade
+          at any time.
         </p>
+        {/* Show expiration status if user has a plan */}
+        {activePlanId && planExpDate && (
+          <div
+            className={`mt-4 p-3 rounded-lg ${
+              isExpired
+                ? "bg-red-50 border border-red-200"
+                : "bg-green-50 border border-green-200"
+            }`}
+          >
+            <p
+              className={`text-sm font-medium ${
+                isExpired ? "text-red-800" : "text-green-800"
+              }`}
+            >
+              {isExpired
+                ? `Your plan expired on ${formatDate(
+                    planExpDate
+                  )}. Please renew to continue accessing features.`
+                : `Your plan is active until ${formatDate(planExpDate)}.`}
+            </p>
+          </div>
+        )}
       </div>
 
       <Tabs defaultValue="pricing-plan" className="w-full">
@@ -144,11 +294,18 @@ export const SubscriptionPage: React.FC = () => {
                 Features
               </div>
               {plans.map((plan) => (
-                <div key={plan.id} className="p-4 text-center relative min-h-[120px] flex flex-col justify-between">
+                <div
+                  key={plan.id}
+                  className="p-4 text-center relative min-h-[120px] flex flex-col justify-between"
+                >
                   <div className="absolute inset-0 flex flex-col">
-                    <div className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}>
+                    <div
+                      className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}
+                    >
                       <div className="flex items-center justify-center gap-2">
-                        <span className="font-semibold text-lg">{plan.name}</span>
+                        <span className="font-semibold text-lg">
+                          {plan.name}
+                        </span>
                         {plan.popular && <Crown className="w-4 h-4" />}
                       </div>
                     </div>
@@ -164,14 +321,14 @@ export const SubscriptionPage: React.FC = () => {
 
             {/* Price Row */}
             <div className="grid grid-cols-5 border-b border-gray-200 bg-white">
-              <div className="p-4 font-medium text-gray-700">
-                Price/PM
-              </div>
+              <div className="p-4 font-medium text-gray-700">Price/PM</div>
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center">
                   <div className="text-2xl font-bold text-gray-900">
                     ${plan.price}
-                    <span className="text-sm font-normal text-gray-500">/PM</span>
+                    <span className="text-sm font-normal text-gray-500">
+                      /PM
+                    </span>
                   </div>
                 </div>
               ))}
@@ -179,7 +336,10 @@ export const SubscriptionPage: React.FC = () => {
 
             {/* Feature Rows */}
             {planFeatures.map((feature, index) => (
-              <div key={index} className="grid grid-cols-5 border-b border-gray-200 hover:bg-gray-50">
+              <div
+                key={index}
+                className="grid grid-cols-5 border-b border-gray-200 hover:bg-gray-50"
+              >
                 <div className="p-4 text-sm text-gray-700 font-medium">
                   {feature.name}
                 </div>
@@ -204,11 +364,13 @@ export const SubscriptionPage: React.FC = () => {
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center">
                   <Button
-                    onClick={() => handlePayNow(plan.id)}
-                    className={`w-full ${plan.color} hover:opacity-90 text-white`}
-                    disabled={selectedPlan === plan.id}
+                    onClick={() =>
+                      isPlanActive(plan.id) ? null : handlePayNow(plan.id)
+                    }
+                    className={getButtonClass(plan.id, plan.color)}
+                    disabled={isPlanActive(plan.id) || isProcessing === plan.id}
                   >
-                    {selectedPlan === plan.id ? 'Processing...' : 'Pay Now'}
+                    {getButtonText(plan.id)}
                   </Button>
                 </div>
               ))}
@@ -221,9 +383,13 @@ export const SubscriptionPage: React.FC = () => {
               Need Help Choosing?
             </h3>
             <p className="text-blue-700 text-sm mb-4">
-              Contact our sales team to find the perfect plan for your business needs.
+              Contact our sales team to find the perfect plan for your business
+              needs.
             </p>
-            <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-100">
+            <Button
+              variant="outline"
+              className="border-blue-300 text-blue-700 hover:bg-blue-100"
+            >
               Contact Sales
             </Button>
           </div>
@@ -243,7 +409,8 @@ export const SubscriptionPage: React.FC = () => {
                   No Payment History
                 </h3>
                 <p className="text-gray-600 text-sm">
-                  Your payment history will appear here once you make your first payment.
+                  Your payment history will appear here once you make your first
+                  payment.
                 </p>
               </div>
             </CardContent>

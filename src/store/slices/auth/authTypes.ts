@@ -10,7 +10,8 @@ export interface LoginResponse {
       refresh_token: string;
     };
     profile: any;
-    isOnboarding?: boolean | number;
+    message: string;
+    subscriptionExpired?: boolean; // This will be added by our logic, not the API
   };
 }
 
