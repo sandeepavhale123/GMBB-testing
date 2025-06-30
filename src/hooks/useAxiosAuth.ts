@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { setAuthHelpers } from "@/api/axiosInstance";
@@ -6,8 +7,9 @@ export const useAxiosAuth = () => {
   const { accessToken, logout, refreshAccessToken } = useAuthRedux();
 
   useEffect(() => {
-    if (accessToken) {
-      setAuthHelpers(() => accessToken, logout, refreshAccessToken);
-    }
+    // Always set auth helpers, even if no token initially
+    // This ensures logout and refresh functions are always available
+    setAuthHelpers(() => accessToken, logout, refreshAccessToken);
+    console.log("🔧 Auth helpers set in axios instance");
   }, [accessToken, logout, refreshAccessToken]);
 };

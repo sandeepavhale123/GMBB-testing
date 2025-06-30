@@ -6,8 +6,8 @@ import { Textarea } from '../../ui/textarea';
 
 interface FormData {
   postType: string;
-  offerStartDate: string;
-  offerEndDate: string;
+  startDate: string;
+  endDate: string;
   couponCode: string;
   redeemOnlineUrl: string;
   termsConditions: string;
@@ -33,16 +33,16 @@ export const OfferFields: React.FC<OfferFieldsProps> = ({
           <Label className="text-sm font-medium">Start Date & Time</Label>
           <Input 
             type="datetime-local" 
-            value={formData.offerStartDate} 
-            onChange={e => onFormDataChange(prev => ({ ...prev, offerStartDate: e.target.value }))} 
+            value={formData.startDate} 
+            onChange={e => onFormDataChange(prev => ({ ...prev, startDate: e.target.value }))} 
           />
         </div>
         <div className="space-y-2">
           <Label className="text-sm font-medium">End Date & Time</Label>
           <Input 
             type="datetime-local" 
-            value={formData.offerEndDate} 
-            onChange={e => onFormDataChange(prev => ({ ...prev, offerEndDate: e.target.value }))} 
+            value={formData.endDate} 
+            onChange={e => onFormDataChange(prev => ({ ...prev, endDate: e.target.value }))} 
           />
         </div>
       </div>

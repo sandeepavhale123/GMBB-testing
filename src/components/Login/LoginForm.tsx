@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -162,6 +163,20 @@ export const LoginForm = () => {
             "Log In"
           )}
         </Button>
+
+        {/* Signup Link */}
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/signup")}
+              className="text-blue-600 hover:text-blue-500 font-medium"
+            >
+              Sign up here
+            </button>
+          </p>
+        </div>
       </form>
     </div>
   );

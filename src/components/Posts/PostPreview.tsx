@@ -97,16 +97,16 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
         </div>
       </div>
 
-      {/* Post Content */}
-      <div className="p-4">
-        {data.title && <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>}
-        {data.description && <p className="text-gray-700 text-sm mb-1 leading-relaxed">{getLimitedDescription(data.description)}</p>}
-      </div>
-
       {/* Image */}
       {imageUrl ? <img src={imageUrl} alt="Post" className="w-full h-48 object-cover" /> : <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
           <span className="text-white font-medium">Upload an image</span>
         </div>}
+
+      {/* Post Content - Now below the image */}
+      <div className="p-4">
+        {data.title && <h3 className="font-semibold text-gray-900 mb-3 text-base leading-tight">{data.title}</h3>}
+        {data.description && <p className="text-gray-700 text-sm mb-1 leading-relaxed">{getLimitedDescription(data.description)}</p>}
+      </div>
 
       {/* CTA Button */}
       {data.ctaButton && <div className="p-4">

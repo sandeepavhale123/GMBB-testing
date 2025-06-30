@@ -1,3 +1,4 @@
+
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
@@ -21,6 +22,7 @@ export const setAuthHelpers = (
   getAccessToken = getToken;
   handleLogout = logout;
   refreshToken = refresh;
+  console.log("🔧 Auth helpers updated in axios instance");
 };
 
 const axiosInstance = axios.create({
@@ -49,20 +51,27 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Enhanced function to handle token expiry with store cleanup
-const handleTokenExpiry = () => {
-  console.log("🔒 Token expired - performing comprehensive cleanup");
+// Enhanced function to handle token expiry with more nuanced logic
+const handleAuthFailure = (shouldForceLogout: boolean = false) => {
+  console.log("🔒 Handling auth failure, force logout:", shouldForceLogout);
 
-  // Clear expired tokens from store
-  store.dispatch(clearExpiredTokens());
+  if (shouldForceLogout) {
+    // Clear expired tokens from store
+    store.dispatch(clearExpiredTokens());
 
-  // If we have a logout handler, use it for complete cleanup
-  if (handleLogout) {
-    handleLogout();
+    // If we have a logout handler, use it for complete cleanup
+    if (handleLogout) {
+      console.log("🚪 Performing complete logout");
+      handleLogout();
+    } else {
+      // Fallback: reset store and redirect
+      store.dispatch(resetStore());
+      window.location.href = "/login";
+    }
   } else {
-    // Fallback: reset store and redirect
-    store.dispatch(resetStore());
-    window.location.href = "/login";
+    // Just clear tokens but don't force logout yet
+    console.log("🔒 Clearing expired tokens without logout");
+    store.dispatch(clearExpiredTokens());
   }
 };
 
@@ -76,16 +85,17 @@ axiosInstance.interceptors.request.use(
 
     if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log(`🔑 Added token to ${config.method?.toUpperCase()} request to ${config.url}`);
+    } else if (!isAuthRoute) {
+      console.log(`⚠️ No token available for ${config.method?.toUpperCase()} request to ${config.url}`);
     }
-    console.log(
-      `Making ${config.method?.toUpperCase()} request to ${config.url}`
-    );
+    
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Enhanced response interceptor for automatic token refresh with store cleanup
+// Enhanced response interceptor with better token refresh handling
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -100,15 +110,23 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry &&
       !isAuthRoute
     ) {
-      console.log("Axios: 401 error detected, attempting token refresh");
+      console.log("❌ 401 error detected for:", originalRequest.url);
+
+      // Check if we have refresh capability
+      if (!refreshToken) {
+        console.log("❌ No refresh function available, cannot retry");
+        handleAuthFailure(true);
+        return Promise.reject(error);
+      }
 
       if (isRefreshing) {
         // If refresh is already in progress, queue this request
-        console.log("Axios: Token refresh in progress, queueing request");
+        console.log("⏳ Token refresh in progress, queueing request");
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then(() => {
+            console.log("🔄 Retrying queued request after refresh");
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
@@ -120,33 +138,45 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        if (!refreshToken) {
-          throw new Error("No refresh function available");
-        }
-
+        console.log("🔄 Attempting token refresh for failed request");
         const success = await refreshToken();
+        
         if (success) {
-          console.log(
-            "Axios: Token refresh successful, retrying original request"
-          );
+          console.log("✅ Token refresh successful, retrying original request");
           processQueue(null);
 
           // Get the new token and retry the original request
           const newToken = getAccessToken?.();
           if (newToken) {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            console.log("🔄 Retrying original request with new token");
+            return axiosInstance(originalRequest);
+          } else {
+            console.log("❌ No new token available after refresh");
+            throw new Error("No token available after refresh");
           }
-
-          return axiosInstance(originalRequest);
         } else {
+          console.log("❌ Token refresh failed, not retrying request");
           throw new Error("Token refresh failed");
         }
       } catch (refreshError) {
-        console.error("Axios: Token refresh failed:", refreshError);
+        console.error("❌ Token refresh failed:", refreshError);
         processQueue(refreshError, null);
 
-        // Handle token expiry with comprehensive cleanup
-        handleTokenExpiry();
+        // Only force logout if refresh explicitly failed multiple times
+        // Check if we've already attempted refresh recently
+        const lastRefreshAttempt = localStorage.getItem("last_refresh_attempt");
+        const now = Date.now();
+        const fiveMinutesAgo = now - 5 * 60 * 1000;
+        
+        if (lastRefreshAttempt && parseInt(lastRefreshAttempt) > fiveMinutesAgo) {
+          console.log("🔒 Recent refresh attempts failed, forcing logout");
+          handleAuthFailure(true);
+        } else {
+          console.log("🔒 First recent refresh failure, not forcing logout yet");
+          localStorage.setItem("last_refresh_attempt", now.toString());
+          handleAuthFailure(false);
+        }
 
         return Promise.reject(refreshError);
       } finally {
@@ -154,13 +184,13 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    // Handle other 401/403 errors that indicate token expiry
+    // Handle other auth errors more gracefully
     if (
       (error.response?.status === 401 || error.response?.status === 403) &&
       !isAuthRoute
     ) {
-      console.log("Axios: Authentication error detected");
-      handleTokenExpiry();
+      console.log("🔒 Auth error detected, but not forcing immediate logout");
+      handleAuthFailure(false);
     }
 
     return Promise.reject(error);

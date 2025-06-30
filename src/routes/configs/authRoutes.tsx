@@ -1,6 +1,7 @@
 
 import { Navigate } from "react-router-dom";
 import Login from "@/pages/Login";
+import Signup from "@/pages/Signup";
 import Onboarding from "@/pages/Onboarding";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "@/routes/PublicRoute";
@@ -12,6 +13,14 @@ export const authRoutes: RouteConfig[] = [
     element: (
       <PublicRoute>
         <Login />
+      </PublicRoute>
+    )
+  },
+  {
+    path: "/signup",
+    element: (
+      <PublicRoute>
+        <Signup />
       </PublicRoute>
     )
   },

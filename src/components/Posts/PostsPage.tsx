@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { fetchPosts, setFilter, setSearchQuery } from '../../store/slices/postsSlice';
@@ -11,6 +10,8 @@ import { PostsControls } from './PostsControls';
 import { PostsLoadingState } from './PostsLoadingState';
 import { PostsEmptyState } from './PostsEmptyState';
 import { PostsContent } from './PostsContent';
+import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
+import { Post } from '../../types/postTypes';
 
 export const PostsPage = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,8 @@ export const PostsPage = () => {
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [cloneData, setCloneData] = useState<CreatePostFormData | null>(null);
+  const [isCloning, setIsCloning] = useState(false);
   
   const {
     posts,
@@ -104,9 +107,28 @@ export const PostsPage = () => {
     }));
   };
 
+  const handleCreatePost = () => {
+    setCloneData(null);
+    setIsCloning(false);
+    setIsCreateModalOpen(true);
+  };
+
+  const handleClonePost = (post: Post) => {
+    const clonedData = transformPostForCloning(post);
+    setCloneData(clonedData);
+    setIsCloning(true);
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
+    setCloneData(null);
+    setIsCloning(false);
+  };
+
   return (
     <div className="space-y-6">
-      <PostsHeader onCreatePost={() => setIsCreateModalOpen(true)} />
+      <PostsHeader onCreatePost={handleCreatePost} />
 
       <PostsControls
         loading={loading}
@@ -127,31 +149,30 @@ export const PostsPage = () => {
 
       {!loading && (
         <>
-          {/* Total Posts Display */}
-          <div className="text-sm text-gray-600">
-            <span className="font-medium">
-              Total Posts: {pagination.totalPosts}
-              {hasActiveFilters && ' (filtered)'}
-            </span>
-          </div>
-
           {posts.length === 0 ? (
             <PostsEmptyState 
               hasActiveFilters={hasActiveFilters}
-              onCreatePost={() => setIsCreateModalOpen(true)}
+              onCreatePost={handleCreatePost}
             />
           ) : (
             <PostsContent
               posts={posts}
               viewMode={viewMode}
               pagination={pagination}
+              hasActiveFilters={hasActiveFilters}
               onPageChange={handlePageChange}
+              onClonePost={handleClonePost}
             />
           )}
         </>
       )}
 
-      <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+      <CreatePostModal 
+        isOpen={isCreateModalOpen} 
+        onClose={handleCloseModal}
+        initialData={cloneData}
+        isCloning={isCloning}
+      />
     </div>
   );
 };

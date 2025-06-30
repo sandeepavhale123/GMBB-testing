@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { rehydrateAuth } from "./authSlice";
+import { rehydrateAuth, setHasAttemptedRefresh } from "./authSlice";
 import { useAuthRedux } from "./useAuthRedux";
 import { saveNavigationState } from "./authHelpers";
 
@@ -14,6 +15,8 @@ export const AuthInitializer = () => {
     isInitialized,
     isRefreshing,
   } = useAuthRedux();
+  
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   // Save current route when component mounts (for page refresh scenarios)
   useEffect(() => {
@@ -32,6 +35,33 @@ export const AuthInitializer = () => {
     console.log("AuthInitializer: Rehydrating auth state...");
     dispatch(rehydrateAuth());
   }, [dispatch]);
+
+  // Add timeout to prevent infinite loading
+  useEffect(() => {
+    if (isInitialized && !hasAttemptedRefresh && !isRefreshing) {
+      console.log("AuthInitializer: Setting timeout for refresh attempt");
+      timeoutRef.current = setTimeout(() => {
+        console.log("AuthInitializer: Timeout reached, marking refresh as attempted");
+        dispatch(setHasAttemptedRefresh(true));
+      }, 5000); // 5 second timeout
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [dispatch, isInitialized, hasAttemptedRefresh, isRefreshing]);
+
+  // Clear timeout if refresh is attempted or completed
+  useEffect(() => {
+    if (hasAttemptedRefresh || isRefreshing) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = undefined;
+      }
+    }
+  }, [hasAttemptedRefresh, isRefreshing]);
 
   return null;
 };

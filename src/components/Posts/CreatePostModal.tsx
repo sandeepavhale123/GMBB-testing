@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
@@ -13,46 +12,71 @@ import { PostDescriptionSection } from './CreatePostModal/PostDescriptionSection
 import { PostImageSection } from './CreatePostModal/PostImageSection';
 import { CTAButtonSection } from './CreatePostModal/CTAButtonSection';
 import { AdvancedOptionsSection } from './CreatePostModal/AdvancedOptionsSection';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { toast } from '@/hooks/use-toast';
+import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialData?: CreatePostFormData | null;
+  isCloning?: boolean;
 }
 
 export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isOpen,
-  onClose
+  onClose,
+  initialData = null,
+  isCloning = false
 }) => {
-  const [formData, setFormData] = useState({
-    listings: [] as string[],
-    title: '',
-    postType: '',
-    description: '',
-    image: null as File | string | null,
-    ctaButton: '',
-    ctaUrl: '',
-    publishOption: 'now',
-    scheduleDate: '',
-    platforms: [] as string[],
-    // Event fields
-    eventStartDate: '',
-    eventEndDate: '',
-    // Offer fields
-    offerStartDate: '',
-    offerEndDate: '',
-    couponCode: '',
-    redeemOnlineUrl: '',
-    termsConditions: '',
-    // New fields
-    postTags: '',
-    siloPost: false
-  });
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
+  const { createLoading, createError } = useAppSelector(state => state.posts);
+  
+  const getInitialFormData = () => {
+    if (initialData) {
+      return initialData;
+    }
+    return {
+      listings: [] as string[],
+      title: '',
+      postType: '',
+      description: '',
+      image: null as File | string | null,
+      imageSource: null as 'local' | 'ai' | null,
+      ctaButton: '',
+      ctaUrl: '',
+      publishOption: 'now',
+      scheduleDate: '',
+      platforms: [] as string[],
+      startDate: '',
+      endDate: '',
+      couponCode: '',
+      redeemOnlineUrl: '',
+      termsConditions: '',
+      postTags: '',
+      siloPost: false
+    };
+  };
+
+  const [formData, setFormData] = useState(getInitialFormData());
+
+  // Reset form data when modal opens/closes or initialData changes
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData(getInitialFormData());
+    }
+  }, [isOpen, initialData]);
+
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
   const [isAIImageOpen, setIsAIImageOpen] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [listingsSearch, setListingsSearch] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
 
   const handleListingToggle = (listing: string) => {
     setFormData(prev => ({
@@ -63,21 +87,169 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Updated image change handler to track source
+  const handleImageChange = (image: File | string | null, source: 'local' | 'ai' | null = null) => {
+    setFormData(prev => ({
+      ...prev,
+      image,
+      imageSource: source
+    }));
+  };
+
+  // Updated AI image selection handler
+  const handleAIImageSelect = (imageUrl: string) => {
+    handleImageChange(imageUrl, 'ai');
+    setIsAIImageOpen(false);
+  };
+
+  // Validation function
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    // Title validation for event and offer post types
+    if ((formData.postType === 'event' || formData.postType === 'offer') && !formData.title.trim()) {
+      errors.title = 'Title is required for event and offer posts';
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating post:', formData);
-    onClose();
+    
+    // Validate form
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the validation errors before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Get listingId from context or URL
+    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    
+    if (!listingId) {
+      toast({
+        title: "Error",
+        description: "No business listing selected. Please select a listing first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Clear any previous errors
+      dispatch(clearCreateError());
+
+      const createPostData = {
+        listingId: parseInt(listingId.toString()),
+        title: formData.title,
+        postType: formData.postType,
+        description: formData.description,
+        ctaButton: showCTAButton ? formData.ctaButton : undefined,
+        ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+        publishOption: formData.publishOption,
+        scheduleDate: formData.publishOption === 'schedule' && formData.scheduleDate ? 
+          formData.scheduleDate : undefined,
+        platforms: formData.platforms,
+        startDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.startDate ? 
+          formData.startDate : undefined,
+        endDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.endDate ? 
+          formData.endDate : undefined,
+        couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
+        redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
+        termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
+        postTags: formData.postTags,
+        siloPost: formData.siloPost,
+        // Handle image based on source
+        selectedImage: formData.imageSource, // Set to "local" or "ai"
+        userfile: formData.imageSource === 'local' && formData.image instanceof File ? formData.image : undefined,
+        aiImageUrl: formData.imageSource === 'ai' && typeof formData.image === 'string' ? formData.image : undefined,
+      };
+
+      const response = await dispatch(createPost(createPostData)).unwrap();
+      
+      // Show success message
+      toast({
+        title: isCloning ? "Post Cloned Successfully" : "Post Created Successfully",
+        description: `Post ${isCloning ? 'cloned' : 'created'} with ID: ${response.data.postId}`,
+      });
+
+      // Refresh posts list
+      dispatch(fetchPosts({
+        listingId: parseInt(listingId.toString()),
+        filters: { status: 'all', search: '' },
+        pagination: { page: 1, limit: 12 },
+      }));
+
+      // Reset form and close modal
+      setFormData({
+        listings: [],
+        title: '',
+        postType: '',
+        description: '',
+        image: null,
+        imageSource: null,
+        ctaButton: '',
+        ctaUrl: '',
+        publishOption: 'now',
+        scheduleDate: '',
+        platforms: [],
+        startDate: '',
+        endDate: '',
+        couponCode: '',
+        redeemOnlineUrl: '',
+        termsConditions: '',
+        postTags: '',
+        siloPost: false
+      });
+      setValidationErrors({});
+      setShowCTAButton(false);
+      setShowAdvancedOptions(false);
+      onClose();
+      
+    } catch (error) {
+      console.error('Error creating post:', error);
+      toast({
+        title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
+        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Check if Create Post button should be enabled
-  const isCreatePostEnabled = formData.description.trim().length > 0;
+  const isCreatePostEnabled = formData.description.trim().length > 0 && !createLoading;
+
+  // Show error toast if there's a create error
+  React.useEffect(() => {
+    if (createError) {
+      toast({
+        title: "Error",
+        description: createError,
+        variant: "destructive",
+      });
+    }
+  }, [createError]);
+
+  // Clear validation errors when form data changes
+  React.useEffect(() => {
+    if (Object.keys(validationErrors).length > 0) {
+      validateForm();
+    }
+  }, [formData.title, formData.postType]);
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
-            <DialogTitle className="text-xl sm:text-2xl font-semibold">Create Post</DialogTitle>
+            <DialogTitle className="text-xl sm:text-2xl font-semibold">
+              {isCloning ? 'Clone Post' : 'Create Post'}
+            </DialogTitle>
           </DialogHeader>
 
           <div className="flex flex-1 min-h-0">
@@ -95,7 +267,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 {/* Post Image Upload */}
                 <PostImageSection
                   image={formData.image}
-                  onImageChange={(image) => setFormData(prev => ({ ...prev, image }))}
+                  onImageChange={(image) => handleImageChange(image, image instanceof File ? 'local' : null)}
                   onOpenAIImage={() => setIsAIImageOpen(true)}
                 />
 
@@ -118,6 +290,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   listingsSearch={listingsSearch}
                   onListingsSearchChange={setListingsSearch}
                   onListingToggle={handleListingToggle}
+                  validationErrors={validationErrors}
                 />
               </form>
             </div>
@@ -151,11 +324,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 Cancel
               </Button>
               <Button 
+                type="submit"
                 onClick={handleSubmit} 
                 disabled={!isCreatePostEnabled}
                 className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Post
+                {createLoading ? (isCloning ? "Cloning..." : "Creating...") : (isCloning ? "Clone Post" : "Create Post")}
               </Button>
             </div>
           </div>
@@ -175,10 +349,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <AIImageModal 
         isOpen={isAIImageOpen} 
         onClose={() => setIsAIImageOpen(false)} 
-        onSelect={imageUrl => {
-          setFormData(prev => ({ ...prev, image: imageUrl }));
-          setIsAIImageOpen(false);
-        }} 
+        onSelect={handleAIImageSelect}
       />
 
       {/* Preview Modal - only for mobile/tablet */}
