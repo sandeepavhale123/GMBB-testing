@@ -14,6 +14,8 @@ export const useGeoRanking = (listingId: number) => {
   const [keywordChanging, setKeywordChanging] = useState(false);
   const [dateChanging, setDateChanging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [remainingCredit, setRemainingCredit] = useState<number>(0);
+  const [allowedCredit, setAllowedCredit] = useState<string>('0');
   const { toast } = useToast();
 
   // Fetch keywords on component mount
@@ -29,14 +31,14 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywords(listingId);
         if (response.code === 200) {
           setKeywords(response.data.keywords);
-          // Set first keyword as default and its date
+          // Set credits data
+          setRemainingCredit(response.data.credits.remainingCredit);
+          setAllowedCredit(response.data.credits.allowedCredit);
+          
+          // Set first keyword as default
           if (response.data.keywords.length > 0) {
             const firstKeyword = response.data.keywords[0];
             setSelectedKeyword(firstKeyword.id);
-            // Set the date from the keywords array on page load
-            if (firstKeyword.date) {
-              setSelectedDate(firstKeyword.date);
-            }
           }
         } else {
           throw new Error(response.message || 'Failed to fetch keywords');
@@ -58,7 +60,7 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywords();
   }, [listingId, toast]);
 
-  // Fetch keyword details when selected keyword or date changes
+  // Fetch keyword details when selected keyword changes
   useEffect(() => {
     const fetchKeywordDetails = async () => {
       if (!listingId || !selectedKeyword) return;
@@ -70,16 +72,14 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywordDetails(listingId, selectedKeyword);
         if (response.code === 200) {
           setKeywordDetails(response.data);
-          // Only set date from API if not already set from keywords array
-          if (!selectedDate && response.data.dates && response.data.dates.length > 1) {
-            // Find the second most recent date (previous report)
+          
+          // Set default date to most recent date if not already set
+          if (!selectedDate && response.data.dates && response.data.dates.length > 0) {
             const sortedDates = response.data.dates
               .filter(d => d.date)
               .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
             
-            if (sortedDates.length > 1) {
-              setSelectedDate(sortedDates[1].id);
-            } else if (sortedDates.length > 0) {
+            if (sortedDates.length > 0) {
               setSelectedDate(sortedDates[0].id);
             }
           }
@@ -102,7 +102,7 @@ export const useGeoRanking = (listingId: number) => {
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, selectedDate, toast]);
+  }, [listingId, selectedKeyword, toast]);
 
   const handleKeywordChange = (keywordId: string) => {
     setKeywordChanging(true);
@@ -126,6 +126,8 @@ export const useGeoRanking = (listingId: number) => {
     keywordChanging,
     dateChanging,
     error,
+    remainingCredit,
+    allowedCredit,
     handleKeywordChange,
     handleDateChange
   };

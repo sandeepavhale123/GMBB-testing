@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -20,6 +19,8 @@ interface GeoRankingHeaderProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   error: string | null;
+  remainingCredit?: number;
+  allowedCredit?: string;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -32,7 +33,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   loading,
   keywordChanging,
   dateChanging,
-  error
+  error,
+  remainingCredit,
+  allowedCredit
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -114,6 +117,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         isExporting={isExporting}
         onExportImage={handleExportImage}
         onCheckRank={handleCheckRank}
+        remainingCredit={remainingCredit}
+        allowedCredit={allowedCredit}
       />
 
       {/* Main Header Card */}

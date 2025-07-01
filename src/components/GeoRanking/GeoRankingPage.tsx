@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -38,6 +37,8 @@ export const GeoRankingPage = () => {
     keywordChanging,
     dateChanging,
     error,
+    remainingCredit,
+    allowedCredit,
     handleKeywordChange,
     handleDateChange
   } = useGeoRanking(numericListingId);
@@ -142,6 +143,8 @@ export const GeoRankingPage = () => {
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               error={error}
+              remainingCredit={remainingCredit}
+              allowedCredit={allowedCredit}
             />
 
             <div className="space-y-4 sm:space-y-6">
