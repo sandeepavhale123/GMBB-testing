@@ -23,13 +23,22 @@ const CURRENCY_OPTIONS = [
   { value: "inr", label: "INR" },
 ];
 
-const PLAN_OPTIONS = [
+const USD_PLAN_OPTIONS = [
   { value: "0", label: "Select Plan" },
   { value: "50", label: "7$ for 7-day trial" },
   { value: "55", label: "Enterprise - $560 PM" },
   { value: "54", label: "Agency - $299 PM" },
   { value: "53", label: "Pro - $199 PM" },
   { value: "52", label: "Business - $99 PM" },
+];
+
+const INR_PLAN_OPTIONS = [
+  { value: "0", label: "Select Plan" },
+  { value: "51", label: "₹660 for 7 Days trial" },
+  { value: "59", label: "Enterprise - ₹52,864 PM" },
+  { value: "58", label: "Agency - ₹28,225 PM" },
+  { value: "57", label: "Pro - ₹18,785 PM" },
+  { value: "56", label: "Business - ₹9,345 PM" },
 ];
 
 export const SignupForm = () => {
@@ -48,10 +57,19 @@ export const SignupForm = () => {
   const navigate = useNavigate();
 
   const handleChange = (field: keyof SignupFormData, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [field]: value,
+      };
+      
+      // Reset plan when currency changes
+      if (field === "currency") {
+        newData.plan = "0";
+      }
+      
+      return newData;
+    });
   };
 
   const handleReset = () => {
@@ -70,11 +88,16 @@ export const SignupForm = () => {
     });
   };
 
+  const getCurrentPlanOptions = () => {
+    return formData.currency === "inr" ? INR_PLAN_OPTIONS : USD_PLAN_OPTIONS;
+  };
+
   const getPayButtonLabel = () => {
     if (formData.plan === "0") {
       return "Pay - Select Plan";
     }
-    const selectedPlan = PLAN_OPTIONS.find(option => option.value === formData.plan);
+    const currentPlanOptions = getCurrentPlanOptions();
+    const selectedPlan = currentPlanOptions.find(option => option.value === formData.plan);
     return `Pay - ${selectedPlan?.label || "Select Plan"}`;
   };
 
@@ -251,7 +274,7 @@ export const SignupForm = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {PLAN_OPTIONS.map((option) => (
+                {getCurrentPlanOptions().map((option) => (
                   <SelectItem 
                     key={option.value} 
                     value={option.value}
