@@ -56,7 +56,6 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
           </Button>
         </div>
       </div>
-      </div>
     </>
   );
 };
