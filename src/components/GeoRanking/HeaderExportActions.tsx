@@ -23,8 +23,8 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
       <div className="flex gap-2 items-center">
         {/* Credits Badge */}
         {credits && (
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-            {credits.remainingCredit} / {credits.allowedCredit}
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 h-4 py-3">
+            Available credits {credits.remainingCredit} / {credits.allowedCredit}
           </Badge>
         )}
         
@@ -38,10 +38,10 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
         <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">
           Check Rank
         </Button>
-        <Button onClick={onExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
+        {/* <Button onClick={onExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
           <Download className="w-4 h-4" />
           {isExporting ? 'Exporting...' : 'Export Report'}
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
