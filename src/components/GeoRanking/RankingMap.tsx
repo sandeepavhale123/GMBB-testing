@@ -52,29 +52,29 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                        ranking <= 10 ? '#f59e0b' : 
                        ranking <= 15 ? '#f97316' : '#ef4444';
 
-          // Check if rank is 20+ to show plus icon
-          const isRank20Plus = ranking >= 20;
-          const displayText = isRank20Plus ? '+' : ranking.toString();
+          // Show 20+ for ranks 20 and above
+          const displayText = ranking >= 20 ? '20+' : ranking.toString();
+          const fontSize = ranking >= 20 ? '12px' : '14px';
 
           const rankingIcon = L.divIcon({
             html: `<div style="
               background: ${color};
               color: white;
-              width: 40px;
-              height: 40px;
+              width: 50px;
+              height: 50px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
               font-weight: bold;
-              font-size: ${isRank20Plus ? '20px' : '14px'};
+              font-size: ${fontSize};
               border: 2px solid white;
               box-shadow: 0 2px 4px rgba(0,0,0,0.2);
               cursor: pointer;
             ">${displayText}</div>`,
             className: 'custom-ranking-marker',
-            iconSize: [40, 40],
-            iconAnchor: [20, 20]
+            iconSize: [50, 50],
+            iconAnchor: [25, 25]
           });
 
           const marker = L.marker([lat, lng], {
@@ -89,7 +89,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
 
           marker.bindPopup(`
             <div class="text-sm">
-              <strong>Position: ${ranking}</strong><br>
+              <strong>Position: ${displayText}</strong><br>
               Location: ${detail.coordinate}<br>
               Position ID: ${detail.positionId}<br>
               <em>Click for detailed view</em>
@@ -125,28 +125,28 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                      point.ranking <= 10 ? '#f59e0b' : 
                      point.ranking <= 15 ? '#f97316' : '#ef4444';
 
-        const isRank20Plus = point.ranking >= 20;
-        const displayText = isRank20Plus ? '+' : point.ranking.toString();
+        const displayText = point.ranking >= 20 ? '20+' : point.ranking.toString();
+        const fontSize = point.ranking >= 20 ? '12px' : '14px';
 
         const rankingIcon = L.divIcon({
           html: `<div style="
             background: ${color};
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: ${isRank20Plus ? '20px' : '14px'};
+            font-size: ${fontSize};
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
           ">${displayText}</div>`,
           className: 'custom-ranking-marker',
-          iconSize: [40, 40],
-          iconAnchor: [20, 20]
+          iconSize: [50, 50],
+          iconAnchor: [25, 25]
         });
 
         const marker = L.marker([point.lat, point.lng], {
@@ -160,7 +160,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
 
         marker.bindPopup(`
           <div class="text-sm">
-            <strong>Position: ${point.ranking}</strong><br>
+            <strong>Position: ${displayText}</strong><br>
             Location: Grid ${point.id}<br>
             <em>Click for detailed view</em>
           </div>

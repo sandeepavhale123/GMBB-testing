@@ -33,6 +33,7 @@ export const useGeoRanking = (listingId: number) => {
           if (response.data.keywords.length > 0) {
             const firstKeyword = response.data.keywords[0];
             setSelectedKeyword(firstKeyword.id);
+            // Set the date from the keywords array on page load
             if (firstKeyword.date) {
               setSelectedDate(firstKeyword.date);
             }
@@ -69,7 +70,7 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywordDetails(listingId, selectedKeyword);
         if (response.code === 200) {
           setKeywordDetails(response.data);
-          // Set previous reports date on initial page load if available
+          // Only set date from API if not already set from keywords array
           if (!selectedDate && response.data.dates && response.data.dates.length > 1) {
             // Find the second most recent date (previous report)
             const sortedDates = response.data.dates

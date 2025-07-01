@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
@@ -210,7 +209,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                   <div className="flex-1">
                     <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
                     <div className="text-2xl font-bold text-blue-900">{overallVisibility}%</div>
-                    <div className="text-xs text-green-600">+5.2% ↑</div>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">
                     <CircularProgress value={visibilityValue} size={48} className="text-blue-500" />
