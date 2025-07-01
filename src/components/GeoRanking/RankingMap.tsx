@@ -54,14 +54,14 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
 
           // Show 20+ for ranks 20 and above
           const displayText = ranking >= 20 ? '20+' : ranking.toString();
-          const fontSize = ranking >= 20 ? '12px' : '14px';
+          const fontSize = ranking >= 20 ? '11px' : '13px';
 
           const rankingIcon = L.divIcon({
             html: `<div style="
               background: ${color};
               color: white;
-              width: 50px;
-              height: 50px;
+              width: 40px;
+              height: 40px;
               border-radius: 50%;
               display: flex;
               align-items: center;
