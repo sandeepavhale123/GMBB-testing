@@ -1,63 +1,78 @@
+
 import React from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Eye } from 'lucide-react';
+import { Button } from '../ui/button';
+import { RefreshCcw, Copy, Sparkles } from 'lucide-react';
 import { CircularProgress } from '../ui/circular-progress';
+import { KeywordDetailsResponse } from '../../api/geoRankingApi';
 
-export const MetricsCards: React.FC = () => {
+interface MetricsCardsProps {
+  keywordDetails: KeywordDetailsResponse['data'] | null;
+  totalKeywords: number;
+  onCheckRank: () => void;
+}
+
+export const MetricsCards: React.FC<MetricsCardsProps> = ({
+  keywordDetails,
+  totalKeywords,
+  onCheckRank,
+}) => {
+  // Use ATRP for Overall Visibility as requested
+  const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
+  const visibilityValue = parseFloat(overallVisibility);
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-      <Card className="bg-white">
-        <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center justify-between">
+    <>
+      {/* Overall Visibility Card - Using ATRP */}
+      <div className="lg:col-span-3">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg h-full">
+          <div className="flex items-center justify-between h-full">
             <div className="flex-1">
-              <p className="text-xs sm:text-sm text-gray-600 mb-1 text-left">Overall Visibility</p>
-              <p className="text-2xl sm:text-3xl font-bold text-gray-900 text-left">36%</p>
-              <p className="text-xs text-green-600 mt-1 text-left">+5.2% from last month</p>
+              <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
+              <div className="text-2xl font-bold text-blue-900">{overallVisibility}%</div>
             </div>
-            <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
-              <CircularProgress value={36} size={48} className="text-blue-500 sm:w-16 sm:h-16" />
+            <div className="w-12 h-12 flex-shrink-0">
+              <CircularProgress value={visibilityValue} size={48} className="text-blue-500" />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="bg-white">
-        <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-xs sm:text-sm text-gray-600 mb-1 text-left">Click Rate</p>
-              <p className="text-2xl sm:text-3xl font-bold text-gray-900 text-left">12.4%</p>
-              <p className="text-xs text-red-600 mt-1 text-left">-1.2% CTR</p>
-            </div>
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Total Keywords Card */}
+      <div className="lg:col-span-3">
+        <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg h-full">
+          <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
+          <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
+          <div className="text-xs text-green-600">Active keywords</div>
+        </div>
+      </div>
 
-      <Card className="bg-white sm:col-span-2 lg:col-span-1">
-        <CardContent className="p-4 sm:p-6">
-          <div>
-            <div className="flex flex-wrap gap-2">
-              <div className="flex rounded border overflow-hidden shadow-sm">
-                <div className="bg-blue-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold">ARP</div>
-                <div className="bg-white text-gray-800 px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold border-l">8.50</div>
-              </div>
-              
-              <div className="flex rounded border overflow-hidden shadow-sm">
-                <div className="bg-blue-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold">ATRP</div>
-                <div className="bg-white text-gray-800 px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold border-l">6.20</div>
-              </div>
-              
-              <div className="flex rounded border overflow-hidden shadow-sm">
-                <div className="bg-blue-600 text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold">SoLV</div>
-                <div className="bg-white text-gray-800 px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold border-l">36.0%</div>
-              </div>
-            </div>
+      {/* AI Genie Recommendation Card */}
+      <div className="lg:col-span-2">
+        <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg h-full">
+          <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
+          <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
+            <Sparkles className="h-3 w-3 mr-1" />
+            Get Insights
+          </Button>
+        </div>
+      </div>
+
+      {/* Action Buttons - Show here for screens >= 1300px */}
+      <div className="lg:col-span-1 hidden 2xl:block">
+        <div className="flex flex-col gap-2">
+          <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white w-full">
+            Check Rank
+          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" className="flex-1">
+              <RefreshCcw className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" className="flex-1">
+              <Copy className="w-4 h-4" />
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </>
   );
 };
