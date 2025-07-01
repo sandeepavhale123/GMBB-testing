@@ -5,22 +5,15 @@ import { RankDetail } from '../../api/geoRankingApi';
 import L from 'leaflet';
 
 interface RankingMapProps {
-  gridSize: string;
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
   rankDetails: RankDetail[];
-  loading: boolean;
 }
 
-export const RankingMap: React.FC<RankingMapProps> = ({ 
-  gridSize, 
-  onMarkerClick, 
-  rankDetails, 
-  loading 
-}) => {
+export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetails }) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mapRef.current || loading) return;
+    if (!mapRef.current) return;
 
     // Load Leaflet CSS
     const link = document.createElement('link');
@@ -182,19 +175,13 @@ export const RankingMap: React.FC<RankingMapProps> = ({
         existingLink.remove();
       }
     };
-  }, [onMarkerClick, rankDetails, loading]);
+  }, [onMarkerClick, rankDetails]);
 
   return (
     <Card className="bg-white">
       <CardContent className="sm:p-0">
         <div className="bg-gray-50 rounded-lg overflow-hidden">
-          {loading ? (
-            <div className="w-full h-[400px] sm:h-[500px] flex items-center justify-center">
-              <div className="text-gray-500">Loading map...</div>
-            </div>
-          ) : (
-            <div ref={mapRef} className="w-full h-[400px] sm:h-[500px]" />
-          )}
+          <div ref={mapRef} className="w-full h-[400px] sm:h-[500px]" />
         </div>
       </CardContent>
     </Card>
