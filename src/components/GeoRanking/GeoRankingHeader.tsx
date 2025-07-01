@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
 import { Loader } from '../ui/loader';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
@@ -133,12 +134,26 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   return (
     <div className="mb-4 sm:mb-4">
-      {/* Export Button */}
-      <div className="flex justify-end mb-4">
-        <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2 ml-auto">
+      {/* Top Section with Export and Action Buttons */}
+      <div className="flex justify-between items-center mb-4">
+        {/* Export Button - Always on the left */}
+        <Button onClick={handleExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
           <Download className="w-4 h-4" />
           {isExporting ? 'Exporting...' : 'Export Report'}
         </Button>
+
+        {/* Action Buttons - Show on top right for screens < 1300px */}
+        <div className="flex gap-2 2xl:hidden">
+          <Button onClick={handleCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">
+            Check Rank
+          </Button>
+          <Button variant="outline" size="sm">
+            <RefreshCcw className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm">
+            <Copy className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Main Header Card */}
@@ -237,8 +252,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="lg:col-span-1">
+            {/* Action Buttons - Show here for screens >= 1300px */}
+            <div className="lg:col-span-1 hidden 2xl:block">
               <div className="flex flex-col gap-2">
                 <Button onClick={handleCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white w-full">
                   Check Rank
