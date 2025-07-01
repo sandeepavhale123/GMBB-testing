@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "@/hooks/use-toast";
 import axiosInstance from "@/api/axiosInstance";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
+import { UpgradeNowConfirmationModal } from "./UpgradeConfirmationModal";
 
 // ⚠️ Load Stripe publishable key from .env
 const stripePromise = loadStripe(
@@ -116,7 +117,10 @@ export const SubscriptionPage: React.FC = () => {
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
   const [planExpDate, setPlanExpDate] = useState<string | null>(null);
   const [isExpired, setIsExpired] = useState<boolean>(false);
-
+  const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
+  const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(
+    null
+  );
   const renderFeatureValue = (value: boolean | number | string) => {
     if (typeof value === "boolean") {
       return value ? (
@@ -165,6 +169,10 @@ export const SubscriptionPage: React.FC = () => {
     return activePlanId === planId && !isExpired;
   };
 
+  const hasActivePlan = () => {
+    return activePlanId && !isExpired;
+  };
+
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -177,7 +185,11 @@ export const SubscriptionPage: React.FC = () => {
     if (isPlanActive(planId)) {
       return "Active";
     }
-    return isProcessing === planId ? "Processing..." : "Pay Now";
+    if (isProcessing === planId) {
+      return "Processing...";
+    }
+    // Show "Pay Now" if no active plan, "Upgrade Now" if there's an active plan
+    return hasActivePlan() ? "Upgrade Now" : "Pay Now";
   };
 
   const getButtonClass = (planId: string, planColor: string) => {
@@ -185,6 +197,19 @@ export const SubscriptionPage: React.FC = () => {
       return "w-full bg-green-700 text-white";
     }
     return `w-full ${planColor} hover:opacity-90 text-white`;
+  };
+
+  const handleButtonClick = (planId: string) => {
+    if (isPlanActive(planId)) return;
+
+    if (hasActivePlan()) {
+      // Show upgrade confirmation modal
+      setSelectedUpgradePlan(planId);
+      setShowUpgradeModal(true);
+    } else {
+      // Call pay now for new subscriptions
+      handlePayNow(planId);
+    }
   };
 
   const handlePayNow = async (planId: string) => {
@@ -242,6 +267,67 @@ export const SubscriptionPage: React.FC = () => {
       setIsProcessing(null);
       setSelectedPlan(null);
     }
+  };
+
+  const handleUpgradeConfirm = async () => {
+    if (!selectedUpgradePlan) return;
+
+    setIsProcessing(selectedUpgradePlan);
+    setShowUpgradeModal(false);
+
+    try {
+      console.log(`Upgrading to plan: ${selectedUpgradePlan}`);
+
+      // Send upgrade request to backend
+      const response = await axiosInstance.post("/update-subscription", {
+        planId: selectedUpgradePlan,
+      });
+
+      if (response.data.success) {
+        toast({
+          title: "Upgrade Successful",
+          description: "Your plan has been upgraded successfully.",
+        });
+
+        // Refresh user plan data
+        const userResponse = await axiosInstance.get("/get-user-profile");
+        const { planId, planExpDate } = userResponse.data.data.profileDetails;
+
+        if (planId) {
+          setActivePlanId(planId);
+        }
+
+        if (planExpDate) {
+          setPlanExpDate(planExpDate);
+          setIsExpired(isSubscriptionExpired(planExpDate));
+        }
+      } else {
+        throw new Error(response.data.message || "Upgrade failed");
+      }
+    } catch (error) {
+      console.error("Upgrade error:", error);
+      toast({
+        title: "Upgrade Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to upgrade plan. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(null);
+      setSelectedUpgradePlan(null);
+    }
+  };
+
+  const handleUpgradeCancel = () => {
+    setShowUpgradeModal(false);
+    setSelectedUpgradePlan(null);
+  };
+
+  const getSelectedPlanName = () => {
+    const plan = plans.find((p) => p.id === selectedUpgradePlan);
+    return plan ? plan.name : "";
   };
 
   return (
@@ -364,9 +450,7 @@ export const SubscriptionPage: React.FC = () => {
               {plans.map((plan) => (
                 <div key={plan.id} className="p-4 text-center">
                   <Button
-                    onClick={() =>
-                      isPlanActive(plan.id) ? null : handlePayNow(plan.id)
-                    }
+                    onClick={() => handleButtonClick(plan.id)}
                     className={getButtonClass(plan.id, plan.color)}
                     disabled={isPlanActive(plan.id) || isProcessing === plan.id}
                   >
@@ -417,6 +501,15 @@ export const SubscriptionPage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Upgrade Confirmation Modal */}
+      <UpgradeNowConfirmationModal
+        isOpen={showUpgradeModal}
+        onClose={handleUpgradeCancel}
+        onConfirm={handleUpgradeConfirm}
+        planName={getSelectedPlanName()}
+        isProcessing={isProcessing === selectedUpgradePlan}
+      />
     </div>
   );
 };
