@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Badge } from '../ui/badge';
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { Button } from '../ui/button';
-
 interface Post {
   id: string;
   title: string;
@@ -23,20 +21,17 @@ interface Post {
   };
   tags?: string;
 }
-
 interface PostViewModalProps {
   isOpen: boolean;
   onClose: () => void;
   post: Post | null;
 }
-
 export const PostViewModal: React.FC<PostViewModalProps> = ({
   isOpen,
   onClose,
   post
 }) => {
   if (!post) return null;
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published':
@@ -51,7 +46,6 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
-
   const getStatusText = (status: string) => {
     switch (status) {
       case 'published':
@@ -66,15 +60,12 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         return status;
     }
   };
-
   const handleOpenPost = () => {
     // Use searchUrl from API if available, otherwise fallback to a default URL structure
     const postUrl = post.searchUrl || `/post/${post.id}`;
     window.open(postUrl, '_blank');
   };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+  return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Post Preview</DialogTitle>
@@ -83,15 +74,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         <div className="space-y-4">
           {/* Post Image */}
           <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
-            {post.media?.images ? (
-              <img 
-                src={post.media.images} 
-                alt="Post" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span className="text-white font-medium">Post Image</span>
-            )}
+            {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white font-medium">Post Image</span>}
           </div>
 
           {/* Post Header */}
@@ -108,11 +91,9 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
 
           {/* Tags */}
-          {post.tags && (
-            <div className="text-sm text-blue-600">
+          {post.tags && <div className="text-sm text-blue-600">
               {post.tags}
-            </div>
-          )}
+            </div>}
 
           {/* Post Meta */}
           <div className="flex items-center text-xs text-gray-500 gap-4">
@@ -125,17 +106,9 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
           {/* View Post Button */}
           <div className="flex justify-center pt-4 border-t">
-            <Button
-              onClick={handleOpenPost}
-              className="flex items-center gap-2"
-              size="sm"
-            >
-              <ArrowUpRight className="w-4 h-4" />
-              View Post
-            </Button>
+            
           </div>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
