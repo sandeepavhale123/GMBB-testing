@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
-import { SimpleGeoModal } from './SimpleGeoModal';
+import { GeoPositionModal } from './GeoPositionModal';
 import { Card, CardContent } from '../ui/card';
 import { ListingLoader } from '../ui/listing-loader';
 import { useGeoRanking } from '../../hooks/useGeoRanking';
@@ -175,7 +176,7 @@ export const GeoRankingPage = () => {
         </CardContent>
       </Card>
 
-      <SimpleGeoModal 
+      <GeoPositionModal 
         isOpen={modalData.isOpen} 
         onClose={handleCloseModal} 
         gpsCoordinates={modalData.gpsCoordinates} 

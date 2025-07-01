@@ -69,11 +69,17 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywordDetails(listingId, selectedKeyword);
         if (response.code === 200) {
           setKeywordDetails(response.data);
-          // Set default date if not already set
-          if (!selectedDate && response.data.dates && response.data.dates.length > 0) {
-            const currentDate = response.data.dates.find(d => d.date);
-            if (currentDate) {
-              setSelectedDate(currentDate.id);
+          // Set previous reports date on initial page load if available
+          if (!selectedDate && response.data.dates && response.data.dates.length > 1) {
+            // Find the second most recent date (previous report)
+            const sortedDates = response.data.dates
+              .filter(d => d.date)
+              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+            
+            if (sortedDates.length > 1) {
+              setSelectedDate(sortedDates[1].id);
+            } else if (sortedDates.length > 0) {
+              setSelectedDate(sortedDates[0].id);
             }
           }
         } else {

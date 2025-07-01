@@ -52,25 +52,29 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                        ranking <= 10 ? '#f59e0b' : 
                        ranking <= 15 ? '#f97316' : '#ef4444';
 
+          // Check if rank is 20+ to show plus icon
+          const isRank20Plus = ranking >= 20;
+          const displayText = isRank20Plus ? '+' : ranking.toString();
+
           const rankingIcon = L.divIcon({
             html: `<div style="
               background: ${color};
               color: white;
-              width: 32px;
-              height: 32px;
+              width: 40px;
+              height: 40px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
               font-weight: bold;
-              font-size: 12px;
+              font-size: ${isRank20Plus ? '20px' : '14px'};
               border: 2px solid white;
               box-shadow: 0 2px 4px rgba(0,0,0,0.2);
               cursor: pointer;
-            ">${ranking}</div>`,
+            ">${displayText}</div>`,
             className: 'custom-ranking-marker',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16]
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
           });
 
           const marker = L.marker([lat, lng], {
@@ -103,7 +107,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
           for (let j = 0; j < 4; j++) {
             const lat = centerLat + (i - 1.5) * spacing;
             const lng = centerLng + (j - 1.5) * spacing;
-            const ranking = Math.floor(Math.random() * 20) + 1;
+            const ranking = Math.floor(Math.random() * 25) + 1;
             gridData.push({
               lat,
               lng,
@@ -121,25 +125,28 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                      point.ranking <= 10 ? '#f59e0b' : 
                      point.ranking <= 15 ? '#f97316' : '#ef4444';
 
+        const isRank20Plus = point.ranking >= 20;
+        const displayText = isRank20Plus ? '+' : point.ranking.toString();
+
         const rankingIcon = L.divIcon({
           html: `<div style="
             background: ${color};
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 12px;
+            font-size: ${isRank20Plus ? '20px' : '14px'};
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
-          ">${point.ranking}</div>`,
+          ">${displayText}</div>`,
           className: 'custom-ranking-marker',
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
         });
 
         const marker = L.marker([point.lat, point.lng], {

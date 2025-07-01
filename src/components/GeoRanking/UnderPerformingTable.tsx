@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Target } from 'lucide-react';
 import { UnderPerformingArea } from '../../api/geoRankingApi';
 
 interface UnderPerformingTableProps {
@@ -17,13 +15,7 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
   return (
     <Card className="bg-white shadow-sm">
       <CardHeader className="pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">Under-performing Areas</CardTitle>
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
-            <Target className="w-4 h-4 mr-2" />
-            Optimize All
-          </Button>
-        </div>
+        <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">Under-Performing Areas</CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         {loading ? (
@@ -32,14 +24,16 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <div className="min-w-[700px]">
+            <div className="min-w-[900px]">
               {/* Header */}
-              <div className="grid grid-cols-5 gap-4 pb-3 border-b border-gray-200 mb-2">
+              <div className="grid grid-cols-7 gap-4 pb-3 border-b border-gray-200 mb-2">
+                <div className="font-medium text-gray-700 text-xs sm:text-sm">Area</div>
+                <div className="font-medium text-gray-700 text-xs sm:text-sm">Coordinate</div>
                 <div className="font-medium text-gray-700 text-xs sm:text-sm">Competitor Name</div>
                 <div className="font-medium text-gray-700 text-xs sm:text-sm">Competitor Rank</div>
                 <div className="font-medium text-gray-700 text-xs sm:text-sm">Your Rank</div>
                 <div className="font-medium text-gray-700 text-xs sm:text-sm">Competitor Rating</div>
-                <div className="font-medium text-gray-700 text-xs sm:text-sm">Action</div>
+                <div className="font-medium text-gray-700 text-xs sm:text-sm">Competitor Review</div>
               </div>
               
               {/* Data Rows */}
@@ -48,8 +42,10 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
                   underPerformingAreas.map((area) => (
                     <div
                       key={area.id}
-                      className="grid grid-cols-5 gap-4 py-3 px-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="grid grid-cols-7 gap-4 py-3 px-3 rounded-lg hover:bg-gray-50 transition-colors"
                     >
+                      <div className="text-gray-900 text-xs sm:text-sm font-medium">{area.areaName}</div>
+                      <div className="text-gray-900 text-xs sm:text-sm">{area.coordinate}</div>
                       <div className="text-gray-900 text-xs sm:text-sm font-medium">{area.compName}</div>
                       <div className="text-gray-900 text-xs sm:text-sm">#{area.compRank}</div>
                       <div className="text-gray-900 text-xs sm:text-sm">
@@ -59,11 +55,7 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
                         <span className="text-gray-900 text-xs sm:text-sm">{area.compRating}</span>
                         <span className="text-yellow-500 text-xs">★</span>
                       </div>
-                      <div>
-                        <Button variant="outline" size="sm" className="text-xs px-3 py-1 h-7">
-                          Optimize
-                        </Button>
-                      </div>
+                      <div className="text-gray-900 text-xs sm:text-sm">{area.compReview}</div>
                     </div>
                   ))
                 ) : (
