@@ -191,7 +191,7 @@ export const GeoRankingReportPage: React.FC = () => {
         font-size: 12px;
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      ">●</div>`,
+      "></div>`,
       className: 'default-marker',
       iconSize: [24, 24],
       iconAnchor: [12, 12]
@@ -359,6 +359,8 @@ export const GeoRankingReportPage: React.FC = () => {
     if (formData.mapPoint === 'Automatic') {
       addAutomaticMarkers();
     } else {
+      // For manual mode, show default marker initially
+      addDefaultMarker();
       enableManualSelection();
     }
   }, [formData.mapPoint, formData.gridSize, defaultCoordinates]);
