@@ -47,7 +47,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
       </div>
 
       {/* AI Genie Recommendation Card */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-3">
         <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg h-full">
           <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
           <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
@@ -56,22 +56,6 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
           </Button>
         </div>
       </div>
-
-      {/* Action Buttons - Show here for screens >= 1300px */}
-      <div className="lg:col-span-1 hidden 2xl:block">
-        <div className="flex flex-col gap-2">
-          <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white w-full">
-            Check Rank
-          </Button>
-          <div className="flex gap-2">
-            <Button variant="outline" className="flex-1">
-              <RefreshCcw className="w-4 h-4" />
-            </Button>
-            <Button variant="outline" className="flex-1">
-              <Copy className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
       </div>
     </>
   );
