@@ -9,12 +9,15 @@ import { ChangePasswordModal } from "../components/Profile/ChangePasswordModal";
 import { CurrentPlanCard } from "../components/Profile/CurrentPlanCard";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
+import { useListingContext } from "../context/ListingContext";
+import { MapPin } from "lucide-react";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"edit" | "password">("edit");
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { selectedListing } = useListingContext();
 
   const handleTabChange = (tab: "edit" | "password") => {
     if (tab === "password") {
@@ -77,6 +80,19 @@ const Profile = () => {
                   Manage your account information, security settings, and subscription preferences.
                 </p>
               </div>
+
+              {/* Current Business Context */}
+              {selectedListing && (
+                <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-900">
+                      Managing profile for: {selectedListing.name}
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-700 mt-1">{selectedListing.address}</p>
+                </div>
+              )}
 
               {/* Profile Header Card */}
               <ProfileHeader

@@ -13,12 +13,15 @@ import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAcco
 import { SubscriptionPage } from '../components/Settings/SubscriptionPage';
 import { GenieSubscriptionPage } from '../components/Settings/GenieSubscriptionPage';
 import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
+import { useListingContext } from '../context/ListingContext';
+import { MapPin } from 'lucide-react';
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { accountId } = useParams();
   const location = useLocation();
+  const { selectedListing } = useListingContext();
 
   // Determine current view from route
   const getCurrentView = () => {
@@ -110,6 +113,19 @@ const SettingsPage = () => {
               }}
               showFilters={false}
             />
+
+            {/* Current Business Context */}
+            {selectedListing && currentView === 'main' && (
+              <div className="mx-6 mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-900">
+                    Managing settings for: {selectedListing.name}
+                  </span>
+                </div>
+                <p className="text-xs text-blue-700 mt-1">{selectedListing.address}</p>
+              </div>
+            )}
 
             {/* Settings Sub Header - Only show on main view */}
             {currentView === 'main' && (
