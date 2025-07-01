@@ -85,6 +85,14 @@ export const listingRoutes: RouteConfig[] = [
       </ProtectedRoute>
     )
   },
+  {
+    path: "/geo-ranking-report/:listingId",
+    element: (
+      <ProtectedRoute>
+        <GeoRankingReportPage />
+      </ProtectedRoute>
+    )
+  },
   
   // Reviews routes
   {
