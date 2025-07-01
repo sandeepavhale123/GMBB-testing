@@ -81,7 +81,7 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       </Select>
 
       <div>
-        <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
+        {/* <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div> */}
         <Select value={selectedDate} onValueChange={onDateChange} disabled={loading || availableDates.length === 0 || dateChanging}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
