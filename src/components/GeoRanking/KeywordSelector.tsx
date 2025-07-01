@@ -46,7 +46,7 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   };
 
   return (
-    <div className="lg:col-span-3 space-y-3">
+    <div className="lg:col-span-4 space-y-3">
       <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
       <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={loading || keywordChanging}>
         <SelectTrigger className="w-full">
