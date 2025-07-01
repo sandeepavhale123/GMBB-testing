@@ -4,7 +4,7 @@ import { Card, CardContent } from '../ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
+import { KeywordData, KeywordDetailsResponse, Credits } from '../../api/geoRankingApi';
 import { HeaderExportActions } from './HeaderExportActions';
 import { KeywordSelector } from './KeywordSelector';
 import { MetricsCards } from './MetricsCards';
@@ -14,6 +14,7 @@ interface GeoRankingHeaderProps {
   selectedKeyword: string;
   selectedDate: string;
   keywordDetails: KeywordDetailsResponse['data'] | null;
+  credits: Credits | null;
   onKeywordChange: (keywordId: string) => void;
   onDateChange: (dateId: string) => void;
   loading: boolean;
@@ -27,6 +28,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   selectedKeyword,
   selectedDate,
   keywordDetails,
+  credits,
   onKeywordChange, 
   onDateChange,
   loading,
@@ -114,6 +116,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         isExporting={isExporting}
         onExportImage={handleExportImage}
         onCheckRank={handleCheckRank}
+        credits={credits}
       />
 
       {/* Main Header Card */}

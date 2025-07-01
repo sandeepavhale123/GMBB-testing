@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -32,6 +31,7 @@ export const GeoRankingPage = () => {
     selectedKeyword,
     selectedDate,
     keywordDetails,
+    credits,
     loading,
     keywordsLoading,
     pageLoading,
@@ -136,6 +136,7 @@ export const GeoRankingPage = () => {
               selectedKeyword={selectedKeyword}
               selectedDate={selectedDate}
               keywordDetails={keywordDetails}
+              credits={credits}
               onKeywordChange={handleKeywordChange}
               onDateChange={handleDateChange}
               loading={keywordsLoading}

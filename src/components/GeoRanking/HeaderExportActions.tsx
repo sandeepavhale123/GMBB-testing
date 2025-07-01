@@ -1,27 +1,34 @@
 
 import React from 'react';
 import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { Download, RefreshCcw, Copy } from 'lucide-react';
+import { Credits } from '../../api/geoRankingApi';
 
 interface HeaderExportActionsProps {
   isExporting: boolean;
   onExportImage: () => void;
   onCheckRank: () => void;
+  credits: Credits | null;
 }
 
 export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
   isExporting,
   onExportImage,
   onCheckRank,
+  credits,
 }) => {
   return (
     <div className="flex justify-end items-center mb-4">
-      {/* Export Button - Always on the left */}
-      
-
-      {/* Action Buttons - Show on top right for screens < 1300px */}
-      <div className="flex gap-2">
-         <Button variant="outline" size="sm">
+      <div className="flex gap-2 items-center">
+        {/* Credits Badge */}
+        {credits && (
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            {credits.remainingCredit} / {credits.allowedCredit}
+          </Badge>
+        )}
+        
+        <Button variant="outline" size="sm">
           <RefreshCcw className="w-4 h-4" />
         </Button>
         <Button variant="outline" size="sm">
@@ -32,10 +39,9 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
           Check Rank
         </Button>
         <Button onClick={onExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
-        <Download className="w-4 h-4" />
-        {isExporting ? 'Exporting...' : 'Export Report'}
-      </Button>
-       
+          <Download className="w-4 h-4" />
+          {isExporting ? 'Exporting...' : 'Export Report'}
+        </Button>
       </div>
     </div>
   );
