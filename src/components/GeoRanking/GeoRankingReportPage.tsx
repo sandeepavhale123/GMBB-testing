@@ -501,7 +501,7 @@ export const GeoRankingReportPage: React.FC = () => {
                       </div>
 
                       {/* Distance Unit and Distance Value */}
-                      <div className="space-y-2 grid lg:grid-cols-2">
+                      <div className=" grid lg:grid-cols-2">
                         <div className="space-y-2 span-col-1 ">
                           <Label className="text-sm font-medium text-gray-700">
                           Distance Unit
