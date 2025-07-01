@@ -159,12 +159,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
             {/* Keyword Section */}
-            <div className="lg:col-span-3 relative gap-1">
+            <div className="lg:col-span-3 space-y-3">
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
               <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={loading || keywordChanging}>
-                <SelectTrigger className="w-full mb-4">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"} />
                   {keywordChanging && <Loader size="sm" className="ml-2" />}
                 </SelectTrigger>
@@ -196,31 +196,27 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </Select>
 
               <div>
-                <div className="flex items-center gap-2">
-                  <div className="w-full">
-                    <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
-                    <Select value={selectedDate} onValueChange={onDateChange} disabled={loading || availableDates.length === 0 || dateChanging}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
-                        {dateChanging && <Loader size="sm" className="ml-2" />}
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableDates.map(date => (
-                          <SelectItem key={date.id} value={date.id}>
-                            {date.date || `Report ${date.id}`}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
+                <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
+                <Select value={selectedDate} onValueChange={onDateChange} disabled={loading || availableDates.length === 0 || dateChanging}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
+                    {dateChanging && <Loader size="sm" className="ml-2" />}
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableDates.map(date => (
+                      <SelectItem key={date.id} value={date.id}>
+                        {date.date || `Report ${date.id}`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
             {/* Overall Visibility Card - Using ATRP */}
-            <div className="lg:col-span-2">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-                <div className="flex items-center justify-between">
+            <div className="lg:col-span-3">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg h-full">
+                <div className="flex items-center justify-between h-full">
                   <div className="flex-1">
                     <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
                     <div className="text-2xl font-bold text-blue-900">{overallVisibility}%</div>
@@ -232,9 +228,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Total Keywords Card - Updated from Click Rate */}
-            <div className="lg:col-span-2">
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+            {/* Total Keywords Card */}
+            <div className="lg:col-span-3">
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg h-full">
                 <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
                 <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
                 <div className="text-xs text-green-600">Active keywords</div>
@@ -243,7 +239,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
             {/* AI Genie Recommendation Card */}
             <div className="lg:col-span-2">
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg">
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-lg h-full">
                 <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
                 <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
                   <Sparkles className="h-3 w-3 mr-1" />
