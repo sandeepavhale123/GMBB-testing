@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -154,7 +153,10 @@ export const GeoRankingPage = () => {
                 loading={loading || keywordChanging || dateChanging}
               />
 
-              <UnderPerformingTable />
+              <UnderPerformingTable 
+                underPerformingAreas={keywordDetails?.underPerformingArea || []}
+                loading={loading || keywordChanging || dateChanging}
+              />
 
               {/* Powered By Section */}
               <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">

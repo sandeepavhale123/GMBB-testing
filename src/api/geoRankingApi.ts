@@ -1,4 +1,3 @@
-
 import axiosInstance from './axiosInstance';
 
 // Types for API requests and responses
@@ -54,6 +53,21 @@ export interface RankStats {
   solvability: string;
 }
 
+export interface UnderPerformingArea {
+  id: string;
+  areaName: string;
+  coordinate: string;
+  compRank: number;
+  compName: string;
+  compRating: string;
+  compReview: string;
+  priority: string;
+  youRank: string;
+  youName: string;
+  youRating: string;
+  youReview: string;
+}
+
 export interface KeywordDetailsResponse {
   code: number;
   message: string;
@@ -62,6 +76,7 @@ export interface KeywordDetailsResponse {
     rankDetails: RankDetail[];
     dates: DateInfo[];
     rankStats: RankStats;
+    underPerformingArea: UnderPerformingArea[];
   };
 }
 
