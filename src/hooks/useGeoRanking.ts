@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, KeywordData, KeywordDetailsResponse, Credits } from '../api/geoRankingApi';
+import { getKeywords, getKeywordDetails, getKeywordPositionDetails, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useGeoRanking = (listingId: number) => {
@@ -15,6 +14,7 @@ export const useGeoRanking = (listingId: number) => {
   const [keywordChanging, setKeywordChanging] = useState(false);
   const [dateChanging, setDateChanging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
   const { toast } = useToast();
 
   // Fetch keywords on component mount
@@ -99,6 +99,32 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetails();
   }, [listingId, selectedKeyword, toast]);
 
+  const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
+    if (!listingId) return null;
+    
+    setPositionDetailsLoading(true);
+    
+    try {
+      const response = await getKeywordPositionDetails(listingId, keywordId, positionId);
+      if (response.code === 200) {
+        return response;
+      } else {
+        throw new Error(response.message || 'Failed to fetch position details');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch position details';
+      setError(errorMessage);
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setPositionDetailsLoading(false);
+    }
+  };
+
   const handleKeywordChange = (keywordId: string) => {
     setKeywordChanging(true);
     setSelectedKeyword(keywordId);
@@ -122,6 +148,8 @@ export const useGeoRanking = (listingId: number) => {
     keywordChanging,
     dateChanging,
     error,
+    positionDetailsLoading,
+    fetchPositionDetails,
     handleKeywordChange,
     handleDateChange
   };

@@ -17,8 +17,9 @@ interface ModalData {
     address: string;
     rating: number;
     reviewCount: number;
-    isUserBusiness?: boolean;
+    selected?: boolean;
   }>;
+  loading: boolean;
 }
 
 export const GeoRankingPage = () => {
@@ -39,13 +40,15 @@ export const GeoRankingPage = () => {
     dateChanging,
     error,
     handleKeywordChange,
-    handleDateChange
+    handleDateChange,
+    fetchPositionDetails
   } = useGeoRanking(numericListingId);
 
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
-    competitors: []
+    competitors: [],
+    loading: false
   });
   
   const userBusinessName = "Your Digital Agency";
@@ -63,54 +66,55 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
   
-  const generateCompetitorData = (gridId: string) => {
-    const baseCompetitors = [
-      {
-        name: 'J K Digitech',
-        address: 'Laxmi Nagar, Delhi, India',
-        rating: 4.8,
-        reviewCount: 127
-      },
-      {
-        name: 'Digital Bytz',
-        address: 'Connaught Place, New Delhi, India',
-        rating: 4.6,
-        reviewCount: 89
-      },
-      {
-        name: 'PUNK DIGITAL MARKETING ACADEMY',
-        address: 'Janakpuri, Delhi, India',
-        rating: 4.7,
-        reviewCount: 156
-      },
-      {
-        name: userBusinessName,
-        address: 'Karol Bagh, Delhi, India',
-        rating: 4.5,
-        reviewCount: 94,
-        isUserBusiness: true
-      },
-      {
-        name: 'TechnoVista Digital',
-        address: 'Rajouri Garden, Delhi, India',
-        rating: 4.9,
-        reviewCount: 203
-      }
-    ];
-    
-    return baseCompetitors.slice(0, 5).map((competitor, index) => ({
-      ...competitor,
-      position: index + 1
-    }));
-  };
-  
-  const handleMarkerClick = (gpsCoordinates: string, gridId: string) => {
-    const competitors = generateCompetitorData(gridId);
+  const handleMarkerClick = async (gpsCoordinates: string, positionId: string) => {
+    if (!selectedKeyword) return;
+
+    // Open modal immediately with loading state
     setModalData({
       isOpen: true,
       gpsCoordinates,
-      competitors
+      competitors: [],
+      loading: true
     });
+
+    try {
+      const response = await fetchPositionDetails(selectedKeyword, positionId);
+      
+      if (response && response.data) {
+        // Transform API data to match modal interface
+        const transformedCompetitors = response.data.keywordDetails.map(detail => ({
+          position: detail.position,
+          name: detail.name,
+          address: detail.address,
+          rating: parseFloat(detail.rating),
+          reviewCount: parseInt(detail.review),
+          selected: detail.selected
+        }));
+
+        setModalData({
+          isOpen: true,
+          gpsCoordinates: response.data.coordinate,
+          competitors: transformedCompetitors,
+          loading: false
+        });
+      } else {
+        // Handle error case
+        setModalData({
+          isOpen: true,
+          gpsCoordinates,
+          competitors: [],
+          loading: false
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching position details:', error);
+      setModalData({
+        isOpen: true,
+        gpsCoordinates,
+        competitors: [],
+        loading: false
+      });
+    }
   };
   
   const handleCloseModal = () => {
@@ -181,7 +185,8 @@ export const GeoRankingPage = () => {
         isOpen={modalData.isOpen} 
         onClose={handleCloseModal} 
         gpsCoordinates={modalData.gpsCoordinates} 
-        competitors={modalData.competitors} 
+        competitors={modalData.competitors}
+        loading={modalData.loading}
         userBusinessName={userBusinessName} 
       />
     </div>

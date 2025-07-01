@@ -80,6 +80,25 @@ export interface KeywordDetailsResponse {
   };
 }
 
+// New interfaces for keyword position details
+export interface KeywordDetail {
+  name: string;
+  address: string;
+  rating: string;
+  review: string;
+  position: number;
+  selected: boolean;
+}
+
+export interface KeywordPositionResponse {
+  code: number;
+  message: string;
+  data: {
+    keywordDetails: KeywordDetail[];
+    coordinate: string;
+  };
+}
+
 // API functions
 export const getKeywords = async (listingId: number): Promise<KeywordsListResponse> => {
   const response = await axiosInstance.post('/get-keywords', {
@@ -92,6 +111,15 @@ export const getKeywordDetails = async (listingId: number, keywordId: string): P
   const response = await axiosInstance.post('/get-keyword-details', {
     listingId,
     keywordId
+  });
+  return response.data;
+};
+
+export const getKeywordPositionDetails = async (listingId: number, keywordId: string, positionId: string): Promise<KeywordPositionResponse> => {
+  const response = await axiosInstance.post('/get-keyword-position-details', {
+    listingId,
+    keywordId,
+    positionId
   });
   return response.data;
 };
