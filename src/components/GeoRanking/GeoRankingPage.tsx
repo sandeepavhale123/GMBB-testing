@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -5,6 +6,7 @@ import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { SimpleGeoModal } from './SimpleGeoModal';
 import { Card, CardContent } from '../ui/card';
+import { ListingLoader } from '../ui/listing-loader';
 import { useGeoRanking } from '../../hooks/useGeoRanking';
 
 interface ModalData {
@@ -28,11 +30,16 @@ export const GeoRankingPage = () => {
   const {
     keywords,
     selectedKeyword,
+    selectedDate,
     keywordDetails,
     loading,
     keywordsLoading,
+    pageLoading,
+    keywordChanging,
+    dateChanging,
     error,
-    handleKeywordChange
+    handleKeywordChange,
+    handleDateChange
   } = useGeoRanking(numericListingId);
 
   const [modalData, setModalData] = useState<ModalData>({
@@ -42,6 +49,11 @@ export const GeoRankingPage = () => {
   });
   
   const userBusinessName = "Your Digital Agency";
+
+  // Show page loader on initial load
+  if (pageLoading) {
+    return <ListingLoader isLoading={true} children={null} />;
+  }
 
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
@@ -111,8 +123,8 @@ export const GeoRankingPage = () => {
   const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
   const projectDetails = keywordDetails?.projectDetails;
   
-  // Create grid size display
-  const grid = projectDetails?.grid ? `${projectDetails.grid}*${projectDetails.grid}` : '4*4';
+  // Fix grid display to show proper format
+  const grid = projectDetails?.grid ? `${projectDetails.grid}*${projectDetails.grid}` : '3*3';
   
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
@@ -122,9 +134,13 @@ export const GeoRankingPage = () => {
             <GeoRankingHeader 
               keywords={keywords}
               selectedKeyword={selectedKeyword}
+              selectedDate={selectedDate}
               keywordDetails={keywordDetails}
               onKeywordChange={handleKeywordChange}
+              onDateChange={handleDateChange}
               loading={keywordsLoading}
+              keywordChanging={keywordChanging}
+              dateChanging={dateChanging}
               error={error}
             />
 
@@ -135,7 +151,7 @@ export const GeoRankingPage = () => {
                 rankDetails={keywordDetails?.rankDetails || []}
                 rankStats={keywordDetails?.rankStats}
                 projectDetails={keywordDetails?.projectDetails}
-                loading={loading}
+                loading={loading || keywordChanging || dateChanging}
               />
 
               <UnderPerformingTable />

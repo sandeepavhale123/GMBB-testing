@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Plus, RefreshCcw, Copy, ChevronDown, Sparkles, MapPin, Download, Search } from 'lucide-react';
@@ -8,29 +9,37 @@ import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
+import { Loader } from '../ui/loader';
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
   selectedKeyword: string;
+  selectedDate: string;
   keywordDetails: KeywordDetailsResponse['data'] | null;
   onKeywordChange: (keywordId: string) => void;
+  onDateChange: (dateId: string) => void;
   loading: boolean;
+  keywordChanging: boolean;
+  dateChanging: boolean;
   error: string | null;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   keywords,
   selectedKeyword,
+  selectedDate,
   keywordDetails,
   onKeywordChange,
+  onDateChange,
   loading,
+  keywordChanging,
+  dateChanging,
   error
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isExporting, setIsExporting] = React.useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedReportDate, setSelectedReportDate] = useState('');
 
   // Filter keywords based on search term
   const filteredKeywords = keywords.filter(keyword => 
@@ -41,21 +50,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   // Get available dates for the selected keyword
   const availableDates = keywordDetails?.dates || [];
-  
-  // Set default date when keyword details are loaded
-  React.useEffect(() => {
-    if (keywordDetails?.dates && keywordDetails.dates.length > 0) {
-      const currentDate = keywordDetails.dates.find(d => d.date);
-      if (currentDate && !selectedReportDate) {
-        setSelectedReportDate(currentDate.id);
-      }
-    }
-  }, [keywordDetails, selectedReportDate]);
 
   const handleKeywordSelect = (keywordId: string) => {
     onKeywordChange(keywordId);
     setSearchTerm('');
-    setSelectedReportDate(''); // Reset date selection when keyword changes
   };
 
   const handleCheckRank = () => {
@@ -131,6 +129,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
   const visibilityValue = parseFloat(overallVisibility);
 
+  // Total keywords count
+  const totalKeywords = keywords.length;
+
   return (
     <div className="mb-4 sm:mb-4">
       {/* Export Button */}
@@ -148,9 +149,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             {/* Keyword Section */}
             <div className="lg:col-span-3 relative gap-1">
               <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
-              <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={loading}>
+              <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={loading || keywordChanging}>
                 <SelectTrigger className="w-full mb-4">
                   <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"} />
+                  {keywordChanging && <Loader size="sm" className="ml-2" />}
                 </SelectTrigger>
                 <SelectContent>
                   <div className="p-3 border-b border-gray-100">
@@ -183,9 +185,10 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
                 <div className="flex items-center gap-2">
                   <div className="w-full">
                     <div className="text-xs text-gray-500 font-medium mb-1">Previous Reports</div>
-                    <Select value={selectedReportDate} onValueChange={setSelectedReportDate} disabled={loading || availableDates.length === 0}>
+                    <Select value={selectedDate} onValueChange={onDateChange} disabled={loading || availableDates.length === 0 || dateChanging}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
+                        {dateChanging && <Loader size="sm" className="ml-2" />}
                       </SelectTrigger>
                       <SelectContent>
                         {availableDates.map(date => (
@@ -216,12 +219,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               </div>
             </div>
 
-            {/* Click Rate Card */}
+            {/* Total Keywords Card - Updated from Click Rate */}
             <div className="lg:col-span-2">
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                <div className="text-xs text-orange-600 font-medium mb-1">Click Rate</div>
-                <div className="text-2xl font-bold text-orange-900">12.4%</div>
-                <div className="text-xs text-red-600">-1.2% ↓</div>
+                <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
+                <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
+                <div className="text-xs text-green-600">Active keywords</div>
               </div>
             </div>
 

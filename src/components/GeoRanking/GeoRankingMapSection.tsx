@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
 import { RankDetail, RankStats, ProjectDetails } from '../../api/geoRankingApi';
+import { Loader } from '../ui/loader';
 
 interface GeoRankingMapSectionProps {
   gridSize: string;
@@ -90,7 +91,12 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
             </div>
           </div>
           
-          <div className="bg-gray-50 rounded-lg overflow-hidden">
+          <div className="bg-gray-50 rounded-lg overflow-hidden relative">
+            {loading && (
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+                <Loader size="lg" text="Loading map data..." />
+              </div>
+            )}
             {loading ? (
               <div className="w-full h-[400px] sm:h-[500px] flex items-center justify-center">
                 <div className="text-gray-500">Loading map data...</div>

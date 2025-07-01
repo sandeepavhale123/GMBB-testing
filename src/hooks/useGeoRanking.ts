@@ -6,9 +6,13 @@ import { useToast } from './use-toast';
 export const useGeoRanking = (listingId: number) => {
   const [keywords, setKeywords] = useState<KeywordData[]>([]);
   const [selectedKeyword, setSelectedKeyword] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
   const [keywordsLoading, setKeywordsLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [keywordChanging, setKeywordChanging] = useState(false);
+  const [dateChanging, setDateChanging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -18,15 +22,20 @@ export const useGeoRanking = (listingId: number) => {
       if (!listingId) return;
       
       setKeywordsLoading(true);
+      setPageLoading(true);
       setError(null);
       
       try {
         const response = await getKeywords(listingId);
         if (response.code === 200) {
           setKeywords(response.data.keywords);
-          // Set first keyword as default
+          // Set first keyword as default and its date
           if (response.data.keywords.length > 0) {
-            setSelectedKeyword(response.data.keywords[0].id);
+            const firstKeyword = response.data.keywords[0];
+            setSelectedKeyword(firstKeyword.id);
+            if (firstKeyword.date) {
+              setSelectedDate(firstKeyword.date);
+            }
           }
         } else {
           throw new Error(response.message || 'Failed to fetch keywords');
@@ -41,13 +50,14 @@ export const useGeoRanking = (listingId: number) => {
         });
       } finally {
         setKeywordsLoading(false);
+        setPageLoading(false);
       }
     };
 
     fetchKeywords();
   }, [listingId, toast]);
 
-  // Fetch keyword details when selected keyword changes
+  // Fetch keyword details when selected keyword or date changes
   useEffect(() => {
     const fetchKeywordDetails = async () => {
       if (!listingId || !selectedKeyword) return;
@@ -59,6 +69,13 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywordDetails(listingId, selectedKeyword);
         if (response.code === 200) {
           setKeywordDetails(response.data);
+          // Set default date if not already set
+          if (!selectedDate && response.data.dates && response.data.dates.length > 0) {
+            const currentDate = response.data.dates.find(d => d.date);
+            if (currentDate) {
+              setSelectedDate(currentDate.id);
+            }
+          }
         } else {
           throw new Error(response.message || 'Failed to fetch keyword details');
         }
@@ -72,23 +89,37 @@ export const useGeoRanking = (listingId: number) => {
         });
       } finally {
         setLoading(false);
+        setKeywordChanging(false);
+        setDateChanging(false);
       }
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast]);
+  }, [listingId, selectedKeyword, selectedDate, toast]);
 
   const handleKeywordChange = (keywordId: string) => {
+    setKeywordChanging(true);
     setSelectedKeyword(keywordId);
+    setSelectedDate(''); // Reset date when keyword changes
+  };
+
+  const handleDateChange = (dateId: string) => {
+    setDateChanging(true);
+    setSelectedDate(dateId);
   };
 
   return {
     keywords,
     selectedKeyword,
+    selectedDate,
     keywordDetails,
     loading,
     keywordsLoading,
+    pageLoading,
+    keywordChanging,
+    dateChanging,
     error,
-    handleKeywordChange
+    handleKeywordChange,
+    handleDateChange
   };
 };
