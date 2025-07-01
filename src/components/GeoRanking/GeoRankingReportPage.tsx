@@ -56,8 +56,8 @@ export const GeoRankingReportPage: React.FC = () => {
   const { toast } = useToast();
   const { listings } = useBusinessListings();
 
-  // Get current listing
-  const currentListing = listings.find(listing => listing.id === numericListingId);
+  // Get current listing - convert numericListingId to string for comparison
+  const currentListing = listings.find(listing => listing.id === numericListingId.toString());
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
