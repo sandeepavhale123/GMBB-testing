@@ -1,4 +1,3 @@
-
 import Profile from "@/pages/Profile";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import TeamPage from "@/pages/TeamPage";
@@ -13,16 +12,13 @@ import { ListingManagementPage } from "@/components/Settings/ListingManagementPa
 import { Navigate } from "react-router-dom";
 import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
-import { ListingProvider } from "@/context/ListingContext";
 
 export const generalRoutes: RouteConfig[] = [
   {
     path: "/profile",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <Profile />
-        </ListingProvider>
+        <Profile />
       </ProtectedRoute>
     ),
   },
@@ -46,9 +42,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },
@@ -56,9 +50,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/google-account",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },
@@ -66,9 +58,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/subscription",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },
@@ -76,9 +66,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },
@@ -86,9 +74,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/listings/:accountId",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },

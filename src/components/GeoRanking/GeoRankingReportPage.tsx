@@ -14,7 +14,6 @@ import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
 import { getDefaultCoordinates } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
-import { useListingContext } from '../../context/ListingContext';
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -42,11 +41,10 @@ interface GridPoint {
   id: string;
 }
 
-const GeoRankingReportPage: React.FC = () => {
+export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const { listingId } = useParams();
-  const { selectedListing } = useListingContext();
-  const numericListingId = listingId ? parseInt(listingId, 10) : (selectedListing ? parseInt(selectedListing.id, 10) : 160886);
+  const numericListingId = listingId ? parseInt(listingId, 10) : 160886; // Default listingId if not provided
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -55,7 +53,7 @@ const GeoRankingReportPage: React.FC = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
-    searchBusiness: selectedListing?.name || '',
+    searchBusiness: '',
     searchDataEngine: 'Map API',
     keywords: '',
     mapPoint: 'Automatic',
@@ -63,16 +61,6 @@ const GeoRankingReportPage: React.FC = () => {
     gridSize: '5x5',
     scheduleCheck: 'One-time'
   });
-
-  // Update form data when selected listing changes
-  useEffect(() => {
-    if (selectedListing) {
-      setFormData(prev => ({
-        ...prev,
-        searchBusiness: selectedListing.name
-      }));
-    }
-  }, [selectedListing]);
 
   // Fetch default coordinates on component mount
   useEffect(() => {
@@ -325,8 +313,7 @@ const GeoRankingReportPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Checking GEO ranking with data:', formData);
-    console.log('Using listing:', selectedListing);
-    navigate(`/geo-ranking/${numericListingId}`);
+    navigate('/');
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -354,19 +341,6 @@ const GeoRankingReportPage: React.FC = () => {
         
         <div className="p-3 sm:p-4 lg:p-6 px-0 py-0">
           <div className="max-w-7xl mx-auto">
-            {/* Show current business info */}
-            {selectedListing && (
-              <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-900">
-                    Creating report for: {selectedListing.name}
-                  </span>
-                </div>
-                <p className="text-xs text-blue-700 mt-1">{selectedListing.address}</p>
-              </div>
-            )}
-            
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
               {/* Report Configuration */}
               <div className="xl:col-span-4 order-1 xl:order-2">
@@ -543,5 +517,3 @@ const GeoRankingReportPage: React.FC = () => {
     </div>
   );
 };
-
-export default GeoRankingReportPage;

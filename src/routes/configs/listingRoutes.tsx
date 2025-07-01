@@ -1,114 +1,151 @@
 
-import { Suspense, lazy } from "react";
+import { Navigate } from "react-router-dom";
+import PostsPage from "@/pages/PostsPage";
+import MediaPage from "@/pages/MediaPage";
+import InsightsPage from "@/pages/InsightsPage";
+import GeoRankingPage from "@/pages/GeoRankingPage";
+import ReviewsPage from "@/pages/ReviewsPage";
+import BusinessesPage from "@/pages/BusinessesPage";
+import QAPage from "@/pages/QAPage";
+import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
 
-// Lazy load components
-const LocationDashboard = lazy(() => import("@/pages/Index"));
-const InsightsPage = lazy(() => import("@/pages/InsightsPage"));
-const PostsPage = lazy(() => import("@/pages/PostsPage"));
-const ReviewsPage = lazy(() => import("@/pages/ReviewsPage"));
-const QAPage = lazy(() => import("@/pages/QAPage"));
-const MediaPage = lazy(() => import("@/pages/MediaPage"));
-const GeoRankingPage = lazy(() => import("@/pages/GeoRankingPage"));
-const GeoRankingReportPage = lazy(() => import("@/components/GeoRanking/GeoRankingReportPage"));
-
 export const listingRoutes: RouteConfig[] = [
+  // Posts routes
   {
-    path: "/location-dashboard/:listingId",
-    element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <LocationDashboard />
-          </Suspense>
-        </ListingProvider>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/insights/:listingId",
-    element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <InsightsPage />
-          </Suspense>
-        </ListingProvider>
-      </ProtectedRoute>
-    ),
+    path: "/posts",
+    element: <Navigate to="/posts/default" replace />
   },
   {
     path: "/posts/:listingId",
     element: (
       <ProtectedRoute>
         <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <PostsPage />
-          </Suspense>
+          <PostsPage />
         </ListingProvider>
       </ProtectedRoute>
-    ),
+    )
   },
+  
+  // Media routes
   {
-    path: "/reviews/:listingId",
-    element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <ReviewsPage />
-          </Suspense>
-        </ListingProvider>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/qa/:listingId",
-    element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <QAPage />
-          </Suspense>
-        </ListingProvider>
-      </ProtectedRoute>
-    ),
+    path: "/media",
+    element: <Navigate to="/media/default" replace />
   },
   {
     path: "/media/:listingId",
     element: (
       <ProtectedRoute>
         <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <MediaPage />
-          </Suspense>
+          <MediaPage />
         </ListingProvider>
       </ProtectedRoute>
-    ),
+    )
+  },
+  
+  // Insights routes
+  {
+    path: "/insights",
+    element: <Navigate to="/insights/default" replace />
+  },
+  {
+    path: "/insights/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <InsightsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    )
+  },
+  
+  // Geo ranking routes
+  {
+    path: "/geo-ranking",
+    element: <Navigate to="/geo-ranking/default" replace />
   },
   {
     path: "/geo-ranking/:listingId",
     element: (
       <ProtectedRoute>
         <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <GeoRankingPage />
-          </Suspense>
+          <GeoRankingPage />
         </ListingProvider>
       </ProtectedRoute>
-    ),
+    )
+  },
+  
+  {
+    path: "/geo-ranking-report",
+    element: (
+      <ProtectedRoute>
+        <GeoRankingReportPage />
+      </ProtectedRoute>
+    )
+  },
+  
+  // Reviews routes
+  {
+    path: "/reviews",
+    element: <Navigate to="/reviews/default" replace />
   },
   {
-    path: "/geo-ranking-report/:listingId",
+    path: "/reviews/:listingId",
     element: (
       <ProtectedRoute>
         <ListingProvider>
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-            <GeoRankingReportPage />
-          </Suspense>
+          <ReviewsPage />
         </ListingProvider>
       </ProtectedRoute>
-    ),
+    )
   },
+  
+  // Business info routes (with redirect from old /businesses URLs)
+  {
+    path: "/businesses",
+    element: <Navigate to="/business-info/default" replace />
+  },
+  {
+    path: "/businesses/:listingId",
+    element: <Navigate to="/business-info/:listingId" replace />
+  },
+  
+  {
+    path: "/business-info",
+    element: <Navigate to="/business-info/default" replace />
+  },
+  {
+    path: "/business-info/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <BusinessesPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    )
+  },
+  
+  // Notifications route
+  {
+    path: "/notifications",
+    element: <Navigate to="/notifications/default" replace />
+  },
+  
+  // Q&A routes
+  {
+    path: "/qa",
+    element: <Navigate to="/qa/default" replace />
+  },
+  {
+    path: "/qa/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <QAPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    )
+  }
 ];
