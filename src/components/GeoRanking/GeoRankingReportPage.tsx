@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -55,10 +54,10 @@ export const GeoRankingReportPage: React.FC = () => {
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [defaultCoordinates, setDefaultCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const { toast } = useToast();
-  const { businessListings } = useBusinessListings();
+  const { listings } = useBusinessListings();
 
   // Get current listing
-  const currentListing = businessListings.find(listing => listing.id === numericListingId);
+  const currentListing = listings.find(listing => listing.id === numericListingId);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
