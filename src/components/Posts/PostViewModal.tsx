@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Badge } from '../ui/badge';
@@ -73,8 +74,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         
         <div className="space-y-4">
           {/* Post Image */}
-          <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
-            {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white font-medium">Post Image</span>}
+          <div className="w-full aspect-video bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
+            {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover rounded-lg" /> : <span className="text-white font-medium">Post Image</span>}
           </div>
 
           {/* Post Header */}
