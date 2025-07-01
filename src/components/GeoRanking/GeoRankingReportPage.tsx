@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -14,6 +15,7 @@ import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
 import { getDefaultCoordinates } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
+import { useBusinessListings } from '../../hooks/useBusinessListings';
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -30,8 +32,10 @@ interface FormData {
   keywords: string;
   mapPoint: string;
   distanceUnit: string;
+  distanceValue: string;
   gridSize: string;
   scheduleCheck: string;
+  language: string;
 }
 
 interface GridPoint {
@@ -44,13 +48,18 @@ interface GridPoint {
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const { listingId } = useParams();
-  const numericListingId = listingId ? parseInt(listingId, 10) : 160886; // Default listingId if not provided
+  const numericListingId = listingId ? parseInt(listingId, 10) : 160886;
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [defaultCoordinates, setDefaultCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const { toast } = useToast();
+  const { businessListings } = useBusinessListings();
+
+  // Get current listing
+  const currentListing = businessListings.find(listing => listing.id === numericListingId);
+
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
     searchBusiness: '',
@@ -58,9 +67,54 @@ export const GeoRankingReportPage: React.FC = () => {
     keywords: '',
     mapPoint: 'Automatic',
     distanceUnit: 'Meters',
+    distanceValue: '100',
     gridSize: '5x5',
-    scheduleCheck: 'One-time'
+    scheduleCheck: 'One-time',
+    language: 'en'
   });
+
+  // Distance options based on unit
+  const getDistanceOptions = () => {
+    if (formData.distanceUnit === 'Meters') {
+      return [
+        { value: '100', label: '100 m' },
+        { value: '200', label: '200 m' },
+        { value: '500', label: '500 m' },
+        { value: '1', label: '1 KM' },
+        { value: '2.5', label: '2.5 KM' },
+        { value: '5', label: '5 KM' },
+        { value: '10', label: '10 KM' },
+        { value: '25', label: '25 KM' }
+      ];
+    } else {
+      return [
+        { value: '.1', label: '.1 mi' },
+        { value: '.25', label: '.25 mi' },
+        { value: '.5', label: '.5 mi' },
+        { value: '.75', label: '.75 mi' },
+        { value: '1', label: '1 mi' },
+        { value: '2', label: '2 mi' },
+        { value: '3', label: '3 mi' },
+        { value: '5', label: '5 mi' },
+        { value: '8', label: '8 mi' },
+        { value: '10', label: '10 mi' }
+      ];
+    }
+  };
+
+  // Language options
+  const languageOptions = [
+    { value: 'en', label: 'English' },
+    { value: 'es', label: 'Spanish' },
+    { value: 'fr', label: 'French' },
+    { value: 'de', label: 'German' },
+    { value: 'it', label: 'Italian' },
+    { value: 'pt', label: 'Portuguese' },
+    { value: 'ru', label: 'Russian' },
+    { value: 'ja', label: 'Japanese' },
+    { value: 'ko', label: 'Korean' },
+    { value: 'zh', label: 'Chinese' }
+  ];
 
   // Fetch default coordinates on component mount
   useEffect(() => {
@@ -120,7 +174,7 @@ export const GeoRankingReportPage: React.FC = () => {
     setCurrentMarkers([]);
   };
 
-  // Add default red badge marker
+  // Add default red marker
   const addDefaultMarker = (): void => {
     if (!mapInstanceRef.current || !defaultCoordinates) return;
 
@@ -280,7 +334,7 @@ export const GeoRankingReportPage: React.FC = () => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Show default red badge marker initially
+    // Show default red marker initially
     addDefaultMarker();
 
     return () => {
@@ -309,6 +363,15 @@ export const GeoRankingReportPage: React.FC = () => {
       enableManualSelection();
     }
   }, [formData.mapPoint, formData.gridSize, defaultCoordinates]);
+
+  // Reset distance value when unit changes
+  useEffect(() => {
+    const defaultValue = formData.distanceUnit === 'Meters' ? '100' : '.1';
+    setFormData(prev => ({
+      ...prev,
+      distanceValue: defaultValue
+    }));
+  }, [formData.distanceUnit]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -341,6 +404,21 @@ export const GeoRankingReportPage: React.FC = () => {
         
         <div className="p-3 sm:p-4 lg:p-6 px-0 py-0">
           <div className="max-w-7xl mx-auto">
+            {/* Listing Header */}
+            {currentListing && (
+              <div className="mb-4 p-4 bg-white rounded-lg shadow-sm border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900">{currentListing.name}</h2>
+                    <p className="text-sm text-gray-600">{currentListing.address}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
               {/* Report Configuration */}
               <div className="xl:col-span-4 order-1 xl:order-2">
@@ -423,25 +501,47 @@ export const GeoRankingReportPage: React.FC = () => {
                         )}
                       </div>
 
-                      {/* Distance Unit */}
+                      {/* Distance Unit and Distance Value */}
                       <div className="space-y-2">
                         <Label className="text-sm font-medium text-gray-700">
                           Distance Unit
                         </Label>
-                        <RadioGroup 
-                          value={formData.distanceUnit} 
-                          onValueChange={(value) => handleInputChange('distanceUnit', value)} 
-                          className="flex flex-row gap-3 lg:gap-4 pt-2"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Meters" id="meters" />
-                            <Label htmlFor="meters" className="text-sm">Meters</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <RadioGroup 
+                            value={formData.distanceUnit} 
+                            onValueChange={(value) => handleInputChange('distanceUnit', value)} 
+                            className="flex flex-col gap-2"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Meters" id="meters" />
+                              <Label htmlFor="meters" className="text-sm">Meters</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Miles" id="miles" />
+                              <Label htmlFor="miles" className="text-sm">Miles</Label>
+                            </div>
+                          </RadioGroup>
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium text-gray-700">
+                              Distance
+                            </Label>
+                            <Select 
+                              value={formData.distanceValue} 
+                              onValueChange={(value) => handleInputChange('distanceValue', value)}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {getDistanceOptions().map(option => (
+                                  <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Miles" id="miles" />
-                            <Label htmlFor="miles" className="text-sm">Miles</Label>
-                          </div>
-                        </RadioGroup>
+                        </div>
                       </div>
 
                       {/* Grid Size and Schedule Check */}
@@ -486,6 +586,28 @@ export const GeoRankingReportPage: React.FC = () => {
                             </SelectContent>
                           </Select>
                         </div>
+                      </div>
+
+                      {/* Language Selector */}
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-700">
+                          Language
+                        </Label>
+                        <Select 
+                          value={formData.language} 
+                          onValueChange={(value) => handleInputChange('language', value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {languageOptions.map(option => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6">
