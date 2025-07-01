@@ -123,7 +123,7 @@ export const GeoRankingPage = () => {
   const projectDetails = keywordDetails?.projectDetails;
   
   // Fix grid display to show proper format
-  const grid = projectDetails?.grid ? `${projectDetails.grid}*${projectDetails.grid}` : '3*3';
+  const grid = projectDetails?.grid ? `${projectDetails.grid}` : '3*3';
   
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
