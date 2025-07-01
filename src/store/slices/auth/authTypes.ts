@@ -23,7 +23,11 @@ export interface TokenRefreshPayload {
 }
 
 export interface TokenRefreshResponse {
-  accessToken: string;
-  refresh_token: string;
-  user: any;
+  code: number;
+  message: string;
+  data: {
+    access_token: string;
+    refresh_token: string;
+    user?: any;
+  };
 }
