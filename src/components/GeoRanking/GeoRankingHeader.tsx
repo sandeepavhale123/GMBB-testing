@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { KeywordData, KeywordDetailsResponse, Credits } from '../../api/geoRankingApi';
 import { HeaderExportActions } from './HeaderExportActions';
@@ -38,13 +37,15 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { listingId } = useParams();
   const [isExporting, setIsExporting] = React.useState(false);
 
   // Total keywords count
   const totalKeywords = keywords.length;
 
   const handleCheckRank = () => {
-    navigate('/geo-ranking-report');
+    // Properly navigate with the listingId parameter
+    navigate(`/geo-ranking-report/${listingId}`);
   };
 
   const handleExportImage = async () => {

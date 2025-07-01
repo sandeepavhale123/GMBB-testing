@@ -107,7 +107,7 @@ const GeoRankingReportPage: React.FC = () => {
     const spacing = 0.003;
 
     for (let i = 0; i < rows; i++) {
-      for (let j = 0; 0 < cols; j++) {
+      for (let j = 0; j < cols; j++) {
         const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
         const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
         const ranking = Math.floor(Math.random() * 8) + 1;

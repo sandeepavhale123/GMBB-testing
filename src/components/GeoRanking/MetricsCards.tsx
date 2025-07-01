@@ -1,8 +1,8 @@
 
 import React from 'react';
+import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
-import { RefreshCcw, Copy, Sparkles } from 'lucide-react';
-import { CircularProgress } from '../ui/circular-progress';
+import { TrendingUp, Target, BarChart3 } from 'lucide-react';
 import { KeywordDetailsResponse } from '../../api/geoRankingApi';
 
 interface MetricsCardsProps {
@@ -14,48 +14,60 @@ interface MetricsCardsProps {
 export const MetricsCards: React.FC<MetricsCardsProps> = ({
   keywordDetails,
   totalKeywords,
-  onCheckRank,
+  onCheckRank
 }) => {
-  // Use ATRP for Overall Visibility as requested
-  const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
-  const visibilityValue = parseFloat(overallVisibility);
+  const avgRank = keywordDetails?.rankStats?.atr || '0';
+  const solvability = keywordDetails?.rankStats?.solvability || '0%';
 
   return (
-    <>
-      {/* Overall Visibility Card - Using ATRP */}
-      <div className="lg:col-span-3">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 py-8 rounded-lg h-full">
-          <div className="flex items-center justify-between h-full">
-            <div className="flex-1">
-              <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
-              <div className="text-2xl font-bold text-blue-900">{overallVisibility}%</div>
+    <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
+      {/* Average Rank Card */}
+      <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+        <CardContent className="p-3 lg:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm text-blue-600 font-medium">Avg Rank</p>
+              <p className="text-lg lg:text-xl font-bold text-blue-900">{avgRank}</p>
             </div>
-            <div className="w-12 h-12 flex-shrink-0">
-              <CircularProgress value={visibilityValue} size={48} className="text-blue-500" />
-            </div>
+            <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600" />
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Total Keywords Card */}
-      <div className="lg:col-span-3">
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 py-8 rounded-lg h-full">
-          <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
-          <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
-          {/* <div className="text-xs text-green-600">Active keywords</div> */}
-        </div>
-      </div>
+      <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+        <CardContent className="p-3 lg:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm text-green-600 font-medium">Keywords</p>
+              <p className="text-lg lg:text-xl font-bold text-green-900">{totalKeywords}</p>
+            </div>
+            <Target className="w-5 h-5 lg:w-6 lg:h-6 text-green-600" />
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* AI Genie Recommendation Card */}
-      <div className="lg:col-span-3">
-        <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4  py-8 rounded-lg h-full">
-          <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
-          <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
-            <Sparkles className="h-3 w-3 mr-1" />
-            Get Insights
-          </Button>
-        </div>
-      </div>
-    </>
+      {/* Solvability Card with Check Rank Button */}
+      <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+        <CardContent className="p-3 lg:p-4">
+          <div className="flex flex-col h-full justify-between">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <p className="text-xs lg:text-sm text-purple-600 font-medium">Solvability</p>
+                <p className="text-lg lg:text-xl font-bold text-purple-900">{solvability}</p>
+              </div>
+              <BarChart3 className="w-5 h-5 lg:w-6 lg:h-6 text-purple-600" />
+            </div>
+            <Button 
+              onClick={onCheckRank}
+              size="sm" 
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs"
+            >
+              Check Rank
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
