@@ -501,8 +501,9 @@ export const GeoRankingReportPage: React.FC = () => {
                       </div>
 
                       {/* Distance Unit and Distance Value */}
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-700">
+                      <div className="space-y-2 grid-cols-2">
+                        <div className="space-y-2 ">
+                          <Label className="text-sm font-medium text-gray-700">
                           Distance Unit
                         </Label>
                         <div className="grid grid-cols-2 gap-3">
@@ -520,7 +521,10 @@ export const GeoRankingReportPage: React.FC = () => {
                               <Label htmlFor="miles" className="text-sm">Miles</Label>
                             </div>
                           </RadioGroup>
-                          <div className="space-y-2">
+                          
+                        </div>
+                        </div>
+                        <div className="space-y-2">
                             <Label className="text-sm font-medium text-gray-700">
                               Distance
                             </Label>
@@ -540,7 +544,6 @@ export const GeoRankingReportPage: React.FC = () => {
                               </SelectContent>
                             </Select>
                           </div>
-                        </div>
                       </div>
 
                       {/* Grid Size and Schedule Check */}
