@@ -26,8 +26,8 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
   };
 
   const formatCoordinate = (coordinate: string) => {
-    if (coordinate.length <= 5) return coordinate;
-    return coordinate.substring(0, 5) + '...';
+    if (coordinate.length <= 8) return coordinate;
+    return coordinate.substring(0, 8) + '...';
   };
 
   const handleOptimize = (areaId: string) => {
