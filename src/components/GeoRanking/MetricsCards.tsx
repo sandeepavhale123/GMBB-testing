@@ -42,7 +42,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 py-8 rounded-lg h-full">
           <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
           <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
-          <div className="text-xs text-green-600">Active keywords</div>
+          {/* <div className="text-xs text-green-600">Active keywords</div> */}
         </div>
       </div>
 
