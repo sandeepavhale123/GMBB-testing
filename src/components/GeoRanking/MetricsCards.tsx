@@ -24,7 +24,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
     <>
       {/* Overall Visibility Card - Using ATRP */}
       <div className="lg:col-span-3">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 py-6 rounded-lg h-full">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 py-8 rounded-lg h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex-1">
               <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
