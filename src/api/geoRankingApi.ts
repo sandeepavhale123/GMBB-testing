@@ -99,6 +99,15 @@ export interface KeywordPositionResponse {
   };
 }
 
+// New interface for default coordinates
+export interface DefaultCoordinatesResponse {
+  code: number;
+  message: string;
+  data: {
+    latlong: string;
+  };
+}
+
 // API functions
 export const getKeywords = async (listingId: number): Promise<KeywordsListResponse> => {
   const response = await axiosInstance.post('/get-keywords', {
@@ -120,6 +129,13 @@ export const getKeywordPositionDetails = async (listingId: number, keywordId: st
     listingId,
     keywordId,
     positionId
+  });
+  return response.data;
+};
+
+export const getDefaultCoordinates = async (listingId: number): Promise<DefaultCoordinatesResponse> => {
+  const response = await axiosInstance.post('/get-default-coordinates', {
+    listingId
   });
   return response.data;
 };

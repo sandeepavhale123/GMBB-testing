@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -10,9 +9,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/
 import { Info, MapPin } from 'lucide-react';
 import L from 'leaflet';
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
+import { getDefaultCoordinates } from '../../api/geoRankingApi';
+import { useToast } from '../../hooks/use-toast';
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -42,10 +43,14 @@ interface GridPoint {
 
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
+  const { listingId } = useParams();
+  const numericListingId = listingId ? parseInt(listingId, 10) : 160886; // Default listingId if not provided
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
+  const [defaultCoordinates, setDefaultCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
     searchBusiness: '',
@@ -57,12 +62,36 @@ export const GeoRankingReportPage: React.FC = () => {
     scheduleCheck: 'One-time'
   });
 
+  // Fetch default coordinates on component mount
+  useEffect(() => {
+    const fetchDefaultCoordinates = async () => {
+      try {
+        const response = await getDefaultCoordinates(numericListingId);
+        if (response.code === 200) {
+          const [lat, lng] = response.data.latlong.split(',').map(Number);
+          setDefaultCoordinates({ lat, lng });
+        }
+      } catch (error) {
+        console.error('Error fetching default coordinates:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch default coordinates",
+          variant: "destructive"
+        });
+        // Use fallback coordinates (Delhi)
+        setDefaultCoordinates({ lat: 28.6139, lng: 77.2090 });
+      }
+    };
+
+    fetchDefaultCoordinates();
+  }, [numericListingId, toast]);
+
   // Generate grid overlay data for automatic mode
   const generateGridData = (gridSize: string): GridPoint[] => {
     const [rows, cols] = gridSize.split('x').map(Number);
     const gridData: GridPoint[] = [];
-    const centerLat = 28.6139;
-    const centerLng = 77.2090;
+    const centerLat = defaultCoordinates?.lat || 28.6139;
+    const centerLng = defaultCoordinates?.lng || 77.2090;
     const spacing = 0.003;
 
     for (let i = 0; i < rows; i++) {
@@ -93,7 +122,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
   // Add default red badge marker
   const addDefaultMarker = (): void => {
-    if (!mapInstanceRef.current) return;
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
 
     const defaultIcon = L.divIcon({
       html: `<div style="
@@ -115,7 +144,7 @@ export const GeoRankingReportPage: React.FC = () => {
       iconAnchor: [12, 12]
     });
 
-    const marker = L.marker([28.6139, 77.2090], {
+    const marker = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
       icon: defaultIcon
     }).addTo(mapInstanceRef.current);
 
@@ -131,7 +160,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
   // Add automatic grid markers
   const addAutomaticMarkers = (): void => {
-    if (!mapInstanceRef.current) return;
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
 
     clearAllMarkers();
     
@@ -172,7 +201,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
   // Enable manual point selection
   const enableManualSelection = (): void => {
-    if (!mapInstanceRef.current) return;
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
 
     clearAllMarkers();
 
@@ -242,9 +271,9 @@ export const GeoRankingReportPage: React.FC = () => {
     link.crossOrigin = '';
     document.head.appendChild(link);
 
-    if (!mapRef.current) return;
+    if (!mapRef.current || !defaultCoordinates) return;
 
-    const map = L.map(mapRef.current).setView([28.6139, 77.2090], 14);
+    const map = L.map(mapRef.current).setView([defaultCoordinates.lat, defaultCoordinates.lng], 14);
     mapInstanceRef.current = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -265,11 +294,11 @@ export const GeoRankingReportPage: React.FC = () => {
       // Clean up global function
       delete (window as any).removeManualMarker;
     };
-  }, []);
+  }, [defaultCoordinates]);
 
   // Handle map point mode change
   useEffect(() => {
-    if (!mapInstanceRef.current) return;
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
 
     // Remove existing click handlers
     mapInstanceRef.current.off('click');
@@ -279,7 +308,7 @@ export const GeoRankingReportPage: React.FC = () => {
     } else {
       enableManualSelection();
     }
-  }, [formData.mapPoint, formData.gridSize]);
+  }, [formData.mapPoint, formData.gridSize, defaultCoordinates]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
