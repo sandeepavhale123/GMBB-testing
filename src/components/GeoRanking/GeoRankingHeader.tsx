@@ -27,7 +27,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   selectedKeyword,
   selectedDate,
   keywordDetails,
-  onKeywordChange,
+  onKeywordChange, 
   onDateChange,
   loading,
   keywordChanging,
