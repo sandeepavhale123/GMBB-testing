@@ -152,7 +152,7 @@ export const GeoRankingReportPage: React.FC = () => {
         const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
         const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
         // const ranking = Math.floor(Math.random() * 8) + 1;
-        const ranking = '';
+        const ranking = 333;
         gridData.push({
           lat,
           lng,
@@ -236,7 +236,7 @@ export const GeoRankingReportPage: React.FC = () => {
           font-size: 14px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        ">${point.ranking}</div>`,
+        ">${point.ranking !== 333 ? point.ranking : '' }</div>`,
         className: 'custom-ranking-marker',
         iconSize: [32, 32],
         iconAnchor: [16, 16]
