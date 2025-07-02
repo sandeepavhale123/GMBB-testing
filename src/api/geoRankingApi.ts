@@ -68,17 +68,27 @@ export interface UnderPerformingArea {
   youReview: string;
 }
 
+export interface KeywordDetailsData {
+  projectDetails: ProjectDetails;
+  rankDetails: RankDetail[];
+  dates: DateInfo[];
+  rankStats: RankStats;
+  underPerformingArea: UnderPerformingArea[];
+}
+
 export interface KeywordDetailsResponse {
   code: number;
   message: string;
-  data: {
-    projectDetails: ProjectDetails;
-    rankDetails: RankDetail[];
-    dates: DateInfo[];
-    rankStats: RankStats;
-    underPerformingArea: UnderPerformingArea[];
-  };
+  data: KeywordDetailsData;
 }
+
+export interface KeywordQueueResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export type KeywordDetailsOrQueueResponse = KeywordDetailsResponse | KeywordQueueResponse;
 
 // New interfaces for keyword position details
 export interface KeywordDetail {
@@ -187,7 +197,7 @@ export interface CheckRankResponse {
   };
 }
 
-export const getKeywordDetailsWithStatus = async (listingId: number, keywordId: string, status: number): Promise<KeywordDetailsResponse> => {
+export const getKeywordDetailsWithStatus = async (listingId: number, keywordId: string, status: number): Promise<KeywordDetailsOrQueueResponse> => {
   const response = await axiosInstance.post('/get-keyword-details', {
     listingId,
     keywordId,

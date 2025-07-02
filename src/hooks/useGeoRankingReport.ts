@@ -25,6 +25,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [loadingGrid, setLoadingGrid] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [submittingRank, setSubmittingRank] = useState(false);
+  const [pollingKeyword, setPollingKeyword] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -126,6 +127,52 @@ export const useGeoRankingReport = (listingId: number) => {
     return keywordArray.length > 1;
   };
 
+  // Polling function to check keyword details every 5 seconds
+  const pollKeywordDetails = async (
+    keywordId: string,
+    maxAttempts: number = 60 // 5 minutes maximum
+  ): Promise<boolean> => {
+    setPollingKeyword(true);
+    
+    try {
+      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        console.log(`Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`);
+        
+        const response = await getKeywordDetailsWithStatus(listingId, keywordId, 1);
+        
+        // Check if data is populated (not empty array)
+        if (Array.isArray(response.data) && response.data.length === 0) {
+          // Still in queue, wait 5 seconds before next attempt
+          if (attempt < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            continue;
+          }
+        } else {
+          // Data is ready
+          console.log('Keyword details ready:', response);
+          toast({
+            title: "Keyword Processed",
+            description: "Your keyword ranking data is now available!",
+          });
+          return true;
+        }
+      }
+      
+      // Max attempts reached
+      throw new Error('Polling timeout: Keyword processing took too long');
+    } catch (error) {
+      console.error('Polling error:', error);
+      toast({
+        title: "Processing Timeout",
+        description: "Keyword processing is taking longer than expected. Please check back later.",
+        variant: "destructive"
+      });
+      return false;
+    } finally {
+      setPollingKeyword(false);
+    }
+  };
+
   // Submit check rank request
   const submitCheckRank = async (): Promise<{ success: boolean; shouldNavigate: boolean }> => {
     if (!formData.keywords.trim()) {
@@ -180,14 +227,18 @@ export const useGeoRankingReport = (listingId: number) => {
       const multipleKeywords = isMultipleKeywords(formData.keywords);
       
       if (response.code === 200) {
-        // If we got a keywordId, fetch keyword details with status: 1
+        // If we got a keywordId, start polling for keyword details
         if (response.data?.keywordId) {
-          try {
-            await getKeywordDetailsWithStatus(listingId, response.data.keywordId.toString(), 1);
-            console.log('Keyword details fetched successfully');
-          } catch (error) {
-            console.error('Error fetching keyword details:', error);
-          }
+          toast({
+            title: "Processing Keyword",
+            description: "Please wait while we process your keyword ranking data...",
+            variant: "default"
+          });
+          
+          // Start polling in background - don't wait for it to complete
+          pollKeywordDetails(response.data.keywordId.toString()).catch(error => {
+            console.error('Polling failed:', error);
+          });
         } else {
           // No keywordId received, keyword is in queue
           toast({
@@ -232,6 +283,7 @@ export const useGeoRankingReport = (listingId: number) => {
     currentMarkers,
     setCurrentMarkers,
     submittingRank,
+    pollingKeyword,
     handleInputChange,
     fetchGridCoordinates,
     submitCheckRank

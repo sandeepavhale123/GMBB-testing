@@ -28,6 +28,7 @@ interface GeoRankingReportFormProps {
   getDistanceOptions: () => Array<{ value: string; label: string }>;
   languageOptions: Array<{ value: string; label: string }>;
   submittingRank?: boolean;
+  pollingKeyword?: boolean;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
@@ -36,7 +37,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   onSubmit,
   getDistanceOptions,
   languageOptions,
-  submittingRank = false
+  submittingRank = false,
+  pollingKeyword = false
 }) => {
   return (
     <Card className="shadow-lg h-[400px] sm:h-[500px] lg:h-[680px]">
@@ -237,10 +239,23 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           <Button 
             type="submit" 
             className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6"
-            disabled={submittingRank}
+            disabled={submittingRank || pollingKeyword}
           >
-            {submittingRank ? "Checking rank..." : "Check rank"}
+            {pollingKeyword 
+              ? "Processing keyword..." 
+              : submittingRank 
+                ? "Checking rank..." 
+                : "Check rank"
+            }
           </Button>
+          
+          {pollingKeyword && (
+            <div className="text-center mt-2">
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                🔄 Keyword is being processed. This may take a few minutes...
+              </p>
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>

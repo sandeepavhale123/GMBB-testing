@@ -26,6 +26,7 @@ export const GeoRankingReportPage: React.FC = () => {
     currentMarkers,
     setCurrentMarkers,
     submittingRank,
+    pollingKeyword,
     handleInputChange,
     submitCheckRank
   } = useGeoRankingReport(numericListingId);
@@ -88,6 +89,7 @@ export const GeoRankingReportPage: React.FC = () => {
                   getDistanceOptions={() => getDistanceOptions(formData.distanceUnit)}
                   languageOptions={languageOptions}
                   submittingRank={submittingRank}
+                  pollingKeyword={pollingKeyword}
                 />
               </div>
 
