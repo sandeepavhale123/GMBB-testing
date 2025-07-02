@@ -178,11 +178,12 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="3x3">3x3</SelectItem>
-                  <SelectItem value="5x5">5x5</SelectItem>
-                  <SelectItem value="7x7">7x7</SelectItem>
-                  <SelectItem value="9x9">9x9</SelectItem>
-                  <SelectItem value="11x11">11x11</SelectItem>
+                  <SelectItem value="3">3x3</SelectItem>
+                  <SelectItem value="5">5x5</SelectItem>
+                  <SelectItem value="7">7x7</SelectItem>
+                  <SelectItem value="9">9x9</SelectItem>
+                  <SelectItem value="11">11x11</SelectItem>
+                  <SelectItem value="13">13x13</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -199,9 +200,9 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="One-time">One-time</SelectItem>
-                  <SelectItem value="Weekly">Weekly</SelectItem>
-                  <SelectItem value="Monthly">Monthly</SelectItem>
+                  <SelectItem value="onetime">One-time</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
                 </SelectContent>
               </Select>
             </div>
