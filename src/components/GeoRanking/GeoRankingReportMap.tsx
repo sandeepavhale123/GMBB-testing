@@ -91,7 +91,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     markersRef.current.push(marker);
   };
 
-  // Add grid markers (during processing)
+  // Add grid markers (red pointers like default coordinate)
   const addGridMarkers = () => {
     if (!mapInstanceRef.current || gridCoordinates.length === 0) return;
 
@@ -100,29 +100,29 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       
       const gridIcon = L.divIcon({
         html: `<div style="
-          background: #3b82f6;
+          background: #dc2626;
           color: white;
-          width: 24px;
-          height: 24px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 10px;
+          font-size: 14px;
           border: 2px solid white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        ">${index + 1}</div>`,
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        "></div>`,
         className: 'grid-marker',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
       });
 
       const marker = L.marker([lat, lng], {
         icon: gridIcon
       }).addTo(mapInstanceRef.current!);
 
-      marker.bindPopup(`Grid Point ${index + 1}<br><small>Processing...</small>`);
+      marker.bindPopup(`Grid Point ${index + 1}<br><small>Awaiting results...</small>`);
       markersRef.current.push(marker);
     });
   };
