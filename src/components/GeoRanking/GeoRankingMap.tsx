@@ -1,0 +1,278 @@
+import React, { useEffect, useRef } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { MapPin } from 'lucide-react';
+import L from 'leaflet';
+
+// Fix for default markers in Leaflet with Webpack
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+});
+
+interface GridPoint {
+  lat: number;
+  lng: number;
+  ranking: number | null;
+  id: string;
+}
+
+interface GeoRankingMapProps {
+  mapPoint: string;
+  loadingGrid: boolean;
+  defaultCoordinates: { lat: number; lng: number } | null;
+  gridCoordinates: string[];
+  currentMarkers: L.Marker[];
+  setCurrentMarkers: React.Dispatch<React.SetStateAction<L.Marker[]>>;
+  mapInstanceRef: React.MutableRefObject<L.Map | null>;
+}
+
+export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
+  mapPoint,
+  loadingGrid,
+  defaultCoordinates,
+  gridCoordinates,
+  currentMarkers,
+  setCurrentMarkers,
+  mapInstanceRef
+}) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  // Generate grid overlay data from API coordinates
+  const generateGridDataFromAPI = (): GridPoint[] => {
+    return gridCoordinates.map((coord, index) => {
+      const [lat, lng] = coord.split(',').map(Number);
+      return {
+        lat,
+        lng,
+        ranking: null,
+        id: index.toString()
+      };
+    });
+  };
+
+  // Clear all markers from map
+  const clearAllMarkers = (): void => {
+    currentMarkers.forEach(marker => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.removeLayer(marker);
+      }
+    });
+    setCurrentMarkers([]);
+  };
+
+  // Add default red marker
+  const addDefaultMarker = (): void => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    const defaultIcon = L.divIcon({
+      html: `<div style="
+        background: #dc2626;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      "></div>`,
+      className: 'default-marker',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+
+    const marker = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
+      icon: defaultIcon
+    }).addTo(mapInstanceRef.current);
+
+    marker.bindPopup(`
+      <div style="text-align: center; padding: 5px;">
+        <strong>Default Location</strong><br>
+        <small>Switch to manual to place custom points</small>
+      </div>
+    `);
+
+    setCurrentMarkers([marker]);
+  };
+
+  // Add automatic grid markers
+  const addAutomaticMarkers = (): void => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    clearAllMarkers();
+    
+    const gridData = gridCoordinates.length > 0 ? generateGridDataFromAPI() : [];
+    const markers: L.Marker[] = [];
+    
+    gridData.forEach(point => {
+      const rankingIcon = L.divIcon({
+        html: `<div style="
+          background: ${point.ranking === 1 ? '#22c55e' : point.ranking && point.ranking <= 3 ? '#f59e0b' : point.ranking && point.ranking <= 6 ? '#ef4444' : '#3b82f6'};
+          color: white;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 14px;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        "> ${ point.ranking !== null ? point.ranking : '' } </div>`,
+        className: 'custom-ranking-marker',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = L.marker([point.lat, point.lng], {
+        icon: rankingIcon
+      }).addTo(mapInstanceRef.current!);
+      
+      marker.bindPopup(`Grid Point: ${point.id}`);
+      markers.push(marker);
+    });
+    
+    setCurrentMarkers(markers);
+  };
+
+  // Enable manual point selection
+  const enableManualSelection = (): void => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    clearAllMarkers();
+
+    // Add click event for manual marker placement
+    const handleMapClick = (e: L.LeafletMouseEvent) => {
+      if (!mapInstanceRef.current) return;
+
+      const manualIcon = L.divIcon({
+        html: `<div style="
+          background: #dc2626;
+          color: white;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 12px;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          cursor: pointer;
+        ">●</div>`,
+        className: 'manual-marker',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      const marker = L.marker(e.latlng, {
+        icon: manualIcon,
+        draggable: true
+      }).addTo(mapInstanceRef.current!);
+
+      marker.bindPopup(`
+        <div style="text-align: center; padding: 5px;">
+          <strong>Manual Point</strong><br>
+          <small>Drag to reposition</small><br>
+          <button onclick="this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click(); 
+            window.removeManualMarker && window.removeManualMarker('${L.stamp(marker)}')" 
+            style="background: #dc2626; color: white; border: none; padding: 4px 8px; border-radius: 4px; margin-top: 5px; cursor: pointer;">
+            Remove
+          </button>
+        </div>
+      `);
+
+      setCurrentMarkers(prev => [...prev, marker]);
+    };
+
+    mapInstanceRef.current.on('click', handleMapClick);
+
+    // Add global function to remove markers
+    (window as any).removeManualMarker = (markerId: string) => {
+      const marker = currentMarkers.find(m => L.stamp(m).toString() === markerId);
+      if (marker && mapInstanceRef.current) {
+        mapInstanceRef.current.removeLayer(marker);
+        setCurrentMarkers(prev => prev.filter(m => m !== marker));
+      }
+    };
+  };
+
+  useEffect(() => {
+    // Load Leaflet CSS dynamically
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+    link.crossOrigin = '';
+    document.head.appendChild(link);
+
+    if (!mapRef.current || !defaultCoordinates) return;
+
+    const map = L.map(mapRef.current).setView([defaultCoordinates.lat, defaultCoordinates.lng], 14);
+    mapInstanceRef.current = map;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Show default red marker initially
+    addDefaultMarker();
+
+    return () => {
+      if (map) {
+        map.remove();
+      }
+      const existingLink = document.querySelector('link[href*="leaflet.css"]');
+      if (existingLink) {
+        existingLink.remove();
+      }
+      // Clean up global function
+      delete (window as any).removeManualMarker;
+    };
+  }, [defaultCoordinates]);
+
+  // Handle map point mode change
+  useEffect(() => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    // Remove existing click handlers
+    mapInstanceRef.current.off('click');
+
+    if (mapPoint === 'Automatic') {
+      addAutomaticMarkers();
+    } else {
+      // For manual mode, show default marker initially
+      addDefaultMarker();
+      enableManualSelection();
+    }
+  }, [mapPoint, gridCoordinates]);
+
+  return (
+    <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
+      <CardHeader className="pb-3 lg:pb-4">
+        <CardTitle className="text-base lg:text-lg font-semibold text-gray-900 flex items-center gap-2">
+          <MapPin className="w-4 h-4 lg:w-5 lg:h-5" />
+          {mapPoint === 'Manually' ? 'Manual Point Selection' : 'Automatic Grid Visualization'}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-0 h-full relative">
+        {loadingGrid && mapPoint === 'Automatic' && (
+          <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
+            <div className="text-center">
+              <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-2"></div>
+              <p className="text-sm text-gray-600">Loading grid coordinates...</p>
+            </div>
+          </div>
+        )}
+        <div ref={mapRef} className="w-full h-[330px] sm:h-[430px] lg:h-[600px]" />
+      </CardContent>
+    </Card>
+  );
+};
