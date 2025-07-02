@@ -224,7 +224,7 @@ export const GeoRankingReportPage: React.FC = () => {
     gridData.forEach(point => {
       const rankingIcon = L.divIcon({
         html: `<div style="
-          background: ${point.ranking === 1 ? '#22c55e' : point.ranking <= 3 ? '#f59e0b' : point.ranking <= 6 ? '#ef4444' : '#ef4444'};
+          background: ${point.ranking === 1 ? '#22c55e' : point.ranking <= 3 ? '#f59e0b' : point.ranking <= 6 ? '#ef4444' : point.ranking = null ? '#ef4444' : '#ef4444'};
           color: white;
           width: 32px;
           height: 32px;
