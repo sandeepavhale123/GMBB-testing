@@ -10,6 +10,8 @@ import { toast } from "@/hooks/use-toast";
 import { setLoading } from "@/store/slices/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
+import { loginSchema, LoginFormData } from "@/schemas/authSchemas";
+import { useFormValidation } from "@/hooks/useFormValidation";
 
 export const LoginForm = () => {
   const [credentials, setCredentials] = useState({
@@ -23,9 +25,27 @@ export const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuthRedux();
+  const {
+    validate,
+    getFieldError,
+    hasFieldError,
+    clearErrors,
+    clearFieldError,
+  } = useFormValidation(loginSchema);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validation = validate(credentials);
+
+    if (!validation.isValid) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the highlighted fields and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(setLoading(true));
 
     try {
@@ -69,11 +89,12 @@ export const LoginForm = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (field: keyof LoginFormData, value: string) => {
     setCredentials((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [field]: value,
     }));
+    if (hasFieldError(field)) clearFieldError(field);
   };
 
   return (
@@ -99,14 +120,18 @@ export const LoginForm = () => {
           </Label>
           <Input
             id="email"
-            type="email"
+            type="text"
             name="username"
             value={credentials.username}
-            onChange={handleChange}
+            onChange={(e) => handleChange("username", e.target.value)}
             placeholder=""
-            className="mt-1 h-12 text-base"
-            required
+            className={`mt-1 h-12 text-base ${
+              hasFieldError("username") ? "border-red-500" : ""
+            }`}
           />
+          {hasFieldError("username") && (
+            <p className="text-sm text-red-600">{getFieldError("username")}</p>
+          )}
         </div>
 
         <div>
@@ -119,10 +144,11 @@ export const LoginForm = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               value={credentials.password}
-              onChange={handleChange}
+              onChange={(e) => handleChange("password", e.target.value)}
               placeholder=""
-              className="h-12 text-base pr-12"
-              required
+              className={`h-12 text-base pr-12 ${
+                hasFieldError("password") ? "border-red-500" : ""
+              }`}
             />
             <button
               type="button"
@@ -132,6 +158,9 @@ export const LoginForm = () => {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
+          {hasFieldError("password") && (
+            <p className="text-sm text-red-600">{getFieldError("password")}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between">

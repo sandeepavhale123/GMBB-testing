@@ -31,6 +31,8 @@ import {
   fetchBusinessDetails,
   saveBusinessDetails,
 } from "@/store/slices/onboarding/onboardingSlice";
+import { useFormValidation } from "@/hooks/useFormValidation";
+import { businessInfoSchema } from "@/schemas/authSchemas";
 
 interface BusinessInfoStepProps {
   formData: any;
@@ -44,6 +46,10 @@ const BusinessInfoStep = ({
   onNext,
 }: BusinessInfoStepProps) => {
   const dispatch = useDispatch<AppDispatch>();
+
+  // Initialize form validation
+  const { validate, getFieldError, hasFieldError, clearFieldError } =
+    useFormValidation(businessInfoSchema);
 
   // RTK Query for timezone data
   const { data: timeZoneData } = useGetAllTimeZoneQuery();
@@ -154,11 +160,21 @@ const BusinessInfoStep = ({
   const handleChange = (field: string, value: string) => {
     const newData = { ...localData, [field]: value };
     setLocalData(newData);
+    // Clear field error when user starts editing
+    clearFieldError(field);
     // Immediately update the Redux store for persistence
     updateFormData(newData);
   };
 
   const handleNext = async () => {
+    // Validate form data before proceeding
+    const validationResult = validate(localData);
+
+    if (!validationResult.isValid) {
+      console.log("Form validation failed");
+      return;
+    }
+
     updateFormData(localData);
 
     // Save business details to server before proceeding
@@ -201,8 +217,17 @@ const BusinessInfoStep = ({
             value={localData.businessName}
             onChange={(e) => handleChange("businessName", e.target.value)}
             placeholder="Enter your business or agency name"
-            className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+            className={cn(
+              "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
+              hasFieldError("businessName") &&
+                "border-red-500 focus:border-red-500 focus:ring-red-500"
+            )}
           />
+          {hasFieldError("businessName") && (
+            <p className="text-red-500 text-sm mt-1">
+              {getFieldError("businessName")}
+            </p>
+          )}
         </div>
 
         {/* Website and Company Email - Same Row */}
@@ -219,8 +244,17 @@ const BusinessInfoStep = ({
               value={localData.website}
               onChange={(e) => handleChange("website", e.target.value)}
               placeholder="https://yourbusiness.com"
-              className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+              className={cn(
+                "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
+                hasFieldError("website") &&
+                  "border-red-500 focus:border-red-500 focus:ring-red-500"
+              )}
             />
+            {hasFieldError("website") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("website")}
+              </p>
+            )}
           </div>
 
           <div>
@@ -236,8 +270,17 @@ const BusinessInfoStep = ({
               value={localData.email}
               onChange={(e) => handleChange("email", e.target.value)}
               placeholder="business@example.com"
-              className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+              className={cn(
+                "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
+                hasFieldError("email") &&
+                  "border-red-500 focus:border-red-500 focus:ring-red-500"
+              )}
             />
+            {hasFieldError("email") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("email")}
+              </p>
+            )}
           </div>
         </div>
 
@@ -256,7 +299,11 @@ const BusinessInfoStep = ({
                   variant="outline"
                   role="combobox"
                   aria-expanded={timezoneOpen}
-                  className="h-10 w-full justify-between text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                  className={cn(
+                    "h-10 w-full justify-between text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
+                    hasFieldError("timezone") &&
+                      "border-red-500 focus:border-red-500 focus:ring-red-500"
+                  )}
                 >
                   {localData.timezone || "Select your timezone"}
                   <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -264,7 +311,10 @@ const BusinessInfoStep = ({
               </PopoverTrigger>
               <PopoverContent className="w-full p-0" align="start">
                 <Command>
-                  <CommandInput placeholder="Search timezone..." className="h-9" />
+                  <CommandInput
+                    placeholder="Search timezone..."
+                    className="h-9"
+                  />
                   <CommandList>
                     <CommandEmpty>No timezone found.</CommandEmpty>
                     <CommandGroup>
@@ -281,7 +331,9 @@ const BusinessInfoStep = ({
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  localData.timezone === timezone ? "opacity-100" : "opacity-0"
+                                  localData.timezone === timezone
+                                    ? "opacity-100"
+                                    : "opacity-0"
                                 )}
                               />
                               {timezone}
@@ -300,7 +352,9 @@ const BusinessInfoStep = ({
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  localData.timezone === value ? "opacity-100" : "opacity-0"
+                                  localData.timezone === value
+                                    ? "opacity-100"
+                                    : "opacity-0"
                                 )}
                               />
                               {String(label)}
@@ -312,6 +366,11 @@ const BusinessInfoStep = ({
                 </Command>
               </PopoverContent>
             </Popover>
+            {hasFieldError("timezone") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("timezone")}
+              </p>
+            )}
           </div>
 
           <div>
@@ -325,7 +384,13 @@ const BusinessInfoStep = ({
               value={localData.businessType}
               onValueChange={(value) => handleChange("businessType", value)}
             >
-              <SelectTrigger className="h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+              <SelectTrigger
+                className={cn(
+                  "h-10 text-sm sm:text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500",
+                  hasFieldError("businessType") &&
+                    "border-red-500 focus:border-red-500 focus:ring-red-500"
+                )}
+              >
                 <SelectValue placeholder="Select business type" />
               </SelectTrigger>
               <SelectContent>
@@ -340,11 +405,16 @@ const BusinessInfoStep = ({
                 ))}
               </SelectContent>
             </Select>
+            {hasFieldError("businessType") && (
+              <p className="text-red-500 text-sm mt-1">
+                {getFieldError("businessType")}
+              </p>
+            )}
           </div>
         </div>
         <div>
           <Label
-            htmlFor="businessType"
+            htmlFor="locationCount"
             className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
           >
             How many locations do you want to manage?

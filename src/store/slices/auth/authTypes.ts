@@ -1,7 +1,15 @@
-
 export interface LoginCredentials {
   username: string;
   password: string;
+}
+
+export interface SignupData {
+  firstName: string;
+  lastName: string;
+  agencyName: string;
+  email: string;
+  password: string;
+  plan: string;
 }
 
 export interface LoginResponse {
@@ -12,9 +20,16 @@ export interface LoginResponse {
     };
     profile: any;
     message: string;
-    isOnboarding?: number; // Add the missing isOnboarding property
-    subscriptionExpired?: boolean; // This will be added by our logic, not the API
+    isOnboarding?: number;
+    subscriptionExpired?: boolean;
   };
+}
+
+export interface SignupResponse {
+  success: boolean;
+  sessionUrl?: string;
+  sessionId?: string;
+  message?: string;
 }
 
 export interface TokenRefreshPayload {
@@ -23,8 +38,6 @@ export interface TokenRefreshPayload {
 }
 
 export interface TokenRefreshResponse {
-  code: number;
-  message: string;
   data: {
     access_token: string;
     refresh_token: string;

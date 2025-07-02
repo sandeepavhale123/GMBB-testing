@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
@@ -8,6 +7,7 @@ import Onboarding from "@/pages/Onboarding";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "@/routes/PublicRoute";
 import { RouteConfig } from "../routeConfig";
+import { VerifySignupPage } from "@/pages/VerifySignUp";
 
 export const authRoutes: RouteConfig[] = [
   {
@@ -16,7 +16,7 @@ export const authRoutes: RouteConfig[] = [
       <PublicRoute>
         <Login />
       </PublicRoute>
-    )
+    ),
   },
   {
     path: "/signup",
@@ -24,7 +24,15 @@ export const authRoutes: RouteConfig[] = [
       <PublicRoute>
         <Signup />
       </PublicRoute>
-    )
+    ),
+  },
+  {
+    path: "/verify-signup",
+    element: (
+      <PublicRoute>
+        <VerifySignupPage />
+      </PublicRoute>
+    ),
   },
   {
     path: "/new-password",
@@ -32,11 +40,11 @@ export const authRoutes: RouteConfig[] = [
       <PublicRoute>
         <NewPassword />
       </PublicRoute>
-    )
+    ),
   },
   {
     path: "/success",
-    element: <Success />
+    element: <Success />,
   },
   {
     path: "/onboarding",
@@ -44,6 +52,6 @@ export const authRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <Onboarding />
       </ProtectedRoute>
-    )
-  }
+    ),
+  },
 ];
