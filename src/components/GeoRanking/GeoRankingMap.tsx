@@ -113,20 +113,20 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       html: `<div style="
         background: #dc2626;
         color: white;
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 14px;
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       "></div>`,
       className: 'default-marker',
-      iconSize: [24, 24],
-      iconAnchor: [12, 12]
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
     });
 
     const marker = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
@@ -171,20 +171,20 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
         html: `<div style="
           background: #dc2626;
           color: white;
-          width: 24px;
-          height: 24px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 12px;
+          font-size: 14px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         "></div>`,
         className: 'default-marker',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
       });
 
       const defaultMarkerInstance = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
