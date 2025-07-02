@@ -5,7 +5,8 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
+import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink, ChevronDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Integration {
@@ -22,6 +23,7 @@ export const IntegrationsPage: React.FC = () => {
   const [mapApiKey, setMapApiKey] = useState('');
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const [integrations, setIntegrations] = useState<Integration[]>([
     {
@@ -89,41 +91,49 @@ export const IntegrationsPage: React.FC = () => {
           const IconComponent = integration.icon;
           
           return (
-            <Card key={integration.id} className="relative">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <IconComponent className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{integration.name}</CardTitle>
-                      <p className="text-sm text-gray-600 mt-1">{integration.description}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3">
-                    <Badge 
-                      variant={integration.status === 'active' ? 'default' : 'secondary'}
-                      className={`flex items-center gap-1 ${
-                        integration.status === 'active' 
-                          ? 'bg-green-100 text-green-700 hover:bg-green-100' 
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      {integration.status === 'active' ? (
-                        <Check className="w-3 h-3" />
-                      ) : (
-                        <X className="w-3 h-3" />
-                      )}
-                      {integration.status === 'active' ? 'Active' : 'Inactive'}
-                    </Badge>
+            <Card 
+              key={integration.id} 
+              className={`relative transition-all duration-200 ${
+                integration.status === 'active' 
+                  ? 'bg-blue-50/50 border-blue-200 shadow-md' 
+                  : 'hover:shadow-md'
+              }`}
+            >
+              {/* First Row: Icon */}
+              <div className="p-6 pb-4">
+                <div className="flex justify-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <IconComponent className="w-6 h-6 text-primary" />
                   </div>
                 </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="flex justify-end gap-2">
+              </div>
+
+              {/* Second Row: Title and Description */}
+              <div className="px-6 pb-4 text-center">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{integration.name}</h3>
+                <p className="text-sm text-gray-600">{integration.description}</p>
+                <div className="mt-3 flex justify-center">
+                  <Badge 
+                    variant={integration.status === 'active' ? 'default' : 'secondary'}
+                    className={`flex items-center gap-1 ${
+                      integration.status === 'active' 
+                        ? 'bg-green-100 text-green-700 hover:bg-green-100' 
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    {integration.status === 'active' ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    {integration.status === 'active' ? 'Active' : 'Inactive'}
+                  </Badge>
+                </div>
+              </div>
+
+              {/* Third Row: Configure Button */}
+              <div className="px-6 pb-6">
+                <div className="flex justify-center">
                   {integration.status === 'active' ? (
                     <Button 
                       variant="outline"
@@ -142,58 +152,13 @@ export const IntegrationsPage: React.FC = () => {
                             Configure
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-2xl">
+                        <DialogContent className="sm:max-w-3xl">
                           <DialogHeader>
                             <DialogTitle>Configure {integration.name}</DialogTitle>
                           </DialogHeader>
                           
                           {integration.id === 'map-api' && (
                             <div className="space-y-6">
-                              <div className="bg-blue-50 p-4 rounded-lg">
-                                <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
-                                  <Map className="w-4 h-4" />
-                                  How to generate Google Places API key
-                                </h4>
-                                <div className="space-y-2 text-sm text-blue-800">
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">1.</span>
-                                    <span>Note - You must enable Billing for Google Project.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">2.</span>
-                                    <span>Visit the Google <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline inline-flex items-center gap-1">Cloud Platform Console <ExternalLink className="w-3 h-3" /></a>.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">3.</span>
-                                    <span>Click the project drop-down and select or create the project for which you want to add an API key.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">4.</span>
-                                    <span>From Dashboard → Go to APIs overview → Click on Library → Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">5.</span>
-                                    <span>After that Click the menu button and select APIs & Services → Credentials.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">6.</span>
-                                    <span>On the Credentials page, Create credentials Dropdown - Select API Key Option.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">7.</span>
-                                    <span>This creates dialog displays, "your newly created API key" - Copy the key.</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">8.</span>
-                                    <span>Use or Paste generated key under Geo Ranking → Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</span>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <span className="font-medium min-w-[20px]">9.</span>
-                                    <span>Once you have added a key it will be used for all of your listings and no more need to generate a separate key for every GMB listing.</span>
-                                  </div>
-                                </div>
-                              </div>
-
                               <div className="space-y-3">
                                 <Label htmlFor="apiKey" className="text-sm font-medium">Google Places API Key</Label>
                                 <div className="relative">
@@ -223,6 +188,60 @@ export const IntegrationsPage: React.FC = () => {
                                   This API key will be used for all location-based features including Geo Ranking and map services.
                                 </p>
                               </div>
+
+                              <Collapsible open={showInstructions} onOpenChange={setShowInstructions}>
+                                <CollapsibleTrigger asChild>
+                                  <Button variant="outline" className="w-full flex items-center justify-between">
+                                    <span className="flex items-center gap-2">
+                                      <Map className="w-4 h-4" />
+                                      How to generate Google Places API key
+                                    </span>
+                                    <ChevronDown className={`w-4 h-4 transition-transform ${showInstructions ? 'rotate-180' : ''}`} />
+                                  </Button>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                  <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+                                    <div className="space-y-2 text-sm text-blue-800">
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">1.</span>
+                                        <span>Note - You must enable Billing for Google Project.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">2.</span>
+                                        <span>Visit the Google <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline inline-flex items-center gap-1">Cloud Platform Console <ExternalLink className="w-3 h-3" /></a>.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">3.</span>
+                                        <span>Click the project drop-down and select or create the project for which you want to add an API key.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">4.</span>
+                                        <span>From Dashboard → Go to APIs overview → Click on Library → Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">5.</span>
+                                        <span>After that Click the menu button and select APIs & Services → Credentials.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">6.</span>
+                                        <span>On the Credentials page, Create credentials Dropdown - Select API Key Option.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">7.</span>
+                                        <span>This creates dialog displays, "your newly created API key" - Copy the key.</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">8.</span>
+                                        <span>Use or Paste generated key under Geo Ranking → Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</span>
+                                      </div>
+                                      <div className="flex items-start gap-2">
+                                        <span className="font-medium min-w-[20px]">9.</span>
+                                        <span>Once you have added a key it will be used for all of your listings and no more need to generate a separate key for every GMB listing.</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </CollapsibleContent>
+                              </Collapsible>
                               
                               <div className="flex justify-end gap-2 pt-4 border-t">
                                 <Button 
@@ -231,6 +250,7 @@ export const IntegrationsPage: React.FC = () => {
                                     setIsConfiguring(false);
                                     setMapApiKey('');
                                     setShowApiKey(false);
+                                    setShowInstructions(false);
                                   }}
                                 >
                                   Cancel
@@ -246,7 +266,7 @@ export const IntegrationsPage: React.FC = () => {
                     )
                   )}
                 </div>
-              </CardContent>
+              </div>
             </Card>
           );
         })}
