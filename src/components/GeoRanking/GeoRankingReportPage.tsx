@@ -78,9 +78,9 @@ export const GeoRankingReportPage: React.FC = () => {
   const getDistanceOptions = () => {
     if (formData.distanceUnit === 'Meters') {
       return [
-        { value: '100', label: '100 m' },
-        { value: '200', label: '200 m' },
-        { value: '500', label: '500 m' },
+        { value: '100', label: '100 Meter' },
+        { value: '200', label: '200 Meter' },
+        { value: '500', label: '500 Meter' },
         { value: '1', label: '1 KM' },
         { value: '2.5', label: '2.5 KM' },
         { value: '5', label: '5 KM' },
@@ -89,16 +89,16 @@ export const GeoRankingReportPage: React.FC = () => {
       ];
     } else {
       return [
-        { value: '.1', label: '.1 mi' },
-        { value: '.25', label: '.25 mi' },
-        { value: '.5', label: '.5 mi' },
-        { value: '.75', label: '.75 mi' },
-        { value: '1', label: '1 mi' },
-        { value: '2', label: '2 mi' },
-        { value: '3', label: '3 mi' },
-        { value: '5', label: '5 mi' },
-        { value: '8', label: '8 mi' },
-        { value: '10', label: '10 mi' }
+        { value: '.1', label: '.1 Miles' },
+        { value: '.25', label: '.25 Miles' },
+        { value: '.5', label: '.5 Miles' },
+        { value: '.75', label: '.75 Miles' },
+        { value: '1mi', label: '1 Miles' },
+        { value: '2', label: '2 Miles' },
+        { value: '3', label: '3 Miles' },
+        { value: '5mi', label: '5 Miles' },
+        { value: '8', label: '8 Miles' },
+        { value: '10mi', label: '10 Miles' }
       ];
     }
   };
@@ -655,12 +655,12 @@ export const GeoRankingReportPage: React.FC = () => {
               {/* Map Section */}
               <div className="xl:col-span-8 order-2 xl:order-1">
                 <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
-                  {/* <CardHeader className="pb-3 lg:pb-4">
+                  <CardHeader className="pb-3 lg:pb-4">
                     <CardTitle className="text-base lg:text-lg font-semibold text-gray-900 flex items-center gap-2">
                       <MapPin className="w-4 h-4 lg:w-5 lg:h-5" />
                       {formData.mapPoint === 'Manually' ? 'Manual Point Selection' : 'Automatic Grid Visualization'}
                     </CardTitle>
-                  </CardHeader> */}
+                  </CardHeader>
                   <CardContent className="p-0 h-full relative">
                     {loadingGrid && formData.mapPoint === 'Automatic' && (
                       <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
