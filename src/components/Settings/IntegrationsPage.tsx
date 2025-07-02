@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -8,32 +9,34 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink, ChevronDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
 interface Integration {
   id: string;
   name: string;
   description: string;
-  icon: React.ComponentType<{
-    className?: string;
-  }>;
+  icon: React.ComponentType<{ className?: string }>;
   status: 'active' | 'inactive';
   configurable: boolean;
 }
+
 export const IntegrationsPage: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [mapApiKey, setMapApiKey] = useState('');
   const [isConfiguring, setIsConfiguring] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [integrations, setIntegrations] = useState<Integration[]>([{
-    id: 'map-api',
-    name: 'Map API Key',
-    description: 'Configure map services for location-based features',
-    icon: Map,
-    status: 'inactive',
-    configurable: true
-  }]);
+
+  const [integrations, setIntegrations] = useState<Integration[]>([
+    {
+      id: 'map-api',
+      name: 'Map API Key',
+      description: 'Configure map services for location-based features',
+      icon: Map,
+      status: 'inactive',
+      configurable: true
+    }
+  ]);
+
   const handleConfigureMapApi = () => {
     if (!mapApiKey.trim()) {
       toast({
@@ -45,44 +48,70 @@ export const IntegrationsPage: React.FC = () => {
     }
 
     // Update integration status
-    setIntegrations(prev => prev.map(integration => integration.id === 'map-api' ? {
-      ...integration,
-      status: 'active'
-    } : integration));
+    setIntegrations(prev => 
+      prev.map(integration => 
+        integration.id === 'map-api' 
+          ? { ...integration, status: 'active' }
+          : integration
+      )
+    );
+
     setIsConfiguring(false);
     setMapApiKey('');
+    
     toast({
       title: "Success",
-      description: "Map API Key has been configured successfully"
+      description: "Map API Key has been configured successfully",
     });
   };
+
   const handleDisconnect = (integrationId: string) => {
-    setIntegrations(prev => prev.map(integration => integration.id === integrationId ? {
-      ...integration,
-      status: 'inactive'
-    } : integration));
+    setIntegrations(prev => 
+      prev.map(integration => 
+        integration.id === integrationId 
+          ? { ...integration, status: 'inactive' }
+          : integration
+      )
+    );
+
     toast({
       title: "Disconnected",
-      description: "Integration has been disconnected"
+      description: "Integration has been disconnected",
     });
   };
-  return <div className=" p-6   max-w-6xl mx-auto">
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Integrations</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Integrations</h2>
         <p className="text-gray-600">Manage your third-party integrations and API connections</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {integrations.map(integration => {
-        const IconComponent = integration.icon;
-        return <Card key={integration.id} className={`relative transition-all duration-200 ${integration.status === 'active' ? 'bg-blue-50/50 border-blue-200 shadow-md' : 'hover:shadow-md'}`}>
+        {integrations.map((integration) => {
+          const IconComponent = integration.icon;
+          
+          return (
+            <Card 
+              key={integration.id} 
+              className={`relative transition-all duration-200 ${
+                integration.status === 'active' 
+                  ? 'bg-blue-50/50 border-blue-200 shadow-md' 
+                  : 'hover:shadow-md'
+              }`}
+            >
               {/* Active Badge - Top Right */}
-              {integration.status === 'active' && <div className="absolute top-3 right-3">
-                  <Badge variant="default" className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-100">
+              {integration.status === 'active' && (
+                <div className="absolute top-3 right-3">
+                  <Badge 
+                    variant="default"
+                    className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-100"
+                  >
                     <Check className="w-3 h-3" />
                     Active
                   </Badge>
-                </div>}
+                </div>
+              )}
 
               {/* First Row: Icon */}
               <div className="p-6 pb-4">
@@ -102,9 +131,18 @@ export const IntegrationsPage: React.FC = () => {
               {/* Third Row: Configure Button */}
               <div className="px-6 pb-6">
                 <div className="flex justify-start">
-                  {integration.status === 'active' ? <Button variant="outline" size="sm" onClick={() => handleDisconnect(integration.id)} className="text-red-600 hover:text-red-700 hover:bg-red-50">
+                  {integration.status === 'active' ? (
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDisconnect(integration.id)}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
                       Disconnect
-                    </Button> : integration.configurable && <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
+                    </Button>
+                  ) : (
+                    integration.configurable && (
+                      <Dialog open={isConfiguring} onOpenChange={setIsConfiguring}>
                         <DialogTrigger asChild>
                           <Button size="sm" className="flex items-center gap-2">
                             <Settings className="w-4 h-4" />
@@ -116,13 +154,31 @@ export const IntegrationsPage: React.FC = () => {
                             <DialogTitle>Configure {integration.name}</DialogTitle>
                           </DialogHeader>
                           
-                          {integration.id === 'map-api' && <div className="space-y-6">
+                          {integration.id === 'map-api' && (
+                            <div className="space-y-6">
                               <div className="space-y-3">
                                 <Label htmlFor="apiKey" className="text-sm font-medium">Google Places API Key</Label>
                                 <div className="relative">
-                                  <Input id="apiKey" type={showApiKey ? "text" : "password"} placeholder="Enter your Google Places API key" value={mapApiKey} onChange={e => setMapApiKey(e.target.value)} className="pr-10" />
-                                  <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent" onClick={() => setShowApiKey(!showApiKey)}>
-                                    {showApiKey ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                                  <Input
+                                    id="apiKey"
+                                    type={showApiKey ? "text" : "password"}
+                                    placeholder="Enter your Google Places API key"
+                                    value={mapApiKey}
+                                    onChange={(e) => setMapApiKey(e.target.value)}
+                                    className="pr-10"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                    onClick={() => setShowApiKey(!showApiKey)}
+                                  >
+                                    {showApiKey ? (
+                                      <EyeOff className="h-4 w-4 text-gray-400" />
+                                    ) : (
+                                      <Eye className="h-4 w-4 text-gray-400" />
+                                    )}
                                   </Button>
                                 </div>
                                 <p className="text-xs text-gray-500">
@@ -185,25 +241,33 @@ export const IntegrationsPage: React.FC = () => {
                               </Collapsible>
                               
                               <div className="flex justify-end gap-2 pt-4 border-t">
-                                <Button variant="outline" onClick={() => {
-                        setIsConfiguring(false);
-                        setMapApiKey('');
-                        setShowApiKey(false);
-                        setShowInstructions(false);
-                      }}>
+                                <Button 
+                                  variant="outline" 
+                                  onClick={() => {
+                                    setIsConfiguring(false);
+                                    setMapApiKey('');
+                                    setShowApiKey(false);
+                                    setShowInstructions(false);
+                                  }}
+                                >
                                   Cancel
                                 </Button>
                                 <Button onClick={handleConfigureMapApi}>
                                   Save Configuration
                                 </Button>
                               </div>
-                            </div>}
+                            </div>
+                          )}
                         </DialogContent>
-                      </Dialog>}
+                      </Dialog>
+                    )
+                  )}
                 </div>
               </div>
-            </Card>;
-      })}
+            </Card>
+          );
+        })}
       </div>
-    </div>;
+    </div>
+  );
 };
