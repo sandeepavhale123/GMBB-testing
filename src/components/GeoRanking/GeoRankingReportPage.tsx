@@ -92,6 +92,8 @@ export const GeoRankingReportPage: React.FC = () => {
                   currentMarkers={currentMarkers}
                   setCurrentMarkers={setCurrentMarkers}
                   mapInstanceRef={mapInstanceRef}
+                  distanceValue={formData.distanceValue}
+                  distanceUnit={formData.distanceUnit}
                 />
               </div>
             </div>

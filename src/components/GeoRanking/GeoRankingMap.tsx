@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { MapPin, Loader } from 'lucide-react';
+import { Button } from '../ui/button';
+import { MapPin, Loader, ZoomIn, ZoomOut } from 'lucide-react';
 import L from 'leaflet';
 
 // Fix for default markers in Leaflet with Webpack
@@ -26,6 +27,8 @@ interface GeoRankingMapProps {
   currentMarkers: L.Marker[];
   setCurrentMarkers: React.Dispatch<React.SetStateAction<L.Marker[]>>;
   mapInstanceRef: React.MutableRefObject<L.Map | null>;
+  distanceValue: string;
+  distanceUnit: string;
 }
 
 export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
@@ -35,9 +38,49 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
   gridCoordinates,
   currentMarkers,
   setCurrentMarkers,
-  mapInstanceRef
+  mapInstanceRef,
+  distanceValue,
+  distanceUnit
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
+
+  // Calculate appropriate zoom level based on distance
+  const calculateZoomLevel = (): number => {
+    if (!distanceValue) return 14;
+    
+    const distance = parseFloat(distanceValue.replace('mi', ''));
+    
+    if (distanceUnit === 'Miles') {
+      if (distance <= 0.5) return 16;
+      if (distance <= 1) return 15;
+      if (distance <= 2) return 14;
+      if (distance <= 5) return 13;
+      if (distance <= 10) return 12;
+      return 11;
+    } else {
+      // Meters/KM
+      if (distance <= 200) return 16;
+      if (distance <= 500) return 15;
+      if (distance <= 1) return 14; // 1 KM
+      if (distance <= 2.5) return 13;
+      if (distance <= 5) return 12;
+      if (distance <= 10) return 11;
+      return 10;
+    }
+  };
+
+  // Zoom control functions
+  const handleZoomIn = () => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.zoomIn();
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.zoomOut();
+    }
+  };
 
   // Generate grid overlay data from API coordinates
   const generateGridDataFromAPI = (): GridPoint[] => {
@@ -265,7 +308,8 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
 
     if (!mapRef.current || !defaultCoordinates) return;
 
-    const map = L.map(mapRef.current).setView([defaultCoordinates.lat, defaultCoordinates.lng], 14);
+    const initialZoom = calculateZoomLevel();
+    const map = L.map(mapRef.current).setView([defaultCoordinates.lat, defaultCoordinates.lng], initialZoom);
     mapInstanceRef.current = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -304,6 +348,14 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
     }
   }, [mapPoint, gridCoordinates]);
 
+  // Handle distance changes to adjust zoom automatically
+  useEffect(() => {
+    if (mapInstanceRef.current && defaultCoordinates) {
+      const newZoom = calculateZoomLevel();
+      mapInstanceRef.current.setView([defaultCoordinates.lat, defaultCoordinates.lng], newZoom);
+    }
+  }, [distanceValue, distanceUnit]);
+
   return (
     <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
       <CardHeader className="pb-3 lg:pb-4">
@@ -324,6 +376,29 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
             </div>
           </div>
         )}
+        
+        {/* Zoom Controls */}
+        <div className="absolute top-20 right-4 z-20 flex flex-col gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handleZoomIn}
+            className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
+            title="Zoom In"
+          >
+            <ZoomIn className="w-4 h-4" />
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handleZoomOut}
+            className="w-10 h-10 p-0 bg-white/90 hover:bg-white border shadow-lg"
+            title="Zoom Out"
+          >
+            <ZoomOut className="w-4 h-4" />
+          </Button>
+        </div>
+        
         <div ref={mapRef} className="w-full h-[330px] sm:h-[430px] lg:h-[600px]" />
       </CardContent>
     </Card>
