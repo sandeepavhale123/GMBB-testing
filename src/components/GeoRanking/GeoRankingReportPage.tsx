@@ -25,16 +25,22 @@ export const GeoRankingReportPage: React.FC = () => {
     loadingGrid,
     currentMarkers,
     setCurrentMarkers,
-    handleInputChange
+    submittingRank,
+    handleInputChange,
+    submitCheckRank
   } = useGeoRankingReport(numericListingId);
 
   // Get current listing - convert numericListingId to string for comparison
   const currentListing = listings.find(listing => listing.id === numericListingId.toString());
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Checking GEO ranking with data:', formData);
-    navigate('/');
+    const success = await submitCheckRank();
+    if (success) {
+      console.log('Rank check submitted successfully');
+      // Optionally navigate after successful submission
+      // navigate('/geo-ranking');
+    }
   };
 
   const toggleSidebar = () => {
@@ -79,6 +85,7 @@ export const GeoRankingReportPage: React.FC = () => {
                   onSubmit={handleSubmit}
                   getDistanceOptions={() => getDistanceOptions(formData.distanceUnit)}
                   languageOptions={languageOptions}
+                  submittingRank={submittingRank}
                 />
               </div>
 

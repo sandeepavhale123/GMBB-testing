@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getDefaultCoordinates, getGridCoordinates } from '../api/geoRankingApi';
+import { getDefaultCoordinates, getGridCoordinates, addKeywords, CheckRankRequest } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 import { processDistanceValue } from '../utils/geoRankingUtils';
 import L from 'leaflet';
@@ -23,6 +23,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [gridCoordinates, setGridCoordinates] = useState<string[]>([]);
   const [loadingGrid, setLoadingGrid] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
+  const [submittingRank, setSubmittingRank] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -115,6 +116,85 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  // Submit check rank request
+  const submitCheckRank = async (): Promise<boolean> => {
+    if (!formData.keywords.trim()) {
+      toast({
+        title: "Error",
+        description: "Keywords are required",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    setSubmittingRank(true);
+    try {
+      // Prepare coordinates array
+      let coordinatesArray: string[] = [];
+      
+      if (formData.mapPoint === 'Automatic') {
+        coordinatesArray = gridCoordinates;
+      } else {
+        // Manual mode - extract coordinates from markers
+        coordinatesArray = currentMarkers.map(marker => {
+          const { lat, lng } = marker.getLatLng();
+          return `${lat},${lng}`;
+        });
+      }
+
+      if (coordinatesArray.length === 0) {
+        toast({
+          title: "Error",
+          description: "No coordinates available. Please generate grid or place markers.",
+          variant: "destructive"
+        });
+        return false;
+      }
+
+      // Transform form data to API format
+      const requestData: CheckRankRequest = {
+        listingId,
+        language: formData.language,
+        keywords: formData.keywords,
+        mapPoint: formData.mapPoint,
+        distanceValue: processDistanceValue(formData.distanceValue, formData.distanceUnit),
+        gridSize: parseInt(formData.gridSize.split('x')[0]),
+        searchDataEngine: formData.searchDataEngine,
+        scheduleCheck: formData.scheduleCheck.toLowerCase().replace('-', ''),
+        latlng: coordinatesArray
+      };
+
+      console.log('Check rank request data:', requestData);
+      
+      const response = await addKeywords(requestData);
+      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Rank check submitted successfully",
+        });
+        return true;
+      } else {
+        toast({
+          title: "Error",
+          description: response.message || "Failed to submit rank check",
+          variant: "destructive"
+        });
+        return false;
+      }
+    } catch (error) {
+      console.error('Error submitting rank check:', error);
+      toast({
+        title: "Error",
+        description: "Failed to submit rank check",
+        variant: "destructive"
+      });
+      return false;
+    } finally {
+      setSubmittingRank(false);
+    }
+  };
+
   return {
     formData,
     defaultCoordinates,
@@ -122,7 +202,9 @@ export const useGeoRankingReport = (listingId: number) => {
     loadingGrid,
     currentMarkers,
     setCurrentMarkers,
+    submittingRank,
     handleInputChange,
-    fetchGridCoordinates
+    fetchGridCoordinates,
+    submitCheckRank
   };
 };

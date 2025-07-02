@@ -27,6 +27,7 @@ interface GeoRankingReportFormProps {
   onSubmit: (e: React.FormEvent) => void;
   getDistanceOptions: () => Array<{ value: string; label: string }>;
   languageOptions: Array<{ value: string; label: string }>;
+  submittingRank?: boolean;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
@@ -34,7 +35,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   onInputChange,
   onSubmit,
   getDistanceOptions,
-  languageOptions
+  languageOptions,
+  submittingRank = false
 }) => {
   return (
     <Card className="shadow-lg h-[400px] sm:h-[500px] lg:h-[680px]">
@@ -232,8 +234,12 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             </Select>
           </div>
 
-          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6">
-            Check rank
+          <Button 
+            type="submit" 
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6"
+            disabled={submittingRank}
+          >
+            {submittingRank ? "Checking rank..." : "Check rank"}
           </Button>
         </form>
       </CardContent>

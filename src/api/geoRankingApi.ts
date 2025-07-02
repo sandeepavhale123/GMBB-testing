@@ -163,3 +163,28 @@ export const getGridCoordinates = async (
   });
   return response.data;
 };
+
+// New interface for check rank request
+export interface CheckRankRequest {
+  listingId: number;
+  language: string;
+  keywords: string;
+  mapPoint: string;
+  distanceValue: number;
+  gridSize: number;
+  searchDataEngine: string;
+  scheduleCheck: string;
+  latlng: string[];
+}
+
+// New interface for check rank response
+export interface CheckRankResponse {
+  code: number;
+  message: string;
+  data?: any;
+}
+
+export const addKeywords = async (requestData: CheckRankRequest): Promise<CheckRankResponse> => {
+  const response = await axiosInstance.post('/add-keywords', requestData);
+  return response.data;
+};
