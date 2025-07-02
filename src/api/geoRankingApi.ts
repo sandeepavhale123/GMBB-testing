@@ -119,7 +119,8 @@ export const getKeywords = async (listingId: number): Promise<KeywordsListRespon
 export const getKeywordDetails = async (listingId: number, keywordId: string): Promise<KeywordDetailsResponse> => {
   const response = await axiosInstance.post('/get-keyword-details', {
     listingId,
-    keywordId
+    keywordId,
+    status: 0
   });
   return response.data;
 };
