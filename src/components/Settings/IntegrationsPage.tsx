@@ -101,7 +101,7 @@ export const IntegrationsPage: React.FC = () => {
             >
               {/* First Row: Icon */}
               <div className="p-6 pb-4">
-                <div className="flex justify-center">
+                <div className="flex justify-start">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
                     <IconComponent className="w-6 h-6 text-primary" />
                   </div>
@@ -109,10 +109,10 @@ export const IntegrationsPage: React.FC = () => {
               </div>
 
               {/* Second Row: Title and Description */}
-              <div className="px-6 pb-4 text-center">
+              <div className="px-6 pb-4 text-left">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{integration.name}</h3>
                 <p className="text-sm text-gray-600">{integration.description}</p>
-                <div className="mt-3 flex justify-center">
+                <div className="mt-3 flex justify-start">
                   <Badge 
                     variant={integration.status === 'active' ? 'default' : 'secondary'}
                     className={`flex items-center gap-1 ${
@@ -133,7 +133,7 @@ export const IntegrationsPage: React.FC = () => {
 
               {/* Third Row: Configure Button */}
               <div className="px-6 pb-6">
-                <div className="flex justify-center">
+                <div className="flex justify-start">
                   {integration.status === 'active' ? (
                     <Button 
                       variant="outline"
