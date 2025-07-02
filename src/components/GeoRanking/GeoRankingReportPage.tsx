@@ -12,7 +12,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
-import { getDefaultCoordinates } from '../../api/geoRankingApi';
+import { getDefaultCoordinates, getGridCoordinates } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
 import { useBusinessListings } from '../../hooks/useBusinessListings';
 
@@ -53,6 +53,8 @@ export const GeoRankingReportPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [defaultCoordinates, setDefaultCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [gridCoordinates, setGridCoordinates] = useState<string[]>([]);
+  const [loadingGrid, setLoadingGrid] = useState(false);
   const { toast } = useToast();
   const { listings } = useBusinessListings();
 
@@ -139,29 +141,43 @@ export const GeoRankingReportPage: React.FC = () => {
     fetchDefaultCoordinates();
   }, [numericListingId, toast]);
 
-  // Generate grid overlay data for automatic mode
-  const generateGridData = (gridSize: string): GridPoint[] => {
-    const [rows, cols] = gridSize.split('x').map(Number);
-    const gridData: GridPoint[] = [];
-    const centerLat = defaultCoordinates?.lat || 28.6139;
-    const centerLng = defaultCoordinates?.lng || 77.2090;
-    const spacing = 0.003;
-
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
-        const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
-        // const ranking = Math.floor(Math.random() * 8) + 1;
-        const ranking = null;
-        gridData.push({
-          lat,
-          lng,
-          ranking,
-          id: `${i}-${j}`
-        });
+  // Fetch grid coordinates from API
+  const fetchGridCoordinates = async () => {
+    if (!defaultCoordinates) return;
+    
+    setLoadingGrid(true);
+    try {
+      const gridSize = parseInt(formData.gridSize.split('x')[0]);
+      const distance = parseFloat(formData.distanceValue);
+      const latlong = `${defaultCoordinates.lat},${defaultCoordinates.lng}`;
+      
+      const response = await getGridCoordinates(numericListingId, gridSize, distance, latlong);
+      if (response.code === 200) {
+        setGridCoordinates(response.data.allCoordinates);
       }
+    } catch (error) {
+      console.error('Error fetching grid coordinates:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch grid coordinates",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingGrid(false);
     }
-    return gridData;
+  };
+
+  // Generate grid overlay data from API coordinates
+  const generateGridDataFromAPI = (): GridPoint[] => {
+    return gridCoordinates.map((coord, index) => {
+      const [lat, lng] = coord.split(',').map(Number);
+      return {
+        lat,
+        lng,
+        ranking: null,
+        id: index.toString()
+      };
+    });
   };
 
   // Clear all markers from map
@@ -218,13 +234,13 @@ export const GeoRankingReportPage: React.FC = () => {
 
     clearAllMarkers();
     
-    const gridData = generateGridData(formData.gridSize);
+    const gridData = gridCoordinates.length > 0 ? generateGridDataFromAPI() : [];
     const markers: L.Marker[] = [];
     
     gridData.forEach(point => {
       const rankingIcon = L.divIcon({
         html: `<div style="
-          background: ${point.ranking === 1 ? '#22c55e' : point.ranking && point.ranking <= 3 ? '#f59e0b' : point.ranking && point.ranking <= 6 ? '#ef4444' : '#ef4444'};
+          background: ${point.ranking === 1 ? '#22c55e' : point.ranking && point.ranking <= 3 ? '#f59e0b' : point.ranking && point.ranking <= 6 ? '#ef4444' : '#3b82f6'};
           color: white;
           width: 32px;
           height: 32px;
@@ -246,7 +262,7 @@ export const GeoRankingReportPage: React.FC = () => {
         icon: rankingIcon
       }).addTo(mapInstanceRef.current!);
       
-      marker.bindPopup(`Ranking: ${point.ranking}`);
+      marker.bindPopup(`Grid Point: ${point.id}`);
       markers.push(marker);
     });
     
@@ -350,6 +366,13 @@ export const GeoRankingReportPage: React.FC = () => {
     };
   }, [defaultCoordinates]);
 
+  // Fetch grid coordinates when relevant parameters change
+  useEffect(() => {
+    if (formData.mapPoint === 'Automatic' && defaultCoordinates) {
+      fetchGridCoordinates();
+    }
+  }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
+
   // Handle map point mode change
   useEffect(() => {
     if (!mapInstanceRef.current || !defaultCoordinates) return;
@@ -364,7 +387,7 @@ export const GeoRankingReportPage: React.FC = () => {
       addDefaultMarker();
       enableManualSelection();
     }
-  }, [formData.mapPoint, formData.gridSize, defaultCoordinates]);
+  }, [formData.mapPoint, gridCoordinates]);
 
   // Reset distance value when unit changes
   useEffect(() => {
@@ -632,7 +655,15 @@ export const GeoRankingReportPage: React.FC = () => {
                       {formData.mapPoint === 'Manually' ? 'Manual Point Selection' : 'Automatic Grid Visualization'}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 h-full">
+                  <CardContent className="p-0 h-full relative">
+                    {loadingGrid && formData.mapPoint === 'Automatic' && (
+                      <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
+                        <div className="text-center">
+                          <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-2"></div>
+                          <p className="text-sm text-gray-600">Loading grid coordinates...</p>
+                        </div>
+                      </div>
+                    )}
                     <div ref={mapRef} className="w-full h-[330px] sm:h-[430px] lg:h-[600px]" />
                   </CardContent>
                 </Card>

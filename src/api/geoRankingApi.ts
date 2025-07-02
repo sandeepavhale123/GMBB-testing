@@ -133,9 +133,33 @@ export const getKeywordPositionDetails = async (listingId: number, keywordId: st
   return response.data;
 };
 
+// New interface for grid coordinates
+export interface GridCoordinatesResponse {
+  code: number;
+  message: string;
+  data: {
+    allCoordinates: string[];
+  };
+}
+
 export const getDefaultCoordinates = async (listingId: number): Promise<DefaultCoordinatesResponse> => {
   const response = await axiosInstance.post('/get-default-coordinates', {
     listingId
+  });
+  return response.data;
+};
+
+export const getGridCoordinates = async (
+  listingId: number, 
+  grid: number, 
+  distance: number, 
+  latlong: string
+): Promise<GridCoordinatesResponse> => {
+  const response = await axiosInstance.post('/get-grid-coordinates', {
+    listingId,
+    grid,
+    distance,
+    latlong
   });
   return response.data;
 };
