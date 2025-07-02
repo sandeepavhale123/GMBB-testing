@@ -59,7 +59,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
     const defaultIcon = L.divIcon({
       html: `<div style="
-        background: #3b82f6;
+        background: #dc2626;
         color: white;
         width: 40px;
         height: 40px;
@@ -71,7 +71,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         font-size: 14px;
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      ">📍</div>`,
+      "></div>`,
       className: 'default-business-marker',
       iconSize: [40, 40],
       iconAnchor: [20, 20]
@@ -184,8 +184,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (rankDetails && rankDetails.length > 0) {
       // Show ranking data
       addRankingMarkers();
-    } else if (gridCoordinates.length > 0 && pollingKeyword) {
-      // Show grid points only during processing
+    } else if (gridCoordinates.length > 0) {
+      // Show grid points when coordinates exist
       addGridMarkers();
     }
   };
