@@ -40,7 +40,7 @@ interface FormData {
 interface GridPoint {
   lat: number;
   lng: number;
-  ranking: number || number;
+  ranking: number | null ;
   id: string;
 }
 
