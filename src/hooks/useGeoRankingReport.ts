@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { getDefaultCoordinates, getGridCoordinates, addKeywords, CheckRankRequest } from '../api/geoRankingApi';
+import { getDefaultCoordinates, getGridCoordinates, addKeywords, getKeywordDetailsWithStatus, CheckRankRequest } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 import { processDistanceValue } from '../utils/geoRankingUtils';
 import L from 'leaflet';
@@ -117,15 +117,24 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  // Helper function to detect multiple keywords
+  const isMultipleKeywords = (keywords: string): boolean => {
+    const keywordArray = keywords
+      .split(/[,;\n\r]+/)
+      .map(k => k.trim())
+      .filter(k => k.length > 0);
+    return keywordArray.length > 1;
+  };
+
   // Submit check rank request
-  const submitCheckRank = async (): Promise<boolean> => {
+  const submitCheckRank = async (): Promise<{ success: boolean; shouldNavigate: boolean }> => {
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
         description: "Keywords are required",
         variant: "destructive"
       });
-      return false;
+      return { success: false, shouldNavigate: false };
     }
 
     setSubmittingRank(true);
@@ -149,7 +158,7 @@ export const useGeoRankingReport = (listingId: number) => {
           description: "No coordinates available. Please generate grid or place markers.",
           variant: "destructive"
         });
-        return false;
+        return { success: false, shouldNavigate: false };
       }
 
       // Transform form data to API format
@@ -168,20 +177,39 @@ export const useGeoRankingReport = (listingId: number) => {
       console.log('Check rank request data:', requestData);
       
       const response = await addKeywords(requestData);
+      const multipleKeywords = isMultipleKeywords(formData.keywords);
       
       if (response.code === 200) {
+        // If we got a keywordId, fetch keyword details with status: 1
+        if (response.data?.keywordId) {
+          try {
+            await getKeywordDetailsWithStatus(listingId, response.data.keywordId.toString(), 1);
+            console.log('Keyword details fetched successfully');
+          } catch (error) {
+            console.error('Error fetching keyword details:', error);
+          }
+        } else {
+          // No keywordId received, keyword is in queue
+          toast({
+            title: "Keyword in Queue",
+            description: "Your keyword is in queue. It will take some time to process.",
+            variant: "default"
+          });
+        }
+
         toast({
           title: "Success",
           description: "Rank check submitted successfully",
         });
-        return true;
+        
+        return { success: true, shouldNavigate: multipleKeywords };
       } else {
         toast({
           title: "Error",
           description: response.message || "Failed to submit rank check",
           variant: "destructive"
         });
-        return false;
+        return { success: false, shouldNavigate: false };
       }
     } catch (error) {
       console.error('Error submitting rank check:', error);
@@ -190,7 +218,7 @@ export const useGeoRankingReport = (listingId: number) => {
         description: "Failed to submit rank check",
         variant: "destructive"
       });
-      return false;
+      return { success: false, shouldNavigate: false };
     } finally {
       setSubmittingRank(false);
     }

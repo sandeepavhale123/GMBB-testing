@@ -182,8 +182,19 @@ export interface CheckRankRequest {
 export interface CheckRankResponse {
   code: number;
   message: string;
-  data?: any;
+  data?: {
+    keywordId?: number;
+  };
 }
+
+export const getKeywordDetailsWithStatus = async (listingId: number, keywordId: string, status: number): Promise<KeywordDetailsResponse> => {
+  const response = await axiosInstance.post('/get-keyword-details', {
+    listingId,
+    keywordId,
+    status
+  });
+  return response.data;
+};
 
 export const addKeywords = async (requestData: CheckRankRequest): Promise<CheckRankResponse> => {
   const response = await axiosInstance.post('/add-keywords', requestData);

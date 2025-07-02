@@ -35,11 +35,13 @@ export const GeoRankingReportPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await submitCheckRank();
-    if (success) {
+    const result = await submitCheckRank();
+    if (result.success) {
       console.log('Rank check submitted successfully');
-      // Optionally navigate after successful submission
-      // navigate('/geo-ranking');
+      // Navigate to GEO ranking page only for multiple keywords
+      if (result.shouldNavigate) {
+        navigate('/geo-ranking');
+      }
     }
   };
 
