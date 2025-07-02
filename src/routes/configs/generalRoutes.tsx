@@ -72,6 +72,14 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
+    path: "/settings/integrations",
+    element: (
+      <ProtectedRoute>
+        <SettingsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/settings/listings/:accountId",
     element: (
       <ProtectedRoute>
