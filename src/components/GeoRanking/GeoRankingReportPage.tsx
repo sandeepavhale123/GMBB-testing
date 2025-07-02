@@ -655,12 +655,12 @@ export const GeoRankingReportPage: React.FC = () => {
               {/* Map Section */}
               <div className="xl:col-span-8 order-2 xl:order-1">
                 <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
-                  <CardHeader className="pb-3 lg:pb-4">
+                  {/* <CardHeader className="pb-3 lg:pb-4">
                     <CardTitle className="text-base lg:text-lg font-semibold text-gray-900 flex items-center gap-2">
                       <MapPin className="w-4 h-4 lg:w-5 lg:h-5" />
                       {formData.mapPoint === 'Manually' ? 'Manual Point Selection' : 'Automatic Grid Visualization'}
                     </CardTitle>
-                  </CardHeader>
+                  </CardHeader> */}
                   <CardContent className="p-0 h-full relative">
                     {loadingGrid && formData.mapPoint === 'Automatic' && (
                       <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
