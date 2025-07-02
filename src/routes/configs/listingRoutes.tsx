@@ -77,8 +77,17 @@ export const listingRoutes: RouteConfig[] = [
     )
   },
   
+  // Geo ranking report routes - moved before other routes for proper matching
   {
     path: "/geo-ranking-report",
+    element: (
+      <ProtectedRoute>
+        <GeoRankingReportPage />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/geo-ranking-report/:listingId",
     element: (
       <ProtectedRoute>
         <GeoRankingReportPage />

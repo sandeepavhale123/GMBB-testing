@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, KeywordData, KeywordDetailsResponse } from '../api/geoRankingApi';
+import { getKeywords, getKeywordDetails, getKeywordPositionDetails, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useGeoRanking = (listingId: number) => {
@@ -8,12 +7,14 @@ export const useGeoRanking = (listingId: number) => {
   const [selectedKeyword, setSelectedKeyword] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
+  const [credits, setCredits] = useState<Credits | null>(null);
   const [loading, setLoading] = useState(false);
   const [keywordsLoading, setKeywordsLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [keywordChanging, setKeywordChanging] = useState(false);
   const [dateChanging, setDateChanging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
   const { toast } = useToast();
 
   // Fetch keywords on component mount
@@ -29,13 +30,11 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywords(listingId);
         if (response.code === 200) {
           setKeywords(response.data.keywords);
-          // Set first keyword as default and its date
+          setCredits(response.data.credits);
+          // Set first keyword as default
           if (response.data.keywords.length > 0) {
             const firstKeyword = response.data.keywords[0];
             setSelectedKeyword(firstKeyword.id);
-            if (firstKeyword.date) {
-              setSelectedDate(firstKeyword.date);
-            }
           }
         } else {
           throw new Error(response.message || 'Failed to fetch keywords');
@@ -57,7 +56,7 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywords();
   }, [listingId, toast]);
 
-  // Fetch keyword details when selected keyword or date changes
+  // Fetch keyword details when selected keyword changes
   useEffect(() => {
     const fetchKeywordDetails = async () => {
       if (!listingId || !selectedKeyword) return;
@@ -69,11 +68,14 @@ export const useGeoRanking = (listingId: number) => {
         const response = await getKeywordDetails(listingId, selectedKeyword);
         if (response.code === 200) {
           setKeywordDetails(response.data);
-          // Set default date if not already set
-          if (!selectedDate && response.data.dates && response.data.dates.length > 0) {
-            const currentDate = response.data.dates.find(d => d.date);
-            if (currentDate) {
-              setSelectedDate(currentDate.id);
+          // Set the most recent date as default
+          if (response.data.dates && response.data.dates.length > 0) {
+            const sortedDates = response.data.dates
+              .filter(d => d.date)
+              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+            
+            if (sortedDates.length > 0) {
+              setSelectedDate(sortedDates[0].id);
             }
           }
         } else {
@@ -95,7 +97,33 @@ export const useGeoRanking = (listingId: number) => {
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, selectedDate, toast]);
+  }, [listingId, selectedKeyword, toast]);
+
+  const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
+    if (!listingId) return null;
+    
+    setPositionDetailsLoading(true);
+    
+    try {
+      const response = await getKeywordPositionDetails(listingId, keywordId, positionId);
+      if (response.code === 200) {
+        return response;
+      } else {
+        throw new Error(response.message || 'Failed to fetch position details');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch position details';
+      setError(errorMessage);
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+      return null;
+    } finally {
+      setPositionDetailsLoading(false);
+    }
+  };
 
   const handleKeywordChange = (keywordId: string) => {
     setKeywordChanging(true);
@@ -113,12 +141,15 @@ export const useGeoRanking = (listingId: number) => {
     selectedKeyword,
     selectedDate,
     keywordDetails,
+    credits,
     loading,
     keywordsLoading,
     pageLoading,
     keywordChanging,
     dateChanging,
     error,
+    positionDetailsLoading,
+    fetchPositionDetails,
     handleKeywordChange,
     handleDateChange
   };

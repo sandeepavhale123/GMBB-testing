@@ -52,25 +52,29 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                        ranking <= 10 ? '#f59e0b' : 
                        ranking <= 15 ? '#f97316' : '#ef4444';
 
+          // Show 20+ for ranks 20 and above
+          const displayText = ranking >= 20 ? '20+' : ranking.toString();
+          const fontSize = ranking >= 20 ? '11px' : '13px';
+
           const rankingIcon = L.divIcon({
             html: `<div style="
               background: ${color};
               color: white;
-              width: 32px;
-              height: 32px;
+              width: 40px;
+              height: 40px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
               font-weight: bold;
-              font-size: 12px;
+              font-size: ${fontSize};
               border: 2px solid white;
               box-shadow: 0 2px 4px rgba(0,0,0,0.2);
               cursor: pointer;
-            ">${ranking}</div>`,
+            ">${displayText}</div>`,
             className: 'custom-ranking-marker',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16]
+            iconSize: [50, 50],
+            iconAnchor: [25, 25]
           });
 
           const marker = L.marker([lat, lng], {
@@ -85,7 +89,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
 
           marker.bindPopup(`
             <div class="text-sm">
-              <strong>Position: ${ranking}</strong><br>
+              <strong>Position: ${displayText}</strong><br>
               Location: ${detail.coordinate}<br>
               Position ID: ${detail.positionId}<br>
               <em>Click for detailed view</em>
@@ -103,7 +107,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
           for (let j = 0; j < 4; j++) {
             const lat = centerLat + (i - 1.5) * spacing;
             const lng = centerLng + (j - 1.5) * spacing;
-            const ranking = Math.floor(Math.random() * 20) + 1;
+            const ranking = Math.floor(Math.random() * 25) + 1;
             gridData.push({
               lat,
               lng,
@@ -121,25 +125,28 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
                      point.ranking <= 10 ? '#f59e0b' : 
                      point.ranking <= 15 ? '#f97316' : '#ef4444';
 
+        const displayText = point.ranking >= 20 ? '20+' : point.ranking.toString();
+        const fontSize = point.ranking >= 20 ? '12px' : '14px';
+
         const rankingIcon = L.divIcon({
           html: `<div style="
             background: ${color};
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 12px;
+            font-size: ${fontSize};
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
-          ">${point.ranking}</div>`,
+          ">${displayText}</div>`,
           className: 'custom-ranking-marker',
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
+          iconSize: [50, 50],
+          iconAnchor: [25, 25]
         });
 
         const marker = L.marker([point.lat, point.lng], {
@@ -153,7 +160,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
 
         marker.bindPopup(`
           <div class="text-sm">
-            <strong>Position: ${point.ranking}</strong><br>
+            <strong>Position: ${displayText}</strong><br>
             Location: Grid ${point.id}<br>
             <em>Click for detailed view</em>
           </div>
