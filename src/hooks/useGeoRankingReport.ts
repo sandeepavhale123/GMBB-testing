@@ -68,10 +68,13 @@ export const useGeoRankingReport = (listingId: number) => {
     setLoadingGrid(true);
     try {
       const gridSize = parseInt(formData.gridSize.split('x')[0]);
-      const distance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
+      // For Miles with 'mi' suffix, send raw string; otherwise process as number
+      const distance = formData.distanceUnit === 'Miles' && formData.distanceValue.includes('mi') 
+        ? formData.distanceValue 
+        : processDistanceValue(formData.distanceValue, formData.distanceUnit);
       const latlong = `${defaultCoordinates.lat},${defaultCoordinates.lng}`;
       
-      console.log('Sending to API:', { gridSize, distance, distanceUnit: formData.distanceUnit, distanceValue: formData.distanceValue });
+      console.log('Sending to API:', { gridSize, distance, distanceUnit: formData.distanceUnit, distanceValue: formData.distanceValue, processedDistance: distance });
       
       const response = await getGridCoordinates(listingId, gridSize, distance, latlong);
       if (response.code === 200) {

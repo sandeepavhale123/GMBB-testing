@@ -152,7 +152,7 @@ export const getDefaultCoordinates = async (listingId: number): Promise<DefaultC
 export const getGridCoordinates = async (
   listingId: number, 
   grid: number, 
-  distance: number, 
+  distance: number | string, 
   latlong: string
 ): Promise<GridCoordinatesResponse> => {
   const response = await axiosInstance.post('/get-grid-coordinates', {
