@@ -187,7 +187,7 @@ export const SignupForm = () => {
           <Label htmlFor="email">Email Address *</Label>
           <Input
             id="email"
-            type="email"
+            type="text"
             value={formData.email}
             onChange={(e) => handleChange("email", e.target.value)}
             className={`mt-1 h-12 ${

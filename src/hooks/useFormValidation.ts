@@ -1,17 +1,26 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { ZodSchema, ZodError } from "zod";
+
+interface ValidationResult<T> {
+  isValid: boolean;
+  data?: T;
+  errors?: Record<string, string>;
+}
 
 export const useFormValidation = <T extends Record<string, any>>(
   schema: ZodSchema<T>
 ) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validate = (data: T) => {
+  const validate = (data: T): ValidationResult<T> => {
     const result = schema.safeParse(data);
 
     if (result.success) {
       setErrors({});
-      return { isValid: true };
+      return {
+        isValid: true,
+        data: result.data,
+      };
     } else {
       const fieldErrors: Record<string, string> = {};
       result.error.errors.forEach((issue) => {
@@ -22,28 +31,26 @@ export const useFormValidation = <T extends Record<string, any>>(
       });
 
       setErrors(fieldErrors);
-      return { isValid: false };
+      return {
+        isValid: false,
+        errors: fieldErrors,
+      };
     }
   };
 
   const getFieldError = (field: string) => {
-    console.log(`Getting error for field ${field}:`, errors[field]);
     return errors[field] || "";
   };
 
   const hasFieldError = (field: string) => {
-    const hasError = !!errors[field];
-    console.log(`Field ${field} has error:`, hasError);
-    return hasError;
+    return !!errors[field];
   };
 
   const clearErrors = () => {
-    console.log("Clearing all errors");
     setErrors({});
   };
 
   const clearFieldError = (field: string) => {
-    console.log(`Clearing error for field ${field}`);
     setErrors((prev) => {
       const updated = { ...prev };
       delete updated[field];
@@ -57,6 +64,6 @@ export const useFormValidation = <T extends Record<string, any>>(
     hasFieldError,
     clearErrors,
     clearFieldError,
-    errors, // Added for debugging
+    errors,
   };
 };
