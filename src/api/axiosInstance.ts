@@ -1,4 +1,3 @@
-
 import { store } from "./../store/store";
 import axios from "axios";
 import { RootState } from "@/store/store";
@@ -7,7 +6,7 @@ import { resetStore } from "@/store/actions/globalActions";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const skipAuthRoutes = ["/login", "/refresh-access-token"];
+const skipAuthRoutes = ["/login", "/refresh-access-token", "/verify-signup"];
 
 // Auth helper functions - will be injected by useAxiosAuth hook
 let getAccessToken: (() => string | null) | null = null;
@@ -85,11 +84,19 @@ axiosInstance.interceptors.request.use(
 
     if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(`🔑 Added token to ${config.method?.toUpperCase()} request to ${config.url}`);
+      console.log(
+        `🔑 Added token to ${config.method?.toUpperCase()} request to ${
+          config.url
+        }`
+      );
     } else if (!isAuthRoute) {
-      console.log(`⚠️ No token available for ${config.method?.toUpperCase()} request to ${config.url}`);
+      console.log(
+        `⚠️ No token available for ${config.method?.toUpperCase()} request to ${
+          config.url
+        }`
+      );
     }
-    
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -140,7 +147,7 @@ axiosInstance.interceptors.response.use(
       try {
         console.log("🔄 Attempting token refresh for failed request");
         const success = await refreshToken();
-        
+
         if (success) {
           console.log("✅ Token refresh successful, retrying original request");
           processQueue(null);
@@ -168,12 +175,17 @@ axiosInstance.interceptors.response.use(
         const lastRefreshAttempt = localStorage.getItem("last_refresh_attempt");
         const now = Date.now();
         const fiveMinutesAgo = now - 5 * 60 * 1000;
-        
-        if (lastRefreshAttempt && parseInt(lastRefreshAttempt) > fiveMinutesAgo) {
+
+        if (
+          lastRefreshAttempt &&
+          parseInt(lastRefreshAttempt) > fiveMinutesAgo
+        ) {
           console.log("🔒 Recent refresh attempts failed, forcing logout");
           handleAuthFailure(true);
         } else {
-          console.log("🔒 First recent refresh failure, not forcing logout yet");
+          console.log(
+            "🔒 First recent refresh failure, not forcing logout yet"
+          );
           localStorage.setItem("last_refresh_attempt", now.toString());
           handleAuthFailure(false);
         }
