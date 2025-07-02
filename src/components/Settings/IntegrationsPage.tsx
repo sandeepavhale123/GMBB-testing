@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -99,6 +100,19 @@ export const IntegrationsPage: React.FC = () => {
                   : 'hover:shadow-md'
               }`}
             >
+              {/* Active Badge - Top Right */}
+              {integration.status === 'active' && (
+                <div className="absolute top-3 right-3">
+                  <Badge 
+                    variant="default"
+                    className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-100"
+                  >
+                    <Check className="w-3 h-3" />
+                    Active
+                  </Badge>
+                </div>
+              )}
+
               {/* First Row: Icon */}
               <div className="p-6 pb-4">
                 <div className="flex justify-start">
@@ -112,23 +126,6 @@ export const IntegrationsPage: React.FC = () => {
               <div className="px-6 pb-4 text-left">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{integration.name}</h3>
                 <p className="text-sm text-gray-600">{integration.description}</p>
-                <div className="mt-3 flex justify-start">
-                  <Badge 
-                    variant={integration.status === 'active' ? 'default' : 'secondary'}
-                    className={`flex items-center gap-1 ${
-                      integration.status === 'active' 
-                        ? 'bg-green-100 text-green-700 hover:bg-green-100' 
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-100'
-                    }`}
-                  >
-                    {integration.status === 'active' ? (
-                      <Check className="w-3 h-3" />
-                    ) : (
-                      <X className="w-3 h-3" />
-                    )}
-                    {integration.status === 'active' ? 'Active' : 'Inactive'}
-                  </Badge>
-                </div>
               </div>
 
               {/* Third Row: Configure Button */}
