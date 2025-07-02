@@ -151,7 +151,8 @@ export const GeoRankingReportPage: React.FC = () => {
       for (let j = 0; j < cols; j++) {
         const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
         const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
-        const ranking = Math.floor(Math.random() * 8) + 1;
+        // const ranking = Math.floor(Math.random() * 8) + 1;
+        const ranking = '';
         gridData.push({
           lat,
           lng,
