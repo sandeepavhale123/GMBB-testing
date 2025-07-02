@@ -6,9 +6,12 @@ import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
 import { useBusinessListings } from '../../hooks/useBusinessListings';
 import { GeoRankingReportForm } from './GeoRankingReportForm';
-import { GeoRankingMap } from './GeoRankingMap';
+import { GeoRankingReportMap } from './GeoRankingReportMap';
+import { GeoPositionModal } from './GeoPositionModal';
 import { useGeoRankingReport } from '../../hooks/useGeoRankingReport';
 import { getDistanceOptions, languageOptions } from '../../utils/geoRankingUtils';
+import { getKeywordPositionDetails } from '../../api/geoRankingApi';
+import { useToast } from '../../hooks/use-toast';
 
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -27,9 +30,17 @@ export const GeoRankingReportPage: React.FC = () => {
     setCurrentMarkers,
     submittingRank,
     pollingKeyword,
+    keywordData,
+    currentKeywordId,
     handleInputChange,
     submitCheckRank
   } = useGeoRankingReport(numericListingId);
+
+  const { toast } = useToast();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalCoordinate, setModalCoordinate] = useState('');
+  const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
+  const [modalLoading, setModalLoading] = useState(false);
 
   // Get current listing - convert numericListingId to string for comparison
   const currentListing = listings.find(listing => listing.id === numericListingId.toString());
@@ -48,6 +59,38 @@ export const GeoRankingReportPage: React.FC = () => {
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
+  };
+
+  const handleMarkerClick = async (coordinate: string, positionId: string) => {
+    setModalCoordinate(coordinate);
+    setModalOpen(true);
+    setModalLoading(true);
+    
+    try {
+      if (currentKeywordId) {
+        const response = await getKeywordPositionDetails(numericListingId, currentKeywordId, positionId);
+        if (response.code === 200) {
+          const competitors = response.data.keywordDetails.map((detail, index) => ({
+            position: detail.position,
+            name: detail.name,
+            address: detail.address,
+            rating: parseFloat(detail.rating) || 0,
+            reviewCount: parseInt(detail.review) || 0,
+            selected: detail.selected
+          }));
+          setModalCompetitors(competitors);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching position details:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load position details",
+        variant: "destructive"
+      });
+    } finally {
+      setModalLoading(false);
+    }
   };
 
   return (
@@ -95,21 +138,28 @@ export const GeoRankingReportPage: React.FC = () => {
 
               {/* Map Section */}
               <div className="xl:col-span-8 order-2 xl:order-1">
-                <GeoRankingMap
-                  mapPoint={formData.mapPoint}
-                  loadingGrid={loadingGrid}
+                <GeoRankingReportMap
                   defaultCoordinates={defaultCoordinates}
                   gridCoordinates={gridCoordinates}
-                  currentMarkers={currentMarkers}
-                  setCurrentMarkers={setCurrentMarkers}
-                  mapInstanceRef={mapInstanceRef}
-                  distanceValue={formData.distanceValue}
-                  distanceUnit={formData.distanceUnit}
+                  rankDetails={keywordData?.rankDetails || null}
+                  pollingKeyword={pollingKeyword}
+                  loadingGrid={loadingGrid}
+                  onMarkerClick={handleMarkerClick}
                 />
               </div>
             </div>
           </div>
         </div>
+
+        {/* Position Modal */}
+        <GeoPositionModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          gpsCoordinates={modalCoordinate}
+          competitors={modalCompetitors}
+          userBusinessName={currentListing?.name}
+          loading={modalLoading}
+        />
       </div>
     </div>
   );

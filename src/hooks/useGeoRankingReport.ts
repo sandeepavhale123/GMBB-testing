@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { getDefaultCoordinates, getGridCoordinates, addKeywords, getKeywordDetailsWithStatus, CheckRankRequest } from '../api/geoRankingApi';
+import { getDefaultCoordinates, getGridCoordinates, addKeywords, getKeywordDetailsWithStatus, CheckRankRequest, KeywordDetailsData, RankDetail } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 import { processDistanceValue } from '../utils/geoRankingUtils';
 import L from 'leaflet';
@@ -26,6 +26,8 @@ export const useGeoRankingReport = (listingId: number) => {
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
   const [submittingRank, setSubmittingRank] = useState(false);
   const [pollingKeyword, setPollingKeyword] = useState(false);
+  const [keywordData, setKeywordData] = useState<KeywordDetailsData | null>(null);
+  const [currentKeywordId, setCurrentKeywordId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -150,6 +152,7 @@ export const useGeoRankingReport = (listingId: number) => {
         } else {
           // Data is ready
           console.log('Keyword details ready:', response);
+          setKeywordData(response.data as KeywordDetailsData);
           toast({
             title: "Keyword Processed",
             description: "Your keyword ranking data is now available!",
@@ -229,6 +232,7 @@ export const useGeoRankingReport = (listingId: number) => {
       if (response.code === 200) {
         // If we got a keywordId, start polling for keyword details
         if (response.data?.keywordId) {
+          setCurrentKeywordId(response.data.keywordId.toString());
           toast({
             title: "Processing Keyword",
             description: "Please wait while we process your keyword ranking data...",
@@ -284,6 +288,8 @@ export const useGeoRankingReport = (listingId: number) => {
     setCurrentMarkers,
     submittingRank,
     pollingKeyword,
+    keywordData,
+    currentKeywordId,
     handleInputChange,
     fetchGridCoordinates,
     submitCheckRank
