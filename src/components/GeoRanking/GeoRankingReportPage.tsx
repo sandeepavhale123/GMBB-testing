@@ -40,7 +40,7 @@ interface FormData {
 interface GridPoint {
   lat: number;
   lng: number;
-  ranking: number;
+  ranking: number | null ;
   id: string;
 }
 
@@ -152,7 +152,7 @@ export const GeoRankingReportPage: React.FC = () => {
         const lat = centerLat + (i - Math.floor(rows / 2)) * spacing;
         const lng = centerLng + (j - Math.floor(cols / 2)) * spacing;
         // const ranking = Math.floor(Math.random() * 8) + 1;
-        const ranking = '';
+        const ranking = null;
         gridData.push({
           lat,
           lng,
@@ -224,7 +224,7 @@ export const GeoRankingReportPage: React.FC = () => {
     gridData.forEach(point => {
       const rankingIcon = L.divIcon({
         html: `<div style="
-          background: ${point.ranking === 1 ? '#22c55e' : point.ranking <= 3 ? '#f59e0b' : point.ranking <= 6 ? '#ef4444' : '#94a3b8'};
+          background: ${point.ranking === 1 ? '#22c55e' : point.ranking <= 3 ? '#f59e0b' : point.ranking <= 6 ? '#ef4444' : '#ef4444'};
           color: white;
           width: 32px;
           height: 32px;
@@ -236,7 +236,7 @@ export const GeoRankingReportPage: React.FC = () => {
           font-size: 14px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        ">${point.ranking}</div>`,
+        "> ${ point.ranking !== null ? point.ranking : '' } </div>`,
         className: 'custom-ranking-marker',
         iconSize: [32, 32],
         iconAnchor: [16, 16]
