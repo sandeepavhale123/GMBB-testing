@@ -29,7 +29,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
     searchBusiness: '',
-    searchDataEngine: 'Map API',
+    searchDataEngine: 'Briefcase API',
     keywords: '',
     mapPoint: 'Automatic',
     distanceUnit: 'Meters',
