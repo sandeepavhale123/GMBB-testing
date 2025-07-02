@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { getDefaultCoordinates, getGridCoordinates, addKeywords, CheckRankRequest } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
@@ -33,8 +34,8 @@ export const useGeoRankingReport = (listingId: number) => {
     mapPoint: 'Automatic',
     distanceUnit: 'Meters',
     distanceValue: '100',
-    gridSize: '5x5',
-    scheduleCheck: 'One-time',
+    gridSize: '5',
+    scheduleCheck: 'onetime',
     language: 'en'
   });
 
