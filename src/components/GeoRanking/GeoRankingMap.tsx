@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { MapPin, Loader, ZoomIn, ZoomOut } from 'lucide-react';
+import { MapPin, Loader2, ZoomIn, ZoomOut } from 'lucide-react';
 import L from 'leaflet';
 
 // Fix for default markers in Leaflet with Webpack
@@ -366,9 +366,9 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       </CardHeader>
       <CardContent className="p-0 h-full relative">
         {loadingGrid && (
-          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
+          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-50 rounded-lg">
             <div className="text-center bg-white p-6 rounded-lg shadow-lg border">
-              <Loader className="w-8 h-8 text-primary animate-spin mx-auto mb-3" />
+              <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
               <p className="text-sm font-medium text-gray-900 mb-1">Loading Map Data</p>
               <p className="text-xs text-gray-500">
                 {mapPoint === 'Automatic' ? 'Generating grid coordinates...' : 'Preparing map...'}
