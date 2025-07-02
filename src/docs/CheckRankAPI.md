@@ -30,6 +30,7 @@ POST /check-rank
 | `distanceUnit` | string | Unit for grid generation | Required if mapPoint="Automatic", enum: "Meters", "Miles" |
 | `distanceValue` | string | Distance value for grid | Required if mapPoint="Automatic" |
 | `gridSize` | string | Grid dimensions | Required if mapPoint="Automatic", enum: "3x3", "5x5", "7x7", "9x9", "11x11" |
+| `latlng` | array | Generated grid coordinate points | Required if mapPoint="Automatic", array of "lat,lng" strings |
 
 ### Conditional Parameters (for Manual mode)
 | Parameter | Type | Description | Validation |
@@ -47,7 +48,17 @@ POST /check-rank
   "distanceValue": ".5",
   "gridSize": "5x5",
   "scheduleCheck": "One-time",
-  "language": "en"
+  "language": "en",
+  "latlng": [
+    "40.7128,-74.0060",
+    "40.7589,-73.9851",
+    "40.6782,-73.9442",
+    "40.7505,-73.9934",
+    "40.7282,-73.7949",
+    "40.6892,-73.9442",
+    "40.7128,-73.9851",
+    "40.7282,-73.9934"
+  ]
 }
 ```
 
