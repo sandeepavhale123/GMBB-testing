@@ -37,7 +37,7 @@ export const useGeoRankingReport = (listingId: number) => {
     mapPoint: 'Automatic',
     distanceUnit: 'Meters',
     distanceValue: '100',
-    gridSize: '5',
+    gridSize: '3',
     scheduleCheck: 'onetime',
     language: 'en'
   });

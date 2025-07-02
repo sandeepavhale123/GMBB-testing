@@ -59,10 +59,10 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
     const defaultIcon = L.divIcon({
       html: `<div style="
-        background: #dc2626;
+        background: #3b82f6;
         color: white;
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -71,10 +71,10 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         font-size: 14px;
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      ">🏢</div>`,
+      ">📍</div>`,
       className: 'default-business-marker',
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
+      iconSize: [40, 40],
+      iconAnchor: [20, 20]
     });
 
     const marker = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
@@ -139,21 +139,21 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         html: `<div style="
           background: ${rankColor};
           color: white;
-          width: 32px;
-          height: 32px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 12px;
+          font-size: 13px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
           cursor: pointer;
         ">${detail.rank}</div>`,
         className: 'ranking-marker',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
       });
 
       const marker = L.marker([lat, lng], {
@@ -184,8 +184,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (rankDetails && rankDetails.length > 0) {
       // Show ranking data
       addRankingMarkers();
-    } else if (gridCoordinates.length > 0) {
-      // Show grid points during processing
+    } else if (gridCoordinates.length > 0 && pollingKeyword) {
+      // Show grid points only during processing
       addGridMarkers();
     }
   };

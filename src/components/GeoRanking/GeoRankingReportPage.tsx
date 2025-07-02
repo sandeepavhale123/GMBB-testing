@@ -122,6 +122,24 @@ export const GeoRankingReportPage: React.FC = () => {
               </div>
             )}
 
+            {/* Processing Status Card */}
+            {pollingKeyword && (
+              <div className="mb-6 p-6 bg-white rounded-lg shadow-sm border">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Processing Keyword</h3>
+                    <p className="text-sm text-gray-600">Keyword is being processed. This may take a few minutes...</p>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{ width: '45%' }}></div>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
               {/* Report Configuration */}
               <div className="xl:col-span-4 order-1 xl:order-2">
