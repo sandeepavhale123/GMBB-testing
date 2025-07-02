@@ -11,7 +11,7 @@ import { Sheet, SheetContent } from '../components/ui/sheet';
 import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
 import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAccountPage';
 import { SubscriptionPage } from '../components/Settings/SubscriptionPage';
-import { GenieSubscriptionPage } from '../components/Settings/GenieSubscriptionPage';
+
 import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
 import { IntegrationsPage } from '../components/Settings/IntegrationsPage';
 
@@ -35,9 +35,6 @@ const SettingsPage = () => {
     const path = location.pathname;
     if (path.includes('/subscription')) {
       return 'subscription';
-    }
-    if (path.includes('/genie-subscription')) {
-      return 'genie-subscription';
     }
     if (path.includes('/integrations')) {
       return 'integrations';
@@ -66,8 +63,6 @@ const SettingsPage = () => {
         return <ManageGoogleAccountPage />;
       case 'subscription':
         return <SubscriptionPage />;
-      case 'genie-subscription':
-        return <GenieSubscriptionPage />;
       case 'integrations':
         return <IntegrationsPage />;
       default:

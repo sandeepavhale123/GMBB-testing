@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Map, Settings, Check, X } from 'lucide-react';
+import { Map, Settings, Check, X, Eye, EyeOff, ExternalLink } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Integration {
@@ -21,6 +21,7 @@ export const IntegrationsPage: React.FC = () => {
   const { toast } = useToast();
   const [mapApiKey, setMapApiKey] = useState('');
   const [isConfiguring, setIsConfiguring] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
 
   const [integrations, setIntegrations] = useState<Integration[]>([
     {
@@ -83,7 +84,7 @@ export const IntegrationsPage: React.FC = () => {
         <p className="text-gray-600">Manage your third-party integrations and API connections</p>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {integrations.map((integration) => {
           const IconComponent = integration.icon;
           
@@ -141,32 +142,96 @@ export const IntegrationsPage: React.FC = () => {
                             Configure
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
+                        <DialogContent className="sm:max-w-2xl">
                           <DialogHeader>
                             <DialogTitle>Configure {integration.name}</DialogTitle>
                           </DialogHeader>
                           
                           {integration.id === 'map-api' && (
-                            <div className="space-y-4">
-                              <div>
-                                <Label htmlFor="apiKey">API Key</Label>
-                                <Input
-                                  id="apiKey"
-                                  type="password"
-                                  placeholder="Enter your Map API key"
-                                  value={mapApiKey}
-                                  onChange={(e) => setMapApiKey(e.target.value)}
-                                  className="mt-1"
-                                />
-                                <p className="text-xs text-gray-500 mt-1">
-                                  Get your API key from your map service provider
+                            <div className="space-y-6">
+                              <div className="bg-blue-50 p-4 rounded-lg">
+                                <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
+                                  <Map className="w-4 h-4" />
+                                  How to generate Google Places API key
+                                </h4>
+                                <div className="space-y-2 text-sm text-blue-800">
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">1.</span>
+                                    <span>Note - You must enable Billing for Google Project.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">2.</span>
+                                    <span>Visit the Google <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline inline-flex items-center gap-1">Cloud Platform Console <ExternalLink className="w-3 h-3" /></a>.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">3.</span>
+                                    <span>Click the project drop-down and select or create the project for which you want to add an API key.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">4.</span>
+                                    <span>From Dashboard → Go to APIs overview → Click on Library → Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">5.</span>
+                                    <span>After that Click the menu button and select APIs & Services → Credentials.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">6.</span>
+                                    <span>On the Credentials page, Create credentials Dropdown - Select API Key Option.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">7.</span>
+                                    <span>This creates dialog displays, "your newly created API key" - Copy the key.</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">8.</span>
+                                    <span>Use or Paste generated key under Geo Ranking → Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="font-medium min-w-[20px]">9.</span>
+                                    <span>Once you have added a key it will be used for all of your listings and no more need to generate a separate key for every GMB listing.</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="space-y-3">
+                                <Label htmlFor="apiKey" className="text-sm font-medium">Google Places API Key</Label>
+                                <div className="relative">
+                                  <Input
+                                    id="apiKey"
+                                    type={showApiKey ? "text" : "password"}
+                                    placeholder="Enter your Google Places API key"
+                                    value={mapApiKey}
+                                    onChange={(e) => setMapApiKey(e.target.value)}
+                                    className="pr-10"
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                    onClick={() => setShowApiKey(!showApiKey)}
+                                  >
+                                    {showApiKey ? (
+                                      <EyeOff className="h-4 w-4 text-gray-400" />
+                                    ) : (
+                                      <Eye className="h-4 w-4 text-gray-400" />
+                                    )}
+                                  </Button>
+                                </div>
+                                <p className="text-xs text-gray-500">
+                                  This API key will be used for all location-based features including Geo Ranking and map services.
                                 </p>
                               </div>
                               
-                              <div className="flex justify-end gap-2">
+                              <div className="flex justify-end gap-2 pt-4 border-t">
                                 <Button 
                                   variant="outline" 
-                                  onClick={() => setIsConfiguring(false)}
+                                  onClick={() => {
+                                    setIsConfiguring(false);
+                                    setMapApiKey('');
+                                    setShowApiKey(false);
+                                  }}
                                 >
                                   Cancel
                                 </Button>
