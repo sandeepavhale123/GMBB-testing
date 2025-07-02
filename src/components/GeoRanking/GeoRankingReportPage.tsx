@@ -141,6 +141,25 @@ export const GeoRankingReportPage: React.FC = () => {
     fetchDefaultCoordinates();
   }, [numericListingId, toast]);
 
+  // Process distance value to handle Miles units properly
+  const processDistanceValue = (distanceValue: string, unit: string): number => {
+    // Handle special Miles cases that include 'mi' suffix
+    if (unit === 'Miles') {
+      switch (distanceValue) {
+        case '1mi':
+          return 1;
+        case '5mi':
+          return 5;
+        case '10mi':
+          return 10;
+        default:
+          return parseFloat(distanceValue);
+      }
+    }
+    // For Meters, parse normally
+    return parseFloat(distanceValue);
+  };
+
   // Fetch grid coordinates from API
   const fetchGridCoordinates = async () => {
     if (!defaultCoordinates) return;
@@ -148,8 +167,10 @@ export const GeoRankingReportPage: React.FC = () => {
     setLoadingGrid(true);
     try {
       const gridSize = parseInt(formData.gridSize.split('x')[0]);
-      const distance = parseFloat(formData.distanceValue);
+      const distance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
       const latlong = `${defaultCoordinates.lat},${defaultCoordinates.lng}`;
+      
+      console.log('Sending to API:', { gridSize, distance, distanceUnit: formData.distanceUnit, distanceValue: formData.distanceValue });
       
       const response = await getGridCoordinates(numericListingId, gridSize, distance, latlong);
       if (response.code === 200) {
