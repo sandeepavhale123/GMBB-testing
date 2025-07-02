@@ -526,51 +526,57 @@ export const GeoRankingReportPage: React.FC = () => {
                         )}
                       </div>
 
-                      {/* Distance Unit and Distance Value */}
-                      <div className=" grid lg:grid-cols-2">
-                        <div className="space-y-2 span-col-1 ">
+                      {formData.mapPoint !== 'Manually' && (
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        {/* Distance Unit */}
+                        <div className="space-y-2 col-span-1">
                           <Label className="text-sm font-medium text-gray-700">
-                          Distance Unit
-                        </Label>
-                        <div className="grid grid-cols-2 gap-3">
-                          <RadioGroup 
-                            value={formData.distanceUnit} 
-                            onValueChange={(value) => handleInputChange('distanceUnit', value)} 
+                            Distance Unit
+                          </Label>
+                    
+                          <RadioGroup
+                            value={formData.distanceUnit}
+                            onValueChange={(val) => handleInputChange('distanceUnit', val)}
                             className="flex flex-col gap-2"
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="Meters" id="meters" />
                               <Label htmlFor="meters" className="text-sm">Meters</Label>
                             </div>
+                    
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="Miles" id="miles" />
                               <Label htmlFor="miles" className="text-sm">Miles</Label>
                             </div>
                           </RadioGroup>
-                          
                         </div>
+                    
+                        {/* Distance Value */}
+                        <div className="space-y-2 col-span-1">
+                          <Label className="text-sm font-medium text-gray-700">
+                            Distance
+                          </Label>
+                    
+                          <Select
+                            value={formData.distanceValue}
+                            onValueChange={(val) => handleInputChange('distanceValue', val)}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Choose…" />
+                            </SelectTrigger>
+                    
+                            <SelectContent>
+                              {getDistanceOptions().map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
-                        <div className="space-y-2 span-col-1 ">
-                            <Label className="text-sm font-medium text-gray-700">
-                              Distance
-                            </Label>
-                            <Select 
-                              value={formData.distanceValue} 
-                              onValueChange={(value) => handleInputChange('distanceValue', value)}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {getDistanceOptions().map(option => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
                       </div>
+                    )}
+                      
 
                       {/* Grid Size and Schedule Check */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
