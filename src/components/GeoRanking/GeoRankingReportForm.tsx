@@ -53,8 +53,10 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               </Label>
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="w-4 h-4 text-gray-400" />
+                  <TooltipTrigger asChild>
+                    <span className="cursor-help" onClick={(e) => e.preventDefault()}>
+                      <Info className="w-4 h-4 text-gray-400" />
+                    </span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Add up to 5 keywords separated by commas</p>
