@@ -100,19 +100,69 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
     setCurrentMarkers([marker]);
   };
 
-  // Add automatic grid markers
+  // Add automatic grid markers while preserving default marker
   const addAutomaticMarkers = (): void => {
     if (!mapInstanceRef.current || !defaultCoordinates) return;
 
-    clearAllMarkers();
+    // Clear only grid markers, preserve default marker
+    const gridMarkers = currentMarkers.filter(marker => 
+      (marker.options as any).className !== 'default-marker'
+    );
+    gridMarkers.forEach(marker => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.removeLayer(marker);
+      }
+    });
+    
+    // Keep default marker in the list
+    const defaultMarker = currentMarkers.find(marker => 
+      (marker.options as any).className === 'default-marker'
+    );
     
     const gridData = gridCoordinates.length > 0 ? generateGridDataFromAPI() : [];
-    const markers: L.Marker[] = [];
+    const markers: L.Marker[] = defaultMarker ? [defaultMarker] : [];
     
+    // Add default marker if it doesn't exist
+    if (!defaultMarker) {
+      const defaultIcon = L.divIcon({
+        html: `<div style="
+          background: #dc2626;
+          color: white;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 12px;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        "></div>`,
+        className: 'default-marker',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      const defaultMarkerInstance = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
+        icon: defaultIcon
+      }).addTo(mapInstanceRef.current);
+
+      defaultMarkerInstance.bindPopup(`
+        <div style="text-align: center; padding: 5px;">
+          <strong>Default Location</strong><br>
+          <small>Business center point</small>
+        </div>
+      `);
+
+      markers.push(defaultMarkerInstance);
+    }
+    
+    // Add grid markers with red color as fallback
     gridData.forEach(point => {
       const rankingIcon = L.divIcon({
         html: `<div style="
-          background: ${point.ranking === 1 ? '#22c55e' : point.ranking && point.ranking <= 3 ? '#f59e0b' : point.ranking && point.ranking <= 6 ? '#ef4444' : '#3b82f6'};
+          background: ${point.ranking === 1 ? '#22c55e' : point.ranking && point.ranking <= 3 ? '#f59e0b' : point.ranking && point.ranking <= 6 ? '#ef4444' : '#dc2626'};
           color: white;
           width: 32px;
           height: 32px;
