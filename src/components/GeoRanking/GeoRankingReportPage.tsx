@@ -236,7 +236,7 @@ export const GeoRankingReportPage: React.FC = () => {
           font-size: 14px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        "> ${ point.ranking !== 'null' ? point.ranking : '' } </div>`,
+        "> ${ point.ranking !== null ? point.ranking : '' } </div>`,
         className: 'custom-ranking-marker',
         iconSize: [32, 32],
         iconAnchor: [16, 16]
