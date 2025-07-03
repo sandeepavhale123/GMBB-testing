@@ -57,11 +57,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       { value: '100', label: '100 Meter' },
       { value: '200', label: '200 Meter' },
       { value: '500', label: '500 Meter' },
-      { value: '1', label: '1 Kilometer' },
-      { value: '2.5', label: '2.5 Kilometer' },
-      { value: '5', label: '5 Kilometer' },
-      { value: '10', label: '10 Kilometer' },
-      { value: '25', label: '25 Kilometer' },
+      { value: '1', label: '1 KM' },
+      { value: '2.5', label: '2.5 KM' },
+      { value: '5', label: '5 KM' },
+      { value: '10', label: '10 KM' },
+      { value: '25', label: '25 KM' },
       { value: '.1', label: '.1 Miles' },
       { value: '.25', label: '.25 Miles' },
       { value: '.5', label: '.5 Miles' },
@@ -91,7 +91,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       return false;
     });
     
-    return matchedDistance ? matchedDistance.label : distance;
+    // Convert KM to Kilometer for display
+    const finalLabel = matchedDistance ? matchedDistance.label : distance;
+    return finalLabel.replace(' KM', ' Kilometer');
   };
 
   const distance = formatDistanceLabel(projectDetails?.distance);
