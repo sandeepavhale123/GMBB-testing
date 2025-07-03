@@ -12,13 +12,12 @@ interface RankingMapProps {
 export const RankingMap: React.FC<RankingMapProps> = React.memo(({ onMarkerClick, rankDetails }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
-
-  console.log('🗺️ RankingMap render', { rankDetailsCount: rankDetails.length });
+  const initializingRef = useRef(false);
 
   const initializeMap = useCallback(() => {
-    if (!mapRef.current || mapInstanceRef.current) return;
-
-    console.log('🗺️ Initializing map...');
+    if (!mapRef.current || mapInstanceRef.current || initializingRef.current) return;
+    
+    initializingRef.current = true;
 
     try {
       // Determine center point from rank details or use default
@@ -35,8 +34,7 @@ export const RankingMap: React.FC<RankingMapProps> = React.memo(({ onMarkerClick
 
       const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
       mapInstanceRef.current = map;
-
-      console.log('🗺️ Map initialized successfully', { centerLat, centerLng });
+      initializingRef.current = false;
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -44,7 +42,6 @@ export const RankingMap: React.FC<RankingMapProps> = React.memo(({ onMarkerClick
 
       // Add markers based on API data
       if (rankDetails.length > 0) {
-        console.log('🗺️ Adding markers for rank details:', rankDetails.length);
         rankDetails.forEach((detail, index) => {
           const coords = detail.coordinate.split(',');
           if (coords.length === 2) {
@@ -102,7 +99,6 @@ export const RankingMap: React.FC<RankingMapProps> = React.memo(({ onMarkerClick
           }
         });
       } else {
-        console.log('🗺️ No rank details, generating fallback grid');
         // Fallback to generate dummy grid if no API data
         const generateGridData = () => {
           const gridData = [];
@@ -173,15 +169,16 @@ export const RankingMap: React.FC<RankingMapProps> = React.memo(({ onMarkerClick
         });
       }
     } catch (error) {
-      console.error('🗺️ Error initializing map:', error);
+      console.error('Error initializing map:', error);
+      initializingRef.current = false;
     }
-  }, [rankDetails, onMarkerClick]);
+  }, [rankDetails]);
 
   const cleanupMap = useCallback(() => {
     if (mapInstanceRef.current) {
-      console.log('🗺️ Cleaning up map...');
       mapInstanceRef.current.remove();
       mapInstanceRef.current = null;
+      initializingRef.current = false;
     }
   }, []);
 

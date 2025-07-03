@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
@@ -99,7 +99,7 @@ export const GeoRankingPage = () => {
     console.log('Exporting report as PDF...');
   };
   
-  const handleMarkerClick = async (gpsCoordinates: string, positionId: string) => {
+  const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
     if (!selectedKeyword) return;
 
     // Open modal immediately with loading state
@@ -148,7 +148,7 @@ export const GeoRankingPage = () => {
         loading: false
       });
     }
-  };
+  }, [selectedKeyword, fetchPositionDetails]);
   
   const handleCloseModal = () => {
     setModalData(prev => ({

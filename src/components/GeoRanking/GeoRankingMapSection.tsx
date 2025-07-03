@@ -21,7 +21,6 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = React.m
   projectDetails,
   loading
 }) => {
-  console.log('🗺️ GeoRankingMapSection render', { rankDetailsCount: rankDetails.length, loading });
 
   // Memoize position summary calculation
   const positionSummary = useMemo(() => {
