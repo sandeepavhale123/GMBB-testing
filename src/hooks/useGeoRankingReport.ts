@@ -46,56 +46,55 @@ export const useGeoRankingReport = (listingId: number) => {
   const determineDistanceUnit = (distance: string): { unit: string; value: string } => {
     console.log('🔍 determineDistanceUnit called with:', distance);
     
-    // Extract numeric value from distance string
-    const numericValue = distance.replace(/[^0-9.]/g, '');
-    console.log('📊 Extracted numeric value:', numericValue);
-    
-    // Define available distance options that match the dropdown
+    // Use exact dropdown values from geoRankingUtils.ts
     const meterValues = ['100', '200', '500', '1', '2.5', '5', '10', '25'];
     const mileValues = ['.1', '.25', '.5', '.75', '1mi', '2', '3', '5mi', '8', '10mi'];
     
-    // Check if it's a mile value (contains 'mi' or is in mile numeric values)
-    const isMileValue = distance.includes('mi') || distance.toUpperCase().includes('MILE') || 
-                       mileValues.some(val => val.replace('mi', '') === numericValue);
-    
     console.log('🌐 Distance analysis:', {
       distance,
-      numericValue,
-      includesMi: distance.includes('mi'),
-      includesMile: distance.toUpperCase().includes('MILE'),
-      isMileValue
+      originalDistance: distance,
+      lowercaseDistance: distance.toLowerCase()
     });
     
-    if (isMileValue) {
-      // For mile values, return the original distance value for matching
-      const mileValue = mileValues.find(val => {
-        const match1 = val === numericValue + 'mi';
-        const match2 = val === distance.toLowerCase();
-        const match3 = val === numericValue;
-        console.log(`🔍 Checking mileValue "${val}" against:`, {
-          val,
-          numericValue,
-          'numericValue + mi': numericValue + 'mi',
-          'distance.toLowerCase()': distance.toLowerCase(),
-          match1,
-          match2,
-          match3
-        });
-        if (val.includes('mi')) {
-          return match1 || match2;
-        }
-        return match3;
-      });
-      const result = { unit: 'Miles', value: mileValue || numericValue };
-      console.log('📏 Mile result:', result);
-      return result;
-    } else {
-      // For meter values
-      const meterValue = meterValues.find(val => val === numericValue);
-      const result = { unit: 'Meters', value: meterValue || numericValue };
-      console.log('📏 Meter result:', result);
+    // First, try direct match with mile values (case insensitive)
+    const mileMatch = mileValues.find(val => val === distance.toLowerCase());
+    if (mileMatch) {
+      const result = { unit: 'Miles', value: mileMatch };
+      console.log('📏 Direct mile match result:', result);
       return result;
     }
+    
+    // Check if it contains 'mi' and try to match
+    if (distance.toLowerCase().includes('mi')) {
+      const result = { unit: 'Miles', value: distance.toLowerCase() };
+      console.log('📏 Mile with "mi" result:', result);
+      return result;
+    }
+    
+    // Extract numeric value and try to match
+    const numericValue = distance.replace(/[^0-9.]/g, '');
+    console.log('📊 Extracted numeric value:', numericValue);
+    
+    // Try direct match with meter values
+    const meterMatch = meterValues.find(val => val === numericValue);
+    if (meterMatch) {
+      const result = { unit: 'Meters', value: meterMatch };
+      console.log('📏 Meter match result:', result);
+      return result;
+    }
+    
+    // Try direct match with mile numeric values
+    const mileNumericMatch = mileValues.find(val => val === numericValue);
+    if (mileNumericMatch) {
+      const result = { unit: 'Miles', value: mileNumericMatch };
+      console.log('📏 Mile numeric match result:', result);
+      return result;
+    }
+    
+    // Default fallback - assume meters
+    const result = { unit: 'Meters', value: numericValue || '100' };
+    console.log('📏 Fallback result:', result);
+    return result;
   };
 
   // Initialize form from URL params if cloning
