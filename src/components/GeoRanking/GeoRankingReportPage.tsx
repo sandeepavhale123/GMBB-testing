@@ -8,6 +8,7 @@ import { useBusinessListings } from '../../hooks/useBusinessListings';
 import { GeoRankingReportForm } from './GeoRankingReportForm';
 import { GeoRankingReportMap } from './GeoRankingReportMap';
 import { GeoPositionModal } from './GeoPositionModal';
+import { UnderPerformingTable } from './UnderPerformingTable';
 import { useGeoRankingReport } from '../../hooks/useGeoRankingReport';
 import { getDistanceOptions, languageOptions } from '../../utils/geoRankingUtils';
 import { getKeywordPositionDetails } from '../../api/geoRankingApi';
@@ -177,6 +178,16 @@ export const GeoRankingReportPage: React.FC = () => {
                 />
               </div>
             </div>
+
+            {/* Under-Performing Areas Section */}
+            {keywordData?.underPerformingArea && keywordData.underPerformingArea.length > 0 && (
+              <div className="mt-6">
+                <UnderPerformingTable 
+                  underPerformingAreas={keywordData.underPerformingArea}
+                  loading={pollingKeyword}
+                />
+              </div>
+            )}
           </div>
         </div>
 
