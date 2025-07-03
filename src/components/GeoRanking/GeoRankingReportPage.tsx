@@ -41,7 +41,7 @@ export const GeoRankingReportPage: React.FC = () => {
   } = useGeoRankingReport(numericListingId);
 
   const { toast } = useToast();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   const [modalCoordinate, setModalCoordinate] = useState('');
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
