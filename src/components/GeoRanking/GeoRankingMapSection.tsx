@@ -83,8 +83,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
     
     // Find matching label from the distance map
     const matchedDistance = distanceMap.find(item => {
-      if (isMiles && (item.value.includes('mi') || parseFloat(item.value) === parseFloat(numericValue))) {
-        return item.value === numericValue || item.value === `${numericValue}mi`;
+      if (isMiles) {
+        // For Miles, match the exact value (e.g., "5mi" matches "5mi", "2" matches "2")
+        return item.value === distance.replace(/[^0-9.mi]/g, '');
       } else if (isKM && !item.label.includes('Miles')) {
         return item.value === numericValue;
       }
