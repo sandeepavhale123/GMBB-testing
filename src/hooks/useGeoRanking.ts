@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, getKeywordPositionDetails, checkKeywordStatus, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
+import { getKeywords, getKeywordDetails, getKeywordPositionDetails, checkKeywordStatus, refreshKeyword, RefreshKeywordRequest, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useGeoRanking = (listingId: number) => {
@@ -17,6 +17,8 @@ export const useGeoRanking = (listingId: number) => {
   const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
   const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
   const [isPolling, setIsPolling] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshError, setRefreshError] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Reusable function to fetch keywords
@@ -187,6 +189,97 @@ export const useGeoRanking = (listingId: number) => {
     setSelectedDate(dateId);
   };
 
+  const handleRefreshKeyword = async () => {
+    if (!listingId || !selectedKeyword) return;
+    
+    setRefreshing(true);
+    setRefreshError(null);
+    
+    try {
+      // Call refresh keyword API
+      const refreshResponse = await refreshKeyword({
+        listingId,
+        keywordId: selectedKeyword
+      });
+      
+      if (refreshResponse.code === 200) {
+        const newKeywordId = refreshResponse.data.keywordId.toString();
+        
+        toast({
+          title: "Refresh Started",
+          description: refreshResponse.message
+        });
+        
+        // Poll for new keyword details
+        let pollAttempts = 0;
+        const maxAttempts = 60; // 5 minutes max
+        
+        const pollForNewData = async () => {
+          try {
+            const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
+            if (detailsResponse.code === 200) {
+              // Update selected keyword to new one
+              setSelectedKeyword(newKeywordId);
+              setKeywordDetails(detailsResponse.data);
+              
+              // Set the most recent date as default
+              if (detailsResponse.data.dates && detailsResponse.data.dates.length > 0) {
+                const sortedDates = detailsResponse.data.dates
+                  .filter(d => d.date)
+                  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+                
+                if (sortedDates.length > 0) {
+                  setSelectedDate(sortedDates[0].id);
+                }
+              }
+              
+              // Refresh keywords list to include new keyword
+              await fetchKeywords(true);
+              
+              toast({
+                title: "Refresh Complete",
+                description: "Keyword data has been refreshed successfully"
+              });
+              
+              setRefreshing(false);
+              return;
+            }
+          } catch (error) {
+            console.error('Error polling for new keyword data:', error);
+          }
+          
+          pollAttempts++;
+          if (pollAttempts < maxAttempts) {
+            setTimeout(pollForNewData, 5000); // Poll every 5 seconds
+          } else {
+            setRefreshError('Refresh timeout - please try again');
+            setRefreshing(false);
+            toast({
+              title: "Refresh Timeout",
+              description: "The refresh is taking longer than expected. Please try again.",
+              variant: "destructive"
+            });
+          }
+        };
+        
+        // Start polling
+        setTimeout(pollForNewData, 2000); // Wait 2 seconds before first poll
+        
+      } else {
+        throw new Error(refreshResponse.message || 'Failed to refresh keyword');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to refresh keyword';
+      setRefreshError(errorMessage);
+      setRefreshing(false);
+      toast({
+        title: "Refresh Failed",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    }
+  };
+
   return {
     keywords,
     selectedKeyword,
@@ -202,8 +295,11 @@ export const useGeoRanking = (listingId: number) => {
     positionDetailsLoading,
     processingKeywords,
     isPolling,
+    refreshing,
+    refreshError,
     fetchPositionDetails,
     handleKeywordChange,
-    handleDateChange
+    handleDateChange,
+    handleRefreshKeyword
   };
 };

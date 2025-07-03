@@ -228,3 +228,37 @@ export const checkKeywordStatus = async (listingId: number): Promise<KeywordStat
   });
   return response.data;
 };
+
+// New interface for refresh keyword request
+export interface RefreshKeywordRequest {
+  listingId: number;
+  keywordId: string;
+}
+
+// New interface for refresh keyword response
+export interface RefreshKeywordResponse {
+  code: number;
+  message: string;
+  data: {
+    projectDetails: {
+      id: string;
+      bname: string;
+      sab: string;
+      keyword: string;
+      mappoint: string;
+      prev_id: string;
+      distance: string;
+      grid: string;
+      schedule: string;
+      date: string;
+      lang: string;
+    };
+    coordinate: string[];
+    keywordId: number;
+  };
+}
+
+export const refreshKeyword = async (requestData: RefreshKeywordRequest): Promise<RefreshKeywordResponse> => {
+  const response = await axiosInstance.post('/refresh-keyword', requestData);
+  return response.data;
+};

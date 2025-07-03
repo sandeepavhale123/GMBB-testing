@@ -42,8 +42,11 @@ export const GeoRankingPage = () => {
     error,
     processingKeywords,
     isPolling,
+    refreshing,
+    refreshError,
     handleKeywordChange,
     handleDateChange,
+    handleRefreshKeyword,
     fetchPositionDetails
   } = useGeoRanking(numericListingId);
 
@@ -176,6 +179,8 @@ export const GeoRankingPage = () => {
               onKeywordChange={handleKeywordChange}
               onDateChange={handleDateChange}
               onClone={handleClone}
+              onRefresh={handleRefreshKeyword}
+              isRefreshing={refreshing}
               loading={keywordsLoading}
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
