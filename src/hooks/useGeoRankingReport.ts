@@ -155,6 +155,12 @@ export const useGeoRankingReport = (listingId: number) => {
         });
       }
     }
+    
+    // End initialization phase after a short delay to allow all state updates
+    setTimeout(() => {
+      console.log('⚡ Ending initialization phase');
+      setIsInitializing(false);
+    }, 100);
   };
 
   // Initialize from clone data on component mount
@@ -223,14 +229,23 @@ export const useGeoRankingReport = (listingId: number) => {
     }
   }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
 
-  // Reset distance value when unit changes
+  // Track if we're initializing from clone data
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  // Reset distance value when unit changes (but not during initialization)
   useEffect(() => {
+    if (isInitializing) {
+      console.log('🚫 Skipping distance reset during initialization');
+      return;
+    }
+    
     const defaultValue = formData.distanceUnit === 'Meters' ? '100' : '.1';
+    console.log('🔄 Resetting distance value to default:', defaultValue);
     setFormData(prev => ({
       ...prev,
       distanceValue: defaultValue
     }));
-  }, [formData.distanceUnit]);
+  }, [formData.distanceUnit, isInitializing]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
