@@ -22,7 +22,7 @@ export const useGeoRanking = (listingId: number) => {
   const { toast } = useToast();
 
   // Reusable function to fetch keywords
-  const fetchKeywords = async (isRefresh = false) => {
+  const fetchKeywords = async (isRefresh = false, selectKeywordId?: string): Promise<void> => {
     if (!listingId) return;
     
     setKeywordsLoading(true);
@@ -34,10 +34,16 @@ export const useGeoRanking = (listingId: number) => {
       if (response.code === 200) {
         setKeywords(response.data.keywords);
         setCredits(response.data.credits);
+        
         // Set first keyword as default only on initial load
         if (!isRefresh && response.data.keywords.length > 0) {
           const firstKeyword = response.data.keywords[0];
           setSelectedKeyword(firstKeyword.id);
+        }
+        
+        // Set specific keyword if provided (used after refresh)
+        if (selectKeywordId && response.data.keywords.some(k => k.id === selectKeywordId)) {
+          setSelectedKeyword(selectKeywordId);
         }
       } else {
         throw new Error(response.message || 'Failed to fetch keywords');
@@ -50,6 +56,7 @@ export const useGeoRanking = (listingId: number) => {
         description: errorMessage,
         variant: "destructive"
       });
+      throw err; // Re-throw to handle in calling function
     } finally {
       setKeywordsLoading(false);
       if (!isRefresh) setPageLoading(false);
@@ -218,8 +225,10 @@ export const useGeoRanking = (listingId: number) => {
           try {
             const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
             if (detailsResponse.code === 200) {
-              // Update selected keyword to new one
-              setSelectedKeyword(newKeywordId);
+              // First, refresh keywords list to include new keyword
+              await fetchKeywords(true, newKeywordId);
+              
+              // Then set keyword details
               setKeywordDetails(detailsResponse.data);
               
               // Set the most recent date as default
@@ -232,9 +241,6 @@ export const useGeoRanking = (listingId: number) => {
                   setSelectedDate(sortedDates[0].id);
                 }
               }
-              
-              // Refresh keywords list to include new keyword
-              await fetchKeywords(true);
               
               toast({
                 title: "Refresh Complete",
