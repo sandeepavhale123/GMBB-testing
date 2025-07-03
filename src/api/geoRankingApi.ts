@@ -210,3 +210,21 @@ export const addKeywords = async (requestData: CheckRankRequest): Promise<CheckR
   const response = await axiosInstance.post('/add-keywords', requestData);
   return response.data;
 };
+
+// New interface for keyword status response
+export interface KeywordStatusResponse {
+  code: number;
+  message: string;
+  data: {
+    keywords: Array<{
+      keyword: string;
+    }>;
+  };
+}
+
+export const checkKeywordStatus = async (listingId: number): Promise<KeywordStatusResponse> => {
+  const response = await axiosInstance.post('/check-keyword-status', {
+    listingId
+  });
+  return response.data;
+};

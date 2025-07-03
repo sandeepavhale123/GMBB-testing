@@ -4,6 +4,7 @@ import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
+import { ProcessingKeywordsAlert } from './ProcessingKeywordsAlert';
 import { Card, CardContent } from '../ui/card';
 import { ListingLoader } from '../ui/listing-loader';
 import { useGeoRanking } from '../../hooks/useGeoRanking';
@@ -39,6 +40,8 @@ export const GeoRankingPage = () => {
     keywordChanging,
     dateChanging,
     error,
+    processingKeywords,
+    isPolling,
     handleKeywordChange,
     handleDateChange,
     fetchPositionDetails
@@ -135,7 +138,9 @@ export const GeoRankingPage = () => {
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
-            <GeoRankingHeader 
+            <ProcessingKeywordsAlert keywords={processingKeywords} />
+            
+            <GeoRankingHeader
               keywords={keywords}
               selectedKeyword={selectedKeyword}
               selectedDate={selectedDate}

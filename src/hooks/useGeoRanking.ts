@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, getKeywordPositionDetails, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
+import { getKeywords, getKeywordDetails, getKeywordPositionDetails, checkKeywordStatus, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useGeoRanking = (listingId: number) => {
@@ -15,6 +15,8 @@ export const useGeoRanking = (listingId: number) => {
   const [dateChanging, setDateChanging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
+  const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
+  const [isPolling, setIsPolling] = useState(false);
   const { toast } = useToast();
 
   // Fetch keywords on component mount
@@ -55,6 +57,39 @@ export const useGeoRanking = (listingId: number) => {
 
     fetchKeywords();
   }, [listingId, toast]);
+
+  // Keyword status polling effect
+  useEffect(() => {
+    if (!listingId) return;
+
+    const pollKeywordStatus = async () => {
+      try {
+        const response = await checkKeywordStatus(listingId);
+        if (response.code === 200 && response.data.keywords.length > 0) {
+          const keywordNames = response.data.keywords.map(k => k.keyword);
+          setProcessingKeywords(keywordNames);
+          setIsPolling(true);
+        } else {
+          setProcessingKeywords([]);
+          setIsPolling(false);
+        }
+      } catch (error) {
+        console.error('Error checking keyword status:', error);
+        setProcessingKeywords([]);
+        setIsPolling(false);
+      }
+    };
+
+    // Initial check
+    pollKeywordStatus();
+
+    // Set up polling interval
+    const interval = setInterval(pollKeywordStatus, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [listingId]);
 
   // Fetch keyword details when selected keyword changes
   useEffect(() => {
@@ -149,6 +184,8 @@ export const useGeoRanking = (listingId: number) => {
     dateChanging,
     error,
     positionDetailsLoading,
+    processingKeywords,
+    isPolling,
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange
