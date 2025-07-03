@@ -64,6 +64,23 @@ export const GeoRankingPage = () => {
   const handleCreateReport = () => {
     navigate('/geo-ranking-report');
   };
+
+  const handleClone = () => {
+    if (!selectedKeyword) return;
+    
+    const currentKeyword = keywords.find(k => k.id === selectedKeyword);
+    if (!currentKeyword) return;
+
+    // Navigate to report page with keyword data as URL params
+    const params = new URLSearchParams({
+      clone: 'true',
+      keywordId: selectedKeyword,
+      keyword: currentKeyword.keyword,
+      ...(selectedDate && { date: selectedDate })
+    });
+    
+    navigate(`/geo-ranking-report?${params.toString()}`);
+  };
   
   const handleExportPDF = () => {
     console.log('Exporting report as PDF...');
@@ -148,6 +165,7 @@ export const GeoRankingPage = () => {
               credits={credits}
               onKeywordChange={handleKeywordChange}
               onDateChange={handleDateChange}
+              onClone={handleClone}
               loading={keywordsLoading}
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}

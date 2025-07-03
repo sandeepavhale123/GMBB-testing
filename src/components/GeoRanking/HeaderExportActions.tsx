@@ -9,6 +9,7 @@ interface HeaderExportActionsProps {
   isExporting: boolean;
   onExportImage: () => void;
   onCheckRank: () => void;
+  onClone: () => void;
   credits: Credits | null;
 }
 
@@ -16,6 +17,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
   isExporting,
   onExportImage,
   onCheckRank,
+  onClone,
   credits,
 }) => {
   return (
@@ -31,8 +33,9 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
         <Button variant="outline" size="sm">
           <RefreshCcw className="w-4 h-4" />
         </Button>
-        <Button variant="outline" size="sm">
+        <Button onClick={onClone} variant="outline" size="sm" className="flex items-center gap-2">
           <Copy className="w-4 h-4" />
+          Clone
         </Button>
         
         <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">

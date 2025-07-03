@@ -16,6 +16,7 @@ interface GeoRankingHeaderProps {
   credits: Credits | null;
   onKeywordChange: (keywordId: string) => void;
   onDateChange: (dateId: string) => void;
+  onClone: () => void;
   loading: boolean;
   keywordChanging: boolean;
   dateChanging: boolean;
@@ -30,6 +31,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   credits,
   onKeywordChange, 
   onDateChange,
+  onClone,
   loading,
   keywordChanging,
   dateChanging,
@@ -120,6 +122,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         isExporting={isExporting}
         onExportImage={handleExportImage}
         onCheckRank={handleCheckRank}
+        onClone={onClone}
         credits={credits}
       />
 

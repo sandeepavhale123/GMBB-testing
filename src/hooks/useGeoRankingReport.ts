@@ -43,6 +43,27 @@ export const useGeoRankingReport = (listingId: number) => {
     language: 'en'
   });
 
+  // Initialize form from URL params if cloning
+  const initializeFromCloneData = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isClone = urlParams.get('clone') === 'true';
+    
+    if (isClone) {
+      const keyword = urlParams.get('keyword');
+      if (keyword) {
+        setFormData(prev => ({
+          ...prev,
+          keywords: keyword
+        }));
+      }
+    }
+  };
+
+  // Initialize from clone data on component mount
+  useEffect(() => {
+    initializeFromCloneData();
+  }, []);
+
   // Fetch default coordinates on component mount
   useEffect(() => {
     const fetchDefaultCoordinates = async () => {
