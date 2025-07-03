@@ -49,8 +49,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
 
   const positionSummary = calculatePositionSummary();
 
-  // Get dynamic values from projectDetails
-  const distance = projectDetails?.distance ? `${projectDetails.distance}km` : '2km';
+  // Get dynamic values from projectDetails - fix distance display
+  const distance = projectDetails?.distance || '2km';
   const getFrequency = (schedule?: string) => {
     if (!schedule) return 'Daily';
     switch (schedule.toLowerCase()) {
