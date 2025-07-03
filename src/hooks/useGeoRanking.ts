@@ -1,289 +1,69 @@
-import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, getKeywordPositionDetails, checkKeywordStatus, refreshKeyword, RefreshKeywordRequest, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
-import { useToast } from './use-toast';
+import { useCallback } from 'react';
+import { useKeywords } from './useKeywords';
+import { useKeywordDetails } from './useKeywordDetails';
+import { useKeywordPolling } from './useKeywordPolling';
+import { useKeywordRefresh } from './useKeywordRefresh';
 
 export const useGeoRanking = (listingId: number) => {
-  const [keywords, setKeywords] = useState<KeywordData[]>([]);
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
-  const [credits, setCredits] = useState<Credits | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [keywordsLoading, setKeywordsLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [keywordChanging, setKeywordChanging] = useState(false);
-  const [dateChanging, setDateChanging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
-  const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
-  const [isPolling, setIsPolling] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [refreshError, setRefreshError] = useState<string | null>(null);
-  const { toast } = useToast();
+  // Keywords management
+  const {
+    keywords,
+    selectedKeyword,
+    setSelectedKeyword,
+    credits,
+    keywordsLoading,
+    pageLoading,
+    error: keywordsError,
+    fetchKeywords
+  } = useKeywords(listingId);
 
-  // Reusable function to fetch keywords
-  const fetchKeywords = async (isRefresh = false, selectKeywordId?: string): Promise<void> => {
-    if (!listingId) return;
-    
-    setKeywordsLoading(true);
-    if (!isRefresh) setPageLoading(true);
-    setError(null);
-    
-    try {
-      const response = await getKeywords(listingId);
-      if (response.code === 200) {
-        setKeywords(response.data.keywords);
-        setCredits(response.data.credits);
-        
-        // Set first keyword as default only on initial load
-        if (!isRefresh && response.data.keywords.length > 0) {
-          const firstKeyword = response.data.keywords[0];
-          setSelectedKeyword(firstKeyword.id);
-        }
-        
-        // Set specific keyword if provided (used after refresh)
-        if (selectKeywordId && response.data.keywords.some(k => k.id === selectKeywordId)) {
-          setSelectedKeyword(selectKeywordId);
-        }
-      } else {
-        throw new Error(response.message || 'Failed to fetch keywords');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keywords';
-      setError(errorMessage);
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive"
-      });
-      throw err; // Re-throw to handle in calling function
-    } finally {
-      setKeywordsLoading(false);
-      if (!isRefresh) setPageLoading(false);
-    }
-  };
+  // Keyword details management
+  const {
+    selectedDate,
+    setSelectedDate,
+    keywordDetails,
+    setKeywordDetails,
+    loading,
+    keywordChanging,
+    dateChanging,
+    positionDetailsLoading,
+    error: keywordDetailsError,
+    fetchPositionDetails,
+    handleKeywordChange: onKeywordChange,
+    handleDateChange: onDateChange
+  } = useKeywordDetails(listingId, selectedKeyword);
 
-  // Fetch keywords on component mount
-  useEffect(() => {
-    fetchKeywords();
-  }, [listingId]);
+  // Polling for keyword status
+  const { processingKeywords, isPolling } = useKeywordPolling(
+    listingId,
+    useCallback(() => fetchKeywords(true), [fetchKeywords])
+  );
 
-  // Keyword status polling effect
-  useEffect(() => {
-    if (!listingId) return;
+  // Refresh functionality with proper parameter handling
+  const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
+    return await fetchKeywords(true, selectKeywordId);
+  }, [fetchKeywords]);
 
-    let interval: NodeJS.Timeout | null = null;
+  const { refreshing, refreshError, handleRefreshKeyword } = useKeywordRefresh({
+    listingId,
+    selectedKeyword,
+    onKeywordsUpdate: keywordsUpdateCallback,
+    onKeywordDetailsUpdate: setKeywordDetails,
+    onDateUpdate: setSelectedDate
+  });
 
-    const pollKeywordStatus = async () => {
-      try {
-        const response = await checkKeywordStatus(listingId);
-        if (response.code === 200 && response.data.keywords.length > 0) {
-          const keywordNames = response.data.keywords.map(k => k.keyword);
-          setProcessingKeywords(keywordNames);
-          setIsPolling(true);
-        } else {
-          // Stop polling when keywords array is empty and refresh keywords
-          setProcessingKeywords([]);
-          setIsPolling(false);
-          if (interval) {
-            clearInterval(interval);
-            interval = null;
-          }
-          // Refresh keywords after polling stops
-          fetchKeywords(true);
-        }
-      } catch (error) {
-        console.error('Error checking keyword status:', error);
-        setProcessingKeywords([]);
-        setIsPolling(false);
-        if (interval) {
-          clearInterval(interval);
-          interval = null;
-        }
-      }
-    };
+  // Combined error state
+  const error = keywordsError || keywordDetailsError;
 
-    // Initial check
-    pollKeywordStatus();
-
-    // Set up polling interval
-    interval = setInterval(pollKeywordStatus, 5000);
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [listingId]);
-
-  // Fetch keyword details when selected keyword changes
-  useEffect(() => {
-    const fetchKeywordDetails = async () => {
-      if (!listingId || !selectedKeyword) return;
-      
-      setLoading(true);
-      setError(null);
-      
-      try {
-        const response = await getKeywordDetails(listingId, selectedKeyword);
-        if (response.code === 200) {
-          setKeywordDetails(response.data);
-          // Set the most recent date as default
-          if (response.data.dates && response.data.dates.length > 0) {
-            const sortedDates = response.data.dates
-              .filter(d => d.date)
-              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-            
-            if (sortedDates.length > 0) {
-              setSelectedDate(sortedDates[0].id);
-            }
-          }
-        } else {
-          throw new Error(response.message || 'Failed to fetch keyword details');
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keyword details';
-        setError(errorMessage);
-        toast({
-          title: "Error",
-          description: errorMessage,
-          variant: "destructive"
-        });
-      } finally {
-        setLoading(false);
-        setKeywordChanging(false);
-        setDateChanging(false);
-      }
-    };
-
-    fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast]);
-
-  const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
-    if (!listingId) return null;
-    
-    setPositionDetailsLoading(true);
-    
-    try {
-      const response = await getKeywordPositionDetails(listingId, keywordId, positionId);
-      if (response.code === 200) {
-        return response;
-      } else {
-        throw new Error(response.message || 'Failed to fetch position details');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch position details';
-      setError(errorMessage);
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive"
-      });
-      return null;
-    } finally {
-      setPositionDetailsLoading(false);
-    }
-  };
-
+  // Enhanced keyword change handler
   const handleKeywordChange = (keywordId: string) => {
-    setKeywordChanging(true);
     setSelectedKeyword(keywordId);
-    setSelectedDate(''); // Reset date when keyword changes
+    onKeywordChange(keywordId);
   };
 
+  // Enhanced date change handler
   const handleDateChange = (dateId: string) => {
-    setDateChanging(true);
-    setSelectedDate(dateId);
-  };
-
-  const handleRefreshKeyword = async () => {
-    if (!listingId || !selectedKeyword) return;
-    
-    setRefreshing(true);
-    setRefreshError(null);
-    
-    try {
-      // Call refresh keyword API
-      const refreshResponse = await refreshKeyword({
-        listingId,
-        keywordId: selectedKeyword
-      });
-      
-      if (refreshResponse.code === 200) {
-        const newKeywordId = refreshResponse.data.keywordId.toString();
-        
-        toast({
-          title: "Refresh Started",
-          description: refreshResponse.message
-        });
-        
-        // Poll for new keyword details
-        let pollAttempts = 0;
-        const maxAttempts = 60; // 5 minutes max
-        
-        const pollForNewData = async () => {
-          try {
-            const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
-            if (detailsResponse.code === 200) {
-              // First, refresh keywords list to include new keyword
-              await fetchKeywords(true, newKeywordId);
-              
-              // Then set keyword details
-              setKeywordDetails(detailsResponse.data);
-              
-              // Set the most recent date as default
-              if (detailsResponse.data.dates && detailsResponse.data.dates.length > 0) {
-                const sortedDates = detailsResponse.data.dates
-                  .filter(d => d.date)
-                  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-                
-                if (sortedDates.length > 0) {
-                  setSelectedDate(sortedDates[0].id);
-                }
-              }
-              
-              toast({
-                title: "Refresh Complete",
-                description: "Keyword data has been refreshed successfully"
-              });
-              
-              setRefreshing(false);
-              return;
-            }
-          } catch (error) {
-            console.error('Error polling for new keyword data:', error);
-          }
-          
-          pollAttempts++;
-          if (pollAttempts < maxAttempts) {
-            setTimeout(pollForNewData, 5000); // Poll every 5 seconds
-          } else {
-            setRefreshError('Refresh timeout - please try again');
-            setRefreshing(false);
-            toast({
-              title: "Refresh Timeout",
-              description: "The refresh is taking longer than expected. Please try again.",
-              variant: "destructive"
-            });
-          }
-        };
-        
-        // Start polling
-        setTimeout(pollForNewData, 2000); // Wait 2 seconds before first poll
-        
-      } else {
-        throw new Error(refreshResponse.message || 'Failed to refresh keyword');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to refresh keyword';
-      setRefreshError(errorMessage);
-      setRefreshing(false);
-      toast({
-        title: "Refresh Failed",
-        description: errorMessage,
-        variant: "destructive"
-      });
-    }
+    onDateChange(dateId);
   };
 
   return {
