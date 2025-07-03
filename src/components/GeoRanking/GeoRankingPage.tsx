@@ -76,7 +76,11 @@ export const GeoRankingPage = () => {
       clone: 'true',
       keywordId: selectedKeyword,
       keyword: currentKeyword.keyword,
-      ...(selectedDate && { date: selectedDate })
+      ...(selectedDate && { date: selectedDate }),
+      ...(keywordDetails?.projectDetails?.distance && { distance: keywordDetails.projectDetails.distance }),
+      ...(keywordDetails?.projectDetails?.grid && { grid: keywordDetails.projectDetails.grid }),
+      ...(keywordDetails?.projectDetails?.schedule && { schedule: keywordDetails.projectDetails.schedule }),
+      ...(keywordDetails?.projectDetails?.mappoint && { mapPoint: keywordDetails.projectDetails.mappoint })
     });
     
     navigate(`/geo-ranking-report/${numericListingId}?${params.toString()}`);

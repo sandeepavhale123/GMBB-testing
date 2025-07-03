@@ -42,6 +42,35 @@ export const useGeoRankingReport = (listingId: number) => {
     language: 'en'
   });
 
+  // Helper function to determine distance unit from distance value
+  const determineDistanceUnit = (distance: string): { unit: string; value: string } => {
+    // Extract numeric value from distance string
+    const numericValue = distance.replace(/[^0-9.]/g, '');
+    
+    // Define meter values and mile values
+    const meterValues = ['100', '200', '500', '1', '2.5', '5', '10', '25'];
+    const mileValues = ['.1', '.25', '.5', '.75', '1mi', '2', '3', '5mi', '8', '10mi'];
+    
+    // Check if it's a mile value (contains 'mi' or is in mile numeric values)
+    const isMileValue = distance.includes('mi') || distance.toUpperCase().includes('MILE') || 
+                       mileValues.some(val => val.replace('mi', '') === numericValue);
+    
+    if (isMileValue) {
+      // For mile values, return the original distance value for matching
+      const mileValue = mileValues.find(val => {
+        if (val.includes('mi')) {
+          return val === numericValue + 'mi' || val === distance.toLowerCase();
+        }
+        return val === numericValue;
+      });
+      return { unit: 'Miles', value: mileValue || numericValue };
+    } else {
+      // For meter values
+      const meterValue = meterValues.find(val => val === numericValue);
+      return { unit: 'Meters', value: meterValue || numericValue };
+    }
+  };
+
   // Initialize form from URL params if cloning
   const initializeFromCloneData = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -49,10 +78,47 @@ export const useGeoRankingReport = (listingId: number) => {
     
     if (isClone) {
       const keyword = urlParams.get('keyword');
+      const distance = urlParams.get('distance');
+      const grid = urlParams.get('grid');
+      const schedule = urlParams.get('schedule');
+      const mapPoint = urlParams.get('mapPoint');
+      
+      const updates: Partial<FormData> = {};
+      
       if (keyword) {
+        updates.keywords = keyword;
+      }
+      
+      if (distance) {
+        const { unit, value } = determineDistanceUnit(distance);
+        updates.distanceUnit = unit;
+        updates.distanceValue = value;
+      }
+      
+      if (grid) {
+        updates.gridSize = grid;
+      }
+      
+      if (schedule) {
+        // Map schedule values from API to form values
+        const scheduleMap: { [key: string]: string } = {
+          'daily': 'daily',
+          'weekly': 'weekly',
+          'monthly': 'monthly',
+          'onetime': 'onetime',
+          'one-time': 'onetime'
+        };
+        updates.scheduleCheck = scheduleMap[schedule.toLowerCase()] || schedule;
+      }
+      
+      if (mapPoint) {
+        updates.mapPoint = mapPoint;
+      }
+      
+      if (Object.keys(updates).length > 0) {
         setFormData(prev => ({
           ...prev,
-          keywords: keyword
+          ...updates
         }));
       }
     }
