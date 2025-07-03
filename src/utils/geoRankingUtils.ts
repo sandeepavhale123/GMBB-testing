@@ -4,11 +4,11 @@ export const processDistanceValue = (distanceValue: string, unit: string): numbe
   if (unit === 'Miles') {
     switch (distanceValue) {
       case '1mi':
-        return 1;
+        return '1mi';
       case '5mi':
-        return 5;
+        return '5mi';
       case '10mi':
-        return 10;
+        return '10mi';
       default:
         return parseFloat(distanceValue);
     }
