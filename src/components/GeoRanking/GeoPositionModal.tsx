@@ -113,17 +113,19 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[99999] pointer-events-none">
+    <div className="fixed inset-0 z-[999999] pointer-events-none">
       {/* Backdrop to prevent map interaction */}
-      <div className="absolute inset-0 bg-black/20 pointer-events-auto" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/20 pointer-events-auto z-[999998]" onClick={onClose} />
       
       <Card
         ref={modalRef}
-        className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border z-[99999]"
+        className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border z-[999999] bg-white"
         style={{
           left: position.x,
           top: position.y,
-          cursor: isDragging ? 'grabbing' : 'grab'
+          cursor: isDragging ? 'grabbing' : 'grab',
+          position: 'fixed',
+          zIndex: 999999
         }}
       >
         {/* Header - Draggable area */}
