@@ -41,11 +41,11 @@ export const GeoRankingReportPage: React.FC = () => {
   } = useGeoRankingReport(numericListingId);
 
   const { toast } = useToast();
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
   const [modalCoordinate, setModalCoordinate] = useState('');
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
-  const [showMultiKeywordAlert, setShowMultiKeywordAlert] = useState(false);
+  const [showMultiKeywordAlert, setShowMultiKeywordAlert] = useState(true);
 
   // Get current listing - convert numericListingId to string for comparison
   const currentListing = listings.find(listing => listing.id === numericListingId.toString());
