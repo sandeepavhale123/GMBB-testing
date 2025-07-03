@@ -203,7 +203,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
         {/* Multi-Keyword Alert */}
         <AlertDialog open={showMultiKeywordAlert} onOpenChange={setShowMultiKeywordAlert}>
-          <AlertDialogContent className="custom-z-index">
+          <AlertDialogContent className="z-[99999]">
             <AlertDialogHeader>
               <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
               <AlertDialogDescription>
