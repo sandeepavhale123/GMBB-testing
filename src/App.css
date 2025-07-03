@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.custom-z-index {
+  z-index: 999999;
+  position: relative; /* or fixed/absolute based on your need */
+}
