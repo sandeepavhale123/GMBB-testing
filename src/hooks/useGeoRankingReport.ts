@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { getDefaultCoordinates, getGridCoordinates, addKeywords, getKeywordDetailsWithStatus, CheckRankRequest, KeywordDetailsData, RankDetail } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
@@ -96,12 +95,11 @@ export const useGeoRankingReport = (listingId: number) => {
     try {
       const gridSize = parseInt(formData.gridSize.split('x')[0]);
       // For Miles with 'mi' suffix, send raw string; otherwise process as number
-      const distance = formData.distanceUnit === 'Miles' && formData.distanceValue.includes('mi') 
-        ? formData.distanceValue 
-        : processDistanceValue(formData.distanceValue, formData.distanceUnit);
+      const processedDistance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
+      const distance = typeof processedDistance === 'string' ? processedDistance : processedDistance;
       const latlong = `${defaultCoordinates.lat},${defaultCoordinates.lng}`;
       
-      console.log('Sending to API:', { gridSize, distance, distanceUnit: formData.distanceUnit, distanceValue: formData.distanceValue, processedDistance: distance });
+      console.log('Sending to API:', { gridSize, distance, distanceUnit: formData.distanceUnit, distanceValue: formData.distanceValue, processedDistance });
       
       const response = await getGridCoordinates(listingId, gridSize, distance, latlong);
       if (response.code === 200) {
@@ -243,12 +241,13 @@ export const useGeoRankingReport = (listingId: number) => {
       }
 
       // Transform form data to API format
+      const processedDistance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
       const requestData: CheckRankRequest = {
         listingId,
         language: formData.language,
         keywords: formData.keywords,
         mapPoint: formData.mapPoint,
-        distanceValue: processDistanceValue(formData.distanceValue, formData.distanceUnit),
+        distanceValue: typeof processedDistance === 'number' ? processedDistance : parseFloat(processedDistance.replace(/[^0-9.]/g, '')),
         gridSize: parseInt(formData.gridSize.split('x')[0]),
         searchDataEngine: formData.searchDataEngine,
         scheduleCheck: formData.scheduleCheck.toLowerCase().replace('-', ''),

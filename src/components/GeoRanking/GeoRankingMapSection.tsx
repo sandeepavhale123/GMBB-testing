@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
@@ -49,8 +48,55 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
 
   const positionSummary = calculatePositionSummary();
 
+  // Get dynamic values from projectDetails - format distance with proper label
+  const formatDistanceLabel = (distance?: string) => {
+    if (!distance) return '2km';
+    
+    // Distance mapping for proper labels
+    const distanceMap = [
+      { value: '100', label: '100 Meter' },
+      { value: '200', label: '200 Meter' },
+      { value: '500', label: '500 Meter' },
+      { value: '1', label: '1 KM' },
+      { value: '2.5', label: '2.5 KM' },
+      { value: '5', label: '5 KM' },
+      { value: '10', label: '10 KM' },
+      { value: '25', label: '25 KM' },
+      { value: '.1', label: '.1 Miles' },
+      { value: '.25', label: '.25 Miles' },
+      { value: '.5', label: '.5 Miles' },
+      { value: '.75', label: '.75 Miles' },
+      { value: '1mi', label: '1 Miles' },
+      { value: '2', label: '2 Miles' },
+      { value: '3', label: '3 Miles' },
+      { value: '5mi', label: '5 Miles' },
+      { value: '8', label: '8 Miles' },
+      { value: '10mi', label: '10 Miles' }
+    ];
+
+    // Extract the numeric value from the distance string (e.g., "5 KM" -> "5")
+    const numericValue = distance.replace(/[^0-9.]/g, '');
+    
+    // Check if it contains "KM" or "Miles" to determine the type
+    const isKM = distance.toUpperCase().includes('KM') || distance.toUpperCase().includes('METER');
+    const isMiles = distance.toUpperCase().includes('MILE');
+    
+    // Find matching label from the distance map
+    const matchedDistance = distanceMap.find(item => {
+      if (isMiles && (item.value.includes('mi') || parseFloat(item.value) === parseFloat(numericValue))) {
+        return item.value === numericValue || item.value === `${numericValue}mi`;
+      } else if (isKM && !item.label.includes('Miles')) {
+        return item.value === numericValue;
+      }
+      return false;
+    });
+    
+    return matchedDistance ? matchedDistance.label : distance;
+  };
+
+  const distance = formatDistanceLabel(projectDetails?.distance);
+  
   // Get dynamic values from projectDetails - fix distance display
-  const distance = projectDetails?.distance || '2km';
   const getFrequency = (schedule?: string) => {
     if (!schedule) return 'Daily';
     switch (schedule.toLowerCase()) {
