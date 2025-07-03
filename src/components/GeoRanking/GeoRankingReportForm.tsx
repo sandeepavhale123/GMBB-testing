@@ -43,7 +43,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   console.log('📋 GeoRankingReportForm - Current formData:', formData);
   
   return (
-    <Card className="shadow-lg min-h-[400px] max-h-[500px] sm:min-h-[450px] sm:max-h-[550px] md:min-h-[500px] md:max-h-[600px] lg:min-h-[600px] lg:max-h-[700px]">
+    <Card className="shadow-lg">
       <CardHeader className="pb-3 lg:pb-4">
         <CardTitle className="text-lg lg:text-xl font-semibold text-gray-900">
           Report Configuration
