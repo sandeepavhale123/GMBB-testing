@@ -176,3 +176,8 @@
 .focus-visible:focus-visible {
   @apply ring-2 ring-ring ring-offset-2 ring-offset-background outline-none;
 }
+
+.custom-z-index {
+  z-index: 999999;
+  position: relative; /* or fixed/absolute based on your need */
+}
