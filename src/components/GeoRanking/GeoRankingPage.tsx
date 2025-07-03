@@ -71,8 +71,8 @@ export const GeoRankingPage = () => {
     const currentKeyword = keywords.find(k => k.id === selectedKeyword);
     if (!currentKeyword) return;
 
-    // Navigate to report page with keyword data as URL params, including listingId in path
-    const params = new URLSearchParams({
+    // Prepare clone data
+    const cloneData = {
       clone: 'true',
       keywordId: selectedKeyword,
       keyword: currentKeyword.keyword,
@@ -81,7 +81,13 @@ export const GeoRankingPage = () => {
       ...(keywordDetails?.projectDetails?.grid && { grid: keywordDetails.projectDetails.grid }),
       ...(keywordDetails?.projectDetails?.schedule && { schedule: keywordDetails.projectDetails.schedule }),
       ...(keywordDetails?.projectDetails?.mappoint && { mapPoint: keywordDetails.projectDetails.mappoint })
-    });
+    };
+
+    console.log('🔄 Clone Data:', cloneData);
+    console.log('📋 Full keywordDetails:', keywordDetails);
+
+    // Navigate to report page with keyword data as URL params, including listingId in path
+    const params = new URLSearchParams(cloneData);
     
     navigate(`/geo-ranking-report/${numericListingId}?${params.toString()}`);
   };
