@@ -19,44 +19,45 @@ export const useGeoRanking = (listingId: number) => {
   const [isPolling, setIsPolling] = useState(false);
   const { toast } = useToast();
 
+  // Reusable function to fetch keywords
+  const fetchKeywords = async (isRefresh = false) => {
+    if (!listingId) return;
+    
+    setKeywordsLoading(true);
+    if (!isRefresh) setPageLoading(true);
+    setError(null);
+    
+    try {
+      const response = await getKeywords(listingId);
+      if (response.code === 200) {
+        setKeywords(response.data.keywords);
+        setCredits(response.data.credits);
+        // Set first keyword as default only on initial load
+        if (!isRefresh && response.data.keywords.length > 0) {
+          const firstKeyword = response.data.keywords[0];
+          setSelectedKeyword(firstKeyword.id);
+        }
+      } else {
+        throw new Error(response.message || 'Failed to fetch keywords');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keywords';
+      setError(errorMessage);
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setKeywordsLoading(false);
+      if (!isRefresh) setPageLoading(false);
+    }
+  };
+
   // Fetch keywords on component mount
   useEffect(() => {
-    const fetchKeywords = async () => {
-      if (!listingId) return;
-      
-      setKeywordsLoading(true);
-      setPageLoading(true);
-      setError(null);
-      
-      try {
-        const response = await getKeywords(listingId);
-        if (response.code === 200) {
-          setKeywords(response.data.keywords);
-          setCredits(response.data.credits);
-          // Set first keyword as default
-          if (response.data.keywords.length > 0) {
-            const firstKeyword = response.data.keywords[0];
-            setSelectedKeyword(firstKeyword.id);
-          }
-        } else {
-          throw new Error(response.message || 'Failed to fetch keywords');
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keywords';
-        setError(errorMessage);
-        toast({
-          title: "Error",
-          description: errorMessage,
-          variant: "destructive"
-        });
-      } finally {
-        setKeywordsLoading(false);
-        setPageLoading(false);
-      }
-    };
-
     fetchKeywords();
-  }, [listingId, toast]);
+  }, [listingId]);
 
   // Keyword status polling effect
   useEffect(() => {
@@ -72,13 +73,15 @@ export const useGeoRanking = (listingId: number) => {
           setProcessingKeywords(keywordNames);
           setIsPolling(true);
         } else {
-          // Stop polling when keywords array is empty
+          // Stop polling when keywords array is empty and refresh keywords
           setProcessingKeywords([]);
           setIsPolling(false);
           if (interval) {
             clearInterval(interval);
             interval = null;
           }
+          // Refresh keywords after polling stops
+          fetchKeywords(true);
         }
       } catch (error) {
         console.error('Error checking keyword status:', error);
