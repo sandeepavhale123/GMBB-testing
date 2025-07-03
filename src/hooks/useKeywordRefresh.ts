@@ -19,6 +19,7 @@ export const useKeywordRefresh = ({
 }: UseKeywordRefreshProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
+  const [isPollingActive, setIsPollingActive] = useState(false);
   const { toast } = useToast();
 
   const handleRefreshKeyword = async () => {
@@ -26,6 +27,7 @@ export const useKeywordRefresh = ({
     
     setRefreshing(true);
     setRefreshError(null);
+    setIsPollingActive(true); // Start polling when refresh begins
     
     try {
       // Call refresh keyword API
@@ -42,7 +44,7 @@ export const useKeywordRefresh = ({
           description: refreshResponse.message
         });
         
-        // Poll for new keyword details
+        // Poll for new keyword details with timeout
         let pollAttempts = 0;
         const maxAttempts = 60; // 5 minutes max
         
@@ -50,6 +52,9 @@ export const useKeywordRefresh = ({
           try {
             const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
             if (detailsResponse.code === 200) {
+              // Stop polling first
+              setIsPollingActive(false);
+              
               // First, refresh keywords list to include new keyword
               await onKeywordsUpdate(newKeywordId);
               
@@ -83,6 +88,7 @@ export const useKeywordRefresh = ({
           if (pollAttempts < maxAttempts) {
             setTimeout(pollForNewData, 5000); // Poll every 5 seconds
           } else {
+            setIsPollingActive(false); // Stop polling on timeout
             setRefreshError('Refresh timeout - please try again');
             setRefreshing(false);
             toast({
@@ -103,6 +109,7 @@ export const useKeywordRefresh = ({
       const errorMessage = err instanceof Error ? err.message : 'Failed to refresh keyword';
       setRefreshError(errorMessage);
       setRefreshing(false);
+      setIsPollingActive(false); // Stop polling on error
       toast({
         title: "Refresh Failed",
         description: errorMessage,
@@ -114,6 +121,7 @@ export const useKeywordRefresh = ({
   return {
     refreshing,
     refreshError,
+    isPollingActive,
     handleRefreshKeyword
   };
 };

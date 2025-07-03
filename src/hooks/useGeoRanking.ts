@@ -33,24 +33,25 @@ export const useGeoRanking = (listingId: number) => {
     handleDateChange: onDateChange
   } = useKeywordDetails(listingId, selectedKeyword);
 
-  // Polling for keyword status
-  const { processingKeywords, isPolling } = useKeywordPolling(
-    listingId,
-    useCallback(() => fetchKeywords(true), [fetchKeywords])
-  );
-
   // Refresh functionality with proper parameter handling
   const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
     return await fetchKeywords(true, selectKeywordId);
   }, [fetchKeywords]);
 
-  const { refreshing, refreshError, handleRefreshKeyword } = useKeywordRefresh({
+  const { refreshing, refreshError, isPollingActive, handleRefreshKeyword } = useKeywordRefresh({
     listingId,
     selectedKeyword,
     onKeywordsUpdate: keywordsUpdateCallback,
     onKeywordDetailsUpdate: setKeywordDetails,
     onDateUpdate: setSelectedDate
   });
+
+  // Polling for keyword status - only poll when refresh is active
+  const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
+    listingId,
+    useCallback(() => fetchKeywords(true), [fetchKeywords]),
+    isPollingActive
+  );
 
   // Combined error state
   const error = keywordsError || keywordDetailsError;
