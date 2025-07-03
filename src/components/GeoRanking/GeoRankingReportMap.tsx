@@ -250,16 +250,16 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   };
 
   return (
-    <Card className="overflow-hidden h-[400px] sm:h-[500px] lg:h-[680px]">
+    <Card className="overflow-hidden">
       <CardHeader className="pb-3 lg:pb-4">
         <CardTitle className="text-base lg:text-lg font-semibold text-gray-900 flex items-center gap-2">
           <MapPin className="w-4 h-4 lg:w-5 lg:h-5" />
           {getTitle()}
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-0 h-full relative">
+      <CardContent className="p-0 relative">
         {(loadingGrid || pollingKeyword) && (
-          <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-50 rounded-lg">
+          <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex items-center justify-center z-[9999] rounded-lg">
             <div className="text-center bg-white p-6 rounded-lg shadow-lg border">
               <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
               <p className="text-sm font-medium text-gray-900 mb-1">
