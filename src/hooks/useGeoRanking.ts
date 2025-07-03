@@ -62,6 +62,8 @@ export const useGeoRanking = (listingId: number) => {
   useEffect(() => {
     if (!listingId) return;
 
+    let interval: NodeJS.Timeout | null = null;
+
     const pollKeywordStatus = async () => {
       try {
         const response = await checkKeywordStatus(listingId);
@@ -70,13 +72,22 @@ export const useGeoRanking = (listingId: number) => {
           setProcessingKeywords(keywordNames);
           setIsPolling(true);
         } else {
+          // Stop polling when keywords array is empty
           setProcessingKeywords([]);
           setIsPolling(false);
+          if (interval) {
+            clearInterval(interval);
+            interval = null;
+          }
         }
       } catch (error) {
         console.error('Error checking keyword status:', error);
         setProcessingKeywords([]);
         setIsPolling(false);
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+        }
       }
     };
 
@@ -84,10 +95,12 @@ export const useGeoRanking = (listingId: number) => {
     pollKeywordStatus();
 
     // Set up polling interval
-    const interval = setInterval(pollKeywordStatus, 5000);
+    interval = setInterval(pollKeywordStatus, 5000);
 
     return () => {
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [listingId]);
 
