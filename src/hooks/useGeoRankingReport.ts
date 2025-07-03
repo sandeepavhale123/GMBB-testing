@@ -97,6 +97,10 @@ export const useGeoRankingReport = (listingId: number) => {
     return result;
   };
 
+  // Track if we're initializing from clone data
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [cloneProcessingComplete, setCloneProcessingComplete] = useState(false);
+
   // Initialize form from URL params if cloning
   const initializeFromCloneData = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -164,14 +168,25 @@ export const useGeoRankingReport = (listingId: number) => {
           console.log('✅ Updated form data:', newFormData);
           return newFormData;
         });
+        
+        // Mark clone processing as complete after state update
+        setTimeout(() => {
+          console.log('🎯 Clone processing complete, enabling effects');
+          setCloneProcessingComplete(true);
+          setIsInitializing(false);
+        }, 50);
+      } else {
+        // No clone data, end initialization immediately
+        console.log('🔄 No clone data, ending initialization');
+        setCloneProcessingComplete(true);
+        setIsInitializing(false);
       }
-    }
-    
-    // End initialization phase after a short delay to allow all state updates
-    setTimeout(() => {
-      console.log('⚡ Ending initialization phase');
+    } else {
+      // Not cloning, end initialization immediately
+      console.log('🔄 Not cloning, ending initialization');
+      setCloneProcessingComplete(true);
       setIsInitializing(false);
-    }, 100);
+    }
   };
 
   // Initialize from clone data on component mount
@@ -240,23 +255,25 @@ export const useGeoRankingReport = (listingId: number) => {
     }
   }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
 
-  // Track if we're initializing from clone data
-  const [isInitializing, setIsInitializing] = useState(true);
-
-  // Reset distance value when unit changes (but not during initialization)
+  // Reset distance value when unit changes (but not during clone processing)
   useEffect(() => {
-    if (isInitializing) {
-      console.log('🚫 Skipping distance reset during initialization');
+    if (!cloneProcessingComplete) {
+      console.log('🚫 Skipping distance reset during clone processing');
+      console.log('🔍 Clone processing complete:', cloneProcessingComplete);
+      console.log('🔍 Distance unit:', formData.distanceUnit);
+      console.log('🔍 Distance value:', formData.distanceValue);
       return;
     }
     
     const defaultValue = formData.distanceUnit === 'Meters' ? '100' : '.1';
     console.log('🔄 Resetting distance value to default:', defaultValue);
+    console.log('🔍 Current distance value before reset:', formData.distanceValue);
+    
     setFormData(prev => ({
       ...prev,
       distanceValue: defaultValue
     }));
-  }, [formData.distanceUnit, isInitializing]);
+  }, [formData.distanceUnit, cloneProcessingComplete]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
