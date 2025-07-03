@@ -127,13 +127,15 @@ export const useGeoRankingReport = (listingId: number) => {
       }
       
       if (distance) {
+        console.log('🔍 Processing distance:', distance);
         const { unit, value } = determineDistanceUnit(distance);
         updates.distanceUnit = unit;
         updates.distanceValue = value;
-        console.log('📏 Distance processing:', { 
+        console.log('📏 Distance processing result:', { 
           originalDistance: distance, 
           determinedUnit: unit, 
-          determinedValue: value 
+          determinedValue: value,
+          updates: updates
         });
       }
       
