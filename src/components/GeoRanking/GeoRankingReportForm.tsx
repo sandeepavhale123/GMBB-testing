@@ -40,6 +40,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   submittingRank = false,
   pollingKeyword = false
 }) => {
+  console.log('📋 GeoRankingReportForm - Current formData:', formData);
+  
   return (
     <Card className="shadow-lg h-[400px] sm:h-[500px] lg:h-[680px]">
       <CardHeader className="pb-3 lg:pb-4">

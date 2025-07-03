@@ -44,8 +44,11 @@ export const useGeoRankingReport = (listingId: number) => {
 
   // Helper function to determine distance unit from distance value
   const determineDistanceUnit = (distance: string): { unit: string; value: string } => {
+    console.log('🔍 determineDistanceUnit called with:', distance);
+    
     // Extract numeric value from distance string
     const numericValue = distance.replace(/[^0-9.]/g, '');
+    console.log('📊 Extracted numeric value:', numericValue);
     
     // Define meter values and mile values
     const meterValues = ['100', '200', '500', '1', '2.5', '5', '10', '25'];
@@ -55,6 +58,14 @@ export const useGeoRankingReport = (listingId: number) => {
     const isMileValue = distance.includes('mi') || distance.toUpperCase().includes('MILE') || 
                        mileValues.some(val => val.replace('mi', '') === numericValue);
     
+    console.log('🌐 Distance analysis:', {
+      distance,
+      numericValue,
+      includesMi: distance.includes('mi'),
+      includesMile: distance.toUpperCase().includes('MILE'),
+      isMileValue
+    });
+    
     if (isMileValue) {
       // For mile values, return the original distance value for matching
       const mileValue = mileValues.find(val => {
@@ -63,11 +74,15 @@ export const useGeoRankingReport = (listingId: number) => {
         }
         return val === numericValue;
       });
-      return { unit: 'Miles', value: mileValue || numericValue };
+      const result = { unit: 'Miles', value: mileValue || numericValue };
+      console.log('📏 Mile result:', result);
+      return result;
     } else {
       // For meter values
       const meterValue = meterValues.find(val => val === numericValue);
-      return { unit: 'Meters', value: meterValue || numericValue };
+      const result = { unit: 'Meters', value: meterValue || numericValue };
+      console.log('📏 Meter result:', result);
+      return result;
     }
   };
 
@@ -76,6 +91,10 @@ export const useGeoRankingReport = (listingId: number) => {
     const urlParams = new URLSearchParams(window.location.search);
     const isClone = urlParams.get('clone') === 'true';
     
+    console.log('🔄 initializeFromCloneData called');
+    console.log('📋 URL Params:', Object.fromEntries(urlParams.entries()));
+    console.log('🔍 Is Clone:', isClone);
+    
     if (isClone) {
       const keyword = urlParams.get('keyword');
       const distance = urlParams.get('distance');
@@ -83,20 +102,29 @@ export const useGeoRankingReport = (listingId: number) => {
       const schedule = urlParams.get('schedule');
       const mapPoint = urlParams.get('mapPoint');
       
+      console.log('📊 Extracted params:', { keyword, distance, grid, schedule, mapPoint });
+      
       const updates: Partial<FormData> = {};
       
       if (keyword) {
         updates.keywords = keyword;
+        console.log('✅ Set keywords:', keyword);
       }
       
       if (distance) {
         const { unit, value } = determineDistanceUnit(distance);
         updates.distanceUnit = unit;
         updates.distanceValue = value;
+        console.log('📏 Distance processing:', { 
+          originalDistance: distance, 
+          determinedUnit: unit, 
+          determinedValue: value 
+        });
       }
       
       if (grid) {
         updates.gridSize = grid;
+        console.log('🔢 Set grid size:', grid);
       }
       
       if (schedule) {
@@ -109,17 +137,22 @@ export const useGeoRankingReport = (listingId: number) => {
           'one-time': 'onetime'
         };
         updates.scheduleCheck = scheduleMap[schedule.toLowerCase()] || schedule;
+        console.log('⏰ Set schedule:', { original: schedule, mapped: updates.scheduleCheck });
       }
       
       if (mapPoint) {
         updates.mapPoint = mapPoint;
+        console.log('📍 Set map point:', mapPoint);
       }
       
+      console.log('🔄 Final updates to apply:', updates);
+      
       if (Object.keys(updates).length > 0) {
-        setFormData(prev => ({
-          ...prev,
-          ...updates
-        }));
+        setFormData(prev => {
+          const newFormData = { ...prev, ...updates };
+          console.log('✅ Updated form data:', newFormData);
+          return newFormData;
+        });
       }
     }
   };
