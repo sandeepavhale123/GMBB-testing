@@ -50,7 +50,7 @@ export const useGeoRankingReport = (listingId: number) => {
     const numericValue = distance.replace(/[^0-9.]/g, '');
     console.log('📊 Extracted numeric value:', numericValue);
     
-    // Define meter values and mile values
+    // Define available distance options that match the dropdown
     const meterValues = ['100', '200', '500', '1', '2.5', '5', '10', '25'];
     const mileValues = ['.1', '.25', '.5', '.75', '1mi', '2', '3', '5mi', '8', '10mi'];
     
@@ -69,10 +69,22 @@ export const useGeoRankingReport = (listingId: number) => {
     if (isMileValue) {
       // For mile values, return the original distance value for matching
       const mileValue = mileValues.find(val => {
+        const match1 = val === numericValue + 'mi';
+        const match2 = val === distance.toLowerCase();
+        const match3 = val === numericValue;
+        console.log(`🔍 Checking mileValue "${val}" against:`, {
+          val,
+          numericValue,
+          'numericValue + mi': numericValue + 'mi',
+          'distance.toLowerCase()': distance.toLowerCase(),
+          match1,
+          match2,
+          match3
+        });
         if (val.includes('mi')) {
-          return val === numericValue + 'mi' || val === distance.toLowerCase();
+          return match1 || match2;
         }
-        return val === numericValue;
+        return match3;
       });
       const result = { unit: 'Miles', value: mileValue || numericValue };
       console.log('📏 Mile result:', result);
