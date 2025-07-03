@@ -113,13 +113,13 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[10000] pointer-events-none">
+    <div className="fixed inset-0 z-[99999] pointer-events-none">
       {/* Backdrop to prevent map interaction */}
       <div className="absolute inset-0 bg-black/20 pointer-events-auto" onClick={onClose} />
       
       <Card
         ref={modalRef}
-        className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border z-[10001]"
+        className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border z-[99999]"
         style={{
           left: position.x,
           top: position.y,
