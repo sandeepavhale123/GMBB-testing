@@ -45,7 +45,7 @@ export const GeoRankingReportPage: React.FC = () => {
   const [modalCoordinate, setModalCoordinate] = useState('');
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
-  const [showMultiKeywordAlert, setShowMultiKeywordAlert] = useState(true);
+  const [showMultiKeywordAlert, setShowMultiKeywordAlert] = useState(false);
 
   // Get current listing - convert numericListingId to string for comparison
   const currentListing = listings.find(listing => listing.id === numericListingId.toString());
@@ -203,24 +203,22 @@ export const GeoRankingReportPage: React.FC = () => {
 
         {/* Multi-Keyword Alert */}
         <AlertDialog open={showMultiKeywordAlert} onOpenChange={setShowMultiKeywordAlert}>
-          <div className="fixed inset-0 z-[99999] bg-black/80" style={{ zIndex: 99999 }}>
-            <AlertDialogContent className="z-[99999] bg-background" style={{ zIndex: 99999 }}>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Your keywords are being processed. This will take time. You can check the results on the GEO Ranking page.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogAction onClick={() => {
-                  setShowMultiKeywordAlert(false);
-                  navigate('/geo-ranking');
-                }}>
-                  Go to GEO Ranking Page
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </div>
+          <AlertDialogContent className="custom-z-index">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
+              <AlertDialogDescription>
+                Your keywords are being processed. This will take time. You can check the results on the GEO Ranking page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => {
+                setShowMultiKeywordAlert(false);
+                navigate('/geo-ranking');
+              }}>
+                Go to GEO Ranking Page
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
         </AlertDialog>
       </div>
     </div>
