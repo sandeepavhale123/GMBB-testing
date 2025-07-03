@@ -42,7 +42,4 @@
 }
 
 
-.custom-z-index {
-  z-index: 999999;
-  position: relative; /* or fixed/absolute based on your need */
-}
+
