@@ -12,6 +12,8 @@ import { useGeoRankingReport } from '../../hooks/useGeoRankingReport';
 import { getDistanceOptions, languageOptions } from '../../utils/geoRankingUtils';
 import { getKeywordPositionDetails } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
+import { Progress } from '../ui/progress';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ export const GeoRankingReportPage: React.FC = () => {
     setCurrentMarkers,
     submittingRank,
     pollingKeyword,
+    pollingProgress,
     keywordData,
     currentKeywordId,
     handleInputChange,
@@ -41,18 +44,28 @@ export const GeoRankingReportPage: React.FC = () => {
   const [modalCoordinate, setModalCoordinate] = useState('');
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
+  const [showMultiKeywordAlert, setShowMultiKeywordAlert] = useState(false);
 
   // Get current listing - convert numericListingId to string for comparison
   const currentListing = listings.find(listing => listing.id === numericListingId.toString());
+
+  // Helper function to detect multiple keywords
+  const isMultipleKeywords = (keywords: string): boolean => {
+    const keywordArray = keywords
+      .split(/[,;\n\r]+/)
+      .map(k => k.trim())
+      .filter(k => k.length > 0);
+    return keywordArray.length > 1;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await submitCheckRank();
     if (result.success) {
       console.log('Rank check submitted successfully');
-      // Navigate to GEO ranking page only for multiple keywords
-      if (result.shouldNavigate) {
-        navigate('/geo-ranking');
+      // Show alert for multiple keywords
+      if (result.shouldNavigate && isMultipleKeywords(formData.keywords)) {
+        setShowMultiKeywordAlert(true);
       }
     }
   };
@@ -134,9 +147,7 @@ export const GeoRankingReportPage: React.FC = () => {
                     <p className="text-sm text-gray-600">Keyword is being processed. This may take a few minutes...</p>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{ width: '45%' }}></div>
-                </div>
+                <Progress value={pollingProgress} className="w-full" />
               </div>
             )}
 
@@ -178,6 +189,26 @@ export const GeoRankingReportPage: React.FC = () => {
           userBusinessName={currentListing?.name}
           loading={modalLoading}
         />
+
+        {/* Multi-Keyword Alert */}
+        <AlertDialog open={showMultiKeywordAlert} onOpenChange={setShowMultiKeywordAlert}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
+              <AlertDialogDescription>
+                Your keywords are being processed. This will take time. You can check the results on the GEO Ranking page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => {
+                setShowMultiKeywordAlert(false);
+                navigate('/geo-ranking');
+              }}>
+                Go to GEO Ranking Page
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

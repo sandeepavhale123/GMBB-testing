@@ -28,6 +28,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [pollingKeyword, setPollingKeyword] = useState(false);
   const [keywordData, setKeywordData] = useState<KeywordDetailsData | null>(null);
   const [currentKeywordId, setCurrentKeywordId] = useState<string | null>(null);
+  const [pollingProgress, setPollingProgress] = useState(0);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -135,10 +136,15 @@ export const useGeoRankingReport = (listingId: number) => {
     maxAttempts: number = 60 // 5 minutes maximum
   ): Promise<boolean> => {
     setPollingKeyword(true);
+    setPollingProgress(0);
     
     try {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         console.log(`Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`);
+        
+        // Update progress every 5 seconds
+        const progress = Math.min((attempt / maxAttempts) * 100, 95);
+        setPollingProgress(progress);
         
         const response = await getKeywordDetailsWithStatus(listingId, keywordId, 1);
         
@@ -152,6 +158,7 @@ export const useGeoRankingReport = (listingId: number) => {
         } else {
           // Data is ready
           console.log('Keyword details ready:', response);
+          setPollingProgress(100);
           setKeywordData(response.data as KeywordDetailsData);
           toast({
             title: "Keyword Processed",
@@ -173,6 +180,7 @@ export const useGeoRankingReport = (listingId: number) => {
       return false;
     } finally {
       setPollingKeyword(false);
+      setPollingProgress(0);
     }
   };
 
@@ -193,7 +201,9 @@ export const useGeoRankingReport = (listingId: number) => {
       let coordinatesArray: string[] = [];
       
       if (formData.mapPoint === 'Automatic') {
-        coordinatesArray = gridCoordinates;
+        // Include default coordinate first, then grid coordinates
+        const defaultCoord = defaultCoordinates ? `${defaultCoordinates.lat},${defaultCoordinates.lng}` : null;
+        coordinatesArray = defaultCoord ? [defaultCoord, ...gridCoordinates] : gridCoordinates;
       } else {
         // Manual mode - extract coordinates from markers
         coordinatesArray = currentMarkers.map(marker => {
@@ -288,6 +298,7 @@ export const useGeoRankingReport = (listingId: number) => {
     setCurrentMarkers,
     submittingRank,
     pollingKeyword,
+    pollingProgress,
     keywordData,
     currentKeywordId,
     handleInputChange,
