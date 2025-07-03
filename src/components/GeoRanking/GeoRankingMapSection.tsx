@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
 import { RankDetail, RankStats, ProjectDetails } from '../../api/geoRankingApi';
@@ -13,7 +13,7 @@ interface GeoRankingMapSectionProps {
   loading: boolean;
 }
 
-export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
+export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = React.memo(({
   gridSize,
   onMarkerClick,
   rankDetails,
@@ -21,8 +21,10 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   projectDetails,
   loading
 }) => {
-  // Calculate position summary from rank details
-  const calculatePositionSummary = () => {
+  console.log('🗺️ GeoRankingMapSection render', { rankDetailsCount: rankDetails.length, loading });
+
+  // Memoize position summary calculation
+  const positionSummary = useMemo(() => {
     const summary = {
       '1-3': 0,
       '4-10': 0,
@@ -44,69 +46,61 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
     });
 
     return summary;
-  };
+  }, [rankDetails]);
 
-  const positionSummary = calculatePositionSummary();
+  // Memoize distance formatting to prevent excessive re-renders
+  const distance = useMemo(() => {
+    const formatDistanceLabel = (distance?: string) => {
+      if (!distance) return '2km';
+      
+      // Distance mapping for proper labels - value is the key, label is what we display
+      const distanceMap = [
+        { value: '100', label: '100 Meter' },
+        { value: '200', label: '200 Meter' },
+        { value: '500', label: '500 Meter' },
+        { value: '1', label: '1 Kilometer' },
+        { value: '2.5', label: '2.5 Kilometer' },
+        { value: '5', label: '5 Kilometer' },
+        { value: '10', label: '10 Kilometer' },
+        { value: '25', label: '25 Kilometer' },
+        { value: '.1', label: '.1 Miles' },
+        { value: '.25', label: '.25 Miles' },
+        { value: '.5', label: '.5 Miles' },
+        { value: '.75', label: '.75 Miles' },
+        { value: '1mi', label: '1 Miles' },
+        { value: '2', label: '2 Miles' },
+        { value: '3', label: '3 Miles' },
+        { value: '5mi', label: '5 Miles' },
+        { value: '8', label: '8 Miles' },
+        { value: '10mi', label: '10 Miles' }
+      ];
 
-  // Get dynamic values from projectDetails - format distance with proper label
-  const formatDistanceLabel = (distance?: string) => {
-    if (!distance) return '2km';
+      // Direct match by value
+      const matchedDistance = distanceMap.find(item => item.value === distance);
+      return matchedDistance ? matchedDistance.label : distance;
+    };
     
-    console.log('🔍 formatDistanceLabel called with distance:', distance);
-    
-    // Distance mapping for proper labels - value is the key, label is what we display
-    const distanceMap = [
-      { value: '100', label: '100 Meter' },
-      { value: '200', label: '200 Meter' },
-      { value: '500', label: '500 Meter' },
-      { value: '1', label: '1 Kilometer' },
-      { value: '2.5', label: '2.5 Kilometer' },
-      { value: '5', label: '5 Kilometer' },
-      { value: '10', label: '10 Kilometer' },
-      { value: '25', label: '25 Kilometer' },
-      { value: '.1', label: '.1 Miles' },
-      { value: '.25', label: '.25 Miles' },
-      { value: '.5', label: '.5 Miles' },
-      { value: '.75', label: '.75 Miles' },
-      { value: '1mi', label: '1 Miles' },
-      { value: '2', label: '2 Miles' },
-      { value: '3', label: '3 Miles' },
-      { value: '5mi', label: '5 Miles' },
-      { value: '8', label: '8 Miles' },
-      { value: '10mi', label: '10 Miles' }
-    ];
-
-    // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
-    const matchedDistance = distanceMap.find(item => item.value === distance);
-    
-    console.log('📏 Distance mapping result:', {
-      inputDistance: distance,
-      matchedDistance: matchedDistance,
-      finalLabel: matchedDistance ? matchedDistance.label : distance
-    });
-    
-    return matchedDistance ? matchedDistance.label : distance;
-  };
-
-  const distance = formatDistanceLabel(projectDetails?.distance);
+    return formatDistanceLabel(projectDetails?.distance);
+  }, [projectDetails?.distance]);
   
-  // Get dynamic values from projectDetails - fix distance display
-  const getFrequency = (schedule?: string) => {
-    if (!schedule) return 'Daily';
-    switch (schedule.toLowerCase()) {
-      case 'daily': return 'Daily';
-      case 'weekly': return 'Weekly';  
-      case 'monthly': return 'Monthly';
-      default: return schedule;
-    }
-  };
-  const frequency = getFrequency(projectDetails?.schedule);
+  // Memoize frequency and grid formatting
+  const frequency = useMemo(() => {
+    const getFrequency = (schedule?: string) => {
+      if (!schedule) return 'Daily';
+      switch (schedule.toLowerCase()) {
+        case 'daily': return 'Daily';
+        case 'weekly': return 'Weekly';  
+        case 'monthly': return 'Monthly';
+        default: return schedule;
+      }
+    };
+    return getFrequency(projectDetails?.schedule);
+  }, [projectDetails?.schedule]);
 
-  // Format grid size as "number * number"
-  const formatGridSize = (grid: string) => {
-    const gridNumber = grid.replace(/[^0-9]/g, ''); // Extract numbers only
+  const formattedGridSize = useMemo(() => {
+    const gridNumber = gridSize.replace(/[^0-9]/g, ''); // Extract numbers only
     return `${gridNumber} * ${gridNumber}`;
-  };
+  }, [gridSize]);
 
   return (
     <div className="relative">
@@ -123,7 +117,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
                 GPS: {rankDetails.length > 0 ? rankDetails[0].coordinate : '28.6139, 77.2090'}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                Grid: {formatGridSize(gridSize)}
+                Grid: {formattedGridSize}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                 Distance: {distance}
@@ -139,26 +133,28 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
           
           <div className="bg-gray-50 rounded-lg overflow-hidden relative">
             {loading && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-[100] flex items-center justify-center">
                 <Loader size="lg" text="Loading map data..." />
               </div>
             )}
-            {loading ? (
-              <div className="w-full h-[400px] sm:h-[500px] flex items-center justify-center">
-                <div className="text-gray-500">Loading map data...</div>
-              </div>
-            ) : (
-              <RankingMap onMarkerClick={onMarkerClick} rankDetails={rankDetails} />
-            )}
+            <div className="w-full h-[400px] sm:h-[500px] relative">
+              {!loading && (
+                <RankingMap onMarkerClick={onMarkerClick} rankDetails={rankDetails} />
+              )}
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-gray-500">Loading map data...</div>
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
       
       {/* Key Metrics Overlay - Top Left */}
-      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
+      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-[200]" style={{
         top: '120px',
-        left: '33px',
-        zIndex: '9999'
+        left: '33px'
       }}>
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
@@ -188,10 +184,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
 
       {/* Position Summary Overlay - Top Right */}
-      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
+      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-[200]" style={{
         top: '120px',
-        right: '33px',
-        zIndex: '9999'
+        right: '33px'
       }}>
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
@@ -229,4 +224,4 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
     </div>
   );
-};
+});
