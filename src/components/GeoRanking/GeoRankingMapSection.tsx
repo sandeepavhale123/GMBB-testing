@@ -52,7 +52,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   const formatDistanceLabel = (distance?: string) => {
     if (!distance) return '2km';
     
-    // Distance mapping for proper labels
+    console.log('🔍 formatDistanceLabel called with distance:', distance);
+    
+    // Distance mapping for proper labels - value is the key, label is what we display
     const distanceMap = [
       { value: '100', label: '100 Meter' },
       { value: '200', label: '200 Meter' },
@@ -74,22 +76,13 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       { value: '10mi', label: '10 Miles' }
     ];
 
-    // Extract the numeric value from the distance string (e.g., "5 KM" -> "5")
-    const numericValue = distance.replace(/[^0-9.]/g, '');
+    // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
+    const matchedDistance = distanceMap.find(item => item.value === distance);
     
-    // Check if it contains "KM" or "Miles" to determine the type
-    const isKM = distance.toUpperCase().includes('KM') || distance.toUpperCase().includes('METER');
-    const isMiles = distance.toUpperCase().includes('MILE') || distance.toUpperCase().includes('MI');
-    
-    // Find matching label from the distance map
-    const matchedDistance = distanceMap.find(item => {
-      if (isMiles) {
-        // For Miles, match the exact value (e.g., "5mi" matches "5mi", "2" matches "2")
-        return item.value === distance.replace(/[^0-9.mi]/g, '');
-      } else if (isKM && !item.label.includes('Miles')) {
-        return item.value === numericValue;
-      }
-      return false;
+    console.log('📏 Distance mapping result:', {
+      inputDistance: distance,
+      matchedDistance: matchedDistance,
+      finalLabel: matchedDistance ? matchedDistance.label : distance
     });
     
     return matchedDistance ? matchedDistance.label : distance;
