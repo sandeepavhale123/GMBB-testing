@@ -19,7 +19,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
   const { listingId } = useParams();
-  const numericListingId = listingId ? parseInt(listingId, 10) : 160886;
+  const numericListingId = listingId ? parseInt(listingId, 10) : 0;
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { listings } = useBusinessListings();
