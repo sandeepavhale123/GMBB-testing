@@ -79,7 +79,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
     
     // Check if it contains "KM" or "Miles" to determine the type
     const isKM = distance.toUpperCase().includes('KM') || distance.toUpperCase().includes('METER');
-    const isMiles = distance.toUpperCase().includes('MILE');
+    const isMiles = distance.toUpperCase().includes('MILE') || distance.toUpperCase().includes('MI');
     
     // Find matching label from the distance map
     const matchedDistance = distanceMap.find(item => {
