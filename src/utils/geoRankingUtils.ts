@@ -1,5 +1,5 @@
 // Process distance value to handle Miles units properly
-export const processDistanceValue = (distanceValue: string, unit: string): number => {
+export const processDistanceValue = (distanceValue: string, unit: string): number | string => {
   // Handle special Miles cases that include 'mi' suffix
   if (unit === 'Miles') {
     switch (distanceValue) {

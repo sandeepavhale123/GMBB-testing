@@ -62,6 +62,12 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   };
   const frequency = getFrequency(projectDetails?.schedule);
 
+  // Format grid size as "number * number"
+  const formatGridSize = (grid: string) => {
+    const gridNumber = grid.replace(/[^0-9]/g, ''); // Extract numbers only
+    return `${gridNumber} * ${gridNumber}`;
+  };
+
   return (
     <div className="relative">
       <Card className="bg-white">
@@ -77,7 +83,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
                 GPS: {rankDetails.length > 0 ? rankDetails[0].coordinate : '28.6139, 77.2090'}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                Grid: {gridSize}
+                Grid: {formatGridSize(gridSize)}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                 Distance: {distance}
