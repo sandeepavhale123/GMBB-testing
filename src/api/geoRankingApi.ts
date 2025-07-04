@@ -68,18 +68,31 @@ export interface UnderPerformingArea {
   youReview: string;
 }
 
+export interface KeywordDetailsData {
+  projectDetails: ProjectDetails;
+  rankDetails: RankDetail[];
+  dates: DateInfo[];
+  rankStats: RankStats;
+  underPerformingArea: UnderPerformingArea[];
+}
+
 export interface KeywordDetailsResponse {
   code: number;
   message: string;
-  data: {
-    projectDetails: ProjectDetails;
-    rankDetails: RankDetail[];
-    dates: DateInfo[];
-    rankStats: RankStats;
-    underPerformingArea: UnderPerformingArea[];
-  };
+  data: KeywordDetailsData;
 }
 
+export interface KeywordQueueResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export type KeywordDetailsOrQueueResponse =
+  | KeywordDetailsResponse
+  | KeywordQueueResponse;
+
+// New interfaces for keyword position details
 export interface KeywordDetail {
   name: string;
   address: string;
@@ -123,6 +136,7 @@ export const getKeywordDetails = async (
   const response = await axiosInstance.post("/get-keyword-details", {
     listingId,
     keywordId,
+    status: 0,
   });
   return response.data;
 };
@@ -140,11 +154,133 @@ export const getKeywordPositionDetails = async (
   return response.data;
 };
 
+// New interface for grid coordinates
+export interface GridCoordinatesResponse {
+  code: number;
+  message: string;
+  data: {
+    allCoordinates: string[];
+  };
+}
+
 export const getDefaultCoordinates = async (
   listingId: number
 ): Promise<DefaultCoordinatesResponse> => {
   const response = await axiosInstance.post("/get-default-coordinates", {
     listingId,
   });
+  return response.data;
+};
+
+export const getGridCoordinates = async (
+  listingId: number,
+  grid: number,
+  distance: number | string,
+  latlong: string
+): Promise<GridCoordinatesResponse> => {
+  const response = await axiosInstance.post("/get-grid-coordinates", {
+    listingId,
+    grid,
+    distance,
+    latlong,
+  });
+  return response.data;
+};
+
+// New interface for check rank request
+export interface CheckRankRequest {
+  listingId: number;
+  language: string;
+  keywords: string;
+  mapPoint: string;
+  distanceValue: number;
+  gridSize: number;
+  searchDataEngine: string;
+  scheduleCheck: string;
+  latlng: string[];
+}
+
+// New interface for check rank response
+export interface CheckRankResponse {
+  code: number;
+  message: string;
+  data?: {
+    keywordId?: number;
+  };
+}
+
+export const getKeywordDetailsWithStatus = async (
+  listingId: number,
+  keywordId: string,
+  status: number
+): Promise<KeywordDetailsOrQueueResponse> => {
+  const response = await axiosInstance.post("/get-keyword-details", {
+    listingId,
+    keywordId,
+    status,
+  });
+  return response.data;
+};
+
+export const addKeywords = async (
+  requestData: CheckRankRequest
+): Promise<CheckRankResponse> => {
+  const response = await axiosInstance.post("/add-keywords", requestData);
+  return response.data;
+};
+
+// New interface for keyword status response
+export interface KeywordStatusResponse {
+  code: number;
+  message: string;
+  data: {
+    keywords: Array<{
+      keyword: string;
+    }>;
+  };
+}
+
+export const checkKeywordStatus = async (
+  listingId: number
+): Promise<KeywordStatusResponse> => {
+  const response = await axiosInstance.post("/check-keyword-status", {
+    listingId,
+  });
+  return response.data;
+};
+
+// New interface for refresh keyword request
+export interface RefreshKeywordRequest {
+  listingId: number;
+  keywordId: string;
+}
+
+// New interface for refresh keyword response
+export interface RefreshKeywordResponse {
+  code: number;
+  message: string;
+  data: {
+    projectDetails: {
+      id: string;
+      bname: string;
+      sab: string;
+      keyword: string;
+      mappoint: string;
+      prev_id: string;
+      distance: string;
+      grid: string;
+      schedule: string;
+      date: string;
+      lang: string;
+    };
+    coordinate: string[];
+    keywordId: number;
+  };
+}
+
+export const refreshKeyword = async (
+  requestData: RefreshKeywordRequest
+): Promise<RefreshKeywordResponse> => {
+  const response = await axiosInstance.post("/refresh-keyword", requestData);
   return response.data;
 };

@@ -12,11 +12,7 @@ import { ListingManagementPage } from "@/components/Settings/ListingManagementPa
 import { Navigate } from "react-router-dom";
 import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
-<<<<<<< HEAD
-import { ListingProvider } from "@/context/ListingContext";
-=======
 import GMBHealthPage from "@/pages/GMBHealthPage";
->>>>>>> main
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -89,9 +85,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },

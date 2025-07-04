@@ -11,20 +11,13 @@ import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { UpgradeNowConfirmationModal } from "./UpgradeConfirmationModal";
 
 // ⚠️ Load Stripe publishable key from .env
-<<<<<<< HEAD
 const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
 );
-
-// console.log(
-//   "stripe promise......",
-//   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-// );
-
-=======
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
-console.log("stripe promise......", import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
->>>>>>> main
+console.log(
+  "stripe promise......",
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
 interface PlanFeature {
   name: string;
   business: boolean | number | string;
@@ -32,74 +25,87 @@ interface PlanFeature {
   agency: boolean | number | string;
   enterprise: boolean | number | string;
 }
-const planFeatures: PlanFeature[] = [{
-  name: "No.GMB Listings Allowed",
-  business: 40,
-  pro: 100,
-  agency: 200,
-  enterprise: 400
-}, {
-  name: "KW Rank Check P/day",
-  business: 600,
-  pro: 1000,
-  agency: 1500,
-  enterprise: 2000
-}, {
-  name: "Organic KW listing",
-  business: 20,
-  pro: 20,
-  agency: 20,
-  enterprise: 20
-}, {
-  name: "GEO KW Check",
-  business: "Unlimited",
-  pro: "Unlimited",
-  agency: "Unlimited",
-  enterprise: "Unlimited"
-}, {
-  name: "Add Team",
-  business: true,
-  pro: true,
-  agency: true,
-  enterprise: true
-}, {
-  name: "White Label Report",
-  business: false,
-  pro: true,
-  agency: true,
-  enterprise: true
-}, {
-  name: "White Label Subdomain",
-  business: false,
-  pro: true,
-  agency: true,
-  enterprise: true
-}];
-const plans = [{
-  id: "12",
-  name: "Business",
-  price: 99,
-  color: "bg-blue-500",
-  popular: false
-}, {
-  id: "13",
-  name: "Pro",
-  price: 199,
-  color: "bg-blue-600",
-  popular: true
-}, {
-  id: "14",
-  name: "Agency",
-  price: 299,
-  color: "bg-blue-700",
-  popular: false
-}, {
-  id: "15",
-  name: "Enterprise",
-  price: 560,
-  color: "bg-blue-800",
-  popular: false
-}];
+const planFeatures: PlanFeature[] = [
+  {
+    name: "No.GMB Listings Allowed",
+    business: 40,
+    pro: 100,
+    agency: 200,
+    enterprise: 400,
+  },
+  {
+    name: "KW Rank Check P/day",
+    business: 600,
+    pro: 1000,
+    agency: 1500,
+    enterprise: 2000,
+  },
+  {
+    name: "Organic KW listing",
+    business: 20,
+    pro: 20,
+    agency: 20,
+    enterprise: 20,
+  },
+  {
+    name: "GEO KW Check",
+    business: "Unlimited",
+    pro: "Unlimited",
+    agency: "Unlimited",
+    enterprise: "Unlimited",
+  },
+  {
+    name: "Add Team",
+    business: true,
+    pro: true,
+    agency: true,
+    enterprise: true,
+  },
+  {
+    name: "White Label Report",
+    business: false,
+    pro: true,
+    agency: true,
+    enterprise: true,
+  },
+  {
+    name: "White Label Subdomain",
+    business: false,
+    pro: true,
+    agency: true,
+    enterprise: true,
+  },
+];
+const plans = [
+  {
+    id: "12",
+    name: "Business",
+    price: 99,
+    color: "bg-blue-500",
+    popular: false,
+  },
+  {
+    id: "13",
+    name: "Pro",
+    price: 199,
+    color: "bg-blue-600",
+    popular: true,
+  },
+  {
+    id: "14",
+    name: "Agency",
+    price: 299,
+    color: "bg-blue-700",
+    popular: false,
+  },
+  {
+    id: "15",
+    name: "Enterprise",
+    price: 560,
+    color: "bg-blue-800",
+    popular: false,
+  },
+];
 export const SubscriptionPage: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
@@ -107,10 +113,16 @@ export const SubscriptionPage: React.FC = () => {
   const [planExpDate, setPlanExpDate] = useState<string | null>(null);
   const [isExpired, setIsExpired] = useState<boolean>(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
-  const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(null);
+  const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(
+    null
+  );
   const renderFeatureValue = (value: boolean | number | string) => {
     if (typeof value === "boolean") {
-      return value ? <Check className="w-5 h-5 text-green-500 mx-auto" /> : <X className="w-5 h-5 text-red-400 mx-auto" />;
+      return value ? (
+        <Check className="w-5 h-5 text-green-500 mx-auto" />
+      ) : (
+        <X className="w-5 h-5 text-red-400 mx-auto" />
+      );
     }
     return <span className="text-sm font-medium text-gray-900">{value}</span>;
   };
@@ -118,12 +130,12 @@ export const SubscriptionPage: React.FC = () => {
     const fetchUserPlan = async () => {
       try {
         const response = await axiosInstance.get("/get-user-profile");
-        console.log("user data from user profile", response.data.data.profileDetails);
-        const {
-          planId,
-          planExpDate,
-          planName
-        } = response.data.data.profileDetails;
+        console.log(
+          "user data from user profile",
+          response.data.data.profileDetails
+        );
+        const { planId, planExpDate, planName } =
+          response.data.data.profileDetails;
         if (planId) {
           setActivePlanId(planId);
         }
@@ -134,7 +146,7 @@ export const SubscriptionPage: React.FC = () => {
           console.log("Plan expiration check:", {
             planExpDate,
             isExpired: expired,
-            planId
+            planId,
           });
         }
       } catch (error) {
@@ -191,11 +203,14 @@ export const SubscriptionPage: React.FC = () => {
       console.log(`Selected plan: ${planId}`);
 
       // Call custom backend API to create subscription
-      const response = await axiosInstance.post(`${import.meta.env.VITE_BASE_URL}/create-subscription`, {
-        planId: planId,
-        successUrl: `${window.location.origin}/verify-payment`,
-        cancelUrl: `${window.location.origin}/settings/subscription`
-      });
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_BASE_URL}/create-subscription`,
+        {
+          planId: planId,
+          successUrl: `${window.location.origin}/verify-payment`,
+          cancelUrl: `${window.location.origin}/settings/subscription`,
+        }
+      );
       const data = response.data;
       console.log("response from the backend", response.data);
       if (data.id) {
@@ -205,10 +220,8 @@ export const SubscriptionPage: React.FC = () => {
         if (!stripe) {
           throw new Error("Stripe failed to initialize");
         }
-        const {
-          error
-        } = await stripe.redirectToCheckout({
-          sessionId: data.id
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.id,
         });
         if (error) {
           throw new Error(error.message);
@@ -223,8 +236,11 @@ export const SubscriptionPage: React.FC = () => {
       console.error("Payment error:", error);
       toast({
         title: "Payment Error",
-        description: error instanceof Error ? error.message : "Failed to process payment. Please try again.",
-        variant: "destructive"
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to process payment. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(null);
@@ -240,20 +256,17 @@ export const SubscriptionPage: React.FC = () => {
 
       // Send upgrade request to backend
       const response = await axiosInstance.post("/update-subscription", {
-        planId: selectedUpgradePlan
+        planId: selectedUpgradePlan,
       });
       if (response.data.success) {
         toast({
           title: "Upgrade Successful",
-          description: "Your plan has been upgraded successfully."
+          description: "Your plan has been upgraded successfully.",
         });
 
         // Refresh user plan data
         const userResponse = await axiosInstance.get("/get-user-profile");
-        const {
-          planId,
-          planExpDate
-        } = userResponse.data.data.profileDetails;
+        const { planId, planExpDate } = userResponse.data.data.profileDetails;
         if (planId) {
           setActivePlanId(planId);
         }
@@ -268,8 +281,11 @@ export const SubscriptionPage: React.FC = () => {
       console.error("Upgrade error:", error);
       toast({
         title: "Upgrade Error",
-        description: error instanceof Error ? error.message : "Failed to upgrade plan. Please try again.",
-        variant: "destructive"
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to upgrade plan. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(null);
@@ -281,10 +297,11 @@ export const SubscriptionPage: React.FC = () => {
     setSelectedUpgradePlan(null);
   };
   const getSelectedPlanName = () => {
-    const plan = plans.find(p => p.id === selectedUpgradePlan);
+    const plan = plans.find((p) => p.id === selectedUpgradePlan);
     return plan ? plan.name : "";
   };
-  return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+  return (
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       {/* Page Header */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
@@ -295,11 +312,27 @@ export const SubscriptionPage: React.FC = () => {
           at any time.
         </p>
         {/* Show expiration status if user has a plan */}
-        {activePlanId && planExpDate && <div className={`mt-4 p-3 rounded-lg ${isExpired ? "bg-red-50 border border-red-200" : "bg-green-50 border border-green-200"}`}>
-            <p className={`text-sm font-medium ${isExpired ? "text-red-800" : "text-green-800"}`}>
-              {isExpired ? `Your plan expired on ${formatDate(planExpDate)}. Please renew to continue accessing features.` : `Your plan is active until ${formatDate(planExpDate)}.`}
+        {activePlanId && planExpDate && (
+          <div
+            className={`mt-4 p-3 rounded-lg ${
+              isExpired
+                ? "bg-red-50 border border-red-200"
+                : "bg-green-50 border border-green-200"
+            }`}
+          >
+            <p
+              className={`text-sm font-medium ${
+                isExpired ? "text-red-800" : "text-green-800"
+              }`}
+            >
+              {isExpired
+                ? `Your plan expired on ${formatDate(
+                    planExpDate
+                  )}. Please renew to continue accessing features.`
+                : `Your plan is active until ${formatDate(planExpDate)}.`}
             </p>
-          </div>}
+          </div>
+        )}
       </div>
 
       <Tabs defaultValue="pricing-plan" className="w-full">
@@ -316,9 +349,15 @@ export const SubscriptionPage: React.FC = () => {
               <div className="p-4 font-semibold text-gray-900 flex items-center">
                 Features
               </div>
-              {plans.map(plan => <div key={plan.id} className="p-4 text-center relative min-h-[120px] flex flex-col justify-between">
+              {plans.map((plan) => (
+                <div
+                  key={plan.id}
+                  className="p-4 text-center relative min-h-[120px] flex flex-col justify-between"
+                >
                   <div className="absolute inset-0 flex flex-col">
-                    <div className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}>
+                    <div
+                      className={`${plan.color} text-white py-3 px-4 flex-1 flex items-center justify-center`}
+                    >
                       <div className="flex items-center justify-center gap-2">
                         <span className="font-semibold text-lg">
                           {plan.name}
@@ -327,27 +366,36 @@ export const SubscriptionPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  {plan.popular && <Badge className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
+                  {plan.popular && (
+                    <Badge className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white text-xs z-10">
                       Most Popular
-                    </Badge>}
-                </div>)}
+                    </Badge>
+                  )}
+                </div>
+              ))}
             </div>
 
             {/* Price Row */}
             <div className="grid grid-cols-5 border-b border-gray-200 bg-white">
               <div className="p-4 font-medium text-gray-700">Price/PM</div>
-              {plans.map(plan => <div key={plan.id} className="p-4 text-center">
+              {plans.map((plan) => (
+                <div key={plan.id} className="p-4 text-center">
                   <div className="text-2xl font-bold text-gray-900">
                     ${plan.price}
                     <span className="text-sm font-normal text-gray-500">
                       /PM
                     </span>
                   </div>
-                </div>)}
+                </div>
+              ))}
             </div>
 
             {/* Feature Rows */}
-            {planFeatures.map((feature, index) => <div key={index} className="grid grid-cols-5 border-b border-gray-200 hover:bg-gray-50">
+            {planFeatures.map((feature, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-5 border-b border-gray-200 hover:bg-gray-50"
+              >
                 <div className="p-4 text-sm text-gray-700 font-medium">
                   {feature.name}
                 </div>
@@ -363,16 +411,23 @@ export const SubscriptionPage: React.FC = () => {
                 <div className="p-4 text-center flex items-center justify-center">
                   {renderFeatureValue(feature.enterprise)}
                 </div>
-              </div>)}
+              </div>
+            ))}
 
             {/* Action Buttons Row */}
             <div className="grid grid-cols-5 bg-gray-50">
               <div className="p-4"></div>
-              {plans.map(plan => <div key={plan.id} className="p-4 text-center">
-                  <Button onClick={() => handleButtonClick(plan.id)} className={getButtonClass(plan.id, plan.color)} disabled={isPlanActive(plan.id) || isProcessing === plan.id}>
+              {plans.map((plan) => (
+                <div key={plan.id} className="p-4 text-center">
+                  <Button
+                    onClick={() => handleButtonClick(plan.id)}
+                    className={getButtonClass(plan.id, plan.color)}
+                    disabled={isPlanActive(plan.id) || isProcessing === plan.id}
+                  >
                     {getButtonText(plan.id)}
                   </Button>
-                </div>)}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -385,7 +440,10 @@ export const SubscriptionPage: React.FC = () => {
               Contact our sales team to find the perfect plan for your business
               needs.
             </p>
-            <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-100">
+            <Button
+              variant="outline"
+              className="border-blue-300 text-blue-700 hover:bg-blue-100"
+            >
               Contact Sales
             </Button>
           </div>
@@ -415,6 +473,13 @@ export const SubscriptionPage: React.FC = () => {
       </Tabs>
 
       {/* Upgrade Confirmation Modal */}
-      <UpgradeNowConfirmationModal isOpen={showUpgradeModal} onClose={handleUpgradeCancel} onConfirm={handleUpgradeConfirm} planName={getSelectedPlanName()} isProcessing={isProcessing === selectedUpgradePlan} />
-    </div>;
+      <UpgradeNowConfirmationModal
+        isOpen={showUpgradeModal}
+        onClose={handleUpgradeCancel}
+        onConfirm={handleUpgradeConfirm}
+        planName={getSelectedPlanName()}
+        isProcessing={isProcessing === selectedUpgradePlan}
+      />
+    </div>
+  );
 };

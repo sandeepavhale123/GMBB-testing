@@ -1,140 +1,71 @@
-import { useState, useEffect } from 'react';
-import { getKeywords, getKeywordDetails, getKeywordPositionDetails, KeywordData, KeywordDetailsResponse, Credits, KeywordPositionResponse } from '../api/geoRankingApi';
-import { useToast } from './use-toast';
+import { useCallback } from 'react';
+import { useKeywords } from './useKeywords';
+import { useKeywordDetails } from './useKeywordDetails';
+import { useKeywordPolling } from './useKeywordPolling';
+import { useKeywordRefresh } from './useKeywordRefresh';
 
 export const useGeoRanking = (listingId: number) => {
-  const [keywords, setKeywords] = useState<KeywordData[]>([]);
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
-  const [credits, setCredits] = useState<Credits | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [keywordsLoading, setKeywordsLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [keywordChanging, setKeywordChanging] = useState(false);
-  const [dateChanging, setDateChanging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [positionDetailsLoading, setPositionDetailsLoading] = useState(false);
-  const { toast } = useToast();
+  // Keywords management
+  const {
+    keywords,
+    selectedKeyword,
+    setSelectedKeyword,
+    credits,
+    keywordsLoading,
+    pageLoading,
+    error: keywordsError,
+    fetchKeywords
+  } = useKeywords(listingId);
 
-  // Fetch keywords on component mount
-  useEffect(() => {
-    const fetchKeywords = async () => {
-      if (!listingId) return;
-      
-      setKeywordsLoading(true);
-      setPageLoading(true);
-      setError(null);
-      
-      try {
-        const response = await getKeywords(listingId);
-        if (response.code === 200) {
-          setKeywords(response.data.keywords);
-          setCredits(response.data.credits);
-          // Set first keyword as default
-          if (response.data.keywords.length > 0) {
-            const firstKeyword = response.data.keywords[0];
-            setSelectedKeyword(firstKeyword.id);
-          }
-        } else {
-          throw new Error(response.message || 'Failed to fetch keywords');
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keywords';
-        setError(errorMessage);
-        toast({
-          title: "Error",
-          description: errorMessage,
-          variant: "destructive"
-        });
-      } finally {
-        setKeywordsLoading(false);
-        setPageLoading(false);
-      }
-    };
+  // Refresh functionality with proper parameter handling
+  const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
+    return await fetchKeywords(true, selectKeywordId);
+  }, [fetchKeywords]);
 
-    fetchKeywords();
-  }, [listingId, toast]);
+  // Keyword details management (initialized without refresh mode first)
+  const {
+    selectedDate,
+    setSelectedDate,
+    keywordDetails,
+    setKeywordDetails,
+    loading,
+    keywordChanging,
+    dateChanging,
+    positionDetailsLoading,
+    error: keywordDetailsError,
+    fetchPositionDetails,
+    fetchKeywordDetailsManually,
+    handleKeywordChange: onKeywordChange,
+    handleDateChange: onDateChange
+  } = useKeywordDetails(listingId, selectedKeyword, false); // Initialize with false first
 
-  // Fetch keyword details when selected keyword changes
-  useEffect(() => {
-    const fetchKeywordDetails = async () => {
-      if (!listingId || !selectedKeyword) return;
-      
-      setLoading(true);
-      setError(null);
-      
-      try {
-        const response = await getKeywordDetails(listingId, selectedKeyword);
-        if (response.code === 200) {
-          setKeywordDetails(response.data);
-          // Set the most recent date as default
-          if (response.data.dates && response.data.dates.length > 0) {
-            const sortedDates = response.data.dates
-              .filter(d => d.date)
-              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-            
-            if (sortedDates.length > 0) {
-              setSelectedDate(sortedDates[0].id);
-            }
-          }
-        } else {
-          throw new Error(response.message || 'Failed to fetch keyword details');
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keyword details';
-        setError(errorMessage);
-        toast({
-          title: "Error",
-          description: errorMessage,
-          variant: "destructive"
-        });
-      } finally {
-        setLoading(false);
-        setKeywordChanging(false);
-        setDateChanging(false);
-      }
-    };
+  const { refreshing, refreshError, refreshProgress, isPollingActive, handleRefreshKeyword } = useKeywordRefresh({
+    listingId,
+    selectedKeyword,
+    onKeywordsUpdate: keywordsUpdateCallback,
+    fetchKeywordDetailsManually
+  });
 
-    fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast]);
+  // Polling for keyword status - only poll when refresh is active
+  const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
+    listingId,
+    useCallback(() => fetchKeywords(true), [fetchKeywords]),
+    isPollingActive
+  );
 
-  const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
-    if (!listingId) return null;
-    
-    setPositionDetailsLoading(true);
-    
-    try {
-      const response = await getKeywordPositionDetails(listingId, keywordId, positionId);
-      if (response.code === 200) {
-        return response;
-      } else {
-        throw new Error(response.message || 'Failed to fetch position details');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch position details';
-      setError(errorMessage);
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive"
-      });
-      return null;
-    } finally {
-      setPositionDetailsLoading(false);
-    }
-  };
+  // Combined error state
+  const error = keywordsError || keywordDetailsError;
 
-  const handleKeywordChange = (keywordId: string) => {
-    setKeywordChanging(true);
+  // Enhanced keyword change handler
+  const handleKeywordChange = useCallback((keywordId: string, isRefresh = false) => {
     setSelectedKeyword(keywordId);
-    setSelectedDate(''); // Reset date when keyword changes
-  };
+    onKeywordChange(keywordId, isRefresh);
+  }, [setSelectedKeyword, onKeywordChange]);
 
-  const handleDateChange = (dateId: string) => {
-    setDateChanging(true);
-    setSelectedDate(dateId);
-  };
+  // Enhanced date change handler
+  const handleDateChange = useCallback((dateId: string, isRefresh = false) => {
+    onDateChange(dateId, isRefresh);
+  }, [onDateChange]);
 
   return {
     keywords,
@@ -149,8 +80,14 @@ export const useGeoRanking = (listingId: number) => {
     dateChanging,
     error,
     positionDetailsLoading,
+    processingKeywords,
+    isPolling,
+    refreshing,
+    refreshError,
+    refreshProgress,
     fetchPositionDetails,
     handleKeywordChange,
-    handleDateChange
+    handleDateChange,
+    handleRefreshKeyword
   };
 };

@@ -31,7 +31,6 @@ import { SubscriptionPage } from '../components/Settings/SubscriptionPage';
 
 import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
 import { IntegrationsPage } from '../components/Settings/IntegrationsPage';
->>>>>>> main
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -68,13 +67,8 @@ const SettingsPage = () => {
     if (path.includes("/subscription")) {
       return "subscription";
     }
-<<<<<<< HEAD
-    if (path.includes("/genie-subscription")) {
-      return "genie-subscription";
-=======
     if (path.includes('/integrations')) {
       return 'integrations';
->>>>>>> main
     }
     if (path.includes("/google-account")) {
       return "google-account";
@@ -100,13 +94,8 @@ const SettingsPage = () => {
         return <ManageGoogleAccountPage />;
       case "subscription":
         return <SubscriptionPage />;
-<<<<<<< HEAD
-      case "genie-subscription":
-        return <GenieSubscriptionPage />;
-=======
       case 'integrations':
         return <IntegrationsPage />;
->>>>>>> main
       default:
         return <ManageGoogleAccountPage />;
     }

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
@@ -112,15 +113,36 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-[9999] pointer-events-none">
+  const modalContent = (
+    <div 
+      className="fixed inset-0 pointer-events-none"
+      style={{ 
+        zIndex: 2147483647, // Maximum z-index value
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      }}
+    >
+      {/* Backdrop to prevent map interaction */}
+      <div 
+        className="absolute inset-0 bg-black/20 pointer-events-auto" 
+        style={{ zIndex: 2147483646 }}
+        onClick={onClose} 
+      />
+      
       <Card
         ref={modalRef}
-        className="absolute w-96 max-h-[500px] pointer-events-auto shadow-xl border"
+        className="pointer-events-auto shadow-xl border bg-white"
         style={{
+          position: 'fixed',
           left: position.x,
           top: position.y,
-          cursor: isDragging ? 'grabbing' : 'grab'
+          cursor: isDragging ? 'grabbing' : 'grab',
+          zIndex: 2147483647, // Maximum z-index value
+          width: '384px',
+          maxHeight: '500px'
         }}
       >
         {/* Header - Draggable area */}
@@ -230,4 +252,7 @@ export const GeoPositionModal: React.FC<GeoPositionModalProps> = ({
       </Card>
     </div>
   );
+
+  // Use portal to render modal at document body level, completely outside of any parent containers
+  return createPortal(modalContent, document.body);
 };
