@@ -70,7 +70,7 @@ const handleAuthFailure = (shouldForceLogout: boolean = false) => {
   } else {
     // Just clear tokens but don't force logout yet
     console.log("🔒 Clearing expired tokens without logout");
-    store.dispatch(clearExpiredTokens());
+    // store.dispatch(clearExpiredTokens());
   }
 };
 
