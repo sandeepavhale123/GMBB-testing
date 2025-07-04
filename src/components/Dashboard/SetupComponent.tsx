@@ -98,7 +98,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({
                 <span className="text-2xl font-bold text-gray-900">
                   {progress.percentage}%
                 </span>
-                <p className="text-sm text-gray-600">Complete</p>
+                
               </div>
             </CircularProgress>
           </div>
