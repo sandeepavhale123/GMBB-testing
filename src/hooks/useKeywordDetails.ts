@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
-export const useKeywordDetails = (listingId: number, selectedKeyword: string) => {
+export const useKeywordDetails = (listingId: number, selectedKeyword: string, refreshMode = false) => {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -12,8 +12,41 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string) =>
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Add a ref to track if we should skip the next effect
+  const skipNextEffect = useRef(false);
+
+  // Function to manually fetch keyword details (used during refresh)
+  const fetchKeywordDetailsManually = useCallback(async (keywordId: string) => {
+    if (!listingId || !keywordId) return;
+    
+    try {
+      const response = await getKeywordDetails(listingId, keywordId);
+      if (response.code === 200) {
+        setKeywordDetails(response.data);
+        // Set the most recent date as default
+        if (response.data.dates && response.data.dates.length > 0) {
+          const sortedDates = response.data.dates
+            .filter(d => d.date)
+            .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+          
+          if (sortedDates.length > 0) {
+            setSelectedDate(sortedDates[0].id);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching keyword details manually:', err);
+    }
+  }, [listingId]);
+
   // Fetch keyword details when selected keyword changes
   useEffect(() => {
+    // Skip the effect during refresh mode to prevent blinking
+    if (refreshMode || skipNextEffect.current) {
+      skipNextEffect.current = false;
+      return;
+    }
+    
     const fetchKeywordDetails = async () => {
       if (!listingId || !selectedKeyword) return;
       
@@ -53,7 +86,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string) =>
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast]);
+  }, [listingId, selectedKeyword, toast, refreshMode]);
 
   const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
     if (!listingId) return null;
@@ -108,6 +141,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string) =>
     positionDetailsLoading,
     error,
     fetchPositionDetails,
+    fetchKeywordDetailsManually,
     handleKeywordChange,
     handleDateChange
   };

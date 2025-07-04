@@ -17,7 +17,12 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywords
   } = useKeywords(listingId);
 
-  // Keyword details management
+  // Refresh functionality with proper parameter handling
+  const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
+    return await fetchKeywords(true, selectKeywordId);
+  }, [fetchKeywords]);
+
+  // Keyword details management (initialized without refresh mode first)
   const {
     selectedDate,
     setSelectedDate,
@@ -29,21 +34,16 @@ export const useGeoRanking = (listingId: number) => {
     positionDetailsLoading,
     error: keywordDetailsError,
     fetchPositionDetails,
+    fetchKeywordDetailsManually,
     handleKeywordChange: onKeywordChange,
     handleDateChange: onDateChange
-  } = useKeywordDetails(listingId, selectedKeyword);
-
-  // Refresh functionality with proper parameter handling
-  const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
-    return await fetchKeywords(true, selectKeywordId);
-  }, [fetchKeywords]);
+  } = useKeywordDetails(listingId, selectedKeyword, false); // Initialize with false first
 
   const { refreshing, refreshError, refreshProgress, isPollingActive, handleRefreshKeyword } = useKeywordRefresh({
     listingId,
     selectedKeyword,
     onKeywordsUpdate: keywordsUpdateCallback,
-    onKeywordDetailsUpdate: setKeywordDetails,
-    onDateUpdate: setSelectedDate
+    fetchKeywordDetailsManually
   });
 
   // Polling for keyword status - only poll when refresh is active

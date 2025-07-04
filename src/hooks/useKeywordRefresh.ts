@@ -6,16 +6,14 @@ interface UseKeywordRefreshProps {
   listingId: number;
   selectedKeyword: string;
   onKeywordsUpdate: (selectKeywordId?: string) => Promise<void>;
-  onKeywordDetailsUpdate: (data: any) => void;
-  onDateUpdate: (dateId: string) => void;
+  fetchKeywordDetailsManually?: (keywordId: string) => Promise<void>;
 }
 
 export const useKeywordRefresh = ({
   listingId,
   selectedKeyword,
   onKeywordsUpdate,
-  onKeywordDetailsUpdate,
-  onDateUpdate
+  fetchKeywordDetailsManually
 }: UseKeywordRefreshProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
@@ -62,26 +60,12 @@ export const useKeywordRefresh = ({
               setIsPollingActive(false);
               setRefreshProgress(100); // Complete progress
               
-              // Batch all state updates to prevent UI flashing
-              await Promise.all([
-                // First, refresh keywords list to include new keyword
-                onKeywordsUpdate(newKeywordId),
-                // Delay to ensure state is properly set
-                new Promise(resolve => setTimeout(resolve, 100))
-              ]);
+              // First, update keywords list to include new keyword
+              await onKeywordsUpdate(newKeywordId);
               
-              // Then set keyword details and date atomically
-              onKeywordDetailsUpdate(detailsResponse.data);
-              
-              // Set the most recent date as default
-              if (detailsResponse.data.dates && detailsResponse.data.dates.length > 0) {
-                const sortedDates = detailsResponse.data.dates
-                  .filter(d => d.date)
-                  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-                
-                if (sortedDates.length > 0) {
-                  onDateUpdate(sortedDates[0].id);
-                }
+              // Then manually fetch and set keyword details without triggering the useEffect
+              if (fetchKeywordDetailsManually) {
+                await fetchKeywordDetailsManually(newKeywordId);
               }
               
               toast({
