@@ -12,6 +12,7 @@ import { ManageGoogleAccountPage } from "../components/Settings/ManageGoogleAcco
 import { SubscriptionPage } from "../components/Settings/SubscriptionPage";
 import { GenieSubscriptionPage } from "../components/Settings/GenieSubscriptionPage";
 import { ListingManagementPage } from "../components/Settings/ListingManagementPage";
+import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {

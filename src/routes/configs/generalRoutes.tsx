@@ -94,7 +94,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/integrations",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
