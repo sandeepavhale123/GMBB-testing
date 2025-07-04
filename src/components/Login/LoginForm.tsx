@@ -194,7 +194,7 @@ export const LoginForm = () => {
               Logging in...
             </span>
           ) : (
-            "Log me in"
+            "Log In"
           )}
         </Button>
 
