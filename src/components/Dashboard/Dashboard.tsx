@@ -353,7 +353,7 @@ export const Dashboard: React.FC = () => {
                 ctaButton: "",
                 ctaUrl: "",
                 image: selectedPost.image,
-                platforms: selectedPost.platforms,
+                platforms: [],
               }}
             />
           )}
