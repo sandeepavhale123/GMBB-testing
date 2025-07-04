@@ -62,10 +62,15 @@ export const useKeywordRefresh = ({
               setIsPollingActive(false);
               setRefreshProgress(100); // Complete progress
               
-              // First, refresh keywords list to include new keyword
-              await onKeywordsUpdate(newKeywordId);
+              // Batch all state updates to prevent UI flashing
+              await Promise.all([
+                // First, refresh keywords list to include new keyword
+                onKeywordsUpdate(newKeywordId),
+                // Delay to ensure state is properly set
+                new Promise(resolve => setTimeout(resolve, 100))
+              ]);
               
-              // Then set keyword details
+              // Then set keyword details and date atomically
               onKeywordDetailsUpdate(detailsResponse.data);
               
               // Set the most recent date as default

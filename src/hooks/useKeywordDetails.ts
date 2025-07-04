@@ -81,13 +81,19 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string) =>
     }
   };
 
-  const handleKeywordChange = (keywordId: string) => {
-    setKeywordChanging(true);
+  const handleKeywordChange = (keywordId: string, isRefresh = false) => {
+    // Only show changing state for user-initiated changes, not refresh
+    if (!isRefresh) {
+      setKeywordChanging(true);
+    }
     setSelectedDate(''); // Reset date when keyword changes
   };
 
-  const handleDateChange = (dateId: string) => {
-    setDateChanging(true);
+  const handleDateChange = (dateId: string, isRefresh = false) => {
+    // Only show changing state for user-initiated changes, not refresh
+    if (!isRefresh) {
+      setDateChanging(true);
+    }
     setSelectedDate(dateId);
   };
 

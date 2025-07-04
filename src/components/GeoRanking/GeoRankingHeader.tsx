@@ -164,6 +164,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               loading={loading}
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
+              isRefreshing={isRefreshing}
             />
 
             <MetricsCards

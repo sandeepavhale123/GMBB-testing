@@ -57,14 +57,14 @@ export const useGeoRanking = (listingId: number) => {
   const error = keywordsError || keywordDetailsError;
 
   // Enhanced keyword change handler
-  const handleKeywordChange = useCallback((keywordId: string) => {
+  const handleKeywordChange = useCallback((keywordId: string, isRefresh = false) => {
     setSelectedKeyword(keywordId);
-    onKeywordChange(keywordId);
+    onKeywordChange(keywordId, isRefresh);
   }, [setSelectedKeyword, onKeywordChange]);
 
   // Enhanced date change handler
-  const handleDateChange = useCallback((dateId: string) => {
-    onDateChange(dateId);
+  const handleDateChange = useCallback((dateId: string, isRefresh = false) => {
+    onDateChange(dateId, isRefresh);
   }, [onDateChange]);
 
   return {
