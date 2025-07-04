@@ -37,6 +37,8 @@ import {
   fetchVisibilityTrends,
 } from "../../store/slices/insightsSlice";
 import { useOverviewData } from "../../api/overviewApi";
+import { useListingSetup } from "../../api/listingSetupApi";
+import { SetupComponent } from "./SetupComponent";
 import { useNavigate } from "react-router-dom";
 
 // Lazy load heavy components for better performance
@@ -89,6 +91,10 @@ export const Dashboard: React.FC = () => {
   const { listings } = useListingContext();
 
   const { data: overviewData } = useOverviewData(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
+
+  const { data: setupData, isLoading: isLoadingSetup } = useListingSetup(
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
@@ -156,6 +162,21 @@ export const Dashboard: React.FC = () => {
             Please select a business listing to view the dashboard.
           </p>
         </div>
+      </div>
+    );
+  }
+
+  // Check if setup is needed
+  const needsSetup = setupData?.data && Object.values(setupData.data).some(value => value === 0);
+  
+  // Show setup component if any module is not complete
+  if (needsSetup) {
+    return (
+      <div className="p-6">
+        <SetupComponent 
+          setupData={setupData.data} 
+          isLoading={isLoadingSetup}
+        />
       </div>
     );
   }
