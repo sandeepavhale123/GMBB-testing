@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Progress } from '../ui/progress';
 import { CircularProgress } from '../ui/circular-progress';
-import { CheckCircle, Clock, AlertCircle, Database, MessageSquare, BarChart3, HelpCircle, FileText, Image } from 'lucide-react';
+import { CheckCircle, Clock, AlertCircle, Database, MessageSquare, BarChart3, HelpCircle, FileText, Image, Loader2 } from 'lucide-react';
 import { ListingSetupData, SetupModule, SetupProgress } from '../../types/setupTypes';
 import { cn } from '../../lib/utils';
 interface SetupComponentProps {
@@ -72,7 +72,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({
       case 'complete':
         return <CheckCircle className="w-5 h-5 text-green-500" />;
       case 'processing':
-        return <Clock className="w-5 h-5 text-blue-500 animate-pulse" />;
+        return <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />;
       case 'failed':
         return <AlertCircle className="w-5 h-5 text-red-500" />;
     }
