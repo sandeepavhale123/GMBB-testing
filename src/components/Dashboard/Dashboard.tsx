@@ -354,6 +354,7 @@ export const Dashboard: React.FC = () => {
                 ctaUrl: "",
                 image: selectedPost.image,
                 platforms: [],
+                scheduledDate: selectedPost.scheduledDate,
               }}
             />
           )}

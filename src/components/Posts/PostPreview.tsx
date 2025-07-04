@@ -10,6 +10,7 @@ interface PostPreviewProps {
     ctaUrl: string;
     image: File | string | null;
     platforms: string[];
+    scheduledDate?: string;
   };
 }
 
@@ -88,7 +89,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           </Avatar>
           <div>
             <h4 className="font-medium text-sm">{getBusinessName()}</h4>
-            <p className="text-xs text-gray-500">2 hours ago</p>
+            <p className="text-xs text-gray-500">{data.scheduledDate || '2 hours ago'}</p>
           </div>
         </div>
       </div>
