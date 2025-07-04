@@ -80,8 +80,9 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({
   return <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        
-        
+
+          <h3 className="text-lg font-semibold"> We're preparing your business data. This usually takes a few minutes. </h3>
+         
       </div>
 
       {/* Overall Progress */}
