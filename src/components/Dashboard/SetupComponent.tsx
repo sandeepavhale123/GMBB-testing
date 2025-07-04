@@ -5,45 +5,35 @@ import { CircularProgress } from '../ui/circular-progress';
 import { CheckCircle, Clock, AlertCircle, Database, MessageSquare, BarChart3, HelpCircle, FileText, Image } from 'lucide-react';
 import { ListingSetupData, SetupModule, SetupProgress } from '../../types/setupTypes';
 import { cn } from '../../lib/utils';
-
 interface SetupComponentProps {
   setupData: ListingSetupData;
   isLoading?: boolean;
 }
-
-const SETUP_MODULES: Omit<SetupModule, 'status'>[] = [
-  {
-    key: 'gmbInfo',
-    label: 'GMB Info',
-    description: 'Setting up Google My Business profile data'
-  },
-  {
-    key: 'reviewData', 
-    label: 'Reviews',
-    description: 'Importing review data and analytics'
-  },
-  {
-    key: 'insightData',
-    label: 'Insights',
-    description: 'Processing performance insights'
-  },
-  {
-    key: 'qaData',
-    label: 'Q&A',
-    description: 'Loading questions and answers'
-  },
-  {
-    key: 'postData',
-    label: 'Posts',
-    description: 'Syncing post content and media'
-  },
-  {
-    key: 'mediaData',
-    label: 'Media',
-    description: 'Processing images and media files'
-  }
-];
-
+const SETUP_MODULES: Omit<SetupModule, 'status'>[] = [{
+  key: 'gmbInfo',
+  label: 'GMB Info',
+  description: 'Setting up Google My Business profile data'
+}, {
+  key: 'reviewData',
+  label: 'Reviews',
+  description: 'Importing review data and analytics'
+}, {
+  key: 'insightData',
+  label: 'Insights',
+  description: 'Processing performance insights'
+}, {
+  key: 'qaData',
+  label: 'Q&A',
+  description: 'Loading questions and answers'
+}, {
+  key: 'postData',
+  label: 'Posts',
+  description: 'Syncing post content and media'
+}, {
+  key: 'mediaData',
+  label: 'Media',
+  description: 'Processing images and media files'
+}];
 const MODULE_ICONS = {
   gmbInfo: Database,
   reviewData: MessageSquare,
@@ -52,30 +42,32 @@ const MODULE_ICONS = {
   postData: FileText,
   mediaData: Image
 };
-
-export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoading }) => {
+export const SetupComponent: React.FC<SetupComponentProps> = ({
+  setupData,
+  isLoading
+}) => {
   const getSetupProgress = (): SetupProgress => {
     const values = Object.values(setupData);
     const completed = values.filter(value => value === 1).length;
     const total = values.length;
-    
     return {
       completed,
       total,
-      percentage: Math.round((completed / total) * 100),
+      percentage: Math.round(completed / total * 100),
       isComplete: completed === total
     };
   };
-
   const getModuleStatus = (value: number): 'complete' | 'processing' | 'failed' => {
     if (value === 1) return 'complete';
     if (value === 0) return 'processing';
     return 'failed';
   };
-
   const progress = getSetupProgress();
-
-  const StatusIcon = ({ status }: { status: 'complete' | 'processing' | 'failed' }) => {
+  const StatusIcon = ({
+    status
+  }: {
+    status: 'complete' | 'processing' | 'failed';
+  }) => {
     switch (status) {
       case 'complete':
         return <CheckCircle className="w-5 h-5 text-green-500" />;
@@ -85,13 +77,11 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
         return <AlertCircle className="w-5 h-5 text-red-500" />;
     }
   };
-
-  return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+  return <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-gray-900">Setting Up Your Dashboard</h1>
-        <p className="text-gray-600">We're preparing your business data. This usually takes a few minutes.</p>
+        
+        
       </div>
 
       {/* Overall Progress */}
@@ -103,12 +93,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-center">
-            <CircularProgress 
-              value={progress.percentage} 
-              size={120}
-              strokeWidth={8}
-              className="text-blue-500"
-            >
+            <CircularProgress value={progress.percentage} size={120} strokeWidth={8} className="text-blue-500">
               <div className="text-center">
                 <span className="text-2xl font-bold text-gray-900">
                   {progress.percentage}%
@@ -132,21 +117,11 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
 
       {/* Module Status Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {SETUP_MODULES.map((module) => {
-          const value = setupData[module.key];
-          const status = getModuleStatus(value);
-          const Icon = MODULE_ICONS[module.key];
-          
-          return (
-            <Card 
-              key={module.key} 
-              className={cn(
-                "transition-all duration-200",
-                status === 'complete' && "bg-green-50 border-green-200",
-                status === 'processing' && "bg-blue-50 border-blue-200",
-                status === 'failed' && "bg-red-50 border-red-200"
-              )}
-            >
+        {SETUP_MODULES.map(module => {
+        const value = setupData[module.key];
+        const status = getModuleStatus(value);
+        const Icon = MODULE_ICONS[module.key];
+        return <Card key={module.key} className={cn("transition-all duration-200", status === 'complete' && "bg-green-50 border-green-200", status === 'processing' && "bg-blue-50 border-blue-200", status === 'failed' && "bg-red-50 border-red-200")}>
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -165,9 +140,8 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
                   {status === 'failed' && 'Setup failed - please try again'}
                 </p>
               </CardContent>
-            </Card>
-          );
-        })}
+            </Card>;
+      })}
       </div>
 
       {/* Auto-refresh indicator */}
@@ -179,14 +153,11 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
       </div>
 
       {/* Loading state */}
-      {isLoading && (
-        <div className="text-center py-4">
+      {isLoading && <div className="text-center py-4">
           <div className="inline-flex items-center gap-2 text-gray-600">
             <CircularProgress size={20} strokeWidth={2} value={50} className="animate-spin" />
             <span className="text-sm">Checking setup status...</span>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
