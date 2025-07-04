@@ -79,17 +79,13 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({
   };
   return <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="text-center space-y-2">
-
-          <h3 className="text-lg font-semibold"> We're preparing your business data. This usually takes a few minutes. </h3>
-         
-      </div>
+      
 
       {/* Overall Progress */}
       <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
         <CardHeader className="text-center pb-4">
           <CardTitle className="text-lg font-semibold text-gray-900">
-            Setup Progress
+            We're preparing your business data. This usually takes a few minutes. 
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
