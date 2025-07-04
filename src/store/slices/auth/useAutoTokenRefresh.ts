@@ -16,10 +16,10 @@ const isTokenExpired = (token: string): boolean => {
     const isExpired = decoded.exp <= currentTime;
 
     if (isExpired) {
-      console.log("🔴 Token is expired:", {
-        currentTime: new Date(currentTime * 1000).toISOString(),
-        expiryTime: new Date(decoded.exp * 1000).toISOString(),
-      });
+      // console.log("🔴 Token is expired:", {
+      //   currentTime: new Date(currentTime * 1000).toISOString(),
+      //   expiryTime: new Date(decoded.exp * 1000).toISOString(),
+      // });
     }
 
     return isExpired;
@@ -41,11 +41,11 @@ const getTimeUntilExpiry = (token: string): number => {
     const expiryTime = decoded.exp;
     const timeUntilExpiry = (expiryTime - currentTime) * 1000;
 
-    console.log("⏰ Token expiry analysis:", {
-      currentTime: new Date(currentTime * 1000).toISOString(),
-      expiryTime: new Date(expiryTime * 1000).toISOString(),
-      timeUntilExpiryMinutes: Math.round(timeUntilExpiry / 1000 / 60),
-    });
+    // console.log("⏰ Token expiry analysis:", {
+    //   currentTime: new Date(currentTime * 1000).toISOString(),
+    //   expiryTime: new Date(expiryTime * 1000).toISOString(),
+    //   timeUntilExpiryMinutes: Math.round(timeUntilExpiry / 1000 / 60),
+    // });
 
     return Math.max(0, timeUntilExpiry);
   } catch (error) {
@@ -73,21 +73,21 @@ export const useAutoTokenRefresh = () => {
   // Function to handle immediate refresh when token is expired
   const handleImmediateRefresh = useCallback(async () => {
     if (isRefreshing) {
-      console.log(
-        "🔄 Auto-refresh: Already refreshing, skipping immediate refresh"
-      );
+      // console.log(
+      //   "🔄 Auto-refresh: Already refreshing, skipping immediate refresh"
+      // );
       return;
     }
 
-    console.log(
-      "⚠️ Auto-refresh: Token expired or near expiry, refreshing immediately"
-    );
+    // console.log(
+    //   "⚠️ Auto-refresh: Token expired or near expiry, refreshing immediately"
+    // );
     try {
       const success = await refreshAccessToken();
       if (success) {
-        console.log("✅ Auto-refresh: Immediate token refresh successful");
+        // console.log("✅ Auto-refresh: Immediate token refresh successful");
       } else {
-        console.log("❌ Auto-refresh: Immediate token refresh failed");
+        // console.log("❌ Auto-refresh: Immediate token refresh failed");
       }
     } catch (error) {
       console.error("❌ Auto-refresh: Immediate refresh error:", error);
@@ -105,9 +105,9 @@ export const useAutoTokenRefresh = () => {
 
     // Only proceed if we have an access token and user is authenticated
     if (!accessToken || !isAuthenticated) {
-      console.log(
-        "🔄 Auto-refresh: No access token or not authenticated, clearing schedule"
-      );
+      // console.log(
+      //   "🔄 Auto-refresh: No access token or not authenticated, clearing schedule"
+      // );
       lastTokenRef.current = null;
       return;
     }
@@ -115,24 +115,24 @@ export const useAutoTokenRefresh = () => {
     // Check if this is a new token or token has changed
     const tokenChanged = lastTokenRef.current !== accessToken;
     if (tokenChanged) {
-      console.log("🔄 Auto-refresh: Token changed, updating reference");
+      // console.log("🔄 Auto-refresh: Token changed, updating reference");
       lastTokenRef.current = accessToken;
     }
 
     // First, check if token is already expired
     if (isTokenExpired(accessToken)) {
-      console.log(
-        "🔴 Auto-refresh: Token is already expired, triggering immediate refresh"
-      );
+      // console.log(
+      //   "🔴 Auto-refresh: Token is already expired, triggering immediate refresh"
+      // );
       handleImmediateRefresh();
       return;
     }
 
     // Prevent multiple scheduled refreshes for the same token
     if (isRefreshScheduledRef.current && !tokenChanged) {
-      console.log(
-        "🔄 Auto-refresh: Already scheduled for this token, skipping"
-      );
+      // console.log(
+      //   "🔄 Auto-refresh: Already scheduled for this token, skipping"
+      // );
       return;
     }
 
@@ -159,11 +159,11 @@ export const useAutoTokenRefresh = () => {
       return;
     }
 
-    console.log(
-      "🔄 Auto-refresh: Scheduling token refresh in",
-      Math.round(timeUntilRefresh / 1000 / 60),
-      "minutes"
-    );
+    // console.log(
+    //   "🔄 Auto-refresh: Scheduling token refresh in",
+    //   Math.round(timeUntilRefresh / 1000 / 60),
+    //   "minutes"
+    // );
 
     isRefreshScheduledRef.current = true;
     refreshTimeoutRef.current = setTimeout(async () => {

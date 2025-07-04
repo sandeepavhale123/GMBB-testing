@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
@@ -11,12 +10,13 @@ import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPa
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
+import HealthPage from "@/pages/HealthPage";
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes
   {
     path: "/posts",
-    element: <Navigate to="/posts/default" replace />
+    element: <Navigate to="/posts/default" replace />,
   },
   {
     path: "/posts/:listingId",
@@ -26,13 +26,13 @@ export const listingRoutes: RouteConfig[] = [
           <PostsPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Media routes
   {
     path: "/media",
-    element: <Navigate to="/media/default" replace />
+    element: <Navigate to="/media/default" replace />,
   },
   {
     path: "/media/:listingId",
@@ -42,13 +42,13 @@ export const listingRoutes: RouteConfig[] = [
           <MediaPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Insights routes
   {
     path: "/insights",
-    element: <Navigate to="/insights/default" replace />
+    element: <Navigate to="/insights/default" replace />,
   },
   {
     path: "/insights/:listingId",
@@ -58,13 +58,13 @@ export const listingRoutes: RouteConfig[] = [
           <InsightsPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Geo ranking routes
   {
     path: "/geo-ranking",
-    element: <Navigate to="/geo-ranking/default" replace />
+    element: <Navigate to="/geo-ranking/default" replace />,
   },
   {
     path: "/geo-ranking/:listingId",
@@ -74,31 +74,35 @@ export const listingRoutes: RouteConfig[] = [
           <GeoRankingPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Geo ranking report routes - moved before other routes for proper matching
   {
     path: "/geo-ranking-report",
     element: (
       <ProtectedRoute>
-        <GeoRankingReportPage />
+        <ListingProvider>
+          <GeoRankingReportPage />
+        </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
   {
     path: "/geo-ranking-report/:listingId",
     element: (
       <ProtectedRoute>
-        <GeoRankingReportPage />
+        <ListingProvider>
+          <GeoRankingReportPage />
+        </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Reviews routes
   {
     path: "/reviews",
-    element: <Navigate to="/reviews/default" replace />
+    element: <Navigate to="/reviews/default" replace />,
   },
   {
     path: "/reviews/:listingId",
@@ -108,22 +112,43 @@ export const listingRoutes: RouteConfig[] = [
           <ReviewsPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+  //  Health routes
+  {
+    path: "/health",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <HealthPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/health/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <HealthPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
   // Business info routes (with redirect from old /businesses URLs)
   {
     path: "/businesses",
-    element: <Navigate to="/business-info/default" replace />
+    element: <Navigate to="/business-info/default" replace />,
   },
   {
     path: "/businesses/:listingId",
-    element: <Navigate to="/business-info/:listingId" replace />
+    element: <Navigate to="/business-info/:listingId" replace />,
   },
-  
+
   {
     path: "/business-info",
-    element: <Navigate to="/business-info/default" replace />
+    element: <Navigate to="/business-info/default" replace />,
   },
   {
     path: "/business-info/:listingId",
@@ -133,19 +158,19 @@ export const listingRoutes: RouteConfig[] = [
           <BusinessesPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // Notifications route
   {
     path: "/notifications",
-    element: <Navigate to="/notifications/default" replace />
+    element: <Navigate to="/notifications/default" replace />,
   },
-  
+
   // Q&A routes
   {
     path: "/qa",
-    element: <Navigate to="/qa/default" replace />
+    element: <Navigate to="/qa/default" replace />,
   },
   {
     path: "/qa/:listingId",
@@ -155,6 +180,6 @@ export const listingRoutes: RouteConfig[] = [
           <QAPage />
         </ListingProvider>
       </ProtectedRoute>
-    )
-  }
+    ),
+  },
 ];

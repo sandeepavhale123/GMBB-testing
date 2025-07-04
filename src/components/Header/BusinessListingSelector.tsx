@@ -1,26 +1,55 @@
-
-import React, { useState } from 'react';
-import { ChevronDown, MapPin, Check, Loader2 } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Skeleton } from '../ui/skeleton';
-import { BusinessListing } from './types';
-import { useBusinessSearch } from '@/hooks/useBusinessSearch';
-import { useAuthRedux } from '@/store/slices/auth/useAuthRedux';
-import { useListingContext } from '@/context/ListingContext';
+import React, { useState } from "react";
+import { ChevronDown, MapPin, Check, Loader2 } from "lucide-react";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Skeleton } from "../ui/skeleton";
+import { BusinessListing } from "./types";
+import { useBusinessSearch } from "@/hooks/useBusinessSearch";
+import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
+import { useListingContext } from "@/context/ListingContext";
 
 export const BusinessListingSelector: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { selectedListing, listings, isLoading, switchListing } = useListingContext();
+  const {
+    selectedListing,
+    setSelectedListing,
+    listings,
+    isLoading,
+    switchListing,
+  } = useListingContext();
   const { isRefreshing } = useAuthRedux();
-  const { searchResults, searching, searchQuery, setSearchQuery } = useBusinessSearch(listings);
+  const { searchResults, searching, searchQuery, setSearchQuery } =
+    useBusinessSearch(listings);
 
-  const displayListings = searchQuery ? searchResults : listings;
+  const filteredListings = searchQuery
+    ? listings.filter(
+        (listing) =>
+          listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          listing.address.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : listings;
 
-  console.log('🖥️ BusinessListingSelector: selectedListing:', selectedListing);
-  console.log('🖥️ BusinessListingSelector: isLoading:', isLoading);
+  const handleSelect = (listing: (typeof listings)[0]) => {
+    console.log("🔍 BusinessSelector: Setting selected listing:", listing);
+    setSelectedListing(listing);
+    setOpen(false);
+    setSearchQuery("");
+    // Navigate to the geo ranking page for this listing
+    navigate(`/geo-ranking-report/${listing.id}`);
+  };
+  const displayListings = selectedListing || listings[0];
+
+  console.log("🔍 BusinessSelector: selectedListing:", selectedListing);
+  console.log("🔍 BusinessSelector: listings count:", listings.length);
 
   if (isRefreshing) {
     return (
@@ -33,19 +62,26 @@ export const BusinessListingSelector: React.FC = () => {
   if (!selectedListing && listings.length === 0) {
     return (
       <div className="hidden md:block">
-        <Button variant="outline" className="w-72 lg:w-96 justify-between border-gray-200">
+        <Button
+          variant="outline"
+          className="w-72 lg:w-96 justify-between border-gray-200"
+        >
           No listings available
         </Button>
       </div>
     );
   }
 
-  const currentBusiness = selectedListing || (listings.length > 0 ? listings[0] : null);
+  const currentBusiness =
+    selectedListing || (listings.length > 0 ? listings[0] : null);
 
   if (!currentBusiness) {
     return (
       <div className="hidden md:block">
-        <Button variant="outline" className="w-72 lg:w-96 justify-between border-gray-200">
+        <Button
+          variant="outline"
+          className="w-72 lg:w-96 justify-between border-gray-200"
+        >
           Loading...
         </Button>
       </div>
@@ -56,10 +92,10 @@ export const BusinessListingSelector: React.FC = () => {
     <div className="hidden md:block">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button 
-            variant="outline" 
-            role="combobox" 
-            aria-expanded={open} 
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
             className="w-72 lg:w-96 justify-between border-gray-200 hover:bg-gray-50 h-auto min-h-[48px] py-2"
             disabled={isLoading}
           >
@@ -71,13 +107,18 @@ export const BusinessListingSelector: React.FC = () => {
               )}
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-medium text-gray-700 block leading-tight">
-                  {currentBusiness.name.length > 30 ? currentBusiness.name.slice(0,30)+'...' : currentBusiness.name}
+                  {currentBusiness.name.length > 30
+                    ? currentBusiness.name.slice(0, 30) + "..."
+                    : currentBusiness.name}
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500 truncate">
                     {currentBusiness.address}
                   </span>
-                  <Badge variant="secondary" className="shrink-0 text-xs ml-auto">
+                  <Badge
+                    variant="secondary"
+                    className="shrink-0 text-xs ml-auto"
+                  >
                     {currentBusiness.type}
                   </Badge>
                 </div>
@@ -86,10 +127,13 @@ export const BusinessListingSelector: React.FC = () => {
             <ChevronDown className="w-4 h-4 text-gray-400 ml-2 shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-96 lg:w-[32rem] p-0 bg-white z-50" align="end">
+        <PopoverContent
+          className="w-96 lg:w-[32rem] p-0 bg-white z-50"
+          align="end"
+        >
           <Command shouldFilter={false}>
-            <CommandInput 
-              placeholder="Search listings..." 
+            <CommandInput
+              placeholder="Search listings..."
               value={searchQuery}
               onValueChange={setSearchQuery}
             />
@@ -101,35 +145,55 @@ export const BusinessListingSelector: React.FC = () => {
             <CommandEmpty>No listing found.</CommandEmpty>
             <CommandList>
               <CommandGroup>
-                {displayListings.map((business) => (
+                {filteredListings.map((business) => (
                   <CommandItem
                     key={business.id}
                     value={`${business.name}-${business.id}`}
                     onSelect={() => {
-                      console.log('🖥️ BusinessListingSelector: Selected business:', business);
+                      console.log(
+                        "🖥️ BusinessListingSelector: Selected business:",
+                        business
+                      );
                       switchListing(business);
                       setOpen(false);
-                      setSearchQuery('');
+                      setSearchQuery("");
                     }}
                     className="flex items-start gap-3 p-3"
                   >
-                    <Check className={`w-4 h-4 mt-0.5 shrink-0 ${selectedListing?.id === business.id ? 'opacity-100' : 'opacity-0'}`} />
+                    <Check
+                      className={`w-4 h-4 mt-0.5 shrink-0 ${
+                        selectedListing?.id === business.id
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
+                    />
                     <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 leading-5 mb-1">
-                        {business.name.length > 30 ? business.name.slice(0,30)+'...' : business.name}
+                        {business.name.length > 30
+                          ? business.name.slice(0, 30) + "..."
+                          : business.name}
                       </p>
                       <div className="flex items-center gap-2">
                         <p className="text-xs text-gray-500 truncate">
                           {business.address}
                         </p>
-                        <Badge variant="secondary" className="shrink-0 text-xs ml-auto">
+                        <Badge
+                          variant="secondary"
+                          className="shrink-0 text-xs ml-auto"
+                        >
                           {business.type}
                         </Badge>
                       </div>
                     </div>
                     <div className="flex items-center shrink-0">
-                      <div className={`w-2 h-2 rounded-full ${business.status === 'Active' ? 'bg-green-400' : 'bg-yellow-400'}`} />
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          business.status === "Active"
+                            ? "bg-green-400"
+                            : "bg-yellow-400"
+                        }`}
+                      />
                     </div>
                   </CommandItem>
                 ))}

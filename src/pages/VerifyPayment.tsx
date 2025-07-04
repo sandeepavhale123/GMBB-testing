@@ -4,6 +4,7 @@ import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axiosInstance from "@/api/axiosInstance";
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 export const VerifyPayment: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -13,11 +14,10 @@ export const VerifyPayment: React.FC = () => {
   );
   const [errorMessage, setErrorMessage] = useState("");
 
+  const sessionId = useQueryParams("session_id");
+  const u = useQueryParams("u");
   useEffect(() => {
     const verifyPayment = async () => {
-      const sessionId = searchParams.get("session_id");
-      const u = searchParams.get("u");
-
       if (!sessionId || !u) {
         setStatus("error");
         setErrorMessage("Invalid verification parameters");
@@ -58,7 +58,7 @@ export const VerifyPayment: React.FC = () => {
     };
 
     verifyPayment();
-  }, [searchParams]);
+  }, [sessionId, u]);
 
   const handleTryAgain = () => {
     navigate("/settings/subscription");

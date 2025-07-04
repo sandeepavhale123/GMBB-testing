@@ -1,35 +1,51 @@
-
-import React, { useState, useEffect } from 'react';
-import { Button } from '../ui/button';
-import { useToast } from '../../hooks/use-toast';
-import { useProfile } from '../../hooks/useProfile';
-import { useAppSelector } from '../../hooks/useRedux';
-import { ProfileBasicInfoForm } from './ProfileBasicInfoForm';
-import { ProfilePreferencesForm } from './ProfilePreferencesForm';
+import React, { useState, useEffect } from "react";
+import { Button } from "../ui/button";
+import { useToast } from "../../hooks/use-toast";
+import { useProfile } from "../../hooks/useProfile";
+import { useAppSelector } from "../../hooks/useRedux";
+import { ProfileBasicInfoForm } from "./ProfileBasicInfoForm";
+import { ProfilePreferencesForm } from "./ProfilePreferencesForm";
+import { useFormValidation } from "@/hooks/useFormValidation";
+import { profileSchema, ProfileFormData } from "../../schemas/authSchemas";
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
-  const { profileData, timezones, isUpdating, updateError, updateProfile, clearProfileErrors } = useProfile();
-  const { user } = useAppSelector(state => state.auth); // Get user from auth state
-  
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    timezone: '',
-    language: '',
-    dashboardType: '1'
+  const {
+    profileData,
+    timezones,
+    isUpdating,
+    updateError,
+    updateProfile,
+    clearProfileErrors,
+  } = useProfile();
+  const { user } = useAppSelector((state) => state.auth); // Get user from auth state
+
+  const [formData, setFormData] = useState<ProfileFormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    timezone: "",
+    language: "",
+    dashboardType: "1",
   });
+
+  const {
+    validate,
+    getFieldError,
+    hasFieldError,
+    clearFieldError,
+    clearErrors,
+  } = useFormValidation(profileSchema);
 
   useEffect(() => {
     if (profileData) {
       setFormData({
-        firstName: profileData.first_name || '',
-        lastName: profileData.last_name || '',
-        email: profileData.username || '',
-        timezone: profileData.timezone || '',
-        language: profileData.language || 'english',
-        dashboardType: '1'
+        firstName: profileData.first_name || "",
+        lastName: profileData.last_name || "",
+        email: profileData.username || "",
+        timezone: profileData.timezone || "",
+        language: profileData.language || "english",
+        dashboardType: "1",
       });
     }
   }, [profileData]);
@@ -39,7 +55,7 @@ export const ProfileFormContainer: React.FC = () => {
       toast({
         title: "Update Failed",
         description: updateError,
-        variant: "destructive"
+        variant: "destructive",
       });
       clearProfileErrors();
     }
@@ -47,8 +63,17 @@ export const ProfileFormContainer: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!profileData) return;
+    // Validate form data
+    const validationResult = validate(formData);
+
+    if (!validationResult.isValid) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the errors in the form",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
       // Update profile WITHOUT password - password should only be updated via change password modal
@@ -59,10 +84,10 @@ export const ProfileFormContainer: React.FC = () => {
         username: formData.email,
         dashboardType: parseInt(formData.dashboardType),
         language: formData.language,
-        profilePic: profileData.profilePic || ''
+        profilePic: profileData.profilePic || "",
         // Password is intentionally NEVER included in profile updates
       });
-      
+
       toast({
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
@@ -71,13 +96,19 @@ export const ProfileFormContainer: React.FC = () => {
       toast({
         title: "Update Failed",
         description: "Failed to update profile. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
+    clearErrors();
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
+    // Clear field error when user starts typing
+    if (hasFieldError(field)) {
+      clearFieldError(field);
+    }
   };
 
   if (!profileData) {
@@ -101,16 +132,18 @@ export const ProfileFormContainer: React.FC = () => {
       <ProfileBasicInfoForm
         formData={formData}
         onInputChange={handleInputChange}
+        getFieldError={getFieldError}
+        hasFieldError={hasFieldError}
       />
 
-      {/* Preferences Section */}
       <ProfilePreferencesForm
         formData={formData}
         timezones={timezones}
-        userRole={user?.role || profileData?.role} // Pass user role from auth state or profile data
+        userRole={user?.role || profileData?.role}
         onInputChange={handleInputChange}
+        getFieldError={getFieldError}
+        hasFieldError={hasFieldError}
       />
-
       {/* Save Button */}
       <div className="flex justify-end">
         <Button
@@ -119,7 +152,7 @@ export const ProfileFormContainer: React.FC = () => {
           disabled={isUpdating}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
         >
-          {isUpdating ? 'Saving...' : 'Save Changes'}
+          {isUpdating ? "Saving..." : "Save Changes"}
         </Button>
       </div>
     </form>

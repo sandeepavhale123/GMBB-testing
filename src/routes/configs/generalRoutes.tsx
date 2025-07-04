@@ -12,13 +12,26 @@ import { ListingManagementPage } from "@/components/Settings/ListingManagementPa
 import { Navigate } from "react-router-dom";
 import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
+import { ListingProvider } from "@/context/ListingContext";
 
 export const generalRoutes: RouteConfig[] = [
   {
     path: "/profile",
     element: (
       <ProtectedRoute>
-        <Profile />
+        <ListingProvider>
+          <Profile />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile/:listingId", // 🔥 Add this dynamic route
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Profile />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -42,7 +55,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -50,7 +65,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/google-account",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -58,7 +75,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/subscription",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -66,7 +85,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -74,7 +95,19 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/listings/:accountId",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/settings/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },

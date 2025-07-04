@@ -15,10 +15,10 @@ const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
 );
 
-console.log(
-  "stripe promise......",
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-);
+// console.log(
+//   "stripe promise......",
+//   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+// );
 
 interface PlanFeature {
   name: string;

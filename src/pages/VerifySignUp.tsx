@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { LoaderCircle, CheckCircle, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 export const VerifySignupPage = () => {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -10,9 +11,8 @@ export const VerifySignupPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  const sessionId = useQueryParams("session_id");
   useEffect(() => {
-    const sessionId = searchParams.get("session_id");
-
     if (!sessionId) {
       setStatus("error");
       toast({

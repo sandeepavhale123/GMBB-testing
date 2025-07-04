@@ -1,9 +1,14 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ProfileBasicInfoFormProps {
   formData: {
@@ -13,66 +18,111 @@ interface ProfileBasicInfoFormProps {
     language: string;
   };
   onInputChange: (field: string, value: string) => void;
+  getFieldError: (field: string) => string;
+  hasFieldError: (field: string) => boolean;
 }
 
 export const ProfileBasicInfoForm: React.FC<ProfileBasicInfoFormProps> = ({
   formData,
-  onInputChange
+  onInputChange,
+  getFieldError,
+  hasFieldError,
 }) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-gray-900">Edit Profile</CardTitle>
+        <CardTitle className="text-xl font-semibold text-gray-900">
+          Edit Profile
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Name Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
+            <Label htmlFor="firstName" className="text-gray-700 font-medium">
+              First Name
+            </Label>
             <Input
               id="firstName"
+              type="text"
               value={formData.firstName}
-              onChange={(e) => onInputChange('firstName', e.target.value)}
-              className="mt-1 h-10"
-              required
+              onChange={(e) => onInputChange("firstName", e.target.value)}
+              className={`mt-1 h-10 ${
+                hasFieldError("firstName") ? "border-red-500" : ""
+              }`}
             />
+            {hasFieldError("firstName") && (
+              <p className="text-sm text-red-500 mt-1">
+                {getFieldError("firstName")}
+              </p>
+            )}
           </div>
           <div>
-            <Label htmlFor="lastName" className="text-gray-700 font-medium">Last Name</Label>
+            <Label htmlFor="lastName" className="text-gray-700 font-medium">
+              Last Name
+            </Label>
             <Input
               id="lastName"
+              name="lastName"
+              type="text"
               value={formData.lastName}
-              onChange={(e) => onInputChange('lastName', e.target.value)}
-              className="mt-1 h-10"
-              required
+              onChange={(e) => onInputChange("lastName", e.target.value)}
+              className={`mt-1 h-10 ${
+                hasFieldError("lastName") ? "border-red-500" : ""
+              }`}
             />
+            {hasFieldError("lastName") && (
+              <p className="text-sm text-red-500 mt-1">
+                {getFieldError("lastName")}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Email Field */}
         <div>
-          <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
+          <Label htmlFor="email" className="text-gray-700 font-medium">
+            Email
+          </Label>
           <Input
             id="email_s"
             type="email"
             value={formData.email}
-            className="mt-1 h-10"
+            className={`mt-1 h-10 ${
+              hasFieldError("email") ? "border-red-500" : ""
+            }`}
             disabled={true}
           />
+          {hasFieldError("email") && (
+            <p className="text-sm text-red-500 mt-1">
+              {getFieldError("email")}
+            </p>
+          )}
           <Input
             id="email"
             type="hidden"
             value={formData.email}
-            onChange={(e) => onInputChange('email', e.target.value)}
-            className="mt-1 h-10"
-            required
+            onChange={(e) => onInputChange("email", e.target.value)}
+            className={`mt-1 h-10 ${
+              hasFieldError("email") ? "border-red-500" : ""
+            }`}
           />
+          {hasFieldError("email") && (
+            <p className="text-sm text-red-500 mt-1">
+              {getFieldError("email")}
+            </p>
+          )}
         </div>
 
         {/* Language Field */}
         <div>
-          <Label htmlFor="language" className="text-gray-700 font-medium">Language</Label>
-          <Select value={formData.language} onValueChange={(value) => onInputChange('language', value)}>
+          <Label htmlFor="language" className="text-gray-700 font-medium">
+            Language
+          </Label>
+          <Select
+            value={formData.language}
+            onValueChange={(value) => onInputChange("language", value)}
+          >
             <SelectTrigger className="mt-1 h-10">
               <SelectValue />
             </SelectTrigger>

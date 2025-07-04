@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -15,13 +14,13 @@ export const AuthInitializer = () => {
     isInitialized,
     isRefreshing,
   } = useAuthRedux();
-  
+
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   // Save current route when component mounts (for page refresh scenarios)
   useEffect(() => {
     const currentPath = window.location.pathname + window.location.search;
-    console.log("AuthInitializer mounted on path:", currentPath);
+    // console.log("AuthInitializer mounted on path:", currentPath);
 
     // Only save the route if we have stored auth data and are on a valid route
     const hasStoredTokens = localStorage.getItem("refresh_token");
@@ -32,16 +31,16 @@ export const AuthInitializer = () => {
 
   // Rehydrate from localStorage on first mount
   useEffect(() => {
-    console.log("AuthInitializer: Rehydrating auth state...");
+    // console.log("AuthInitializer: Rehydrating auth state...");
     dispatch(rehydrateAuth());
   }, [dispatch]);
 
   // Add timeout to prevent infinite loading
   useEffect(() => {
     if (isInitialized && !hasAttemptedRefresh && !isRefreshing) {
-      console.log("AuthInitializer: Setting timeout for refresh attempt");
+      // console.log("AuthInitializer: Setting timeout for refresh attempt");
       timeoutRef.current = setTimeout(() => {
-        console.log("AuthInitializer: Timeout reached, marking refresh as attempted");
+        // console.log("AuthInitializer: Timeout reached, marking refresh as attempted");
         dispatch(setHasAttemptedRefresh(true));
       }, 5000); // 5 second timeout
     }

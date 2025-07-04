@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from "./axiosInstance";
 
 // Types for API requests and responses
 export interface KeywordData {
@@ -80,7 +80,6 @@ export interface KeywordDetailsResponse {
   };
 }
 
-// New interfaces for keyword position details
 export interface KeywordDetail {
   name: string;
   address: string;
@@ -99,7 +98,6 @@ export interface KeywordPositionResponse {
   };
 }
 
-// New interface for default coordinates
 export interface DefaultCoordinatesResponse {
   code: number;
   message: string;
@@ -109,33 +107,44 @@ export interface DefaultCoordinatesResponse {
 }
 
 // API functions
-export const getKeywords = async (listingId: number): Promise<KeywordsListResponse> => {
-  const response = await axiosInstance.post('/get-keywords', {
-    listingId
-  });
-  return response.data;
-};
-
-export const getKeywordDetails = async (listingId: number, keywordId: string): Promise<KeywordDetailsResponse> => {
-  const response = await axiosInstance.post('/get-keyword-details', {
+export const getKeywords = async (
+  listingId: number
+): Promise<KeywordsListResponse> => {
+  const response = await axiosInstance.post("/get-keywords", {
     listingId,
-    keywordId
   });
   return response.data;
 };
 
-export const getKeywordPositionDetails = async (listingId: number, keywordId: string, positionId: string): Promise<KeywordPositionResponse> => {
-  const response = await axiosInstance.post('/get-keyword-position-details', {
+export const getKeywordDetails = async (
+  listingId: number,
+  keywordId: string
+): Promise<KeywordDetailsResponse> => {
+  const response = await axiosInstance.post("/get-keyword-details", {
     listingId,
     keywordId,
-    positionId
   });
   return response.data;
 };
 
-export const getDefaultCoordinates = async (listingId: number): Promise<DefaultCoordinatesResponse> => {
-  const response = await axiosInstance.post('/get-default-coordinates', {
-    listingId
+export const getKeywordPositionDetails = async (
+  listingId: number,
+  keywordId: string,
+  positionId: string
+): Promise<KeywordPositionResponse> => {
+  const response = await axiosInstance.post("/get-keyword-position-details", {
+    listingId,
+    keywordId,
+    positionId,
+  });
+  return response.data;
+};
+
+export const getDefaultCoordinates = async (
+  listingId: number
+): Promise<DefaultCoordinatesResponse> => {
+  const response = await axiosInstance.post("/get-default-coordinates", {
+    listingId,
   });
   return response.data;
 };

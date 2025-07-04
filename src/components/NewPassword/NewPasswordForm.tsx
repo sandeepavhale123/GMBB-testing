@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -6,49 +5,35 @@ import { Label } from "../ui/label";
 import { Eye, EyeOff, LoaderCircle, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-
+import { useFormValidation } from "@/hooks/useFormValidation";
+import { useQueryParams } from "@/hooks/useQueryParams";
+import {
+  resetPasswordSchema,
+  ResetPasswordFormData,
+} from "@/schemas/authSchemas";
 export const NewPasswordForm = () => {
-  const [passwords, setPasswords] = useState({
+  const [passwords, setPasswords] = useState<ResetPasswordFormData>({
     newPassword: "",
     confirmPassword: "",
   });
   const navigate = useNavigate();
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const token = useQueryParams("u");
+  console.log("token value", token);
 
-  const validatePassword = (password: string) => {
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long";
-    }
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      return "Password must contain at least one uppercase letter, one lowercase letter, and one number";
-    }
-    return "";
-  };
+  const { validate, getFieldError, hasFieldError, clearFieldError } =
+    useFormValidation(resetPasswordSchema);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Reset errors
-    setErrors({ newPassword: "", confirmPassword: "" });
 
     // Validate passwords
-    const newPasswordError = validatePassword(passwords.newPassword);
-    const confirmPasswordError = passwords.newPassword !== passwords.confirmPassword 
-      ? "Passwords do not match" 
-      : "";
-
-    if (newPasswordError || confirmPasswordError) {
-      setErrors({
-        newPassword: newPasswordError,
-        confirmPassword: confirmPasswordError,
-      });
+    const validation = validate(passwords);
+    if (!validation.isValid) {
       return;
     }
 
@@ -56,27 +41,36 @@ export const NewPasswordForm = () => {
 
     try {
       // TODO: Implement actual password reset API call
-      // const response = await fetch(`${BASE_URL}/reset-password`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ 
-      //     token: urlParams.token, 
-      //     newPassword: passwords.newPassword 
-      //   }),
-      // });
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      toast({
-        title: "Password Updated!",
-        description: "Your password has been successfully updated.",
+      const response = await fetch(`${BASE_URL}/update-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          resetKey: token,
+          newPassword: passwords.newPassword,
+          cnfPassword: passwords.confirmPassword,
+        }),
       });
 
-      // Navigate to success page
-      navigate("/success?type=password-reset");
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast({
+          title: "Reset Failed",
+          description:
+            data.message ||
+            "An error occurred while resetting your password. Please try again.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Password Reset Successful",
+          description: data.message,
+        });
+        // Navigate to success page
+        navigate("/success?type=password-reset");
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -89,17 +83,15 @@ export const NewPasswordForm = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setPasswords((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
-    
-    // Clear errors when user starts typing
-    if (errors[e.target.name as keyof typeof errors]) {
-      setErrors(prev => ({
-        ...prev,
-        [e.target.name]: "",
-      }));
+
+    // Clear field error when user starts typing
+    if (hasFieldError(name)) {
+      clearFieldError(name);
     }
   };
 
@@ -116,7 +108,9 @@ export const NewPasswordForm = () => {
 
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">Set New Password</h2>
-        <p className="mt-2 text-gray-600">Create a strong password for your account</p>
+        <p className="mt-2 text-gray-600">
+          Create a strong password for your account
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -132,7 +126,9 @@ export const NewPasswordForm = () => {
               value={passwords.newPassword}
               onChange={handleChange}
               placeholder=""
-              className={`h-12 text-base pr-12 ${errors.newPassword ? "border-red-500" : ""}`}
+              className={`h-12 text-base pr-12 ${
+                hasFieldError("newPassword") ? "border-red-500" : ""
+              }`}
               required
             />
             <button
@@ -143,8 +139,10 @@ export const NewPasswordForm = () => {
               {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          {errors.newPassword && (
-            <p className="text-sm text-red-500 mt-1">{errors.newPassword}</p>
+          {hasFieldError("newPassword") && (
+            <p className="text-sm text-red-500 mt-1">
+              {getFieldError("newPassword")}
+            </p>
           )}
         </div>
 
@@ -160,7 +158,9 @@ export const NewPasswordForm = () => {
               value={passwords.confirmPassword}
               onChange={handleChange}
               placeholder=""
-              className={`h-12 text-base pr-12 ${errors.confirmPassword ? "border-red-500" : ""}`}
+              className={`h-12 text-base pr-12 ${
+                hasFieldError("confirmPassword") ? "border-red-500" : ""
+              }`}
               required
             />
             <button
@@ -171,15 +171,16 @@ export const NewPasswordForm = () => {
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          {errors.confirmPassword && (
-            <p className="text-sm text-red-500 mt-1">{errors.confirmPassword}</p>
+          {hasFieldError("confirmPassword") && (
+            <p className="text-sm text-red-500 mt-1">
+              {getFieldError("confirmPassword")}
+            </p>
           )}
         </div>
 
         <Button
           type="submit"
           className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg"
-          
           disabled={isLoading}
         >
           {isLoading ? (

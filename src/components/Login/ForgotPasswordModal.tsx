@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Dialog,
@@ -11,6 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import {
+  forgotPasswordSchema,
+  ForgotPasswordFormData,
+} from "@/schemas/authSchemas"; // adjust path as needed
+import { useFormValidation } from "@/hooks/useFormValidation";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -21,59 +25,62 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState<ForgotPasswordFormData>({
+    email: "",
+  });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [isLoading, setIsLoading] = useState(false);
-  const [emailError, setEmailError] = useState("");
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const {
+    validate,
+    getFieldError,
+    hasFieldError,
+    clearErrors,
+    clearFieldError,
+  } = useFormValidation(forgotPasswordSchema);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Reset error
-    setEmailError("");
 
-    // Validate email
-    if (!email) {
-      setEmailError("Email is required");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
+    const result = validate(formData);
+    if (!result.isValid) return;
 
     setIsLoading(true);
 
     try {
-      // TODO: Implement actual password reset API call
-      // const response = await fetch(`${BASE_URL}/forgot-password`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ email }),
-      // });
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      toast({
-        title: "Reset link sent!",
-        description: "We've sent a password reset link to your email address.",
+      // Simulated API call
+      const response = await fetch(`${BASE_URL}/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.email,
+          domainUrl: `${window.location.origin}/`,
+        }),
       });
 
+      const data = await response.json();
+      console.log("response from api", data);
+      if (!response.ok) {
+        toast({
+          title: "Error found!",
+          description: data.message,
+        });
+      } else {
+        toast({
+          title: "Reset link sent!",
+          description: data.message,
+        });
+      }
       // Reset form and close modal
-      setEmail("");
+      setFormData({ email: "" });
+      clearErrors();
       onClose();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to send reset link. Please try again.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -81,9 +88,15 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    clearFieldError(name);
+  };
+
   const handleClose = () => {
-    setEmail("");
-    setEmailError("");
+    setFormData({ email: "" });
+    clearErrors();
     onClose();
   };
 
@@ -106,15 +119,18 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             </Label>
             <Input
               id="reset-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              type="text"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email address"
-              className={`h-12 text-base ${emailError ? "border-red-500" : ""}`}
+              className={`h-12 text-base ${
+                hasFieldError("email") ? "border-red-500" : ""
+              }`}
               disabled={isLoading}
             />
-            {emailError && (
-              <p className="text-sm text-red-500">{emailError}</p>
+            {hasFieldError("email") && (
+              <p className="text-sm text-red-500">{getFieldError("email")}</p>
             )}
           </div>
 

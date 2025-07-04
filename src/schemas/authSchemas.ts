@@ -45,7 +45,7 @@ export const signupSchema = z.object({
 // Login form validation schema
 export const loginSchema = z.object({
   username: emailSchema,
-  password: passwordSchema,
+  password: z.string().min(1, "Password is required"),
 });
 
 // Profile form validation schema (for future use)
@@ -53,14 +53,9 @@ export const profileSchema = z.object({
   firstName: nameSchema,
   lastName: nameSchema,
   email: emailSchema,
-  phone: z.string().optional(),
-  agencyName: z
-    .string()
-    .min(1, "Agency name is required")
-    .regex(
-      /^[A-Za-z0-9\s]+$/,
-      "Agency name can only contain letters, numbers, and spaces"
-    ),
+  timezone: z.string().min(1, "Timezone is required"),
+  language: z.string().min(1, "Language is required"),
+  dashboardType: z.string().min(1, "Dashboard type is required"),
 });
 
 // Business info validation schema
@@ -85,9 +80,25 @@ export const businessInfoSchema = z.object({
   businessType: z.string().min(1, "Please select what best describes you"),
   locationCount: z.string().optional(),
 });
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+// Reset password validation schema
+export const resetPasswordSchema = z
+  .object({
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 // Types derived from schemas
 export type SignupFormData = z.infer<typeof signupSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type ProfileFormData = z.infer<typeof profileSchema>;
 export type BusinessInfoFormData = z.infer<typeof businessInfoSchema>;
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;

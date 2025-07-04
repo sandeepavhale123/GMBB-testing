@@ -21,7 +21,7 @@ export const setAuthHelpers = (
   getAccessToken = getToken;
   handleLogout = logout;
   refreshToken = refresh;
-  console.log("🔧 Auth helpers updated in axios instance");
+  // console.log("🔧 Auth helpers updated in axios instance");
 };
 
 const axiosInstance = axios.create({

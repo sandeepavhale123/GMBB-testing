@@ -58,22 +58,22 @@ const authSlice = createSlice({
     },
     setIsRefreshing: (state, action: PayloadAction<boolean>) => {
       state.isRefreshing = action.payload;
-      console.log('🔄 AuthSlice: isRefreshing set to:', action.payload);
+      // console.log("🔄 AuthSlice: isRefreshing set to:", action.payload);
     },
     setHasAttemptedRefresh: (state, action: PayloadAction<boolean>) => {
       state.hasAttemptedRefresh = action.payload;
-      console.log('🔄 AuthSlice: hasAttemptedRefresh set to:', action.payload);
+      // console.log("🔄 AuthSlice: hasAttemptedRefresh set to:", action.payload);
     },
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
-      console.log('🏁 AuthSlice: isInitialized set to:', action.payload);
+      // console.log('🏁 AuthSlice: isInitialized set to:', action.payload);
     },
     setIsAuthenticating: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticating = action.payload;
     },
     // Action to rehydrate from localStorage
     rehydrateAuth: (state) => {
-      console.log("🔄 AuthSlice: Rehydrating auth state from localStorage");
+      // console.log("🔄 AuthSlice: Rehydrating auth state from localStorage");
       const storedAccessToken = localStorage.getItem("access_token");
       const storedUser = localStorage.getItem("user");
       const refreshToken = localStorage.getItem("refresh_token");
@@ -84,7 +84,9 @@ const authSlice = createSlice({
           state.user = JSON.parse(storedUser);
           // Only set hasAttemptedRefresh to true if we have complete auth data
           state.hasAttemptedRefresh = true;
-          console.log('✅ AuthSlice: Rehydrated with valid auth data, hasAttemptedRefresh = true');
+          // console.log(
+          //   "✅ AuthSlice: Rehydrated with valid auth data, hasAttemptedRefresh = true"
+          // );
         } catch (error) {
           console.error("❌ Error parsing stored user data:", error);
           // Clear invalid data
@@ -94,14 +96,18 @@ const authSlice = createSlice({
         }
       } else if (refreshToken) {
         // We have a refresh token but no access token - we should attempt refresh
-        console.log('🔄 AuthSlice: Have refresh token but no access token, will attempt refresh');
+        console.log(
+          "🔄 AuthSlice: Have refresh token but no access token, will attempt refresh"
+        );
         state.hasAttemptedRefresh = false;
       } else {
         // No tokens at all - mark as attempted so we don't try to refresh
-        console.log('❌ AuthSlice: No tokens found, marking refresh as attempted');
+        console.log(
+          "❌ AuthSlice: No tokens found, marking refresh as attempted"
+        );
         state.hasAttemptedRefresh = true;
       }
-      
+
       state.isInitialized = true;
     },
     // Enhanced logout with comprehensive cleanup
@@ -119,11 +125,11 @@ const authSlice = createSlice({
 
       // Clear authentication storage
       clearAuthStorage();
-      
+
       // Clear user session tracking and refresh attempt tracking
-      localStorage.removeItem('current_user_session');
-      localStorage.removeItem('last_user_session');
-      localStorage.removeItem('last_refresh_attempt');
+      localStorage.removeItem("current_user_session");
+      localStorage.removeItem("last_user_session");
+      localStorage.removeItem("last_refresh_attempt");
 
       console.log("✅ Logout completed - auth state and storage cleared");
     },
