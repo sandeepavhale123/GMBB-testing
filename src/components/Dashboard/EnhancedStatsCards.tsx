@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TrendingUp, TrendingDown, FileText, Image, MessageSquare, HelpCircle, CheckCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, FileText, Image, MessageSquare } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
@@ -44,32 +44,14 @@ export const EnhancedStatsCards: React.FC = () => {
       icon: MessageSquare,
       description: 'vs last period',
       color: 'from-green-500 to-green-600'
-    },
-    {
-      title: 'Total Questions',
-      value: overviewData?.totalQuestion?.toLocaleString() || '0',
-      change: '+5.2%',
-      isPositive: true,
-      icon: HelpCircle,
-      description: 'vs last period',
-      color: 'from-purple-500 to-purple-600'
-    },
-    {
-      title: 'Total Answers',
-      value: overviewData?.totalAnswer?.toLocaleString() || '0',
-      change: '+12.5%',
-      isPositive: true,
-      icon: CheckCircle,
-      description: 'vs last period',
-      color: 'from-emerald-500 to-emerald-600'
     }
   ];
   
   if (loading) {
     return (
       <div className="space-y-4 sm:space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-          {[...Array(5)].map((_, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+          {[...Array(3)].map((_, index) => (
             <Card key={index} className="border-gray-200 bg-white">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
                 <Skeleton className="h-4 w-20" />
@@ -88,8 +70,8 @@ export const EnhancedStatsCards: React.FC = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Responsive grid - 5 columns for all stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+      {/* Responsive grid - back to 3 columns */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         {stats.map((stat, index) => (
           <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
