@@ -14,7 +14,7 @@ export const useListingSetup = (listingId: number | null, enabled: boolean = tru
     queryKey: ['listingSetup', listingId],
     queryFn: () => fetchListingSetup(listingId!),
     enabled: enabled && !!listingId,
-    refetchInterval: 5000, // Poll every 5 seconds
+    refetchInterval: 30000, // Poll every 30 seconds
     refetchIntervalInBackground: true,
     staleTime: 0, // Always fetch fresh data
   });

@@ -143,7 +143,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
               className={cn(
                 "transition-all duration-200",
                 status === 'complete' && "bg-green-50 border-green-200",
-                status === 'processing' && "bg-blue-50 border-blue-200 animate-pulse",
+                status === 'processing' && "bg-blue-50 border-blue-200",
                 status === 'failed' && "bg-red-50 border-red-200"
               )}
             >
@@ -174,7 +174,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({ setupData, isLoa
       <div className="text-center">
         <div className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full text-sm text-gray-600">
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          Auto-refreshing every 5 seconds
+          Auto-refreshing every 30 seconds
         </div>
       </div>
 
