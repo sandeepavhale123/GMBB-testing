@@ -38,7 +38,7 @@ export const useGeoRanking = (listingId: number) => {
     return await fetchKeywords(true, selectKeywordId);
   }, [fetchKeywords]);
 
-  const { refreshing, refreshError, isPollingActive, handleRefreshKeyword } = useKeywordRefresh({
+  const { refreshing, refreshError, refreshProgress, isPollingActive, handleRefreshKeyword } = useKeywordRefresh({
     listingId,
     selectedKeyword,
     onKeywordsUpdate: keywordsUpdateCallback,
@@ -84,6 +84,7 @@ export const useGeoRanking = (listingId: number) => {
     isPolling,
     refreshing,
     refreshError,
+    refreshProgress,
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange,

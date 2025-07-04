@@ -44,6 +44,7 @@ export const GeoRankingPage = () => {
     isPolling,
     refreshing,
     refreshError,
+    refreshProgress,
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
@@ -175,6 +176,7 @@ export const GeoRankingPage = () => {
               onClone={handleClone}
               onRefresh={handleRefreshKeyword}
               isRefreshing={refreshing}
+              refreshProgress={refreshProgress}
               loading={keywordsLoading}
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}

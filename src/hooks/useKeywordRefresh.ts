@@ -20,6 +20,7 @@ export const useKeywordRefresh = ({
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
   const [isPollingActive, setIsPollingActive] = useState(false);
+  const [refreshProgress, setRefreshProgress] = useState(0);
   const { toast } = useToast();
 
   const handleRefreshKeyword = async () => {
@@ -27,6 +28,7 @@ export const useKeywordRefresh = ({
     
     setRefreshing(true);
     setRefreshError(null);
+    setRefreshProgress(0); // Reset progress
     setIsPollingActive(true); // Start polling when refresh begins
     
     try {
@@ -50,10 +52,15 @@ export const useKeywordRefresh = ({
         
         const pollForNewData = async () => {
           try {
+            // Update progress based on polling attempts (0-95% during polling, 100% on success)
+            const currentProgress = Math.min(Math.floor((pollAttempts / maxAttempts) * 95), 95);
+            setRefreshProgress(currentProgress);
+            
             const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
             if (detailsResponse.code === 200) {
               // Stop polling first
               setIsPollingActive(false);
+              setRefreshProgress(100); // Complete progress
               
               // First, refresh keywords list to include new keyword
               await onKeywordsUpdate(newKeywordId);
@@ -77,7 +84,11 @@ export const useKeywordRefresh = ({
                 description: "Keyword data has been refreshed successfully"
               });
               
-              setRefreshing(false);
+              // Reset progress after a brief delay
+              setTimeout(() => {
+                setRefreshProgress(0);
+                setRefreshing(false);
+              }, 1000);
               return;
             }
           } catch (error) {
@@ -89,6 +100,7 @@ export const useKeywordRefresh = ({
             setTimeout(pollForNewData, 5000); // Poll every 5 seconds
           } else {
             setIsPollingActive(false); // Stop polling on timeout
+            setRefreshProgress(0); // Reset progress on timeout
             setRefreshError('Refresh timeout - please try again');
             setRefreshing(false);
             toast({
@@ -121,6 +133,7 @@ export const useKeywordRefresh = ({
   return {
     refreshing,
     refreshError,
+    refreshProgress,
     isPollingActive,
     handleRefreshKeyword
   };

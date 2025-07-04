@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
+import { Progress } from '../ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
@@ -19,6 +20,7 @@ interface GeoRankingHeaderProps {
   onClone: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
+  refreshProgress: number;
   loading: boolean;
   keywordChanging: boolean;
   dateChanging: boolean;
@@ -36,6 +38,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   onClone,
   onRefresh,
   isRefreshing,
+  refreshProgress,
   loading,
   keywordChanging,
   dateChanging,
@@ -131,6 +134,21 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         isRefreshing={isRefreshing}
         credits={credits}
       />
+
+      {/* Progress Bar - shown when refreshing */}
+      {isRefreshing && (
+        <Card className="bg-white shadow-sm mb-4">
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">Refreshing keyword data...</span>
+                <span className="text-gray-900 font-medium">{refreshProgress}%</span>
+              </div>
+              <Progress value={refreshProgress} className="w-full" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
