@@ -365,12 +365,6 @@ export const Dashboard: React.FC = () => {
             >
               Close
             </Button>
-            <Button
-              className="bg-green-600 hover:bg-green-700 w-full sm:w-auto text-sm"
-              onClick={() => setIsCreateModalOpen(true)}
-            >
-              Edit
-            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
