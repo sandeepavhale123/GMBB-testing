@@ -36,6 +36,7 @@ import {
   fetchInsightsSummary,
   fetchVisibilityTrends,
 } from "../../store/slices/insightsSlice";
+import { useOverviewData } from "../../api/overviewApi";
 import { useNavigate } from "react-router-dom";
 
 // Lazy load heavy components for better performance
@@ -86,6 +87,10 @@ export const Dashboard: React.FC = () => {
   const [insightsDateRange, setInsightsDateRange] = useState("30");
   const navigate = useNavigate();
   const { listings } = useListingContext();
+
+  const { data: overviewData } = useOverviewData(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
 
   const dispatch = useAppDispatch();
   const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } =
@@ -190,14 +195,14 @@ export const Dashboard: React.FC = () => {
               {/* Responsive Circular Progress */}
               <div className="flex items-center justify-center">
                 <CircularProgress
-                  value={78}
+                  value={overviewData?.healthScore || 0}
                   size={100}
                   strokeWidth={6}
                   className="text-blue-400 sm:w-[120px] sm:h-[120px]"
                 >
                   <div className="text-center">
                     <span className="text-2xl sm:text-3xl font-bold text-black">
-                      78
+                      {overviewData?.healthScore || 0}
                     </span>
                   </div>
                 </CircularProgress>
@@ -206,10 +211,15 @@ export const Dashboard: React.FC = () => {
               {/* Time left section */}
               <div className="text-center space-y-1">
                 <p className="text-xs sm:text-sm text-black">
-                  Optimization level is healthy
+                  {(overviewData?.healthScore || 0) >= 75 
+                    ? "Optimization level is excellent"
+                    : (overviewData?.healthScore || 0) >= 50
+                    ? "Optimization level is healthy"
+                    : "Optimization needs improvement"
+                  }
                 </p>
                 <p className="text-blue-400 font-medium text-sm sm:text-base">
-                  75% optimized
+                  {overviewData?.healthScore || 0}% optimized
                 </p>
               </div>
 

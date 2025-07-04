@@ -39,6 +39,9 @@ interface DashboardState {
   totalBusinesses: number;
   totalPosts: number;
   totalReviews: number;
+  totalMedia: number;
+  totalQuestion: number;
+  totalAnswer: number;
   avgRating: number;
   viewsThisMonth: number;
   clicksThisMonth: number;
@@ -92,6 +95,9 @@ const initialState: DashboardState = {
   totalBusinesses: 12,
   totalPosts: 156,
   totalReviews: 324,
+  totalMedia: 89,
+  totalQuestion: 53,
+  totalAnswer: 45,
   avgRating: 4.7,
   viewsThisMonth: 15420,
   clicksThisMonth: 2180,

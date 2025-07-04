@@ -1,52 +1,95 @@
 
 import React from 'react';
-import { TrendingUp, TrendingDown, FileText, Image, MessageSquare, HelpCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, FileText, Image, MessageSquare, HelpCircle, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { setPeriod } from '../../store/slices/dashboardSlice';
 import { cn } from '../../lib/utils';
+import { useOverviewData } from '../../api/overviewApi';
+import { useListingContext } from '@/context/ListingContext';
+import { Skeleton } from '../ui/skeleton';
 
 export const EnhancedStatsCards: React.FC = () => {
-  const {
-    totalPosts,
-    mediaPosts,
-    reviewsResponded,
-    qaAnswered,
-    selectedPeriod
-  } = useAppSelector(state => state.dashboard);
+  const { selectedListing } = useListingContext();
+  const { data: overviewData, loading } = useOverviewData(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
   const dispatch = useAppDispatch();
   
-  const stats = [{
-    title: 'Total Posts',
-    value: totalPosts.toLocaleString(),
-    change: '+18.9%',
-    isPositive: true,
-    icon: FileText,
-    description: 'vs last period',
-    color: 'from-indigo-500 to-indigo-600'
-  }, {
-    title: 'Media Posts',
-    value: mediaPosts.toLocaleString(),
-    change: '+22.1%',
-    isPositive: true,
-    icon: Image,
-    description: 'vs last period',
-    color: 'from-yellow-500 to-yellow-600'
-  }, {
-    title: 'Reviews',
-    value: reviewsResponded.toLocaleString(),
-    change: '+7.8%',
-    isPositive: true,
-    icon: MessageSquare,
-    description: 'vs last period',
-    color: 'from-green-500 to-green-600'
-  }];
+  const stats = [
+    {
+      title: 'Total Posts',
+      value: overviewData?.totalPosts?.toLocaleString() || '0',
+      change: '+18.9%',
+      isPositive: true,
+      icon: FileText,
+      description: 'vs last period',
+      color: 'from-indigo-500 to-indigo-600'
+    },
+    {
+      title: 'Total Media',
+      value: overviewData?.totalMedia?.toLocaleString() || '0',
+      change: '+22.1%',
+      isPositive: true,
+      icon: Image,
+      description: 'vs last period',
+      color: 'from-yellow-500 to-yellow-600'
+    },
+    {
+      title: 'Total Reviews',
+      value: overviewData?.totalReview?.toLocaleString() || '0',
+      change: '+7.8%',
+      isPositive: true,
+      icon: MessageSquare,
+      description: 'vs last period',
+      color: 'from-green-500 to-green-600'
+    },
+    {
+      title: 'Total Questions',
+      value: overviewData?.totalQuestion?.toLocaleString() || '0',
+      change: '+5.2%',
+      isPositive: true,
+      icon: HelpCircle,
+      description: 'vs last period',
+      color: 'from-purple-500 to-purple-600'
+    },
+    {
+      title: 'Total Answers',
+      value: overviewData?.totalAnswer?.toLocaleString() || '0',
+      change: '+12.5%',
+      isPositive: true,
+      icon: CheckCircle,
+      description: 'vs last period',
+      color: 'from-emerald-500 to-emerald-600'
+    }
+  ];
   
+  if (loading) {
+    return (
+      <div className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+          {[...Array(5)].map((_, index) => (
+            <Card key={index} className="border-gray-200 bg-white">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-8 w-8 rounded-xl" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Skeleton className="h-8 w-16 mb-2" />
+                <Skeleton className="h-3 w-24" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Responsive grid - single column on mobile, 2 on small tablets, 3 on larger screens */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+      {/* Responsive grid - 5 columns for all stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
         {stats.map((stat, index) => (
           <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
