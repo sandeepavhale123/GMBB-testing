@@ -14,6 +14,12 @@ export interface HealthSection {
   items: HealthMetric[];
 }
 
+export interface InsightMetrics {
+  label: string;
+  color: string;
+  value: number;
+}
+
 export interface ChartDataItem {
   name: string;
   count: number;
@@ -40,6 +46,7 @@ export interface HealthData {
   gmbPhotos: number;
   gmbPosts: number;
   sections: HealthSection[];
+  insightMetrics:InsightMetrics[]
   communication: CommunicationSection | CommunicationSection[];
   chartData: ChartDataItem[];
 }
