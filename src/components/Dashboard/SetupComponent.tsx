@@ -145,12 +145,7 @@ export const SetupComponent: React.FC<SetupComponentProps> = ({
       </div>
 
       {/* Auto-refresh indicator */}
-      <div className="text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full text-sm text-gray-600">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          Auto-refreshing every 30 seconds
-        </div>
-      </div>
+      
 
       {/* Loading state */}
       {isLoading && <div className="text-center py-4">
