@@ -113,18 +113,8 @@ export const Dashboard: React.FC = () => {
     }
   }, [activeTab, selectedListing?.id, insightsDateRange, dispatch]);
 
-  const scheduledPost = {
-    id: "1",
-    title: "Weekend Special Offer",
-    content:
-      "Join us this weekend for 20% off all menu items! Perfect time to try our seasonal specialties.",
-    image: null,
-    scheduledDate: "2024-06-12 10:00 AM",
-    platforms: ["Google My Business", "Facebook"],
-  };
-
-  const handleApprovePost = () => {
-    setSelectedPost(scheduledPost);
+  const handleApprovePost = (post: any) => {
+    setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
 

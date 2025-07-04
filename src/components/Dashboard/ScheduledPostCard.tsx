@@ -9,8 +9,16 @@ import { useListingContext } from '../../context/ListingContext';
 import { useScheduledPosts } from '../../hooks/useScheduledPosts';
 import { useNavigate, useParams } from 'react-router-dom';
 
+interface ScheduledPost {
+  id: string;
+  title: string;
+  content: string;
+  scheduledDate: string;
+  image: string;
+}
+
 interface ScheduledPostCardProps {
-  onApprovePost: () => void;
+  onApprovePost: (post: ScheduledPost) => void;
 }
 
 export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
@@ -103,7 +111,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={onApprovePost}>
+                        <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => onApprovePost(post)}>
                           <Eye className="w-3 h-3 mr-1" />
                         </Button>
                       </TableCell>
@@ -123,7 +131,7 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <h4 className="font-medium text-sm text-gray-900 truncate">{post.title}</h4>
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700 flex-shrink-0" onClick={onApprovePost}>
+                          <Button size="sm" className="bg-green-600 hover:bg-green-700 flex-shrink-0" onClick={() => onApprovePost(post)}>
                             <Eye className="w-3 h-3" />
                           </Button>
                         </div>
