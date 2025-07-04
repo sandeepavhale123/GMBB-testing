@@ -71,15 +71,15 @@ export const useKeywordPolling = (
 
   // Effect to handle polling state changes
   useEffect(() => {
-    if (shouldPoll && listingId) {
+    if (shouldPoll && listingId && !isPolling) {
       startPolling();
-    } else {
+    } else if (!shouldPoll && isPolling) {
       stopPolling();
       setProcessingKeywords([]);
     }
 
     return stopPolling;
-  }, [shouldPoll, listingId, startPolling, stopPolling]);
+  }, [shouldPoll, listingId, isPolling, startPolling, stopPolling]);
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {

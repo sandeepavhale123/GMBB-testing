@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankingMap } from './RankingMap';
 import { RankDetail, RankStats, ProjectDetails } from '../../api/geoRankingApi';
@@ -48,47 +48,40 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
 
   const positionSummary = calculatePositionSummary();
 
-  // Get dynamic values from projectDetails - format distance with proper label
-  const formatDistanceLabel = (distance?: string) => {
-    if (!distance) return '2km';
-    
-    console.log('🔍 formatDistanceLabel called with distance:', distance);
-    
-    // Distance mapping for proper labels - value is the key, label is what we display
-    const distanceMap = [
-      { value: '100', label: '100 Meter' },
-      { value: '200', label: '200 Meter' },
-      { value: '500', label: '500 Meter' },
-      { value: '1', label: '1 Kilometer' },
-      { value: '2.5', label: '2.5 Kilometer' },
-      { value: '5', label: '5 Kilometer' },
-      { value: '10', label: '10 Kilometer' },
-      { value: '25', label: '25 Kilometer' },
-      { value: '.1', label: '.1 Miles' },
-      { value: '.25', label: '.25 Miles' },
-      { value: '.5', label: '.5 Miles' },
-      { value: '.75', label: '.75 Miles' },
-      { value: '1mi', label: '1 Miles' },
-      { value: '2', label: '2 Miles' },
-      { value: '3', label: '3 Miles' },
-      { value: '5mi', label: '5 Miles' },
-      { value: '8', label: '8 Miles' },
-      { value: '10mi', label: '10 Miles' }
-    ];
+  // Memoize distance formatting to prevent unnecessary recalculations
+  const distance = useMemo(() => {
+    const formatDistanceLabel = (distance?: string) => {
+      if (!distance) return '2km';
+      
+      // Distance mapping for proper labels - value is the key, label is what we display
+      const distanceMap = [
+        { value: '100', label: '100 Meter' },
+        { value: '200', label: '200 Meter' },
+        { value: '500', label: '500 Meter' },
+        { value: '1', label: '1 Kilometer' },
+        { value: '2.5', label: '2.5 Kilometer' },
+        { value: '5', label: '5 Kilometer' },
+        { value: '10', label: '10 Kilometer' },
+        { value: '25', label: '25 Kilometer' },
+        { value: '.1', label: '.1 Miles' },
+        { value: '.25', label: '.25 Miles' },
+        { value: '.5', label: '.5 Miles' },
+        { value: '.75', label: '.75 Miles' },
+        { value: '1mi', label: '1 Miles' },
+        { value: '2', label: '2 Miles' },
+        { value: '3', label: '3 Miles' },
+        { value: '5mi', label: '5 Miles' },
+        { value: '8', label: '8 Miles' },
+        { value: '10mi', label: '10 Miles' }
+      ];
 
-    // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
-    const matchedDistance = distanceMap.find(item => item.value === distance);
-    
-    console.log('📏 Distance mapping result:', {
-      inputDistance: distance,
-      matchedDistance: matchedDistance,
-      finalLabel: matchedDistance ? matchedDistance.label : distance
-    });
-    
-    return matchedDistance ? matchedDistance.label : distance;
-  };
+      // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
+      const matchedDistance = distanceMap.find(item => item.value === projectDetails?.distance);
+      return matchedDistance ? matchedDistance.label : projectDetails?.distance || '2km';
+    };
 
-  const distance = formatDistanceLabel(projectDetails?.distance);
+    return formatDistanceLabel(projectDetails?.distance);
+  }, [projectDetails?.distance]);
   
   // Get dynamic values from projectDetails - fix distance display
   const getFrequency = (schedule?: string) => {
