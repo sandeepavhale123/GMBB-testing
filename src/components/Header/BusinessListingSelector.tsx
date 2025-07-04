@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown, MapPin, Check, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { useNavigate } from "react-router-dom";
 import {
   Command,
   CommandEmpty,
@@ -18,6 +19,7 @@ import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useListingContext } from "@/context/ListingContext";
 
 export const BusinessListingSelector: React.FC = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const {
     selectedListing,
