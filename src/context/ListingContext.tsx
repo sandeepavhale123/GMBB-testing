@@ -280,6 +280,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       isInitialLoading: listingsLoading,
       listings,
       switchListing,
+      setSelectedListing,
       initializeSelectedListing,
     }),
     [

@@ -27,7 +27,7 @@ export const Health: React.FC = () => {
     loading,
     error,
     refreshHealthReport,
-  } = useHealthReport(selectedListing?.id || null);
+  } = useHealthReport(selectedListing?.id ? parseInt(selectedListing.id) : null);
 
   console.log("health data", healthData);
   if (loading)
@@ -114,9 +114,12 @@ export const Health: React.FC = () => {
       </Card>
 
       {/* communication section */}
-      {healthData.communication.map((section) => (
-        <CommunicationSectionComponent key={section.id} section={section} />
-      ))}
+      {Array.isArray(healthData.communication) 
+        ? healthData.communication.map((section) => (
+            <CommunicationSectionComponent key={section.id} section={section} />
+          ))
+        : <CommunicationSectionComponent key={healthData.communication.id} section={healthData.communication} />
+      }
     </div>
   );
 };

@@ -47,7 +47,7 @@ export const HealthSection: React.FC<HealthSectionProps> = ({ section }) => {
                 </AccordionTrigger>
                 <AccordionContent className="bg-white">
                   <div className="divide-y divide-gray-100">
-                    {category.items?.map((item: any, itemIndex: number) => (
+                    {(category.items as any[])?.map((item: any, itemIndex: number) => (
                       <React.Fragment key={itemIndex}>
                         <div className="flex items-center justify-between p-2 ring-1 ring-gray-200">
                           <div className="text-sm font-normal ps-2 text-gray-600">

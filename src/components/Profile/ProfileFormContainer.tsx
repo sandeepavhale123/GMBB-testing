@@ -130,14 +130,22 @@ export const ProfileFormContainer: React.FC = () => {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Info Section */}
       <ProfileBasicInfoForm
-        formData={formData}
+        formData={{
+          firstName: formData.firstName || "",
+          lastName: formData.lastName || "",
+          email: formData.email || "",
+          language: formData.language || "",
+        }}
         onInputChange={handleInputChange}
         getFieldError={getFieldError}
         hasFieldError={hasFieldError}
       />
 
       <ProfilePreferencesForm
-        formData={formData}
+        formData={{
+          timezone: formData.timezone || "",
+          dashboardType: formData.dashboardType || "1",
+        }}
         timezones={timezones}
         userRole={user?.role || profileData?.role}
         onInputChange={handleInputChange}
