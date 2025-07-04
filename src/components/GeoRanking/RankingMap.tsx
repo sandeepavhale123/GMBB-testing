@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RankDetail } from '../../api/geoRankingApi';
 import L from 'leaflet';
@@ -9,11 +9,12 @@ interface RankingMapProps {
   rankDetails: RankDetail[];
 }
 
-export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetails }) => {
+export const RankingMap: React.FC<RankingMapProps> = memo(({ onMarkerClick, rankDetails }) => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || mapInstanceRef.current) return;
 
     // Load Leaflet CSS
     const link = document.createElement('link');
@@ -34,6 +35,7 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
     }
 
     const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+    mapInstanceRef.current = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -169,7 +171,10 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
     }
 
     return () => {
-      map.remove();
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
@@ -186,4 +191,4 @@ export const RankingMap: React.FC<RankingMapProps> = ({ onMarkerClick, rankDetai
       </CardContent>
     </Card>
   );
-};
+});

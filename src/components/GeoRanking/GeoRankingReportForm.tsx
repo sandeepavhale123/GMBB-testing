@@ -1,0 +1,265 @@
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Label } from '../ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { Info } from 'lucide-react';
+
+interface FormData {
+  searchBusinessType: string;
+  searchBusiness: string;
+  searchDataEngine: string;
+  keywords: string;
+  mapPoint: string;
+  distanceUnit: string;
+  distanceValue: string;
+  gridSize: string;
+  scheduleCheck: string;
+  language: string;
+}
+
+interface GeoRankingReportFormProps {
+  formData: FormData;
+  onInputChange: (field: string, value: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  getDistanceOptions: () => Array<{ value: string; label: string }>;
+  languageOptions: Array<{ value: string; label: string }>;
+  submittingRank?: boolean;
+  pollingKeyword?: boolean;
+}
+
+export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
+  formData,
+  onInputChange,
+  onSubmit,
+  getDistanceOptions,
+  languageOptions,
+  submittingRank = false,
+  pollingKeyword = false
+}) => {
+  console.log('📋 GeoRankingReportForm - Current formData:', formData);
+  
+  return (
+    <Card className="shadow-lg">
+      <CardHeader className="pb-3 lg:pb-4">
+        <CardTitle className="text-lg lg:text-xl font-semibold text-gray-900">
+          Report Configuration
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 sm:space-y-4 lg:space-y-5 overflow-y-auto flex-1 pb-4 sm:pb-6">
+        <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
+          {/* Keywords */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="keywords" className="text-sm font-medium text-gray-700">
+                Keywords
+              </Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="cursor-help" onClick={(e) => e.preventDefault()}>
+                      <Info className="w-4 h-4 text-gray-400" />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Add up to 5 keywords separated by commas</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <Input 
+              id="keywords" 
+              placeholder="keyword1, keyword2, keyword3" 
+              value={formData.keywords} 
+              onChange={(e) => onInputChange('keywords', e.target.value)} 
+              className="w-full" 
+            />
+          </div>
+
+          {/* Search Data Engine */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-700">
+              Search Data Engine
+            </Label>
+            <RadioGroup 
+              value={formData.searchDataEngine} 
+              onValueChange={(value) => onInputChange('searchDataEngine', value)} 
+              className="flex flex-row gap-4 sm:gap-6"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Map API" id="map-api" />
+                <Label htmlFor="map-api" className="text-sm">Map API</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Briefcase API" id="briefcase-api" />
+                <Label htmlFor="briefcase-api" className="text-sm">Briefcase API</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {/* Map Point */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">
+              Map Point
+            </Label>
+            <Select 
+              value={formData.mapPoint} 
+              onValueChange={(value) => onInputChange('mapPoint', value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Automatic">Automatic</SelectItem>
+                <SelectItem value="Manually">Manually</SelectItem>
+              </SelectContent>
+            </Select>
+            {formData.mapPoint === 'Manually' && (
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                Click on the map to place points manually. You can drag them to reposition.
+              </p>
+            )}
+          </div>
+
+          {formData.mapPoint !== 'Manually' && (
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {/* Distance Unit */}
+              <div className="space-y-2 col-span-1">
+                <Label className="text-sm font-medium text-gray-700">
+                  Distance Unit
+                </Label>
+                <RadioGroup
+                  value={formData.distanceUnit}
+                  onValueChange={(val) => onInputChange('distanceUnit', val)}
+                  className="flex flex-col gap-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="Meters" id="meters" />
+                    <Label htmlFor="meters" className="text-sm">Meters</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="Miles" id="miles" />
+                    <Label htmlFor="miles" className="text-sm">Miles</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              {/* Distance Value */}
+              <div className="space-y-2 col-span-1">
+                <Label className="text-sm font-medium text-gray-700">
+                  Distance
+                </Label>
+                <Select
+                  value={formData.distanceValue}
+                  onValueChange={(val) => onInputChange('distanceValue', val)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {getDistanceOptions().map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+
+          {/* Grid Size and Schedule Check */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">
+                Grid Size
+              </Label>
+              <Select 
+                value={formData.gridSize} 
+                onValueChange={(value) => onInputChange('gridSize', value)}
+                disabled={formData.mapPoint === 'Manually'}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="3">3x3</SelectItem>
+                  <SelectItem value="5">5x5</SelectItem>
+                  <SelectItem value="7">7x7</SelectItem>
+                  <SelectItem value="9">9x9</SelectItem>
+                  <SelectItem value="11">11x11</SelectItem>
+                  <SelectItem value="13">13x13</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">
+                Schedule Check
+              </Label>
+              <Select 
+                value={formData.scheduleCheck} 
+                onValueChange={(value) => onInputChange('scheduleCheck', value)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="onetime">One-time</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Language Selector */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">
+              Language
+            </Label>
+            <Select 
+              value={formData.language} 
+              onValueChange={(value) => onInputChange('language', value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {languageOptions.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Button 
+            type="submit" 
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6"
+            disabled={submittingRank || pollingKeyword}
+          >
+            {pollingKeyword 
+              ? "Processing keyword..." 
+              : submittingRank 
+                ? "Checking rank..." 
+                : "Check rank"
+            }
+          </Button>
+          
+          {pollingKeyword && (
+            <div className="text-center mt-2">
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                🔄 Keyword is being processed. This may take a few minutes...
+              </p>
+            </div>
+          )}
+        </form>
+      </CardContent>
+    </Card>
+  );
+};

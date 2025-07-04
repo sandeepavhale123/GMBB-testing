@@ -12,7 +12,11 @@ import { ListingManagementPage } from "@/components/Settings/ListingManagementPa
 import { Navigate } from "react-router-dom";
 import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
+<<<<<<< HEAD
 import { ListingProvider } from "@/context/ListingContext";
+=======
+import GMBHealthPage from "@/pages/GMBHealthPage";
+>>>>>>> main
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -92,6 +96,14 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
+    path: "/settings/integrations",
+    element: (
+      <ProtectedRoute>
+        <SettingsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/settings/listings/:accountId",
     element: (
       <ProtectedRoute>
@@ -124,6 +136,14 @@ export const generalRoutes: RouteConfig[] = [
     element: (
       <ProtectedRoute>
         <PaymentSuccess />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/gmb-health",
+    element: (
+      <ProtectedRoute>
+        <GMBHealthPage />
       </ProtectedRoute>
     ),
   },

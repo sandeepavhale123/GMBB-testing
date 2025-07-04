@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { useParams, useLocation, Navigate } from "react-router-dom";
@@ -13,6 +14,24 @@ import { SubscriptionPage } from "../components/Settings/SubscriptionPage";
 import { GenieSubscriptionPage } from "../components/Settings/GenieSubscriptionPage";
 import { ListingManagementPage } from "../components/Settings/ListingManagementPage";
 import { useListingContext } from "@/context/ListingContext";
+=======
+
+import React, { useState } from 'react';
+import { Provider } from 'react-redux';
+import { useParams, useLocation, Navigate } from 'react-router-dom';
+import { store } from '../store/store';
+import { ThemeProvider } from '../components/ThemeProvider';
+import { Sidebar } from '../components/Sidebar';
+import { Header } from '../components/Header/Header';
+import { Toaster } from '../components/ui/toaster';
+import { Sheet, SheetContent } from '../components/ui/sheet';
+import { SettingsSubHeader } from '../components/Settings/SettingsSubHeader';
+import { ManageGoogleAccountPage } from '../components/Settings/ManageGoogleAccountPage';
+import { SubscriptionPage } from '../components/Settings/SubscriptionPage';
+
+import { ListingManagementPage } from '../components/Settings/ListingManagementPage';
+import { IntegrationsPage } from '../components/Settings/IntegrationsPage';
+>>>>>>> main
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -49,8 +68,13 @@ const SettingsPage = () => {
     if (path.includes("/subscription")) {
       return "subscription";
     }
+<<<<<<< HEAD
     if (path.includes("/genie-subscription")) {
       return "genie-subscription";
+=======
+    if (path.includes('/integrations')) {
+      return 'integrations';
+>>>>>>> main
     }
     if (path.includes("/google-account")) {
       return "google-account";
@@ -76,8 +100,13 @@ const SettingsPage = () => {
         return <ManageGoogleAccountPage />;
       case "subscription":
         return <SubscriptionPage />;
+<<<<<<< HEAD
       case "genie-subscription":
         return <GenieSubscriptionPage />;
+=======
+      case 'integrations':
+        return <IntegrationsPage />;
+>>>>>>> main
       default:
         return <ManageGoogleAccountPage />;
     }

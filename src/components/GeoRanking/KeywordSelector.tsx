@@ -15,6 +15,7 @@ interface KeywordSelectorProps {
   loading: boolean;
   keywordChanging: boolean;
   dateChanging: boolean;
+  isRefreshing?: boolean;
 }
 
 export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
@@ -27,6 +28,7 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   loading,
   keywordChanging,
   dateChanging,
+  isRefreshing = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -53,12 +55,12 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   return (
     <div className="lg:col-span-3 space-y-3">
       <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
-      <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={loading || keywordChanging}>
+      <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={isRefreshing ? false : (loading || keywordChanging)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"}>
             {selectedKeywordName}
           </SelectValue>
-          {keywordChanging && <Loader size="sm" className="ml-2" />}
+          {keywordChanging && !isRefreshing && <Loader size="sm" className="ml-2" />}
         </SelectTrigger>
         <SelectContent className="z-[9999]">
           <div className="p-3 border-b border-gray-100">
@@ -88,10 +90,10 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       </Select>
 
       <div>
-        <Select value={selectedDate} onValueChange={onDateChange} disabled={loading || availableDates.length === 0 || dateChanging}>
+        <Select value={selectedDate} onValueChange={onDateChange} disabled={isRefreshing ? false : (loading || availableDates.length === 0 || dateChanging)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
-            {dateChanging && <Loader size="sm" className="ml-2" />}
+            {dateChanging && !isRefreshing && <Loader size="sm" className="ml-2" />}
           </SelectTrigger>
           <SelectContent className="z-[9999]">
             {availableDates.map(date => (

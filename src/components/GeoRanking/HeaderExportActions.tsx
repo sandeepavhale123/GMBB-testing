@@ -9,6 +9,9 @@ interface HeaderExportActionsProps {
   isExporting: boolean;
   onExportImage: () => void;
   onCheckRank: () => void;
+  onClone: () => void;
+  onRefresh: () => void;
+  isRefreshing: boolean;
   credits: Credits | null;
 }
 
@@ -16,6 +19,9 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
   isExporting,
   onExportImage,
   onCheckRank,
+  onClone,
+  onRefresh,
+  isRefreshing,
   credits,
 }) => {
   return (
@@ -28,11 +34,19 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
           </Badge>
         )}
         
-        <Button variant="outline" size="sm">
-          <RefreshCcw className="w-4 h-4" />
+        <Button 
+          onClick={onRefresh} 
+          disabled={isRefreshing}
+          variant="outline" 
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <RefreshCcw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          {isRefreshing ? 'Refreshing...' : 'Refresh'}
         </Button>
-        <Button variant="outline" size="sm">
+        <Button onClick={onClone} variant="outline" size="sm" className="flex items-center gap-2">
           <Copy className="w-4 h-4" />
+          Clone
         </Button>
         
         <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">
