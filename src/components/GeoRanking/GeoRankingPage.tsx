@@ -59,46 +59,7 @@ export const GeoRankingPage = () => {
   
   const userBusinessName = "Your Digital Agency";
 
-  // Show page loader on initial load
-  if (pageLoading) {
-    return <ListingLoader isLoading={true} children={null} />;
-  }
-
-  const handleCreateReport = () => {
-    navigate('/geo-ranking-report');
-  };
-
-  const handleClone = () => {
-    if (!selectedKeyword) return;
-    
-    const currentKeyword = keywords.find(k => k.id === selectedKeyword);
-    if (!currentKeyword) return;
-
-    // Prepare clone data
-    const cloneData = {
-      clone: 'true',
-      keywordId: selectedKeyword,
-      keyword: currentKeyword.keyword,
-      ...(selectedDate && { date: selectedDate }),
-      ...(keywordDetails?.projectDetails?.distance && { distance: keywordDetails.projectDetails.distance }),
-      ...(keywordDetails?.projectDetails?.grid && { grid: keywordDetails.projectDetails.grid }),
-      ...(keywordDetails?.projectDetails?.schedule && { schedule: keywordDetails.projectDetails.schedule }),
-      ...(keywordDetails?.projectDetails?.mappoint && { mapPoint: keywordDetails.projectDetails.mappoint })
-    };
-
-    console.log('🔄 Clone Data:', cloneData);
-    console.log('📋 Full keywordDetails:', keywordDetails);
-
-    // Navigate to report page with keyword data as URL params, including listingId in path
-    const params = new URLSearchParams(cloneData);
-    
-    navigate(`/geo-ranking-report/${numericListingId}?${params.toString()}`);
-  };
-  
-  const handleExportPDF = () => {
-    console.log('Exporting report as PDF...');
-  };
-  
+  // All callback hooks must be before early returns
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
     if (!selectedKeyword) return;
 
@@ -149,13 +110,46 @@ export const GeoRankingPage = () => {
       });
     }
   }, [selectedKeyword, fetchPositionDetails]);
-  
-  const handleCloseModal = () => {
+
+  const handleCreateReport = useCallback(() => {
+    navigate('/geo-ranking-report');
+  }, [navigate]);
+
+  const handleClone = useCallback(() => {
+    if (!selectedKeyword) return;
+    
+    const currentKeyword = keywords.find(k => k.id === selectedKeyword);
+    if (!currentKeyword) return;
+
+    // Prepare clone data
+    const cloneData = {
+      clone: 'true',
+      keywordId: selectedKeyword,
+      keyword: currentKeyword.keyword,
+      ...(selectedDate && { date: selectedDate }),
+      ...(keywordDetails?.projectDetails?.distance && { distance: keywordDetails.projectDetails.distance }),
+      ...(keywordDetails?.projectDetails?.grid && { grid: keywordDetails.projectDetails.grid }),
+      ...(keywordDetails?.projectDetails?.schedule && { schedule: keywordDetails.projectDetails.schedule }),
+      ...(keywordDetails?.projectDetails?.mappoint && { mapPoint: keywordDetails.projectDetails.mappoint })
+    };
+
+    // Navigate to report page with keyword data as URL params, including listingId in path
+    const params = new URLSearchParams(cloneData);
+    
+    navigate(`/geo-ranking-report/${numericListingId}?${params.toString()}`);
+  }, [selectedKeyword, keywords, selectedDate, keywordDetails, navigate, numericListingId]);
+
+  const handleCloseModal = useCallback(() => {
     setModalData(prev => ({
       ...prev,
       isOpen: false
     }));
-  };
+  }, []);
+
+  // Show page loader on initial load - after all hooks
+  if (pageLoading) {
+    return <ListingLoader isLoading={true} children={null} />;
+  }
   
   const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
   const projectDetails = keywordDetails?.projectDetails;
