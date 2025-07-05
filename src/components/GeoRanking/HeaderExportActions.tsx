@@ -25,7 +25,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
 }) => {
   return (
     <div className="flex justify-end items-center mb-4">
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-1 sm:gap-2 items-center">
         {/* Credits Badge */}
         {credits && (
           <Badge
