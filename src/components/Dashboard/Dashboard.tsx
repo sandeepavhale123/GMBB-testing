@@ -185,7 +185,7 @@ export const Dashboard: React.FC = () => {
         {/* Business Overview + Performance Overview - Responsive columns */}
         <div className="xl:col-span-8 space-y-4 sm:space-y-6">
           {/* Business Profile Header */}
-          <BusinessProfileHeader />
+          <BusinessProfileHeader overviewData={overviewData} />
 
           {/* Enhanced Stats Cards */}
           <EnhancedStatsCards />

@@ -8,6 +8,7 @@ export interface OverviewData {
   totalQuestion: number;
   totalAnswer: number;
   healthScore: number;
+  placeId: string;
 }
 
 export const overviewApi = {
@@ -27,6 +28,7 @@ const transformApiResponse = (apiData: any): OverviewData => {
     totalQuestion: Number(apiData.totalQuestion) || 0,
     totalAnswer: Number(apiData.totalAnswer) || 0,
     healthScore: Number(apiData.healthScore) || 0,
+    placeId: String(apiData.placeId) || '',
   };
 };
 
