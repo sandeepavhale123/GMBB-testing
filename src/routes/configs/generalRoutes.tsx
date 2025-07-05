@@ -14,139 +14,172 @@ import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
 import GMBHealthPage from "@/pages/GMBHealthPage";
 import { ListingProvider } from "@/context/ListingContext";
+import { AppLayout, EmptyLayout } from "@/components/Layout";
 
 export const generalRoutes: RouteConfig[] = [
   {
     path: "/profile",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Profile />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <Profile />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/profile/:listingId", // 🔥 Add this dynamic route
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <Profile />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <Profile />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/analytics",
     element: (
-      <ProtectedRoute>
-        <AnalyticsPage />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <AnalyticsPage />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/team",
     element: (
-      <ProtectedRoute>
-        <TeamPage />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <TeamPage />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/google-account",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/subscription",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/genie-subscription",
     element: (
-      <ProtectedRoute>
-        <SettingsPage />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <SettingsPage />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/integrations",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/listings/:accountId",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/settings/:listingId",
     element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/verify-payment",
     element: (
-      <ProtectedRoute>
-        <VerifyPayment />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <VerifyPayment />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/payment-success",
     element: (
-      <ProtectedRoute>
-        <PaymentSuccess />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <PaymentSuccess />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   {
     path: "/gmb-health",
     element: (
-      <ProtectedRoute>
-        <GMBHealthPage />
-      </ProtectedRoute>
+      <AppLayout>
+        <ProtectedRoute>
+          <GMBHealthPage />
+        </ProtectedRoute>
+      </AppLayout>
     ),
   },
   // Catch-all route - must be last
   {
     path: "*",
-    element: <NotFound />,
+    element: (
+      <EmptyLayout>
+        <NotFound />
+      </EmptyLayout>
+    ),
   },
 ];

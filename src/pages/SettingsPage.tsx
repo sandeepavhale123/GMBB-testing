@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { useParams, useLocation, Navigate } from "react-router-dom";
 import { store } from "../store/store";
-import { ThemeProvider } from "../components/ThemeProvider";
-import { Sidebar } from "../components/Sidebar";
-import { Header } from "../components/Header/Header";
-import { Toaster } from "../components/ui/toaster";
-import { Sheet, SheetContent } from "../components/ui/sheet";
 import { SettingsSubHeader } from "../components/Settings/SettingsSubHeader";
 import { ManageGoogleAccountPage } from "../components/Settings/ManageGoogleAccountPage";
 import { SubscriptionPage } from "../components/Settings/SubscriptionPage";
@@ -16,8 +11,6 @@ import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { accountId } = useParams();
   const location = useLocation();
   const { listingId } = useParams();
@@ -86,62 +79,17 @@ const SettingsPage = () => {
 
   return (
     <Provider store={store}>
-      <ThemeProvider>
-        <div className="min-h-screen bg-gray-50 flex w-full">
-          {/* Mobile Navigation Sheet */}
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetContent side="left" className="p-0 w-64">
-              <Sidebar
-                activeTab="settings"
-                onTabChange={() => {}}
-                collapsed={false}
-                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-              />
-            </SheetContent>
-          </Sheet>
+      <div>
+        {/* Settings Sub Header - Only show on main view */}
+        {currentView === "main" && (
+          <SettingsSubHeader activeTab={activeTab} />
+        )}
 
-          {/* Desktop Sidebar */}
-          <div className="hidden md:flex">
-            <Sidebar
-              activeTab="settings"
-              onTabChange={() => {}}
-              collapsed={sidebarCollapsed}
-              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-            />
-          </div>
-
-          {/* Main Content */}
-          <div
-            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
-            }`}
-          >
-            {/* Header */}
-            <Header
-              onToggleSidebar={() => {
-                if (window.innerWidth < 768) {
-                  setMobileMenuOpen(true);
-                } else {
-                  setSidebarCollapsed(!sidebarCollapsed);
-                }
-              }}
-              showFilters={false}
-            />
-
-            {/* Settings Sub Header - Only show on main view */}
-            {currentView === "main" && (
-              <SettingsSubHeader activeTab={activeTab} />
-            )}
-
-            {/* Page Content */}
-            <main className="flex-1 overflow-auto bg-gray-50">
-              <div className="min-h-full">{renderTabContent()}</div>
-            </main>
-          </div>
-
-          <Toaster />
+        {/* Page Content */}
+        <div className="bg-gray-50 min-h-full">
+          {renderTabContent()}
         </div>
-      </ThemeProvider>
+      </div>
     </Provider>
   );
 };
