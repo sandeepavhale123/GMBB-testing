@@ -125,7 +125,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         </div>
         
         <div className="text-xs text-gray-500 space-y-1">
-          <div>Uploaded: {uploadDate}</div>
+          <div>Uploaded: {new Date(uploadDate).toLocaleDateString()} at {new Date(uploadDate).toLocaleTimeString()}</div>
           
         </div>
       </div>
