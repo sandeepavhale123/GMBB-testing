@@ -11,7 +11,6 @@ import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
 import HealthPage from "@/pages/HealthPage";
-import { AppLayout } from "@/components/Layout";
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes
@@ -22,13 +21,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/posts/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <PostsPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <PostsPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -40,13 +37,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/media/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <MediaPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <MediaPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -58,13 +53,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/insights/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <InsightsPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <InsightsPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -76,13 +69,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/geo-ranking/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <GeoRankingPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <GeoRankingPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -90,25 +81,21 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/geo-ranking-report",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <GeoRankingReportPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <GeoRankingReportPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/geo-ranking-report/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <GeoRankingReportPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <GeoRankingReportPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -120,38 +107,32 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/reviews/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <ReviewsPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <ReviewsPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
   //  Health routes
   {
     path: "/health",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <HealthPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <HealthPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
   {
     path: "/health/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <HealthPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <HealthPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -172,13 +153,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/business-info/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <BusinessesPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <BusinessesPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 
@@ -196,13 +175,11 @@ export const listingRoutes: RouteConfig[] = [
   {
     path: "/qa/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <QAPage />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <QAPage />
+        </ListingProvider>
+      </ProtectedRoute>
     ),
   },
 ];

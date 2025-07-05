@@ -8,65 +8,50 @@ import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "@/routes/PublicRoute";
 import { RouteConfig } from "../routeConfig";
 import { VerifySignupPage } from "@/pages/VerifySignUp";
-import { AuthLayout, EmptyLayout, AppLayout } from "@/components/Layout";
 
 export const authRoutes: RouteConfig[] = [
   {
     path: "/login",
     element: (
-      <AuthLayout>
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      </AuthLayout>
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
     ),
   },
   {
     path: "/signup",
     element: (
-      <AuthLayout>
-        <PublicRoute>
-          <Signup />
-        </PublicRoute>
-      </AuthLayout>
+      <PublicRoute>
+        <Signup />
+      </PublicRoute>
     ),
   },
   {
     path: "/verify-signup",
     element: (
-      <AuthLayout>
-        <PublicRoute>
-          <VerifySignupPage />
-        </PublicRoute>
-      </AuthLayout>
+      <PublicRoute>
+        <VerifySignupPage />
+      </PublicRoute>
     ),
   },
   {
     path: "/new-password",
     element: (
-      <AuthLayout>
-        <PublicRoute>
-          <NewPassword />
-        </PublicRoute>
-      </AuthLayout>
+      <PublicRoute>
+        <NewPassword />
+      </PublicRoute>
     ),
   },
   {
     path: "/success",
-    element: (
-      <EmptyLayout>
-        <Success />
-      </EmptyLayout>
-    ),
+    element: <Success />,
   },
   {
     path: "/onboarding",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <Onboarding />
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <Onboarding />
+      </ProtectedRoute>
     ),
   },
 ];

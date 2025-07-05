@@ -4,20 +4,17 @@ import Index from "@/pages/Index";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
-import { AppLayout } from "@/components/Layout";
 
 export const dashboardRoutes: RouteConfig[] = [
   // Main dashboard route
   {
     path: "/location-dashboard/:listingId",
     element: (
-      <AppLayout>
-        <ProtectedRoute>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </ProtectedRoute>
-      </AppLayout>
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
     )
   },
   
