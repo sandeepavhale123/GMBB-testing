@@ -1,21 +1,23 @@
-
-import React from 'react';
-import { Card, CardContent, CardFooter } from '../ui/card';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
-import { Loader } from '../ui/loader';
-import { MoreHorizontal, Check, RefreshCw } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import type { BusinessInfo, BusinessStatistics } from '../../types/businessInfoTypes';
+import React from "react";
+import { Card, CardContent, CardFooter } from "../ui/card";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Progress } from "../ui/progress";
+import { Loader } from "../ui/loader";
+import { MoreHorizontal, Check, RefreshCw } from "lucide-react";
+import { cn } from "../../lib/utils";
+import type {
+  BusinessInfo,
+  BusinessStatistics,
+} from "../../types/businessInfoTypes";
 
 interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
   statistics: BusinessStatistics | null;
   isLoading?: boolean;
   isRefreshing?: boolean;
-  activeTab?: 'business-info' | 'opening-hours' | 'edit-log';
-  onTabChange?: (tab: 'business-info' | 'opening-hours' | 'edit-log') => void;
+  activeTab?: "business-info" | "opening-hours" | "edit-log";
+  onTabChange?: (tab: "business-info" | "opening-hours" | "edit-log") => void;
   onRefresh?: () => void;
 }
 
@@ -24,18 +26,19 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   statistics,
   isLoading,
   isRefreshing = false,
-  activeTab = 'business-info',
+  activeTab = "business-info",
   onTabChange,
-  onRefresh
+  onRefresh,
 }) => {
   const tabs = [
-    { id: 'business-info' as const, label: 'Business Information' },
-    { id: 'opening-hours' as const, label: 'Opening Hours' },
-    { id: 'edit-log' as const, label: 'Edit Log' }
+    { id: "business-info" as const, label: "Business Information" },
+    { id: "opening-hours" as const, label: "Opening Hours" },
+    { id: "edit-log" as const, label: "Edit Log" },
   ];
 
   if (isLoading) {
-    return <Card className="w-full">
+    return (
+      <Card className="w-full">
         <CardContent className="p-6">
           <div className="animate-pulse">
             <div className="flex items-start gap-4 mb-6">
@@ -53,7 +56,8 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             </div>
           </div>
         </CardContent>
-      </Card>;
+      </Card>
+    );
   }
 
   return (
@@ -65,44 +69,54 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             {/* Business Logo/Avatar - Updated with shadow and better image handling */}
             <div className="w-24 h-24 rounded-lg overflow-hidden shadow-md border border-gray-200">
               {businessInfo?.profile_photo ? (
-                <img 
-                  src={businessInfo.profile_photo} 
-                  alt={`${businessInfo.name} profile`} 
+                <img
+                  src={businessInfo.profile_photo}
+                  alt={`${businessInfo.name} profile`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     // Fallback to default avatar if image fails to load
                     const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.nextElementSibling?.classList.remove('hidden');
+                    target.style.display = "none";
+                    target.nextElementSibling?.classList.remove("hidden");
                   }}
                 />
               ) : null}
-              <div className={`w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-2xl ${businessInfo?.profile_photo ? 'hidden' : ''}`}>
-                {businessInfo?.name?.charAt(0) || 'B'}
+              <div
+                className={`w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-2xl ${
+                  businessInfo?.profile_photo ? "hidden" : ""
+                }`}
+              >
+                {businessInfo?.name?.charAt(0) || "B"}
               </div>
             </div>
-            
+
             {/* Business Info */}
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {businessInfo?.name || 'Business Name'}
+                  {businessInfo?.name || "Business Name"}
                 </h2>
-                {businessInfo?.verification_status === 'verified' && (
+                {businessInfo?.verification_status === "verified" && (
                   <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />
                 )}
               </div>
-              
+
               {/* Profile views and Position stats moved here */}
               <div className="flex items-center gap-6">
-                <div className="bg-secondary p-2 rounded" style={{ width: '110px' }}> 
+                <div
+                  className="bg-secondary p-2 rounded"
+                  style={{ width: "110px" }}
+                >
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.profile_views || 0}
                   </div>
                   <div className="text-xs text-gray-500">Profile views</div>
                 </div>
-                
-                <div className="bg-secondary p-2 rounded" style={{ width: '110px' }}>
+
+                <div
+                  className="bg-secondary p-2 rounded"
+                  style={{ width: "110px" }}
+                >
                   <div className="text-lg font-bold text-gray-900">
                     {statistics?.position || 0}
                   </div>
@@ -111,11 +125,11 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               </div>
             </div>
           </div>
-          
+
           {/* Action Buttons with Visibility after */}
           <div className="flex flex-col items-end gap-4">
             <div className="flex gap-2">
-              <Button 
+              <Button
                 onClick={onRefresh}
                 disabled={isRefreshing}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm"
@@ -126,14 +140,14 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                     Refreshing...
                   </>
                 ) : (
-                  'Refresh'
+                  "Refresh"
                 )}
               </Button>
               <Button variant="outline" className="px-4 py-2 text-sm">
                 Edit access
               </Button>
             </div>
-            
+
             {/* Visibility Section */}
             <div className="w-64">
               <div className="flex items-center justify-between mb-2">
@@ -142,12 +156,15 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   {statistics?.visibility_score || 0}%
                 </div>
               </div>
-              <Progress value={statistics?.visibility_score || 0} className="h-2 bg-gray-200" />
+              <Progress
+                value={statistics?.visibility_score || 0}
+                className="h-2 bg-gray-200"
+              />
             </div>
           </div>
         </div>
       </CardContent>
-      
+
       {/* Footer with Tabs */}
       <CardFooter className="p-0">
         <div className="w-full border-t border-gray-200">

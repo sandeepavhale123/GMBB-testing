@@ -78,28 +78,28 @@ const planFeatures: PlanFeature[] = [
 ];
 const plans = [
   {
-    id: "12",
+    id: "52",
     name: "Business",
     price: 99,
     color: "bg-blue-500",
     popular: false,
   },
   {
-    id: "13",
+    id: "53",
     name: "Pro",
     price: 199,
     color: "bg-blue-600",
     popular: true,
   },
   {
-    id: "14",
+    id: "54",
     name: "Agency",
     price: 299,
     color: "bg-blue-700",
     popular: false,
   },
   {
-    id: "15",
+    id: "55",
     name: "Enterprise",
     price: 560,
     color: "bg-blue-800",
@@ -158,9 +158,13 @@ export const SubscriptionPage: React.FC = () => {
   const isPlanActive = (planId: string) => {
     return activePlanId === planId && !isExpired;
   };
+  console.log("active plan id", activePlanId);
   const hasActivePlan = () => {
-    return activePlanId && !isExpired;
+    return (
+      typeof activePlanId === "string" && activePlanId !== "0" && !isExpired
+    );
   };
+  console.log("Has active plan", hasActivePlan());
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -175,8 +179,14 @@ export const SubscriptionPage: React.FC = () => {
     if (isProcessing === planId) {
       return "Processing...";
     }
+    console.log("planid", planId);
+    console.log("active plan ", isPlanActive(planId));
     // Show "Pay Now" if no active plan, "Upgrade Now" if there's an active plan
-    return hasActivePlan() ? "Upgrade Now" : "Pay Now";
+    return hasActivePlan()
+      ? isPlanActive(planId)
+        ? "Active"
+        : "Upgrade Now"
+      : "Pay Now";
   };
   const getButtonClass = (planId: string, planColor: string) => {
     if (isPlanActive(planId)) {
@@ -252,30 +262,28 @@ export const SubscriptionPage: React.FC = () => {
     setIsProcessing(selectedUpgradePlan);
     setShowUpgradeModal(false);
     try {
-      console.log(`Upgrading to plan: ${selectedUpgradePlan}`);
+      // console.log(`Upgrading to plan: ${selectedUpgradePlan}`);
 
       // Send upgrade request to backend
       const response = await axiosInstance.post("/update-subscription", {
         planId: selectedUpgradePlan,
       });
-      if (response.data.success) {
-        toast({
-          title: "Upgrade Successful",
-          description: "Your plan has been upgraded successfully.",
-        });
+      console.log("response message on upgrade", response);
 
-        // Refresh user plan data
-        const userResponse = await axiosInstance.get("/get-user-profile");
-        const { planId, planExpDate } = userResponse.data.data.profileDetails;
-        if (planId) {
-          setActivePlanId(planId);
-        }
-        if (planExpDate) {
-          setPlanExpDate(planExpDate);
-          setIsExpired(isSubscriptionExpired(planExpDate));
-        }
-      } else {
-        throw new Error(response.data.message || "Upgrade failed");
+      toast({
+        title: "Upgrade Successful",
+        description: response.data?.message,
+      });
+
+      // Refresh user plan data
+      const userResponse = await axiosInstance.get("/get-user-profile");
+      const { planId, planExpDate } = userResponse.data.data.profileDetails;
+      if (planId) {
+        setActivePlanId(planId);
+      }
+      if (planExpDate) {
+        setPlanExpDate(planExpDate);
+        setIsExpired(isSubscriptionExpired(planExpDate));
       }
     } catch (error) {
       console.error("Upgrade error:", error);

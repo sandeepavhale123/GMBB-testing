@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { RankingMap } from './RankingMap';
-import { RankDetail, RankStats, ProjectDetails } from '../../api/geoRankingApi';
-import { Loader } from '../ui/loader';
+import React, { useMemo } from "react";
+import { Card, CardContent } from "../ui/card";
+import { RankingMap } from "./RankingMap";
+import { RankDetail, RankStats, ProjectDetails } from "../../api/geoRankingApi";
+import { Loader } from "../ui/loader";
 
 interface GeoRankingMapSectionProps {
   gridSize: string;
@@ -19,27 +19,27 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   rankDetails,
   rankStats,
   projectDetails,
-  loading
+  loading,
 }) => {
   // Calculate position summary from rank details
   const calculatePositionSummary = () => {
     const summary = {
-      '1-3': 0,
-      '4-10': 0,
-      '11-15': 0,
-      '16-20+': 0
+      "1-3": 0,
+      "4-10": 0,
+      "11-15": 0,
+      "16-20+": 0,
     };
 
-    rankDetails.forEach(detail => {
+    rankDetails.forEach((detail) => {
       const rank = parseInt(detail.rank);
       if (rank >= 1 && rank <= 3) {
-        summary['1-3']++;
+        summary["1-3"]++;
       } else if (rank >= 4 && rank <= 10) {
-        summary['4-10']++;
+        summary["4-10"]++;
       } else if (rank >= 11 && rank <= 15) {
-        summary['11-15']++;
+        summary["11-15"]++;
       } else if (rank >= 16) {
-        summary['16-20+']++;
+        summary["16-20+"]++;
       }
     });
 
@@ -51,53 +51,61 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   // Memoize distance formatting to prevent unnecessary recalculations
   const distance = useMemo(() => {
     const formatDistanceLabel = (distance?: string) => {
-      if (!distance) return '2km';
-      
+      if (!distance) return "2km";
+
       // Distance mapping for proper labels - value is the key, label is what we display
       const distanceMap = [
-        { value: '100', label: '100 Meter' },
-        { value: '200', label: '200 Meter' },
-        { value: '500', label: '500 Meter' },
-        { value: '1', label: '1 Kilometer' },
-        { value: '2.5', label: '2.5 Kilometer' },
-        { value: '5', label: '5 Kilometer' },
-        { value: '10', label: '10 Kilometer' },
-        { value: '25', label: '25 Kilometer' },
-        { value: '.1', label: '.1 Miles' },
-        { value: '.25', label: '.25 Miles' },
-        { value: '.5', label: '.5 Miles' },
-        { value: '.75', label: '.75 Miles' },
-        { value: '1mi', label: '1 Miles' },
-        { value: '2', label: '2 Miles' },
-        { value: '3', label: '3 Miles' },
-        { value: '5mi', label: '5 Miles' },
-        { value: '8', label: '8 Miles' },
-        { value: '10mi', label: '10 Miles' }
+        { value: "100", label: "100 Meter" },
+        { value: "200", label: "200 Meter" },
+        { value: "500", label: "500 Meter" },
+        { value: "1", label: "1 Kilometer" },
+        { value: "2.5", label: "2.5 Kilometer" },
+        { value: "5", label: "5 Kilometer" },
+        { value: "10", label: "10 Kilometer" },
+        { value: "25", label: "25 Kilometer" },
+        { value: ".1", label: ".1 Miles" },
+        { value: ".25", label: ".25 Miles" },
+        { value: ".5", label: ".5 Miles" },
+        { value: ".75", label: ".75 Miles" },
+        { value: "1mi", label: "1 Miles" },
+        { value: "2", label: "2 Miles" },
+        { value: "3", label: "3 Miles" },
+        { value: "5mi", label: "5 Miles" },
+        { value: "8", label: "8 Miles" },
+        { value: "10mi", label: "10 Miles" },
       ];
 
       // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
-      const matchedDistance = distanceMap.find(item => item.value === projectDetails?.distance);
-      return matchedDistance ? matchedDistance.label : projectDetails?.distance || '2km';
+      const matchedDistance = distanceMap.find(
+        (item) => item.value === projectDetails?.distance
+      );
+      return matchedDistance
+        ? matchedDistance.label
+        : projectDetails?.distance || "2km";
     };
 
     return formatDistanceLabel(projectDetails?.distance);
   }, [projectDetails?.distance]);
-  
+
   // Get dynamic values from projectDetails - fix distance display
   const getFrequency = (schedule?: string) => {
-    if (!schedule) return 'Daily';
+    if (!schedule) return "Daily";
     switch (schedule.toLowerCase()) {
-      case 'daily': return 'Daily';
-      case 'weekly': return 'Weekly';  
-      case 'monthly': return 'Monthly';
-      default: return schedule;
+      case "daily":
+        return "Daily";
+      case "weekly":
+        return "Weekly";
+      case "monthly":
+        return "Monthly";
+      default:
+        return schedule;
     }
   };
   const frequency = getFrequency(projectDetails?.schedule);
 
   // Format grid size as "number * number"
   const formatGridSize = (grid: string) => {
-    const gridNumber = grid.replace(/[^0-9]/g, ''); // Extract numbers only
+    const gridNumber = grid.replace(/[^0-9]/g, ""); // Extract numbers only
     return `${gridNumber} * ${gridNumber}`;
   };
 
@@ -107,13 +115,18 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
         <CardContent className="p-4 sm:p-6">
           <div className="mb-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">GEO Grid Ranking Map</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+                GEO Grid Ranking Map
+              </h3>
             </div>
-            
+
             {/* Info Badges */}
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                GPS: {rankDetails.length > 0 ? rankDetails[0].coordinate : '28.6139, 77.2090'}
+                GPS:{" "}
+                {rankDetails.length > 0
+                  ? rankDetails[0].coordinate
+                  : "28.6139, 77.2090"}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                 Grid: {formatGridSize(gridSize)}
@@ -129,7 +142,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
               </span>
             </div>
           </div>
-          
+
           <div className="bg-gray-50 rounded-lg overflow-hidden relative">
             {loading && (
               <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -141,39 +154,53 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
                 <div className="text-gray-500">Loading map data...</div>
               </div>
             ) : (
-              <RankingMap onMarkerClick={onMarkerClick} rankDetails={rankDetails} />
+              <RankingMap
+                onMarkerClick={onMarkerClick}
+                rankDetails={rankDetails}
+              />
             )}
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Key Metrics Overlay - Top Left */}
-      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
-        top: '120px',
-        left: '33px',
-        zIndex: '9999'
-      }}>
+      <Card
+        className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55 "
+        style={{
+          top: "120px",
+          left: "33px",
+          zIndex: "9999",
+        }}
+      >
         <CardContent className="p-4">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics</h3>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            Key Metrics
+          </h3>
           <div className="flex flex-wrap gap-2">
             <div className="flex rounded-md border overflow-hidden shadow-sm">
-              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ARP</div>
+              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
+                ARP
+              </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.atr || '8.50'}
+                {rankStats?.atr || "8.50"}
               </div>
             </div>
-            
+
             <div className="flex rounded-md border overflow-hidden shadow-sm">
-              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">ATRP</div>
+              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
+                ATRP
+              </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.atrp || '6.20'}
+                {rankStats?.atrp || "6.20"}
               </div>
             </div>
-            
+
             <div className="flex rounded-md border overflow-hidden shadow-sm">
-              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">SoLV</div>
+              <div className="bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
+                SoLV
+              </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.solvability || '36.0'}%
+                {rankStats?.solvability || "36.0"}%
               </div>
             </div>
           </div>
@@ -181,41 +208,47 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
 
       {/* Position Summary Overlay - Top Right */}
-      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55" style={{
-        top: '120px',
-        right: '33px',
-        zIndex: '9999'
-      }}>
+      <Card className="absolute bg-white/95 backdrop-blur-sm shadow-lg z-55 right-[33px] z-[9999] top-[250px]  sm:top-[215px] lg:top-[120px] ">
         <CardContent className="p-4">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Position Summary</h3>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            Position Summary
+          </h3>
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded"></div>
                 <span className="text-xs text-gray-600">1-3</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">{positionSummary['1-3']}</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {positionSummary["1-3"]}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-yellow-500 rounded"></div>
                 <span className="text-xs text-gray-600">4-10</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">{positionSummary['4-10']}</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {positionSummary["4-10"]}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-orange-500 rounded"></div>
                 <span className="text-xs text-gray-600">11-15</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">{positionSummary['11-15']}</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {positionSummary["11-15"]}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-red-500 rounded"></div>
                 <span className="text-xs text-gray-600">16-20+</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">{positionSummary['16-20+']}</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {positionSummary["16-20+"]}
+              </span>
             </div>
           </div>
         </CardContent>

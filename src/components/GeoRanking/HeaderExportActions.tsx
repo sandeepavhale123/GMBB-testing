@@ -1,9 +1,8 @@
-
-import React from 'react';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Download, RefreshCcw, Copy } from 'lucide-react';
-import { Credits } from '../../api/geoRankingApi';
+import React from "react";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Download, RefreshCcw, Copy } from "lucide-react";
+import { Credits } from "../../api/geoRankingApi";
 
 interface HeaderExportActionsProps {
   isExporting: boolean;
@@ -29,27 +28,42 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
       <div className="flex gap-2 items-center">
         {/* Credits Badge */}
         {credits && (
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 h-4 py-3">
-            Available credits {credits.remainingCredit} / {credits.allowedCredit}
+          <Badge
+            variant="outline"
+            className="bg-blue-50 text-blue-700 border-blue-200 h-4 min-h-min py-3"
+          >
+            Available credits {credits.remainingCredit} /{" "}
+            {credits.allowedCredit}
           </Badge>
         )}
-        
-        <Button 
-          onClick={onRefresh} 
+
+        <Button
+          onClick={onRefresh}
           disabled={isRefreshing}
-          variant="outline" 
+          variant="outline"
           size="sm"
           className="flex items-center gap-2"
         >
-          <RefreshCcw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-          {isRefreshing ? 'Refreshing...' : 'Refresh'}
+          <RefreshCcw
+            className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+          />
+          {isRefreshing ? "Refreshing..." : "Refresh"}
         </Button>
-        <Button onClick={onClone} variant="outline" size="sm" className="flex items-center gap-2">
+        <Button
+          onClick={onClone}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
           <Copy className="w-4 h-4" />
           Clone
         </Button>
-        
-        <Button onClick={onCheckRank} className="bg-blue-600 hover:bg-blue-700 text-white" size="sm">
+
+        <Button
+          onClick={onCheckRank}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+          size="sm"
+        >
           Check Rank
         </Button>
         {/* <Button onClick={onExportImage} disabled={isExporting} size="sm" variant="outline" className="flex items-center gap-2">
