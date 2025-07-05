@@ -6,8 +6,6 @@ interface StatusBadgeProps {
 }
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, value }) => {
-  console.log("status", status);
-  console.log("value", value);
   const getStatusStyles = () => {
     const hasValue = value !== undefined && value !== null;
     switch (status) {

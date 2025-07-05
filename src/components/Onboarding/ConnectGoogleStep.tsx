@@ -39,13 +39,13 @@ const ConnectGoogleStep = () =>
       const searchParams = new URLSearchParams(search);
       const hasGoogleCode = searchParams.get("code");
 
-      console.log(
-        "Inside onboarding page searchParams, and code",
-        searchParams,
-        hasGoogleCode,
-        "processed:",
-        oauthParams.processed
-      );
+      // console.log(
+      //   "Inside onboarding page searchParams, and code",
+      //   searchParams,
+      //   hasGoogleCode,
+      //   "processed:",
+      //   oauthParams.processed
+      // );
       if (!hasGoogleCode) return;
 
       if (hasGoogleCode && !oauthParams.code && !oauthParams.processed) {

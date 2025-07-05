@@ -2,6 +2,7 @@ import axiosInstance from "./axiosInstance";
 import { HealthData } from "../types/health";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
 
 export const healthApi = {
   getHealthReport: async (listingId: number, refresh: string = "") => {
@@ -69,6 +70,13 @@ export const useHealthReport = (
         listingId as number,
         refreshTrigger > 0 ? "refresh" : ""
       );
+      if (refreshTrigger > 0) {
+        toast({
+          title: "Success",
+          description: res.message,
+          variant: "default",
+        });
+      }
       return transformApiResponse(res.data);
     },
     enabled: !!listingId,

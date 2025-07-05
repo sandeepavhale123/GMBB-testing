@@ -95,6 +95,18 @@ export const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+// API Key validation schema
+export const apiKeySchema = z.object({
+  apiKey: z.string().trim().min(1, "API key is required"),
+});
+
+// Disconnect confirmation schema
+export const disconnectConfirmationSchema = z.object({
+  confirmationText: z.string().refine((val) => val.toLowerCase() === "delete", {
+    message: "Please type 'delete' to confirm",
+  }),
+});
+
 // Types derived from schemas
 export type SignupFormData = z.infer<typeof signupSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -102,3 +114,7 @@ export type ProfileFormData = z.infer<typeof profileSchema>;
 export type BusinessInfoFormData = z.infer<typeof businessInfoSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+export type ApiKeyFormData = z.infer<typeof apiKeySchema>;
+export type DisconnectConfirmationFormData = z.infer<
+  typeof disconnectConfirmationSchema
+>;

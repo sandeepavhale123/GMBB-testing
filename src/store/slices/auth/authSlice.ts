@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clearAuthStorage } from "@/utils/storageUtils";
 
 interface User {
@@ -7,6 +7,18 @@ interface User {
   [key: string]: any; // Add other user properties as needed
 }
 
+export interface TokenRefreshPayload {
+  refresh_token: string;
+  userId: string;
+}
+
+export interface TokenRefreshResponse {
+  data: {
+    access_token: string;
+    refresh_token?: string;
+    user?: User;
+  };
+}
 interface AuthState {
   accessToken: string | null;
   user: User | null;
@@ -27,6 +39,86 @@ const initialState: AuthState = {
   isAuthenticating: false,
 };
 
+// Async thunk for clearing expired tokens and immediately refreshing
+export const clearExpiredTokensAndRefresh = createAsyncThunk(
+  "auth/clearExpiredTokensAndRefresh",
+  async (_, { dispatch, rejectWithValue }) => {
+    console.log(
+      "⏰ Clearing expired tokens and attempting immediate refresh..."
+    );
+
+    // Clear expired tokens from state and localStorage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+
+    // Get refresh token for API call
+    const refreshToken = localStorage.getItem("refresh_token");
+    const userId = localStorage.getItem("userId");
+
+    if (!refreshToken) {
+      console.log("❌ No refresh token found, cannot refresh");
+      return rejectWithValue("No refresh token available");
+    }
+
+    try {
+      console.log(
+        "🔄 Calling refresh API immediately after clearing expired tokens..."
+      );
+
+      const payload: TokenRefreshPayload = {
+        refresh_token: refreshToken,
+        userId: userId || "",
+      };
+
+      const BASE_URL = import.meta.env.VITE_BASE_URL;
+      const response = await fetch(`${BASE_URL}/refresh-access-token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `❌ Refresh API failed with status: ${response.status}, response: ${errorText}`
+        );
+        throw new Error(`Refresh failed with status: ${response.status}`);
+      }
+
+      const data: TokenRefreshResponse = await response.json();
+      console.log("✅ Token refresh successful after clearing expired tokens");
+
+      // Store new tokens
+      localStorage.setItem("access_token", data.data.access_token);
+      if (data.data.refresh_token) {
+        localStorage.setItem("refresh_token", data.data.refresh_token);
+      }
+      if (data.data.user) {
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+      }
+
+      return {
+        accessToken: data.data.access_token,
+        user:
+          data.data.user || JSON.parse(localStorage.getItem("user") || "null"),
+      };
+    } catch (error) {
+      console.error(
+        "❌ Auto-refresh failed after clearing expired tokens:",
+        error
+      );
+
+      // Clear all auth data on refresh failure
+      clearAuthStorage();
+
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Refresh failed"
+      );
+    }
+  }
+);
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -148,6 +240,34 @@ const authSlice = createSlice({
 
       console.log("✅ Expired tokens cleared, refresh token preserved");
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(clearExpiredTokensAndRefresh.pending, (state) => {
+        state.isRefreshing = true;
+        state.accessToken = null;
+        state.user = null;
+        console.log("🔄 Starting clear expired tokens and refresh...");
+      })
+      .addCase(clearExpiredTokensAndRefresh.fulfilled, (state, action) => {
+        state.isRefreshing = false;
+        state.hasAttemptedRefresh = true;
+        state.accessToken = action.payload.accessToken;
+        state.user = action.payload.user;
+        console.log(
+          "✅ Clear expired tokens and refresh completed successfully"
+        );
+      })
+      .addCase(clearExpiredTokensAndRefresh.rejected, (state, action) => {
+        state.isRefreshing = false;
+        state.hasAttemptedRefresh = true;
+        state.accessToken = null;
+        state.user = null;
+        console.log(
+          "❌ Clear expired tokens and refresh failed:",
+          action.payload
+        );
+      });
   },
 });
 

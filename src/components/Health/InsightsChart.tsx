@@ -8,7 +8,6 @@ interface InsightsChartProps {
 }
 
 export const InsightsChart: React.FC<InsightsChartProps> = ({ data }) => {
-  console.log(data);
   return (
     <Card className="p-2">
       <CardHeader className="text-lg font-semibold text-center pt-2 items-center gap-2">

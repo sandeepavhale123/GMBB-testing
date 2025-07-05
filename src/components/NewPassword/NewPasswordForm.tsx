@@ -23,7 +23,7 @@ export const NewPasswordForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const token = useQueryParams("u");
-  console.log("token value", token);
+  // console.log("token value", token);
 
   const { validate, getFieldError, hasFieldError, clearFieldError } =
     useFormValidation(resetPasswordSchema);
