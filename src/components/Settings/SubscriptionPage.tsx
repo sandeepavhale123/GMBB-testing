@@ -309,10 +309,10 @@ export const SubscriptionPage: React.FC = () => {
     return plan ? plan.name : "";
   };
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    <div className="p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto">
       {/* Page Header */}
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
           Subscription Plans
         </h2>
         <p className="text-gray-600 text-sm sm:text-base">
@@ -344,14 +344,63 @@ export const SubscriptionPage: React.FC = () => {
       </div>
 
       <Tabs defaultValue="pricing-plan" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-8">
-          <TabsTrigger value="pricing-plan">Pricing Plan</TabsTrigger>
-          <TabsTrigger value="payment-history">Payment History</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
+          <TabsTrigger value="pricing-plan" className="text-sm sm:text-base">Pricing Plan</TabsTrigger>
+          <TabsTrigger value="payment-history" className="text-sm sm:text-base">Payment History</TabsTrigger>
         </TabsList>
 
         <TabsContent value="pricing-plan" className="space-y-6">
-          {/* Pricing Table */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+          {/* Mobile Plan Cards - visible on small screens */}
+          <div className="block lg:hidden space-y-4">
+            {plans.map((plan) => (
+              <Card key={plan.id} className="relative overflow-hidden">
+                {plan.popular && (
+                  <Badge className="absolute top-4 right-4 bg-orange-500 text-white text-xs z-10">
+                    Most Popular
+                  </Badge>
+                )}
+                <CardHeader className={`${plan.color} text-white`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+                        {plan.name}
+                        {plan.popular && <Crown className="w-4 h-4" />}
+                      </CardTitle>
+                      <div className="text-2xl sm:text-3xl font-bold mt-2">
+                        ${plan.price}
+                        <span className="text-sm font-normal opacity-80">/PM</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-3 mb-6">
+                    {planFeatures.map((feature, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                        <span className="text-sm font-medium text-gray-700 flex-1">
+                          {feature.name}
+                        </span>
+                        <div className="ml-3">
+                          {renderFeatureValue(feature[plan.name.toLowerCase() as keyof PlanFeature])}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => handleButtonClick(plan.id)}
+                    className={getButtonClass(plan.id, plan.color)}
+                    disabled={isPlanActive(plan.id) || isProcessing === plan.id}
+                    size="lg"
+                  >
+                    {getButtonText(plan.id)}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Desktop Pricing Table - hidden on small screens */}
+          <div className="hidden lg:block bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
             {/* Header Row */}
             <div className="grid grid-cols-5 bg-gray-50 border-b border-gray-200">
               <div className="p-4 font-semibold text-gray-900 flex items-center">
