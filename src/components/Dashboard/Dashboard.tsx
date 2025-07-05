@@ -90,12 +90,12 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { listings } = useListingContext();
 
-  const { data: overviewData } = useOverviewData(
+  const { data: setupData, isLoading: isLoadingSetup, isSetupComplete } = useListingSetup(
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
-  const { data: setupData, isLoading: isLoadingSetup } = useListingSetup(
-    selectedListing?.id ? parseInt(selectedListing.id) : null
+  const { data: overviewData } = useOverviewData(
+    isSetupComplete && selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
   const dispatch = useAppDispatch();
@@ -166,11 +166,8 @@ export const Dashboard: React.FC = () => {
     );
   }
 
-  // Check if setup is needed
-  const needsSetup = setupData?.data && Object.values(setupData.data).some(value => value === 0);
-  
-  // Show setup component if any module is not complete
-  if (needsSetup) {
+  // Check if setup is needed - show setup component if not complete
+  if (!isSetupComplete && setupData?.data) {
     return (
       <div className="p-6">
         <SetupComponent 

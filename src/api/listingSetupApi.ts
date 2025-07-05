@@ -10,12 +10,27 @@ export const fetchListingSetup = async (listingId: number): Promise<ListingSetup
 };
 
 export const useListingSetup = (listingId: number | null, enabled: boolean = true) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['listingSetup', listingId],
     queryFn: () => fetchListingSetup(listingId!),
     enabled: enabled && !!listingId,
-    refetchInterval: 30000, // Poll every 30 seconds
+    refetchInterval: (query) => {
+      // Stop polling if setup is complete (all values = 1)
+      if (query.state.data?.data && Object.values(query.state.data.data).every(value => value === 1)) {
+        return false; // Stop polling
+      }
+      return 30000; // Continue polling every 30 seconds
+    },
     refetchIntervalInBackground: true,
     staleTime: 0, // Always fetch fresh data
   });
+
+  // Calculate if setup is complete
+  const isSetupComplete = query.data?.data && 
+    Object.values(query.data.data).every(value => value === 1);
+
+  return {
+    ...query,
+    isSetupComplete
+  };
 };
