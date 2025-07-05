@@ -33,7 +33,10 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
   // Button click handlers
   const handleEditInfo = () => {
     if (overviewData?.placeId) {
-      window.open(`https://business.google.com/dashboard/location/${overviewData.placeId}/edit`, '_blank');
+      console.log('Edit Info - Place ID:', overviewData.placeId);
+      window.open(`https://business.google.com/dashboard/l/${overviewData.placeId}`, '_blank');
+    } else {
+      console.warn('Edit Info - No placeId available:', overviewData);
     }
   };
 
