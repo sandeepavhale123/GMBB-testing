@@ -64,7 +64,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
     <Card className="w-full border border-gray-200 shadow-sm">
       <CardContent className="p-6">
         {/* Header Section */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex flex-col-reverse gap-3 justify-between mb-6 lg:flex-row lg:items-center lg:gap-0">
           <div className="flex items-start gap-4">
             {/* Business Logo/Avatar - Updated with shadow and better image handling */}
             <div className="w-24 h-24 rounded-lg overflow-hidden shadow-md border border-gray-200">
@@ -149,7 +149,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             </div>
 
             {/* Visibility Section */}
-            <div className="w-64">
+            <div className="w-64 hidden lg:block">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-sm text-gray-500">Visibility</div>
                 <div className="text-sm font-medium text-gray-900">

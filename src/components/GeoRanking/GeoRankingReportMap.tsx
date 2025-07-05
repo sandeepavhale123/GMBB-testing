@@ -1,16 +1,19 @@
-import React, { useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { MapPin, Loader2, ZoomIn, ZoomOut } from 'lucide-react';
-import L from 'leaflet';
-import { RankDetail } from '../../api/geoRankingApi';
+import React, { useEffect, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { MapPin, Loader2, ZoomIn, ZoomOut } from "lucide-react";
+import L from "leaflet";
+import { RankDetail } from "../../api/geoRankingApi";
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 interface GeoRankingReportMapProps {
@@ -28,7 +31,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   rankDetails,
   pollingKeyword,
   loadingGrid,
-  onMarkerClick
+  onMarkerClick,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -36,16 +39,16 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   // Get rank color based on ranking
   const getRankColor = (rank: string): string => {
-    const rankNum = rank === '20+' ? 21 : parseInt(rank);
-    if (rankNum <= 3) return '#22c55e'; // Green
-    if (rankNum <= 10) return '#f59e0b'; // Yellow
-    if (rankNum <= 15) return '#f97316'; // Orange
-    return '#ef4444'; // Red
+    const rankNum = rank === "20+" ? 21 : parseInt(rank);
+    if (rankNum <= 3) return "#22c55e"; // Green
+    if (rankNum <= 10) return "#f59e0b"; // Yellow
+    if (rankNum <= 15) return "#f97316"; // Orange
+    return "#ef4444"; // Red
   };
 
   // Clear all markers
   const clearMarkers = () => {
-    markersRef.current.forEach(marker => {
+    markersRef.current.forEach((marker) => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.removeLayer(marker);
       }
@@ -72,13 +75,13 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       "></div>`,
-      className: 'default-business-marker',
+      className: "default-business-marker",
       iconSize: [40, 40],
-      iconAnchor: [20, 20]
+      iconAnchor: [20, 20],
     });
 
     const marker = L.marker([defaultCoordinates.lat, defaultCoordinates.lng], {
-      icon: defaultIcon
+      icon: defaultIcon,
     }).addTo(mapInstanceRef.current);
 
     marker.bindPopup(`
@@ -96,8 +99,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (!mapInstanceRef.current || gridCoordinates.length === 0) return;
 
     gridCoordinates.forEach((coord, index) => {
-      const [lat, lng] = coord.split(',').map(Number);
-      
+      const [lat, lng] = coord.split(",").map(Number);
+
       const gridIcon = L.divIcon({
         html: `<div style="
           background: #dc2626;
@@ -113,16 +116,18 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         "></div>`,
-        className: 'grid-marker',
+        className: "grid-marker",
         iconSize: [40, 40],
-        iconAnchor: [20, 20]
+        iconAnchor: [20, 20],
       });
 
       const marker = L.marker([lat, lng], {
-        icon: gridIcon
+        icon: gridIcon,
       }).addTo(mapInstanceRef.current!);
 
-      marker.bindPopup(`Grid Point ${index + 1}<br><small>Awaiting results...</small>`);
+      marker.bindPopup(
+        `Grid Point ${index + 1}<br><small>Awaiting results...</small>`
+      );
       markersRef.current.push(marker);
     });
   };
@@ -132,9 +137,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (!mapInstanceRef.current || !rankDetails) return;
 
     rankDetails.forEach((detail) => {
-      const [lat, lng] = detail.coordinate.split(',').map(Number);
+      const [lat, lng] = detail.coordinate.split(",").map(Number);
       const rankColor = getRankColor(detail.rank);
-      
+
       const rankIcon = L.divIcon({
         html: `<div style="
           background: ${rankColor};
@@ -151,13 +156,13 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
           cursor: pointer;
         ">${detail.rank}</div>`,
-        className: 'ranking-marker',
+        className: "ranking-marker",
         iconSize: [40, 40],
-        iconAnchor: [20, 20]
+        iconAnchor: [20, 20],
       });
 
       const marker = L.marker([lat, lng], {
-        icon: rankIcon
+        icon: rankIcon,
       }).addTo(mapInstanceRef.current!);
 
       marker.bindPopup(`
@@ -168,7 +173,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       `);
 
       // Add click handler for "Top Result" modal
-      marker.on('click', () => {
+      marker.on("click", () => {
         onMarkerClick(detail.coordinate, detail.positionId);
       });
 
@@ -205,20 +210,24 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   // Initialize map
   useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-    link.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
-    link.crossOrigin = '';
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    link.integrity = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
+    link.crossOrigin = "";
     document.head.appendChild(link);
 
     if (!mapRef.current || !defaultCoordinates) return;
 
-    const map = L.map(mapRef.current).setView([defaultCoordinates.lat, defaultCoordinates.lng], 14);
+    const map = L.map(mapRef.current).setView(
+      [defaultCoordinates.lat, defaultCoordinates.lng],
+      14
+    );
     mapInstanceRef.current = map;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
     return () => {
@@ -241,12 +250,12 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   const getTitle = () => {
     if (rankDetails && rankDetails.length > 0) {
-      return 'Keyword Ranking Results';
+      return "Keyword Ranking Results";
     }
     if (pollingKeyword) {
-      return 'Processing Keyword...';
+      return "Processing Keyword...";
     }
-    return 'Geo Ranking Map';
+    return "Geo Ranking Map";
   };
 
   return (
@@ -263,15 +272,19 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
             <div className="text-center bg-white p-6 rounded-lg shadow-lg border">
               <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
               <p className="text-sm font-medium text-gray-900 mb-1">
-                {pollingKeyword ? 'Processing Keyword Data' : 'Loading Map Data'}
+                {pollingKeyword
+                  ? "Processing Keyword Data"
+                  : "Loading Map Data"}
               </p>
               <p className="text-xs text-gray-500">
-                {pollingKeyword ? 'Analyzing search rankings...' : 'Generating grid coordinates...'}
+                {pollingKeyword
+                  ? "Analyzing search rankings..."
+                  : "Generating grid coordinates..."}
               </p>
             </div>
           </div>
         )}
-        
+
         {/* Zoom Controls */}
         <div className="absolute top-20 right-4 z-20 flex flex-col gap-2">
           <Button
@@ -297,7 +310,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         {/* Legend */}
         {rankDetails && rankDetails.length > 0 && (
           <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
-            <div className="text-xs font-medium text-gray-700 mb-2">Ranking Legend</div>
+            <div className="text-xs font-medium text-gray-700 mb-2">
+              Ranking Legend
+            </div>
             <div className="flex flex-col gap-1 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -318,8 +333,11 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
             </div>
           </div>
         )}
-        
-        <div ref={mapRef} className="w-full h-[330px] sm:h-[430px] lg:h-[600px]" />
+
+        <div
+          ref={mapRef}
+          className="w-full h-[330px] sm:h-[430px] lg:h-[600px] z-0"
+        />
       </CardContent>
     </Card>
   );
