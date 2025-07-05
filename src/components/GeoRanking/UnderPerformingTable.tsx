@@ -35,7 +35,7 @@ export const UnderPerformingTable: React.FC<UnderPerformingTableProps> = ({
   };
   return <Card className="bg-white shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">Under-Performing </CardTitle>
+        <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">Top Performance </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         {loading ? <div className="flex items-center justify-center py-8">
