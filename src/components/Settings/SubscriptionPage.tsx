@@ -500,6 +500,7 @@ export const SubscriptionPage: React.FC = () => {
             <Button
               variant="outline"
               className="border-blue-300 text-blue-700 hover:bg-blue-100"
+              onClick={() => window.open('https://gmbbriefcase.com/contact/', '_blank')}
             >
               Contact Sales
             </Button>
