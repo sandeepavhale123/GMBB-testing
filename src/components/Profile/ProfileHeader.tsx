@@ -105,7 +105,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     );
   }
 
-  const profileImage = profileData?.profilePic || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+  const profileImage = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
   const fullName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
 
   return (

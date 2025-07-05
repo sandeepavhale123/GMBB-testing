@@ -104,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         profileData.last_name?.charAt(0) || ""
       }`
     : "U";
-  const userProfilePic = profileData?.profilePic || null;
+  const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
   const planExpDate = profileData?.planExpDate || null;
 
   // Check if plan is expired using the subscription utility
@@ -251,7 +251,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title={collapsed ? userName : undefined}
           >
             <Avatar className={cn("w-8 h-8", collapsed ? "mx-auto" : "mr-3")}>
-              <AvatarImage src={userProfilePic || ""} />
+              <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
                 {userInitials}
               </AvatarFallback>
