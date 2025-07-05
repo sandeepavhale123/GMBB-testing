@@ -23,7 +23,7 @@ export const UserProfileDropdown: React.FC = () => {
   const userInitials = profileData ? 
     `${profileData.first_name?.charAt(0) || ''}${profileData.last_name?.charAt(0) || ''}` : 
     "U";
-  const userProfilePic = profileData?.profilePic || null;
+  const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
 
   return (
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
@@ -31,7 +31,7 @@ export const UserProfileDropdown: React.FC = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="p-0 rounded-full hover:bg-gray-100">
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
-              <AvatarImage src={userProfilePic || ''} />
+              <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">
                 {userInitials}
               </AvatarFallback>

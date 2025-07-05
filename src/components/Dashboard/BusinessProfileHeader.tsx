@@ -77,7 +77,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
             
             {/* Action buttons - Responsive */}
             <div className="flex flex-row sm:flex-col gap-2 sm:gap-3 lg:mt-6">
-              <Button 
+              {/* <Button 
                 variant="secondary" 
                 size="sm" 
                 className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
@@ -87,7 +87,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
                 <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Edit Info</span>
                 <span className="sm:hidden">Edit</span>
-              </Button>
+              </Button> */}
               <Button 
                 variant="secondary" 
                 size="sm" 

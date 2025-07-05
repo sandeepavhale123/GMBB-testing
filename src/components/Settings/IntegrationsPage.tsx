@@ -94,7 +94,7 @@ export const IntegrationsPage: React.FC = () => {
         );
         toast({
           title: "Success",
-          description: response.data.message || response.message,
+          description: response.data.message,
         });
       }
     } catch (error: any) {

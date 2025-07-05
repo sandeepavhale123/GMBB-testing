@@ -86,11 +86,6 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
             </div>
           </div>}
 
-        {/* Views counter */}
-        {!imageLoading && <div className="absolute top-2 left-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-          <Eye className="w-3 h-3" />
-          {views}
-        </div>}
 
         {/* Status badge */}
         {!imageLoading && <div className="absolute top-2 right-2">
@@ -130,7 +125,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         </div>
         
         <div className="text-xs text-gray-500 space-y-1">
-          <div>Uploaded: {uploadDate}</div>
+          <div>Uploaded: {new Date(uploadDate).toLocaleDateString()} at {new Date(uploadDate).toLocaleTimeString()}</div>
           
         </div>
       </div>

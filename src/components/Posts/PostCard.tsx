@@ -227,7 +227,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         <CardFooter className="p-4 pt-0 flex justify-between">
           <div className="flex items-center text-xs text-gray-500 mb-3">
             <Calendar className="w-3 h-3 mr-1" />
-            {formatPublishDate(post.publishDate)}
+            {post.status === 'scheduled' ? `Scheduled: ${formatPublishDate(post.publishDate)}` : formatPublishDate(post.publishDate)}
           </div>
           <div className="flex gap-1">
             <Button 

@@ -199,7 +199,7 @@ export const LoginForm = () => {
         </Button>
 
         {/* Signup Link */}
-        {/* <div className="text-center">
+        <div className="text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
             <button
@@ -210,7 +210,7 @@ export const LoginForm = () => {
               Sign up here
             </button>
           </p>
-        </div> */}
+        </div>
       </form>
 
       <ForgotPasswordModal

@@ -159,6 +159,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               <Progress
                 value={statistics?.visibility_score || 0}
                 className="h-2 bg-gray-200"
+                animated={false}
               />
             </div>
           </div>
