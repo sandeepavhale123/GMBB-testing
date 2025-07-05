@@ -32,8 +32,15 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
             variant="outline"
             className="bg-blue-50 text-blue-700 border-blue-200 h-4 min-h-min py-3"
           >
-            Available credits {credits.remainingCredit} /{" "}
-            {credits.allowedCredit}
+            {/* Hide "Available credits" below 500px */}
+            <span className="hidden [@media(min-width:500px)]:inline">
+              Available credits
+            </span>
+            {/* Show coin icon below 500px */}
+            <span className="inline [@media(min-width:500px)]:hidden mr-1">
+              🪙
+            </span>{" "}
+            {credits.remainingCredit} / {credits.allowedCredit}
           </Badge>
         )}
 
@@ -47,7 +54,9 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
           <RefreshCcw
             className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
           />
-          {isRefreshing ? "Refreshing..." : "Refresh"}
+          <span className="hidden [@media(min-width:500px)]:inline">
+            {isRefreshing ? "Refreshing..." : "Refresh"}
+          </span>
         </Button>
         <Button
           onClick={onClone}
@@ -56,7 +65,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
           className="flex items-center gap-2"
         >
           <Copy className="w-4 h-4" />
-          Clone
+          <span className="hidden [@media(min-width:500px)]:inline">Clone</span>
         </Button>
 
         <Button
