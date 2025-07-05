@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useListingContext } from '../../context/ListingContext';
-
 interface PostPreviewProps {
   data: {
     title: string;
@@ -12,6 +10,7 @@ interface PostPreviewProps {
     ctaUrl: string;
     image: File | string | null;
     platforms: string[];
+    scheduledDate?: string;
   };
 }
 
@@ -35,7 +34,6 @@ const ctaOptions = [{
   value: 'SIGN_UP',
   label: 'Sign Up'
 }];
-
 export const PostPreview: React.FC<PostPreviewProps> = ({
   data
 }) => {
@@ -78,7 +76,6 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     const option = ctaOptions.find(opt => opt.value === value);
     return option ? option.label : value;
   };
-
   const imageUrl = getImageUrl();
   return <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
@@ -92,7 +89,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           </Avatar>
           <div>
             <h4 className="font-medium text-sm">{getBusinessName()}</h4>
-            <p className="text-xs text-gray-500">2 hours ago</p>
+            <p className="text-xs text-gray-500">{data.scheduledDate || '2 hours ago'}</p>
           </div>
         </div>
       </div>
@@ -130,14 +127,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
 
       {/* Platform Tags */}
       {data.platforms.length > 0 && <div className="px-4 pb-4">
-          <div className="flex flex-wrap gap-1">
-            {data.platforms.slice(0, 3).map((platform, idx) => <span key={idx} className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
-                {platform}
-              </span>)}
-            {data.platforms.length > 3 && <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                +{data.platforms.length - 3} more
-              </span>}
-          </div>
+          
         </div>}
     </div>;
 };

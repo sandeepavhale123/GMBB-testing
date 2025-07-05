@@ -5,6 +5,7 @@ import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
 import { GeoPositionModal } from './GeoPositionModal';
 import { ProcessingKeywordsAlert } from './ProcessingKeywordsAlert';
+import { GeoRankingEmptyState } from './GeoRankingEmptyState';
 import { Card, CardContent } from '../ui/card';
 import { ListingLoader } from '../ui/listing-loader';
 import { useGeoRanking } from '../../hooks/useGeoRanking';
@@ -116,6 +117,14 @@ export const GeoRankingPage = () => {
     navigate('/geo-ranking-report');
   }, [navigate]);
 
+  const handleCheckRank = useCallback(() => {
+    if (numericListingId) {
+      navigate(`/geo-ranking-report/${numericListingId}`);
+    } else {
+      navigate('/geo-ranking-report');
+    }
+  }, [navigate, numericListingId]);
+
   const handleClone = useCallback(() => {
     if (!selectedKeyword) return;
     
@@ -150,6 +159,18 @@ export const GeoRankingPage = () => {
   // Show page loader on initial load - after all hooks
   if (pageLoading) {
     return <ListingLoader isLoading={true} children={null} />;
+  }
+
+  // Show empty state when no keywords exist
+  if (keywords.length === 0 && !keywordsLoading) {
+    return (
+      <div className="mx-auto bg-gray-50 min-h-screen">
+        <GeoRankingEmptyState 
+          onCheckRank={handleCheckRank}
+          credits={credits}
+        />
+      </div>
+    );
   }
   
   const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);

@@ -6,12 +6,18 @@ import { CheckCircle, Clock, MessageSquare } from 'lucide-react';
 import { useAppSelector } from '../../hooks/useRedux';
 import { useListingContext } from '@/context/ListingContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useOverviewData } from '../../api/overviewApi';
+import { Skeleton } from '../ui/skeleton';
 
 export const QACard: React.FC = () => {
   const { qaStats } = useAppSelector((state) => state.dashboard);
   const { selectedListing } = useListingContext();
   const { listingId } = useParams();
   const navigate = useNavigate();
+  
+  const { data: overviewData, loading } = useOverviewData(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
 
   const handleViewQA = () => {
     if (listingId) {
@@ -25,12 +31,19 @@ export const QACard: React.FC = () => {
     }
   };
 
+  const totalQuestions = overviewData?.totalQuestion || 0;
+  const totalAnswers = overviewData?.totalAnswer || 0;
+  const pendingQuestions = totalQuestions - totalAnswers;
+  const responseRate = totalQuestions > 0 ? Math.round((totalAnswers / totalQuestions) * 100) : 0;
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold">Questions & Answers</CardTitle>
-          <span className="text-sm font-medium text-muted-foreground">{qaStats.responseRate}% response rate</span>
+          <span className="text-sm font-medium text-muted-foreground">
+            {loading ? <Skeleton className="h-4 w-16" /> : `${responseRate}% response rate`}
+          </span>
         </div>
         {selectedListing && (
           <p className="text-sm text-gray-500">For {selectedListing.name}</p>
@@ -47,7 +60,11 @@ export const QACard: React.FC = () => {
               <p className="font-medium text-sm text-gray-900">Answered</p>
               <p className="text-xs text-muted-foreground">Questions responded to</p>
             </div>
-            <span className="text-2xl font-bold text-green-600">{qaStats.answered}</span>
+            {loading ? (
+              <Skeleton className="h-8 w-12" />
+            ) : (
+              <span className="text-2xl font-bold text-green-600">{totalAnswers}</span>
+            )}
           </div>
 
           <div className="flex items-center gap-4 p-3 rounded-lg bg-yellow-50">
@@ -58,7 +75,11 @@ export const QACard: React.FC = () => {
               <p className="font-medium text-sm text-gray-900">Pending</p>
               <p className="text-xs text-muted-foreground">Awaiting response</p>
             </div>
-            <span className="text-2xl font-bold text-yellow-600">{qaStats.pending}</span>
+            {loading ? (
+              <Skeleton className="h-8 w-12" />
+            ) : (
+              <span className="text-2xl font-bold text-yellow-600">{pendingQuestions}</span>
+            )}
           </div>
         </div>
 

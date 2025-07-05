@@ -36,6 +36,9 @@ import {
   fetchInsightsSummary,
   fetchVisibilityTrends,
 } from "../../store/slices/insightsSlice";
+import { useOverviewData } from "../../api/overviewApi";
+import { useListingSetup } from "../../api/listingSetupApi";
+import { SetupComponent } from "./SetupComponent";
 import { useNavigate } from "react-router-dom";
 
 // Lazy load heavy components for better performance
@@ -87,6 +90,14 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { listings } = useListingContext();
 
+  const { data: setupData, isLoading: isLoadingSetup, isSetupComplete } = useListingSetup(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
+
+  const { data: overviewData } = useOverviewData(
+    isSetupComplete && selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
+
   const dispatch = useAppDispatch();
   const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } =
     useAppSelector((state) => state.insights);
@@ -108,18 +119,8 @@ export const Dashboard: React.FC = () => {
     }
   }, [activeTab, selectedListing?.id, insightsDateRange, dispatch]);
 
-  const scheduledPost = {
-    id: "1",
-    title: "Weekend Special Offer",
-    content:
-      "Join us this weekend for 20% off all menu items! Perfect time to try our seasonal specialties.",
-    image: null,
-    scheduledDate: "2024-06-12 10:00 AM",
-    platforms: ["Google My Business", "Facebook"],
-  };
-
-  const handleApprovePost = () => {
-    setSelectedPost(scheduledPost);
+  const handleApprovePost = (post: any) => {
+    setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
 
@@ -165,6 +166,18 @@ export const Dashboard: React.FC = () => {
     );
   }
 
+  // Check if setup is needed - show setup component if not complete
+  if (!isSetupComplete && setupData?.data) {
+    return (
+      <div className="p-6">
+        <SetupComponent 
+          setupData={setupData.data} 
+          isLoading={isLoadingSetup}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Top Section - Responsive grid layout */}
@@ -172,7 +185,7 @@ export const Dashboard: React.FC = () => {
         {/* Business Overview + Performance Overview - Responsive columns */}
         <div className="xl:col-span-8 space-y-4 sm:space-y-6">
           {/* Business Profile Header */}
-          <BusinessProfileHeader />
+          <BusinessProfileHeader overviewData={overviewData} />
 
           {/* Enhanced Stats Cards */}
           <EnhancedStatsCards />
@@ -190,14 +203,14 @@ export const Dashboard: React.FC = () => {
               {/* Responsive Circular Progress */}
               <div className="flex items-center justify-center">
                 <CircularProgress
-                  value={78}
+                  value={overviewData?.healthScore || 0}
                   size={100}
                   strokeWidth={6}
                   className="text-blue-400 sm:w-[120px] sm:h-[120px]"
                 >
                   <div className="text-center">
                     <span className="text-2xl sm:text-3xl font-bold text-black">
-                      78
+                      {overviewData?.healthScore || 0}
                     </span>
                   </div>
                 </CircularProgress>
@@ -206,10 +219,15 @@ export const Dashboard: React.FC = () => {
               {/* Time left section */}
               <div className="text-center space-y-1">
                 <p className="text-xs sm:text-sm text-black">
-                  Optimization level is healthy
+                  {(overviewData?.healthScore || 0) >= 75 
+                    ? "Optimization level is excellent"
+                    : (overviewData?.healthScore || 0) >= 50
+                    ? "Optimization level is healthy"
+                    : "Optimization needs improvement"
+                  }
                 </p>
                 <p className="text-blue-400 font-medium text-sm sm:text-base">
-                  75% optimized
+                  {overviewData?.healthScore || 0}% optimized
                 </p>
               </div>
 
@@ -353,7 +371,8 @@ export const Dashboard: React.FC = () => {
                 ctaButton: "",
                 ctaUrl: "",
                 image: selectedPost.image,
-                platforms: selectedPost.platforms,
+                platforms: [],
+                scheduledDate: selectedPost.scheduledDate,
               }}
             />
           )}
@@ -364,12 +383,6 @@ export const Dashboard: React.FC = () => {
               className="w-full sm:w-auto text-sm"
             >
               Close
-            </Button>
-            <Button
-              className="bg-green-600 hover:bg-green-700 w-full sm:w-auto text-sm"
-              onClick={() => setIsCreateModalOpen(true)}
-            >
-              Edit
             </Button>
           </DialogFooter>
         </DialogContent>
