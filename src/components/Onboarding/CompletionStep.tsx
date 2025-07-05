@@ -33,12 +33,16 @@ const CompletionStep = ({ onComplete }: CompletionStepProps) => {
           or schedule a free onboarding call.
         </p>
         <div className="flex gap-3">
-          <a href="https://support.gmbbriefcase.com/help-center" target="_blank" variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-100">
-            View Help Center
-          </a>
-          <a href="https://calendly.com/shripad" target="_blank" variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-100">
-            Schedule Onboarding Call
-          </a>
+          <Button variant="outline" asChild className="border-blue-300 text-blue-700 hover:bg-blue-100">
+            <a href="https://support.gmbbriefcase.com/help-center" target="_blank">
+              View Help Center
+            </a>
+          </Button>
+          <Button variant="outline" asChild className="border-blue-300 text-blue-700 hover:bg-blue-100">
+            <a href="https://calendly.com/shripad" target="_blank">
+              Schedule Onboarding Call
+            </a>
+          </Button>
         </div>
       </div>
 
