@@ -64,10 +64,6 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
               {/* Status indicators - Responsive layout */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-purple-100">Verified</span>
-                </div>
-                <div className="flex items-center gap-2">
                   <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
                   <span className="text-purple-100">{listingAddress}</span>
                 </div>
@@ -76,29 +72,37 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
             </div>
             
             {/* Action buttons - Responsive */}
-            <div className="flex flex-row sm:flex-col gap-2 sm:gap-3 lg:mt-6">
-              {/* <Button 
-                variant="secondary" 
-                size="sm" 
-                className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
-                onClick={handleEditInfo}
-                disabled={!overviewData?.placeId}
-              >
-                <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Edit Info</span>
-                <span className="sm:hidden">Edit</span>
-              </Button> */}
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
-                onClick={handleViewOnGoogle}
-                disabled={!overviewData?.placeId}
-              >
-                <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">View on Google</span>
-                <span className="sm:hidden">View</span>
-              </Button>
+            <div className="flex flex-col gap-2 sm:gap-3 lg:mt-6">
+              {/* Verified status */}
+              <div className="flex items-center justify-end gap-2 text-xs sm:text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span className="text-purple-100">Verified</span>
+              </div>
+              
+              <div className="flex flex-row sm:flex-col gap-2 sm:gap-3">
+                {/* <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
+                  onClick={handleEditInfo}
+                  disabled={!overviewData?.placeId}
+                >
+                  <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Edit Info</span>
+                  <span className="sm:hidden">Edit</span>
+                </Button> */}
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
+                  onClick={handleViewOnGoogle}
+                  disabled={!overviewData?.placeId}
+                >
+                  <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">View on Google</span>
+                  <span className="sm:hidden">View</span>
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
