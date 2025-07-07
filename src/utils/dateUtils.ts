@@ -23,9 +23,7 @@ export const formatDateForDisplay = (utcDate: string): string => {
 export const convertToBackendDateFormat = (localDateTime: string): string => {
   if (!localDateTime) return '';
   
-  // Backend expects "YYYY-MM-DDTHH:MM:SS" format
-  // datetime-local gives us "YYYY-MM-DDTHH:MM", so we need to add ":00" for seconds
-  return localDateTime.includes(':') && localDateTime.split(':').length === 2 
-    ? localDateTime + ':00' 
-    : localDateTime;
+  // Backend expects "YYYY-MM-DDTHH:MM" format (e.g., "2025-07-08T13:16")
+  // datetime-local already gives us this format, so return as-is
+  return localDateTime;
 };

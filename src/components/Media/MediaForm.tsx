@@ -65,7 +65,7 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   ];
 
   const handleScheduleDateChange = (localDateTime: string) => {
-    // Convert to backend expected format (YYYY-MM-DDTHH:MM:SS)
+    // Convert to backend expected format (YYYY-MM-DDTHH:MM)
     const backendDateTime = convertToBackendDateFormat(localDateTime);
     onChange({ scheduleDate: backendDateTime });
   };
@@ -75,9 +75,8 @@ export const MediaForm: React.FC<MediaFormProps> = ({
     if (!formData.scheduleDate) return '';
     
     try {
-      // Remove seconds if present to match datetime-local input format
-      const dateTimeWithoutSeconds = formData.scheduleDate.replace(/:\d{2}$/, '');
-      return dateTimeWithoutSeconds;
+      // Format is already "YYYY-MM-DDTHH:MM", return as-is
+      return formData.scheduleDate;
     } catch (error) {
       return '';
     }
