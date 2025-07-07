@@ -35,8 +35,7 @@ export interface MediaListItem {
   googleUrl: string;
   category: string;
   insights: number;
-  postdate: string;
-  posttime: string;
+  publishDate: string;
   status: string;
   media_type: string;
 }

@@ -53,12 +53,8 @@ export const MediaPage: React.FC = () => {
 
   // Map API response to MediaItem format
   const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
-    // Combine postdate and posttime for scheduled items
-    let combinedDateTime = apiItem.postdate;
-    if (apiItem.posttime && apiItem.status === 'Schedule') {
-      // Combine date and time: "2025-07-08" + "T" + "13:16" = "2025-07-08T13:16"
-      combinedDateTime = `${apiItem.postdate}T${apiItem.posttime.substring(0, 5)}`;
-    }
+    // Use publishDate directly from the API
+    const publishDate = apiItem.publishDate;
 
     return {
       id: apiItem.id,
@@ -66,7 +62,7 @@ export const MediaPage: React.FC = () => {
       views: `${apiItem.insights || 0}`,
       type: apiItem.media_type === 'image' ? 'image' : 'video',
       url: apiItem.googleUrl,
-      uploadDate: combinedDateTime,
+      uploadDate: publishDate,
       size: '2.1 MB', // API doesn't provide size, using placeholder
       status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'Schedule' : 'Failed',
       category: apiItem.category.toLowerCase(),
