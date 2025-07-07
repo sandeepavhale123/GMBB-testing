@@ -56,8 +56,8 @@ export const MediaPage: React.FC = () => {
     // Combine postdate and posttime for scheduled items
     let combinedDateTime = apiItem.postdate;
     if (apiItem.posttime && apiItem.status === 'Schedule') {
-      // Combine date and time: "2025-07-08" + "T" + "13:16:00" = "2025-07-08T13:16:00"
-      combinedDateTime = `${apiItem.publishDate}`;
+      // Combine date and time: "2025-07-08" + "T" + "13:16" = "2025-07-08T13:16"
+      combinedDateTime = `${apiItem.postdate}T${apiItem.posttime.substring(0, 5)}`;
     }
 
     return {
