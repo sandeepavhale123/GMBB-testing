@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { Calendar, Clock, Globe } from 'lucide-react';
-import { convertLocalDateTimeToUTC } from '../../utils/dateUtils';
+import { convertToBackendDateFormat } from '../../utils/dateUtils';
 import { useProfile } from '../../hooks/useProfile';
 
 interface MediaFormProps {
@@ -65,25 +65,19 @@ export const MediaForm: React.FC<MediaFormProps> = ({
   ];
 
   const handleScheduleDateChange = (localDateTime: string) => {
-    // Convert local datetime to UTC and store
-    const utcDateTime = convertLocalDateTimeToUTC(localDateTime);
-    onChange({ scheduleDate: utcDateTime });
+    // Convert to backend expected format (YYYY-MM-DDTHH:MM:SS)
+    const backendDateTime = convertToBackendDateFormat(localDateTime);
+    onChange({ scheduleDate: backendDateTime });
   };
 
-  // Convert UTC back to local for display in the input
+  // Convert stored date back to local for display in the input
   const getLocalDateTimeValue = (): string => {
     if (!formData.scheduleDate) return '';
     
     try {
-      const utcDate = new Date(formData.scheduleDate);
-      // Format for datetime-local input (YYYY-MM-DDTHH:MM)
-      const year = utcDate.getFullYear();
-      const month = String(utcDate.getMonth() + 1).padStart(2, '0');
-      const day = String(utcDate.getDate()).padStart(2, '0');
-      const hours = String(utcDate.getHours()).padStart(2, '0');
-      const minutes = String(utcDate.getMinutes()).padStart(2, '0');
-      
-      return `${year}-${month}-${day}T${hours}:${minutes}`;
+      // Remove seconds if present to match datetime-local input format
+      const dateTimeWithoutSeconds = formData.scheduleDate.replace(/:\d{2}$/, '');
+      return dateTimeWithoutSeconds;
     } catch (error) {
       return '';
     }
