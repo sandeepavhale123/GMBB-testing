@@ -33,7 +33,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
             className="bg-blue-50 text-blue-700 border-blue-200 h-4 min-h-min py-3"
           >
             {/* Hide "Available credits" below 500px */}
-            <span className="hidden [@media(min-width:500px)]:inline">
+            <span className="hidden [@media(min-width:500px)]:inline mr-2 me-2">
               Available credits
             </span>
             {/* Show coin icon below 500px */}
