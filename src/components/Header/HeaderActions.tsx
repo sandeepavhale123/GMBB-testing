@@ -17,7 +17,7 @@ export const HeaderActions: React.FC = () => {
         <span className="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full"></span>
       </Button>
 
-      <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 hidden sm:flex">
+      <Button variant="ghost" size="sm" className="hover:bg-gray-100 p-2 hidden">
         <Settings className="w-4 h-4 text-gray-600" />
       </Button>
     </>;
