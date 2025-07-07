@@ -82,20 +82,11 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
             <p className="text-sm text-gray-500">{topKeywordQueryError}</p>
           </div> : topKeywordQuery?.Monthdata && topKeywordQuery.Monthdata.length > 0 ? <ScrollArea className="h-[400px]">
             <div className="space-y-4 pr-4">
-              {topKeywordQuery.Monthdata.map((query, index) => <div key={query.id} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-gray-900">{query.keyword}</span>
-                      <TrendingUp className="w-4 h-4 text-green-600" />
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span>{query.impressions} impressions</span>
-                      
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">#{index + 1}</div>
-                  </div>
+              {topKeywordQuery.Monthdata.map((query) => <div key={query.id} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <span className="text-sm font-medium text-gray-900">{query.keyword}</span>
+                  <span className="text-sm text-gray-600">
+                    {parseInt(query.impressions) > 15 ? query.impressions : '< 15'}
+                  </span>
                 </div>)}
             </div>
           </ScrollArea> : <div className="text-center py-8">
