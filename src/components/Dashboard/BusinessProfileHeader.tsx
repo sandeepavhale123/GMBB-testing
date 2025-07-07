@@ -72,7 +72,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
             </div>
             
             {/* Action buttons - Responsive */}
-            <div className="flex flex-col gap-2 sm:gap-3 lg:mt-6">
+            <div className="flex flex-col gap-2 sm:gap-3 lg:mt-1">
               {/* Verified status */}
               <div className="flex items-center justify-end gap-2 text-xs sm:text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
