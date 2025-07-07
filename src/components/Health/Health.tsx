@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import {
   HeartPulse,
-  Upload,
+  RefreshCcw,
   Star,
   Camera,
   FileText,
@@ -46,7 +46,7 @@ export const Health: React.FC = () => {
           onClick={refreshHealthReport}
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          <Upload className="w-4 h-4 mr-2" />
+          <RefreshCcw className="w-4 h-4 mr-2" />
           Refresh Health Report
         </Button>
       </div>
