@@ -61,14 +61,7 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
                 <p className="text-sm sm:text-base text-purple-100">Here's the summary for: "{listingName}"</p>
               </div>
               
-              {/* Status indicators - Responsive layout */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
-                  <span className="text-purple-100">{listingAddress}</span>
-                </div>
-                
-              </div>
+              
             </div>
             
             {/* Action buttons - Responsive */}
@@ -80,17 +73,6 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
               </div>
               
               <div className="flex flex-row sm:flex-col gap-2 sm:gap-3">
-                {/* <Button 
-                  variant="secondary" 
-                  size="sm" 
-                  className="bg-white/20 hover:bg-white/30 text-white border-0 flex-1 sm:flex-none text-xs sm:text-sm"
-                  onClick={handleEditInfo}
-                  disabled={!overviewData?.placeId}
-                >
-                  <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">Edit Info</span>
-                  <span className="sm:hidden">Edit</span>
-                </Button> */}
                 <Button 
                   variant="secondary" 
                   size="sm" 
@@ -105,6 +87,13 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
               </div>
             </div>
           </div>
+          {/* Status indicators - Responsive layout */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
+                  <span className="text-purple-100">{listingAddress}</span>
+                </div>
+              </div>
         </CardContent>
       </Card>
     </div>;
