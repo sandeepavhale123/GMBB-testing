@@ -161,7 +161,7 @@ export const SubscriptionPage: React.FC = () => {
   console.log("active plan id", activePlanId);
   const hasActivePlan = () => {
     return (
-      typeof activePlanId === "string" && activePlanId !== "0" && !isExpired
+      typeof activePlanId === "string" && activePlanId > "50" && !isExpired
     );
   };
   console.log("Has active plan", hasActivePlan());
