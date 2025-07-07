@@ -101,8 +101,8 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
                       <TrendingUp className="w-4 h-4 text-green-600" />
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span>{query.impressions} impressions</span>
-                      <span className="text-xs">Updated: {new Date(query.fetched_at).toLocaleDateString()}</span>
+                      <span>{query.impressions}</span>
+                      <span className="text-xs">Updated: {new Date(query.fetched_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                     </div>
                   </div>
                   <div className="text-right">
