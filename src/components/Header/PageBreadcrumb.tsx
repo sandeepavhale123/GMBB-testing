@@ -60,6 +60,10 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'GEO Ranking', path: '/geo-ranking' },
     { title: 'Report', path: '/geo-ranking-report' }
   ],
+  '/health': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'GMB Health', path: '/health' }
+  ],
   '/analytics': [
     { title: 'Dashboard', path: '/' },
     { title: 'Analytics', path: '/analytics' }
