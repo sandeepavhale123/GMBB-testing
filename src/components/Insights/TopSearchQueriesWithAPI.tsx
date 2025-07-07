@@ -106,7 +106,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">#{index + 1}</div>
+                    <div className="text-lg font-bold text-gray-900">{query.impressions}</div>
                   </div>
                 </div>
               ))}
