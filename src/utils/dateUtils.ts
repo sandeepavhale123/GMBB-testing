@@ -27,3 +27,21 @@ export const convertToBackendDateFormat = (localDateTime: string): string => {
   // datetime-local already gives us this format, so return as-is
   return localDateTime;
 };
+
+export const formatScheduledDate = (dateString: string): string => {
+  if (!dateString) return '';
+  
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  } catch (error) {
+    return dateString;
+  }
+};

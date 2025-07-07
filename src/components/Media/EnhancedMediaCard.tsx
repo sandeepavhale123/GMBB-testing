@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from '../ui/badge';
 import { Loader } from '../ui/loader';
 import { MoreVertical, Eye, Edit, Trash2, Download, Star, Play, FileImage } from 'lucide-react';
+import { formatScheduledDate } from '../../utils/dateUtils';
 
 interface MediaCardProps {
   id: string;
@@ -15,6 +16,7 @@ interface MediaCardProps {
   uploadDate: string;
   status: 'Live' | 'Schedule' | 'Failed';
   views: string;
+  isScheduled?: boolean;
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -35,6 +37,7 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
   uploadDate,
   status,
   views,
+  isScheduled = false,
   onView,
   onEdit,
   onDelete,
@@ -125,8 +128,10 @@ export const EnhancedMediaCard: React.FC<MediaCardProps> = ({
         </div>
         
         <div className="text-xs text-gray-500 space-y-1">
-          <div>Uploaded: {new Date(uploadDate).toLocaleDateString()} at {new Date(uploadDate).toLocaleTimeString()}</div>
-          
+          <div>
+            {isScheduled ? 'Scheduled for: ' : 'Uploaded: '}
+            {formatScheduledDate(uploadDate)}
+          </div>
         </div>
       </div>
     </Card>;

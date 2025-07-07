@@ -23,6 +23,7 @@ interface MediaItem {
   size: string;
   status: 'Live' | 'Schedule' | 'Failed';
   category: string;
+  isScheduled: boolean;
 }
 
 export const MediaPage: React.FC = () => {
@@ -52,16 +53,24 @@ export const MediaPage: React.FC = () => {
 
   // Map API response to MediaItem format
   const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
+    // Combine postdate and posttime for scheduled items
+    let combinedDateTime = apiItem.postdate;
+    if (apiItem.posttime && apiItem.status === 'Schedule') {
+      // Combine date and time: "2025-07-08" + "T" + "13:16:00" = "2025-07-08T13:16:00"
+      combinedDateTime = `${apiItem.postdate}T${apiItem.posttime}`;
+    }
+
     return {
       id: apiItem.id,
       name: apiItem.category.charAt(0).toUpperCase() + apiItem.category.slice(1).toLowerCase(),
       views: `${apiItem.insights || 0}`,
       type: apiItem.media_type === 'image' ? 'image' : 'video',
       url: apiItem.googleUrl,
-      uploadDate: apiItem.postdate,
+      uploadDate: combinedDateTime,
       size: '2.1 MB', // API doesn't provide size, using placeholder
       status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'Schedule' : 'Failed',
-      category: apiItem.category.toLowerCase()
+      category: apiItem.category.toLowerCase(),
+      isScheduled: apiItem.status === 'Schedule'
     };
   };
 
