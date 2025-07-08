@@ -27,20 +27,8 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
   return (
     <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div className="px-4 sm:px-6 py-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center justify-end sm:justify-between">
-            {/* Mobile Menu Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="sm:hidden"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
-          </div>
-          
-          {/* Desktop Tabs - Right Aligned */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          {/* Desktop Tabs - Left Aligned */}
           <div className="hidden sm:flex">
             <div className="flex space-x-8 -mb-[1px]">
               {tabs.map((tab) => (
@@ -57,6 +45,18 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
                 </Link>
               ))}
             </div>
+          </div>
+          
+          <div className="flex items-center justify-end sm:justify-end ml-auto">
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="sm:hidden"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
+              {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </Button>
           </div>
         </div>
         
