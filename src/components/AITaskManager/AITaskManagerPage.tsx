@@ -316,13 +316,11 @@ export const AITaskManagerPage: React.FC = () => {
 
       {/* Filter Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all">All Tasks</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="in-progress">Active</TabsTrigger>
           <TabsTrigger value="completed">Completed</TabsTrigger>
           <TabsTrigger value="recurring">Recurring</TabsTrigger>
-          <TabsTrigger value="high-priority">High Priority</TabsTrigger>
         </TabsList>
 
         <TabsContent value={activeTab} className="space-y-4">
