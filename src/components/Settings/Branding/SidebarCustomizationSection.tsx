@@ -48,10 +48,10 @@ const SidebarPreview: React.FC<{ theme: typeof sidebarThemes[0]; isSelected: boo
   const menuItems = ['Overview', 'Posts', 'Media', 'Insights', 'GEO Ranking'];
   
   return (
-    <div className="w-full h-32 rounded-lg border-2 overflow-hidden relative" 
+    <div className="w-full h-32 rounded-lg border overflow-hidden relative" 
          style={{ 
            backgroundColor: theme.bgColor,
-           borderColor: isSelected ? '#2563eb' : '#e5e7eb'
+           borderColor: '#e5e7eb'
          }}>
       {/* Logo Area */}
       <div className="p-2 border-b border-black/10">
@@ -111,7 +111,15 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
         <RadioGroup value={selectedTheme} onValueChange={handleThemeChange}>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {sidebarThemes.map((theme) => (
-              <div key={theme.id} className="space-y-2">
+              <div 
+                key={theme.id} 
+                className={`space-y-2 rounded-lg p-3 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                  selectedTheme === theme.id 
+                    ? 'border-2 border-blue-400 bg-blue-50' 
+                    : 'border-2 border-transparent hover:border-gray-200'
+                }`}
+                onClick={() => handleThemeChange(theme.id)}
+              >
                 <div className="relative">
                   <SidebarPreview 
                     theme={theme} 
@@ -120,12 +128,13 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
                   <RadioGroupItem
                     value={theme.id}
                     id={theme.id}
-                    className="absolute top-2 right-2 bg-white"
+                    className="absolute top-2 right-2 bg-white pointer-events-none"
+                    checked={selectedTheme === theme.id}
                   />
                 </div>
                 <Label 
                   htmlFor={theme.id} 
-                  className="text-sm font-medium text-center cursor-pointer block"
+                  className="text-sm font-medium text-center cursor-pointer block pointer-events-none"
                 >
                   {theme.label}
                 </Label>
