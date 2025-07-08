@@ -14,8 +14,10 @@ import {
   MessageSquare,
   FileText,
   BarChart3,
-  Zap
+  Zap,
+  X
 } from 'lucide-react';
+import { PageBreadcrumb } from '../Header/PageBreadcrumb';
 
 interface Task {
   id: string;
@@ -120,6 +122,7 @@ const categoryIcons = {
 export const AITaskManagerPage: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
   const [activeTab, setActiveTab] = useState('all');
+  const [showHighPriorityAlert, setShowHighPriorityAlert] = useState(true);
 
   const handleMarkCompleted = (taskId: string) => {
     setTasks(tasks.map(task => 
@@ -223,45 +226,62 @@ export const AITaskManagerPage: React.FC = () => {
   const pendingCount = tasks.filter(t => t.status === 'pending').length;
   const inProgressCount = tasks.filter(t => t.status === 'in-progress').length;
   const completedCount = tasks.filter(t => t.status === 'completed').length;
+  const oneTimeCount = tasks.filter(t => t.type === 'one-time').length;
+  const recurringCount = tasks.filter(t => t.type === 'recurring').length;
   const highPriorityCount = tasks.filter(t => t.priority === 'high' && t.status !== 'completed').length;
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">AI Task Manager</h1>
-          <p className="text-gray-600 mt-1">
-            Optimize your Google My Business presence with AI-powered recommendations
-          </p>
-        </div>
-        
-        {/* Quick Stats */}
-        <div className="flex gap-4 text-sm">
-          <div className="text-center">
-            <div className="font-semibold text-yellow-600">{pendingCount}</div>
-            <div className="text-gray-500">Pending</div>
-          </div>
-          <div className="text-center">
-            <div className="font-semibold text-blue-600">{inProgressCount}</div>
-            <div className="text-gray-500">Active</div>
-          </div>
-          <div className="text-center">
-            <div className="font-semibold text-green-600">{completedCount}</div>
-            <div className="text-gray-500">Done</div>
-          </div>
-        </div>
+      {/* Breadcrumb */}
+      <PageBreadcrumb />
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-blue-600">{oneTimeCount}</div>
+            <div className="text-sm text-gray-600">One-time Tasks</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-purple-600">{recurringCount}</div>
+            <div className="text-sm text-gray-600">Recurring Tasks</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-yellow-600">{pendingCount}</div>
+            <div className="text-sm text-gray-600">Pending Tasks</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-green-600">{completedCount}</div>
+            <div className="text-sm text-gray-600">Completed Tasks</div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* High Priority Alert */}
-      {highPriorityCount > 0 && (
+      {highPriorityCount > 0 && showHighPriorityAlert && (
         <Card className="border-red-200 bg-red-50">
           <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-              <span className="text-red-800 font-medium">
-                {highPriorityCount} high-priority task{highPriorityCount > 1 ? 's' : ''} need{highPriorityCount === 1 ? 's' : ''} attention
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <span className="text-red-800 font-medium">
+                  {highPriorityCount} high-priority task{highPriorityCount > 1 ? 's' : ''} need{highPriorityCount === 1 ? 's' : ''} attention
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHighPriorityAlert(false)}
+                className="text-red-600 hover:text-red-800 hover:bg-red-100"
+              >
+                <X className="w-4 h-4" />
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -280,7 +300,7 @@ export const AITaskManagerPage: React.FC = () => {
 
         <TabsContent value={activeTab} className="space-y-4">
           {filteredTasks.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-4">
               {filteredTasks.map(task => (
                 <TaskCard key={task.id} task={task} />
               ))}
