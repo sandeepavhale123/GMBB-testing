@@ -112,7 +112,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const fullName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
   
   const handleManageSubscription = () => {
-    navigate('/settings?tab=subscription');
+    navigate('/settings/subscription');
   };
 
   // Format plan expiry date
