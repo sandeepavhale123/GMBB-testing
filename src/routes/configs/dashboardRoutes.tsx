@@ -18,9 +18,27 @@ export const dashboardRoutes: RouteConfig[] = [
     )
   },
   
+  // AI Tasks route
+  {
+    path: "/ai-tasks/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    )
+  },
+  
   // Redirect /location-dashboard to default
   {
     path: "/location-dashboard",
     element: <Navigate to="/location-dashboard/default" replace />
+  },
+  
+  // Redirect /ai-tasks to default
+  {
+    path: "/ai-tasks",
+    element: <Navigate to="/ai-tasks/default" replace />
   }
 ];
