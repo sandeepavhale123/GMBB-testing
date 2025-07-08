@@ -181,6 +181,50 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     });
   };
 
+  // Calculate optimal zoom and center
+  const calculateOptimalView = () => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    let allCoordinates: [number, number][] = [];
+    
+    // Always include default coordinates
+    allCoordinates.push([defaultCoordinates.lat, defaultCoordinates.lng]);
+    
+    // Add ranking coordinates if available
+    if (rankDetails && rankDetails.length > 0) {
+      rankDetails.forEach(detail => {
+        const [lat, lng] = detail.coordinate.split(",").map(Number);
+        allCoordinates.push([lat, lng]);
+      });
+    } else if (gridCoordinates.length > 0) {
+      // Add grid coordinates
+      gridCoordinates.forEach(coord => {
+        const [lat, lng] = coord.split(",").map(Number);
+        allCoordinates.push([lat, lng]);
+      });
+    }
+
+    if (allCoordinates.length > 1) {
+      // Use fitBounds for multiple coordinates
+      const bounds = L.latLngBounds(allCoordinates);
+      mapInstanceRef.current.fitBounds(bounds, {
+        padding: [20, 20],
+        maxZoom: 16
+      });
+    } else {
+      // Single coordinate - use distance-based zoom
+      const zoom = getZoomForDistance();
+      mapInstanceRef.current.setView([defaultCoordinates.lat, defaultCoordinates.lng], zoom);
+    }
+  };
+
+  // Calculate zoom based on distance settings
+  const getZoomForDistance = (): number => {
+    // This would need access to distance settings from props
+    // For now, return a reasonable default
+    return 14;
+  };
+
   // Update markers based on current state
   const updateMarkers = () => {
     clearMarkers();
@@ -193,6 +237,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       // Show grid points when coordinates exist
       addGridMarkers();
     }
+
+    // Auto-adjust view after markers are added
+    setTimeout(() => calculateOptimalView(), 100);
   };
 
   // Zoom controls
