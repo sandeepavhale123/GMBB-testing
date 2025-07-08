@@ -10,8 +10,7 @@ export const BrandingPage: React.FC = () => {
   const [lightLogoFile, setLightLogoFile] = useState<File | null>(null);
   const [darkLogoFile, setDarkLogoFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
-  const [customSidebarColor, setCustomSidebarColor] = useState('#1f2937');
-  const [customLabelColor, setCustomLabelColor] = useState('#ffffff');
+  const [selectedTheme, setSelectedTheme] = useState('theme_01');
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSaveChanges = async () => {
@@ -50,10 +49,8 @@ export const BrandingPage: React.FC = () => {
       <ThemeColorsSection />
 
       <SidebarCustomizationSection
-        customSidebarColor={customSidebarColor}
-        customLabelColor={customLabelColor}
-        onSidebarColorChange={setCustomSidebarColor}
-        onLabelColorChange={setCustomLabelColor}
+        selectedTheme={selectedTheme}
+        onThemeChange={setSelectedTheme}
       />
 
       <BrandingSaveActions
