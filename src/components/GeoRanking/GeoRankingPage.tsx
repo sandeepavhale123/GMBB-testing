@@ -46,6 +46,8 @@ export const GeoRankingPage = () => {
     refreshing,
     refreshError,
     refreshProgress,
+    pollingProgress,
+    isPollingActive,
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
@@ -184,7 +186,11 @@ export const GeoRankingPage = () => {
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
-            <ProcessingKeywordsAlert keywords={processingKeywords} />
+            <ProcessingKeywordsAlert 
+              keywords={processingKeywords} 
+              progress={pollingProgress}
+              isPolling={isPollingActive || isPolling}
+            />
             
             <GeoRankingHeader
               keywords={keywords}
