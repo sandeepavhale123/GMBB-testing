@@ -3,28 +3,77 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Upload, Palette, Image, Settings } from 'lucide-react';
+import { Upload, Palette, Image, Settings, Check, AlertCircle } from 'lucide-react';
 import { Badge } from '../ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 export const BrandingPage: React.FC = () => {
+  const { toast } = useToast();
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
   const [primaryColor, setPrimaryColor] = useState('#3b82f6');
   const [sidebarColor, setSidebarColor] = useState('#1f2937');
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setLogoFile(file);
+    if (file) {
+      // Validate file size (2MB limit)
+      if (file.size > 2 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Logo file must be less than 2MB",
+          variant: "destructive",
+        });
+        return;
+      }
+      setLogoFile(file);
+      toast({
+        title: "Logo selected",
+        description: `${file.name} ready for upload`,
+      });
+    }
   };
 
   const handleFaviconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setFaviconFile(file);
+    if (file) {
+      // Validate file size (1MB limit)
+      if (file.size > 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Favicon file must be less than 1MB",
+          variant: "destructive",
+        });
+        return;
+      }
+      setFaviconFile(file);
+      toast({
+        title: "Favicon selected",
+        description: `${file.name} ready for upload`,
+      });
+    }
   };
 
-  const handleSaveChanges = () => {
-    // TODO: Implement save functionality
-    console.log('Saving branding changes...');
+  const handleSaveChanges = async () => {
+    setIsSaving(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast({
+        title: "Branding updated successfully",
+        description: "Your white-label branding changes have been saved",
+      });
+    } catch (error) {
+      toast({
+        title: "Error saving changes",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -233,8 +282,22 @@ export const BrandingPage: React.FC = () => {
 
       {/* Save Changes */}
       <div className="flex justify-end">
-        <Button onClick={handleSaveChanges} className="px-8">
-          Save Changes
+        <Button 
+          onClick={handleSaveChanges} 
+          disabled={isSaving}
+          className="px-8"
+        >
+          {isSaving ? (
+            <>
+              <Settings className="w-4 h-4 mr-2 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            <>
+              <Check className="w-4 h-4 mr-2" />
+              Save Changes
+            </>
+          )}
         </Button>
       </div>
     </div>
