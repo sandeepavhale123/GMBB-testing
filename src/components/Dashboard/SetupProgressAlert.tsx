@@ -69,8 +69,8 @@ export const SetupProgressAlert: React.FC<SetupProgressAlertProps> = ({
   };
 
   const getModuleStatus = (value: number): 'complete' | 'processing' | 'failed' => {
-    if (value === 0) return 'complete';
-    if (value === 1) return 'processing';
+    if (value === 1) return 'complete';
+    if (value === 0) return 'processing';
     return 'failed';
   };
 
