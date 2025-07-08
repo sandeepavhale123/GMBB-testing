@@ -114,7 +114,7 @@ export const BrandingPage: React.FC = () => {
         </Badge>
       </div>
 
-      {/* Logo Section - Light & Dark */}
+      {/* Logo Section - Light & Dark in Single Row */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -122,271 +122,94 @@ export const BrandingPage: React.FC = () => {
             Application Logos
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Light Logo */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Sun className="w-4 h-4 text-yellow-500" />
-              <Label className="text-sm font-medium text-gray-700">Light Mode Logo</Label>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-white">
-                {lightLogoFile ? (
-                  <img 
-                    src={URL.createObjectURL(lightLogoFile)} 
-                    alt="Light logo preview" 
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                ) : (
-                  <Image className="w-8 h-8 text-gray-400" />
-                )}
-              </div>
-              <div className="flex-1">
-                <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
-                <input
-                  id="light-logo-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload('light')}
-                  className="hidden"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => document.getElementById('light-logo-upload')?.click()}
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Choose Light Logo
-                </Button>
-              </div>
-            </div>
-            {lightLogoFile && (
-              <div className="text-sm text-gray-600">
-                Selected: {lightLogoFile.name}
-              </div>
-            )}
-          </div>
-
-          {/* Dark Logo */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Moon className="w-4 h-4 text-blue-500" />
-              <Label className="text-sm font-medium text-gray-700">Dark Mode Logo</Label>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-900">
-                {darkLogoFile ? (
-                  <img 
-                    src={URL.createObjectURL(darkLogoFile)} 
-                    alt="Dark logo preview" 
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                ) : (
-                  <Image className="w-8 h-8 text-gray-400" />
-                )}
-              </div>
-              <div className="flex-1">
-                <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
-                <input
-                  id="dark-logo-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload('dark')}
-                  className="hidden"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => document.getElementById('dark-logo-upload')?.click()}
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Choose Dark Logo
-                </Button>
-              </div>
-            </div>
-            {darkLogoFile && (
-              <div className="text-sm text-gray-600">
-                Selected: {darkLogoFile.name}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Theme Colors */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Palette className="w-5 h-5" />
-            Theme Colors
-          </CardTitle>
-        </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-            {themeColors.map((color) => (
-              <button
-                key={color.value}
-                onClick={() => handleColorSelect(color.value)}
-                className={`relative w-16 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
-                  accentColor === color.value 
-                    ? 'border-gray-400 ring-2 ring-offset-2 ring-gray-300' 
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-                style={{ backgroundColor: color.color }}
-              >
-                {accentColor === color.value && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Check className="w-6 h-6 text-white drop-shadow-lg" />
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-          <p className="text-sm text-gray-500 mt-3">
-            Current theme: <span className="font-medium capitalize">{accentColor}</span>
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Sidebar Customization */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="w-5 h-5" />
-            Sidebar Customization
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Sidebar Theme Selection */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium text-gray-700">Sidebar Theme</Label>
-            <div className="flex gap-4">
-              {[
-                { id: 'dark', label: 'Dark', color: '#1f2937', icon: Moon },
-                { id: 'light', label: 'Light', color: '#ffffff', icon: Sun },
-                { id: 'blue', label: 'Blue', color: '#3b82f6', icon: Settings },
-                { id: 'green', label: 'Green', color: '#10b981', icon: Settings },
-                { id: 'purple', label: 'Purple', color: '#8b5cf6', icon: Settings },
-              ].map((theme) => {
-                const IconComponent = theme.icon;
-                return (
-                  <button
-                    key={theme.id}
-                    onClick={() => {
-                      setSidebarTheme(theme.id as 'dark' | 'light');
-                      setCustomSidebarColor(theme.color);
-                    }}
-                    className={`relative w-20 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
-                      (sidebarTheme === theme.id || 
-                       (theme.id !== 'dark' && theme.id !== 'light' && customSidebarColor === theme.color))
-                        ? 'border-primary ring-2 ring-offset-2 ring-primary/20' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                    style={{ 
-                      backgroundColor: theme.id === 'light' ? '#ffffff' : theme.color,
-                      border: theme.id === 'light' ? '2px solid #e5e7eb' : undefined
-                    }}
-                  >
-                    {(sidebarTheme === theme.id || 
-                     (theme.id !== 'dark' && theme.id !== 'light' && customSidebarColor === theme.color)) && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Check className="w-5 h-5 text-white drop-shadow-lg" />
-                      </div>
-                    )}
-                    <div className="absolute bottom-1 left-1 right-1">
-                      <div className="text-xs font-medium text-center" 
-                           style={{ color: theme.id === 'light' ? '#374151' : '#ffffff' }}>
-                        {theme.label}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Custom Colors */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Custom Sidebar Color</Label>
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-10 h-10 rounded border-2 border-gray-200"
-                  style={{ backgroundColor: customSidebarColor }}
-                />
-                <Input
-                  type="color"
-                  value={customSidebarColor}
-                  onChange={(e) => setCustomSidebarColor(e.target.value)}
-                  className="w-20 h-10 p-1 cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={customSidebarColor}
-                  onChange={(e) => setCustomSidebarColor(e.target.value)}
-                  className="flex-1 font-mono text-sm"
-                  placeholder="#1f2937"
-                />
+            {/* Light Logo */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Sun className="w-4 h-4 text-yellow-500" />
+                <Label className="text-sm font-medium text-gray-700">Light Mode Logo</Label>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Label Color</Label>
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-10 h-10 rounded border-2 border-gray-200"
-                  style={{ backgroundColor: customLabelColor }}
-                />
-                <Input
-                  type="color"
-                  value={customLabelColor}
-                  onChange={(e) => setCustomLabelColor(e.target.value)}
-                  className="w-20 h-10 p-1 cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={customLabelColor}
-                  onChange={(e) => setCustomLabelColor(e.target.value)}
-                  className="flex-1 font-mono text-sm"
-                  placeholder="#ffffff"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar Preview */}
-          <div className="mt-6 p-4 border rounded-lg bg-gray-50">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Sidebar Preview</h4>
-            <div 
-              className="w-48 h-32 rounded border"
-              style={{ 
-                backgroundColor: sidebarTheme === 'light' ? '#ffffff' : customSidebarColor,
-                border: sidebarTheme === 'light' ? '1px solid #e5e7eb' : 'none'
-              }}
-            >
-              <div className="p-3 space-y-2">
-                <div 
-                  className="text-xs font-medium"
-                  style={{ color: sidebarTheme === 'light' ? '#374151' : customLabelColor }}
-                >
-                  Navigation
+              <div className="flex flex-col gap-3">
+                <div className="w-full h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-white">
+                  {lightLogoFile ? (
+                    <img 
+                      src={URL.createObjectURL(lightLogoFile)} 
+                      alt="Light logo preview" 
+                      className="w-full h-full object-contain rounded-lg"
+                    />
+                  ) : (
+                    <Image className="w-8 h-8 text-gray-400" />
+                  )}
                 </div>
-                <div className="space-y-1">
-                  <div 
-                    className="text-xs py-1 px-2 rounded"
-                    style={{ 
-                      backgroundColor: sidebarTheme === 'light' ? '#f3f4f6' : 'rgba(255,255,255,0.1)',
-                      color: sidebarTheme === 'light' ? '#374151' : customLabelColor
-                    }}
+                <div>
+                  <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
+                  <input
+                    id="light-logo-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoUpload('light')}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('light-logo-upload')?.click()}
+                    className="w-full"
                   >
-                    Dashboard
-                  </div>
-                  <div 
-                    className="text-xs py-1 px-2"
-                    style={{ color: sidebarTheme === 'light' ? '#6b7280' : customLabelColor }}
+                    <Upload className="w-4 h-4 mr-2" />
+                    Choose Light Logo
+                  </Button>
+                  {lightLogoFile && (
+                    <div className="text-sm text-gray-600 mt-2">
+                      Selected: {lightLogoFile.name}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Dark Logo */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Moon className="w-4 h-4 text-blue-500" />
+                <Label className="text-sm font-medium text-gray-700">Dark Mode Logo</Label>
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="w-full h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-900">
+                  {darkLogoFile ? (
+                    <img 
+                      src={URL.createObjectURL(darkLogoFile)} 
+                      alt="Dark logo preview" 
+                      className="w-full h-full object-contain rounded-lg"
+                    />
+                  ) : (
+                    <Image className="w-8 h-8 text-gray-400" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
+                  <input
+                    id="dark-logo-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoUpload('dark')}
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => document.getElementById('dark-logo-upload')?.click()}
+                    className="w-full"
                   >
-                    Settings
-                  </div>
+                    <Upload className="w-4 h-4 mr-2" />
+                    Choose Dark Logo
+                  </Button>
+                  {darkLogoFile && (
+                    <div className="text-sm text-gray-600 mt-2">
+                      Selected: {darkLogoFile.name}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -445,6 +268,143 @@ export const BrandingPage: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Theme Colors */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Palette className="w-5 h-5" />
+            Theme Colors
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+            {themeColors.map((color) => (
+              <button
+                key={color.value}
+                onClick={() => handleColorSelect(color.value)}
+                className={`relative w-16 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                  accentColor === color.value 
+                    ? 'border-gray-400 ring-2 ring-offset-2 ring-gray-300' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+                style={{ backgroundColor: color.color }}
+              >
+                {accentColor === color.value && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Check className="w-6 h-6 text-white drop-shadow-lg" />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-3">
+            Current theme: <span className="font-medium capitalize">{accentColor}</span>
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Sidebar Customization */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Settings className="w-5 h-5" />
+            Sidebar Customization
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Sidebar Background Color Selection */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-700">Select Sidebar Background Color</Label>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { id: 'dark', label: 'Dark', color: '#1f2937' },
+                { id: 'light', label: 'Light', color: '#ffffff' },
+                { id: 'blue', label: 'Blue', color: '#3b82f6' },
+                { id: 'green', label: 'Green', color: '#10b981' },
+                { id: 'purple', label: 'Purple', color: '#8b5cf6' },
+              ].map((theme) => (
+                <button
+                  key={theme.id}
+                  onClick={() => {
+                    setCustomSidebarColor(theme.color);
+                    // Apply to real sidebar immediately
+                    document.documentElement.style.setProperty('--sidebar-bg', theme.color);
+                    document.documentElement.style.setProperty('--sidebar-text', theme.id === 'light' ? '#374151' : '#ffffff');
+                  }}
+                  className={`relative w-16 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                    customSidebarColor === theme.color
+                      ? 'border-primary ring-2 ring-offset-2 ring-primary/20' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  style={{ 
+                    backgroundColor: theme.color,
+                    border: theme.id === 'light' ? '2px solid #e5e7eb' : undefined
+                  }}
+                >
+                  {customSidebarColor === theme.color && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Check className="w-5 h-5 text-white drop-shadow-lg" />
+                    </div>
+                  )}
+                </button>
+              ))}
+              
+              {/* Custom Color Picker */}
+              <div className="relative">
+                <input
+                  type="color"
+                  value={customSidebarColor}
+                  onChange={(e) => {
+                    setCustomSidebarColor(e.target.value);
+                    // Apply to real sidebar immediately
+                    document.documentElement.style.setProperty('--sidebar-bg', e.target.value);
+                    document.documentElement.style.setProperty('--sidebar-text', '#ffffff');
+                  }}
+                  className="w-16 h-16 rounded-lg border-2 border-gray-200 cursor-pointer"
+                  title="Select custom color"
+                />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full border border-gray-300 flex items-center justify-center">
+                  <Palette className="w-3 h-3 text-gray-600" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Custom Label Color */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Label Color</Label>
+            <div className="flex items-center gap-3">
+              <div 
+                className="w-10 h-10 rounded border-2 border-gray-200"
+                style={{ backgroundColor: customLabelColor }}
+              />
+              <Input
+                type="color"
+                value={customLabelColor}
+                onChange={(e) => {
+                  setCustomLabelColor(e.target.value);
+                  // Apply to real sidebar immediately
+                  document.documentElement.style.setProperty('--sidebar-text', e.target.value);
+                }}
+                className="w-20 h-10 p-1 cursor-pointer"
+              />
+              <Input
+                type="text"
+                value={customLabelColor}
+                onChange={(e) => {
+                  setCustomLabelColor(e.target.value);
+                  // Apply to real sidebar immediately
+                  document.documentElement.style.setProperty('--sidebar-text', e.target.value);
+                }}
+                className="flex-1 font-mono text-sm"
+                placeholder="#ffffff"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
 
       {/* Save Changes */}
       <div className="flex justify-end">
