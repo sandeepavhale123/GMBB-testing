@@ -6,7 +6,6 @@ import { Header } from "../components/Header/Header";
 import { ProfileHeader } from "../components/Profile/ProfileHeader";
 import { EditProfileForm } from "../components/Profile/EditProfileForm";
 import { ChangePasswordModal } from "../components/Profile/ChangePasswordModal";
-import { CurrentPlanCard } from "../components/Profile/CurrentPlanCard";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 
@@ -84,19 +83,18 @@ const Profile = () => {
                 onTabChange={handleTabChange}
               />
 
-              {/* Current Plan Card */}
-              <CurrentPlanCard />
-
               {/* Edit Profile Form */}
               <EditProfileForm />
             </div>
           </main>
         </div>
 
-        <ChangePasswordModal
-          isOpen={showPasswordModal}
-          onClose={() => setShowPasswordModal(false)}
-        />
+        {showPasswordModal && (
+          <ChangePasswordModal
+            isOpen={showPasswordModal}
+            onClose={() => setShowPasswordModal(false)}
+          />
+        )}
 
         <Toaster />
       </div>

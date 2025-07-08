@@ -46,14 +46,6 @@ export const CurrentPlanCard: React.FC = () => {
     day: 'numeric'
   });
   
-  const features = [
-    "Unlimited business listings",
-    "Advanced analytics",
-    "Priority support", 
-    "Custom reporting",
-    "API access"
-  ];
-
   return (
     <Card className="shadow-lg border-0">
       <CardHeader>
@@ -84,66 +76,23 @@ export const CurrentPlanCard: React.FC = () => {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{planName} Plan</h3>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <Calendar className="w-4 h-4" />
-              <span>Expires on {formattedExpDate}</span>
-            </div>
+      <CardContent className="space-y-6">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">{planName} Plan</h3>
+          <div className="flex items-center justify-center gap-2 text-gray-600">
+            <Calendar className="w-4 h-4" />
+            <span>Expires on {formattedExpDate}</span>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="font-medium text-gray-900 mb-3">Plan Features</h4>
-            <ul className="space-y-2">
-              {features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          <div className="flex flex-col justify-center">
-            {isExpired ? (
-              <div className="space-y-3">
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-800 font-medium">
-                    Your plan has expired
-                  </p>
-                  <p className="text-sm text-red-600">
-                    Renew now to continue enjoying premium features
-                  </p>
-                </div>
-                <Button 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  size="lg"
-                >
-                  Renew Plan
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <Button 
-                  variant="outline" 
-                  className="w-full border-blue-200 text-blue-600 hover:bg-blue-50"
-                  size="lg"
-                >
-                  Manage Subscription
-                </Button>
-                <Button 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  size="lg"
-                >
-                  Upgrade Plan
-                </Button>
-              </div>
-            )}
-          </div>
+        <div className="flex justify-center">
+          <Button 
+            variant="outline" 
+            className="px-8 border-blue-200 text-blue-600 hover:bg-blue-50"
+            size="lg"
+          >
+            Manage Subscription
+          </Button>
         </div>
       </CardContent>
     </Card>

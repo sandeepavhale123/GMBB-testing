@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 
 const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' },
+  '/ai-tasks': { title: 'AI Tasks', subtitle: 'Manage and track AI-powered optimization tasks' },
   '/profile': { title: 'Profile', subtitle: 'Manage your account information and preferences' },
   '/posts': { title: 'Posts', subtitle: 'Create and manage content for all your business locations' },
   '/media': { title: 'Media Library', subtitle: 'Organize and manage your business images and videos for all platforms' },

@@ -16,6 +16,7 @@ import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useAxiosAuth } from "@/hooks/useAxiosAuth";
 import { ReviewsManagementPage } from '../components/Reviews/ReviewsManagementPage';
 import { QAManagementPage } from '../components/QA/QAManagementPage';
+import { AITaskManagerPage } from '../components/AITaskManager/AITaskManagerPage';
 import { useListingContext } from "@/context/ListingContext";
 import { ListingLoader } from "../components/ui/listing-loader";
 import { useLocation } from "react-router-dom";
@@ -36,6 +37,8 @@ const Index = () => {
     switch (route) {
       case 'location-dashboard':
         return 'overview';
+      case 'ai-tasks':
+        return 'ai-tasks';
       case 'posts':
         return 'posts';
       case 'media':
@@ -59,6 +62,8 @@ const Index = () => {
     switch (activeTab) {
       case "overview":
         return <Dashboard />;
+      case "ai-tasks":
+        return <AITaskManagerPage />;
       case "posts":
         return <PostsPage />;
       case "media":

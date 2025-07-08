@@ -1,10 +1,11 @@
 
 import React, { useState, useRef } from 'react';
-import { Lock, Pencil, User } from 'lucide-react';
+import { Lock, Pencil, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { useToast } from '../../hooks/use-toast';
 import { useProfile } from '../../hooks/useProfile';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileHeaderProps {
   activeTab: 'edit' | 'password';
@@ -16,6 +17,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   onTabChange
 }) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { profileData, isLoading, updateProfile, isUpdating } = useProfile();
   const [isUploading, setIsUploading] = useState(false);
@@ -108,6 +110,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const defaultImage = "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
   const profileImage = (profileData?.profilePic && profileData.profilePic.trim() !== '') ? profileData.profilePic : defaultImage;
   const fullName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
+  
+  const handleManageSubscription = () => {
+    navigate('/settings/subscription');
+  };
+
+  // Format plan expiry date
+  const formatPlanDate = (planExpDate: string) => {
+    return new Date(planExpDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
   return (
     <Card className="shadow-lg border-0">
@@ -148,25 +163,24 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
               {fullName}
             </h1>
-            <p className="text-sm sm:text-base text-gray-600 mb-4">
-              Worker
-            </p>
+            <div className="mb-4">
+              <p className="text-sm sm:text-base text-gray-600">
+                Worker
+              </p>
+              {profileData?.planName && (
+                <p className="text-sm text-blue-600 font-medium">
+                  {profileData.planName} Plan
+                  {profileData.planExpDate && (
+                    <span className="text-gray-500 font-normal">
+                      {' '}• Expires {formatPlanDate(profileData.planExpDate)}
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
             
-            {/* Tabs */}
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Button
-                variant={activeTab === 'edit' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => onTabChange('edit')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  activeTab === 'edit'
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'border-blue-200 text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <User className="w-4 h-4 mr-2" />
-                Edit Profile
-              </Button>
               <Button
                 variant="outline"
                 size="sm"
@@ -175,6 +189,15 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               >
                 <Lock className="w-4 h-4 mr-2" />
                 Change Password
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManageSubscription}
+                className="px-4 py-2 rounded-lg font-medium border-blue-200 text-blue-600 hover:bg-blue-50 transition-all"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Manage Subscription
               </Button>
             </div>
           </div>

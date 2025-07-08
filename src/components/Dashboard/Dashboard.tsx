@@ -38,7 +38,7 @@ import {
 } from "../../store/slices/insightsSlice";
 import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
-import { SetupComponent } from "./SetupComponent";
+import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
 
 // Lazy load heavy components for better performance
@@ -166,20 +166,15 @@ export const Dashboard: React.FC = () => {
     );
   }
 
-  // Check if setup is needed - show setup component if not complete
-  if (!isSetupComplete && setupData?.data) {
-    return (
-      <div className="p-6">
-        <SetupComponent 
+  return (
+    <div className="space-y-4 sm:space-y-6">
+      {/* Setup Progress Alert - Show when setup is not complete */}
+      {!isSetupComplete && setupData?.data && (
+        <SetupProgressAlert 
           setupData={setupData.data} 
           isLoading={isLoadingSetup}
         />
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4 sm:space-y-6">
+      )}
       {/* Top Section - Responsive grid layout */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 sm:gap-6">
         {/* Business Overview + Performance Overview - Responsive columns */}

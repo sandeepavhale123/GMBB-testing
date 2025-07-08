@@ -36,6 +36,12 @@ const menuItems = [
     path: "/location-dashboard",
   },
   {
+    id: "ai-tasks",
+    label: "AI Tasks",
+    icon: Sparkles,
+    path: "/ai-tasks",
+  },
+  {
     id: "posts",
     label: "Posts",
     icon: FileText,
@@ -134,6 +140,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // For routes that need listing context, append the listing ID
     const listingRoutes = [
       "/location-dashboard",
+      "/ai-tasks",
       "/posts",
       "/media",
       "/insights",
