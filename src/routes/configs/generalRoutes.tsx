@@ -91,6 +91,16 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
+    path: "/settings/branding",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/settings/integrations",
     element: (
       <ProtectedRoute>

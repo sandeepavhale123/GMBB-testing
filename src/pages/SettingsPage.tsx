@@ -13,6 +13,7 @@ import { SubscriptionPage } from "../components/Settings/SubscriptionPage";
 import { GenieSubscriptionPage } from "../components/Settings/GenieSubscriptionPage";
 import { ListingManagementPage } from "../components/Settings/ListingManagementPage";
 import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
+import { BrandingPage } from "../components/Settings/BrandingPage";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
@@ -50,6 +51,9 @@ const SettingsPage = () => {
     if (path.includes("/subscription")) {
       return "subscription";
     }
+    if (path.includes("/branding")) {
+      return "branding";
+    }
     if (path.includes("/integrations")) {
       return "integrations";
     }
@@ -77,6 +81,8 @@ const SettingsPage = () => {
         return <ManageGoogleAccountPage />;
       case "subscription":
         return <SubscriptionPage />;
+      case "branding":
+        return <BrandingPage />;
       case "integrations":
         return <IntegrationsPage />;
       default:
@@ -130,13 +136,22 @@ const SettingsPage = () => {
 
             {/* Settings Sub Header - Only show on main view */}
             {currentView === "main" && (
-              <SettingsSubHeader activeTab={activeTab} />
+              <div className="flex h-full">
+                <SettingsSubHeader activeTab={activeTab} />
+                
+                {/* Page Content */}
+                <main className="flex-1 overflow-auto bg-gray-50">
+                  <div className="min-h-full">{renderTabContent()}</div>
+                </main>
+              </div>
             )}
 
-            {/* Page Content */}
-            <main className="flex-1 overflow-auto bg-gray-50">
-              <div className="min-h-full">{renderTabContent()}</div>
-            </main>
+            {/* Listing Management View */}
+            {currentView === "listings" && (
+              <main className="flex-1 overflow-auto bg-gray-50">
+                <div className="min-h-full">{renderTabContent()}</div>
+              </main>
+            )}
           </div>
 
           <Toaster />
