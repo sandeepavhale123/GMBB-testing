@@ -3,22 +3,37 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Upload, Palette, Image, Settings, Check, AlertCircle } from 'lucide-react';
+import { Upload, Palette, Image, Settings, Check, Moon, Sun } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { setAccentColor, toggleTheme } from '@/store/slices/themeSlice';
 
 export const BrandingPage: React.FC = () => {
   const { toast } = useToast();
-  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const dispatch = useAppDispatch();
+  const { isDark, accentColor } = useAppSelector((state) => state.theme);
+  
+  const [lightLogoFile, setLightLogoFile] = useState<File | null>(null);
+  const [darkLogoFile, setDarkLogoFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
-  const [primaryColor, setPrimaryColor] = useState('#3b82f6');
-  const [sidebarColor, setSidebarColor] = useState('#1f2937');
+  const [sidebarTheme, setSidebarTheme] = useState<'dark' | 'light'>('dark');
+  const [customSidebarColor, setCustomSidebarColor] = useState('#1f2937');
+  const [customLabelColor, setCustomLabelColor] = useState('#ffffff');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const themeColors = [
+    { name: 'blue', color: 'hsl(217 91% 60%)', value: 'blue' },
+    { name: 'teal', color: 'hsl(173 80% 40%)', value: 'teal' },
+    { name: 'purple', color: 'hsl(262 83% 58%)', value: 'purple' },
+    { name: 'cyan', color: 'hsl(188 78% 41%)', value: 'cyan' },
+    { name: 'emerald', color: 'hsl(160 84% 39%)', value: 'emerald' },
+    { name: 'orange', color: 'hsl(25 95% 53%)', value: 'orange' },
+  ];
+
+  const handleLogoUpload = (type: 'light' | 'dark') => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (2MB limit)
       if (file.size > 2 * 1024 * 1024) {
         toast({
           title: "File too large",
@@ -27,9 +42,15 @@ export const BrandingPage: React.FC = () => {
         });
         return;
       }
-      setLogoFile(file);
+      
+      if (type === 'light') {
+        setLightLogoFile(file);
+      } else {
+        setDarkLogoFile(file);
+      }
+      
       toast({
-        title: "Logo selected",
+        title: `${type === 'light' ? 'Light' : 'Dark'} logo selected`,
         description: `${file.name} ready for upload`,
       });
     }
@@ -38,7 +59,6 @@ export const BrandingPage: React.FC = () => {
   const handleFaviconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (1MB limit)
       if (file.size > 1024 * 1024) {
         toast({
           title: "File too large",
@@ -55,12 +75,18 @@ export const BrandingPage: React.FC = () => {
     }
   };
 
+  const handleColorSelect = (colorValue: string) => {
+    dispatch(setAccentColor(colorValue as any));
+    toast({
+      title: "Theme color updated",
+      description: `Applied ${colorValue} theme`,
+    });
+  };
+
   const handleSaveChanges = async () => {
     setIsSaving(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
       toast({
         title: "Branding updated successfully",
         description: "Your white-label branding changes have been saved",
@@ -88,55 +114,264 @@ export const BrandingPage: React.FC = () => {
         </Badge>
       </div>
 
-      {/* Logo Section */}
+      {/* Logo Section - Light & Dark */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Image className="w-5 h-5" />
-            Application Logo
+            Application Logos
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center gap-4">
-            <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
-              {logoFile ? (
-                <img 
-                  src={URL.createObjectURL(logoFile)} 
-                  alt="Logo preview" 
-                  className="w-full h-full object-contain rounded-lg"
-                />
-              ) : (
-                <Image className="w-8 h-8 text-gray-400" />
-              )}
+        <CardContent className="space-y-6">
+          {/* Light Logo */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Sun className="w-4 h-4 text-yellow-500" />
+              <Label className="text-sm font-medium text-gray-700">Light Mode Logo</Label>
             </div>
-            <div className="flex-1">
-              <Label htmlFor="logo-upload" className="text-sm font-medium text-gray-700">
-                Upload Logo
-              </Label>
-              <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB. Recommended: 200x60px</p>
-              <input
-                id="logo-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-                className="hidden"
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-2"
-                onClick={() => document.getElementById('logo-upload')?.click()}
+            <div className="flex items-center gap-4">
+              <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-white">
+                {lightLogoFile ? (
+                  <img 
+                    src={URL.createObjectURL(lightLogoFile)} 
+                    alt="Light logo preview" 
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                ) : (
+                  <Image className="w-8 h-8 text-gray-400" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
+                <input
+                  id="light-logo-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoUpload('light')}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => document.getElementById('light-logo-upload')?.click()}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Choose Light Logo
+                </Button>
+              </div>
+            </div>
+            {lightLogoFile && (
+              <div className="text-sm text-gray-600">
+                Selected: {lightLogoFile.name}
+              </div>
+            )}
+          </div>
+
+          {/* Dark Logo */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Moon className="w-4 h-4 text-blue-500" />
+              <Label className="text-sm font-medium text-gray-700">Dark Mode Logo</Label>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-900">
+                {darkLogoFile ? (
+                  <img 
+                    src={URL.createObjectURL(darkLogoFile)} 
+                    alt="Dark logo preview" 
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                ) : (
+                  <Image className="w-8 h-8 text-gray-400" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB. Recommended: 200x60px</p>
+                <input
+                  id="dark-logo-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoUpload('dark')}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => document.getElementById('dark-logo-upload')?.click()}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Choose Dark Logo
+                </Button>
+              </div>
+            </div>
+            {darkLogoFile && (
+              <div className="text-sm text-gray-600">
+                Selected: {darkLogoFile.name}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Theme Colors */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Palette className="w-5 h-5" />
+            Theme Colors
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+            {themeColors.map((color) => (
+              <button
+                key={color.value}
+                onClick={() => handleColorSelect(color.value)}
+                className={`relative w-16 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                  accentColor === color.value 
+                    ? 'border-gray-400 ring-2 ring-offset-2 ring-gray-300' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+                style={{ backgroundColor: color.color }}
               >
-                <Upload className="w-4 h-4 mr-2" />
-                Choose File
-              </Button>
+                {accentColor === color.value && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Check className="w-6 h-6 text-white drop-shadow-lg" />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-3">
+            Current theme: <span className="font-medium capitalize">{accentColor}</span>
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Sidebar Customization */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Settings className="w-5 h-5" />
+            Sidebar Customization
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Sidebar Theme */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-gray-700">Sidebar Theme</Label>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setSidebarTheme('dark')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                  sidebarTheme === 'dark'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Moon className="w-4 h-4" />
+                Dark Sidebar
+              </button>
+              <button
+                onClick={() => setSidebarTheme('light')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                  sidebarTheme === 'light'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Sun className="w-4 h-4" />
+                Light Sidebar
+              </button>
             </div>
           </div>
-          {logoFile && (
-            <div className="text-sm text-gray-600">
-              Selected: {logoFile.name}
+
+          {/* Custom Colors */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Sidebar Background</Label>
+              <div className="flex items-center gap-3">
+                <div 
+                  className="w-10 h-10 rounded border-2 border-gray-200"
+                  style={{ backgroundColor: customSidebarColor }}
+                />
+                <Input
+                  type="color"
+                  value={customSidebarColor}
+                  onChange={(e) => setCustomSidebarColor(e.target.value)}
+                  className="w-20 h-10 p-1 cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={customSidebarColor}
+                  onChange={(e) => setCustomSidebarColor(e.target.value)}
+                  className="flex-1 font-mono text-sm"
+                  placeholder="#1f2937"
+                />
+              </div>
             </div>
-          )}
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">Label Color</Label>
+              <div className="flex items-center gap-3">
+                <div 
+                  className="w-10 h-10 rounded border-2 border-gray-200"
+                  style={{ backgroundColor: customLabelColor }}
+                />
+                <Input
+                  type="color"
+                  value={customLabelColor}
+                  onChange={(e) => setCustomLabelColor(e.target.value)}
+                  className="w-20 h-10 p-1 cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={customLabelColor}
+                  onChange={(e) => setCustomLabelColor(e.target.value)}
+                  className="flex-1 font-mono text-sm"
+                  placeholder="#ffffff"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar Preview */}
+          <div className="mt-6 p-4 border rounded-lg bg-gray-50">
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Sidebar Preview</h4>
+            <div 
+              className="w-48 h-32 rounded border"
+              style={{ 
+                backgroundColor: sidebarTheme === 'dark' ? customSidebarColor : '#ffffff',
+                border: sidebarTheme === 'light' ? '1px solid #e5e7eb' : 'none'
+              }}
+            >
+              <div className="p-3 space-y-2">
+                <div 
+                  className="text-xs font-medium"
+                  style={{ color: sidebarTheme === 'dark' ? customLabelColor : '#374151' }}
+                >
+                  Navigation
+                </div>
+                <div className="space-y-1">
+                  <div 
+                    className="text-xs py-1 px-2 rounded"
+                    style={{ 
+                      backgroundColor: sidebarTheme === 'dark' ? 'rgba(255,255,255,0.1)' : '#f3f4f6',
+                      color: sidebarTheme === 'dark' ? customLabelColor : '#374151'
+                    }}
+                  >
+                    Dashboard
+                  </div>
+                  <div 
+                    className="text-xs py-1 px-2"
+                    style={{ color: sidebarTheme === 'dark' ? customLabelColor : '#6b7280' }}
+                  >
+                    Settings
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -189,94 +424,6 @@ export const BrandingPage: React.FC = () => {
               Selected: {faviconFile.name}
             </div>
           )}
-        </CardContent>
-      </Card>
-
-      {/* Color Scheme Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Palette className="w-5 h-5" />
-            Color Scheme
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Primary Color */}
-            <div className="space-y-2">
-              <Label htmlFor="primary-color" className="text-sm font-medium text-gray-700">
-                Primary Color
-              </Label>
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-10 h-10 rounded border-2 border-gray-200"
-                  style={{ backgroundColor: primaryColor }}
-                />
-                <Input
-                  id="primary-color"
-                  type="color"
-                  value={primaryColor}
-                  onChange={(e) => setPrimaryColor(e.target.value)}
-                  className="w-20 h-10 p-1 cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={primaryColor}
-                  onChange={(e) => setPrimaryColor(e.target.value)}
-                  className="flex-1 font-mono text-sm"
-                  placeholder="#3b82f6"
-                />
-              </div>
-            </div>
-
-            {/* Sidebar Color */}
-            <div className="space-y-2">
-              <Label htmlFor="sidebar-color" className="text-sm font-medium text-gray-700">
-                Sidebar Color
-              </Label>
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-10 h-10 rounded border-2 border-gray-200"
-                  style={{ backgroundColor: sidebarColor }}
-                />
-                <Input
-                  id="sidebar-color"
-                  type="color"
-                  value={sidebarColor}
-                  onChange={(e) => setSidebarColor(e.target.value)}
-                  className="w-20 h-10 p-1 cursor-pointer"
-                />
-                <Input
-                  type="text"
-                  value={sidebarColor}
-                  onChange={(e) => setSidebarColor(e.target.value)}
-                  className="flex-1 font-mono text-sm"
-                  placeholder="#1f2937"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Color Preview */}
-          <div className="mt-6 p-4 border rounded-lg bg-gray-50">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Preview</h4>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-6 h-6 rounded"
-                  style={{ backgroundColor: primaryColor }}
-                />
-                <span className="text-sm text-gray-600">Primary</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-6 h-6 rounded"
-                  style={{ backgroundColor: sidebarColor }}
-                />
-                <span className="text-sm text-gray-600">Sidebar</span>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
 

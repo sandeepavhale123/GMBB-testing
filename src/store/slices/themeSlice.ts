@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface ThemeState {
   isDark: boolean;
-  accentColor: 'blue' | 'green' | 'purple' | 'orange';
+  accentColor: 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'cyan' | 'emerald';
 }
 
 const initialState: ThemeState = {
