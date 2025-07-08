@@ -169,6 +169,10 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Setup Progress Alert - Show when setup is not complete */}
+      <SetupProgressAlert 
+          setupData={setupData.data} 
+          isLoading={isLoadingSetup}
+        />
       {!isSetupComplete && setupData?.data && (
         <SetupProgressAlert 
           setupData={setupData.data} 
