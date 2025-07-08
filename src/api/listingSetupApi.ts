@@ -27,7 +27,7 @@ export const useListingSetup = (listingId: number | null, enabled: boolean = tru
 
   // Calculate if setup is complete
   const isSetupComplete = query.data?.data && 
-    Object.values(query.data.data).every(value => value === 0);
+    Object.values(query.data.data).every(value => value === 1);
 
   return {
     ...query,
