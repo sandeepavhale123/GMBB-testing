@@ -28,6 +28,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [keywordData, setKeywordData] = useState<KeywordDetailsData | null>(null);
   const [currentKeywordId, setCurrentKeywordId] = useState<string | null>(null);
   const [pollingProgress, setPollingProgress] = useState(0);
+  const [isCompleting, setIsCompleting] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -321,6 +322,7 @@ export const useGeoRankingReport = (listingId: number) => {
         } else {
           // Data is ready - show 100% progress, then display results after delay
           console.log('Keyword details ready:', response);
+          setIsCompleting(true);
           setPollingProgress(100);
           
           // Show 100% progress for 2 seconds before displaying results
@@ -328,6 +330,7 @@ export const useGeoRankingReport = (listingId: number) => {
             setKeywordData(response.data as KeywordDetailsData);
             setPollingKeyword(false);
             setPollingProgress(0);
+            setIsCompleting(false);
             toast({
               title: "Keyword Processed",
               description: "Your keyword ranking data is now available!",
@@ -350,7 +353,7 @@ export const useGeoRankingReport = (listingId: number) => {
       return false;
     } finally {
       // Only reset if not in completion state (will be handled by setTimeout)
-      if (!keywordData) {
+      if (!isCompleting) {
         setPollingKeyword(false);
         setPollingProgress(0);
       }
