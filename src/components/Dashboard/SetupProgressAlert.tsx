@@ -93,7 +93,7 @@ export const SetupProgressAlert: React.FC<SetupProgressAlertProps> = ({
         <div className="flex items-center justify-between gap-4">
           {/* Left side - Message and modules */}
           <div className="flex-1">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex flex-col gap-3">
               <div className="text-sm font-medium text-gray-900">
                 We're preparing your business data. This usually takes a few minutes.
               </div>
