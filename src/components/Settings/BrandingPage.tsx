@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Badge } from '../ui/badge';
-import { LogoUploadSection } from './Branding/LogoUploadSection';
-import { FaviconUploadSection } from './Branding/FaviconUploadSection';
+import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection';
+import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
 import { ThemeColorsSection } from './Branding/ThemeColorsSection';
 import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
 import { BrandingSaveActions } from './Branding/BrandingSaveActions';
@@ -34,14 +34,14 @@ export const BrandingPage: React.FC = () => {
         </Badge>
       </div>
 
-      <LogoUploadSection
+      <EnhancedLogoUploadSection
         lightLogoFile={lightLogoFile}
         darkLogoFile={darkLogoFile}
         onLightLogoChange={setLightLogoFile}
         onDarkLogoChange={setDarkLogoFile}
       />
 
-      <FaviconUploadSection
+      <EnhancedFaviconUploadSection
         faviconFile={faviconFile}
         onFaviconChange={setFaviconFile}
       />
