@@ -223,10 +223,6 @@ export const AITaskManagerPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb */}
-      <div className="pb-2">
-        <PageBreadcrumb />
-      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -292,29 +288,6 @@ export const AITaskManagerPage: React.FC = () => {
         </Card>
       </div>
 
-      {/* High Priority Alert */}
-      {highPriorityCount > 0 && showHighPriorityAlert && (
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-800 font-medium">
-                  {highPriorityCount} high-priority task{highPriorityCount > 1 ? 's' : ''} need{highPriorityCount === 1 ? 's' : ''} attention
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowHighPriorityAlert(false)}
-                className="text-red-600 hover:text-red-800 hover:bg-red-100"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Filter Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
