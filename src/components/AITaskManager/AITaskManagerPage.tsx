@@ -105,10 +105,9 @@ const statusColors = {
   completed: 'bg-green-100 text-green-800 border-green-200'
 };
 
-const priorityColors = {
-  low: 'bg-gray-100 text-gray-800',
-  medium: 'bg-orange-100 text-orange-800',
-  high: 'bg-red-100 text-red-800'
+const typeColors = {
+  'one-time': 'bg-purple-100 text-purple-800 border-purple-200',
+  'recurring': 'bg-blue-100 text-blue-800 border-blue-200'
 };
 
 const categoryIcons = {
@@ -165,59 +164,51 @@ export const AITaskManagerPage: React.FC = () => {
 
     return (
       <Card className="hover:shadow-md transition-shadow">
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-2 min-w-0 flex-1">
-              <CategoryIcon className="w-5 h-5 text-gray-600 shrink-0" />
-              <CardTitle className="text-lg leading-tight">{task.title}</CardTitle>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <Badge className={priorityColors[task.priority]} variant="outline">
-                {task.priority}
-              </Badge>
-              {task.type === 'recurring' && (
-                <RefreshCw className="w-4 h-4 text-gray-500" />
-              )}
+        <CardContent className="p-4">
+          {/* Title and Description Row */}
+          <div className="flex items-start gap-3 mb-3">
+            <CategoryIcon className="w-5 h-5 text-gray-600 shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {task.description}
+              </p>
             </div>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-gray-600 text-sm leading-relaxed">
-            {task.description}
-          </p>
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+
+          {/* Status, Type and Actions Row */}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
               <Badge className={statusColors[task.status]} variant="outline">
                 <StatusIcon className="w-3 h-3 mr-1" />
                 {task.status.replace('-', ' ')}
               </Badge>
-              <span className="text-xs text-gray-500">
-                Est. {task.estimatedTime}
-              </span>
+              <Badge className={typeColors[task.type]} variant="outline">
+                {task.type}
+              </Badge>
             </div>
-          </div>
 
-          {task.status !== 'completed' && (
-            <div className="flex gap-2 pt-2">
-              <Button 
-                size="sm" 
-                variant="outline"
-                onClick={() => handleFixTask(task.id)}
-                disabled={task.status === 'in-progress'}
-              >
-                <Zap className="w-4 h-4 mr-1" />
-                {task.status === 'in-progress' ? 'In Progress' : 'Fix'}
-              </Button>
-              <Button 
-                size="sm" 
-                onClick={() => handleMarkCompleted(task.id)}
-              >
-                <CheckCircle className="w-4 h-4 mr-1" />
-                Mark Completed
-              </Button>
-            </div>
-          )}
+            {task.status !== 'completed' && (
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => handleFixTask(task.id)}
+                  disabled={task.status === 'in-progress'}
+                >
+                  <Zap className="w-4 h-4 mr-1" />
+                  {task.status === 'in-progress' ? 'In Progress' : 'Fix'}
+                </Button>
+                <Button 
+                  size="sm" 
+                  onClick={() => handleMarkCompleted(task.id)}
+                >
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Mark Completed
+                </Button>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
     );
@@ -237,28 +228,64 @@ export const AITaskManagerPage: React.FC = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">{oneTimeCount}</div>
-            <div className="text-sm text-gray-600">One-time Tasks</div>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              One-time Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-purple-500 to-purple-600">
+              <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {oneTimeCount}
+            </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-purple-600">{recurringCount}</div>
-            <div className="text-sm text-gray-600">Recurring Tasks</div>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              Recurring Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-blue-500 to-blue-600">
+              <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {recurringCount}
+            </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-yellow-600">{pendingCount}</div>
-            <div className="text-sm text-gray-600">Pending Tasks</div>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              Pending Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-yellow-500 to-yellow-600">
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {pendingCount}
+            </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">{completedCount}</div>
-            <div className="text-sm text-gray-600">Completed Tasks</div>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              Completed Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-green-500 to-green-600">
+              <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {completedCount}
+            </div>
           </CardContent>
         </Card>
       </div>
