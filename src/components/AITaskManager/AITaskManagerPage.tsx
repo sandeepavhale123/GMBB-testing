@@ -224,7 +224,9 @@ export const AITaskManagerPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <PageBreadcrumb />
+      <div className="pb-2">
+        <PageBreadcrumb />
+      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -14,6 +14,10 @@ import {
 const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/': [{ title: 'Dashboard', path: '/' }],
   '/location-dashboard': [{ title: 'Dashboard', path: '/location-dashboard' }],
+  '/ai-tasks': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'AI Tasks', path: '/ai-tasks' }
+  ],
   '/profile': [
     { title: 'Dashboard', path: '/' },
     { title: 'Profile', path: '/profile' }
