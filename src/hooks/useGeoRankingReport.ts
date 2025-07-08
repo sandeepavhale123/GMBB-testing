@@ -305,8 +305,8 @@ export const useGeoRankingReport = (listingId: number) => {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         console.log(`Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`);
         
-        // Update progress every 5 seconds
-        const progress = Math.min((attempt / maxAttempts) * 100, 95);
+        // Update progress every 5 seconds - cap at 85% during polling
+        const progress = Math.min((attempt / maxAttempts) * 100, 85);
         setPollingProgress(progress);
         
         const response = await getKeywordDetailsWithStatus(listingId, keywordId, 1);
@@ -319,14 +319,21 @@ export const useGeoRankingReport = (listingId: number) => {
             continue;
           }
         } else {
-          // Data is ready
+          // Data is ready - show 100% progress, then display results after delay
           console.log('Keyword details ready:', response);
           setPollingProgress(100);
-          setKeywordData(response.data as KeywordDetailsData);
-          toast({
-            title: "Keyword Processed",
-            description: "Your keyword ranking data is now available!",
-          });
+          
+          // Show 100% progress for 2 seconds before displaying results
+          setTimeout(() => {
+            setKeywordData(response.data as KeywordDetailsData);
+            setPollingKeyword(false);
+            setPollingProgress(0);
+            toast({
+              title: "Keyword Processed",
+              description: "Your keyword ranking data is now available!",
+            });
+          }, 2000);
+          
           return true;
         }
       }
@@ -342,8 +349,11 @@ export const useGeoRankingReport = (listingId: number) => {
       });
       return false;
     } finally {
-      setPollingKeyword(false);
-      setPollingProgress(0);
+      // Only reset if not in completion state (will be handled by setTimeout)
+      if (!keywordData) {
+        setPollingKeyword(false);
+        setPollingProgress(0);
+      }
     }
   };
 
