@@ -65,7 +65,8 @@ export const VerifyPayment: React.FC = () => {
   };
 
   const handleContinue = () => {
-    navigate("/");
+    console.log("clicking on continue");
+    navigate("/location-dashboard/default");
   };
 
   if (status === "loading") {

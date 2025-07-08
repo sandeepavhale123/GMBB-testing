@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "@/store/store";
-import { setAccessToken, setUser } from "@/store/slices/auth/authSlice";
+import { setAccessToken } from "@/store/slices/auth/authSlice";
 import { useOnboarding } from "@/store/slices/onboarding/useOnboarding";
 import { Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const GoogleAuthHandler = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -17,26 +18,27 @@ const GoogleAuthHandler = () => {
     setGoogleBusinessListings,
   } = useOnboarding();
 
+  const isProcessingRef = useRef(false);
+
   useEffect(() => {
     const handleGoogleRedirect = async () => {
       const code = oauthParams.code;
 
-      console.log("code from Redux state .....", code);
-      console.log("oauthparams", oauthParams);
-
-      if (!code) {
-        console.error("No code found in Redux state");
-        navigate("/login");
+      if (
+        !code ||
+        oauthParams.processed ||
+        isProcessingRef.current ||
+        sessionStorage.getItem(`google_oauth_handled_${code}`)
+      ) {
         return;
       }
 
+      isProcessingRef.current = true;
+      sessionStorage.setItem(`google_oauth_handled_${code}`, "true");
+
       try {
         const localaccessToken = localStorage.getItem("access_token");
-        const userID = localStorage.getItem("userId");
-        const user = localStorage.getItem("user");
-        const refreshToken = localStorage.getItem("refresh_token");
 
-        console.log("inside GoogleAuth try block at fetch request");
         const response = await fetch(
           `${import.meta.env.VITE_BASE_URL}/google-auth?code=${code}`,
           {
@@ -46,54 +48,47 @@ const GoogleAuthHandler = () => {
             },
           }
         );
+        const data = await response.json();
+        console.log("response from auth", data);
 
         if (!response.ok) {
-          throw new Error("Failed to authenticate with Google");
+          toast({
+            title: "Google Auth Failed",
+            description: data.message || "An unknown error occurred.",
+            variant: "destructive",
+          });
         }
 
-        const data = await response.json();
-        console.log("OAuth success:", data);
-
-        // Store Google Business Profile data in Redux
         if (data.data) {
           setGoogleBusinessListings(data.data);
         }
+        toast({
+          title: "Google Auth Succed",
+          description: data.message,
+        });
 
-        // ✅ Store in Redux
-        console.log(
-          "access, refresh, user, userid",
-          localaccessToken,
-          refreshToken,
-          user,
-          userID
-        );
-        dispatch(setAccessToken(localaccessToken));
-        // dispatch(setUser(user));
+        dispatch(setAccessToken(localaccessToken || ""));
 
-        // ✅ Set processed after successful login
         markOauthProcessed();
-
-        // Clear OAuth parameters from Redux after successful authentication
         clearOauthParameters();
 
-        console.log("clearoauth", oauthParams);
         const url = new URL(window.location.href);
         url.searchParams.delete("code");
         window.history.replaceState({}, document.title, url.toString());
 
-        // ✅ Move to step 4 in onboarding flow
         goToStep(4);
-      } catch (error) {
-        console.error("Google OAuth handling failed:", error);
+      } catch (error: any) {
+        console.log("data in error", error.json());
+
         clearOauthParameters();
         navigate("/login");
+      } finally {
+        isProcessingRef.current = false;
       }
     };
 
-    if (oauthParams.code) {
-      handleGoogleRedirect();
-    }
-  }, [clearOauthParameters, markOauthProcessed]);
+    handleGoogleRedirect();
+  }, [oauthParams.code]);
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-2">

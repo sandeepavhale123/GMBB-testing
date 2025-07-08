@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { 
-  setFilter, 
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
+import {
+  setFilter,
   setSearchQuery,
   setSortBy,
   setSentimentFilter,
-  setDateRange, 
-  clearDateRange, 
+  setDateRange,
+  clearDateRange,
   setCurrentPage,
   fetchReviews,
   clearReviewsError,
@@ -18,15 +18,15 @@ import {
   clearReplyError,
   clearDeleteReplyError,
   refreshReviewData,
-  clearRefreshError
-} from '../../store/slices/reviews';
-import { ReviewsFilters } from './ReviewsFilters';
-import { ReviewCard } from './ReviewCard';
-import { ReviewsPagination } from './ReviewsPagination';
-import { ReviewsEmptyState } from './ReviewsEmptyState';
-import { DateRange } from 'react-day-picker';
-import { format, subDays } from 'date-fns';
-import { useToast } from '../../hooks/use-toast';
+  clearRefreshError,
+} from "../../store/slices/reviews";
+import { ReviewsFilters } from "./ReviewsFilters";
+import { ReviewCard } from "./ReviewCard";
+import { ReviewsPagination } from "./ReviewsPagination";
+import { ReviewsEmptyState } from "./ReviewsEmptyState";
+import { DateRange } from "react-day-picker";
+import { format, subDays } from "date-fns";
+import { useToast } from "../../hooks/use-toast";
 
 export const ReviewsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -49,11 +49,13 @@ export const ReviewsList: React.FC = () => {
     sentimentFilter,
     dateRange,
     currentPage,
-    pageSize
-  } = useAppSelector(state => state.reviews);
+    pageSize,
+  } = useAppSelector((state) => state.reviews);
 
   const [editingReply, setEditingReply] = useState<string | null>(null);
-  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(
+    null
+  );
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -62,7 +64,7 @@ export const ReviewsList: React.FC = () => {
     // Clear date range to show all reviews, but limit to 10 with pagination
     setLocalDateRange(undefined);
     dispatch(clearDateRange());
-    
+
     setIsInitialized(true);
   }, [dispatch, selectedListing?.id]); // Reset when listing changes too
 
@@ -70,37 +72,46 @@ export const ReviewsList: React.FC = () => {
   const fetchReviewsWithFilters = () => {
     if (selectedListing?.id && isInitialized) {
       // Determine the correct sortOrder based on sortBy
-      let apiSortOrder: 'asc' | 'desc' = 'desc';
-      if (sortBy === 'oldest' || sortBy === 'rating-low') {
-        apiSortOrder = 'asc';
+      let apiSortOrder: "asc" | "desc" = "asc";
+      if (sortBy === "oldest" || sortBy === "rating-low") {
+        apiSortOrder = "desc";
       }
 
       const params = {
         pagination: {
           page: currentPage,
           limit: 10, // Set default limit to 10 for last 10 reviews
-          offset: (currentPage - 1) * 10
+          offset: (currentPage - 1) * 10,
         },
         filters: {
           search: searchQuery,
           status: filter,
           dateRange: {
-            startDate: dateRange.startDate || '2018-01-01',
-            endDate: dateRange.endDate || '2025-12-31'
+            startDate: dateRange.startDate || "2018-01-01",
+            endDate: dateRange.endDate || "2025-12-31",
           },
           rating: {
             min: 1,
-            max: 5
+            max: 5,
           },
-          sentiment: sentimentFilter === 'all' ? 'All' : sentimentFilter,
-          listingId: selectedListing.id
+          sentiment: sentimentFilter === "all" ? "All" : sentimentFilter,
+          listingId: selectedListing.id,
         },
         sorting: {
-          sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : 'date',
-          sortOrder: apiSortOrder
-        }
+          sortBy:
+            sortBy === "newest"
+              ? "date"
+              : sortBy === "oldest"
+              ? "date"
+              : sortBy === "rating-high"
+              ? "rating"
+              : sortBy === "rating-low"
+              ? "rating"
+              : "date",
+          sortOrder: apiSortOrder,
+        },
       };
-      
+
       return dispatch(fetchReviews(params));
     }
     return Promise.resolve();
@@ -111,57 +122,78 @@ export const ReviewsList: React.FC = () => {
     if (isInitialized) {
       fetchReviewsWithFilters();
     }
-  }, [dispatch, selectedListing?.id, currentPage, searchQuery, filter, sentimentFilter, dateRange, sortBy, isInitialized]);
+  }, [
+    dispatch,
+    selectedListing?.id,
+    currentPage,
+    searchQuery,
+    filter,
+    sentimentFilter,
+    dateRange,
+    sortBy,
+    isInitialized,
+  ]);
 
   // Handle refresh button click with new API
   const handleRefresh = async () => {
     if (!selectedListing?.id) return;
 
     // Determine the correct sortOrder based on sortBy
-    let apiSortOrder: 'asc' | 'desc' = 'desc';
-    if (sortBy === 'oldest' || sortBy === 'rating-low') {
-      apiSortOrder = 'asc';
+    let apiSortOrder: "asc" | "desc" = "desc";
+    if (sortBy === "oldest" || sortBy === "rating-low") {
+      apiSortOrder = "asc";
     }
 
     const reviewParams = {
       pagination: {
         page: currentPage,
         limit: 10, // Use 10 as default limit
-        offset: (currentPage - 1) * 10
+        offset: (currentPage - 1) * 10,
       },
       filters: {
         search: searchQuery,
         status: filter,
         dateRange: {
-          startDate: dateRange.startDate || '2018-01-01',
-          endDate: dateRange.endDate || '2025-12-31'
+          startDate: dateRange.startDate || "2018-01-01",
+          endDate: dateRange.endDate || "2025-12-31",
         },
         rating: {
           min: 1,
-          max: 5
+          max: 5,
         },
-        sentiment: sentimentFilter === 'all' ? 'All' : sentimentFilter,
-        listingId: selectedListing.id
+        sentiment: sentimentFilter === "all" ? "All" : sentimentFilter,
+        listingId: selectedListing.id,
       },
       sorting: {
-        sortBy: sortBy === 'newest' ? 'date' : sortBy === 'oldest' ? 'date' : sortBy === 'rating-high' ? 'rating' : sortBy === 'rating-low' ? 'rating' : 'date',
-        sortOrder: apiSortOrder
-      }
+        sortBy:
+          sortBy === "newest"
+            ? "date"
+            : sortBy === "oldest"
+            ? "date"
+            : sortBy === "rating-high"
+            ? "rating"
+            : sortBy === "rating-low"
+            ? "rating"
+            : "date",
+        sortOrder: apiSortOrder,
+      },
     };
-
+    console.log("sorting ..........", sortBy);
     try {
-      await dispatch(refreshReviewData({
-        locationId: selectedListing.id,
-        reviewParams
-      })).unwrap();
-      
+      await dispatch(
+        refreshReviewData({
+          locationId: selectedListing.id,
+          reviewParams,
+        })
+      ).unwrap();
+
       toast({
         title: "Success",
-        description: "Review data refreshed successfully"
+        description: "Review data refreshed successfully",
       });
     } catch (error) {
       // Error will be handled by the useEffect below
-      console.error('Failed to refresh review data:', error);
+      console.error("Failed to refresh review data:", error);
     }
   };
 
@@ -171,9 +203,9 @@ export const ReviewsList: React.FC = () => {
       toast({
         title: "Error Refreshing Data",
         description: refreshError,
-        variant: "destructive"
+        variant: "destructive",
       });
-      
+
       // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearRefreshError());
@@ -189,9 +221,9 @@ export const ReviewsList: React.FC = () => {
       toast({
         title: "Error Sending Reply",
         description: replyError,
-        variant: "destructive"
+        variant: "destructive",
       });
-      
+
       // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearReplyError());
@@ -207,9 +239,9 @@ export const ReviewsList: React.FC = () => {
       toast({
         title: "Error Deleting Reply",
         description: deleteReplyError,
-        variant: "destructive"
+        variant: "destructive",
       });
-      
+
       // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearDeleteReplyError());
@@ -231,12 +263,12 @@ export const ReviewsList: React.FC = () => {
 
   const handleSaveReply = async (reviewId: string, reply?: string) => {
     const finalReplyText = reply;
-    
+
     if (!finalReplyText?.trim()) {
       toast({
         title: "Error",
         description: "Please enter a reply message",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -244,23 +276,25 @@ export const ReviewsList: React.FC = () => {
     if (!selectedListing?.id) return;
 
     try {
-      await dispatch(sendReviewReply({
-        reviewId: parseInt(reviewId),
-        replyText: finalReplyText,
-        replyType: showingAIGenerator === reviewId ? 'AI' : 'manual',
-        listingId: selectedListing.id
-      })).unwrap();
-      
+      await dispatch(
+        sendReviewReply({
+          reviewId: parseInt(reviewId),
+          replyText: finalReplyText,
+          replyType: showingAIGenerator === reviewId ? "AI" : "manual",
+          listingId: selectedListing.id,
+        })
+      ).unwrap();
+
       setEditingReply(null);
       setShowingAIGenerator(null);
-      
+
       toast({
         title: "Success",
         description: "Reply sent successfully",
       });
     } catch (error) {
       // Error will be handled by the useEffect above
-      console.error('Failed to send reply:', error);
+      console.error("Failed to send reply:", error);
     }
   };
 
@@ -268,18 +302,20 @@ export const ReviewsList: React.FC = () => {
     if (!selectedListing?.id) return;
 
     try {
-      await dispatch(deleteReviewReply({ 
-        reviewId, 
-        listingId: selectedListing.id 
-      })).unwrap();
-      
+      await dispatch(
+        deleteReviewReply({
+          reviewId,
+          listingId: selectedListing.id,
+        })
+      ).unwrap();
+
       toast({
         title: "Reply Deleted",
         description: "The reply has been deleted successfully",
       });
     } catch (error) {
       // Error will be handled by the useEffect above
-      console.error('Failed to delete reply:', error);
+      console.error("Failed to delete reply:", error);
     }
   };
 
@@ -290,10 +326,12 @@ export const ReviewsList: React.FC = () => {
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setLocalDateRange(range);
     if (range?.from && range?.to) {
-      dispatch(setDateRange({
-        startDate: format(range.from, 'yyyy-MM-dd'),
-        endDate: format(range.to, 'yyyy-MM-dd')
-      }));
+      dispatch(
+        setDateRange({
+          startDate: format(range.from, "yyyy-MM-dd"),
+          endDate: format(range.to, "yyyy-MM-dd"),
+        })
+      );
     } else if (!range?.from && !range?.to) {
       dispatch(clearDateRange());
     }
@@ -306,17 +344,21 @@ export const ReviewsList: React.FC = () => {
   };
 
   // Check if there are active filters
-  const hasActiveFilters = searchQuery.trim() !== '' || 
-                          filter !== 'all' || 
-                          sentimentFilter !== 'all' ||
-                          Boolean(dateRange.startDate && dateRange.endDate);
+  const hasActiveFilters =
+    searchQuery.trim() !== "" ||
+    filter !== "all" ||
+    sentimentFilter !== "all" ||
+    Boolean(dateRange.startDate && dateRange.endDate);
 
   if (reviewsError) {
     return (
       <Card className="bg-white border border-red-200">
         <CardContent className="p-6 text-center">
           <p className="text-red-600 mb-4">{reviewsError}</p>
-          <Button onClick={() => dispatch(clearReviewsError())} variant="outline">
+          <Button
+            onClick={() => dispatch(clearReviewsError())}
+            variant="outline"
+          >
             Try Again
           </Button>
         </CardContent>
@@ -327,8 +369,10 @@ export const ReviewsList: React.FC = () => {
   return (
     <Card className="bg-white border border-gray-200">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold">Customer Reviews</CardTitle>
-        
+        <CardTitle className="text-lg font-semibold">
+          Customer Reviews
+        </CardTitle>
+
         <ReviewsFilters
           searchQuery={searchQuery}
           filter={filter}
@@ -339,7 +383,9 @@ export const ReviewsList: React.FC = () => {
           isRefreshing={refreshLoading || reviewsLoading}
           onSearchChange={(value) => dispatch(setSearchQuery(value))}
           onFilterChange={(value) => dispatch(setFilter(value))}
-          onSentimentFilterChange={(value) => dispatch(setSentimentFilter(value))}
+          onSentimentFilterChange={(value) =>
+            dispatch(setSentimentFilter(value))
+          }
           onSortChange={(value) => dispatch(setSortBy(value))}
           onDateRangeChange={handleDateRangeChange}
           onClearDateRange={handleClearDateRange}
@@ -351,7 +397,10 @@ export const ReviewsList: React.FC = () => {
         {reviewsLoading ? (
           <div className="space-y-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="border border-gray-200 rounded-lg p-4 sm:p-6 bg-white shadow-sm animate-pulse">
+              <div
+                key={i}
+                className="border border-gray-200 rounded-lg p-4 sm:p-6 bg-white shadow-sm animate-pulse"
+              >
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0"></div>
                   <div className="flex-1 min-w-0 space-y-3">
@@ -364,7 +413,7 @@ export const ReviewsList: React.FC = () => {
             ))}
           </div>
         ) : reviews.length === 0 ? (
-          <ReviewsEmptyState 
+          <ReviewsEmptyState
             hasFilters={hasActiveFilters}
             totalReviewsCount={pagination?.total || 0}
           />

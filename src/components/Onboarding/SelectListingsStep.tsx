@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,12 +34,14 @@ const SelectListingsStep = ({
 
   // Mock business listings data
   const listings = googleBusinessData?.locations || [];
+  const allowedListings = googleBusinessData?.allowedListing || 0;
 
   // Filter listings based on search term
-  const filteredListings = listings.filter((listing) =>
-    listing.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    listing.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    listing.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredListings = listings.filter(
+    (listing) =>
+      listing.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      listing.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      listing.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // ⏩ Skip step if no listings found
@@ -56,13 +57,34 @@ const SelectListingsStep = ({
     Number(listing.isActive)
   ).length;
   const allSelected = selectedCount === listings.length && listings.length > 0;
+  const remainingAllowed = allowedListings - selectedCount;
 
   console.log("selectedCount", selectedCount);
-  const handleListingToggle = (listingId: string) => {
+  const handleListingToggle = (
+    listingId: string,
+    isCurrentlySelected: boolean
+  ) => {
+    if (!isCurrentlySelected && selectedCount >= allowedListings) {
+      toast({
+        title: "Limit Reached",
+        description: `According to your plan you have allowed ${allowedListings} listings.`,
+        variant: "destructive",
+      });
+      return;
+    }
     toggleListingSelection(listingId);
   };
 
   const handleSelectAll = () => {
+    const numUnselected = listings.filter((l) => !Number(l.isActive)).length;
+    if (!allSelected && numUnselected > remainingAllowed) {
+      toast({
+        title: "Limit Reached",
+        description: `You can only select ${remainingAllowed} more listing(s).`,
+        variant: "destructive",
+      });
+      return;
+    }
     setAllListingsSelection(!allSelected);
   };
 
@@ -97,8 +119,8 @@ const SelectListingsStep = ({
       if (response) {
         toast({
           title: "Success",
-          description: `${selectedCount} listing${
-            selectedCount > 1 ? "s" : ""
+          description: `${selectedListingIds.length} listing${
+            selectedListingIds.length > 1 ? "s" : ""
           } connected successfully`,
         });
 
@@ -139,15 +161,21 @@ const SelectListingsStep = ({
             Connected to {googleBusinessData.profileEmail}
           </p>
         )}
+
+        <p className="text-sm text-gray-500 mt-1">
+          Allowed to select: {remainingAllowed} listing
+          {allowedListings > 1 ? "s" : ""}
+        </p>
       </div>
 
       <div className="mb-6">
         {/* Single row with Found listings, Search, and Select All */}
         <div className="flex items-center gap-4 mb-4">
           <h3 className="text-lg font-semibold text-gray-900 whitespace-nowrap">
-            Found {listings.length} business listing{listings.length !== 1 ? 's' : ''}
+            Found {listings.length} business listing
+            {listings.length !== 1 ? "s" : ""}
           </h3>
-          
+
           {/* Search Input */}
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -184,7 +212,7 @@ const SelectListingsStep = ({
                     ? "border-blue-500 bg-blue-50"
                     : "border-gray-200 hover:border-gray-300"
                 }`}
-                onClick={() => handleListingToggle(listing.id)}
+                onClick={() => handleListingToggle(listing.id, isSelected)}
               >
                 <div className="flex items-start gap-4">
                   <Checkbox checked={isSelected} className="mt-1" />
@@ -209,7 +237,9 @@ const SelectListingsStep = ({
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {String(listing.isVerified) === "1" ? "Verified" : "Not-Verified"}
+                        {String(listing.isVerified) === "1"
+                          ? "Verified"
+                          : "Not-Verified"}
                       </div>
                     </div>
 
@@ -246,7 +276,9 @@ const SelectListingsStep = ({
               Connecting...
             </>
           ) : (
-            `Connect with ${selectedCount} listing${selectedCount !== 1 ? 's' : ''}`
+            `Connect with ${selectedCount} listing${
+              selectedCount !== 1 ? "s" : ""
+            }`
           )}
         </Button>
       </div>
@@ -254,8 +286,8 @@ const SelectListingsStep = ({
       <div className="text-center mt-6">
         <p className="text-sm text-gray-500">
           Don't see your business? You can{" "}
-          <a 
-            href="https://support.gmbbriefcase.com/" 
+          <a
+            href="https://support.gmbbriefcase.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"

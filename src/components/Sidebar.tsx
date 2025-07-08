@@ -104,12 +104,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         profileData.last_name?.charAt(0) || ""
       }`
     : "U";
-  const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
+  const userProfilePic =
+    profileData?.profilePic ||
+    "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
   const planExpDate = profileData?.planExpDate || null;
 
   // Check if plan is expired using the subscription utility
   const isPlanExpired = isSubscriptionExpired(planExpDate);
-
+  console.log("plan exp or not .....", isPlanExpired);
+  console.log("result of condition", !isPlanExpired && !collapsed);
   // Determine active tab based on current path
   const getActiveTab = () => {
     const currentPath = location.pathname;
@@ -211,7 +214,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </ScrollArea>
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired */}
-        {(!planExpDate || isPlanExpired) && !collapsed && (
+        {!isPlanExpired && !collapsed && (
           <div className="px-3 pb-4">
             <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
               <CardContent className="p-4">

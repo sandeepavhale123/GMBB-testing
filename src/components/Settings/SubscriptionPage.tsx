@@ -159,9 +159,12 @@ export const SubscriptionPage: React.FC = () => {
     return activePlanId === planId && !isExpired;
   };
   console.log("active plan id", activePlanId);
+  const paynowId = ["50", "51", "0", "34", "68", "69", "70"];
   const hasActivePlan = () => {
     return (
-      typeof activePlanId === "string" && activePlanId !== "0" && !isExpired
+      typeof activePlanId === "string" &&
+      !paynowId.includes(activePlanId) &&
+      !isExpired
     );
   };
   console.log("Has active plan", hasActivePlan());
@@ -345,8 +348,12 @@ export const SubscriptionPage: React.FC = () => {
 
       <Tabs defaultValue="pricing-plan" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
-          <TabsTrigger value="pricing-plan" className="text-sm sm:text-base">Pricing Plan</TabsTrigger>
-          <TabsTrigger value="payment-history" className="text-sm sm:text-base">Payment History</TabsTrigger>
+          <TabsTrigger value="pricing-plan" className="text-sm sm:text-base">
+            Pricing Plan
+          </TabsTrigger>
+          <TabsTrigger value="payment-history" className="text-sm sm:text-base">
+            Payment History
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="pricing-plan" className="space-y-6">
@@ -368,7 +375,9 @@ export const SubscriptionPage: React.FC = () => {
                       </CardTitle>
                       <div className="text-2xl sm:text-3xl font-bold mt-2">
                         ${plan.price}
-                        <span className="text-sm font-normal opacity-80">/PM</span>
+                        <span className="text-sm font-normal opacity-80">
+                          /PM
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -376,12 +385,19 @@ export const SubscriptionPage: React.FC = () => {
                 <CardContent className="p-4">
                   <div className="space-y-3 mb-6">
                     {planFeatures.map((feature, index) => (
-                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0"
+                      >
                         <span className="text-sm font-medium text-gray-700 flex-1">
                           {feature.name}
                         </span>
                         <div className="ml-3">
-                          {renderFeatureValue(feature[plan.name.toLowerCase() as keyof PlanFeature])}
+                          {renderFeatureValue(
+                            feature[
+                              plan.name.toLowerCase() as keyof PlanFeature
+                            ]
+                          )}
                         </div>
                       </div>
                     ))}
@@ -500,7 +516,9 @@ export const SubscriptionPage: React.FC = () => {
             <Button
               variant="outline"
               className="border-blue-300 text-blue-700 hover:bg-blue-100"
-              onClick={() => window.open('https://gmbbriefcase.com/contact/', '_blank')}
+              onClick={() =>
+                window.open("https://gmbbriefcase.com/contact/", "_blank")
+              }
             >
               Contact Sales
             </Button>

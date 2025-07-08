@@ -32,6 +32,7 @@ export interface GoogleOAuthResponseData {
   accountId: string;
   locations: GoogleBusinessListing[];
   totalListing: number;
+  allowedListing: number;
 }
 export interface OnboardingState {
   currentStep: number;
