@@ -257,39 +257,58 @@ export const BrandingPage: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Sidebar Theme */}
+          {/* Sidebar Theme Selection */}
           <div className="space-y-3">
             <Label className="text-sm font-medium text-gray-700">Sidebar Theme</Label>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setSidebarTheme('dark')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
-                  sidebarTheme === 'dark'
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <Moon className="w-4 h-4" />
-                Dark Sidebar
-              </button>
-              <button
-                onClick={() => setSidebarTheme('light')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
-                  sidebarTheme === 'light'
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <Sun className="w-4 h-4" />
-                Light Sidebar
-              </button>
+            <div className="flex gap-4">
+              {[
+                { id: 'dark', label: 'Dark', color: '#1f2937', icon: Moon },
+                { id: 'light', label: 'Light', color: '#ffffff', icon: Sun },
+                { id: 'blue', label: 'Blue', color: '#3b82f6', icon: Settings },
+                { id: 'green', label: 'Green', color: '#10b981', icon: Settings },
+                { id: 'purple', label: 'Purple', color: '#8b5cf6', icon: Settings },
+              ].map((theme) => {
+                const IconComponent = theme.icon;
+                return (
+                  <button
+                    key={theme.id}
+                    onClick={() => {
+                      setSidebarTheme(theme.id as 'dark' | 'light');
+                      setCustomSidebarColor(theme.color);
+                    }}
+                    className={`relative w-20 h-16 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
+                      (sidebarTheme === theme.id || 
+                       (theme.id !== 'dark' && theme.id !== 'light' && customSidebarColor === theme.color))
+                        ? 'border-primary ring-2 ring-offset-2 ring-primary/20' 
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    style={{ 
+                      backgroundColor: theme.id === 'light' ? '#ffffff' : theme.color,
+                      border: theme.id === 'light' ? '2px solid #e5e7eb' : undefined
+                    }}
+                  >
+                    {(sidebarTheme === theme.id || 
+                     (theme.id !== 'dark' && theme.id !== 'light' && customSidebarColor === theme.color)) && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Check className="w-5 h-5 text-white drop-shadow-lg" />
+                      </div>
+                    )}
+                    <div className="absolute bottom-1 left-1 right-1">
+                      <div className="text-xs font-medium text-center" 
+                           style={{ color: theme.id === 'light' ? '#374151' : '#ffffff' }}>
+                        {theme.label}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* Custom Colors */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Sidebar Background</Label>
+              <Label className="text-sm font-medium text-gray-700">Custom Sidebar Color</Label>
               <div className="flex items-center gap-3">
                 <div 
                   className="w-10 h-10 rounded border-2 border-gray-200"
@@ -341,14 +360,14 @@ export const BrandingPage: React.FC = () => {
             <div 
               className="w-48 h-32 rounded border"
               style={{ 
-                backgroundColor: sidebarTheme === 'dark' ? customSidebarColor : '#ffffff',
+                backgroundColor: sidebarTheme === 'light' ? '#ffffff' : customSidebarColor,
                 border: sidebarTheme === 'light' ? '1px solid #e5e7eb' : 'none'
               }}
             >
               <div className="p-3 space-y-2">
                 <div 
                   className="text-xs font-medium"
-                  style={{ color: sidebarTheme === 'dark' ? customLabelColor : '#374151' }}
+                  style={{ color: sidebarTheme === 'light' ? '#374151' : customLabelColor }}
                 >
                   Navigation
                 </div>
@@ -356,15 +375,15 @@ export const BrandingPage: React.FC = () => {
                   <div 
                     className="text-xs py-1 px-2 rounded"
                     style={{ 
-                      backgroundColor: sidebarTheme === 'dark' ? 'rgba(255,255,255,0.1)' : '#f3f4f6',
-                      color: sidebarTheme === 'dark' ? customLabelColor : '#374151'
+                      backgroundColor: sidebarTheme === 'light' ? '#f3f4f6' : 'rgba(255,255,255,0.1)',
+                      color: sidebarTheme === 'light' ? '#374151' : customLabelColor
                     }}
                   >
                     Dashboard
                   </div>
                   <div 
                     className="text-xs py-1 px-2"
-                    style={{ color: sidebarTheme === 'dark' ? customLabelColor : '#6b7280' }}
+                    style={{ color: sidebarTheme === 'light' ? '#6b7280' : customLabelColor }}
                   >
                     Settings
                   </div>
