@@ -83,7 +83,17 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/settings/branding",
+    path: "/settings/theme-customization",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/settings/report-branding",
     element: (
       <ProtectedRoute>
         <ListingProvider>

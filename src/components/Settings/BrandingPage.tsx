@@ -6,7 +6,7 @@ import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection'
 import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
 import { ThemeColorsSection } from './Branding/ThemeColorsSection';
 import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
-import { ReportBrandingSection } from './Branding/ReportBrandingSection';
+
 import { BrandingSaveActions } from './Branding/BrandingSaveActions';
 export const BrandingPage: React.FC = () => {
   const [lightLogoFile, setLightLogoFile] = useState<File | null>(null);
@@ -25,8 +25,8 @@ export const BrandingPage: React.FC = () => {
   return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Branding</h1>
-          <p className="p-4 sm:p-6 max-w-6xl mx-auto">Customize your application's visual identity</p>
+          <h1 className="text-2xl font-bold text-gray-900">Theme Customization</h1>
+          <p className="text-gray-600">Customize your application's visual identity</p>
         </div>
         <Badge variant="outline" className="text-blue-600 border-blue-200">
           White Label
@@ -48,10 +48,6 @@ export const BrandingPage: React.FC = () => {
           <Separator className="mx-0" />
 
           <SidebarCustomizationSection selectedTheme={selectedTheme} onThemeChange={setSelectedTheme} />
-
-          <Separator className="mx-0" />
-
-          <ReportBrandingSection />
         </CardContent>
       </Card>
 

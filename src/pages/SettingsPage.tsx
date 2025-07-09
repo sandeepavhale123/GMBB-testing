@@ -14,6 +14,7 @@ import { GenieSubscriptionPage } from "../components/Settings/GenieSubscriptionP
 import { ListingManagementPage } from "../components/Settings/ListingManagementPage";
 import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { BrandingPage } from "../components/Settings/BrandingPage";
+import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
@@ -51,8 +52,11 @@ const SettingsPage = () => {
     if (path.includes("/subscription")) {
       return "subscription";
     }
-    if (path.includes("/branding")) {
-      return "branding";
+    if (path.includes("/theme-customization")) {
+      return "theme-customization";
+    }
+    if (path.includes("/report-branding")) {
+      return "report-branding";
     }
     if (path.includes("/integrations")) {
       return "integrations";
@@ -81,8 +85,10 @@ const SettingsPage = () => {
         return <ManageGoogleAccountPage />;
       case "subscription":
         return <SubscriptionPage />;
-      case "branding":
+      case "theme-customization":
         return <BrandingPage />;
+      case "report-branding":
+        return <ReportBrandingPage />;
       case "integrations":
         return <IntegrationsPage />;
       default:

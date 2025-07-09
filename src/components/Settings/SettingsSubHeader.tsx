@@ -17,7 +17,8 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
   const tabs = [
     { id: 'google-account', label: 'Manage Google Account', path: '/settings/google-account' },
     { id: 'subscription', label: 'Subscription', path: '/settings/subscription' },
-    { id: 'branding', label: 'Branding', path: '/settings/branding' },
+    { id: 'theme-customization', label: 'Theme Customization', path: '/settings/theme-customization' },
+    { id: 'report-branding', label: 'Report Branding', path: '/settings/report-branding' },
     { id: 'integrations', label: 'Integrations', path: '/settings/integrations' }
   ];
 
