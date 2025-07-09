@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { listingId } = useParams();
   const { profileData } = useProfile();
-  const { light_logo_url, dark_logo_url, isDark } = useAppSelector((state) => state.theme);
+  const { dark_logo_url, favicon_url } = useAppSelector((state) => state.theme);
 
   // Get user info from profile data
   const userName = profileData
@@ -139,16 +139,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const activeTab = getActiveTab();
 
   // Get logo URLs with fallbacks
-  const getLogoUrl = (mode: 'light' | 'dark') => {
-    if (mode === 'light') {
-      return light_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
-    } else {
-      return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
-    }
+  const getDarkLogoUrl = () => {
+    return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
   };
 
   const getFaviconUrl = () => {
-    return "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
+    return favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
   };
 
   const handleTabChange = (tab: string, basePath: string) => {
@@ -196,9 +192,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {!collapsed ? (
             <div className="flex items-center space-x-2">
               <img
-                src={getLogoUrl(isDark ? 'dark' : 'light')}
+                src={getDarkLogoUrl()}
                 alt="GMB Genie Logo"
-                className="h-15 object-contain"
+                className="h-10 w-auto object-contain"
               />
             </div>
           ) : (
