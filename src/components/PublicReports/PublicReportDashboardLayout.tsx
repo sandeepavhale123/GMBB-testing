@@ -126,6 +126,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
           <header className="bg-slate-800 text-white h-[300px] z-10">
+            <h3 className="text-center text-gray-300">{title}</h3>
             <div className="container mx-auto h-full flex items-center justify-between px-8">
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
@@ -154,7 +155,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           </header>
 
           {/* Main Content */}
-          <main className="flex-1  overflow-auto -mt-24 relative z-40">
+          <main className="flex-1  overflow-auto -mt-150 relative z-40">
             <div className="container mx-auto p-8">
                 {children}
             </div>
