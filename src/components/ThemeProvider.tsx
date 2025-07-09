@@ -22,7 +22,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       root.classList.remove('dark');
     }
 
-    // Set accent color CSS variables
+    // Set accent color CSS variables - map to primary theme variables
     const accentColors = {
       blue: { primary: '217 91% 60%', secondary: '217 91% 95%' },
       green: { primary: '142 76% 36%', secondary: '142 76% 95%' },
@@ -34,6 +34,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     };
 
     const colors = accentColors[accentColor];
+    // Update main theme variables
+    root.style.setProperty('--primary', colors.primary);
+    root.style.setProperty('--ring', colors.primary);
+    root.style.setProperty('--sidebar-ring', colors.primary);
+    // Keep accent variables for backwards compatibility
     root.style.setProperty('--accent-primary', colors.primary);
     root.style.setProperty('--accent-secondary', colors.secondary);
   }, [isDark, accentColor]);

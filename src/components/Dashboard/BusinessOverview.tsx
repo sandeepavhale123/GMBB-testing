@@ -18,7 +18,7 @@ export const BusinessOverview: React.FC = () => {
       title: 'Total Businesses',
       value: totalBusinesses,
       icon: Building2,
-      color: 'text-blue-600'
+      color: 'text-primary'
     },
     {
       title: 'Published Posts',

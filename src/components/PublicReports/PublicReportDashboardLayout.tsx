@@ -106,7 +106,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                       onClick={() => navigate(item.path)}
                       className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isActive 
-                          ? 'bg-blue-500 text-white shadow-md' 
+                          ? 'bg-primary text-white shadow-md' 
                           : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
                       }`}
                     >

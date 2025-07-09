@@ -97,7 +97,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   {businessInfo?.name || "Business Name"}
                 </h2>
                 {businessInfo?.verification_status === "verified" && (
-                  <Check className="w-5 h-5 text-blue-500 bg-blue-100 rounded-full p-1" />
+                  <Check className="w-5 h-5 text-primary bg-primary/20 rounded-full p-1" />
                 )}
               </div>
 
@@ -132,7 +132,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               <Button
                 onClick={onRefresh}
                 disabled={isRefreshing}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm"
+                className="px-4 py-2 text-sm"
               >
                 {isRefreshing ? (
                   <>
@@ -177,7 +177,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                 className={cn(
                   "py-4 px-1 border-b-2 font-medium text-sm transition-colors",
                   activeTab === tab.id
-                    ? "border-blue-500 text-blue-600"
+                    ? "border-primary text-primary"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 )}
               >
