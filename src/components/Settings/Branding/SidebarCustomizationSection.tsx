@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Label } from '../../ui/label';
 import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialog';
 import { Button } from '../../ui/button';
+import { Input } from '../../ui/input';
 import { Settings, Palette } from 'lucide-react';
 
 interface SidebarCustomizationSectionProps {
@@ -21,28 +21,52 @@ const sidebarThemes = [
     activeMenuLabelColor: '#fff'
   },
   {
-    id: 'theme_02',
-    label: 'Teal Theme',
-    bgColor: '#14b8a6',
-    labelColor: '#1f2937',
-    activeMenuBgColor: '#1f2937',
-    activeMenuLabelColor: '#fff'
+    id: 'blue',
+    label: 'Blue',
+    bgColor: '#2563eb',
+    labelColor: '#ffffff',
+    activeMenuBgColor: '#1d4ed8',
+    activeMenuLabelColor: '#ffffff'
   },
   {
-    id: 'theme_03',
-    label: 'Purple Theme',
-    bgColor: '#7c3aed',
-    labelColor: '#1f2937',
-    activeMenuBgColor: '#1f2937',
-    activeMenuLabelColor: '#fff'
+    id: 'red',
+    label: 'Red',
+    bgColor: '#dc2626',
+    labelColor: '#ffffff',
+    activeMenuBgColor: '#b91c1c',
+    activeMenuLabelColor: '#ffffff'
   },
   {
-    id: 'theme_04',
-    label: 'Orange Theme',
-    bgColor: '#fb7185',
-    labelColor: '#111827',
-    activeMenuBgColor: '#1f2937',
-    activeMenuLabelColor: '#fff'
+    id: 'green',
+    label: 'Green',
+    bgColor: '#059669',
+    labelColor: '#ffffff',
+    activeMenuBgColor: '#047857',
+    activeMenuLabelColor: '#ffffff'
+  },
+  {
+    id: 'brown',
+    label: 'Brown',
+    bgColor: '#7c2d12',
+    labelColor: '#ffffff',
+    activeMenuBgColor: '#92400e',
+    activeMenuLabelColor: '#ffffff'
+  },
+  {
+    id: 'gray',
+    label: 'Gray',
+    bgColor: '#1f2937',
+    labelColor: '#d1d5db',
+    activeMenuBgColor: '#374151',
+    activeMenuLabelColor: '#ffffff'
+  },
+  {
+    id: 'purple',
+    label: 'Purple',
+    bgColor: '#581c87',
+    labelColor: '#ffffff',
+    activeMenuBgColor: '#6b21a8',
+    activeMenuLabelColor: '#ffffff'
   }
 ];
 
@@ -86,58 +110,160 @@ const CustomColorModal: React.FC<{
   onClose: () => void;
   onSelectColor: (colors: any) => void;
 }> = ({ isOpen, onClose, onSelectColor }) => {
-  const customColorOptions = [
-    { bg: '#2563eb', text: '#ffffff', active: '#1d4ed8', label: 'Blue' },
-    { bg: '#dc2626', text: '#ffffff', active: '#b91c1c', label: 'Red' },
-    { bg: '#059669', text: '#ffffff', active: '#047857', label: 'Green' },
-    { bg: '#7c2d12', text: '#ffffff', active: '#92400e', label: 'Brown' },
-    { bg: '#1f2937', text: '#d1d5db', active: '#374151', label: 'Gray' },
-    { bg: '#581c87', text: '#ffffff', active: '#6b21a8', label: 'Purple' },
-  ];
+  const [bgColor, setBgColor] = useState('#2563eb');
+  const [labelColor, setLabelColor] = useState('#ffffff');
+  const [activeMenuBgColor, setActiveMenuBgColor] = useState('#1d4ed8');
+  const [activeMenuLabelColor, setActiveMenuLabelColor] = useState('#ffffff');
+
+  const handleApply = () => {
+    onSelectColor({
+      bgColor,
+      labelColor,
+      activeMenuBgColor,
+      activeMenuLabelColor
+    });
+    onClose();
+  };
+
+  const handleReset = () => {
+    setBgColor('#2563eb');
+    setLabelColor('#ffffff');
+    setActiveMenuBgColor('#1d4ed8');
+    setActiveMenuLabelColor('#ffffff');
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Palette className="w-5 h-5" />
-            Choose Custom Colors
+            Custom Color Picker
           </DialogTitle>
         </DialogHeader>
-        <div className="grid grid-cols-2 gap-3 p-4">
-          {customColorOptions.map((color, index) => (
-            <div
-              key={index}
-              className="p-3 rounded-lg border-2 border-transparent hover:border-blue-300 cursor-pointer transition-all"
-              onClick={() => {
-                onSelectColor({
-                  bgColor: color.bg,
-                  labelColor: color.text,
-                  activeMenuBgColor: color.active,
-                  activeMenuLabelColor: '#ffffff'
-                });
-                onClose();
-              }}
+        <div className="space-y-6 p-4">
+          {/* Preview */}
+          <div className="border rounded-lg overflow-hidden">
+            <div 
+              className="h-32 p-4"
+              style={{ backgroundColor: bgColor }}
             >
-              <div 
-                className="w-full h-16 rounded mb-2"
-                style={{ backgroundColor: color.bg }}
-              >
-                <div className="p-2">
-                  <div className="text-xs font-semibold" style={{ color: color.text }}>
-                    Menu
-                  </div>
-                  <div 
-                    className="mt-1 px-2 py-1 rounded text-xs"
-                    style={{ backgroundColor: color.active, color: '#ffffff' }}
-                  >
-                    Active
-                  </div>
+              <div className="text-xs font-semibold mb-3" style={{ color: labelColor }}>
+                YOUR LOGO
+              </div>
+              <div className="space-y-1">
+                <div className="text-xs px-2 py-1" style={{ color: labelColor }}>
+                  Overview
+                </div>
+                <div 
+                  className="text-xs px-2 py-1 rounded"
+                  style={{ 
+                    backgroundColor: activeMenuBgColor,
+                    color: activeMenuLabelColor 
+                  }}
+                >
+                  Posts
+                </div>
+                <div className="text-xs px-2 py-1" style={{ color: labelColor }}>
+                  Media
                 </div>
               </div>
-              <div className="text-center text-sm font-medium">{color.label}</div>
             </div>
-          ))}
+          </div>
+
+          {/* Color Inputs */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="bgColor">Background Color</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="bgColor"
+                  type="color"
+                  value={bgColor}
+                  onChange={(e) => setBgColor(e.target.value)}
+                  className="w-12 h-10 p-1 rounded"
+                />
+                <Input
+                  value={bgColor}
+                  onChange={(e) => setBgColor(e.target.value)}
+                  placeholder="#2563eb"
+                  className="flex-1"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="labelColor">Text Color</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="labelColor"
+                  type="color"
+                  value={labelColor}
+                  onChange={(e) => setLabelColor(e.target.value)}
+                  className="w-12 h-10 p-1 rounded"
+                />
+                <Input
+                  value={labelColor}
+                  onChange={(e) => setLabelColor(e.target.value)}
+                  placeholder="#ffffff"
+                  className="flex-1"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="activeMenuBgColor">Active Menu Background</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="activeMenuBgColor"
+                  type="color"
+                  value={activeMenuBgColor}
+                  onChange={(e) => setActiveMenuBgColor(e.target.value)}
+                  className="w-12 h-10 p-1 rounded"
+                />
+                <Input
+                  value={activeMenuBgColor}
+                  onChange={(e) => setActiveMenuBgColor(e.target.value)}
+                  placeholder="#1d4ed8"
+                  className="flex-1"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="activeMenuLabelColor">Active Menu Text</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="activeMenuLabelColor"
+                  type="color"
+                  value={activeMenuLabelColor}
+                  onChange={(e) => setActiveMenuLabelColor(e.target.value)}
+                  className="w-12 h-10 p-1 rounded"
+                />
+                <Input
+                  value={activeMenuLabelColor}
+                  onChange={(e) => setActiveMenuLabelColor(e.target.value)}
+                  placeholder="#ffffff"
+                  className="flex-1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex justify-between pt-4">
+            <Button variant="outline" onClick={handleReset}>
+              Reset
+            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button onClick={handleApply}>
+                Apply Colors
+              </Button>
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
@@ -180,16 +306,14 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Settings className="w-5 h-5" />
-          Select Sidebar Background Color
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div>
+      <div className="flex items-center gap-2 mb-4">
+        <Settings className="w-5 h-5" />
+        <h3 className="text-lg font-semibold">Select Sidebar Background Color</h3>
+      </div>
+      <div>
         <RadioGroup value={selectedTheme} onValueChange={handleThemeChange}>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sidebarThemes.map((theme) => (
               <div 
                 key={theme.id} 
@@ -261,7 +385,7 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
           onClose={() => setIsCustomModalOpen(false)}
           onSelectColor={handleCustomColorSelect}
         />
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Badge } from '../ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Separator } from '../ui/separator';
 import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection';
 import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
 import { ThemeColorsSection } from './Branding/ThemeColorsSection';
@@ -34,24 +36,37 @@ export const BrandingPage: React.FC = () => {
         </Badge>
       </div>
 
-      <EnhancedLogoUploadSection
-        lightLogoFile={lightLogoFile}
-        darkLogoFile={darkLogoFile}
-        onLightLogoChange={setLightLogoFile}
-        onDarkLogoChange={setDarkLogoFile}
-      />
+      <Card>
+        <CardHeader>
+          <CardTitle>Application Customization</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <EnhancedLogoUploadSection
+            lightLogoFile={lightLogoFile}
+            darkLogoFile={darkLogoFile}
+            onLightLogoChange={setLightLogoFile}
+            onDarkLogoChange={setDarkLogoFile}
+          />
 
-      <EnhancedFaviconUploadSection
-        faviconFile={faviconFile}
-        onFaviconChange={setFaviconFile}
-      />
+          <Separator />
 
-      <ThemeColorsSection />
+          <EnhancedFaviconUploadSection
+            faviconFile={faviconFile}
+            onFaviconChange={setFaviconFile}
+          />
 
-      <SidebarCustomizationSection
-        selectedTheme={selectedTheme}
-        onThemeChange={setSelectedTheme}
-      />
+          <Separator />
+
+          <ThemeColorsSection />
+
+          <Separator />
+
+          <SidebarCustomizationSection
+            selectedTheme={selectedTheme}
+            onThemeChange={setSelectedTheme}
+          />
+        </CardContent>
+      </Card>
 
       <BrandingSaveActions
         isSaving={isSaving}
