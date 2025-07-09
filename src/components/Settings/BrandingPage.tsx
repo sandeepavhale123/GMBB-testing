@@ -50,6 +50,15 @@ export const BrandingPage: React.FC = () => {
     loadThemeData();
   }, [dispatch]);
 
+  const handleResetTheme = () => {
+    // Reset to default theme values
+    dispatch(setSelectedTheme('theme_01'));
+    dispatch(setLightLogo(null));
+    dispatch(setDarkLogo(null));
+    dispatch(setFavicon(null));
+    // You can add more reset actions here if needed
+  };
+
   const handleSaveChanges = async () => {
     dispatch(setThemeLoading(true));
     try {
@@ -132,9 +141,11 @@ export const BrandingPage: React.FC = () => {
             selectedTheme={selected_theme} 
             onThemeChange={(theme) => dispatch(setSelectedTheme(theme))} 
           />
+
+          <Separator className="mx-0" />
+
+          <BrandingSaveActions isSaving={isLoading} onSave={handleSaveChanges} onReset={handleResetTheme} />
         </CardContent>
       </Card>
-
-      <BrandingSaveActions isSaving={isLoading} onSave={handleSaveChanges} />
     </div>;
 };

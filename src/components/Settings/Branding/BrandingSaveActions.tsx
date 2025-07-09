@@ -1,16 +1,18 @@
 import React from 'react';
 import { Button } from '../../ui/button';
-import { Check, Settings } from 'lucide-react';
+import { Check, Settings, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface BrandingSaveActionsProps {
   isSaving: boolean;
   onSave: () => Promise<void>;
+  onReset: () => void;
 }
 
 export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
   isSaving,
   onSave,
+  onReset,
 }) => {
   const { toast } = useToast();
 
@@ -31,7 +33,17 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
   };
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-between">
+      <Button 
+        variant="outline"
+        onClick={onReset} 
+        disabled={isSaving}
+        className="px-6"
+      >
+        <RotateCcw className="w-4 h-4 mr-2" />
+        Reset
+      </Button>
+      
       <Button 
         onClick={handleSave} 
         disabled={isSaving}
