@@ -58,7 +58,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Search className="w-5 h-5 text-blue-600" />
+            <Search className="w-5 h-5 text-primary" />
             <CardTitle className="text-lg font-semibold">Top Search Queries</CardTitle>
           </div>
           {topKeywordQuery?.avaialbleRecords && <Select value={selectedMonth} onValueChange={handleMonthChange}>

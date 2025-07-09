@@ -38,7 +38,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Search className="w-5 h-5 text-blue-600" />
+                  <Search className="w-5 h-5 text-primary" />
                   <span className="text-sm font-medium text-gray-700">Google Search Views</span>
                 </div>
                 <p className="text-3xl font-bold text-gray-900">
@@ -86,7 +86,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
                   <BarChart data={visibilityTrends?.chart_data || []}>
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Bar dataKey="search" fill="#3b82f6" name="Search" />
+                    <Bar dataKey="search" fill="hsl(var(--primary))" name="Search" />
                     <Bar dataKey="maps" fill="#ef4444" name="Maps" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -96,7 +96,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
             <div className="flex justify-center mt-4">
               <div className="flex gap-4 text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-600 rounded"></div>
+                  <div className="w-3 h-3 bg-primary rounded"></div>
                   <span>Search Views</span>
                 </div>
                 <div className="flex items-center gap-2">

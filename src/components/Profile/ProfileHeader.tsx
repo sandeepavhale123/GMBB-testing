@@ -145,7 +145,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <button 
               onClick={handlePencilClick}
               disabled={isUploading || isUpdating}
-              className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-primary rounded-full flex items-center justify-center text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Pencil className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
@@ -168,7 +168,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 Worker
               </p>
               {profileData?.planName && (
-                <p className="text-sm text-blue-600 font-medium">
+                <p className="text-sm text-primary font-medium">
                   {profileData.planName} Plan
                   {profileData.planExpDate && (
                     <span className="text-gray-500 font-normal">
@@ -185,7 +185,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={() => onTabChange('password')}
-                className="px-4 py-2 rounded-lg font-medium border-blue-200 text-blue-600 hover:bg-blue-50 transition-all"
+                className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
               >
                 <Lock className="w-4 h-4 mr-2" />
                 Change Password
@@ -194,7 +194,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={handleManageSubscription}
-                className="px-4 py-2 rounded-lg font-medium border-blue-200 text-blue-600 hover:bg-blue-50 transition-all"
+                className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Manage Subscription

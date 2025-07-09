@@ -226,7 +226,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">Upload Complete!</h3>
                 <p className="text-gray-600">
-                  Your <span className="font-medium text-blue-600">{file.type}</span> has been uploaded successfully.
+                  Your <span className="font-medium text-primary">{file.type}</span> has been uploaded successfully.
                 </p>
               </div>}
 
@@ -243,7 +243,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       </h3>
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Type:</span>
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                        <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
                           {file.selectedImage === 'ai' ? 'AI IMAGE' : file.type.toUpperCase()}
                         </span>
                       </div>
@@ -261,7 +261,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   <Button variant="outline" onClick={handleClose} disabled={isUploading}>
                     Cancel
                   </Button>
-                  <Button onClick={handleUpload} disabled={!file || isUploading || !selectedListing} className="bg-blue-600 hover:bg-blue-700 text-white px-8">
+                  <Button onClick={handleUpload} disabled={!file || isUploading || !selectedListing} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
                     {isUploading ? 'Uploading...' : 'Upload Media'}
                   </Button>
                 </div>

@@ -26,7 +26,7 @@ export const TopSearchQueriesCard: React.FC<TopSearchQueriesCardProps> = ({
     <Card className="h-full">
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <Search className="w-5 h-5 text-blue-600" />
+          <Search className="w-5 h-5 text-primary" />
           Top Search Queries
         </CardTitle>
         <p className="text-sm text-gray-600">Most popular search terms that led customers to your business</p>

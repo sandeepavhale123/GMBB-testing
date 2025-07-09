@@ -13,7 +13,7 @@ export const PostsHeader: React.FC<PostsHeaderProps> = ({ onCreatePost }) => {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Posts</h1>
       </div>
-      <Button onClick={onCreatePost} className="bg-blue-600 hover:bg-blue-700">
+      <Button onClick={onCreatePost} className="bg-primary hover:bg-primary/90">
         <Plus className="w-4 h-4 sm:mr-2" />
         <span className="hidden sm:inline">Create Post</span>
       </Button>
