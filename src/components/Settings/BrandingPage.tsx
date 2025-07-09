@@ -6,13 +6,16 @@ import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection'
 import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
 import { ThemeColorsSection } from './Branding/ThemeColorsSection';
 import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
+import { ReportBrandingSection } from './Branding/ReportBrandingSection';
 import { BrandingSaveActions } from './Branding/BrandingSaveActions';
+
 export const BrandingPage: React.FC = () => {
   const [lightLogoFile, setLightLogoFile] = useState<File | null>(null);
   const [darkLogoFile, setDarkLogoFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
   const [selectedTheme, setSelectedTheme] = useState('theme_01');
   const [isSaving, setIsSaving] = useState(false);
+
   const handleSaveChanges = async () => {
     setIsSaving(true);
     try {
@@ -21,8 +24,10 @@ export const BrandingPage: React.FC = () => {
       setIsSaving(false);
     }
   };
-  return <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Branding</h1>
           <p className="text-gray-600 mt-1">Customize your application's visual identity</p>
@@ -33,26 +38,42 @@ export const BrandingPage: React.FC = () => {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Application Customization</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <EnhancedLogoUploadSection lightLogoFile={lightLogoFile} darkLogoFile={darkLogoFile} onLightLogoChange={setLightLogoFile} onDarkLogoChange={setDarkLogoFile} />
+        <CardContent className="space-y-6 pt-6">
+          <EnhancedLogoUploadSection
+            lightLogoFile={lightLogoFile}
+            darkLogoFile={darkLogoFile}
+            onLightLogoChange={setLightLogoFile}
+            onDarkLogoChange={setDarkLogoFile}
+          />
 
-          <Separator />
+          <Separator className="mx-0" />
 
-          <EnhancedFaviconUploadSection faviconFile={faviconFile} onFaviconChange={setFaviconFile} />
+          <EnhancedFaviconUploadSection
+            faviconFile={faviconFile}
+            onFaviconChange={setFaviconFile}
+          />
 
-          <Separator />
+          <Separator className="mx-0" />
 
           <ThemeColorsSection />
 
-          <Separator />
+          <Separator className="mx-0" />
 
-          <SidebarCustomizationSection selectedTheme={selectedTheme} onThemeChange={setSelectedTheme} />
+          <SidebarCustomizationSection
+            selectedTheme={selectedTheme}
+            onThemeChange={setSelectedTheme}
+          />
+
+          <Separator className="mx-0" />
+
+          <ReportBrandingSection />
         </CardContent>
       </Card>
 
-      <BrandingSaveActions isSaving={isSaving} onSave={handleSaveChanges} />
-    </div>;
+      <BrandingSaveActions
+        isSaving={isSaving}
+        onSave={handleSaveChanges}
+      />
+    </div>
+  );
 };
