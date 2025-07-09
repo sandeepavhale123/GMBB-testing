@@ -125,20 +125,20 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         {/* Main Content Area */}
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
-          <header className="bg-slate-800 text-white h-[300px] z-10">
+          <header className="bg-[#1E1E2D] text-white h-20 z-10">
             <div className="container mx-auto h-full flex items-center justify-between px-8">
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
                 {companyLogo ? (
-                  <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" />
+                  <img src={companyLogo} alt="Business Logo" className="w-12 h-12 rounded-lg object-cover" />
                 ) : (
-                  <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">{companyName?.charAt(0) || 'B'}</span>
+                  <div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center">
+                    <span className="text-lg font-bold text-white">{companyName?.charAt(0) || 'B'}</span>
                   </div>
                 )}
                 <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold">{companyName}</h1>
-                  <p className="text-lg text-gray-300">{title}</p>
+                  <h1 className="text-xl font-bold">{companyName}</h1>
+                  <p className="text-sm text-gray-300">{title}</p>
                 </div>
               </div>
 
@@ -147,16 +147,18 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
               {/* Right: Report Date */}
               <div className="text-right">
-                <p className="text-sm text-gray-400">Report Date</p>
-                <p className="text-lg text-white">{new Date().toLocaleDateString()}</p>
+                <p className="text-xs text-gray-400">Report Date</p>
+                <p className="text-sm text-white">{new Date().toLocaleDateString()}</p>
               </div>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-white overflow-auto">
-            <div className="container mx-auto p-8 -mt-150 relative  z-40 ">
+          <main className="flex-1 bg-gray-50 overflow-auto">
+            <div className="container mx-auto -mt-10 pt-16 px-8 relative z-40">
+              <div className="bg-white rounded-lg shadow-lg p-6">
                 {children}
+              </div>
             </div>
           </main>
 
