@@ -20,9 +20,29 @@ export const ThemeColorsSection: React.FC = () => {
 
   const handleColorSelect = (colorValue: string) => {
     dispatch(setAccentColor(colorValue as any));
+    
+    // Apply theme color as primary immediately throughout the app
+    const colorMap: Record<string, string> = {
+      blue: '217 91% 60%',
+      green: '142 76% 36%', 
+      teal: '173 80% 40%',
+      purple: '262 83% 58%',
+      cyan: '188 78% 41%',
+      emerald: '160 84% 39%',
+      orange: '25 95% 53%',
+    };
+    
+    const hslColor = colorMap[colorValue];
+    if (hslColor) {
+      document.documentElement.style.setProperty('--primary', hslColor);
+      document.documentElement.style.setProperty('--ring', hslColor);
+      document.documentElement.style.setProperty('--sidebar-ring', hslColor);
+      document.documentElement.style.setProperty('--accent-primary', hslColor);
+    }
+    
     toast({
       title: "Theme color updated",
-      description: `Applied ${colorValue} theme`,
+      description: `Applied ${colorValue} as primary color`,
     });
   };
 
