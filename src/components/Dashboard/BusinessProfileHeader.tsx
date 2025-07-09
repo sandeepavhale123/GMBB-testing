@@ -47,12 +47,12 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
   };
   return <div className="space-y-3 sm:space-y-4">
       {/* Business Overview Card - Responsive */}
-      <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white border-0">
+      <Card className="bg-gradient-to-br from-primary to-primary/80 text-white border-0">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-6">
             <div className="flex-1">
               <div className="mb-3 sm:mb-4">
-                <div className="text-xs sm:text-sm text-purple-200 mb-1">BUSINESS OVERVIEW</div>
+                <div className="text-xs sm:text-sm text-white/70 mb-1">BUSINESS OVERVIEW</div>
                 <div className="flex items-center gap-3 mb-2">
                   <h2 className="text-xl sm:text-2xl font-bold">
                     {getTimeBasedGreeting()}, {userFirstName} 👋

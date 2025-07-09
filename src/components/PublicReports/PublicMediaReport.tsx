@@ -80,8 +80,8 @@ export const PublicMediaReport: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
-                <Image className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2">
+                <Image className="h-5 w-5 text-primary" />
               </div>
               <div className="text-2xl font-bold">{mediaData.overview.totalMedia}</div>
               <div className="text-sm text-muted-foreground">Total Media</div>
@@ -110,8 +110,8 @@ export const PublicMediaReport: React.FC = () => {
           
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-yellow-600" />
+              <div className="flex items-center justify-center w-10 h-10 bg-orange-50 rounded-lg mx-auto mb-2">
+                <TrendingUp className="h-5 w-5 text-orange-600" />
               </div>
               <div className="text-2xl font-bold">{mediaData.overview.topPerformingMedia}</div>
               <div className="text-sm text-muted-foreground">Top Performing</div>
@@ -198,7 +198,7 @@ export const PublicMediaReport: React.FC = () => {
                 <div key={index} className="text-center p-4 rounded-lg border">
                   <div className="text-sm font-medium mb-2">{trend.month}</div>
                   <div className="space-y-1">
-                    <div className="text-lg font-bold text-blue-600">{trend.views.toLocaleString()}</div>
+                    <div className="text-lg font-bold text-primary">{trend.views.toLocaleString()}</div>
                     <div className="text-xs text-muted-foreground">views</div>
                     <div className="text-sm font-semibold text-green-600">{trend.engagement}%</div>
                     <div className="text-xs text-muted-foreground">engagement</div>

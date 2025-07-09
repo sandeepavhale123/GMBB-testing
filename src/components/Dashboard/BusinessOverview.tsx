@@ -36,7 +36,7 @@ export const BusinessOverview: React.FC = () => {
       title: 'Average Rating',
       value: avgRating.toFixed(1),
       icon: Star,
-      color: 'text-yellow-600'
+      color: 'text-primary'
     },
   ];
 
