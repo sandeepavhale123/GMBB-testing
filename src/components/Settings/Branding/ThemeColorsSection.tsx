@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Palette, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
@@ -28,14 +27,12 @@ export const ThemeColorsSection: React.FC = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Palette className="w-5 h-5" />
-          Theme Colors
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div>
+      <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
+        <Palette className="w-5 h-5" />
+        Theme Colors
+      </h3>
+      <div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           {themeColors.map((color) => (
             <button
@@ -59,7 +56,7 @@ export const ThemeColorsSection: React.FC = () => {
         <p className="text-sm text-gray-500 mt-3">
           Current theme: <span className="font-medium capitalize">{accentColor}</span>
         </p>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

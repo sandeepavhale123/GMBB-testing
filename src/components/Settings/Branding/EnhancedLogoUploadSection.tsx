@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
 import { Upload, Image, Sun, Moon, X } from 'lucide-react';
@@ -91,15 +90,12 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Image className="w-5 h-5" />
-          Application Logos
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
+        <Image className="w-5 h-5" />
+        Application Logos
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Light Logo */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -240,8 +236,7 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
               )}
             </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

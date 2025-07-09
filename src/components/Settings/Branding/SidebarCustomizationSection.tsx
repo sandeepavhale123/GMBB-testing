@@ -307,10 +307,10 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4">
+      <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
         <Settings className="w-5 h-5" />
-        <h3 className="text-lg font-semibold">Select Sidebar Background Color</h3>
-      </div>
+        Select Sidebar Background Color
+      </h3>
       <div>
         <RadioGroup value={selectedTheme} onValueChange={handleThemeChange}>
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

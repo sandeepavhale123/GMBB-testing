@@ -37,10 +37,7 @@ export const BrandingPage: React.FC = () => {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Application Customization</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <EnhancedLogoUploadSection
             lightLogoFile={lightLogoFile}
             darkLogoFile={darkLogoFile}
@@ -48,18 +45,18 @@ export const BrandingPage: React.FC = () => {
             onDarkLogoChange={setDarkLogoFile}
           />
 
-          <Separator />
+          <Separator className="mx-0" />
 
           <EnhancedFaviconUploadSection
             faviconFile={faviconFile}
             onFaviconChange={setFaviconFile}
           />
 
-          <Separator />
+          <Separator className="mx-0" />
 
           <ThemeColorsSection />
 
-          <Separator />
+          <Separator className="mx-0" />
 
           <SidebarCustomizationSection
             selectedTheme={selectedTheme}

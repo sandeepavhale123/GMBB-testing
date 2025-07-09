@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
 import { Upload, Settings, X } from 'lucide-react';
@@ -101,14 +100,12 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
   }, [faviconFile]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Settings className="w-5 h-5" />
-          Favicon
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <div>
+      <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
+        <Settings className="w-5 h-5" />
+        Favicon
+      </h3>
+      <div className="space-y-4">
         <div className="flex items-start gap-4">
           <div 
             className={`w-16 h-16 border-2 border-dashed rounded-lg flex items-center justify-center transition-colors ${
@@ -184,7 +181,7 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
             <p className="text-sm text-blue-600">Drop favicon here to upload</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
