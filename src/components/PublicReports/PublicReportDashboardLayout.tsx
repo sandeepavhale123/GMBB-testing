@@ -14,7 +14,6 @@ import {
   Share2
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -83,132 +82,137 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   const currentReportId = getCurrentReportId();
 
   return (
-    <TooltipProvider>
-      <div className="min-h-screen flex">
-        {/* Ultra-minimal Light Sidebar - Fixed Position */}
-        <div className={`fixed inset-y-0 left-0 z-50 w-16 bg-background border-r shadow-sm transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}>
-          {/* Logo Section */}
-          <div className="h-16 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Dark Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-700">
+          <div className="flex items-center gap-3">
             {companyLogo ? (
               <img 
                 src={companyLogo} 
                 alt={companyName}
-                className="h-8 w-8 object-contain"
+                className="h-8 w-auto object-contain"
               />
             ) : (
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">
                   {companyName.charAt(0)}
                 </span>
               </div>
             )}
+            <span className="text-white font-semibold text-lg">Reports</span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="lg:hidden text-white hover:bg-slate-800"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+
+        {/* Sidebar Navigation */}
+        <nav className="mt-8 px-4">
+          <div className="space-y-2">
+            {sidebarItems.map((item) => {
+              const IconComponent = item.icon;
+              const isActive = currentReportId === item.id;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    navigate(item.path);
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
+                    isActive 
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <IconComponent className={`h-5 w-5 ${isActive ? 'text-white' : item.color}`} />
+                  <span className="font-medium">{item.label}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Sidebar Navigation - Vertically Centered */}
-          <nav className="flex-1 flex flex-col justify-center">
-            <div className="space-y-1">
-              {sidebarItems.map((item) => {
-                const IconComponent = item.icon;
-                const isActive = currentReportId === item.id;
-                
-                return (
-                  <Tooltip key={item.id}>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => {
-                          navigate(item.path);
-                          setSidebarOpen(false);
-                        }}
-                        className={`w-full h-12 flex items-center justify-center transition-all duration-200 ${
-                          isActive 
-                            ? 'bg-primary text-primary-foreground' 
-                            : 'text-muted-foreground hover:text-primary hover:bg-muted'
-                        }`}
-                      >
-                        <IconComponent className="h-5 w-5" />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent side="right" className="ml-2">
-                      <p>{item.label}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                );
-              })}
-            </div>
+          {/* Back to Reports Hub */}
+          <div className="mt-8 pt-8 border-t border-slate-700">
+            <button
+              onClick={() => navigate('/public-reports')}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            >
+              <FileText className="h-5 w-5" />
+              <span className="font-medium">All Reports</span>
+            </button>
+          </div>
+        </nav>
 
-            {/* Back to Reports Hub */}
-            <div className="mt-8">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={() => navigate('/public-reports')}
-                    className="w-full h-12 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted transition-all duration-200"
-                  >
-                    <FileText className="h-5 w-5" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="right" className="ml-2">
-                  <p>All Reports</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </nav>
+        {/* Company Info */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
+          <div className="text-center">
+            <p className="text-slate-400 text-sm">{companyName}</p>
+            <p className="text-slate-500 text-xs">Generated Report</p>
+          </div>
         </div>
-
-        {/* Main Content - Dark theme area */}
-        <div className="flex-1 flex flex-col min-w-0 ml-16 bg-slate-900">
-          {/* Header - Dark theme */}
-          <header className="bg-slate-800 border-b border-slate-700 h-16 flex items-center justify-between px-4 lg:px-6">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="lg:hidden text-slate-300 hover:text-white"
-                onClick={() => setSidebarOpen(true)}
-              >
-                <Menu className="h-4 w-4" />
-              </Button>
-              
-              <div>
-                <h1 className="text-xl font-semibold text-white">{title}</h1>
-                <p className="text-sm text-slate-400">{companyName}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              {onShare && (
-                <Button variant="outline" size="sm" onClick={onShare} className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share
-                </Button>
-              )}
-              {onExport && (
-                <Button size="sm" onClick={onExport} className="bg-primary hover:bg-primary/90">
-                  <Download className="h-4 w-4 mr-2" />
-                  Export PDF
-                </Button>
-              )}
-            </div>
-          </header>
-
-          {/* Page Content - Dark theme */}
-          <main className="flex-1 overflow-auto bg-slate-900">
-            <div className="p-4 lg:p-6">
-              {children}
-            </div>
-          </main>
-        </div>
-
-        {/* Mobile Sidebar Overlay */}
-        {sidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
       </div>
-    </TooltipProvider>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
+        {/* Header */}
+        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+            
+            <div>
+              <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+              <p className="text-sm text-gray-500">{companyName}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {onShare && (
+              <Button variant="outline" size="sm" onClick={onShare}>
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            )}
+            {onExport && (
+              <Button size="sm" onClick={onExport}>
+                <Download className="h-4 w-4 mr-2" />
+                Export PDF
+              </Button>
+            )}
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto">
+          <div className="p-4 lg:p-6">
+            {children}
+          </div>
+        </main>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+    </div>
   );
 };
