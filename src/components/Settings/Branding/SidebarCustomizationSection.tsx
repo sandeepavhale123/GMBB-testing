@@ -5,6 +5,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialo
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Settings, Palette } from 'lucide-react';
+import { useAppDispatch } from '../../../hooks/useRedux';
+import { setThemeColors } from '../../../store/slices/themeSlice';
 
 interface SidebarCustomizationSectionProps {
   selectedTheme: string;
@@ -274,12 +276,21 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
   selectedTheme,
   onThemeChange,
 }) => {
+  const dispatch = useAppDispatch();
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   
   const handleThemeChange = (themeId: string) => {
     const theme = sidebarThemes.find(t => t.id === themeId);
     if (theme) {
       onThemeChange(themeId);
+      
+      // Update Redux store
+      dispatch(setThemeColors({
+        bg_color: theme.bgColor,
+        label_color: theme.labelColor,
+        active_menu_bg_color: theme.activeMenuBgColor,
+        active_menu_label_color: theme.activeMenuLabelColor,
+      }));
       
       // Apply to real sidebar immediately
       document.documentElement.style.setProperty('--sidebar-bg', theme.bgColor);
@@ -293,6 +304,14 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
   };
 
   const handleCustomColorSelect = (colors: any) => {
+    // Update Redux store
+    dispatch(setThemeColors({
+      bg_color: colors.bgColor,
+      label_color: colors.labelColor,
+      active_menu_bg_color: colors.activeMenuBgColor,
+      active_menu_label_color: colors.activeMenuLabelColor,
+    }));
+    
     // Apply custom colors immediately
     document.documentElement.style.setProperty('--sidebar-bg', colors.bgColor);
     document.documentElement.style.setProperty('--sidebar-text', colors.labelColor);
