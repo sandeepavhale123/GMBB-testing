@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Badge } from '../ui/badge';
 import { Card, CardContent } from '../ui/card';
 import { Separator } from '../ui/separator';
@@ -8,8 +8,8 @@ import { ThemeColorsSection } from './Branding/ThemeColorsSection';
 import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
 import { BrandingSaveActions } from './Branding/BrandingSaveActions';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { updateTheme, ThemeUpdateData } from '../../api/themeApi';
-import { setThemeLoading, setLightLogo, setDarkLogo, setFavicon, setSelectedTheme } from '../../store/slices/themeSlice';
+import { updateTheme, ThemeUpdateData, getTheme } from '../../api/themeApi';
+import { setThemeLoading, setLightLogo, setDarkLogo, setFavicon, setSelectedTheme, loadThemeFromAPI } from '../../store/slices/themeSlice';
 import { useToast } from '@/hooks/use-toast';
 
 export const BrandingPage: React.FC = () => {
@@ -31,6 +31,25 @@ export const BrandingPage: React.FC = () => {
     isLoading
   } = useAppSelector((state) => state.theme);
 
+  // Load existing theme data on component mount
+  useEffect(() => {
+    const loadThemeData = async () => {
+      try {
+        dispatch(setThemeLoading(true));
+        const response = await getTheme();
+        if (response.code === 200) {
+          dispatch(loadThemeFromAPI(response.data));
+        }
+      } catch (error) {
+        console.error('Error loading theme data:', error);
+      } finally {
+        dispatch(setThemeLoading(false));
+      }
+    };
+
+    loadThemeData();
+  }, [dispatch]);
+
   const handleSaveChanges = async () => {
     dispatch(setThemeLoading(true));
     try {
@@ -49,6 +68,12 @@ export const BrandingPage: React.FC = () => {
       const response = await updateTheme(themeData);
       
       if (response.code === 200) {
+        // Fetch updated theme data to get new logo URLs
+        const updatedTheme = await getTheme();
+        if (updatedTheme.code === 200) {
+          dispatch(loadThemeFromAPI(updatedTheme.data));
+        }
+        
         toast({
           title: "Theme updated successfully",
           description: response.message,
