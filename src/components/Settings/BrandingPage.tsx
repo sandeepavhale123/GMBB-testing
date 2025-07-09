@@ -6,6 +6,7 @@ import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection'
 import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
 import { ThemeColorsSection } from './Branding/ThemeColorsSection';
 import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
+import { ReportBrandingSection } from './Branding/ReportBrandingSection';
 import { BrandingSaveActions } from './Branding/BrandingSaveActions';
 
 export const BrandingPage: React.FC = () => {
@@ -62,6 +63,10 @@ export const BrandingPage: React.FC = () => {
             selectedTheme={selectedTheme}
             onThemeChange={setSelectedTheme}
           />
+
+          <Separator className="mx-0" />
+
+          <ReportBrandingSection />
         </CardContent>
       </Card>
 
