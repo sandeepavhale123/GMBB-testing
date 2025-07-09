@@ -282,9 +282,10 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
   const handleThemeChange = (themeId: string) => {
     const theme = sidebarThemes.find(t => t.id === themeId);
     if (theme) {
+      // Update selected_theme in Redux
       onThemeChange(themeId);
       
-      // Update Redux store
+      // Update sidebar colors in Redux
       dispatch(setThemeColors({
         bg_color: theme.bgColor,
         label_color: theme.labelColor,
@@ -304,7 +305,10 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
   };
 
   const handleCustomColorSelect = (colors: any) => {
-    // Update Redux store
+    // Update selected_theme to 'custom' in Redux
+    onThemeChange('custom');
+    
+    // Update sidebar colors in Redux
     dispatch(setThemeColors({
       bg_color: colors.bgColor,
       label_color: colors.labelColor,
@@ -320,8 +324,6 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
     document.documentElement.style.setProperty('--sidebar-border', 'rgba(255, 255, 255, 0.1)');
     document.documentElement.style.setProperty('--sidebar-hover-bg', 'rgba(255, 255, 255, 0.1)');
     document.documentElement.style.setProperty('--sidebar-hover-text', '#ffffff');
-    
-    onThemeChange('custom');
   };
 
   return (
