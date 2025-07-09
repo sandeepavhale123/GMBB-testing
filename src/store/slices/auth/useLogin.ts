@@ -8,8 +8,10 @@ import {
   setHasAttemptedRefresh,
 } from "./authSlice";
 import { clearUserListings } from "../businessListingsSlice";
+import { loadThemeFromAPI } from "../themeSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
+import { getTheme } from "@/api/themeApi";
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,6 +65,18 @@ export const useLogin = () => {
       // Store current user session for tracking user changes
       localStorage.setItem("current_user_session", data.data.profile.userId);
       console.log("💾 Stored user session ID:", data.data.profile.userId);
+
+      // Fetch theme customization after successful login
+      try {
+        const themeResponse = await getTheme();
+        if (themeResponse.code === 200) {
+          dispatch(loadThemeFromAPI(themeResponse.data));
+          console.log("🎨 Theme customization loaded successfully");
+        }
+      } catch (themeError) {
+        console.error("Failed to load theme customization:", themeError);
+        // Don't fail login if theme loading fails
+      }
 
       // Return the response with our added subscriptionExpired flag
       return { ...data, subscriptionExpired };

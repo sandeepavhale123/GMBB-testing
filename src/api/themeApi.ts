@@ -19,6 +19,32 @@ export interface ThemeApiResponse {
   data: any[];
 }
 
+export interface GetThemeResponse {
+  code: number;
+  message: string;
+  data: {
+    accent_color: string;
+    selected_theme: string;
+    bg_color: string;
+    label_color: string;
+    active_menu_bg_color: string;
+    active_menu_label_color: string;
+    light_logo: string;
+    dark_logo: string;
+    favicon: string;
+  };
+}
+
+export const getTheme = async (): Promise<GetThemeResponse> => {
+  const domain = window.location.hostname;
+  
+  const response = await axiosInstance.post<GetThemeResponse>('/get-theme', {
+    domain
+  });
+
+  return response.data;
+};
+
 export const updateTheme = async (themeData: ThemeUpdateData): Promise<ThemeApiResponse> => {
   const formData = new FormData();
   
