@@ -81,7 +81,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   return (
     <div className="min-h-screen bg-white flex">
       {/* Fixed Icon Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-20 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8">
+      <aside className="fixed left-0 top-0 h-full w-24 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8 px-2">
         {/* Favicon at Top */}
         <div className="mb-8">
           <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -99,14 +99,14 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               <button
                 key={item.id}
                 onClick={() => navigate(item.path)}
-                className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
+                className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                   isActive 
                     ? 'bg-blue-500 text-white shadow-md' 
                     : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
                 }`}
                 title={item.label}
               >
-                <IconComponent className="h-8 w-8" />
+                <IconComponent className="h-10 w-10" />
               </button>
             );
           })}
@@ -114,9 +114,9 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 ml-20 flex flex-col">
+      <div className="flex-1 ml-24 flex flex-col">
         {/* Dark Header */}
-        <header className="bg-slate-800 text-white h-[200px] flex items-center justify-between px-8 sticky top-0 z-40">
+        <header className="bg-slate-800 text-white h-[300px] flex items-center justify-between px-8 z-40">
           {/* Left: Business Branding */}
           <div className="flex items-center space-x-4">
             {companyLogo ? (
@@ -129,20 +129,22 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold">{companyName}</h1>
               <p className="text-lg text-gray-300">{title}</p>
-              <p className="text-sm text-gray-400">Report Date: {new Date().toLocaleDateString()}</p>
             </div>
           </div>
 
           {/* Center: Reserved for future expansion */}
           <div className="flex-1"></div>
 
-          {/* Right: Empty for now */}
-          <div></div>
+          {/* Right: Report Date */}
+          <div className="text-right">
+            <p className="text-sm text-gray-400">Report Date</p>
+            <p className="text-lg text-white">{new Date().toLocaleDateString()}</p>
+          </div>
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white overflow-auto">
-          <div className="p-8">
+        <main className="flex-1 bg-white overflow-auto -mt-20 relative z-10">
+          <div className="container mx-auto p-8">
             {children}
           </div>
         </main>
