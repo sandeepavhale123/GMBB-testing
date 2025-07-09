@@ -81,9 +81,16 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   return (
     <div className="min-h-screen bg-white flex">
       {/* Fixed Icon Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-16 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-6">
+      <aside className="fixed left-0 top-0 h-full w-20 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8">
+        {/* Favicon at Top */}
+        <div className="mb-8">
+          <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+            <span className="text-xl font-bold text-white">F</span>
+          </div>
+        </div>
+
         {/* Navigation Icons */}
-        <div className="flex flex-col items-center space-y-4 flex-1 justify-center">
+        <div className="flex flex-col items-center space-y-6 flex-1 justify-center">
           {sidebarItems.map((item) => {
             const IconComponent = item.icon;
             const isActive = currentReportId === item.id;
@@ -92,78 +99,45 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               <button
                 key={item.id}
                 onClick={() => navigate(item.path)}
-                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
+                className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                   isActive 
                     ? 'bg-blue-500 text-white shadow-md' 
                     : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
                 }`}
                 title={item.label}
               >
-                <IconComponent className="h-5 w-5" />
+                <IconComponent className="h-8 w-8" />
               </button>
             );
           })}
         </div>
-
-        {/* Logout Icon at Bottom */}
-        <button
-          onClick={() => navigate('/public-reports')}
-          className="w-10 h-10 rounded-xl bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md flex items-center justify-center transition-all duration-200 shadow-sm"
-          title="Back to Reports"
-        >
-          <LogOut className="h-5 w-5" />
-        </button>
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 ml-16 flex flex-col">
+      <div className="flex-1 ml-20 flex flex-col">
         {/* Dark Header */}
-        <header className="bg-slate-800 text-white h-16 flex items-center justify-between px-6 sticky top-0 z-40">
-          {/* Left: Title and Subtitle */}
-          <div className="flex flex-col">
-            <h1 className="text-lg font-semibold">{title}</h1>
-            <p className="text-sm text-gray-300">{companyName}</p>
+        <header className="bg-slate-800 text-white h-[200px] flex items-center justify-between px-8 sticky top-0 z-40">
+          {/* Left: Business Branding */}
+          <div className="flex items-center space-x-4">
+            {companyLogo ? (
+              <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" />
+            ) : (
+              <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center">
+                <span className="text-2xl font-bold text-white">{companyName?.charAt(0) || 'B'}</span>
+              </div>
+            )}
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold">{companyName}</h1>
+              <p className="text-lg text-gray-300">{title}</p>
+              <p className="text-sm text-gray-400">Report Date: {new Date().toLocaleDateString()}</p>
+            </div>
           </div>
 
           {/* Center: Reserved for future expansion */}
           <div className="flex-1"></div>
 
-          {/* Right: Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Search Input */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search..."
-                className="pl-10 w-64 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-blue-400"
-              />
-            </div>
-
-            {/* Notification Icon with Badge */}
-            <button className="relative p-2 text-gray-300 hover:text-white transition-colors">
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* Profile Icon */}
-            <button className="p-2 text-gray-300 hover:text-white transition-colors">
-              <User className="h-5 w-5" />
-            </button>
-
-            {/* Theme Toggle */}
-            <button 
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 text-gray-300 hover:text-white transition-colors"
-            >
-              {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </button>
-
-            {/* CTA Button */}
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 font-medium">
-              <Target className="h-4 w-4 mr-2" />
-              New Goal
-            </Button>
-          </div>
+          {/* Right: Empty for now */}
+          <div></div>
         </header>
 
         {/* Main Content */}
