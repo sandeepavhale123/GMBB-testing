@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PublicReportLayout } from './PublicReportLayout';
+import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Users, Eye, Phone, MapPin, Clock } from 'lucide-react';
 
@@ -42,7 +42,7 @@ export const PublicInsightsReport: React.FC = () => {
   };
 
   return (
-    <PublicReportLayout
+    <PublicReportDashboardLayout
       title="Business Insights Report"
       companyName={insightsData.companyName}
       companyLogo={insightsData.companyLogo}
@@ -179,6 +179,6 @@ export const PublicInsightsReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
+    </PublicReportDashboardLayout>
   );
 };

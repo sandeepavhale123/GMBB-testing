@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PublicReportLayout } from './PublicReportLayout';
+import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, TrendingUp, Target, Users } from 'lucide-react';
@@ -45,7 +45,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   };
 
   return (
-    <PublicReportLayout
+    <PublicReportDashboardLayout
       title="GEO Ranking Report"
       companyName={geoData.companyName}
       companyLogo={geoData.companyLogo}
@@ -166,6 +166,6 @@ export const PublicGeoRankingReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
+    </PublicReportDashboardLayout>
   );
 };

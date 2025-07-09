@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PublicReportLayout } from './PublicReportLayout';
+import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -75,7 +75,7 @@ export const PublicGMBHealthReport: React.FC = () => {
   };
 
   return (
-    <PublicReportLayout
+    <PublicReportDashboardLayout
       title="GMB Health Report"
       companyName={healthData.companyName}
       companyLogo={healthData.companyLogo}
@@ -199,6 +199,6 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
+    </PublicReportDashboardLayout>
   );
 };

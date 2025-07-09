@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PublicReportLayout } from './PublicReportLayout';
+import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Image, Play, Eye, Heart, Share2, TrendingUp } from 'lucide-react';
@@ -70,7 +70,7 @@ export const PublicMediaReport: React.FC = () => {
   };
 
   return (
-    <PublicReportLayout
+    <PublicReportDashboardLayout
       title="Media Performance Report"
       companyName={mediaData.companyName}
       companyLogo={mediaData.companyLogo}
@@ -225,6 +225,6 @@ export const PublicMediaReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
+    </PublicReportDashboardLayout>
   );
 };
