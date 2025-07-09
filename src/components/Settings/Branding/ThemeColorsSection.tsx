@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Palette, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
@@ -17,6 +17,27 @@ export const ThemeColorsSection: React.FC = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { accentColor } = useAppSelector((state) => state.theme);
+
+  // Apply stored color on component mount
+  useEffect(() => {
+    const colorMap: Record<string, string> = {
+      blue: '217 91% 60%',
+      green: '142 76% 36%', 
+      teal: '173 80% 40%',
+      purple: '262 83% 58%',
+      cyan: '188 78% 41%',
+      emerald: '160 84% 39%',
+      orange: '25 95% 53%',
+    };
+    
+    const hslColor = colorMap[accentColor];
+    if (hslColor) {
+      document.documentElement.style.setProperty('--primary', hslColor);
+      document.documentElement.style.setProperty('--ring', hslColor);
+      document.documentElement.style.setProperty('--sidebar-ring', hslColor);
+      document.documentElement.style.setProperty('--accent-primary', hslColor);
+    }
+  }, [accentColor]);
 
   const handleColorSelect = (colorValue: string) => {
     dispatch(setAccentColor(colorValue as any));

@@ -19,16 +19,32 @@ interface ThemeState {
   isLoading: boolean;
 }
 
+// Helper function to convert hex color to color name
+const getColorNameFromHex = (hexColor: string): 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'cyan' | 'emerald' => {
+  const colorMap: Record<string, 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'cyan' | 'emerald'> = {
+    '#3B82F6': 'blue',
+    '#22C55E': 'green', 
+    '#14B8A6': 'teal',
+    '#8B5CF6': 'purple',
+    '#06B6D4': 'cyan',
+    '#10B981': 'emerald',
+    '#F97316': 'orange',
+  };
+  return colorMap[hexColor] || 'blue';
+};
+
 const getInitialState = (): ThemeState => {
   // Load theme from localStorage if available
   const storedTheme = localStorage.getItem('theme_customization');
   if (storedTheme) {
     try {
       const themeData = JSON.parse(storedTheme);
+      const accentColorHex = themeData.accent_color || '#3B82F6';
+      
       return {
         isDark: false,
-        accentColor: 'blue',
-        accent_color: themeData.accent_color || '#3B82F6',
+        accentColor: getColorNameFromHex(accentColorHex),
+        accent_color: accentColorHex,
         selected_theme: themeData.selected_theme || 'custom',
         bg_color: themeData.bg_color || '#1E40AF',
         label_color: themeData.label_color || '#FFFFFF',
@@ -124,7 +140,10 @@ const themeSlice = createSlice({
       favicon: string;
     }>) => {
       const themeData = action.payload;
-      state.accent_color = themeData.accent_color.trim();
+      const accentColorHex = themeData.accent_color.trim();
+      
+      state.accent_color = accentColorHex;
+      state.accentColor = getColorNameFromHex(accentColorHex);
       state.selected_theme = themeData.selected_theme;
       state.bg_color = themeData.bg_color;
       state.label_color = themeData.label_color;
