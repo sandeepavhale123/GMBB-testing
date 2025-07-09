@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { listingId } = useParams();
   const { profileData } = useProfile();
-  const { dark_logo_url, favicon_url } = useAppSelector((state) => state.theme);
+  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector((state) => state.theme);
 
   // Get user info from profile data
   const userName = profileData
@@ -138,12 +138,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const activeTab = getActiveTab();
 
-  // Get logo URLs with fallbacks
+  // Get logo URLs with fallbacks - prioritize uploaded files over API URLs
   const getDarkLogoUrl = () => {
+    // If a new dark logo file has been uploaded, use it immediately
+    if (dark_logo) {
+      return URL.createObjectURL(dark_logo);
+    }
+    // Otherwise use the API URL or fallback
     return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
   };
 
   const getFaviconUrl = () => {
+    // If a new favicon file has been uploaded, use it immediately
+    if (favicon) {
+      return URL.createObjectURL(favicon);
+    }
+    // Otherwise use the API URL or fallback
     return favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
   };
 
