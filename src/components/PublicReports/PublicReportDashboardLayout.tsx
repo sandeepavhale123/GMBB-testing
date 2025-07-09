@@ -156,9 +156,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           {/* Main Content */}
           <main className="flex-1 bg-white overflow-auto -mt-20 relative z-40">
             <div className="container mx-auto p-8">
-              <div className="bg-white rounded-lg shadow-lg p-6">
                 {children}
-              </div>
             </div>
           </main>
 
