@@ -126,7 +126,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
           <header className="bg-slate-800 text-white h-[250px] z-10">
-            <div className="container mx-auto h-full flex items-center justify-between px-8">
+            <div className="container mx-auto  flex items-center justify-between px-8" style={{paddingTop:'50px',paddingButton:'50px'}}>
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
                 {companyLogo ? (
