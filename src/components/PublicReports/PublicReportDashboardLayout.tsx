@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { 
   BarChart3, 
-  TrendingUp, 
   Star, 
   MapPin, 
   Heart, 
   Image,
-  Menu,
-  X,
-  FileText,
-  Download,
-  Share2
+  LogOut,
+  Search,
+  Bell,
+  User,
+  Sun,
+  Moon,
+  Target
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -29,36 +31,31 @@ const sidebarItems = [
     id: 'gmb-health', 
     label: 'GMB Health', 
     icon: Heart, 
-    path: '/public-reports/gmb-health/demo-token',
-    color: 'text-red-400'
+    path: '/public-reports/gmb-health/demo-token'
   },
   { 
     id: 'geo-ranking', 
     label: 'GEO Ranking', 
     icon: MapPin, 
-    path: '/public-reports/geo-ranking/demo-token',
-    color: 'text-blue-400'
+    path: '/public-reports/geo-ranking/demo-token'
   },
   { 
     id: 'reviews', 
     label: 'Reviews', 
     icon: Star, 
-    path: '/public-reports/reviews/demo-token',
-    color: 'text-yellow-400'
+    path: '/public-reports/reviews/demo-token'
   },
   { 
     id: 'insights', 
     label: 'Business Insights', 
     icon: BarChart3, 
-    path: '/public-reports/insights/demo-token',
-    color: 'text-green-400'
+    path: '/public-reports/insights/demo-token'
   },
   { 
     id: 'media', 
     label: 'Media Performance', 
     icon: Image, 
-    path: '/public-reports/media/demo-token',
-    color: 'text-purple-400'
+    path: '/public-reports/media/demo-token'
   }
 ];
 
@@ -72,7 +69,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const getCurrentReportId = () => {
     const path = location.pathname;
@@ -82,137 +79,112 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   const currentReportId = getCurrentReportId();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Dark Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-700">
-          <div className="flex items-center gap-3">
-            {companyLogo ? (
-              <img 
-                src={companyLogo} 
-                alt={companyName}
-                className="h-8 w-auto object-contain"
-              />
-            ) : (
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">
-                  {companyName.charAt(0)}
-                </span>
-              </div>
-            )}
-            <span className="text-white font-semibold text-lg">Reports</span>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="lg:hidden text-white hover:bg-slate-800"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Sidebar Navigation */}
-        <nav className="mt-8 px-4">
-          <div className="space-y-2">
-            {sidebarItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = currentReportId === item.id;
-              
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    navigate(item.path);
-                    setSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                    isActive 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                  }`}
-                >
-                  <IconComponent className={`h-5 w-5 ${isActive ? 'text-white' : item.color}`} />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Back to Reports Hub */}
-          <div className="mt-8 pt-8 border-t border-slate-700">
-            <button
-              onClick={() => navigate('/public-reports')}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
-            >
-              <FileText className="h-5 w-5" />
-              <span className="font-medium">All Reports</span>
-            </button>
-          </div>
-        </nav>
-
-        {/* Company Info */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
-          <div className="text-center">
-            <p className="text-slate-400 text-sm">{companyName}</p>
-            <p className="text-slate-500 text-xs">Generated Report</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
-        {/* Header */}
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="lg:hidden"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Menu className="h-4 w-4" />
-            </Button>
+    <div className="min-h-screen bg-white flex">
+      {/* Fixed Icon Sidebar */}
+      <aside className="fixed left-0 top-0 h-full w-16 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-6">
+        {/* Navigation Icons */}
+        <div className="flex flex-col items-center space-y-4 flex-1 justify-center">
+          {sidebarItems.map((item) => {
+            const IconComponent = item.icon;
+            const isActive = currentReportId === item.id;
             
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
-              <p className="text-sm text-gray-500">{companyName}</p>
-            </div>
+            return (
+              <button
+                key={item.id}
+                onClick={() => navigate(item.path)}
+                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
+                  isActive 
+                    ? 'bg-blue-500 text-white shadow-md' 
+                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
+                }`}
+                title={item.label}
+              >
+                <IconComponent className="h-5 w-5" />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Logout Icon at Bottom */}
+        <button
+          onClick={() => navigate('/public-reports')}
+          className="w-10 h-10 rounded-xl bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md flex items-center justify-center transition-all duration-200 shadow-sm"
+          title="Back to Reports"
+        >
+          <LogOut className="h-5 w-5" />
+        </button>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 ml-16 flex flex-col">
+        {/* Dark Header */}
+        <header className="bg-slate-800 text-white h-16 flex items-center justify-between px-6 sticky top-0 z-40">
+          {/* Left: Title and Subtitle */}
+          <div className="flex flex-col">
+            <h1 className="text-lg font-semibold">{title}</h1>
+            <p className="text-sm text-gray-300">{companyName}</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            {onShare && (
-              <Button variant="outline" size="sm" onClick={onShare}>
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </Button>
-            )}
-            {onExport && (
-              <Button size="sm" onClick={onExport}>
-                <Download className="h-4 w-4 mr-2" />
-                Export PDF
-              </Button>
-            )}
+          {/* Center: Reserved for future expansion */}
+          <div className="flex-1"></div>
+
+          {/* Right: Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search..."
+                className="pl-10 w-64 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-blue-400"
+              />
+            </div>
+
+            {/* Notification Icon with Badge */}
+            <button className="relative p-2 text-gray-300 hover:text-white transition-colors">
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* Profile Icon */}
+            <button className="p-2 text-gray-300 hover:text-white transition-colors">
+              <User className="h-5 w-5" />
+            </button>
+
+            {/* Theme Toggle */}
+            <button 
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="p-2 text-gray-300 hover:text-white transition-colors"
+            >
+              {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
+
+            {/* CTA Button */}
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 font-medium">
+              <Target className="h-4 w-4 mr-2" />
+              New Goal
+            </Button>
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-auto">
-          <div className="p-4 lg:p-6">
+        {/* Main Content */}
+        <main className="flex-1 bg-white overflow-auto">
+          <div className="p-8">
             {children}
           </div>
         </main>
-      </div>
 
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+        {/* Footer */}
+        <footer className="bg-white border-t border-gray-100 px-6 py-4 flex items-center justify-between text-sm text-gray-500">
+          <div>
+            Created by <span className="font-medium text-gray-700">{companyName}</span>
+          </div>
+          <div className="flex items-center space-x-6">
+            <button className="hover:text-gray-700 transition-colors">About</button>
+            <button className="hover:text-gray-700 transition-colors">Support</button>
+            <button className="hover:text-gray-700 transition-colors">Purchase</button>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };
