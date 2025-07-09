@@ -187,14 +187,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Logo Section */}
         <div 
           className="flex h-20 items-center justify-between border-b px-4"
-          style={{ borderColor: 'var(--sidebar-border, #374151)' }}
+          style={{ borderColor: 'var(--sidebar-border, #374151)' ,height:'107px'}}
         >
           {!collapsed ? (
             <div className="flex items-center space-x-2">
               <img
                 src={getDarkLogoUrl()}
                 alt="GMB Genie Logo"
-                className="h-10 w-auto object-contain"
+                className=" w-auto object-contain"
+                style={{height:'60px',maxWidth:'220px'}}
               />
             </div>
           ) : (
