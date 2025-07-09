@@ -6,11 +6,13 @@ import { useToast } from '@/hooks/use-toast';
 
 interface EnhancedFaviconUploadSectionProps {
   faviconFile: File | null;
+  faviconUrl?: string;
   onFaviconChange: (file: File | null) => void;
 }
 
 export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSectionProps> = ({
   faviconFile,
+  faviconUrl,
   onFaviconChange,
 }) => {
   const { toast } = useToast();
@@ -121,6 +123,12 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
                 alt="Favicon preview" 
                 className="w-full h-full object-contain rounded p-1"
               />
+            ) : faviconUrl ? (
+              <img 
+                src={faviconUrl} 
+                alt="Current favicon" 
+                className="w-full h-full object-contain rounded p-1"
+              />
             ) : (
               <Settings className="w-6 h-6 text-gray-400" />
             )}
@@ -165,14 +173,18 @@ export const EnhancedFaviconUploadSection: React.FC<EnhancedFaviconUploadSection
               Choose Favicon
             </Button>
             
-            {faviconFile && (
+            {faviconFile ? (
               <div className="text-sm text-gray-600 mt-2">
                 <div className="flex items-center justify-between">
                   <span className="truncate mr-2">Selected: {faviconFile.name}</span>
                   <span className="text-xs text-green-600">✓ Applied</span>
                 </div>
               </div>
-            )}
+            ) : faviconUrl ? (
+              <div className="text-sm text-green-600 mt-2">
+                ✓ Current favicon loaded
+              </div>
+            ) : null}
           </div>
         </div>
         

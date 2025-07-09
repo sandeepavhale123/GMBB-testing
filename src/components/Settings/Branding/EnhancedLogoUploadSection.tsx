@@ -7,6 +7,8 @@ import { useToast } from '@/hooks/use-toast';
 interface EnhancedLogoUploadSectionProps {
   lightLogoFile: File | null;
   darkLogoFile: File | null;
+  lightLogoUrl?: string;
+  darkLogoUrl?: string;
   onLightLogoChange: (file: File | null) => void;
   onDarkLogoChange: (file: File | null) => void;
 }
@@ -14,6 +16,8 @@ interface EnhancedLogoUploadSectionProps {
 export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps> = ({
   lightLogoFile,
   darkLogoFile,
+  lightLogoUrl,
+  darkLogoUrl,
   onLightLogoChange,
   onDarkLogoChange,
 }) => {
@@ -129,6 +133,12 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
                   alt="Light logo preview" 
                   className="w-full h-full object-contain rounded-lg p-2"
                 />
+              ) : lightLogoUrl ? (
+                <img 
+                  src={lightLogoUrl} 
+                  alt="Current light logo" 
+                  className="w-full h-full object-contain rounded-lg p-2"
+                />
               ) : (
                 <div className="text-center">
                   <Image className="w-8 h-8 text-gray-400 mx-auto mb-2" />
@@ -155,11 +165,15 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
                 <Upload className="w-4 h-4 mr-2" />
                 Choose Light Logo
               </Button>
-              {lightLogoFile && (
+              {lightLogoFile ? (
                 <div className="text-sm text-gray-600 mt-2 truncate">
                   Selected: {lightLogoFile.name}
                 </div>
-              )}
+              ) : lightLogoUrl ? (
+                <div className="text-sm text-green-600 mt-2">
+                  ✓ Current logo loaded
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -202,6 +216,12 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
                     alt="Dark logo preview" 
                     className="w-full h-full object-contain rounded-lg p-2"
                   />
+                ) : darkLogoUrl ? (
+                  <img 
+                    src={darkLogoUrl} 
+                    alt="Current dark logo" 
+                    className="w-full h-full object-contain rounded-lg p-2"
+                  />
                 ) : (
                   <div className="text-center">
                     <Image className="w-8 h-8 text-gray-400 mx-auto mb-2" />
@@ -229,11 +249,15 @@ export const EnhancedLogoUploadSection: React.FC<EnhancedLogoUploadSectionProps>
                 <Upload className="w-4 h-4 mr-2" />
                 Choose Dark Logo
               </Button>
-              {darkLogoFile && (
+              {darkLogoFile ? (
                 <div className="text-sm text-gray-600 mt-2 truncate">
                   Selected: {darkLogoFile.name}
                 </div>
-              )}
+              ) : darkLogoUrl ? (
+                <div className="text-sm text-green-600 mt-2">
+                  ✓ Current logo loaded
+                </div>
+              ) : null}
             </div>
           </div>
       </div>

@@ -19,6 +19,9 @@ export const BrandingPage: React.FC = () => {
     light_logo,
     dark_logo,
     favicon,
+    light_logo_url,
+    dark_logo_url,
+    favicon_url,
     selected_theme,
     accent_color,
     bg_color,
@@ -79,7 +82,9 @@ export const BrandingPage: React.FC = () => {
         <CardContent className="space-y-6 pt-6">
           <EnhancedLogoUploadSection 
             lightLogoFile={light_logo} 
-            darkLogoFile={dark_logo} 
+            darkLogoFile={dark_logo}
+            lightLogoUrl={light_logo_url}
+            darkLogoUrl={dark_logo_url}
             onLightLogoChange={(file) => dispatch(setLightLogo(file))} 
             onDarkLogoChange={(file) => dispatch(setDarkLogo(file))} 
           />
@@ -88,6 +93,7 @@ export const BrandingPage: React.FC = () => {
 
           <EnhancedFaviconUploadSection 
             faviconFile={favicon} 
+            faviconUrl={favicon_url}
             onFaviconChange={(file) => dispatch(setFavicon(file))} 
           />
 
