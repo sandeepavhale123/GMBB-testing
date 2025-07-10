@@ -121,7 +121,7 @@ export const BusinessListingSelector: React.FC = () => {
                     variant="secondary"
                     className="shrink-0 text-xs ml-auto"
                   >
-                    {currentBusiness.type}
+                    {currentBusiness.zipcode}
                   </Badge>
                 </div>
               </div>
@@ -184,7 +184,7 @@ export const BusinessListingSelector: React.FC = () => {
                           variant="secondary"
                           className="shrink-0 text-xs ml-auto"
                         >
-                          {business.type}
+                          {business.zipcode}
                         </Badge>
                       </div>
                     </div>
