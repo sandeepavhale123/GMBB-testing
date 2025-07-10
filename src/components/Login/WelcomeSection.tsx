@@ -3,7 +3,7 @@ import React from "react";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 export const WelcomeSection = () => {
-  const { lightLogolightLogo } = useThemeLogo();
+  const { lightLogo } = useThemeLogo();
 
   return (
     <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{background: 'linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))'}}>
