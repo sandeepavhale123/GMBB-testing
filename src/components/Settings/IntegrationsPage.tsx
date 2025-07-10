@@ -27,6 +27,7 @@ import {
   ChevronDown,
   Loader2,
   Mail,
+  Globe,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import axiosInstance from "@/api/axiosInstance";
@@ -76,6 +77,12 @@ export const IntegrationsPage: React.FC = () => {
   });
   const [connectedSmtp, setConnectedSmtp] = useState(false);
 
+  // Subdomain related states
+  const [isConfiguringSubdomain, setIsConfiguringSubdomain] = useState(false);
+  const [isLoadingSubdomain, setIsLoadingSubdomain] = useState(false);
+  const [subdomain, setSubdomain] = useState("");
+  const [connectedSubdomain, setConnectedSubdomain] = useState(false);
+
   // Form validation hooks
   const apiKeyValidation = useFormValidation(apiKeySchema);
   const disconnectValidation = useFormValidation(disconnectConfirmationSchema);
@@ -95,6 +102,14 @@ export const IntegrationsPage: React.FC = () => {
       description: "Configure email server settings for notifications",
       icon: Mail,
       status: connectedSmtp ? "active" : "inactive",
+      configurable: true,
+    },
+    {
+      id: "subdomain-config",
+      name: "Sub domain configuration",
+      description: "Configure white label subdomain for your reports",
+      icon: Globe,
+      status: connectedSubdomain ? "active" : "inactive",
       configurable: true,
     },
   ]);
@@ -374,6 +389,44 @@ export const IntegrationsPage: React.FC = () => {
     }
   };
 
+  const handleSubdomainSave = async () => {
+    if (!subdomain.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a subdomain",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoadingSubdomain(true);
+    try {
+      // API call to save subdomain would go here
+      setConnectedSubdomain(true);
+      setIntegrations((prev) =>
+        prev.map((integration) =>
+          integration.id === "subdomain-config"
+            ? { ...integration, status: "active" }
+            : integration
+        )
+      );
+      
+      setIsConfiguringSubdomain(false);
+      toast({
+        title: "Success",
+        description: "Subdomain configuration saved successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to save subdomain configuration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingSubdomain(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -451,6 +504,8 @@ export const IntegrationsPage: React.FC = () => {
                             handleOpenConfigureModal();
                           } else if (integration.id === "smtp-details") {
                             handleOpenSmtpModal();
+                          } else if (integration.id === "subdomain-config") {
+                            setIsConfiguringSubdomain(true);
                           }
                         }}
                         disabled={isFetchingKey || isFetchingSmtp}
@@ -923,6 +978,95 @@ export const IntegrationsPage: React.FC = () => {
                   )}
                 </Button>
               </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Subdomain Configuration Modal */}
+      <Dialog open={isConfiguringSubdomain} onOpenChange={setIsConfiguringSubdomain}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Sub domain configuration</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="subdomain" className="text-sm font-medium">
+                Enter subdomain
+              </Label>
+              <Input
+                id="subdomain"
+                type="text"
+                placeholder="example"
+                value={subdomain}
+                onChange={(e) => setSubdomain(e.target.value)}
+                disabled={isLoadingSubdomain}
+              />
+              <p className="text-xs text-muted-foreground">
+                Enter your desired subdomain (without .com or other extensions)
+              </p>
+            </div>
+
+            <div className="bg-muted/30 p-4 rounded-lg">
+              <h4 className="font-medium text-foreground mb-3">
+                Follow the below steps:
+              </h4>
+              <div className="space-y-3 text-sm text-foreground">
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 1:</span>
+                  <span>Add white label subdomain here & save it.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 2:</span>
+                  <span>Add the IP in DNS manager as A record: <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">157.230.2.181</code></span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 3:</span>
+                  <span>
+                    Please check DNS propagation at:{" "}
+                    <a
+                      href="https://dnschecker.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline inline-flex items-center gap-1"
+                    >
+                      dnschecker.org
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 4:</span>
+                  <span>Once you have done let us know, we will update your request in next 24 hours.</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsConfiguringSubdomain(false);
+                  setSubdomain("");
+                }}
+                disabled={isLoadingSubdomain}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubdomainSave}
+                disabled={isLoadingSubdomain || !subdomain.trim()}
+              >
+                {isLoadingSubdomain ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Configuration"
+                )}
+              </Button>
             </div>
           </div>
         </DialogContent>
