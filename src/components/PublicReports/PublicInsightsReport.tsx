@@ -141,68 +141,198 @@ export const PublicInsightsReport: React.FC = () => {
         </div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className={`grid gap-6 ${reportType === 'comparison' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
           {/* How Customers Search Doughnut Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle>How Customers Search For Your Business</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={{}} className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={insightsData.customerSearchData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {insightsData.customerSearchData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="rounded-lg border bg-background p-2 shadow-sm">
-                              <div className="flex items-center gap-2">
-                                <div
-                                  className="h-3 w-3 rounded-full"
-                                  style={{ backgroundColor: data.fill }}
-                                />
-                                <span className="font-medium">{data.name}</span>
+          {reportType === 'comparison' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Period 1 Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">How Customers Search For Your Business</CardTitle>
+                  <p className="text-sm text-muted-foreground text-center">Period 1: {insightsData.dateRange.comparison.period1}</p>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer config={{}} className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={insightsData.customerSearchData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={100}
+                          paddingAngle={5}
+                          dataKey="value"
+                        >
+                          {insightsData.customerSearchData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <ChartTooltip
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              const data = payload[0].payload;
+                              return (
+                                <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                  <div className="flex items-center gap-2">
+                                    <div
+                                      className="h-3 w-3 rounded-full"
+                                      style={{ backgroundColor: data.fill }}
+                                    />
+                                    <span className="font-medium">{data.name}</span>
+                                  </div>
+                                  <div className="text-sm text-muted-foreground">
+                                    {data.count.toLocaleString()} ({data.value}%)
+                                  </div>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Legend
+                          verticalAlign="bottom"
+                          height={36}
+                          formatter={(value, entry) => (
+                            <span style={{ color: entry.color }}>{value}</span>
+                          )}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+
+              {/* Period 2 Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">How Customers Search For Your Business</CardTitle>
+                  <p className="text-sm text-muted-foreground text-center">Period 2: {insightsData.dateRange.comparison.period2}</p>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer config={{}} className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: 'Desktop Search', value: 38, count: 7800, fill: 'hsl(220 100% 60%)' },
+                            { name: 'Mobile Search', value: 35, count: 5900, fill: 'hsl(142 76% 60%)' },
+                            { name: 'Desktop Map', value: 19, count: 4100, fill: 'hsl(47 96% 60%)' },
+                            { name: 'Mobile Map', value: 8, count: 3600, fill: 'hsl(280 100% 60%)' }
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={100}
+                          paddingAngle={5}
+                          dataKey="value"
+                        >
+                          {[
+                            { name: 'Desktop Search', value: 38, count: 7800, fill: 'hsl(220 100% 60%)' },
+                            { name: 'Mobile Search', value: 35, count: 5900, fill: 'hsl(142 76% 60%)' },
+                            { name: 'Desktop Map', value: 19, count: 4100, fill: 'hsl(47 96% 60%)' },
+                            { name: 'Mobile Map', value: 8, count: 3600, fill: 'hsl(280 100% 60%)' }
+                          ].map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <ChartTooltip
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              const data = payload[0].payload;
+                              return (
+                                <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                  <div className="flex items-center gap-2">
+                                    <div
+                                      className="h-3 w-3 rounded-full"
+                                      style={{ backgroundColor: data.fill }}
+                                    />
+                                    <span className="font-medium">{data.name}</span>
+                                  </div>
+                                  <div className="text-sm text-muted-foreground">
+                                    {data.count.toLocaleString()} ({data.value}%)
+                                  </div>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Legend
+                          verticalAlign="bottom"
+                          height={36}
+                          formatter={(value, entry) => (
+                            <span style={{ color: entry.color }}>{value}</span>
+                          )}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>How Customers Search For Your Business</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer config={{}} className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={insightsData.customerSearchData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={100}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        {insightsData.customerSearchData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            const data = payload[0].payload;
+                            return (
+                              <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                <div className="flex items-center gap-2">
+                                  <div
+                                    className="h-3 w-3 rounded-full"
+                                    style={{ backgroundColor: data.fill }}
+                                  />
+                                  <span className="font-medium">{data.name}</span>
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                  {data.count.toLocaleString()} ({data.value}%)
+                                </div>
                               </div>
-                              <div className="text-sm text-muted-foreground">
-                                {data.count.toLocaleString()} ({data.value}%)
-                              </div>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Legend
-                      verticalAlign="bottom"
-                      height={36}
-                      formatter={(value, entry) => (
-                        <span style={{ color: entry.color }}>{value}</span>
-                      )}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </CardContent>
-          </Card>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Legend
+                        verticalAlign="bottom"
+                        height={36}
+                        formatter={(value, entry) => (
+                          <span style={{ color: entry.color }}>{value}</span>
+                        )}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Listing Views & Clicks Chart */}
           <Card>
             <CardHeader>
-              <CardTitle>Listing Views & Clicks</CardTitle>
+              <CardTitle>Listing Views & Clicks {reportType === 'comparison' && '- Period Comparison'}</CardTitle>
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig} className="h-[300px]">
