@@ -140,7 +140,41 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                     Get comprehensive insights and detailed reports to grow your online presence and outperform your competition
                   </p>
                   
-                  
+                  {/* Report Branding Information */}
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-6">
+                    <div className="flex items-center space-x-4 mb-4">
+                      {companyLogo ? (
+                        <img src={companyLogo} alt="Company Logo" className="w-16 h-16 rounded-lg object-cover" />
+                      ) : (
+                        <div className="w-16 h-16 bg-white/20 rounded-lg flex items-center justify-center">
+                          <span className="text-2xl font-bold text-white">{companyName?.charAt(0) || 'C'}</span>
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-2xl font-bold text-white">{companyName}</h3>
+                        <p className="text-white/80">Professional Business Analytics</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div className="flex items-center space-x-2 text-white/90">
+                        <span className="text-white/70">📧</span>
+                        <span>contact@{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-white/90">
+                        <span className="text-white/70">📞</span>
+                        <span>(555) 123-4567</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-white/90">
+                        <span className="text-white/70">🌐</span>
+                        <span>www.{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-white/90">
+                        <span className="text-white/70">📍</span>
+                        <span>123 Business Ave, Suite 100</span>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Company Branding Card */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
