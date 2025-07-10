@@ -109,7 +109,7 @@ export const LoginForm = () => {
           style={{
             maxHeight:"60px",
             height:"auto",
-            widht:"auto",
+            width:"auto",
             maxWidth:"130px"
           }}
           
