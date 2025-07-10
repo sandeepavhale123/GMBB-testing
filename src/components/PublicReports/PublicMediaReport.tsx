@@ -189,14 +189,12 @@ export const PublicMediaReport: React.FC = () => {
                 <LineChart data={currentData.chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
-                  <YAxis yAxisId="left" />
-                  <YAxis yAxisId="right" orientation="right" />
+                  <YAxis />
                   <Tooltip />
                   <Legend />
                   {isComparison ? (
                     <>
                       <Line
-                        yAxisId="left"
                         type="monotone"
                         dataKey="currentUploads"
                         stroke="#2563eb"
@@ -204,7 +202,6 @@ export const PublicMediaReport: React.FC = () => {
                         name="Current Period Uploads"
                       />
                       <Line
-                        yAxisId="left"
                         type="monotone"
                         dataKey="previousUploads"
                         stroke="#94a3b8"
@@ -212,43 +209,15 @@ export const PublicMediaReport: React.FC = () => {
                         strokeDasharray="5 5"
                         name="Previous Period Uploads"
                       />
-                      <Line
-                        yAxisId="right"
-                        type="monotone"
-                        dataKey="currentEngagement"
-                        stroke="#16a34a"
-                        strokeWidth={2}
-                        name="Current Engagement %"
-                      />
-                      <Line
-                        yAxisId="right"
-                        type="monotone"
-                        dataKey="previousEngagement"
-                        stroke="#84cc16"
-                        strokeWidth={2}
-                        strokeDasharray="5 5"
-                        name="Previous Engagement %"
-                      />
                     </>
                   ) : (
-                    <>
-                      <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="uploads"
-                        stroke="#2563eb"
-                        strokeWidth={2}
-                        name="Media Uploads"
-                      />
-                      <Line
-                        yAxisId="right"
-                        type="monotone"
-                        dataKey="engagement"
-                        stroke="#16a34a"
-                        strokeWidth={2}
-                        name="Engagement %"
-                      />
-                    </>
+                    <Line
+                      type="monotone"
+                      dataKey="uploads"
+                      stroke="#2563eb"
+                      strokeWidth={2}
+                      name="Media Uploads"
+                    />
                   )}
                 </LineChart>
               </ResponsiveContainer>
