@@ -35,10 +35,10 @@ export const PublicInsightsReport: React.FC = () => {
       mobileMap: { current: 3800, previous: 3600, change: 5.6 }
     },
     customerSearchData: [
-      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(var(--chart-1))' },
-      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(var(--chart-2))' },
-      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(var(--chart-3))' },
-      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(var(--chart-4))' }
+      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(var(--primary))' },
+      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(var(--secondary))' },
+      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(var(--accent))' },
+      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(var(--muted))' }
     ],
     viewsClicksData: [
       { month: 'Jan', search: 14700, map: 8150, website: 1245, direction: 687, call: 156, message: 89 },
@@ -51,12 +51,12 @@ export const PublicInsightsReport: React.FC = () => {
   };
 
   const chartConfig = {
-    search: { label: 'Search', color: 'hsl(var(--chart-1))' },
-    map: { label: 'Map', color: 'hsl(var(--chart-2))' },
-    website: { label: 'Website', color: 'hsl(var(--chart-3))' },
-    direction: { label: 'Direction', color: 'hsl(var(--chart-4))' },
-    call: { label: 'Call', color: 'hsl(var(--chart-5))' },
-    message: { label: 'Message', color: 'hsl(var(--chart-6))' }
+    search: { label: 'Search', color: 'hsl(var(--primary))' },
+    map: { label: 'Map', color: 'hsl(var(--secondary))' },
+    website: { label: 'Website', color: 'hsl(var(--accent))' },
+    direction: { label: 'Direction', color: 'hsl(var(--destructive))' },
+    call: { label: 'Call', color: 'hsl(var(--muted-foreground))' },
+    message: { label: 'Message', color: 'hsl(var(--border))' }
   };
 
   const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode) => (
@@ -86,32 +86,22 @@ export const PublicInsightsReport: React.FC = () => {
       companyName={insightsData.companyName}
       companyLogo={insightsData.companyLogo}
     >
-      <div className="space-y-6">
-        {/* Report Type Toggle */}
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center space-x-4">
-                <Label htmlFor="report-type">Report Type:</Label>
-                <div className="flex items-center space-x-2">
-                  <Label htmlFor="individual">Individual</Label>
-                  <Switch
-                    id="report-type"
-                    checked={reportType === 'comparison'}
-                    onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
-                  />
-                  <Label htmlFor="comparison">Comparison</Label>
-                </div>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {reportType === 'individual' 
-                  ? `Period: ${insightsData.dateRange.individual}`
-                  : `Period 1: ${insightsData.dateRange.comparison.period1} | Period 2: ${insightsData.dateRange.comparison.period2}`
-                }
-              </div>
+      <div className="relative space-y-6">
+        {/* Report Type Toggle - Absolute positioned */}
+        <div className="absolute top-0 right-0 z-10">
+          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
+            <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="individual" className="text-sm">Individual</Label>
+              <Switch
+                id="report-type"
+                checked={reportType === 'comparison'}
+                onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+              />
+              <Label htmlFor="comparison" className="text-sm">Comparison</Label>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Enhanced Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
