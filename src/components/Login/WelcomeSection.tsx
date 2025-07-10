@@ -17,7 +17,7 @@ export const WelcomeSection = () => {
 
       {/* Logo */}
       <div className="absolute top-8 left-8">
-        <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-4">
+        <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-2">
           <img
             src={lightLogo}
             alt="GMB Briefcase Logo"
