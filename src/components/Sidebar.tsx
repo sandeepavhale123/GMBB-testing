@@ -17,6 +17,7 @@ import {
   Crown,
   Sparkles,
   MessageCircleQuestion,
+  FileBarChart,
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
@@ -71,6 +72,12 @@ const menuItems = [
     label: "Q&A",
     icon: MessageCircleQuestion,
     path: "/qa",
+  },
+  {
+    id: "reports",
+    label: "Reports",
+    icon: FileBarChart,
+    path: "/reports",
   },
   {
     id: "businesses",
@@ -162,6 +169,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       "/geo-ranking",
       "/reviews",
       "/qa",
+      "/reports",
       "/business-info",
     ];
 

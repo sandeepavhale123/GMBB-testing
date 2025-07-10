@@ -6,6 +6,7 @@ import GeoRankingPage from "@/pages/GeoRankingPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
+import ReportsPage from "@/pages/ReportsPage";
 import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
@@ -178,6 +179,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <QAPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Reports routes
+  {
+    path: "/reports",
+    element: <Navigate to="/reports/default" replace />,
+  },
+  {
+    path: "/reports/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <ReportsPage />
         </ListingProvider>
       </ProtectedRoute>
     ),
