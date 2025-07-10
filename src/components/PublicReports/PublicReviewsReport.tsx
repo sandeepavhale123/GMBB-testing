@@ -4,7 +4,9 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Star, TrendingUp, MessageSquare, Heart } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const PublicReviewsReport: React.FC = () => {
   const { token } = useParams();
@@ -25,6 +27,22 @@ export const PublicReviewsReport: React.FC = () => {
       { stars: 3, count: 25, percentage: 10 },
       { stars: 2, count: 10, percentage: 4 },
       { stars: 1, count: 5, percentage: 2 }
+    ],
+    reviewChartData: [
+      { date: '2024-01-01', totalReviews: 15, star5: 8, star4: 4, star3: 2, star2: 1, star1: 0 },
+      { date: '2024-01-02', totalReviews: 12, star5: 7, star4: 3, star3: 1, star2: 1, star1: 0 },
+      { date: '2024-01-03', totalReviews: 18, star5: 11, star4: 5, star3: 1, star2: 1, star1: 0 },
+      { date: '2024-01-04', totalReviews: 20, star5: 13, star4: 4, star3: 2, star2: 1, star1: 0 },
+      { date: '2024-01-05', totalReviews: 16, star5: 9, star4: 4, star3: 2, star2: 1, star1: 0 },
+      { date: '2024-01-06', totalReviews: 22, star5: 14, star4: 5, star3: 2, star2: 1, star1: 0 },
+      { date: '2024-01-07', totalReviews: 19, star5: 12, star4: 4, star3: 2, star2: 1, star1: 0 }
+    ],
+    tableData: [
+      { date: '2024-01-15', totalReviews: 25, star5: 15, star4: 6, star3: 3, star2: 1, star1: 0 },
+      { date: '2024-01-14', totalReviews: 22, star5: 13, star4: 5, star3: 3, star2: 1, star1: 0 },
+      { date: '2024-01-13', totalReviews: 28, star5: 18, star4: 6, star3: 3, star2: 1, star1: 0 },
+      { date: '2024-01-12', totalReviews: 20, star5: 12, star4: 5, star3: 2, star2: 1, star1: 0 },
+      { date: '2024-01-11', totalReviews: 24, star5: 15, star4: 5, star3: 3, star2: 1, star1: 0 }
     ],
     recentReviews: [
       {
@@ -48,12 +66,7 @@ export const PublicReviewsReport: React.FC = () => {
         date: "2024-01-13",
         responded: true
       }
-    ],
-    trends: {
-      thisMonth: 4.3,
-      lastMonth: 4.1,
-      change: 0.2
-    }
+    ]
   };
 
   const renderStars = (rating: number) => {
@@ -117,33 +130,7 @@ export const PublicReviewsReport: React.FC = () => {
           </Card>
         </div>
 
-        {/* Rating Trends */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Rating Trends</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-              <div>
-                <div className="text-sm text-muted-foreground">This Month</div>
-                <div className="text-2xl font-bold">{reviewData.trends.thisMonth}</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center gap-1 text-green-600">
-                  <TrendingUp className="h-4 w-4" />
-                  <span className="font-semibold">+{reviewData.trends.change}</span>
-                </div>
-                <div className="text-sm text-muted-foreground">vs last month</div>
-              </div>
-              <div>
-                <div className="text-sm text-muted-foreground">Last Month</div>
-                <div className="text-2xl font-bold text-muted-foreground">{reviewData.trends.lastMonth}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Sentiment Breakdown */}
+        {/* Rating Distribution */}
         <Card>
           <CardHeader>
             <CardTitle>Rating Distribution</CardTitle>
@@ -165,6 +152,66 @@ export const PublicReviewsReport: React.FC = () => {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Review Line Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Review Trends Over Time</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={reviewData.reviewChartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
+                  <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
+                  <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
+                  <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
+                  <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
+                  <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Review Data Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Review Data Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Review Date</TableHead>
+                  <TableHead>Total Review</TableHead>
+                  <TableHead>5 Star Rating</TableHead>
+                  <TableHead>4 Star Rating</TableHead>
+                  <TableHead>3 Star Rating</TableHead>
+                  <TableHead>2 Star Rating</TableHead>
+                  <TableHead>1 Star Rating</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {reviewData.tableData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{row.date}</TableCell>
+                    <TableCell>{row.totalReviews}</TableCell>
+                    <TableCell>{row.star5}</TableCell>
+                    <TableCell>{row.star4}</TableCell>
+                    <TableCell>{row.star3}</TableCell>
+                    <TableCell>{row.star2}</TableCell>
+                    <TableCell>{row.star1}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 
