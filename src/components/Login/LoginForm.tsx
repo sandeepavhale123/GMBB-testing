@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
 import { loginSchema, LoginFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 export const LoginForm = () => {
   const [credentials, setCredentials] = useState({
@@ -25,6 +26,7 @@ export const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuthRedux();
+  const { darkLogo } = useThemeLogo();
   const {
     validate,
     getFieldError,
@@ -102,7 +104,7 @@ export const LoginForm = () => {
       {/* Mobile Logo */}
       <div className="flex justify-center lg:hidden mb-8">
         <img
-          src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+          src={darkLogo}
           alt="GMB Briefcase Logo"
           className="w-16 h-16 object-contain"
         />

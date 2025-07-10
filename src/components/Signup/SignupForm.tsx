@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { useSignup } from "@/store/slices/auth/useSignUp";
 import { signupSchema, SignupFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 const PLAN_OPTIONS = [
   { value: "0", label: "Select Plan" },
@@ -38,6 +39,7 @@ export const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { signup, isLoading, error } = useSignup();
+  const { darkLogo } = useThemeLogo();
   const {
     validate,
     getFieldError,
@@ -107,7 +109,7 @@ export const SignupForm = () => {
     <div className="w-full max-w-md space-y-8">
       <div className="flex justify-center lg:hidden mb-8">
         <img
-          src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+          src={darkLogo}
           alt="GMB Briefcase Logo"
           className="w-16 h-16 object-contain"
         />
