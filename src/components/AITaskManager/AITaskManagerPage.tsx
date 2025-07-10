@@ -26,7 +26,7 @@ import {
   usePendingAiTask,
   useTransformedAiTasks,
 } from "../../hooks/useAiTask";
-import { AiTask } from "../../api/aiTaskApi";
+import { AiTask } from "../../api/aitaskApi";
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { isEqual } from "lodash";
@@ -62,7 +62,7 @@ const categoryIcons = {
 export const AITaskManagerPage: React.FC = () => {
   const { selectedListing } = useListingContext();
   const { tasks, stats, isLoading, error, refetch } = useTransformedAiTasks({
-    listingId: selectedListing?.id,
+    listingId: selectedListing?.id ? Number(selectedListing.id) : undefined,
   });
   const { mutateAsync: completeTask } = useCompleteAiTask();
   const { mutateAsync: pendingTask } = usePendingAiTask();
@@ -86,7 +86,7 @@ export const AITaskManagerPage: React.FC = () => {
     try {
       const response = await completeTask({
         taskId,
-        listingId: selectedListing.id,
+        listingId: Number(selectedListing.id),
       });
       setLocalTasks((prev) =>
         prev.map((t) =>
@@ -113,7 +113,7 @@ export const AITaskManagerPage: React.FC = () => {
     try {
       const response = await pendingTask({
         taskId,
-        listingId: selectedListing.id,
+        listingId: Number(selectedListing.id),
       });
       setLocalTasks((prev) =>
         prev.map((t) =>
