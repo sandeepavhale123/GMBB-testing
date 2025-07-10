@@ -7,9 +7,10 @@ import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Star, TrendingUp, MessageSquare, Heart } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
 export const PublicReviewsReport: React.FC = () => {
-  const { token } = useParams();
+  const {
+    token
+  } = useParams();
 
   // Sample data
   const reviewData = {
@@ -21,71 +22,151 @@ export const PublicReviewsReport: React.FC = () => {
       responseRate: 78,
       newReviews: 12
     },
-    sentimentBreakdown: [
-      { stars: 5, count: 145, percentage: 59 },
-      { stars: 4, count: 62, percentage: 25 },
-      { stars: 3, count: 25, percentage: 10 },
-      { stars: 2, count: 10, percentage: 4 },
-      { stars: 1, count: 5, percentage: 2 }
-    ],
-    reviewChartData: [
-      { date: '2024-01-01', totalReviews: 15, star5: 8, star4: 4, star3: 2, star2: 1, star1: 0 },
-      { date: '2024-01-02', totalReviews: 12, star5: 7, star4: 3, star3: 1, star2: 1, star1: 0 },
-      { date: '2024-01-03', totalReviews: 18, star5: 11, star4: 5, star3: 1, star2: 1, star1: 0 },
-      { date: '2024-01-04', totalReviews: 20, star5: 13, star4: 4, star3: 2, star2: 1, star1: 0 },
-      { date: '2024-01-05', totalReviews: 16, star5: 9, star4: 4, star3: 2, star2: 1, star1: 0 },
-      { date: '2024-01-06', totalReviews: 22, star5: 14, star4: 5, star3: 2, star2: 1, star1: 0 },
-      { date: '2024-01-07', totalReviews: 19, star5: 12, star4: 4, star3: 2, star2: 1, star1: 0 }
-    ],
-    tableData: [
-      { date: '2024-01-15', totalReviews: 25, star5: 15, star4: 6, star3: 3, star2: 1, star1: 0 },
-      { date: '2024-01-14', totalReviews: 22, star5: 13, star4: 5, star3: 3, star2: 1, star1: 0 },
-      { date: '2024-01-13', totalReviews: 28, star5: 18, star4: 6, star3: 3, star2: 1, star1: 0 },
-      { date: '2024-01-12', totalReviews: 20, star5: 12, star4: 5, star3: 2, star2: 1, star1: 0 },
-      { date: '2024-01-11', totalReviews: 24, star5: 15, star4: 5, star3: 3, star2: 1, star1: 0 }
-    ],
-    recentReviews: [
-      {
-        rating: 5,
-        text: "Excellent service and food quality. Will definitely come back!",
-        author: "Sarah M.",
-        date: "2024-01-15",
-        responded: true
-      },
-      {
-        rating: 4,
-        text: "Great atmosphere and friendly staff. Food was good.",
-        author: "John D.",
-        date: "2024-01-14",
-        responded: false
-      },
-      {
-        rating: 5,
-        text: "Amazing experience! Best restaurant in the area.",
-        author: "Emily R.",
-        date: "2024-01-13",
-        responded: true
-      }
-    ]
+    sentimentBreakdown: [{
+      stars: 5,
+      count: 145,
+      percentage: 59
+    }, {
+      stars: 4,
+      count: 62,
+      percentage: 25
+    }, {
+      stars: 3,
+      count: 25,
+      percentage: 10
+    }, {
+      stars: 2,
+      count: 10,
+      percentage: 4
+    }, {
+      stars: 1,
+      count: 5,
+      percentage: 2
+    }],
+    reviewChartData: [{
+      date: '2024-01-01',
+      totalReviews: 15,
+      star5: 8,
+      star4: 4,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-02',
+      totalReviews: 12,
+      star5: 7,
+      star4: 3,
+      star3: 1,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-03',
+      totalReviews: 18,
+      star5: 11,
+      star4: 5,
+      star3: 1,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-04',
+      totalReviews: 20,
+      star5: 13,
+      star4: 4,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-05',
+      totalReviews: 16,
+      star5: 9,
+      star4: 4,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-06',
+      totalReviews: 22,
+      star5: 14,
+      star4: 5,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-07',
+      totalReviews: 19,
+      star5: 12,
+      star4: 4,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }],
+    tableData: [{
+      date: '2024-01-15',
+      totalReviews: 25,
+      star5: 15,
+      star4: 6,
+      star3: 3,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-14',
+      totalReviews: 22,
+      star5: 13,
+      star4: 5,
+      star3: 3,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-13',
+      totalReviews: 28,
+      star5: 18,
+      star4: 6,
+      star3: 3,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-12',
+      totalReviews: 20,
+      star5: 12,
+      star4: 5,
+      star3: 2,
+      star2: 1,
+      star1: 0
+    }, {
+      date: '2024-01-11',
+      totalReviews: 24,
+      star5: 15,
+      star4: 5,
+      star3: 3,
+      star2: 1,
+      star1: 0
+    }],
+    recentReviews: [{
+      rating: 5,
+      text: "Excellent service and food quality. Will definitely come back!",
+      author: "Sarah M.",
+      date: "2024-01-15",
+      responded: true
+    }, {
+      rating: 4,
+      text: "Great atmosphere and friendly staff. Food was good.",
+      author: "John D.",
+      date: "2024-01-14",
+      responded: false
+    }, {
+      rating: 5,
+      text: "Amazing experience! Best restaurant in the area.",
+      author: "Emily R.",
+      date: "2024-01-13",
+      responded: true
+    }]
   };
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${
-          i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-        }`}
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, i) => <Star key={i} className={`h-4 w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />);
   };
-
-  return (
-    <PublicReportDashboardLayout
-      title="Reviews Report"
-      companyName={reviewData.companyName}
-      companyLogo={reviewData.companyLogo}
-    >
+  return <PublicReportDashboardLayout title="Reviews Report" companyName={reviewData.companyName} companyLogo={reviewData.companyLogo}>
       <div className="space-y-6">
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -141,20 +222,18 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {reviewData.sentimentBreakdown.map((item) => (
-                    <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <div className="flex">{Array.from({ length: item.stars }, (_, i) => (
-                          <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                        ))}</div>
+                        <div className="flex">{Array.from({
+                        length: item.stars
+                      }, (_, i) => <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />)}</div>
                         <span className="font-medium">{item.stars} Star</span>
                       </div>
                       <div className="text-right">
                         <div className="text-lg font-bold">{item.count}</div>
                         <div className="text-xs text-muted-foreground">reviews</div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
             </Card>
@@ -175,8 +254,7 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4 flex-1">
                 <div className="space-y-3">
-                  {reviewData.sentimentBreakdown.map((item) => (
-                    <div key={item.stars} className="flex items-center gap-3">
+                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center gap-3 my-4 ">
                       <div className="flex items-center gap-1 w-8">
                         <span className="text-sm font-medium text-gray-700">{item.stars}</span>
                         <Star className="h-3 w-3 text-yellow-400 fill-current" />
@@ -187,8 +265,7 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="text-sm text-gray-600 w-12 text-right">
                         {item.percentage}%
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
             </Card>
@@ -239,8 +316,7 @@ export const PublicReviewsReport: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {reviewData.tableData.map((row, index) => (
-                  <TableRow key={index}>
+                {reviewData.tableData.map((row, index) => <TableRow key={index}>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.totalReviews}</TableCell>
                     <TableCell>{row.star5}</TableCell>
@@ -248,8 +324,7 @@ export const PublicReviewsReport: React.FC = () => {
                     <TableCell>{row.star3}</TableCell>
                     <TableCell>{row.star2}</TableCell>
                     <TableCell>{row.star1}</TableCell>
-                  </TableRow>
-                ))}
+                  </TableRow>)}
               </TableBody>
             </Table>
           </CardContent>
@@ -262,8 +337,7 @@ export const PublicReviewsReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {reviewData.recentReviews.map((review, index) => (
-                <div key={index} className="p-4 border rounded-lg">
+              {reviewData.recentReviews.map((review, index) => <div key={index} className="p-4 border rounded-lg">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <div className="flex">{renderStars(review.rating)}</div>
@@ -277,12 +351,10 @@ export const PublicReviewsReport: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground">{review.text}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </CardContent>
         </Card>
       </div>
-    </PublicReportDashboardLayout>
-  );
+    </PublicReportDashboardLayout>;
 };
