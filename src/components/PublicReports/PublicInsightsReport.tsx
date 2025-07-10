@@ -1,45 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Users, Eye, Phone, MapPin, Clock } from 'lucide-react';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone, BarChart3, LineChart } from 'lucide-react';
+import { PieChart, Pie, Cell, LineChart as RechartsLineChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
 export const PublicInsightsReport: React.FC = () => {
   const { token } = useParams();
+  const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
+  const [chartType, setChartType] = useState<'line' | 'bar'>('line');
 
-  // Sample data
+  // Enhanced sample data
   const insightsData = {
     companyName: 'Demo Business',
     companyLogo: null,
-    overview: {
-      totalViews: 15420,
-      searchViews: 12850,
-      customerActions: 2347,
-      callsReceived: 156
+    dateRange: {
+      individual: 'Jan 1, 2024 - Jan 31, 2024',
+      comparison: {
+        period1: 'Jan 1, 2024 - Jan 31, 2024',
+        period2: 'Dec 1, 2023 - Dec 31, 2023'
+      }
     },
-    customerActions: [
-      { action: 'Website Visits', count: 1245, percentage: 53 },
-      { action: 'Direction Requests', count: 687, percentage: 29 },
-      { action: 'Phone Calls', count: 256, percentage: 11 },
-      { action: 'Photo Views', count: 159, percentage: 7 }
+    summaryCards: {
+      website: { current: 1245, previous: 1100, change: 13.2 },
+      direction: { current: 687, previous: 620, change: 10.8 },
+      call: { current: 156, previous: 140, change: 11.4 },
+      desktopSearch: { current: 8500, previous: 7800, change: 9.0 },
+      desktopMap: { current: 4350, previous: 4100, change: 6.1 },
+      mobileSearch: { current: 6200, previous: 5900, change: 5.1 },
+      mobileMap: { current: 3800, previous: 3600, change: 5.6 }
+    },
+    customerSearchData: [
+      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(var(--chart-1))' },
+      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(var(--chart-2))' },
+      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(var(--chart-3))' },
+      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(var(--chart-4))' }
     ],
-    topSearchQueries: [
-      { query: 'restaurant near me', impressions: 4250, clicks: 234 },
-      { query: 'best pizza delivery', impressions: 3180, clicks: 189 },
-      { query: 'italian food', impressions: 2940, clicks: 167 },
-      { query: 'family restaurant', impressions: 2100, clicks: 134 },
-      { query: 'takeout food', impressions: 1890, clicks: 98 }
-    ],
-    weeklyTrends: [
-      { day: 'Mon', views: 1200, actions: 180 },
-      { day: 'Tue', views: 1350, actions: 210 },
-      { day: 'Wed', views: 1450, actions: 240 },
-      { day: 'Thu', views: 1600, actions: 280 },
-      { day: 'Fri', views: 2100, actions: 350 },
-      { day: 'Sat', views: 2400, actions: 420 },
-      { day: 'Sun', views: 1900, actions: 320 }
+    viewsClicksData: [
+      { month: 'Jan', search: 14700, map: 8150, website: 1245, direction: 687, call: 156, message: 89 },
+      { month: 'Feb', search: 15200, map: 8400, website: 1310, direction: 720, call: 162, message: 95 },
+      { month: 'Mar', search: 14900, map: 8200, website: 1280, direction: 705, call: 158, message: 92 },
+      { month: 'Apr', search: 15800, map: 8600, website: 1350, direction: 750, call: 165, message: 98 },
+      { month: 'May', search: 16200, map: 8900, website: 1420, direction: 780, call: 172, message: 103 },
+      { month: 'Jun', search: 15600, map: 8700, website: 1380, direction: 760, call: 168, message: 100 }
     ]
   };
+
+  const chartConfig = {
+    search: { label: 'Search', color: 'hsl(var(--chart-1))' },
+    map: { label: 'Map', color: 'hsl(var(--chart-2))' },
+    website: { label: 'Website', color: 'hsl(var(--chart-3))' },
+    direction: { label: 'Direction', color: 'hsl(var(--chart-4))' },
+    call: { label: 'Call', color: 'hsl(var(--chart-5))' },
+    message: { label: 'Message', color: 'hsl(var(--chart-6))' }
+  };
+
+  const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode) => (
+    <Card>
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <p className="text-2xl font-bold">{value.toLocaleString()}</p>
+            {reportType === 'comparison' && (
+              <p className={`text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {change >= 0 ? '+' : ''}{change.toFixed(1)}% vs previous
+              </p>
+            )}
+          </div>
+          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+            {icon}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <PublicReportDashboardLayout
@@ -48,136 +87,210 @@ export const PublicInsightsReport: React.FC = () => {
       companyLogo={insightsData.companyLogo}
     >
       <div className="space-y-6">
-        {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
-                <Eye className="h-5 w-5 text-blue-600" />
+        {/* Report Type Toggle */}
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-center space-x-4">
+                <Label htmlFor="report-type">Report Type:</Label>
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="individual">Individual</Label>
+                  <Switch
+                    id="report-type"
+                    checked={reportType === 'comparison'}
+                    onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+                  />
+                  <Label htmlFor="comparison">Comparison</Label>
+                </div>
               </div>
-              <div className="text-2xl font-bold">{insightsData.overview.totalViews.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Total Views</div>
+              <div className="text-sm text-muted-foreground">
+                {reportType === 'individual' 
+                  ? `Period: ${insightsData.dateRange.individual}`
+                  : `Period 1: ${insightsData.dateRange.comparison.period1} | Period 2: ${insightsData.dateRange.comparison.period2}`
+                }
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Enhanced Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {renderSummaryCard(
+            'Website Visits',
+            insightsData.summaryCards.website.current,
+            insightsData.summaryCards.website.previous,
+            insightsData.summaryCards.website.change,
+            <Globe className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Direction Requests',
+            insightsData.summaryCards.direction.current,
+            insightsData.summaryCards.direction.previous,
+            insightsData.summaryCards.direction.change,
+            <MapPin className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Phone Calls',
+            insightsData.summaryCards.call.current,
+            insightsData.summaryCards.call.previous,
+            insightsData.summaryCards.call.change,
+            <Phone className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Desktop Search',
+            insightsData.summaryCards.desktopSearch.current,
+            insightsData.summaryCards.desktopSearch.previous,
+            insightsData.summaryCards.desktopSearch.change,
+            <Monitor className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Desktop Map',
+            insightsData.summaryCards.desktopMap.current,
+            insightsData.summaryCards.desktopMap.previous,
+            insightsData.summaryCards.desktopMap.change,
+            <Monitor className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Mobile Search',
+            insightsData.summaryCards.mobileSearch.current,
+            insightsData.summaryCards.mobileSearch.previous,
+            insightsData.summaryCards.mobileSearch.change,
+            <Smartphone className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Mobile Map',
+            insightsData.summaryCards.mobileMap.current,
+            insightsData.summaryCards.mobileMap.previous,
+            insightsData.summaryCards.mobileMap.change,
+            <Smartphone className="h-4 w-4 text-primary" />
+          )}
+        </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* How Customers Search Doughnut Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>How Customers Search For Your Business</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={{}} className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={insightsData.customerSearchData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {insightsData.customerSearchData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const data = payload[0].payload;
+                          return (
+                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                              <div className="flex items-center gap-2">
+                                <div
+                                  className="h-3 w-3 rounded-full"
+                                  style={{ backgroundColor: data.fill }}
+                                />
+                                <span className="font-medium">{data.name}</span>
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {data.count.toLocaleString()} ({data.value}%)
+                              </div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Legend
+                      verticalAlign="bottom"
+                      height={36}
+                      formatter={(value, entry) => (
+                        <span style={{ color: entry.color }}>{value}</span>
+                      )}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
             </CardContent>
           </Card>
-          
+
+          {/* Listing Views & Clicks Chart */}
           <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-green-600" />
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Listing Views & Clicks</CardTitle>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant={chartType === 'line' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setChartType('line')}
+                  >
+                    <LineChart className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={chartType === 'bar' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setChartType('bar')}
+                  >
+                    <BarChart3 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-              <div className="text-2xl font-bold">{insightsData.overview.searchViews.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Search Views</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
-                <Users className="h-5 w-5 text-purple-600" />
-              </div>
-              <div className="text-2xl font-bold">{insightsData.overview.customerActions.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Customer Actions</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
-                <Phone className="h-5 w-5 text-yellow-600" />
-              </div>
-              <div className="text-2xl font-bold">{insightsData.overview.callsReceived}</div>
-              <div className="text-sm text-muted-foreground">Calls Received</div>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  {chartType === 'line' ? (
+                    <RechartsLineChart data={insightsData.viewsClicksData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Legend />
+                      {Object.keys(chartConfig).map((key) => (
+                        <Line
+                          key={key}
+                          type="monotone"
+                          dataKey={key}
+                          stroke={chartConfig[key].color}
+                          strokeWidth={2}
+                          name={chartConfig[key].label}
+                        />
+                      ))}
+                    </RechartsLineChart>
+                  ) : (
+                    <BarChart data={insightsData.viewsClicksData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Legend />
+                      {Object.keys(chartConfig).map((key) => (
+                        <Bar
+                          key={key}
+                          dataKey={key}
+                          fill={chartConfig[key].color}
+                          name={chartConfig[key].label}
+                        />
+                      ))}
+                    </BarChart>
+                  )}
+                </ResponsiveContainer>
+              </ChartContainer>
             </CardContent>
           </Card>
         </div>
-
-        {/* Customer Actions Breakdown */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Customer Actions Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {insightsData.customerActions.map((action, index) => (
-                <div key={index} className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <span className="text-xs font-semibold text-primary">{action.percentage}%</span>
-                    </div>
-                    <span className="font-medium">{action.action}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold">{action.count.toLocaleString()}</div>
-                    <div className="text-sm text-muted-foreground">actions</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Top Search Queries */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Top Search Queries</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {insightsData.topSearchQueries.map((query, index) => (
-                <div key={index} className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex-1">
-                    <div className="font-medium">{query.query}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {query.impressions.toLocaleString()} impressions
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-primary">{query.clicks}</div>
-                    <div className="text-sm text-muted-foreground">clicks</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Weekly Trends */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Weekly Activity Trends</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-7 gap-2">
-              {insightsData.weeklyTrends.map((trend, index) => (
-                <div key={index} className="text-center p-3 rounded-lg border">
-                  <div className="text-sm font-medium mb-2">{trend.day}</div>
-                  <div className="space-y-1">
-                    <div className="text-lg font-bold text-blue-600">{trend.views}</div>
-                    <div className="text-xs text-muted-foreground">views</div>
-                    <div className="text-sm font-semibold text-green-600">{trend.actions}</div>
-                    <div className="text-xs text-muted-foreground">actions</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Activity Chart Placeholder */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Activity Timeline</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64 bg-muted/30 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                <p className="text-muted-foreground">Interactive activity chart would be displayed here</p>
-                <p className="text-sm text-muted-foreground">Showing views and customer actions over time</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </PublicReportDashboardLayout>
   );
