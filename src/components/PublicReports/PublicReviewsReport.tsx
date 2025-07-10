@@ -4,13 +4,10 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Star, TrendingUp, MessageSquare, Heart } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 export const PublicReviewsReport: React.FC = () => {
-  const {
-    token
-  } = useParams();
+  const { token } = useParams();
 
   // Sample data
   const reviewData = {
@@ -22,151 +19,60 @@ export const PublicReviewsReport: React.FC = () => {
       responseRate: 78,
       newReviews: 12
     },
-    sentimentBreakdown: [{
-      stars: 5,
-      count: 145,
-      percentage: 59
-    }, {
-      stars: 4,
-      count: 62,
-      percentage: 25
-    }, {
-      stars: 3,
-      count: 25,
-      percentage: 10
-    }, {
-      stars: 2,
-      count: 10,
-      percentage: 4
-    }, {
-      stars: 1,
-      count: 5,
-      percentage: 2
-    }],
-    reviewChartData: [{
-      date: '2024-01-01',
-      totalReviews: 15,
-      star5: 8,
-      star4: 4,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-02',
-      totalReviews: 12,
-      star5: 7,
-      star4: 3,
-      star3: 1,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-03',
-      totalReviews: 18,
-      star5: 11,
-      star4: 5,
-      star3: 1,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-04',
-      totalReviews: 20,
-      star5: 13,
-      star4: 4,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-05',
-      totalReviews: 16,
-      star5: 9,
-      star4: 4,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-06',
-      totalReviews: 22,
-      star5: 14,
-      star4: 5,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-07',
-      totalReviews: 19,
-      star5: 12,
-      star4: 4,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }],
-    tableData: [{
-      date: '2024-01-15',
-      totalReviews: 25,
-      star5: 15,
-      star4: 6,
-      star3: 3,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-14',
-      totalReviews: 22,
-      star5: 13,
-      star4: 5,
-      star3: 3,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-13',
-      totalReviews: 28,
-      star5: 18,
-      star4: 6,
-      star3: 3,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-12',
-      totalReviews: 20,
-      star5: 12,
-      star4: 5,
-      star3: 2,
-      star2: 1,
-      star1: 0
-    }, {
-      date: '2024-01-11',
-      totalReviews: 24,
-      star5: 15,
-      star4: 5,
-      star3: 3,
-      star2: 1,
-      star1: 0
-    }],
-    recentReviews: [{
-      rating: 5,
-      text: "Excellent service and food quality. Will definitely come back!",
-      author: "Sarah M.",
-      date: "2024-01-15",
-      responded: true
-    }, {
-      rating: 4,
-      text: "Great atmosphere and friendly staff. Food was good.",
-      author: "John D.",
-      date: "2024-01-14",
-      responded: false
-    }, {
-      rating: 5,
-      text: "Amazing experience! Best restaurant in the area.",
-      author: "Emily R.",
-      date: "2024-01-13",
-      responded: true
-    }]
+    sentimentBreakdown: [
+      { stars: 5, count: 145, percentage: 59 },
+      { stars: 4, count: 62, percentage: 25 },
+      { stars: 3, count: 25, percentage: 10 },
+      { stars: 2, count: 10, percentage: 4 },
+      { stars: 1, count: 5, percentage: 2 }
+    ],
+    recentReviews: [
+      {
+        rating: 5,
+        text: "Excellent service and food quality. Will definitely come back!",
+        author: "Sarah M.",
+        date: "2024-01-15",
+        responded: true
+      },
+      {
+        rating: 4,
+        text: "Great atmosphere and friendly staff. Food was good.",
+        author: "John D.",
+        date: "2024-01-14",
+        responded: false
+      },
+      {
+        rating: 5,
+        text: "Amazing experience! Best restaurant in the area.",
+        author: "Emily R.",
+        date: "2024-01-13",
+        responded: true
+      }
+    ],
+    trends: {
+      thisMonth: 4.3,
+      lastMonth: 4.1,
+      change: 0.2
+    }
   };
+
   const renderStars = (rating: number) => {
-    return Array.from({
-      length: 5
-    }, (_, i) => <Star key={i} className={`h-4 w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />);
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`h-4 w-4 ${
+          i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+        }`}
+      />
+    ));
   };
-  return <PublicReportDashboardLayout title="Reviews Report" companyName={reviewData.companyName} companyLogo={reviewData.companyLogo}>
+
+  return (
+    <PublicReportDashboardLayout
+      title="Reviews Report"
+      companyName={reviewData.companyName}
+      companyLogo={reviewData.companyLogo}
+    >
       <div className="space-y-6">
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -211,122 +117,54 @@ export const PublicReviewsReport: React.FC = () => {
           </Card>
         </div>
 
-        {/* Rating Distribution and Rating Summary */}
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
-          {/* Rating Count Summary - 70% width */}
-          <div className="lg:col-span-7">
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle>Rating Count Summary</CardTitle>
-                <p className="text-sm text-muted-foreground">Date Range: Jan 1, 2024 - Jan 15, 2024</p>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <div className="flex">{Array.from({
-                        length: item.stars
-                      }, (_, i) => <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />)}</div>
-                        <span className="font-medium">{item.stars} Star</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold">{item.count}</div>
-                        <div className="text-xs text-muted-foreground">reviews</div>
-                      </div>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Rating Distribution - 30% width */}
-          <div className="lg:col-span-3">
-            <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-white text-lg">Review Summary</CardTitle>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-white">{reviewData.overview.averageRating}</span>
-                  <div className="flex items-center gap-1">
-                    {renderStars(Math.round(reviewData.overview.averageRating))}
-                  </div>
-                </div>
-                <p className="text-blue-100 text-sm">({reviewData.overview.totalReviews})</p>
-              </CardHeader>
-              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
-                <div className="space-y-3">
-                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 w-8">
-                        <span className="text-sm font-medium text-gray-700">{item.stars}</span>
-                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                      </div>
-                      <div className="flex-1">
-                        <Progress value={item.percentage} className="h-2" />
-                      </div>
-                      <div className="text-sm text-gray-600 w-12 text-right">
-                        {item.percentage}%
-                      </div>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Review Line Chart */}
+        {/* Rating Trends */}
         <Card>
           <CardHeader>
-            <CardTitle>Review Trends Over Time</CardTitle>
+            <CardTitle>Rating Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={reviewData.reviewChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
-                  <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
-                  <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
-                  <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
-                  <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
-                  <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
-                </LineChart>
-              </ResponsiveContainer>
+            <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+              <div>
+                <div className="text-sm text-muted-foreground">This Month</div>
+                <div className="text-2xl font-bold">{reviewData.trends.thisMonth}</div>
+              </div>
+              <div className="text-center">
+                <div className="flex items-center gap-1 text-green-600">
+                  <TrendingUp className="h-4 w-4" />
+                  <span className="font-semibold">+{reviewData.trends.change}</span>
+                </div>
+                <div className="text-sm text-muted-foreground">vs last month</div>
+              </div>
+              <div>
+                <div className="text-sm text-muted-foreground">Last Month</div>
+                <div className="text-2xl font-bold text-muted-foreground">{reviewData.trends.lastMonth}</div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Review Data Table */}
+        {/* Sentiment Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>Review Data Summary</CardTitle>
+            <CardTitle>Rating Distribution</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Review Date</TableHead>
-                  <TableHead>Total Review</TableHead>
-                  <TableHead>5 Star Rating</TableHead>
-                  <TableHead>4 Star Rating</TableHead>
-                  <TableHead>3 Star Rating</TableHead>
-                  <TableHead>2 Star Rating</TableHead>
-                  <TableHead>1 Star Rating</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {reviewData.tableData.map((row, index) => <TableRow key={index}>
-                    <TableCell>{row.date}</TableCell>
-                    <TableCell>{row.totalReviews}</TableCell>
-                    <TableCell>{row.star5}</TableCell>
-                    <TableCell>{row.star4}</TableCell>
-                    <TableCell>{row.star3}</TableCell>
-                    <TableCell>{row.star2}</TableCell>
-                    <TableCell>{row.star1}</TableCell>
-                  </TableRow>)}
-              </TableBody>
-            </Table>
+            <div className="space-y-3">
+              {reviewData.sentimentBreakdown.map((item) => (
+                <div key={item.stars} className="flex items-center gap-4">
+                  <div className="flex items-center gap-1 w-16">
+                    <span className="text-sm font-medium">{item.stars}</span>
+                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                  </div>
+                  <div className="flex-1">
+                    <Progress value={item.percentage} className="h-2" />
+                  </div>
+                  <div className="text-sm text-muted-foreground w-16 text-right">
+                    {item.count} ({item.percentage}%)
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -337,7 +175,8 @@ export const PublicReviewsReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {reviewData.recentReviews.map((review, index) => <div key={index} className="p-4 border rounded-lg">
+              {reviewData.recentReviews.map((review, index) => (
+                <div key={index} className="p-4 border rounded-lg" style={{marginTop:"10px",marginBottom:"10px"}}>
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <div className="flex">{renderStars(review.rating)}</div>
@@ -351,10 +190,12 @@ export const PublicReviewsReport: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground">{review.text}</p>
-                </div>)}
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
-    </PublicReportDashboardLayout>;
+    </PublicReportDashboardLayout>
+  );
 };
