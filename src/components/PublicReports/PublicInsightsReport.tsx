@@ -6,7 +6,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone } from 'lucide-react';
+import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone, MessageSquare } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
 export const PublicInsightsReport: React.FC = () => {
@@ -28,6 +28,7 @@ export const PublicInsightsReport: React.FC = () => {
       website: { current: 1245, previous: 1100, change: 13.2 },
       direction: { current: 687, previous: 620, change: 10.8 },
       call: { current: 156, previous: 140, change: 11.4 },
+      message: { current: 89, previous: 78, change: 14.1 },
       desktopSearch: { current: 8500, previous: 7800, change: 9.0 },
       desktopMap: { current: 4350, previous: 4100, change: 6.1 },
       mobileSearch: { current: 6200, previous: 5900, change: 5.1 },
@@ -109,6 +110,13 @@ export const PublicInsightsReport: React.FC = () => {
             insightsData.summaryCards.call.previous,
             insightsData.summaryCards.call.change,
             <Phone className="h-4 w-4 text-primary" />
+          )}
+          {renderSummaryCard(
+            'Messages',
+            insightsData.summaryCards.message.current,
+            insightsData.summaryCards.message.previous,
+            insightsData.summaryCards.message.change,
+            <MessageSquare className="h-4 w-4 text-primary" />
           )}
           {renderSummaryCard(
             'Desktop Search',
