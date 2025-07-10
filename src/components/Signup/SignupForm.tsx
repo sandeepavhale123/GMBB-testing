@@ -39,7 +39,7 @@ export const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { signup, isLoading, error } = useSignup();
-  const { darkLogo } = useThemeLogo();
+  const { lightLogo } = useThemeLogo();
   const {
     validate,
     getFieldError,
@@ -109,7 +109,7 @@ export const SignupForm = () => {
     <div className="w-full max-w-md space-y-8">
       <div className="flex justify-center lg:hidden mb-8">
         <img
-          src={darkLogo}
+          src={lightLogo}
           alt="GMB Briefcase Logo"
           className="w-16 h-16 object-contain"
         />

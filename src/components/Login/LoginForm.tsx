@@ -26,7 +26,7 @@ export const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuthRedux();
-  const { darkLogo } = useThemeLogo();
+  const { lightLogo } = useThemeLogo();
   const {
     validate,
     getFieldError,
@@ -104,7 +104,7 @@ export const LoginForm = () => {
       {/* Mobile Logo */}
       <div className="flex justify-center lg:hidden mb-8">
         <img
-          src={darkLogo}
+          src={lightLogo}
           alt="GMB Briefcase Logo"
           className="w-16 h-16 object-contain"
         />
