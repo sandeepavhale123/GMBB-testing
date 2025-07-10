@@ -35,10 +35,10 @@ export const PublicInsightsReport: React.FC = () => {
       mobileMap: { current: 3800, previous: 3600, change: 5.6 }
     },
     customerSearchData: [
-      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(var(--primary))' },
-      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(var(--secondary))' },
-      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(var(--accent))' },
-      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(var(--muted))' }
+      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(220 100% 85%)' },
+      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(142 76% 85%)' },
+      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(47 96% 85%)' },
+      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(280 100% 85%)' }
     ],
     viewsClicksData: [
       { month: 'Jan', search: 14700, map: 8150, website: 1245, direction: 687, call: 156, message: 89 },
