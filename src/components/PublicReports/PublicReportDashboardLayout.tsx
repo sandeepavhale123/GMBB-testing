@@ -168,14 +168,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                     </div>
                   </div>
                 </div>
-
-                {/* Right Illustration */}
-                <div className="relative hidden lg:block">
-                  
-                  {/* Decorative elements */}
-                  <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-                  <div className="absolute bottom-10 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
-                </div>
+                
               </div>
             </div>
             
