@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { aitaskApi, AiTask, TaskStats } from "../api/aiTaskApi";
+import { aitaskApi, AiTask, TaskStats } from "../api/aitaskApi";
 
 interface UseAiTasksOptions {
   listingId?: number;
