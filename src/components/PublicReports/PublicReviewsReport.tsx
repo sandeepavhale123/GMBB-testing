@@ -121,9 +121,9 @@ export const PublicReviewsReport: React.FC = () => {
   const renderChangeIndicator = (current: number, previous: number) => {
     const { value, isPositive } = calculateChange(current, previous);
     return (
-      <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+      <div className={`flex items-center justify-center gap-1 text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
         {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
-        {Math.abs(value).toFixed(1)}%
+        <span>{Math.abs(value).toFixed(1)}% vs previous</span>
       </div>
     );
   };
