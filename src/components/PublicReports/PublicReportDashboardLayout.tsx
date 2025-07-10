@@ -126,7 +126,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
           <header className="bg-slate-800 text-white h-[250px] z-10">
-            <div className="container mx-auto  flex items-center justify-between px-8" style={{paddingTop:'50px',paddingBottom:'50px'}}>
+            <div className="container mx-auto flex items-center justify-between px-8" style={{paddingTop:'50px',paddingBottom:'50px'}}>
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
                 {companyLogo ? (
@@ -142,8 +142,10 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                 </div>
               </div>
 
-              {/* Center: Reserved for future expansion */}
-              <div className="flex-1"></div>
+              {/* Center: Report Title */}
+              <div className="flex-1 text-center">
+                <h2 className="text-3xl font-bold text-white">{title}</h2>
+              </div>
 
               {/* Right: Report Date */}
               <div className="text-right">
