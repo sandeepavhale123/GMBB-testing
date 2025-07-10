@@ -133,13 +133,6 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left Content */}
                 <div className="text-white">
-                  <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                    Build your business with our highly customizable analytics platform
-                  </h2>
-                  <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                    Get comprehensive insights and detailed reports to grow your online presence and outperform your competition
-                  </p>
-                  
                   {/* Report Branding Information */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 mb-6">
                     <div className="flex items-center space-x-4 mb-4">
