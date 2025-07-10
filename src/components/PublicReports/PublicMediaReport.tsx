@@ -22,13 +22,13 @@ export const PublicMediaReport: React.FC = () => {
       topPerforming: 12
     },
     chartData: [
-      { date: 'Jan 1', views: 120, engagement: 8.2 },
-      { date: 'Jan 8', views: 145, engagement: 9.1 },
-      { date: 'Jan 15', views: 130, engagement: 7.8 },
-      { date: 'Jan 22', views: 180, engagement: 10.5 },
-      { date: 'Jan 29', views: 165, engagement: 9.3 },
-      { date: 'Feb 5', views: 195, engagement: 11.2 },
-      { date: 'Feb 12', views: 175, engagement: 8.9 }
+      { date: 'Jan 1', uploads: 8, engagement: 8.2 },
+      { date: 'Jan 8', uploads: 12, engagement: 9.1 },
+      { date: 'Jan 15', uploads: 10, engagement: 7.8 },
+      { date: 'Jan 22', uploads: 15, engagement: 10.5 },
+      { date: 'Jan 29', uploads: 13, engagement: 9.3 },
+      { date: 'Feb 5', uploads: 18, engagement: 11.2 },
+      { date: 'Feb 12', uploads: 14, engagement: 8.9 }
     ],
     topPerforming: [
       {
@@ -77,13 +77,13 @@ export const PublicMediaReport: React.FC = () => {
       topPerforming: 9
     },
     chartData: [
-      { date: 'Jan 1', current: 120, previous: 95, currentEngagement: 8.2, previousEngagement: 7.1 },
-      { date: 'Jan 8', current: 145, previous: 110, currentEngagement: 9.1, previousEngagement: 8.0 },
-      { date: 'Jan 15', current: 130, previous: 105, currentEngagement: 7.8, previousEngagement: 6.9 },
-      { date: 'Jan 22', current: 180, previous: 140, currentEngagement: 10.5, previousEngagement: 9.2 },
-      { date: 'Jan 29', current: 165, previous: 125, currentEngagement: 9.3, previousEngagement: 8.1 },
-      { date: 'Feb 5', current: 195, previous: 150, currentEngagement: 11.2, previousEngagement: 9.8 },
-      { date: 'Feb 12', current: 175, previous: 135, currentEngagement: 8.9, previousEngagement: 7.6 }
+      { date: 'Jan 1', currentUploads: 8, previousUploads: 6, currentEngagement: 8.2, previousEngagement: 7.1 },
+      { date: 'Jan 8', currentUploads: 12, previousUploads: 9, currentEngagement: 9.1, previousEngagement: 8.0 },
+      { date: 'Jan 15', currentUploads: 10, previousUploads: 8, currentEngagement: 7.8, previousEngagement: 6.9 },
+      { date: 'Jan 22', currentUploads: 15, previousUploads: 11, currentEngagement: 10.5, previousEngagement: 9.2 },
+      { date: 'Jan 29', currentUploads: 13, previousUploads: 10, currentEngagement: 9.3, previousEngagement: 8.1 },
+      { date: 'Feb 5', currentUploads: 18, previousUploads: 12, currentEngagement: 11.2, previousEngagement: 9.8 },
+      { date: 'Feb 12', currentUploads: 14, previousUploads: 11, currentEngagement: 8.9, previousEngagement: 7.6 }
     ]
   };
 
@@ -198,19 +198,19 @@ export const PublicMediaReport: React.FC = () => {
                       <Line
                         yAxisId="left"
                         type="monotone"
-                        dataKey="current"
+                        dataKey="currentUploads"
                         stroke="#2563eb"
                         strokeWidth={2}
-                        name="Current Period Views"
+                        name="Current Period Uploads"
                       />
                       <Line
                         yAxisId="left"
                         type="monotone"
-                        dataKey="previous"
+                        dataKey="previousUploads"
                         stroke="#94a3b8"
                         strokeWidth={2}
                         strokeDasharray="5 5"
-                        name="Previous Period Views"
+                        name="Previous Period Uploads"
                       />
                       <Line
                         yAxisId="right"
@@ -235,10 +235,10 @@ export const PublicMediaReport: React.FC = () => {
                       <Line
                         yAxisId="left"
                         type="monotone"
-                        dataKey="views"
+                        dataKey="uploads"
                         stroke="#2563eb"
                         strokeWidth={2}
-                        name="Views"
+                        name="Media Uploads"
                       />
                       <Line
                         yAxisId="right"
