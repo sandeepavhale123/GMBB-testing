@@ -338,32 +338,101 @@ export const PublicInsightsReport: React.FC = () => {
           )}
 
           {/* Listing Views & Clicks Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Listing Views & Clicks {reportType === 'comparison' && '- Period Comparison'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={insightsData.viewsClicksData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Legend />
-                    {Object.keys(chartConfig).map((key) => (
-                      <Bar
-                        key={key}
-                        dataKey={key}
-                        fill={chartConfig[key].color}
-                        name={chartConfig[key].label}
-                      />
-                    ))}
-                  </BarChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </CardContent>
-          </Card>
+          {reportType === 'comparison' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Period 1 Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">Listing Views & Clicks</CardTitle>
+                  <p className="text-sm text-muted-foreground text-center">Period 1: {insightsData.dateRange.comparison.period1}</p>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer config={chartConfig} className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={insightsData.viewsClicksData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="month" />
+                        <YAxis />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend />
+                        {Object.keys(chartConfig).map((key) => (
+                          <Bar
+                            key={key}
+                            dataKey={key}
+                            fill={chartConfig[key].color}
+                            name={chartConfig[key].label}
+                          />
+                        ))}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+
+              {/* Period 2 Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">Listing Views & Clicks</CardTitle>
+                  <p className="text-sm text-muted-foreground text-center">Period 2: {insightsData.dateRange.comparison.period2}</p>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer config={chartConfig} className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={[
+                        { month: 'Jan', search: 13500, map: 7800, website: 1100, direction: 620, call: 140, message: 78 },
+                        { month: 'Feb', search: 14000, map: 8100, website: 1180, direction: 650, call: 145, message: 82 },
+                        { month: 'Mar', search: 13800, map: 7900, website: 1150, direction: 635, call: 142, message: 80 },
+                        { month: 'Apr', search: 14500, map: 8300, website: 1220, direction: 680, call: 148, message: 85 },
+                        { month: 'May', search: 14900, map: 8500, website: 1280, direction: 710, call: 152, message: 88 },
+                        { month: 'Jun', search: 14300, map: 8200, website: 1240, direction: 690, call: 150, message: 86 }
+                      ]}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="month" />
+                        <YAxis />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend />
+                        {Object.keys(chartConfig).map((key) => (
+                          <Bar
+                            key={key}
+                            dataKey={key}
+                            fill={chartConfig[key].color}
+                            name={chartConfig[key].label}
+                          />
+                        ))}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>Listing Views & Clicks</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer config={chartConfig} className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={insightsData.viewsClicksData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Legend />
+                      {Object.keys(chartConfig).map((key) => (
+                        <Bar
+                          key={key}
+                          dataKey={key}
+                          fill={chartConfig[key].color}
+                          name={chartConfig[key].label}
+                        />
+                      ))}
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Report Type Toggle - Bottom positioned */}
