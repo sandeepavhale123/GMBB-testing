@@ -138,7 +138,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                 )}
                 <div className="flex flex-col">
                   <h1 className="text-2xl font-bold">{companyName}</h1>
-                  <p className="text-lg text-gray-300">{title}</p>
+                  <p className="text-lg text-gray-300">123 Main Street, Business City, BC 12345</p>
                 </div>
               </div>
 
