@@ -106,7 +106,13 @@ export const LoginForm = () => {
         <img
           src={lightLogo}
           alt="GMB Briefcase Logo"
-          className="w-16 h-16 object-contain"
+          style={{
+            maxHeight:"60px",
+            height:"auto",
+            widht:"auto",
+            maxWidth:"130px"
+          }}
+          
         />
       </div>
 
