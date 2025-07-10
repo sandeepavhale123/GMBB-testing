@@ -122,17 +122,6 @@ export const PublicMediaReport: React.FC = () => {
       companyLogo={currentData.companyLogo}
     >
       <div className="space-y-6">
-        {/* Report Type Toggle */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">Individual</span>
-            <Switch
-              checked={isComparison}
-              onCheckedChange={setIsComparison}
-            />
-            <span className="text-sm font-medium">Comparison</span>
-          </div>
-        </div>
 
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -305,6 +294,18 @@ export const PublicMediaReport: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Report Type Toggle */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">Individual</span>
+            <Switch
+              checked={isComparison}
+              onCheckedChange={setIsComparison}
+            />
+            <span className="text-sm font-medium">Comparison</span>
+          </div>
+        </div>
       </div>
     </PublicReportDashboardLayout>
   );
