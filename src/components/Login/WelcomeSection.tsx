@@ -17,12 +17,11 @@ export const WelcomeSection = () => {
 
       {/* Logo */}
       <div className="absolute top-8 left-8">
-        <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shadow-lg">
+        <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-4">
           <img
             src={darkLogo}
             alt="GMB Briefcase Logo"
-            className=" object-contain"
-            style={{width: "auto",maxWidth: "80px",height:"auto",maxHeight:"80px"}}
+            className="w-12 h-12 object-contain"
           />
         </div>
       </div>
