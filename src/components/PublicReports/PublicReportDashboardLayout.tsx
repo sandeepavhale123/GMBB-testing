@@ -165,27 +165,27 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
           {/* CTA Section */}
           <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 overflow-hidden">
-            <div className="container mx-auto px-6 py-20">
+            <div className="container mx-auto px-6 py-16">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left Content */}
                 <div className="text-white">
-                  <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                    Build your business with our highly customizable analytics platform
+                  <h2 className="text-3xl lg:text-4xl font-bold mb-4 leading-tight">
+                    Elevate Your Business Analytics
                   </h2>
-                  <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                    Get comprehensive insights and detailed reports to grow your online presence and outperform your competition
+                  <p className="text-lg text-white/90 mb-8">
+                    Transform your business insights with our comprehensive analytics platform
                   </p>
                   
-                  <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                    <button className="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 shadow-lg">
-                      Get Started Today
+                  <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                    <button className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200">
+                      Get Started
                     </button>
-                    <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-all duration-200">
-                      Schedule Demo
+                    <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-all duration-200">
+                      Learn More
                     </button>
                   </div>
 
-                  {/* Company Branding Card */}
+                  {/* Company Contact Card */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                     <div className="flex items-center space-x-4 mb-4">
                       {companyLogo ? (
@@ -197,11 +197,11 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                       )}
                       <div>
                         <h3 className="text-lg font-semibold text-white">{companyName}</h3>
-                        <p className="text-white/80 text-sm">Digital Marketing Solutions</p>
+                        <p className="text-white/80 text-sm">Analytics & Insights Provider</p>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div className="grid grid-cols-1 gap-2 text-sm">
                       <div className="text-white/90">
                         <span className="text-white/70">Email: </span>
                         contact@{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com
@@ -214,34 +214,19 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                         <span className="text-white/70">Website: </span>
                         www.{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com
                       </div>
-                      <div className="text-white/90">
-                        <span className="text-white/70">Address: </span>
-                        123 Business Ave, Suite 100
-                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Right Illustration */}
                 <div className="relative hidden lg:block">
-                  <div className="relative z-10">
-                    <img 
-                      src="/lovable-uploads/878c3bca-70e6-4bf0-b662-967d1307b036.png" 
-                      alt="Analytics Dashboard Illustration" 
-                      className="w-full h-auto max-w-md mx-auto"
-                    />
-                  </div>
-                  {/* Decorative elements */}
-                  <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-                  <div className="absolute bottom-10 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+                  <img 
+                    src="/lovable-uploads/878c3bca-70e6-4bf0-b662-967d1307b036.png" 
+                    alt="Analytics Dashboard" 
+                    className="w-full h-auto max-w-md mx-auto"
+                  />
                 </div>
               </div>
-            </div>
-            
-            {/* Background decorative elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
             </div>
           </section>
 
