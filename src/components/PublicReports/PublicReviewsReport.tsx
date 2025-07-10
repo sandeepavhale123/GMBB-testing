@@ -252,9 +252,9 @@ export const PublicReviewsReport: React.FC = () => {
                 </div>
                 <p className="text-blue-100 text-sm">({reviewData.overview.totalReviews})</p>
               </CardHeader>
-              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4 flex-1">
+              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
                 <div className="space-y-3">
-                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center gap-3 my-4 ">
+                  {reviewData.sentimentBreakdown.map(item => <div key={item.stars} className="flex items-center gap-3">
                       <div className="flex items-center gap-1 w-8">
                         <span className="text-sm font-medium text-gray-700">{item.stars}</span>
                         <Star className="h-3 w-3 text-yellow-400 fill-current" />
