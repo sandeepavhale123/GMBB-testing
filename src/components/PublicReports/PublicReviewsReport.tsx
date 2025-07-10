@@ -1,33 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Star, TrendingUp, MessageSquare, Heart } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Star, TrendingUp, MessageSquare, Heart, ArrowUp, ArrowDown } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const PublicReviewsReport: React.FC = () => {
   const { token } = useParams();
+  const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
 
   // Sample data
   const reviewData = {
     companyName: 'Demo Business',
     companyLogo: null,
-    overview: {
-      averageRating: 4.3,
-      totalReviews: 247,
-      responseRate: 78,
-      newReviews: 12
+    dateRange: {
+      individual: 'Jan 1, 2024 - Jan 31, 2024',
+      comparison: {
+        period1: 'Jan 1, 2024 - Jan 31, 2024',
+        period2: 'Dec 1, 2023 - Dec 31, 2023'
+      }
     },
-    sentimentBreakdown: [
-      { stars: 5, count: 145, percentage: 59 },
-      { stars: 4, count: 62, percentage: 25 },
-      { stars: 3, count: 25, percentage: 10 },
-      { stars: 2, count: 10, percentage: 4 },
-      { stars: 1, count: 5, percentage: 2 }
-    ],
+    overview: {
+      individual: {
+        averageRating: 4.3,
+        totalReviews: 247,
+        responseRate: 78,
+        newReviews: 12
+      },
+      comparison: {
+        period1: {
+          averageRating: 4.3,
+          totalReviews: 247,
+          responseRate: 78,
+          newReviews: 12
+        },
+        period2: {
+          averageRating: 4.1,
+          totalReviews: 220,
+          responseRate: 72,
+          newReviews: 8
+        }
+      }
+    },
+    sentimentBreakdown: {
+      individual: [
+        { stars: 5, count: 145, percentage: 59 },
+        { stars: 4, count: 62, percentage: 25 },
+        { stars: 3, count: 25, percentage: 10 },
+        { stars: 2, count: 10, percentage: 4 },
+        { stars: 1, count: 5, percentage: 2 }
+      ],
+      comparison: {
+        period1: [
+          { stars: 5, count: 145, percentage: 59 },
+          { stars: 4, count: 62, percentage: 25 },
+          { stars: 3, count: 25, percentage: 10 },
+          { stars: 2, count: 10, percentage: 4 },
+          { stars: 1, count: 5, percentage: 2 }
+        ],
+        period2: [
+          { stars: 5, count: 130, percentage: 59 },
+          { stars: 4, count: 55, percentage: 25 },
+          { stars: 3, count: 22, percentage: 10 },
+          { stars: 2, count: 9, percentage: 4 },
+          { stars: 1, count: 4, percentage: 2 }
+        ]
+      }
+    },
     reviewChartData: [
       { date: '2024-01-01', totalReviews: 15, star5: 8, star4: 4, star3: 2, star2: 1, star1: 0 },
       { date: '2024-01-02', totalReviews: 12, star5: 7, star4: 3, star3: 1, star2: 1, star1: 0 },
@@ -69,6 +113,37 @@ export const PublicReviewsReport: React.FC = () => {
     ]
   };
 
+  const calculateChange = (current: number, previous: number) => {
+    const change = ((current - previous) / previous) * 100;
+    return { value: change, isPositive: change >= 0 };
+  };
+
+  const renderChangeIndicator = (current: number, previous: number) => {
+    const { value, isPositive } = calculateChange(current, previous);
+    return (
+      <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+        {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+        {Math.abs(value).toFixed(1)}%
+      </div>
+    );
+  };
+
+  const getCurrentOverview = () => {
+    return reportType === 'individual' ? reviewData.overview.individual : reviewData.overview.comparison.period1;
+  };
+
+  const getPreviousOverview = () => {
+    return reportType === 'comparison' ? reviewData.overview.comparison.period2 : null;
+  };
+
+  const getCurrentSentiment = () => {
+    return reportType === 'individual' ? reviewData.sentimentBreakdown.individual : reviewData.sentimentBreakdown.comparison.period1;
+  };
+
+  const getPreviousSentiment = () => {
+    return reportType === 'comparison' ? reviewData.sentimentBreakdown.comparison.period2 : null;
+  };
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -87,6 +162,18 @@ export const PublicReviewsReport: React.FC = () => {
       companyLogo={reviewData.companyLogo}
     >
       <div className="space-y-6">
+        {/* Date Range Display */}
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-sm text-muted-foreground">
+              {reportType === 'individual' 
+                ? `Date Range: ${reviewData.dateRange.individual}`
+                : `Period 1: ${reviewData.dateRange.comparison.period1} | Period 2: ${reviewData.dateRange.comparison.period2}`
+              }
+            </p>
+          </CardContent>
+        </Card>
+
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
@@ -94,7 +181,12 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
                 <Star className="h-5 w-5 text-yellow-600" />
               </div>
-              <div className="text-2xl font-bold">{reviewData.overview.averageRating}</div>
+              <div className="text-2xl font-bold">{getCurrentOverview().averageRating}</div>
+              {reportType === 'comparison' && getPreviousOverview() && (
+                <div className="mt-1">
+                  {renderChangeIndicator(getCurrentOverview().averageRating, getPreviousOverview()!.averageRating)}
+                </div>
+              )}
               <div className="text-sm text-muted-foreground">Average Rating</div>
             </CardContent>
           </Card>
@@ -104,7 +196,12 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
                 <MessageSquare className="h-5 w-5 text-blue-600" />
               </div>
-              <div className="text-2xl font-bold">{reviewData.overview.totalReviews}</div>
+              <div className="text-2xl font-bold">{getCurrentOverview().totalReviews}</div>
+              {reportType === 'comparison' && getPreviousOverview() && (
+                <div className="mt-1">
+                  {renderChangeIndicator(getCurrentOverview().totalReviews, getPreviousOverview()!.totalReviews)}
+                </div>
+              )}
               <div className="text-sm text-muted-foreground">Total Reviews</div>
             </CardContent>
           </Card>
@@ -114,7 +211,12 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
                 <Heart className="h-5 w-5 text-green-600" />
               </div>
-              <div className="text-2xl font-bold">{reviewData.overview.responseRate}%</div>
+              <div className="text-2xl font-bold">{getCurrentOverview().responseRate}%</div>
+              {reportType === 'comparison' && getPreviousOverview() && (
+                <div className="mt-1">
+                  {renderChangeIndicator(getCurrentOverview().responseRate, getPreviousOverview()!.responseRate)}
+                </div>
+              )}
               <div className="text-sm text-muted-foreground">Response Rate</div>
             </CardContent>
           </Card>
@@ -124,24 +226,55 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
                 <TrendingUp className="h-5 w-5 text-purple-600" />
               </div>
-              <div className="text-2xl font-bold">+{reviewData.overview.newReviews}</div>
+              <div className="text-2xl font-bold">+{getCurrentOverview().newReviews}</div>
+              {reportType === 'comparison' && getPreviousOverview() && (
+                <div className="mt-1">
+                  {renderChangeIndicator(getCurrentOverview().newReviews, getPreviousOverview()!.newReviews)}
+                </div>
+              )}
               <div className="text-sm text-muted-foreground">This Month</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Rating Distribution and Rating Summary */}
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
-          {/* Rating Count Summary - 70% width */}
-          <div className="lg:col-span-7">
-            <Card className="h-full">
+        {reportType === 'comparison' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Period 1 */}
+            <Card>
               <CardHeader>
-                <CardTitle>Rating Count Summary</CardTitle>
-                <p className="text-sm text-muted-foreground">Date Range: Jan 1, 2024 - Jan 15, 2024</p>
+                <CardTitle>Rating Count Summary - Period 1</CardTitle>
+                <p className="text-sm text-muted-foreground">{reviewData.dateRange.comparison.period1}</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {reviewData.sentimentBreakdown.map((item) => (
+                  {getCurrentSentiment().map((item) => (
+                    <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <div className="flex">{Array.from({ length: item.stars }, (_, i) => (
+                          <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                        ))}</div>
+                        <span className="font-medium">{item.stars} Star</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold">{item.count}</div>
+                        <div className="text-xs text-muted-foreground">reviews</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Period 2 */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Rating Count Summary - Period 2</CardTitle>
+                <p className="text-sm text-muted-foreground">{reviewData.dateRange.comparison.period2}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {getPreviousSentiment()?.map((item) => (
                     <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                       <div className="flex items-center gap-2">
                         <div className="flex">{Array.from({ length: item.stars }, (_, i) => (
@@ -159,41 +292,71 @@ export const PublicReviewsReport: React.FC = () => {
               </CardContent>
             </Card>
           </div>
-
-          {/* Rating Distribution - 30% width */}
-          <div className="lg:col-span-3">
-            <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-white text-lg">Review Summary</CardTitle>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-white">{reviewData.overview.averageRating}</span>
-                  <div className="flex items-center gap-1">
-                    {renderStars(Math.round(reviewData.overview.averageRating))}
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+            {/* Rating Count Summary - 70% width */}
+            <div className="lg:col-span-7">
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>Rating Count Summary</CardTitle>
+                  <p className="text-sm text-muted-foreground">{reviewData.dateRange.individual}</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {getCurrentSentiment().map((item) => (
+                      <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="flex">{Array.from({ length: item.stars }, (_, i) => (
+                            <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                          ))}</div>
+                          <span className="font-medium">{item.stars} Star</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-bold">{item.count}</div>
+                          <div className="text-xs text-muted-foreground">reviews</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-                <p className="text-blue-100 text-sm">({reviewData.overview.totalReviews})</p>
-              </CardHeader>
-              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4 flex-1">
-                <div className="space-y-3">
-                  {reviewData.sentimentBreakdown.map((item) => (
-                    <div key={item.stars} className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 w-8">
-                        <span className="text-sm font-medium text-gray-700">{item.stars}</span>
-                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                      </div>
-                      <div className="flex-1">
-                        <Progress value={item.percentage} className="h-2" />
-                      </div>
-                      <div className="text-sm text-gray-600 w-12 text-right">
-                        {item.percentage}%
-                      </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Rating Distribution - 30% width */}
+            <div className="lg:col-span-3">
+              <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-white text-lg">Review Summary</CardTitle>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-white">{getCurrentOverview().averageRating}</span>
+                    <div className="flex items-center gap-1">
+                      {renderStars(Math.round(getCurrentOverview().averageRating))}
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+                  <p className="text-blue-100 text-sm">({getCurrentOverview().totalReviews})</p>
+                </CardHeader>
+                <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
+                  <div className="space-y-3">
+                    {getCurrentSentiment().map((item) => (
+                      <div key={item.stars} className="flex items-center gap-3">
+                        <div className="flex items-center gap-1 w-8">
+                          <span className="text-sm font-medium text-gray-700">{item.stars}</span>
+                          <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                        </div>
+                        <div className="flex-1">
+                          <Progress value={item.percentage} className="h-2" />
+                        </div>
+                        <div className="text-sm text-gray-600 w-12 text-right">
+                          {item.percentage}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Review Line Chart */}
         <Card>
@@ -282,6 +445,22 @@ export const PublicReviewsReport: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Report Type Toggle - Bottom positioned */}
+        <div className="flex justify-center pt-6">
+          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
+            <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="individual" className="text-sm">Individual</Label>
+              <Switch
+                id="report-type"
+                checked={reportType === 'comparison'}
+                onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+              />
+              <Label htmlFor="comparison" className="text-sm">Comparison</Label>
+            </div>
+          </div>
+        </div>
       </div>
     </PublicReportDashboardLayout>
   );
