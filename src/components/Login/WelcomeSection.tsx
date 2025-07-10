@@ -3,7 +3,7 @@ import React from "react";
 
 export const WelcomeSection = () => {
   return (
-    <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 relative overflow-hidden">
+    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{background: 'linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))'}}>
       <div className="absolute inset-0 bg-black/10"></div>
 
       {/* Decorative Elements */}
