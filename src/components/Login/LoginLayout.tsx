@@ -2,8 +2,12 @@
 import React from "react";
 import { WelcomeSection } from "./WelcomeSection";
 import { LoginForm } from "./LoginForm";
+import { useThemeLoader } from "@/hooks/useThemeLoader";
 
 export const LoginLayout = () => {
+  // Load theme customization on login page
+  useThemeLoader();
+
   return (
     <div className="min-h-screen flex">
       <WelcomeSection />
