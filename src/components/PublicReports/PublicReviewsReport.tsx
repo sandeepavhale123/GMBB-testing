@@ -132,43 +132,9 @@ export const PublicReviewsReport: React.FC = () => {
 
         {/* Rating Distribution and Rating Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
-          {/* Rating Distribution - 30% width */}
-          <div className="lg:col-span-3">
-            <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-white text-lg">Review Summary</CardTitle>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-white">{reviewData.overview.averageRating}</span>
-                  <div className="flex items-center gap-1">
-                    {renderStars(Math.round(reviewData.overview.averageRating))}
-                  </div>
-                </div>
-                <p className="text-blue-100 text-sm">({reviewData.overview.totalReviews})</p>
-              </CardHeader>
-              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
-                <div className="space-y-3">
-                  {reviewData.sentimentBreakdown.map((item) => (
-                    <div key={item.stars} className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 w-8">
-                        <span className="text-sm font-medium text-gray-700">{item.stars}</span>
-                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                      </div>
-                      <div className="flex-1">
-                        <Progress value={item.percentage} className="h-2" />
-                      </div>
-                      <div className="text-sm text-gray-600 w-12 text-right">
-                        {item.percentage}%
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
           {/* Rating Count Summary - 70% width */}
           <div className="lg:col-span-7">
-            <Card>
+            <Card className="h-full">
               <CardHeader>
                 <CardTitle>Rating Count Summary</CardTitle>
                 <p className="text-sm text-muted-foreground">Date Range: Jan 1, 2024 - Jan 15, 2024</p>
@@ -186,6 +152,40 @@ export const PublicReviewsReport: React.FC = () => {
                       <div className="text-right">
                         <div className="text-lg font-bold">{item.count}</div>
                         <div className="text-xs text-muted-foreground">reviews</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Rating Distribution - 30% width */}
+          <div className="lg:col-span-3">
+            <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-white text-lg">Review Summary</CardTitle>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-white">{reviewData.overview.averageRating}</span>
+                  <div className="flex items-center gap-1">
+                    {renderStars(Math.round(reviewData.overview.averageRating))}
+                  </div>
+                </div>
+                <p className="text-blue-100 text-sm">({reviewData.overview.totalReviews})</p>
+              </CardHeader>
+              <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4 flex-1">
+                <div className="space-y-3">
+                  {reviewData.sentimentBreakdown.map((item) => (
+                    <div key={item.stars} className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 w-8">
+                        <span className="text-sm font-medium text-gray-700">{item.stars}</span>
+                        <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                      </div>
+                      <div className="flex-1">
+                        <Progress value={item.percentage} className="h-2" />
+                      </div>
+                      <div className="text-sm text-gray-600 w-12 text-right">
+                        {item.percentage}%
                       </div>
                     </div>
                   ))}
