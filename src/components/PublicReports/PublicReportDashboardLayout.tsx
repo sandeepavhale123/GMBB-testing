@@ -171,9 +171,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
                 {/* Right Illustration */}
                 <div className="relative hidden lg:block">
-                  <div className="relative z-10">
-                    <img src="/lovable-uploads/878c3bca-70e6-4bf0-b662-967d1307b036.png" alt="Analytics Dashboard Illustration" className="w-full h-auto max-w-md mx-auto" />
-                  </div>
+                  
                   {/* Decorative elements */}
                   <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
                   <div className="absolute bottom-10 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
