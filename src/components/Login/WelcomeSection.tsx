@@ -21,7 +21,7 @@ export const WelcomeSection = () => {
           <img
             src={lightLogo}
             alt="GMB Briefcase Logo"
-            style={{maxHeight:"60px",height:"auto", width:"60px", maxWidth:"120px" }}
+            style={{maxHeight:"60px",height:"auto", width:"auto", maxWidth:"130px" }}
             
           />
         </div>
