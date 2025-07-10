@@ -85,22 +85,7 @@ export const PublicInsightsReport: React.FC = () => {
       companyName={insightsData.companyName}
       companyLogo={insightsData.companyLogo}
     >
-      <div className="relative space-y-6">
-        {/* Report Type Toggle - Absolute positioned */}
-        <div className="absolute top-0 right-0 z-10">
-          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
-            <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="individual" className="text-sm">Individual</Label>
-              <Switch
-                id="report-type"
-                checked={reportType === 'comparison'}
-                onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
-              />
-              <Label htmlFor="comparison" className="text-sm">Comparison</Label>
-            </div>
-          </div>
-        </div>
+      <div className="space-y-6">
 
         {/* Enhanced Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -241,6 +226,22 @@ export const PublicInsightsReport: React.FC = () => {
               </ChartContainer>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Report Type Toggle - Bottom positioned */}
+        <div className="flex justify-center pt-6">
+          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
+            <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="individual" className="text-sm">Individual</Label>
+              <Switch
+                id="report-type"
+                checked={reportType === 'comparison'}
+                onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+              />
+              <Label htmlFor="comparison" className="text-sm">Comparison</Label>
+            </div>
+          </div>
         </div>
       </div>
     </PublicReportDashboardLayout>
