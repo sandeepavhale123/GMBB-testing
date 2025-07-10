@@ -347,29 +347,86 @@ export const PublicReviewsReport: React.FC = () => {
         )}
 
         {/* Review Line Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Review Trends Over Time</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={reviewData.reviewChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
-                  <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
-                  <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
-                  <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
-                  <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
-                  <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+        {reportType === 'comparison' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Period 1 Chart */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Review Trends Over Time - Period 1</CardTitle>
+                <p className="text-sm text-muted-foreground">{reviewData.dateRange.comparison.period1}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={reviewData.reviewChartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
+                      <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
+                      <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
+                      <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
+                      <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
+                      <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Period 2 Chart */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Review Trends Over Time - Period 2</CardTitle>
+                <p className="text-sm text-muted-foreground">{reviewData.dateRange.comparison.period2}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={reviewData.reviewChartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
+                      <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
+                      <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
+                      <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
+                      <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
+                      <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>Review Trends Over Time</CardTitle>
+              <p className="text-sm text-muted-foreground">{reviewData.dateRange.individual}</p>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={reviewData.reviewChartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="totalReviews" stroke="#8884d8" strokeWidth={2} name="Total Reviews" />
+                    <Line type="monotone" dataKey="star5" stroke="#22c55e" strokeWidth={2} name="5 Star" />
+                    <Line type="monotone" dataKey="star4" stroke="#3b82f6" strokeWidth={2} name="4 Star" />
+                    <Line type="monotone" dataKey="star3" stroke="#f59e0b" strokeWidth={2} name="3 Star" />
+                    <Line type="monotone" dataKey="star2" stroke="#f97316" strokeWidth={2} name="2 Star" />
+                    <Line type="monotone" dataKey="star1" stroke="#ef4444" strokeWidth={2} name="1 Star" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Review Data Table */}
         <Card>
