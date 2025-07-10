@@ -130,30 +130,59 @@ export const PublicReviewsReport: React.FC = () => {
           </Card>
         </div>
 
-        {/* Rating Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Rating Distribution</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {reviewData.sentimentBreakdown.map((item) => (
-                <div key={item.stars} className="flex items-center gap-4">
-                  <div className="flex items-center gap-1 w-16">
-                    <span className="text-sm font-medium">{item.stars}</span>
-                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
+        {/* Rating Distribution and Rating Summary */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Rating Distribution */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Rating Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {reviewData.sentimentBreakdown.map((item) => (
+                  <div key={item.stars} className="flex items-center gap-4">
+                    <div className="flex items-center gap-1 w-16">
+                      <span className="text-sm font-medium">{item.stars}</span>
+                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                    </div>
+                    <div className="flex-1">
+                      <Progress value={item.percentage} className="h-2" />
+                    </div>
+                    <div className="text-sm text-muted-foreground w-16 text-right">
+                      {item.count} ({item.percentage}%)
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <Progress value={item.percentage} className="h-2" />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Rating Count Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Rating Count Summary</CardTitle>
+              <p className="text-sm text-muted-foreground">Date Range: Jan 1, 2024 - Jan 15, 2024</p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {reviewData.sentimentBreakdown.map((item) => (
+                  <div key={item.stars} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <div className="flex">{Array.from({ length: item.stars }, (_, i) => (
+                        <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                      ))}</div>
+                      <span className="font-medium">{item.stars} Star</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold">{item.count}</div>
+                      <div className="text-xs text-muted-foreground">reviews</div>
+                    </div>
                   </div>
-                  <div className="text-sm text-muted-foreground w-16 text-right">
-                    {item.count} ({item.percentage}%)
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Review Line Chart */}
         <Card>
