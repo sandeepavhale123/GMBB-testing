@@ -3,7 +3,7 @@ import React from "react";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 export const WelcomeSection = () => {
-  const { lightLogo } = useThemeLogo();
+  const { darkLogo } = useThemeLogo();
 
   return (
     <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{background: 'linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))'}}>
@@ -17,11 +17,11 @@ export const WelcomeSection = () => {
 
       {/* Logo */}
       <div className="absolute top-8 left-8">
-        <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shadow-lg">
+        <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-4">
           <img
-            src={lightLogo}
+            src={darkLogo}
             alt="GMB Briefcase Logo"
-            className="w-12 h-12 object-contain"
+            style={{maxHeight:"60px",maxWidth:"60px"}}
           />
         </div>
       </div>
