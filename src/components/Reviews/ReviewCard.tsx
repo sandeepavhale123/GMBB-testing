@@ -77,7 +77,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
     <div className="border border-gray-200 rounded-lg p-4 sm:p-6 bg-white shadow-sm">
       <div className="flex items-start gap-3 sm:gap-4">
         {/* Customer Avatar */}
-        <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+        <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
           {review.profile_image_url ? (
             <img 
               src={review.profile_image_url} 
@@ -119,7 +119,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
 
           {/* Reply Section */}
           {review.replied && review.reply_text && editingReply !== review.id && (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-4 rounded-r-md">
+            <div className="bg-primary/10 border-l-4 border-primary p-3 mb-4 rounded-r-md">
               <p className="text-sm text-gray-700">{review.reply_text}</p>
               {review.reply_date && (
                 <p className="text-xs text-gray-500 mt-2">

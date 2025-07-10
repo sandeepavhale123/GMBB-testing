@@ -55,7 +55,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ value, onCha
               <span>{category.label}</span>
             </div>
             {value === category.value && (
-              <Check className="h-4 w-4 text-blue-600" />
+              <Check className="h-4 w-4 text-primary" />
             )}
           </DropdownMenuItem>
         ))}

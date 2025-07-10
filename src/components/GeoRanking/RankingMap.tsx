@@ -22,15 +22,26 @@ export const RankingMap: React.FC<RankingMapProps> = memo(({ onMarkerClick, rank
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     document.head.appendChild(link);
 
-    // Determine center point from rank details or use default
+    // Calculate optimal view based on rank details
+    let allCoordinates: [number, number][] = [];
     let centerLat = 28.6139;
     let centerLng = 77.2090;
     
     if (rankDetails.length > 0) {
-      const coords = rankDetails[0].coordinate.split(',');
-      if (coords.length === 2) {
-        centerLat = parseFloat(coords[0]);
-        centerLng = parseFloat(coords[1]);
+      // Collect all coordinates for bounds calculation
+      rankDetails.forEach(detail => {
+        const coords = detail.coordinate.split(',');
+        if (coords.length === 2) {
+          const lat = parseFloat(coords[0]);
+          const lng = parseFloat(coords[1]);
+          allCoordinates.push([lat, lng]);
+        }
+      });
+      
+      // Use first coordinate as center fallback
+      if (allCoordinates.length > 0) {
+        centerLat = allCoordinates[0][0];
+        centerLng = allCoordinates[0][1];
       }
     }
 
@@ -41,7 +52,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(({ onMarkerClick, rank
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Add markers based on API data
+    // Add markers and auto-fit bounds
     if (rankDetails.length > 0) {
       rankDetails.forEach((detail, index) => {
         const coords = detail.coordinate.split(',');
@@ -99,6 +110,15 @@ export const RankingMap: React.FC<RankingMapProps> = memo(({ onMarkerClick, rank
           `);
         }
       });
+      
+      // Auto-fit bounds to show all markers
+      if (allCoordinates.length > 1) {
+        const bounds = L.latLngBounds(allCoordinates);
+        map.fitBounds(bounds, {
+          padding: [20, 20],
+          maxZoom: 16
+        });
+      }
     } else {
       // Fallback to generate dummy grid if no API data
       const generateGridData = () => {

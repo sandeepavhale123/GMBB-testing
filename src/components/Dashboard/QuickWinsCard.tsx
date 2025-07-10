@@ -90,7 +90,7 @@ export const QuickWinsCard: React.FC<QuickWinsCardProps> = ({
                 </div>
                 <Button
                   size="sm"
-                  className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white w-8 h-8 sm:w-auto sm:h-auto p-1 sm:px-3 sm:py-2"
+                  className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground w-8 h-8 sm:w-auto sm:h-auto p-1 sm:px-3 sm:py-2"
                   onClick={() => navigate("/ai-tasks")}
                 >
                   <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />

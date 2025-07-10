@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
+import { useAppSelector } from "../hooks/useRedux";
 
 interface SidebarProps {
   activeTab: string;
@@ -93,6 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { listingId } = useParams();
   const { profileData } = useProfile();
+  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector((state) => state.theme);
 
   // Get user info from profile data
   const userName = profileData
@@ -130,6 +132,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const activeTab = getActiveTab();
 
+  // Get logo URLs with fallbacks - prioritize uploaded files over API URLs
+  const getDarkLogoUrl = () => {
+    // If a new dark logo file has been uploaded, use it immediately
+    if (dark_logo) {
+      return URL.createObjectURL(dark_logo);
+    }
+    // Otherwise use the API URL or fallback
+    return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
+  };
+
+  const getFaviconUrl = () => {
+    // If a new favicon file has been uploaded, use it immediately
+    if (favicon) {
+      return URL.createObjectURL(favicon);
+    }
+    // Otherwise use the API URL or fallback
+    return favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
+  };
+
   const handleTabChange = (tab: string, basePath: string) => {
     // For routes that need listing context, append the listing ID
     const listingRoutes = [
@@ -158,24 +179,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 z-40 h-screen bg-gray-900 border-r border-gray-800 transition-all duration-300 ease-in-out",
+        "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
         collapsed ? "w-16" : "w-64"
       )}
+      style={{
+        backgroundColor: 'var(--sidebar-bg, #111827)',
+        borderColor: 'var(--sidebar-border, #374151)'
+      }}
     >
       <div className="flex h-full flex-col">
         {/* Logo Section */}
-        <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
+        <div 
+          className="flex h-20 items-center justify-between border-b px-4"
+          style={{ borderColor: 'var(--sidebar-border, #374151)' ,height:'107px'}}
+        >
           {!collapsed ? (
             <div className="flex items-center space-x-2">
               <img
-                src="/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png"
+                src={getDarkLogoUrl()}
                 alt="GMB Genie Logo"
-                className="h-15 object-contain"
+                className=" w-auto object-contain"
+                style={{height:'60px',maxWidth:'220px'}}
               />
             </div>
           ) : (
             <img
-              src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
+              src={getFaviconUrl()}
               alt="GMB Genie Logo"
               className="w-8 h-8 object-contain"
             />
@@ -194,11 +223,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   variant={isActive ? "default" : "ghost"}
                   className={cn(
                     "w-full justify-start h-10",
-                    collapsed ? "px-2 justify-center" : "px-3",
-                    isActive
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                    collapsed ? "px-2 justify-center" : "px-3"
                   )}
+                  style={{
+                    backgroundColor: isActive ? 'var(--sidebar-active-bg, #2563eb)' : 'transparent',
+                    color: isActive ? 'var(--sidebar-active-text, #ffffff)' : 'var(--sidebar-text, #d1d5db)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'var(--sidebar-hover-bg, #374151)';
+                      e.currentTarget.style.color = 'var(--sidebar-hover-text, #ffffff)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--sidebar-text, #d1d5db)';
+                    }
+                  }}
                   onClick={() => handleTabChange(item.id, item.path)}
                   title={collapsed ? item.label : undefined}
                 >
@@ -244,13 +286,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* User Profile Section */}
-        <div className="border-t border-gray-800 p-4">
+        <div 
+          className="border-t p-4"
+          style={{ borderColor: 'var(--sidebar-border, #374151)' }}
+        >
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start h-12 text-gray-300 hover:bg-gray-800 hover:text-white",
+              "w-full justify-start h-12",
               collapsed ? "px-2 justify-center" : "px-3"
             )}
+            style={{ 
+              color: 'var(--sidebar-text, #d1d5db)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--sidebar-hover-bg, #374151)';
+              e.currentTarget.style.color = 'var(--sidebar-hover-text, #ffffff)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--sidebar-text, #d1d5db)';
+            }}
             onClick={() => navigate("/profile")}
             title={collapsed ? userName : undefined}
           >

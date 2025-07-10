@@ -1,9 +1,12 @@
 
 import React from "react";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 export const WelcomeSection = () => {
+  const { lightLogo } = useThemeLogo();
+
   return (
-    <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700 relative overflow-hidden">
+    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{background: 'linear-gradient(to bottom right, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(262 83% 58%))'}}>
       <div className="absolute inset-0 bg-black/10"></div>
 
       {/* Decorative Elements */}
@@ -14,11 +17,12 @@ export const WelcomeSection = () => {
 
       {/* Logo */}
       <div className="absolute top-8 left-8">
-        <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shadow-lg">
+        <div className="bg-white rounded-lg flex items-center justify-center shadow-lg p-2">
           <img
-            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+            src={lightLogo}
             alt="GMB Briefcase Logo"
-            className="w-12 h-12 object-contain"
+            style={{maxHeight:"60px",height:"auto", width:"auto", maxWidth:"130px" }}
+            
           />
         </div>
       </div>

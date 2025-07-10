@@ -46,6 +46,22 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'Settings', path: '/settings' }
   ],
+  '/settings/google-account': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings/google-account' }
+  ],
+  '/settings/subscription': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings/subscription' }
+  ],
+  '/settings/branding': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings/branding' }
+  ],
+  '/settings/integrations': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings/integrations' }
+  ],
   '/settings/listings': [
     { title: 'Dashboard', path: '/' },
     { title: 'Settings', path: '/settings' },
@@ -97,9 +113,12 @@ export const PageBreadcrumb: React.FC = () => {
   const getBaseRoute = (pathname: string) => {
     const segments = pathname.split('/');
     if (segments.length >= 2) {
-      // Handle special case for settings/listings route
-      if (segments[1] === 'settings' && segments[2] === 'listings') {
-        return '/settings/listings';
+      // Handle special case for settings sub-routes
+      if (segments[1] === 'settings' && segments[2]) {
+        if (segments[2] === 'listings') {
+          return '/settings/listings';
+        }
+        return `/settings/${segments[2]}`;
       }
       return `/${segments[1]}`;
     }

@@ -47,7 +47,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
                   />
                   <Bar 
                     dataKey="value" 
-                    fill="#3b82f6" 
+                    fill="hsl(var(--primary))" 
                     radius={[4, 4, 0, 0]}
                     name="Actions"
                   />
@@ -56,7 +56,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
-                <MousePointer className="w-4 h-4 text-blue-600" />
+                <MousePointer className="w-4 h-4 text-primary" />
                 <span className="text-sm text-gray-600">Website: {customerActions?.actions_breakdown.website_clicks.total || summary?.customer_actions.website_clicks.value || 0}</span>
               </div>
               <div className="flex items-center gap-2">

@@ -327,7 +327,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 type="submit"
                 onClick={handleSubmit} 
                 disabled={!isCreatePostEnabled}
-                className="bg-blue-600 hover:bg-blue-700 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-primary hover:bg-primary/90 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {createLoading ? (isCloning ? "Cloning..." : "Creating...") : (isCloning ? "Clone Post" : "Create Post")}
               </Button>

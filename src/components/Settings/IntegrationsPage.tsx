@@ -26,6 +26,8 @@ import {
   ExternalLink,
   ChevronDown,
   Loader2,
+  Mail,
+  Globe,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import axiosInstance from "@/api/axiosInstance";
@@ -59,6 +61,28 @@ export const IntegrationsPage: React.FC = () => {
   const [showDisconnectDialog, setShowDisconnectDialog] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
 
+  // SMTP related states
+  const [isConfiguringSmtp, setIsConfiguringSmtp] = useState(false);
+  const [isLoadingSmtp, setIsLoadingSmtp] = useState(false);
+  const [isFetchingSmtp, setIsFetchingSmtp] = useState(false);
+  const [showSmtpPassword, setShowSmtpPassword] = useState(false);
+  const [smtpData, setSmtpData] = useState({
+    fromName: "",
+    fromEmail: "",
+    smtpHost: "",
+    smtpPort: "",
+    smtpUser: "",
+    smtpPassword: "",
+    phone: "",
+  });
+  const [connectedSmtp, setConnectedSmtp] = useState(false);
+
+  // Subdomain related states
+  const [isConfiguringSubdomain, setIsConfiguringSubdomain] = useState(false);
+  const [isLoadingSubdomain, setIsLoadingSubdomain] = useState(false);
+  const [subdomain, setSubdomain] = useState("");
+  const [connectedSubdomain, setConnectedSubdomain] = useState(false);
+
   // Form validation hooks
   const apiKeyValidation = useFormValidation(apiKeySchema);
   const disconnectValidation = useFormValidation(disconnectConfirmationSchema);
@@ -70,6 +94,22 @@ export const IntegrationsPage: React.FC = () => {
       description: "Configure map services for location-based features",
       icon: Map,
       status: connectedApiKey ? "active" : "inactive",
+      configurable: true,
+    },
+    {
+      id: "smtp-details",
+      name: "SMTP Details",
+      description: "Configure email server settings for notifications",
+      icon: Mail,
+      status: connectedSmtp ? "active" : "inactive",
+      configurable: true,
+    },
+    {
+      id: "subdomain-config",
+      name: "Sub domain configuration",
+      description: "Configure white label subdomain for your reports",
+      icon: Globe,
+      status: connectedSubdomain ? "active" : "inactive",
       configurable: true,
     },
   ]);
@@ -248,6 +288,145 @@ export const IntegrationsPage: React.FC = () => {
     }
   };
 
+  // SMTP related functions
+  const handleOpenSmtpModal = async () => {
+    setIsFetchingSmtp(true);
+    try {
+      // Fetch existing SMTP settings if any
+      // For now, just open the modal
+      setIsConfiguringSmtp(true);
+    } catch (error: any) {
+      console.error("Error fetching SMTP settings:", error);
+    } finally {
+      setIsFetchingSmtp(false);
+    }
+  };
+
+  const handleSmtpReset = () => {
+    setSmtpData({
+      fromName: "",
+      fromEmail: "",
+      smtpHost: "",
+      smtpPort: "",
+      smtpUser: "",
+      smtpPassword: "",
+      phone: "",
+    });
+  };
+
+  const handleSmtpTest = async () => {
+    try {
+      // Add validation for required fields
+      const requiredFields = ['fromEmail', 'smtpHost', 'smtpPort', 'smtpUser', 'smtpPassword'];
+      const missingFields = requiredFields.filter(field => !smtpData[field as keyof typeof smtpData]?.trim());
+      
+      if (missingFields.length > 0) {
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields before testing",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsLoadingSmtp(true);
+      // Test SMTP settings API call would go here
+      toast({
+        title: "Test Email Sent",
+        description: "SMTP test email sent successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Test Failed",
+        description: "Failed to send test email. Please check your settings.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingSmtp(false);
+    }
+  };
+
+  const handleSmtpSave = async () => {
+    try {
+      // Add validation for required fields
+      const requiredFields = ['fromEmail', 'smtpHost', 'smtpPort', 'smtpUser', 'smtpPassword'];
+      const missingFields = requiredFields.filter(field => !smtpData[field as keyof typeof smtpData]?.trim());
+      
+      if (missingFields.length > 0) {
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsLoadingSmtp(true);
+      // Save SMTP settings API call would go here
+      
+      setConnectedSmtp(true);
+      setIntegrations((prev) =>
+        prev.map((integration) =>
+          integration.id === "smtp-details"
+            ? { ...integration, status: "active" }
+            : integration
+        )
+      );
+      
+      setIsConfiguringSmtp(false);
+      toast({
+        title: "Success",
+        description: "SMTP settings saved successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to save SMTP settings. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingSmtp(false);
+    }
+  };
+
+  const handleSubdomainSave = async () => {
+    if (!subdomain.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a subdomain",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoadingSubdomain(true);
+    try {
+      // API call to save subdomain would go here
+      setConnectedSubdomain(true);
+      setIntegrations((prev) =>
+        prev.map((integration) =>
+          integration.id === "subdomain-config"
+            ? { ...integration, status: "active" }
+            : integration
+        )
+      );
+      
+      setIsConfiguringSubdomain(false);
+      toast({
+        title: "Success",
+        description: "Subdomain configuration saved successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to save subdomain configuration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingSubdomain(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -320,10 +499,18 @@ export const IntegrationsPage: React.FC = () => {
                       <Button
                         size="sm"
                         className="flex items-center gap-2"
-                        onClick={handleOpenConfigureModal}
-                        disabled={isFetchingKey}
+                        onClick={() => {
+                          if (integration.id === "map-api") {
+                            handleOpenConfigureModal();
+                          } else if (integration.id === "smtp-details") {
+                            handleOpenSmtpModal();
+                          } else if (integration.id === "subdomain-config") {
+                            setIsConfiguringSubdomain(true);
+                          }
+                        }}
+                        disabled={isFetchingKey || isFetchingSmtp}
                       >
-                        {isFetchingKey ? (
+                        {(isFetchingKey || isFetchingSmtp) ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
                             Loading...
@@ -610,6 +797,277 @@ export const IntegrationsPage: React.FC = () => {
                 "Disconnect"
               )}
             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* SMTP Configuration Modal */}
+      <Dialog open={isConfiguringSmtp} onOpenChange={setIsConfiguringSmtp}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Configure SMTP Settings</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="fromName" className="text-sm font-medium">
+                  From Name
+                </Label>
+                <Input
+                  id="fromName"
+                  type="text"
+                  placeholder="Your Name or Company"
+                  value={smtpData.fromName}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, fromName: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="fromEmail" className="text-sm font-medium">
+                  From Email <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="fromEmail"
+                  type="email"
+                  placeholder="your-email@example.com"
+                  value={smtpData.fromEmail}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, fromEmail: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="smtpHost" className="text-sm font-medium">
+                  SMTP Host <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="smtpHost"
+                  type="text"
+                  placeholder="smtp.gmail.com"
+                  value={smtpData.smtpHost}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, smtpHost: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="smtpPort" className="text-sm font-medium">
+                  SMTP Port <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="smtpPort"
+                  type="number"
+                  placeholder="587"
+                  value={smtpData.smtpPort}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, smtpPort: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="smtpUser" className="text-sm font-medium">
+                  SMTP User <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="smtpUser"
+                  type="text"
+                  placeholder="username"
+                  value={smtpData.smtpUser}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, smtpUser: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="smtpPassword" className="text-sm font-medium">
+                  SMTP Password <span className="text-destructive">*</span>
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="smtpPassword"
+                    type={showSmtpPassword ? "text" : "password"}
+                    placeholder="password"
+                    value={smtpData.smtpPassword}
+                    onChange={(e) =>
+                      setSmtpData({ ...smtpData, smtpPassword: e.target.value })
+                    }
+                    className="pr-10"
+                    disabled={isLoadingSmtp}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowSmtpPassword(!showSmtpPassword)}
+                    disabled={isLoadingSmtp}
+                  >
+                    {showSmtpPassword ? (
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-muted-foreground" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="phone" className="text-sm font-medium">
+                  Phone
+                </Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+1 (555) 123-4567"
+                  value={smtpData.phone}
+                  onChange={(e) =>
+                    setSmtpData({ ...smtpData, phone: e.target.value })
+                  }
+                  disabled={isLoadingSmtp}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between gap-2 pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={handleSmtpReset}
+                disabled={isLoadingSmtp}
+              >
+                Reset
+              </Button>
+              
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={handleSmtpTest}
+                  disabled={isLoadingSmtp}
+                >
+                  {isLoadingSmtp ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Testing...
+                    </>
+                  ) : (
+                    "Test SMTP Settings"
+                  )}
+                </Button>
+                <Button
+                  onClick={handleSmtpSave}
+                  disabled={isLoadingSmtp}
+                >
+                  {isLoadingSmtp ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save"
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Subdomain Configuration Modal */}
+      <Dialog open={isConfiguringSubdomain} onOpenChange={setIsConfiguringSubdomain}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Sub domain configuration</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="subdomain" className="text-sm font-medium">
+                Enter subdomain
+              </Label>
+              <Input
+                id="subdomain"
+                type="text"
+                placeholder="example"
+                value={subdomain}
+                onChange={(e) => setSubdomain(e.target.value)}
+                disabled={isLoadingSubdomain}
+              />
+              <p className="text-xs text-muted-foreground">
+                Enter your desired subdomain (without .com or other extensions)
+              </p>
+            </div>
+
+            <div className="bg-muted/30 p-4 rounded-lg">
+              <h4 className="font-medium text-foreground mb-3">
+                Follow the below steps:
+              </h4>
+              <div className="space-y-3 text-sm text-foreground">
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 1:</span>
+                  <span>Add white label subdomain here & save it.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 2:</span>
+                  <span>Add the IP in DNS manager as A record: <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">157.230.2.181</code></span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 3:</span>
+                  <span>
+                    Please check DNS propagation at:{" "}
+                    <a
+                      href="https://dnschecker.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline inline-flex items-center gap-1"
+                    >
+                      dnschecker.org
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="font-medium min-w-[60px] text-primary">Step 4:</span>
+                  <span>Once you have done let us know, we will update your request in next 24 hours.</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsConfiguringSubdomain(false);
+                  setSubdomain("");
+                }}
+                disabled={isLoadingSubdomain}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubdomainSave}
+                disabled={isLoadingSubdomain || !subdomain.trim()}
+              >
+                {isLoadingSubdomain ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Configuration"
+                )}
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

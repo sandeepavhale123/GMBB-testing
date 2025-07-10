@@ -81,28 +81,28 @@ const plans = [
     id: "52",
     name: "Business",
     price: 99,
-    color: "bg-blue-500",
+    color: "bg-primary",
     popular: false,
   },
   {
     id: "53",
     name: "Pro",
     price: 199,
-    color: "bg-blue-600",
+    color: "bg-primary",
     popular: true,
   },
   {
     id: "54",
     name: "Agency",
     price: 299,
-    color: "bg-blue-700",
+    color: "bg-primary",
     popular: false,
   },
   {
     id: "55",
     name: "Enterprise",
     price: 560,
-    color: "bg-blue-800",
+    color: "bg-primary",
     popular: false,
   },
 ];
@@ -505,17 +505,17 @@ export const SubscriptionPage: React.FC = () => {
           </div>
 
           {/* Additional Information */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">
+          <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-primary mb-2">
               Need Help Choosing?
             </h3>
-            <p className="text-blue-700 text-sm mb-4">
+            <p className="text-primary/80 text-sm mb-4">
               Contact our sales team to find the perfect plan for your business
               needs.
             </p>
             <Button
               variant="outline"
-              className="border-blue-300 text-blue-700 hover:bg-blue-100"
+              className="border-primary/30 text-primary hover:bg-primary/10"
               onClick={() =>
                 window.open("https://gmbbriefcase.com/contact/", "_blank")
               }

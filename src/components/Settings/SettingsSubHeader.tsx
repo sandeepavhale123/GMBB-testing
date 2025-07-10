@@ -17,6 +17,8 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
   const tabs = [
     { id: 'google-account', label: 'Manage Google Account', path: '/settings/google-account' },
     { id: 'subscription', label: 'Subscription', path: '/settings/subscription' },
+    { id: 'theme-customization', label: 'Theme Customization', path: '/settings/theme-customization' },
+    { id: 'report-branding', label: 'Report Branding', path: '/settings/report-branding' },
     { id: 'integrations', label: 'Integrations', path: '/settings/integrations' }
   ];
 
@@ -27,22 +29,8 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
   return (
     <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div className="px-4 sm:px-6 py-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-            
-            {/* Mobile Menu Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="sm:hidden"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
-          </div>
-          
-          {/* Desktop Tabs - Right Aligned */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          {/* Desktop Tabs - Left Aligned */}
           <div className="hidden sm:flex">
             <div className="flex space-x-8 -mb-[1px]">
               {tabs.map((tab) => (
@@ -59,6 +47,18 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
                 </Link>
               ))}
             </div>
+          </div>
+          
+          <div className="flex items-center justify-end sm:justify-end ml-auto">
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="sm:hidden"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
+              {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </Button>
           </div>
         </div>
         

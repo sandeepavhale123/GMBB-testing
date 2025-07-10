@@ -16,7 +16,7 @@ export const CreatePostCard: React.FC<CreatePostCardProps> = ({
         <div className="h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
           <img src="/lovable-uploads/056c9932-4b34-400d-a799-16d87f2db67d.png" alt="Attach image" className="w-20 h-20 object-fill" />
         </div>
-        <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={onCreatePost}>
+        <Button className="w-full" onClick={onCreatePost}>
           <Plus className="w-4 h-4 mr-2" />
           Create Post
         </Button>

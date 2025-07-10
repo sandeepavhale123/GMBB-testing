@@ -31,7 +31,7 @@ export const VisibilityTrendsCard: React.FC<VisibilityTrendsCardProps> = ({
             <div className="p-4 rounded-lg bg-gray-50">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-gray-900">Total Search Views</span>
-                <span className="text-2xl font-bold text-blue-600">
+                <span className="text-2xl font-bold text-primary">
                   {visibilityTrends?.summary.total_search_views || 0}
                 </span>
               </div>

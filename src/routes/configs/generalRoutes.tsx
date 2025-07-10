@@ -83,6 +83,26 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
+    path: "/settings/theme-customization",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/settings/report-branding",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>

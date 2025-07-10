@@ -51,6 +51,7 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
     const distance = parseFloat(distanceValue.replace('mi', ''));
     
     if (distanceUnit === 'Miles') {
+      if (distance <= 0.25) return 17;
       if (distance <= 0.5) return 16;
       if (distance <= 1) return 15;
       if (distance <= 2) return 14;
@@ -59,6 +60,7 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       return 11;
     } else {
       // Meters/KM
+      if (distance <= 100) return 17;
       if (distance <= 200) return 16;
       if (distance <= 500) return 15;
       if (distance <= 1) return 14; // 1 KM
@@ -66,6 +68,37 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       if (distance <= 5) return 12;
       if (distance <= 10) return 11;
       return 10;
+    }
+  };
+
+  // Calculate optimal view for all coordinates
+  const calculateOptimalView = () => {
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+
+    let allCoordinates: [number, number][] = [];
+    
+    // Always include default coordinates
+    allCoordinates.push([defaultCoordinates.lat, defaultCoordinates.lng]);
+    
+    // Add grid coordinates if in automatic mode
+    if (mapPoint === 'Automatic' && gridCoordinates.length > 0) {
+      gridCoordinates.forEach(coord => {
+        const [lat, lng] = coord.split(',').map(Number);
+        allCoordinates.push([lat, lng]);
+      });
+    }
+
+    if (allCoordinates.length > 1) {
+      // Use fitBounds for multiple coordinates
+      const bounds = L.latLngBounds(allCoordinates);
+      mapInstanceRef.current.fitBounds(bounds, {
+        padding: [30, 30],
+        maxZoom: calculateZoomLevel()
+      });
+    } else {
+      // Single coordinate - use distance-based zoom
+      const zoom = calculateZoomLevel();
+      mapInstanceRef.current.setView([defaultCoordinates.lat, defaultCoordinates.lng], zoom);
     }
   };
 
@@ -341,18 +374,21 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
 
     if (mapPoint === 'Automatic') {
       addAutomaticMarkers();
+      // Auto-adjust view after markers are added
+      setTimeout(() => calculateOptimalView(), 100);
     } else {
       // For manual mode, show default marker initially
       addDefaultMarker();
       enableManualSelection();
+      // Use distance-based zoom for manual mode
+      setTimeout(() => calculateOptimalView(), 100);
     }
   }, [mapPoint, gridCoordinates]);
 
   // Handle distance changes to adjust zoom automatically
   useEffect(() => {
     if (mapInstanceRef.current && defaultCoordinates) {
-      const newZoom = calculateZoomLevel();
-      mapInstanceRef.current.setView([defaultCoordinates.lat, defaultCoordinates.lng], newZoom);
+      calculateOptimalView();
     }
   }, [distanceValue, distanceUnit]);
 

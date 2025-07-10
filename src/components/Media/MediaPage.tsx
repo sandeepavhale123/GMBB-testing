@@ -254,7 +254,7 @@ export const MediaPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-900">Your Media</h2>
         <div className="flex items-center gap-4">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowUploadModal(true)}>
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setShowUploadModal(true)}>
             <Upload className="w-4 h-4 mr-2" />
             Upload Media
           </Button>

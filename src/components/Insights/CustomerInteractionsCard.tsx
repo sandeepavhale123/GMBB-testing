@@ -41,8 +41,8 @@ export const CustomerInteractionsCard: React.FC<CustomerInteractionsCardProps> =
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {customerActionsData.map((action, index) => (
               <div key={index} className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <action.icon className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <action.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-700 mb-1">{action.label}</p>
