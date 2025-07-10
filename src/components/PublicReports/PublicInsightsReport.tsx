@@ -51,12 +51,12 @@ export const PublicInsightsReport: React.FC = () => {
   };
 
   const chartConfig = {
-    search: { label: 'Search', color: 'hsl(var(--primary))' },
-    map: { label: 'Map', color: 'hsl(var(--secondary))' },
-    website: { label: 'Website', color: 'hsl(var(--accent))' },
-    direction: { label: 'Direction', color: 'hsl(var(--destructive))' },
-    call: { label: 'Call', color: 'hsl(var(--muted-foreground))' },
-    message: { label: 'Message', color: 'hsl(var(--border))' }
+    search: { label: 'Search', color: 'hsl(210 100% 30%)' },
+    map: { label: 'Map', color: 'hsl(160 85% 25%)' },
+    website: { label: 'Website', color: 'hsl(25 95% 35%)' },
+    direction: { label: 'Direction', color: 'hsl(340 100% 30%)' },
+    call: { label: 'Call', color: 'hsl(260 85% 35%)' },
+    message: { label: 'Message', color: 'hsl(195 90% 30%)' }
   };
 
   const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode) => (
