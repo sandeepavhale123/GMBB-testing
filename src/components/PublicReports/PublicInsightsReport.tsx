@@ -6,13 +6,12 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone, BarChart3, LineChart } from 'lucide-react';
-import { PieChart, Pie, Cell, LineChart as RechartsLineChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
+import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone } from 'lucide-react';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
 export const PublicInsightsReport: React.FC = () => {
   const { token } = useParams();
   const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
-  const [chartType, setChartType] = useState<'line' | 'bar'>('line');
 
   // Enhanced sample data
   const insightsData = {
@@ -35,10 +34,10 @@ export const PublicInsightsReport: React.FC = () => {
       mobileMap: { current: 3800, previous: 3600, change: 5.6 }
     },
     customerSearchData: [
-      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(220 100% 35%)' },
-      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(142 76% 35%)' },
-      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(47 96% 35%)' },
-      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(280 100% 35%)' }
+      { name: 'Desktop Search', value: 42, count: 8500, fill: 'hsl(220 100% 60%)' },
+      { name: 'Mobile Search', value: 31, count: 6200, fill: 'hsl(142 76% 60%)' },
+      { name: 'Desktop Map', value: 17, count: 4350, fill: 'hsl(47 96% 60%)' },
+      { name: 'Mobile Map', value: 10, count: 3800, fill: 'hsl(280 100% 60%)' }
     ],
     viewsClicksData: [
       { month: 'Jan', search: 14700, map: 8150, website: 1245, direction: 687, call: 156, message: 89 },
@@ -51,12 +50,12 @@ export const PublicInsightsReport: React.FC = () => {
   };
 
   const chartConfig = {
-    search: { label: 'Search', color: 'hsl(210 100% 30%)' },
-    map: { label: 'Map', color: 'hsl(160 85% 25%)' },
-    website: { label: 'Website', color: 'hsl(25 95% 35%)' },
-    direction: { label: 'Direction', color: 'hsl(340 100% 30%)' },
-    call: { label: 'Call', color: 'hsl(260 85% 35%)' },
-    message: { label: 'Message', color: 'hsl(195 90% 30%)' }
+    search: { label: 'Search', color: 'hsl(210 100% 55%)' },
+    map: { label: 'Map', color: 'hsl(160 85% 50%)' },
+    website: { label: 'Website', color: 'hsl(25 95% 55%)' },
+    direction: { label: 'Direction', color: 'hsl(340 100% 55%)' },
+    call: { label: 'Call', color: 'hsl(260 85% 55%)' },
+    message: { label: 'Message', color: 'hsl(195 90% 50%)' }
   };
 
   const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode) => (
@@ -218,64 +217,26 @@ export const PublicInsightsReport: React.FC = () => {
           {/* Listing Views & Clicks Chart */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Listing Views & Clicks</CardTitle>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant={chartType === 'line' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setChartType('line')}
-                  >
-                    <LineChart className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={chartType === 'bar' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setChartType('bar')}
-                  >
-                    <BarChart3 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              <CardTitle>Listing Views & Clicks</CardTitle>
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig} className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  {chartType === 'line' ? (
-                    <RechartsLineChart data={insightsData.viewsClicksData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
-                      {Object.keys(chartConfig).map((key) => (
-                        <Line
-                          key={key}
-                          type="monotone"
-                          dataKey={key}
-                          stroke={chartConfig[key].color}
-                          strokeWidth={2}
-                          name={chartConfig[key].label}
-                        />
-                      ))}
-                    </RechartsLineChart>
-                  ) : (
-                    <BarChart data={insightsData.viewsClicksData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
-                      {Object.keys(chartConfig).map((key) => (
-                        <Bar
-                          key={key}
-                          dataKey={key}
-                          fill={chartConfig[key].color}
-                          name={chartConfig[key].label}
-                        />
-                      ))}
-                    </BarChart>
-                  )}
+                  <BarChart data={insightsData.viewsClicksData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Legend />
+                    {Object.keys(chartConfig).map((key) => (
+                      <Bar
+                        key={key}
+                        dataKey={key}
+                        fill={chartConfig[key].color}
+                        name={chartConfig[key].label}
+                      />
+                    ))}
+                  </BarChart>
                 </ResponsiveContainer>
               </ChartContainer>
             </CardContent>
