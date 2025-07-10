@@ -90,7 +90,11 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { listings } = useListingContext();
 
-  const { data: setupData, isLoading: isLoadingSetup, isSetupComplete } = useListingSetup(
+  const {
+    data: setupData,
+    isLoading: isLoadingSetup,
+    isSetupComplete,
+  } = useListingSetup(
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
@@ -133,7 +137,7 @@ export const Dashboard: React.FC = () => {
     console.log("handleOptimize called - listings:", listings);
     console.log("selectedListing:", selectedListing);
 
-    navigate("/health");
+    navigate(`/health/${selectedListing?.id}`);
 
     // If no valid listing is available, show an error or redirect to a selection page
     console.warn("No valid listing available to navigate to health page");
@@ -170,8 +174,8 @@ export const Dashboard: React.FC = () => {
     <div className="space-y-4 sm:space-y-6">
       {/* Setup Progress Alert - Show when setup is not complete */}
       {!isSetupComplete && setupData?.data && (
-        <SetupProgressAlert 
-          setupData={setupData.data} 
+        <SetupProgressAlert
+          setupData={setupData.data}
           isLoading={isLoadingSetup}
         />
       )}
@@ -214,12 +218,11 @@ export const Dashboard: React.FC = () => {
               {/* Time left section */}
               <div className="text-center space-y-1">
                 <p className="text-xs sm:text-sm text-black">
-                  {(overviewData?.healthScore || 0) >= 75 
+                  {(overviewData?.healthScore || 0) >= 75
                     ? "Optimization level is excellent"
                     : (overviewData?.healthScore || 0) >= 50
                     ? "Optimization level is healthy"
-                    : "Optimization needs improvement"
-                  }
+                    : "Optimization needs improvement"}
                 </p>
                 <p className="text-blue-400 font-medium text-sm sm:text-base">
                   {overviewData?.healthScore || 0}% optimized
@@ -291,7 +294,7 @@ export const Dashboard: React.FC = () => {
                       onCreatePost={() => setIsCreateModalOpen(true)}
                     />
                   </LazyComponentLoader>
-                  <QuickWinsCard />
+                  <QuickWinsCard quickwins={overviewData?.quickWins} />
                 </div>
 
                 {/* Bottom Row - Scheduled Posts Table (Full Width) */}

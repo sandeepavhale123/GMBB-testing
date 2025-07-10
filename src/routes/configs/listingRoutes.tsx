@@ -115,16 +115,16 @@ export const listingRoutes: RouteConfig[] = [
     ),
   },
   //  Health routes
-  {
-    path: "/health",
-    element: (
-      <ProtectedRoute>
-        <ListingProvider>
-          <HealthPage />
-        </ListingProvider>
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/health",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <ListingProvider>
+  //         <HealthPage />
+  //       </ListingProvider>
+  //     </ProtectedRoute>
+  //   ),
+  // },
   {
     path: "/health/:listingId",
     element: (

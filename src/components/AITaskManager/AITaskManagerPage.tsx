@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  CheckCircle, 
-  Clock, 
-  PlayCircle, 
-  RefreshCw, 
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  CheckCircle,
+  Clock,
+  PlayCircle,
+  RefreshCw,
   Star,
   MapPin,
   Image,
@@ -15,99 +15,40 @@ import {
   FileText,
   BarChart3,
   Zap,
-  X
-} from 'lucide-react';
-import { PageBreadcrumb } from '../Header/PageBreadcrumb';
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: 'pending' | 'in-progress' | 'completed';
-  type: 'one-time' | 'recurring';
-  priority: 'low' | 'medium' | 'high';
-  category: 'seo' | 'content' | 'reviews' | 'insights' | 'listings';
-  estimatedTime: string;
-}
-
-const mockTasks: Task[] = [
-  {
-    id: '1',
-    title: 'Optimize Business Description',
-    description: 'Update your GMB business description with relevant keywords and clear value proposition to improve local search visibility.',
-    status: 'pending',
-    type: 'one-time',
-    priority: 'high',
-    category: 'seo',
-    estimatedTime: '15 min'
-  },
-  {
-    id: '2',
-    title: 'Add Missing Business Hours',
-    description: 'Complete your business hours information including holiday hours to improve customer experience and search rankings.',
-    status: 'pending',
-    type: 'one-time',
-    priority: 'medium',
-    category: 'listings',
-    estimatedTime: '10 min'
-  },
-  {
-    id: '3',
-    title: 'Upload High-Quality Photos',
-    description: 'Add professional photos of your business exterior, interior, products, and team to increase customer engagement.',
-    status: 'in-progress',
-    type: 'recurring',
-    priority: 'high',
-    category: 'content',
-    estimatedTime: '30 min'
-  },
-  {
-    id: '4',
-    title: 'Respond to Recent Reviews',
-    description: 'Reply to 3 recent customer reviews to show engagement and improve your business reputation.',
-    status: 'pending',
-    type: 'recurring',
-    priority: 'high',
-    category: 'reviews',
-    estimatedTime: '20 min'
-  },
-  {
-    id: '5',
-    title: 'Create Weekly Post',
-    description: 'Publish a weekly GMB post featuring your latest offers, updates, or seasonal content to boost visibility.',
-    status: 'completed',
-    type: 'recurring',
-    priority: 'medium',
-    category: 'content',
-    estimatedTime: '25 min'
-  },
-  {
-    id: '6',
-    title: 'Monitor Keyword Rankings',
-    description: 'Check your local keyword rankings and identify opportunities for improvement in search visibility.',
-    status: 'pending',
-    type: 'recurring',
-    priority: 'medium',
-    category: 'insights',
-    estimatedTime: '15 min'
-  }
-];
+  X,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { PageBreadcrumb } from "../Header/PageBreadcrumb";
+import {
+  useCompleteAiTask,
+  usePendingAiTask,
+  useTransformedAiTasks,
+} from "../../hooks/useAiTask";
+import { AiTask } from "../../api/aiTaskApi";
+import { useListingContext } from "../../context/ListingContext";
+import { toast } from "@/hooks/use-toast";
+import { isEqual } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 const statusIcons = {
   pending: Clock,
-  'in-progress': PlayCircle,
-  completed: CheckCircle
+  "in-progress": PlayCircle,
+  completed: CheckCircle,
+  due: Clock,
 };
 
 const statusColors = {
-  pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  'in-progress': 'bg-blue-100 text-blue-800 border-blue-200',
-  completed: 'bg-green-100 text-green-800 border-green-200'
+  pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  "in-progress": "bg-blue-100 text-blue-800 border-blue-200",
+  completed: "bg-green-100 text-green-800 border-green-200",
+  due: "bg-yellow-100 text-yellow-800 border-yellow-200", // fallback
 };
 
 const typeColors = {
-  'one-time': 'bg-purple-100 text-purple-800 border-purple-200',
-  'recurring': 'bg-blue-100 text-blue-800 border-blue-200'
+  "one-time": "bg-purple-100 text-purple-800 border-purple-200",
+  recurring: "bg-blue-100 text-blue-800 border-blue-200",
 };
 
 const categoryIcons = {
@@ -115,52 +56,130 @@ const categoryIcons = {
   content: FileText,
   reviews: Star,
   insights: BarChart3,
-  listings: MapPin
+  listings: MapPin,
 };
 
 export const AITaskManagerPage: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks);
-  const [activeTab, setActiveTab] = useState('all');
-  const [showHighPriorityAlert, setShowHighPriorityAlert] = useState(true);
+  const { selectedListing } = useListingContext();
+  const { tasks, stats, isLoading, error, refetch } = useTransformedAiTasks({
+    listingId: selectedListing?.id,
+  });
+  const { mutateAsync: completeTask } = useCompleteAiTask();
+  const { mutateAsync: pendingTask } = usePendingAiTask();
+  const [localTasks, setLocalTasks] = useState<AiTask[]>([]);
+  const [activeTab, setActiveTab] = useState("pending");
+  const navigate = useNavigate();
+  //  Update local tasks when API data changes
+  React.useEffect(() => {
+    const normalizedTasks = tasks.map((t) =>
+      t.status === "due" ? { ...t, status: "pending" as const } : t
+    );
 
-  const handleMarkCompleted = (taskId: string) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId 
-        ? { ...task, status: 'completed' as const }
-        : task
-    ));
+    if (!isEqual(localTasks, normalizedTasks)) {
+      setLocalTasks(normalizedTasks);
+    }
+  }, [tasks]);
+
+  const handleMarkCompleted = async (taskId: string | number) => {
+    if (!selectedListing?.id) return;
+
+    try {
+      const response = await completeTask({
+        taskId,
+        listingId: selectedListing.id,
+      });
+      setLocalTasks((prev) =>
+        prev.map((t) =>
+          t.id === taskId ? { ...t, status: "completed" as const } : t
+        )
+      );
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: response.message,
+          variant: "default",
+        });
+      }
+      toast({
+        title: "Success",
+        description: response.message,
+      });
+    } catch (err) {
+      console.error("Failed to complete task", err);
+    }
   };
-
-  const handleFixTask = (taskId: string) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId 
-        ? { ...task, status: 'in-progress' as const }
-        : task
-    ));
+  const handleRevertTask = async (taskId: string | number) => {
+    if (!selectedListing?.id) return;
+    try {
+      const response = await pendingTask({
+        taskId,
+        listingId: selectedListing.id,
+      });
+      setLocalTasks((prev) =>
+        prev.map((t) =>
+          t.id === taskId ? { ...t, status: "pending" as const } : t
+        )
+      );
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: response.message || "Failed to revert task.",
+          variant: "destructive",
+        });
+      }
+      toast({
+        title: "Reverted",
+        description: response.message || "Task reverted to pending.",
+      });
+    } catch (error) {
+      console.log("Error occured", error);
+    }
   };
+  // const handleFixTask = (taskId: string | Number) => {
+  //   setLocalTasks((prevTasks) =>
+  //     prevTasks.map((task) =>
+  //       task.id === taskId ? { ...task, status: "in-progress" as const } : task
+  //     )
+  //   );
+  // };
+  const handleFixTask = (url: string, target: string) => {
+    if (!url) return;
 
+    const isExternalUrl =
+      url.startsWith("http://") || url.startsWith("https://");
+
+    if (isExternalUrl) {
+      if (target === "_blank") {
+        window.open(url, "_blank");
+      } else {
+        window.location.href = url; // full page redirect for same tab external
+      }
+    } else {
+      navigate(url); // internal routing
+    }
+  };
   const filterTasks = (filter: string) => {
     switch (filter) {
-      case 'pending':
-        return tasks.filter(task => task.status === 'pending');
-      case 'in-progress':
-        return tasks.filter(task => task.status === 'in-progress');
-      case 'completed':
-        return tasks.filter(task => task.status === 'completed');
-      case 'recurring':
-        return tasks.filter(task => task.type === 'recurring');
-      case 'high-priority':
-        return tasks.filter(task => task.priority === 'high');
+      case "pending":
+        return localTasks.filter((task) => task.status === "pending");
+      case "in-progress":
+        return localTasks.filter((task) => task.status === "in-progress");
+      case "completed":
+        return localTasks.filter((task) => task.status === "completed");
+      case "recurring":
+        return localTasks.filter((task) => task.type === "recurring");
+      case "high-priority":
+        return localTasks.filter((task) => task.priority === "high");
       default:
-        return tasks;
+        return localTasks;
     }
   };
 
   const filteredTasks = filterTasks(activeTab);
 
-  const TaskCard: React.FC<{ task: Task }> = ({ task }) => {
-    const StatusIcon = statusIcons[task.status];
-    const CategoryIcon = categoryIcons[task.category];
+  const TaskCard: React.FC<{ task: AiTask }> = ({ task }) => {
+    const StatusIcon = statusIcons[task.status] ?? AlertCircle; // fallback
+    const CategoryIcon = categoryIcons[task.category] ?? FileText; // fallback
 
     return (
       <Card className="hover:shadow-md transition-shadow">
@@ -169,10 +188,17 @@ export const AITaskManagerPage: React.FC = () => {
           <div className="flex items-start gap-3 mb-3">
             <CategoryIcon className="w-5 h-5 text-gray-600 shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                {task.task_name}
+              </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                {task.description}
+                {task.task_description}
               </p>
+              {task.frequency && (
+                <p className="text-xs text-gray-500 mt-1">
+                  Frequency: {task.frequency}
+                </p>
+              )}
             </div>
           </div>
 
@@ -181,81 +207,105 @@ export const AITaskManagerPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <Badge className={statusColors[task.status]} variant="outline">
                 <StatusIcon className="w-3 h-3 mr-1" />
-                {task.status.replace('-', ' ')}
+                {task.status.replace("-", " ")}
               </Badge>
               <Badge className={typeColors[task.type]} variant="outline">
                 {task.type}
               </Badge>
+              {task.priority === "high" && (
+                <Badge variant="destructive" className="text-xs">
+                  High Priority
+                </Badge>
+              )}
             </div>
 
-            {task.status !== 'completed' && (
-              <div className="flex gap-2">
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => handleFixTask(task.id)}
-                  disabled={task.status === 'in-progress'}
+            <div className="flex gap-2">
+              {task.status !== "completed" ? (
+                <>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleFixTask(task.url, task.target)}
+                    disabled={task.status === "in-progress"}
+                  >
+                    <Zap className="w-4 h-4 mr-1" />
+                    {task.status === "in-progress" ? "In Progress" : "Fix"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => handleMarkCompleted(task.id)}
+                  >
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    Mark Completed
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="sm"
+                  onClick={() => handleRevertTask(task.id)}
+                  className="bg-red-200 text-red-600 hover:bg-red-600 hover:text-white"
                 >
-                  <Zap className="w-4 h-4 mr-1" />
-                  {task.status === 'in-progress' ? 'In Progress' : 'Fix'}
+                  <RefreshCw className="w-4 h-4 mr-1" />
+                  Revert
                 </Button>
-                <Button 
-                  size="sm" 
-                  onClick={() => handleMarkCompleted(task.id)}
-                >
-                  <CheckCircle className="w-4 h-4 mr-1" />
-                  Mark Completed
-                </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
     );
   };
 
-  const pendingCount = tasks.filter(t => t.status === 'pending').length;
-  const inProgressCount = tasks.filter(t => t.status === 'in-progress').length;
-  const completedCount = tasks.filter(t => t.status === 'completed').length;
-  const oneTimeCount = tasks.filter(t => t.type === 'one-time').length;
-  const recurringCount = tasks.filter(t => t.type === 'recurring').length;
-  const highPriorityCount = tasks.filter(t => t.priority === 'high' && t.status !== 'completed').length;
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Loading AI Tasks
+            </h3>
+            <p className="text-gray-500">Fetching your latest tasks...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // No listing ID
+  if (!selectedListing) {
+    return (
+      <div className="space-y-6">
+        <Alert className="border-yellow-200 bg-yellow-50">
+          <AlertCircle className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="text-yellow-800">
+            No listing selected. Please select a listing to view AI tasks.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  const pendingCount = localTasks.filter((t) => t.status === "pending").length;
+  const inProgressCount = localTasks.filter(
+    (t) => t.status === "in-progress"
+  ).length;
+  const completedCount = localTasks.filter(
+    (t) => t.status === "completed"
+  ).length;
+  const oneTimeCount = localTasks.filter((t) => t.type === "one-time").length;
+  const recurringCount = localTasks.filter(
+    (t) => t.type === "recurring"
+  ).length;
+  const highPriorityCount = localTasks.filter(
+    (t) => t.priority === "high" && t.status !== "completed"
+  ).length;
 
   return (
     <div className="space-y-6">
-
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
-            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              One-time Tasks
-            </CardTitle>
-            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-purple-500 to-purple-600">
-              <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
-              {oneTimeCount}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
-            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
-              Recurring Tasks
-            </CardTitle>
-            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-blue-500 to-blue-600">
-              <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
-            </div>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
-              {recurringCount}
-            </div>
-          </CardContent>
-        </Card>
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
@@ -267,7 +317,7 @@ export const AITaskManagerPage: React.FC = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
-              {pendingCount}
+              {stats.due}
             </div>
           </CardContent>
         </Card>
@@ -282,26 +332,59 @@ export const AITaskManagerPage: React.FC = () => {
           </CardHeader>
           <CardContent className="pt-0">
             <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
-              {completedCount}
+              {stats.completed}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              One-time Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-purple-500 to-purple-600">
+              <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {stats["one-time"]}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">
+              Recurring Tasks
+            </CardTitle>
+            <div className="p-1.5 sm:p-2.5 rounded-xl shadow-sm bg-gradient-to-br from-blue-500 to-blue-600">
+              <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2 tracking-tight">
+              {stats.recurring}
             </div>
           </CardContent>
         </Card>
       </div>
 
-
       {/* Filter Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all">All Tasks</TabsTrigger>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="recurring">Recurring</TabsTrigger>
+          <TabsTrigger value="pending">Pending ({pendingCount})</TabsTrigger>
+          <TabsTrigger value="completed">
+            Completed ({completedCount})
+          </TabsTrigger>
+          <TabsTrigger value="all">All Tasks ({localTasks.length})</TabsTrigger>
+          <TabsTrigger value="recurring">
+            Recurring ({recurringCount})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value={activeTab} className="space-y-4">
           {filteredTasks.length > 0 ? (
             <div className="space-y-4">
-              {filteredTasks.map(task => (
+              {filteredTasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
             </div>
@@ -309,9 +392,11 @@ export const AITaskManagerPage: React.FC = () => {
             <Card className="text-center py-12">
               <CardContent>
                 <CheckCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks found</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No tasks found
+                </h3>
                 <p className="text-gray-500">
-                  {activeTab === 'completed' 
+                  {activeTab === "completed"
                     ? "Great job! Complete some tasks to see them here."
                     : "No tasks match the current filter."}
                 </p>

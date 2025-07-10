@@ -1,6 +1,13 @@
 import axiosInstance from "./axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-
+export interface QuickWin {
+  task_key: number;
+  task_name: string;
+  task_description: string;
+  due_date: string;
+  frequency: string;
+  sort_order: number;
+}
 export interface OverviewData {
   totalPosts: number;
   totalReview: number;
@@ -9,6 +16,7 @@ export interface OverviewData {
   totalAnswer: number;
   healthScore: number;
   placeId: string;
+  quickWins: QuickWin[];
 }
 
 export const overviewApi = {
@@ -28,7 +36,8 @@ const transformApiResponse = (apiData: any): OverviewData => {
     totalQuestion: Number(apiData.totalQuestion) || 0,
     totalAnswer: Number(apiData.totalAnswer) || 0,
     healthScore: Number(apiData.healthScore) || 0,
-    placeId: String(apiData.placeId) || '',
+    placeId: String(apiData.placeId) || "",
+    quickWins: Array.isArray(apiData.quickWins) ? apiData.quickWins : [],
   };
 };
 

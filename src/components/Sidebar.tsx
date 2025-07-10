@@ -36,12 +36,6 @@ const menuItems = [
     path: "/location-dashboard",
   },
   {
-    id: "ai-tasks",
-    label: "AI Tasks",
-    icon: Sparkles,
-    path: "/ai-tasks",
-  },
-  {
     id: "posts",
     label: "Posts",
     icon: FileText,
