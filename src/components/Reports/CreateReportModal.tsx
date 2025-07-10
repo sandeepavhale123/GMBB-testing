@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
 import { Calendar } from '../ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -23,6 +24,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();
   
+  const [reportName, setReportName] = useState('');
   const [reportType, setReportType] = useState<'Individual' | 'Compare'>('Individual');
   const [showSections, setShowSections] = useState(false);
   const [selectedSections, setSelectedSections] = useState<ReportSectionId[]>(['insights']);
@@ -64,6 +66,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
 
     try {
       await createReport({
+        name: reportName,
         type: reportType,
         dateRange,
         sections: selectedSections,
@@ -71,6 +74,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
       });
       onOpenChange(false);
       // Reset form
+      setReportName('');
       setReportType('Individual');
       setShowSections(false);
       setSelectedSections(['insights']);
@@ -90,6 +94,18 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
         </DialogHeader>
 
         <div className="space-y-6">
+          {/* Report Name Field */}
+          <div className="space-y-2">
+            <Label htmlFor="reportName" className="text-sm font-medium">Report Name</Label>
+            <Input
+              id="reportName"
+              type="text"
+              placeholder="Enter report name"
+              value={reportName}
+              onChange={(e) => setReportName(e.target.value)}
+            />
+          </div>
+
           {/* Report Type Toggle */}
           <div className="flex items-center space-x-2">
             <Switch
@@ -262,7 +278,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
             </Button>
             <Button 
               onClick={handleGenerate}
-              disabled={isPending || !selectedListing?.id}
+              disabled={isPending || !selectedListing?.id || !reportName.trim()}
             >
               {isPending ? 'Generating...' : 'Generate'}
             </Button>

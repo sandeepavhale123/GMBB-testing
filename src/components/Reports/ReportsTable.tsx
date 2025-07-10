@@ -56,6 +56,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Report Name</TableHead>
               <TableHead>Reports</TableHead>
               <TableHead>Report Type</TableHead>
               <TableHead>Report Date</TableHead>
@@ -66,19 +67,19 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
             {reports.map((report) => (
               <TableRow key={report.id}>
                 <TableCell>
-                  <div className="space-y-2">
-                    <div className="font-medium">{report.name}</div>
-                    <div className="flex flex-wrap gap-1">
-                      {report.reportSections.map((section) => (
-                        <Badge 
-                          key={section.id}
-                          variant={getReportTypeBadgeVariant(section.id)}
-                          className="text-xs"
-                        >
-                          {section.name.replace(' Section', '')}
-                        </Badge>
-                      ))}
-                    </div>
+                  <div className="font-medium">{report.name}</div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-1">
+                    {report.reportSections.map((section) => (
+                      <Badge 
+                        key={section.id}
+                        variant={getReportTypeBadgeVariant(section.id)}
+                        className="text-xs"
+                      >
+                        {section.name.replace(' Section', '')}
+                      </Badge>
+                    ))}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -88,9 +89,8 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
                   {formatDateRange(report.dateRange, report.type)}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" className="flex items-center justify-center w-10 h-10 p-0">
                     <Eye className="w-4 h-4" />
-                    Review Report
                   </Button>
                 </TableCell>
               </TableRow>

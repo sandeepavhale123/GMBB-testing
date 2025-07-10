@@ -25,6 +25,7 @@ export interface CompareDateRange {
 }
 
 export interface CreateReportRequest {
+  name: string;
   type: 'Individual' | 'Compare';
   dateRange: DateRange | CompareDateRange;
   sections: string[];
