@@ -162,18 +162,6 @@ export const PublicReviewsReport: React.FC = () => {
       companyLogo={reviewData.companyLogo}
     >
       <div className="space-y-6">
-        {/* Date Range Display */}
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground">
-              {reportType === 'individual' 
-                ? `Date Range: ${reviewData.dateRange.individual}`
-                : `Period 1: ${reviewData.dateRange.comparison.period1} | Period 2: ${reviewData.dateRange.comparison.period2}`
-              }
-            </p>
-          </CardContent>
-        </Card>
-
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
