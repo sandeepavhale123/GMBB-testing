@@ -163,6 +163,67 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
             </div>
           </main>
 
+          {/* CTA Section */}
+          <section className="bg-slate-50 border-t border-gray-200 px-6 py-12">
+            <div className="container mx-auto">
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl font-bold text-slate-800 mb-4">
+                  Want detailed reports like this for your business?
+                </h2>
+                <p className="text-lg text-slate-600 mb-8">
+                  Get comprehensive insights and analytics to grow your online presence
+                </p>
+                
+                {/* Company Branding */}
+                <div className="bg-white rounded-lg shadow-sm border p-8 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex items-center space-x-4">
+                      {companyLogo ? (
+                        <img src={companyLogo} alt="Company Logo" className="w-16 h-16 rounded-lg object-cover" />
+                      ) : (
+                        <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <span className="text-2xl font-bold text-primary">{companyName?.charAt(0) || 'C'}</span>
+                        </div>
+                      )}
+                      <div className="text-left">
+                        <h3 className="text-xl font-semibold text-slate-800">{companyName}</h3>
+                        <p className="text-slate-600">Digital Marketing Solutions</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3 text-left">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-slate-500 min-w-[60px]">Email:</span>
+                        <span className="text-slate-700">contact@{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-slate-500 min-w-[60px]">Phone:</span>
+                        <span className="text-slate-700">(555) 123-4567</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-slate-500 min-w-[60px]">Website:</span>
+                        <span className="text-slate-700">www.{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-slate-500 min-w-[60px]">Address:</span>
+                        <span className="text-slate-700">123 Business Ave, Suite 100, City, ST 12345</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button className="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                    Get Started Today
+                  </button>
+                  <button className="border border-gray-300 text-slate-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                    Schedule Demo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Footer */}
           <footer className="bg-white border-t border-gray-100 px-6 py-4 flex items-center justify-between text-sm text-gray-500">
             <div>
