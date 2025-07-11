@@ -39,7 +39,8 @@ export const PublicMediaReport: React.FC = () => {
         views: 2340,
         likes: 187,
         shares: 23,
-        engagement: 9.8
+        engagement: 9.8,
+        uploadDate: '2024-01-15'
       },
       {
         id: 2,
@@ -48,7 +49,8 @@ export const PublicMediaReport: React.FC = () => {
         views: 1890,
         likes: 234,
         shares: 45,
-        engagement: 14.7
+        engagement: 14.7,
+        uploadDate: '2024-01-12'
       },
       {
         id: 3,
@@ -57,7 +59,8 @@ export const PublicMediaReport: React.FC = () => {
         views: 1650,
         likes: 123,
         shares: 18,
-        engagement: 8.5
+        engagement: 8.5,
+        uploadDate: '2024-01-10'
       }
     ]
   };
@@ -241,7 +244,7 @@ export const PublicMediaReport: React.FC = () => {
                   <div className="flex-1">
                     <h4 className="font-medium">{media.title}</h4>
                     <div className="text-sm text-muted-foreground mt-1">
-                      {media.type === 'photo' ? 'Photo' : 'Video'}
+                      {media.type === 'photo' ? 'Photo' : 'Video'} • Uploaded {new Date(media.uploadDate).toLocaleDateString()}
                     </div>
                   </div>
                   <Button variant="outline" size="sm">
