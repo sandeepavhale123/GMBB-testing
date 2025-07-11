@@ -218,67 +218,30 @@ export const PublicGeoRankingReport: React.FC = () => {
               <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
             </div>
 
-            {/* Grid and Map Display */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* 3x3 Grid Coordinate Display */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4 text-center">Grid Ranking View</h3>
-                <div className="max-w-md mx-auto">
-                  <div className="grid grid-cols-3 gap-2 bg-muted/20 p-4 rounded-lg">
-                    {geoData.gridData.flat().map((position, index) => (
-                      <div key={index} className={`w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-sm ${getRankingColor(position)}`}>
-                        #{position}
-                      </div>
-                    ))}
+            {/* Map Display */}
+            <div>
+              <div className="relative">
+                <div
+                  ref={mapRef}
+                  className="w-full h-[400px] rounded-lg border z-0"
+                />
+                {/* Legend */}
+                <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
+                  <div className="text-xs font-medium text-gray-700 mb-2">
+                    Ranking Legend
                   </div>
-                  <div className="mt-4 text-center">
-                    <p className="text-sm text-muted-foreground">
-                      Geographic ranking positions for "{selectedKeyword}"
-                    </p>
-                    <div className="flex justify-center gap-4 mt-2 text-xs">
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-green-500 rounded"></div>
-                        <span>Top 3</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                        <span>4-6</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-red-500 rounded"></div>
-                        <span>7+</span>
-                      </div>
+                  <div className="flex flex-col gap-1 text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <span>1-3 (Top)</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Map Display */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4 text-center">Map Ranking View</h3>
-                <div className="relative">
-                  <div
-                    ref={mapRef}
-                    className="w-full h-[400px] rounded-lg border z-0"
-                  />
-                  {/* Legend */}
-                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
-                    <div className="text-xs font-medium text-gray-700 mb-2">
-                      Ranking Legend
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <span>4-6 (Good)</span>
                     </div>
-                    <div className="flex flex-col gap-1 text-xs">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span>1-3 (Top)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span>4-6 (Good)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span>7+ (Poor)</span>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <span>7+ (Poor)</span>
                     </div>
                   </div>
                 </div>
