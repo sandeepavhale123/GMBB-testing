@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CircularProgress } from '@/components/ui/circular-progress';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie } from 'recharts';
 import { Heart, CheckCircle, AlertCircle, XCircle, TrendingUp, Users, MapPin, Star, MessageSquare, Camera, FileText, Phone, Clock, Info, Building, HelpCircle } from 'lucide-react';
 export const PublicGMBHealthReport: React.FC = () => {
   const {
@@ -168,42 +168,34 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right side - Donut Chart */}
+              {/* Right side - Pie Chart */}
               <div className="flex justify-center">
-                <div className="relative w-48 h-48">
-                  {/* Donut Chart SVG */}
-                  <svg viewBox="0 0 42 42" className="w-full h-full">
-                    {/* Background circle */}
-                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#f3f4f6" strokeWidth="3" />
-                    {/* Passed tests arc (70%) - Green */}
-                    <circle 
-                      cx="21" 
-                      cy="21" 
-                      r="15.915" 
-                      fill="transparent" 
-                      stroke="#22c55e" 
-                      strokeWidth="3" 
-                      strokeDasharray="70 30" 
-                      strokeDashoffset="25" 
-                      transform="rotate(-90 21 21)" 
-                    />
-                    {/* Failed tests arc (30%) - Red */}
-                    <circle 
-                      cx="21" 
-                      cy="21" 
-                      r="15.915" 
-                      fill="transparent" 
-                      stroke="#ef4444" 
-                      strokeWidth="3" 
-                      strokeDasharray="30 70" 
-                      strokeDashoffset="-45" 
-                      transform="rotate(-90 21 21)" 
-                    />
-                    
-                    {/* Center labels */}
-                    {/* <text x="15" y="18" textAnchor="middle" className="text-xs font-medium fill-red-600">30.0%</text>
-                    <text x="27" y="26" textAnchor="middle" className="text-xs font-medium fill-green-600">70.0%</text> */}
-                  </svg>
+                <div className="w-48 h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: 'Passed Tests', value: 70, fill: '#22c55e' },
+                          { name: 'Failed Tests', value: 30, fill: '#ef4444' }
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        dataKey="value"
+                        startAngle={90}
+                        endAngle={450}
+                      />
+                      <Tooltip 
+                        formatter={(value) => [`${value}%`, '']}
+                        contentStyle={{
+                          backgroundColor: 'white',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
             </div>
