@@ -316,7 +316,7 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
                 <TrendingUp className="h-5 w-5 text-purple-600" />
               </div>
-              <div className="text-2xl font-bold">+{getCurrentOverview().newReviews}</div>
+              <div className="text-2xl font-bold">{getCurrentOverview().newReviews}</div>
               {reportType === 'comparison' && getPreviousOverview() && <div className="mt-1">
                   {renderChangeIndicator(getCurrentOverview().newReviews, getPreviousOverview()!.newReviews)}
                 </div>}
