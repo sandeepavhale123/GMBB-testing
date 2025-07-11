@@ -390,15 +390,19 @@ export const PublicGeoRankingReport: React.FC = () => {
                     <div className="flex flex-col gap-1 text-xs">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span>1-3 (Top)</span>
+                        <span>1-3</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span>4-6 (Good)</span>
+                        <span>4-10</span>
                       </div>
                       <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                        <span>11- 15</span>
+                      </div>
+                        <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span>7+ (Poor)</span>
+                        <span> 16-20+</span>
                       </div>
                     </div>
                   </div>
