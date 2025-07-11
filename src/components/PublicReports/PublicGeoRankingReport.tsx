@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, TrendingUp, Target, Users, Clock } from 'lucide-react';
-import { CircularProgress } from '@/components/ui/circular-progress';
-
+import { MapPin, TrendingUp, Target, Users } from 'lucide-react';
 export const PublicGeoRankingReport: React.FC = () => {
-  const { token } = useParams();
-  const [selectedKeyword, setSelectedKeyword] = useState('Webdesign');
-  const [frequency, setFrequency] = useState('Weekly');
+  const {
+    token
+  } = useParams();
 
   // Sample data
   const geoData = {
@@ -18,125 +15,164 @@ export const PublicGeoRankingReport: React.FC = () => {
     companyLogo: null,
     overview: {
       totalKeywords: 45,
-      overallVisibility: 6.20,
-      selectedKeyword: 'Webdesign',
-      frequency: 'Weekly'
+      averageRank: 3.2,
+      topRankings: 12,
+      improvingKeywords: 8
     },
-    keywords: ['Webdesign', 'Digital Marketing', 'SEO Services', 'Local Business', 'Web Development'],
-    gridData: [
-      [1, 2, 3],
-      [4, 5, 6], 
-      [7, 8, 9]
-    ]
+    topKeywords: [{
+      keyword: 'restaurant near me',
+      position: 1,
+      change: 0,
+      volume: '12K'
+    }, {
+      keyword: 'best pizza delivery',
+      position: 2,
+      change: 1,
+      volume: '8.5K'
+    }, {
+      keyword: 'italian restaurant',
+      position: 3,
+      change: -1,
+      volume: '6.2K'
+    }, {
+      keyword: 'family dining',
+      position: 4,
+      change: 2,
+      volume: '4.8K'
+    }, {
+      keyword: 'takeout food',
+      position: 5,
+      change: 0,
+      volume: '3.9K'
+    }],
+    locations: [{
+      city: 'Downtown',
+      avgRank: 2.1,
+      keywords: 15
+    }, {
+      city: 'Midtown',
+      avgRank: 3.8,
+      keywords: 12
+    }, {
+      city: 'Suburbs',
+      avgRank: 4.2,
+      keywords: 18
+    }]
   };
-
-  const getRankingColor = (position: number) => {
-    if (position <= 3) return 'bg-green-500';
-    if (position <= 6) return 'bg-yellow-500';
-    return 'bg-red-500';
+  const getRankBadge = (position: number) => {
+    if (position <= 3) return 'default';
+    if (position <= 10) return 'secondary';
+    return 'outline';
   };
-
-  return (
-    <PublicReportDashboardLayout
-      title="GEO Ranking Report"
-      companyName={geoData.companyName}
-      companyLogo={geoData.companyLogo}
-    >
+  const getChangeIndicator = (change: number) => {
+    if (change > 0) return <span className="text-green-600">↗ +{change}</span>;
+    if (change < 0) return <span className="text-red-600">↘ {change}</span>;
+    return <span className="text-gray-500">-</span>;
+  };
+  return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo}>
       <div className="space-y-6">
-        {/* First Row - Control Panel */}
+        {/* Overview Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
+                <Target className="h-5 w-5 text-blue-600" />
+              </div>
+              <div className="text-2xl font-bold">{geoData.overview.totalKeywords}</div>
+              <div className="text-sm text-muted-foreground">Total Keywords</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
+                <TrendingUp className="h-5 w-5 text-green-600" />
+              </div>
+              <div className="text-2xl font-bold">{geoData.overview.averageRank}</div>
+              <div className="text-sm text-muted-foreground">Average Rank</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
+                <MapPin className="h-5 w-5 text-yellow-600" />
+              </div>
+              <div className="text-2xl font-bold">{geoData.overview.topRankings}</div>
+              <div className="text-sm text-muted-foreground">Top 3 Rankings</div>
+            </CardContent>
+          </Card>
+          
+          
+        </div>
+
+        {/* Top Keywords Performance */}
         <Card>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {/* Column 1: Keyword Selection */}
-              <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">Select Keyword</label>
-                <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {geoData.keywords.map((keyword) => (
-                      <SelectItem key={keyword} value={keyword}>{keyword}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Column 2: Overall Visibility */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-                <div className="flex items-center justify-between h-full">
+          <CardHeader>
+            <CardTitle>Top Keywords Performance</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {geoData.topKeywords.map((keyword, index) => <div key={index} className="flex items-center justify-between p-4 rounded-lg border">
                   <div className="flex-1">
-                    <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
-                    <div className="text-2xl font-bold text-blue-900">{geoData.overview.overallVisibility}%</div>
+                    <div className="font-medium">{keyword.keyword}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Search Volume: {keyword.volume}
+                    </div>
                   </div>
-                  <div className="w-12 h-12 flex-shrink-0">
-                    <CircularProgress value={geoData.overview.overallVisibility} size={48} className="text-blue-500" />
+                  <div className="flex items-center gap-4">
+                    <div className="text-center">
+                      <Badge variant={getRankBadge(keyword.position)} className="mb-1">
+                        #{keyword.position}
+                      </Badge>
+                      <div className="text-xs text-muted-foreground">Position</div>
+                    </div>
+                    <div className="text-center min-w-[60px]">
+                      {getChangeIndicator(keyword.change)}
+                      <div className="text-xs text-muted-foreground">Change</div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Column 3: Total Keywords */}
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
-                <div className="text-2xl font-bold text-orange-900">{geoData.overview.totalKeywords}</div>
-              </div>
-
-              {/* Column 4: Keyword Frequency */}
-              <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">Frequency</label>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
-                  <div className="text-xs text-purple-600 font-medium mb-1">Report Frequency</div>
-                  <div className="text-lg font-bold text-purple-900">{frequency}</div>
-                </div>
-              </div>
+                </div>)}
             </div>
           </CardContent>
         </Card>
 
-        {/* Second Row - GEO Ranking Report */}
+        {/* Location Performance */}
         <Card>
-          <CardContent className="p-6">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
-              <p className="text-muted-foreground mb-1">February 01 2025 - February 28 2025</p>
-              <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
+          <CardHeader>
+            <CardTitle>Location Performance</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {geoData.locations.map((location, index) => <div key={index} className="p-4 rounded-lg border text-center">
+                  <h3 className="font-semibold text-lg mb-2">{location.city}</h3>
+                  <div className="text-2xl font-bold text-primary mb-1">
+                    {location.avgRank}
+                  </div>
+                  <div className="text-sm text-muted-foreground mb-2">Average Rank</div>
+                  <Badge variant="outline">
+                    {location.keywords} keywords
+                  </Badge>
+                </div>)}
             </div>
+          </CardContent>
+        </Card>
 
-            {/* 3x3 Grid Coordinate Display */}
-            <div className="max-w-md mx-auto">
-              <div className="grid grid-cols-3 gap-2 bg-muted/20 p-4 rounded-lg">
-                {geoData.gridData.flat().map((position, index) => (
-                  <div
-                    key={index}
-                    className={`w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-sm ${getRankingColor(position)}`}
-                  >
-                    #{position}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-sm text-muted-foreground">
-                  Geographic ranking positions for "{selectedKeyword}"
-                </p>
-                <div className="flex justify-center gap-4 mt-2 text-xs">
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-green-500 rounded"></div>
-                    <span>Top 3</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                    <span>4-6</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-red-500 rounded"></div>
-                    <span>7+</span>
-                  </div>
-                </div>
+        {/* Map Placeholder */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Geographic Distribution</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64 bg-muted/30 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                <p className="text-muted-foreground">Interactive map would be displayed here</p>
+                <p className="text-sm text-muted-foreground">Showing ranking performance by location</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-    </PublicReportDashboardLayout>
-  );
+    </PublicReportDashboardLayout>;
 };
