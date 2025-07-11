@@ -4,6 +4,7 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { MapPin, TrendingUp, Target, Users, Clock } from 'lucide-react';
 import { CircularProgress } from '@/components/ui/circular-progress';
 import L from 'leaflet';
@@ -19,6 +20,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   const { token } = useParams();
   const [selectedKeyword, setSelectedKeyword] = useState('Webdesign');
   const [frequency, setFrequency] = useState('Weekly');
+  const [reportType, setReportType] = useState<'individual' | 'compare'>('individual');
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
@@ -216,6 +218,28 @@ export const PublicGeoRankingReport: React.FC = () => {
               <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
               <p className="text-muted-foreground mb-1">February 01 2025 - February 28 2025</p>
               <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
+            </div>
+
+            {/* Report Type Toggle */}
+            <div className="mb-6 flex justify-center">
+              <div className="inline-flex rounded-lg border bg-muted p-1">
+                <Button
+                  variant={reportType === 'individual' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setReportType('individual')}
+                  className="rounded-md px-6"
+                >
+                  Individual
+                </Button>
+                <Button
+                  variant={reportType === 'compare' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setReportType('compare')}
+                  className="rounded-md px-6"
+                >
+                  Compare
+                </Button>
+              </div>
             </div>
 
             {/* Map Display */}
