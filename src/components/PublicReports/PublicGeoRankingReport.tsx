@@ -449,7 +449,7 @@ export const PublicGeoRankingReport: React.FC = () => {
             <Card>
               <CardContent className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold mb-1">{comparisonData.companyName}</h3>
+                  <h3 className="text-lg font-semibold mb-1">{comparisonData.companyName} - Period 2 (Feb 16 - Feb 28, 2025)</h3>
                   <p className="text-sm text-muted-foreground">Visibility: {comparisonData.overview.overallVisibility}%</p>
                 </div>
                 <div className="relative">
