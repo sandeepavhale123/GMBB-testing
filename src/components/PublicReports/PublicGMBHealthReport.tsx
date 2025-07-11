@@ -648,48 +648,96 @@ export const PublicGMBHealthReport: React.FC = () => {
             </div>
 
             {/* Citation Analysis Chart */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
-              <h3 className="text-lg font-semibold text-center mb-6">Citation Analysis</h3>
+            <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Citation Analysis</h3>
+                <p className="text-gray-600">Compare local citation counts across competitors</p>
+              </div>
               
-              {/* Recharts Bar Chart */}
-              <div className="h-80 w-full">
+              {/* Enhanced Bar Chart */}
+              <div className="h-96 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={[{
                   name: "Webmarts Software Solution",
-                  shortName: "Webmarts Software Solution",
+                  shortName: "YOU",
+                  index: "YOU",
+                  displayName: "Webmarts Software Solution",
                   citationCount: 14,
                   isYou: true
                 }, {
                   name: "Redbytes Software",
-                  shortName: "Redbytes Software",
+                  shortName: "2",
+                  index: "2",
+                  displayName: "Redbytes Software",
                   citationCount: 18,
                   isYou: false
                 }, {
                   name: "Websar IT Solutions",
-                  shortName: "Websar IT Solutions",
+                  shortName: "3",
+                  index: "3",
+                  displayName: "Websar IT Solutions",
                   citationCount: 13,
                   isYou: false
                 }, {
                   name: "Web Square IT Solutions",
-                  shortName: "Web Square IT Solutions",
+                  shortName: "4",
+                  index: "4",
+                  displayName: "Web Square IT Solutions",
                   citationCount: 26,
                   isYou: false
                 }, {
                   name: "WebNTT Technologies",
-                  shortName: "WebNTT Technologies",
+                  shortName: "5",
+                  index: "5",
+                  displayName: "WebNTT Technologies",
                   citationCount: 20,
                   isYou: false
                 }]} margin={{
                   top: 20,
                   right: 30,
                   left: 20,
-                  bottom: 80
+                  bottom: 60
                 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="shortName" angle={-45} textAnchor="end" height={80} interval={0} fontSize={12} />
-                    <YAxis domain={[0, 30]} />
-                    <Tooltip formatter={(value, name) => [`${value}`, 'Citation Count']} labelFormatter={label => `Business: ${label}`} />
-                    <Bar dataKey="citationCount" fill="#3b82f6" name="citationCount" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis 
+                      dataKey="index" 
+                      height={60} 
+                      interval={0} 
+                      fontSize={14}
+                      tick={{ fill: '#374151', fontWeight: 600 }}
+                    />
+                    <YAxis domain={[0, 30]} tick={{ fill: '#374151', fontSize: 12 }} />
+                    <Tooltip 
+                      formatter={(value, name) => [`${value} citations`, 'Citation Count']} 
+                      labelFormatter={label => {
+                        const business = [
+                          { index: "YOU", displayName: "Webmarts Software Solution" },
+                          { index: "2", displayName: "Redbytes Software" },
+                          { index: "3", displayName: "Websar IT Solutions" },
+                          { index: "4", displayName: "Web Square IT Solutions" },
+                          { index: "5", displayName: "WebNTT Technologies" }
+                        ].find(b => b.index === label);
+                        return business ? business.displayName : label;
+                      }}
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Bar 
+                      dataKey="citationCount" 
+                      fill="url(#citationGradient)" 
+                      name="citationCount" 
+                      radius={[2, 2, 0, 0]}
+                    />
+                    <defs>
+                      <linearGradient id="citationGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3b82f6" />
+                        <stop offset="100%" stopColor="#1d4ed8" />
+                      </linearGradient>
+                    </defs>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
