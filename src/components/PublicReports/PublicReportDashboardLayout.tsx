@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { BarChart3, Star, MapPin, Heart, Image, LogOut, Search, Bell, User, Sun, Moon, Target } from 'lucide-react';
+import { BarChart3, Star, MapPin, Heart, Image, LogOut, Search, Bell, User, Sun, Moon, Target, FileText } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 interface PublicReportDashboardLayoutProps {
@@ -37,6 +37,11 @@ const sidebarItems = [{
   label: 'Media Performance',
   icon: Image,
   path: '/public-reports/media/demo-token'
+}, {
+  id: 'post-performance',
+  label: 'Post Performance',
+  icon: FileText,
+  path: '/public-reports/post-performance/demo-token'
 }];
 export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutProps> = ({
   children,
