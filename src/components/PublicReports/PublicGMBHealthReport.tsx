@@ -449,50 +449,59 @@ export const PublicGMBHealthReport: React.FC = () => {
             </div>
 
             {/* Competitor Analysis Chart */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
-              <h3 className="text-lg font-semibold text-center mb-6">Competitor Analysis</h3>
+            <div className="bg-white border border-gray-200 rounded-lg p-8 mb-6 shadow-sm">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Competitor Analysis</h3>
+                <p className="text-gray-600">See how you compare against your local competitors</p>
+              </div>
               
-              <div className="flex justify-center items-center gap-6 mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                  <span className="text-sm">Avg. Rating</span>
+              {/* Enhanced Legend */}
+              <div className="flex justify-center items-center gap-8 mb-8 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
+                  <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"></div>
+                  <span className="text-sm font-medium text-gray-700">Average Rating</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-orange-500 rounded"></div>
-                  <span className="text-sm">Review Count</span>
+                <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
+                  <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-sm"></div>
+                  <span className="text-sm font-medium text-gray-700">Review Count</span>
                 </div>
               </div>
 
-              {/* Recharts Bar Chart */}
-              <div className="h-80 w-full">
+              {/* Enhanced Bar Chart */}
+              <div className="h-96 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={[{
                   name: "Webmarts Software Solution",
-                  shortName: "Webmarts Software Solution",
+                  shortName: "Webmarts Software",
+                  displayName: "Webmarts Software Solution",
                   avgRating: 4.1,
                   reviewCount: 10,
                   isYou: true
                 }, {
                   name: "Redbytes Software",
                   shortName: "Redbytes Software",
+                  displayName: "Redbytes Software",
                   avgRating: 4.7,
                   reviewCount: 23,
                   isYou: false
                 }, {
                   name: "Websar IT Solutions",
-                  shortName: "Websar IT Solutions",
+                  shortName: "Websar IT",
+                  displayName: "Websar IT Solutions",
                   avgRating: 5,
                   reviewCount: 61,
                   isYou: false
                 }, {
                   name: "Web Square IT Solutions",
-                  shortName: "Web Square IT Solutions",
+                  shortName: "Web Square IT",
+                  displayName: "Web Square IT Solutions",
                   avgRating: 4.3,
                   reviewCount: 10,
                   isYou: false
                 }, {
                   name: "WebNTT Technologies",
-                  shortName: "WebNTT Technologies",
+                  shortName: "WebNTT Tech",
+                  displayName: "WebNTT Technologies",
                   avgRating: 5,
                   reviewCount: 7,
                   isYou: false
@@ -500,15 +509,66 @@ export const PublicGMBHealthReport: React.FC = () => {
                   top: 20,
                   right: 30,
                   left: 20,
-                  bottom: 80
+                  bottom: 100
                 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="shortName" angle={-45} textAnchor="end" height={80} interval={0} fontSize={12} />
-                    <YAxis yAxisId="left" orientation="left" domain={[0, 5]} />
-                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
-                    <Tooltip formatter={(value, name) => [name === 'avgRating' ? `${value}` : `${value}`, name === 'avgRating' ? 'Avg. Rating' : 'Review Count']} labelFormatter={label => `Business: ${label}`} />
-                    <Bar yAxisId="left" dataKey="avgRating" fill="#3b82f6" name="avgRating" />
-                    <Bar yAxisId="right" dataKey="reviewCount" fill="#f97316" name="reviewCount" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis 
+                      dataKey="shortName" 
+                      angle={-45} 
+                      textAnchor="end" 
+                      height={100} 
+                      interval={0} 
+                      fontSize={11}
+                      tick={{ fill: '#374151', fontWeight: 500 }}
+                    />
+                    <YAxis yAxisId="left" orientation="left" domain={[0, 5]} tick={{ fill: '#374151', fontSize: 12 }} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={{ fill: '#374151', fontSize: 12 }} />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        name === 'avgRating' ? `${value} ⭐` : `${value} reviews`, 
+                        name === 'avgRating' ? 'Rating' : 'Reviews'
+                      ]} 
+                      labelFormatter={label => {
+                        const business = [
+                          { shortName: "Webmarts Software", displayName: "Webmarts Software Solution" },
+                          { shortName: "Redbytes Software", displayName: "Redbytes Software" },
+                          { shortName: "Websar IT", displayName: "Websar IT Solutions" },
+                          { shortName: "Web Square IT", displayName: "Web Square IT Solutions" },
+                          { shortName: "WebNTT Tech", displayName: "WebNTT Technologies" }
+                        ].find(b => b.shortName === label);
+                        return business ? business.displayName : label;
+                      }}
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Bar 
+                      yAxisId="left" 
+                      dataKey="avgRating" 
+                      fill="url(#blueGradient)" 
+                      name="avgRating" 
+                      radius={[2, 2, 0, 0]}
+                    />
+                    <Bar 
+                      yAxisId="right" 
+                      dataKey="reviewCount" 
+                      fill="url(#orangeGradient)" 
+                      name="reviewCount" 
+                      radius={[2, 2, 0, 0]}
+                    />
+                    <defs>
+                      <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3b82f6" />
+                        <stop offset="100%" stopColor="#1d4ed8" />
+                      </linearGradient>
+                      <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#f97316" />
+                        <stop offset="100%" stopColor="#ea580c" />
+                      </linearGradient>
+                    </defs>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
