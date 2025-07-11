@@ -973,7 +973,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     <td className="px-4 py-3 font-medium text-gray-900">22</td>
                     <td className="px-4 py-3 text-gray-700">Leverage Offers and Coupons</td>
                     <td className="px-4 py-3 text-right">
-                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 whitespace-nowrap">Optional</Badge>
                     </td>
                   </tr>
                 </tbody>
