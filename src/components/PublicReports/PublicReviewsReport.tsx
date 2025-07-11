@@ -117,9 +117,11 @@ export const PublicReviewsReport: React.FC = () => {
       }
     },
     sentimentAnalysis: {
-      positive: 84, // 5-star + 4-star percentages
-      neutral: 10,  // 3-star percentage
-      negative: 6   // 2-star + 1-star percentages
+      positive: 84,
+      // 5-star + 4-star percentages
+      neutral: 10,
+      // 3-star percentage
+      negative: 6 // 2-star + 1-star percentages
     },
     reviewChartData: [{
       date: '2024-01-01',
@@ -411,12 +413,7 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">Sentiment Analysis</CardTitle>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold text-white">{getCurrentOverview().averageRating}</span>
-                    <div className="flex items-center gap-1">
-                      {renderStars(Math.round(getCurrentOverview().averageRating))}
-                    </div>
-                  </div>
+                  
                   <p className="text-blue-100 text-sm">({getCurrentOverview().totalReviews})</p>
                 </CardHeader>
                 
@@ -425,37 +422,39 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-48 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
-                        <Pie
-                          data={[
-                            { name: 'Positive', value: reviewData.sentimentAnalysis.positive, fill: '#22c55e' },
-                            { name: 'Neutral', value: reviewData.sentimentAnalysis.neutral, fill: '#f59e0b' },
-                            { name: 'Negative', value: reviewData.sentimentAnalysis.negative, fill: '#ef4444' }
-                          ]}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={40}
-                          outerRadius={80}
-                          dataKey="value"
-                          startAngle={90}
-                          endAngle={450}
-                        >
-                          {[
-                            { name: 'Positive', value: reviewData.sentimentAnalysis.positive, fill: '#22c55e' },
-                            { name: 'Neutral', value: reviewData.sentimentAnalysis.neutral, fill: '#f59e0b' },
-                            { name: 'Negative', value: reviewData.sentimentAnalysis.negative, fill: '#ef4444' }
-                          ].map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
+                        <Pie data={[{
+                      name: 'Positive',
+                      value: reviewData.sentimentAnalysis.positive,
+                      fill: '#22c55e'
+                    }, {
+                      name: 'Neutral',
+                      value: reviewData.sentimentAnalysis.neutral,
+                      fill: '#f59e0b'
+                    }, {
+                      name: 'Negative',
+                      value: reviewData.sentimentAnalysis.negative,
+                      fill: '#ef4444'
+                    }]} cx="50%" cy="50%" innerRadius={40} outerRadius={80} dataKey="value" startAngle={90} endAngle={450}>
+                          {[{
+                        name: 'Positive',
+                        value: reviewData.sentimentAnalysis.positive,
+                        fill: '#22c55e'
+                      }, {
+                        name: 'Neutral',
+                        value: reviewData.sentimentAnalysis.neutral,
+                        fill: '#f59e0b'
+                      }, {
+                        name: 'Negative',
+                        value: reviewData.sentimentAnalysis.negative,
+                        fill: '#ef4444'
+                      }].map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                         </Pie>
-                        <Tooltip 
-                          formatter={(value) => [`${value}%`, '']}
-                          contentStyle={{
-                            backgroundColor: 'white',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '8px',
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                          }}
-                        />
+                        <Tooltip formatter={value => [`${value}%`, '']} contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
