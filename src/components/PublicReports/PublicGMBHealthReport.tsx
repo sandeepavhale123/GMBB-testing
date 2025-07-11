@@ -924,7 +924,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     <td className="px-4 py-3 font-medium text-gray-900">15</td>
                     <td className="px-4 py-3 text-gray-700">Use Custom Short Links</td>
                     <td className="px-4 py-3 text-right">
-                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 whitespace-nowrap">Optional</Badge>
                     </td>
                   </tr>
                   <tr className="bg-gray-50 hover:bg-gray-100">
