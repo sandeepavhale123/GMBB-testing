@@ -201,8 +201,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                     />
                     
                     {/* Center labels */}
-                    <text x="15" y="18" textAnchor="middle" className="text-xs font-medium fill-red-600">30.0%</text>
-                    <text x="27" y="26" textAnchor="middle" className="text-xs font-medium fill-green-600">70.0%</text>
+                    {/* <text x="15" y="18" textAnchor="middle" className="text-xs font-medium fill-red-600">30.0%</text>
+                    <text x="27" y="26" textAnchor="middle" className="text-xs font-medium fill-green-600">70.0%</text> */}
                   </svg>
                 </div>
               </div>
