@@ -101,8 +101,8 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           }}>
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
-                {companyLogo ? <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" /> : <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">{companyName?.charAt(0) || 'B'}</span>
+                {companyLogo ? <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" /> : <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-900">{companyName?.charAt(0) || 'B'}</span>
                   </div>}
                 <div className="flex flex-col">
                   <h1 className="text-2xl font-bold">{companyName}</h1>
