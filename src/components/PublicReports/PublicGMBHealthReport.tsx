@@ -235,6 +235,94 @@ export const PublicGMBHealthReport: React.FC = () => {
           </Card>
         </div>
 
+        {/* Introduction Section */}
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Introduction</h2>
+            <p className="text-muted-foreground">
+              Hello, Thank you for assessing your Google My Business (GMB) profile. Below are the 
+              results of our 10-point evaluation.
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* GMB Report at a Glance */}
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-6">Your GMB Report at a Glance</h2>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Left side - Test Results */}
+              <div className="space-y-4">
+                {/* Failed Tests */}
+                <div className="bg-red-100 border border-red-200 rounded-lg p-4">
+                  <div className="text-red-800 font-semibold mb-1">Failed Tests</div>
+                  <div className="text-3xl font-bold text-red-700">30 %</div>
+                </div>
+                
+                {/* Passed Tests */}
+                <div className="bg-green-100 border border-green-200 rounded-lg p-4">
+                  <div className="text-green-800 font-semibold mb-1">Passed Tests</div>
+                  <div className="text-3xl font-bold text-green-700">70 %</div>
+                </div>
+              </div>
+
+              {/* Right side - Donut Chart */}
+              <div className="flex justify-center">
+                <div className="relative w-48 h-48">
+                  <svg viewBox="0 0 42 42" className="w-full h-full">
+                    {/* Background circle */}
+                    <circle
+                      cx="21"
+                      cy="21"
+                      r="15.915"
+                      fill="transparent"
+                      stroke="#f3f4f6"
+                      strokeWidth="3"
+                    />
+                    {/* Passed tests (green) - 70% */}
+                    <circle
+                      cx="21"
+                      cy="21"
+                      r="15.915"
+                      fill="transparent"
+                      stroke="#22c55e"
+                      strokeWidth="3"
+                      strokeDasharray="70 30"
+                      strokeDashoffset="25"
+                      transform="rotate(-90 21 21)"
+                    />
+                    {/* Failed tests (red) - 30% */}
+                    <circle
+                      cx="21"
+                      cy="21"
+                      r="15.915"
+                      fill="transparent"
+                      stroke="#ef4444"
+                      strokeWidth="3"
+                      strokeDasharray="30 70"
+                      strokeDashoffset="-45"
+                      transform="rotate(-90 21 21)"
+                    />
+                  </svg>
+                  
+                  {/* Legend */}
+                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span>30.0%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span>70.0%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
