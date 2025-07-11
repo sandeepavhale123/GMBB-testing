@@ -4,7 +4,8 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { FileText, Calendar, CheckCircle, XCircle, TrendingUp, ArrowUp, ArrowDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { FileText, Calendar, CheckCircle, XCircle, TrendingUp, ArrowUp, ArrowDown, Eye } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 export const PublicPostPerformanceReport: React.FC = () => {
@@ -257,6 +258,10 @@ export const PublicPostPerformanceReport: React.FC = () => {
                       </span>
                     )}
                   </div>
+                  <Button variant="outline" size="sm">
+                    <Eye className="h-4 w-4 mr-2" />
+                    View
+                  </Button>
                 </div>
               ))}
             </div>
