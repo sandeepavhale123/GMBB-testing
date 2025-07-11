@@ -147,10 +147,10 @@ export const PublicGMBHealthReport: React.FC = () => {
         <Card className="overflow-hidden bg-gradient-to-br from-gray-50 to-white">
           <CardContent className="p-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3 text-left">
                 Your GMB Report at a Glance
               </h2>
-              <p className="text-gray-600 text-lg">Quick overview of your Google My Business profile performance</p>
+              <p className="text-gray-600 text-lg text-left">Quick overview of your Google My Business profile performance</p>
             </div>
             
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-center">
@@ -216,8 +216,8 @@ export const PublicGMBHealthReport: React.FC = () => {
                     
                      {/* Center score */}
                      {/* <text x="21" y="17" textAnchor="middle" className="text-xs font-medium fill-gray-500 uppercase tracking-wide">Overall</text>
-                     <text x="21" y="22" textAnchor="middle" className="text-2xl font-bold fill-gray-800">70</text>
-                     <text x="21" y="27" textAnchor="middle" className="text-xs font-medium fill-gray-500">out of 100</text> */}
+                      <text x="21" y="22" textAnchor="middle" className="text-2xl font-bold fill-gray-800">70</text>
+                      <text x="21" y="27" textAnchor="middle" className="text-xs font-medium fill-gray-500">out of 100</text> */}
                   </svg>
                 </div>
                 
