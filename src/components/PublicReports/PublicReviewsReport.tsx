@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, TrendingUp, MessageSquare, Heart, ArrowUp, ArrowDown } from 'lucide-react';
+import { Star, TrendingUp, MessageSquare, Heart, ArrowUp, ArrowDown, Bot } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 export const PublicReviewsReport: React.FC = () => {
   const {
@@ -314,7 +314,7 @@ export const PublicReviewsReport: React.FC = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-purple-600" />
+                <Bot className="h-5 w-5 text-purple-600" />
               </div>
               <div className="text-2xl font-bold">{getCurrentOverview().newReviews}</div>
               {reportType === 'comparison' && getPreviousOverview() && <div className="mt-1">
