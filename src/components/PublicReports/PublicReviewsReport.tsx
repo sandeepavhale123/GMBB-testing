@@ -320,7 +320,7 @@ export const PublicReviewsReport: React.FC = () => {
               {reportType === 'comparison' && getPreviousOverview() && <div className="mt-1">
                   {renderChangeIndicator(getCurrentOverview().newReviews, getPreviousOverview()!.newReviews)}
                 </div>}
-              <div className="text-sm text-muted-foreground">This Month</div>
+              <div className="text-sm text-muted-foreground">AI Reply</div>
             </CardContent>
           </Card>
         </div>
