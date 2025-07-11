@@ -6,6 +6,15 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CircularProgress } from '@/components/ui/circular-progress';
 import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer 
+} from 'recharts';
+import { 
   Heart, 
   CheckCircle, 
   AlertCircle, 
@@ -540,79 +549,76 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </div>
               </div>
 
-              {/* Chart Area */}
-              <div className="relative h-80 border-l border-b border-gray-300">
-                {/* Y-axis labels for Rating */}
-                <div className="absolute -left-8 top-0 bottom-12 flex flex-col justify-between text-xs text-gray-600">
-                  <span>5.0</span>
-                  <span>4.0</span>
-                  <span>3.0</span>
-                  <span>2.0</span>
-                  <span>1.0</span>
-                  <span>0.0</span>
-                </div>
-                
-                {/* Secondary Y-axis labels for Review Count */}
-                <div className="absolute -right-8 top-0 bottom-12 flex flex-col justify-between text-xs text-gray-600">
-                  <span>100.0</span>
-                  <span>80.0</span>
-                  <span>60.0</span>
-                  <span>40.0</span>
-                  <span>20.0</span>
-                  <span>0.0</span>
-                </div>
-
-                {/* Bars container */}
-                <div className="absolute bottom-0 left-0 right-0 h-64 flex items-end justify-around px-4">
-                  {/* Webmarts Software Solution (YOU) */}
-                  <div className="flex flex-col items-center w-16">
-                    <div className="flex items-end gap-1 mb-2">
-                      <div className="bg-blue-500 w-6 h-20 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.1</div>
-                      <div className="bg-orange-500 w-6 h-5 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">10</div>
-                    </div>
-                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Webmarts Software Solution</span>
-                  </div>
-
-                  {/* Redbytes Software */}
-                  <div className="flex flex-col items-center w-16">
-                    <div className="flex items-end gap-1 mb-2">
-                      <div className="bg-blue-500 w-6 h-24 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.7</div>
-                      <div className="bg-orange-500 w-6 h-12 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">23</div>
-                    </div>
-                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Redbytes Software</span>
-                  </div>
-
-                  {/* Websar IT Solutions */}
-                  <div className="flex flex-col items-center w-16">
-                    <div className="flex items-end gap-1 mb-2">
-                      <div className="bg-blue-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">5</div>
-                      <div className="bg-orange-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">61</div>
-                    </div>
-                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Websar IT Solutions</span>
-                  </div>
-
-                  {/* Web Square IT Solutions */}
-                  <div className="flex flex-col items-center w-16">
-                    <div className="flex items-end gap-1 mb-2">
-                      <div className="bg-blue-500 w-6 h-22 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.3</div>
-                      <div className="bg-orange-500 w-6 h-5 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">10</div>
-                    </div>
-                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Web Square IT Solutions</span>
-                  </div>
-
-                  {/* WebNTT Technologies */}
-                  <div className="flex flex-col items-center w-16">
-                    <div className="flex items-end gap-1 mb-2">
-                      <div className="bg-blue-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">5</div>
-                      <div className="bg-orange-500 w-6 h-4 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">7</div>
-                    </div>
-                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">WebNTT Technologies</span>
-                  </div>
-                </div>
-
-                {/* Axis labels */}
-                <div className="absolute -left-12 top-1/2 transform -rotate-90 text-xs text-gray-600">Avg. Rating</div>
-                <div className="absolute -right-16 top-1/2 transform rotate-90 text-xs text-gray-600">Review Count</div>
+              {/* Recharts Bar Chart */}
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      {
+                        name: "Webmarts Software Solution",
+                        shortName: "Webmarts Software Solution",
+                        avgRating: 4.1,
+                        reviewCount: 10,
+                        isYou: true
+                      },
+                      {
+                        name: "Redbytes Software", 
+                        shortName: "Redbytes Software",
+                        avgRating: 4.7,
+                        reviewCount: 23,
+                        isYou: false
+                      },
+                      {
+                        name: "Websar IT Solutions",
+                        shortName: "Websar IT Solutions", 
+                        avgRating: 5,
+                        reviewCount: 61,
+                        isYou: false
+                      },
+                      {
+                        name: "Web Square IT Solutions",
+                        shortName: "Web Square IT Solutions",
+                        avgRating: 4.3,
+                        reviewCount: 10,
+                        isYou: false
+                      },
+                      {
+                        name: "WebNTT Technologies",
+                        shortName: "WebNTT Technologies",
+                        avgRating: 5,
+                        reviewCount: 7,
+                        isYou: false
+                      }
+                    ]}
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 20,
+                      bottom: 80,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="shortName" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                      interval={0}
+                      fontSize={12}
+                    />
+                    <YAxis yAxisId="left" orientation="left" domain={[0, 5]} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        name === 'avgRating' ? `${value}` : `${value}`,
+                        name === 'avgRating' ? 'Avg. Rating' : 'Review Count'
+                      ]}
+                      labelFormatter={(label) => `Business: ${label}`}
+                    />
+                    <Bar yAxisId="left" dataKey="avgRating" fill="#3b82f6" name="avgRating" />
+                    <Bar yAxisId="right" dataKey="reviewCount" fill="#f97316" name="reviewCount" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
