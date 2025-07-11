@@ -169,77 +169,140 @@ export const PublicGMBHealthReport: React.FC = () => {
         </Card>
 
         {/* GMB Report at a Glance */}
-        <Card>
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Your GMB Report at a Glance</h2>
+        <Card className="overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+          <CardContent className="p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
+                Your GMB Report at a Glance
+              </h2>
+              <p className="text-gray-600 text-lg">Quick overview of your Google My Business profile performance</p>
+            </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              {/* Left side - Test Results */}
-              <div className="space-y-4">
-                {/* Failed Tests */}
-                <div className="bg-red-100 border border-red-200 rounded-lg p-4">
-                  <div className="text-red-800 font-semibold mb-1">Failed Tests</div>
-                  <div className="text-3xl font-bold text-red-700">30 %</div>
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-center">
+              {/* Left side - Test Results Cards */}
+              <div className="xl:col-span-1 space-y-4">
+                {/* Failed Tests Card */}
+                <div className="group relative bg-white rounded-xl p-6 border border-red-100 shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400 to-red-600 rounded-t-xl"></div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-red-700 font-semibold text-sm uppercase tracking-wide mb-2">Failed Tests</div>
+                      <div className="text-4xl font-bold text-red-600 mb-1">30<span className="text-xl text-red-500">%</span></div>
+                      <div className="text-xs text-red-600/70">Areas for improvement</div>
+                    </div>
+                    <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition-colors duration-300">
+                      <XCircle className="w-6 h-6 text-red-500" />
+                    </div>
+                  </div>
                 </div>
                 
-                {/* Passed Tests */}
-                <div className="bg-green-100 border border-green-200 rounded-lg p-4">
-                  <div className="text-green-800 font-semibold mb-1">Passed Tests</div>
-                  <div className="text-3xl font-bold text-green-700">70 %</div>
+                {/* Passed Tests Card */}
+                <div className="group relative bg-white rounded-xl p-6 border border-green-100 shadow-sm hover:shadow-md transition-all duration-300 hover:border-green-200">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-xl"></div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-green-700 font-semibold text-sm uppercase tracking-wide mb-2">Passed Tests</div>
+                      <div className="text-4xl font-bold text-green-600 mb-1">70<span className="text-xl text-green-500">%</span></div>
+                      <div className="text-xs text-green-600/70">Successfully completed</div>
+                    </div>
+                    <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition-colors duration-300">
+                      <CheckCircle className="w-6 h-6 text-green-500" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Right side - Donut Chart */}
-              <div className="flex justify-center">
-                <div className="relative w-48 h-48">
-                  <svg viewBox="0 0 42 42" className="w-full h-full">
-                    {/* Background circle */}
+              {/* Center - Visual Divider */}
+              <div className="xl:col-span-1 flex justify-center">
+                <div className="hidden xl:block w-px h-32 bg-gradient-to-b from-transparent via-gray-200 to-transparent"></div>
+                <div className="xl:hidden w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+              </div>
+
+              {/* Right side - Enhanced Donut Chart */}
+              <div className="xl:col-span-1 flex flex-col items-center">
+                <div className="relative w-56 h-56 mb-6">
+                  {/* Outer glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-200/30 to-red-200/30 rounded-full blur-xl"></div>
+                  
+                  {/* Main chart */}
+                  <svg viewBox="0 0 42 42" className="w-full h-full relative z-10 drop-shadow-lg">
+                    {/* Background circle with subtle gradient */}
+                    <defs>
+                      <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#f9fafb" />
+                        <stop offset="100%" stopColor="#f3f4f6" />
+                      </linearGradient>
+                    </defs>
                     <circle
                       cx="21"
                       cy="21"
                       r="15.915"
                       fill="transparent"
-                      stroke="#f3f4f6"
-                      strokeWidth="3"
+                      stroke="url(#bgGradient)"
+                      strokeWidth="4"
                     />
-                    {/* Passed tests (green) - 70% */}
+                    {/* Passed tests arc - enhanced */}
                     <circle
                       cx="21"
                       cy="21"
                       r="15.915"
                       fill="transparent"
-                      stroke="#22c55e"
-                      strokeWidth="3"
+                      stroke="#10b981"
+                      strokeWidth="4"
                       strokeDasharray="70 30"
                       strokeDashoffset="25"
+                      strokeLinecap="round"
                       transform="rotate(-90 21 21)"
+                      className="drop-shadow-sm"
                     />
-                    {/* Failed tests (red) - 30% */}
+                    {/* Failed tests arc - enhanced */}
                     <circle
                       cx="21"
                       cy="21"
                       r="15.915"
                       fill="transparent"
                       stroke="#ef4444"
-                      strokeWidth="3"
+                      strokeWidth="4"
                       strokeDasharray="30 70"
                       strokeDashoffset="-45"
+                      strokeLinecap="round"
                       transform="rotate(-90 21 21)"
+                      className="drop-shadow-sm"
                     />
+                    
+                    {/* Center score */}
+                    <text x="21" y="18" textAnchor="middle" className="text-xs font-semibold fill-gray-600">Score</text>
+                    <text x="21" y="25" textAnchor="middle" className="text-lg font-bold fill-gray-800">70%</text>
                   </svg>
-                  
-                  {/* Legend */}
-                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <span>30.0%</span>
+                </div>
+                
+                {/* Enhanced Legend */}
+                <div className="flex gap-6">
+                  <div className="flex items-center gap-2 group cursor-default">
+                    <div className="w-4 h-4 bg-gradient-to-br from-green-400 to-green-600 rounded-full shadow-sm group-hover:scale-110 transition-transform duration-200"></div>
+                    <div className="text-sm">
+                      <span className="font-semibold text-green-700">70%</span>
+                      <span className="text-gray-600 ml-1">Passed</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span>70.0%</span>
+                  </div>
+                  <div className="flex items-center gap-2 group cursor-default">
+                    <div className="w-4 h-4 bg-gradient-to-br from-red-400 to-red-600 rounded-full shadow-sm group-hover:scale-110 transition-transform duration-200"></div>
+                    <div className="text-sm">
+                      <span className="font-semibold text-red-700">30%</span>
+                      <span className="text-gray-600 ml-1">Failed</span>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Bottom Summary */}
+            <div className="mt-8 pt-6 border-t border-gray-100">
+              <div className="text-center">
+                <p className="text-gray-600">
+                  Your GMB profile has <span className="font-semibold text-green-600">room for improvement</span>. 
+                  Focus on the failed areas to boost your local search visibility.
+                </p>
               </div>
             </div>
           </CardContent>
