@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { RefreshCcw, Copy, Sparkles } from 'lucide-react';
 import { CircularProgress } from '../ui/circular-progress';
@@ -16,9 +17,16 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
   totalKeywords,
   onCheckRank,
 }) => {
+  const navigate = useNavigate();
+  const { listingId } = useParams();
+  
   // Use ATRP for Overall Visibility as requested
   const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
   const visibilityValue = parseFloat(overallVisibility);
+
+  const handleGetInsights = () => {
+    navigate(`/ai-chatbot/${listingId || 'default'}`);
+  };
 
   return (
     <>
@@ -50,7 +58,11 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
       <div className="lg:col-span-3">
         <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4  py-8 rounded-lg h-full">
           <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
-          <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium">
+          <Button 
+            size="sm" 
+            className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
+            onClick={handleGetInsights}
+          >
             <Sparkles className="h-3 w-3 mr-1" />
             Get Insights
           </Button>

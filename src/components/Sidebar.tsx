@@ -18,6 +18,7 @@ import {
   Sparkles,
   MessageCircleQuestion,
   FileBarChart,
+  Bot,
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
@@ -60,6 +61,12 @@ const menuItems = [
     label: "GEO Ranking",
     icon: MapPin,
     path: "/geo-ranking",
+  },
+  {
+    id: "ai-chatbot",
+    label: "AI Chatbot",
+    icon: Bot,
+    path: "/ai-chatbot",
   },
   {
     id: "reviews",
@@ -167,6 +174,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       "/media",
       "/insights",
       "/geo-ranking",
+      "/ai-chatbot",
       "/reviews",
       "/qa",
       "/reports",

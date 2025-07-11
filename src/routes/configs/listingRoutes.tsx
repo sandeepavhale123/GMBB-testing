@@ -3,6 +3,7 @@ import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
 import InsightsPage from "@/pages/InsightsPage";
 import GeoRankingPage from "@/pages/GeoRankingPage";
+import AIChatbotPage from "@/pages/AIChatbotPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
@@ -73,6 +74,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <GeoRankingPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // AI Chatbot routes
+  {
+    path: "/ai-chatbot",
+    element: <Navigate to="/ai-chatbot/default" replace />,
+  },
+  {
+    path: "/ai-chatbot/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <AIChatbotPage />
         </ListingProvider>
       </ProtectedRoute>
     ),
