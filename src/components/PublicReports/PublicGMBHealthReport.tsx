@@ -670,6 +670,140 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Citation Analysis */}
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-6">Citation Analysis</h2>
+            
+            <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+              <div className="flex items-center justify-start mb-3">
+                <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+              </div>
+              <h3 className="font-semibold text-lg mb-3">The Listing has fewer citation then competitors.</h3>
+              
+              <div className="mb-4">
+                <h4 className="font-medium mb-2">• Why It Matters:</h4>
+                <p className="text-sm text-muted-foreground ml-4">citation improve local SEO ranking and signal credibility to search engines and customer.</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-2">• Recommendation:</h4>
+                <p className="text-sm text-muted-foreground ml-4">identify citation gaps by auditing competitor profile submit your business to directories like Yelp,Yellow page and other niche-specific site.</p>
+              </div>
+            </div>
+
+            {/* Citation Analysis Chart */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+              <h3 className="text-lg font-semibold text-center mb-6">Citation Analysis</h3>
+              
+              {/* Recharts Bar Chart */}
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      {
+                        name: "Webmarts Software Solution",
+                        shortName: "Webmarts Software Solution",
+                        citationCount: 14,
+                        isYou: true
+                      },
+                      {
+                        name: "Redbytes Software", 
+                        shortName: "Redbytes Software",
+                        citationCount: 18,
+                        isYou: false
+                      },
+                      {
+                        name: "Websar IT Solutions",
+                        shortName: "Websar IT Solutions", 
+                        citationCount: 13,
+                        isYou: false
+                      },
+                      {
+                        name: "Web Square IT Solutions",
+                        shortName: "Web Square IT Solutions",
+                        citationCount: 26,
+                        isYou: false
+                      },
+                      {
+                        name: "WebNTT Technologies",
+                        shortName: "WebNTT Technologies",
+                        citationCount: 20,
+                        isYou: false
+                      }
+                    ]}
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 20,
+                      bottom: 80,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="shortName" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                      interval={0}
+                      fontSize={12}
+                    />
+                    <YAxis domain={[0, 30]} />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        `${value}`,
+                        'Citation Count'
+                      ]}
+                      labelFormatter={(label) => `Business: ${label}`}
+                    />
+                    <Bar dataKey="citationCount" fill="#3b82f6" name="citationCount" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Citation Table */}
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-green-200">
+                    <th className="px-4 py-3 text-left font-semibold">#</th>
+                    <th className="px-4 py-3 text-left font-semibold">Business Name</th>
+                    <th className="px-4 py-3 text-center font-semibold">No. Local Citation</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr className="bg-green-100">
+                    <td className="px-4 py-3 font-medium">YOU</td>
+                    <td className="px-4 py-3">Webmarts Software Solution</td>
+                    <td className="px-4 py-3 text-center">14</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="px-4 py-3 font-medium">2</td>
+                    <td className="px-4 py-3">Redbytes Software</td>
+                    <td className="px-4 py-3 text-center">18</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium">3</td>
+                    <td className="px-4 py-3">Websar IT Solutions</td>
+                    <td className="px-4 py-3 text-center">13</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="px-4 py-3 font-medium">4</td>
+                    <td className="px-4 py-3">Web Square IT Solutions</td>
+                    <td className="px-4 py-3 text-center">26</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium">5</td>
+                    <td className="px-4 py-3">WebNTT Technologies</td>
+                    <td className="px-4 py-3 text-center">20</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
