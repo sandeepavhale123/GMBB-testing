@@ -200,7 +200,7 @@ export const PublicReviewsReport: React.FC = () => {
               <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
                 <Heart className="h-5 w-5 text-green-600" />
               </div>
-              <div className="text-2xl font-bold">{getCurrentOverview().responseRate}%</div>
+              <div className="text-2xl font-bold">{getCurrentOverview().responseRate}</div>
               {reportType === 'comparison' && getPreviousOverview() && (
                 <div className="mt-1">
                   {renderChangeIndicator(getCurrentOverview().responseRate, getPreviousOverview()!.responseRate)}
