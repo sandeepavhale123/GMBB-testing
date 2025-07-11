@@ -323,6 +323,186 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Detailed Breakdown */}
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
+            
+            <div className="space-y-6">
+              {/* Item 1 - Missing Description */}
+              <div className="border border-red-200 rounded-lg p-4 bg-red-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                  <Badge className="bg-red-500 text-white hover:bg-red-500">Failed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">1. Missing Description or Description Less Than 300 Characters</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">A detailed description helps customers quickly understand what your business offers and builds trust. Short or missing descriptions can make your profile less appealing.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Write a comprehensive description of at least 300 characters that highlights your unique offerings, key services, and values.</p>
+                </div>
+              </div>
+
+              {/* Item 2 - Missing Website */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">High Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">2. Missing Website</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">A website link allows customers to explore your business in greater detail. Without it, potential customers might turn to competitors for more information.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Add a working website link to your GMB profile to boost credibility and drive traffic to your site.</p>
+                </div>
+              </div>
+
+              {/* Item 3 - Review Count */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">High Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">3. Review Count</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Reviews are social proof. Listings with fewer than 10 reviews appear less credible, and customers are more likely to choose competitors with more reviews.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Encourage your satisfied customers to leave reviews. You can send them a direct link to your GMB profile for convenience.</p>
+                </div>
+              </div>
+
+              {/* Item 4 - Rating Below */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">High Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">4. Rating Below</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Even just a rating of 4 or above is a strong indicator of customer satisfaction.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Continue responding to reviews to show customers that you value their feedback.</p>
+                </div>
+              </div>
+
+              {/* Item 5 - Additional Categories */}
+              <div className="border border-red-200 rounded-lg p-4 bg-red-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">Medium Impact</Badge>
+                  <Badge className="bg-red-500 text-white hover:bg-red-500">Failed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">5. Additional Categories Not Present or Less Than 5</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Additional categories help Google understand your services and display your listing for relevant search queries. This can limit your visibility.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Add additional categories that reflect all your services. For example, if you're a plumber, include categories like "Emergency Plumbing" or "Water Heater Installation."</p>
+                </div>
+              </div>
+
+              {/* Item 6 - Less Than 5 Photos */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">High Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">6. Less Than 5 Photos</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">High-quality photos enhance your profile's appeal and help customers visualize your offerings.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Regularly update your photos to keep your profile fresh and engaging.</p>
+                </div>
+              </div>
+
+              {/* Item 7 - Missing Working Hours */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">High Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">7. Missing Working Hours</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Customers need to know when you're open. Missing hours can lead to lost sales and frustrated customers.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Update your business hours, including holiday schedules, to ensure customers always have accurate information.</p>
+                </div>
+              </div>
+
+              {/* Item 8 - Missing Attributes */}
+              <div className="border border-red-200 rounded-lg p-4 bg-red-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Medium Impact</Badge>
+                  <Badge className="bg-red-500 text-white hover:bg-red-500">Failed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">8. Missing or Fewer Than 5 Attributes</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Attributes like "Free Wi-Fi" or "Wheelchair Accessible" help customers decide if your business meets their specific needs.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Review your attributes periodically to add new ones as your services evolve.</p>
+                </div>
+              </div>
+
+              {/* Item 9 - Logo Present */}
+              <div className="border border-green-200 rounded-lg p-4 bg-green-50">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Medium Impact</Badge>
+                  <Badge className="bg-green-500 text-white hover:bg-green-500">Passed</Badge>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">9. The logo is present and professional.</h3>
+                
+                <div className="mb-4">
+                  <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Your logo helps build brand recognition and makes your profile look professional.</p>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-2">• Recommendation:</h4>
+                  <p className="text-sm text-muted-foreground ml-4">Your logo looks great! Ensure it stays consistent across all platforms.</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
