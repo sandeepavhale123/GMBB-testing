@@ -6,6 +6,7 @@ import { PublicGeoRankingReport } from "@/components/PublicReports/PublicGeoRank
 import { PublicReviewsReport } from "@/components/PublicReports/PublicReviewsReport";
 import { PublicInsightsReport } from "@/components/PublicReports/PublicInsightsReport";
 import { PublicMediaReport } from "@/components/PublicReports/PublicMediaReport";
+import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPostPerformanceReport";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -31,5 +32,9 @@ export const publicReportRoutes: RouteConfig[] = [
   {
     path: "/public-reports/media/:token",
     element: <PublicMediaReport />,
+  },
+  {
+    path: "/public-reports/post-performance/:token",
+    element: <PublicPostPerformanceReport />,
   },
 ];

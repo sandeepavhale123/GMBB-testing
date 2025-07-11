@@ -10,6 +10,7 @@ import {
   Star, 
   TrendingUp, 
   Image,
+  FileText,
   ExternalLink,
   Clock,
   Users
@@ -66,6 +67,16 @@ const reportTypes = [
     bgColor: 'bg-purple-50',
     features: ['Media Analytics', 'Engagement Metrics', 'Popular Content', 'ROI Analysis'],
     sampleUrl: '/public-reports/media/demo-token'
+  },
+  {
+    id: 'post-performance',
+    title: 'Post Performance Report',
+    description: 'Comprehensive post analytics including scheduling status, publishing success rates, and performance metrics.',
+    icon: FileText,
+    color: 'text-orange-500',
+    bgColor: 'bg-orange-50',
+    features: ['Post Analytics', 'Scheduling Status', 'Publishing Rates', 'Performance Tracking'],
+    sampleUrl: '/public-reports/post-performance/demo-token'
   }
 ];
 
@@ -117,7 +128,7 @@ export const PublicReportsLanding: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mx-auto mb-3">
                 <TrendingUp className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-semibold mb-1">5 Report Types</h3>
+              <h3 className="font-semibold mb-1">6 Report Types</h3>
               <p className="text-sm text-muted-foreground">Comprehensive business analytics</p>
             </CardContent>
           </Card>
