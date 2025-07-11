@@ -966,7 +966,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     <td className="px-4 py-3 font-medium text-gray-900">21</td>
                     <td className="px-4 py-3 text-gray-700">Encourage Customer Photo Uploads</td>
                     <td className="px-4 py-3 text-right" style={{width:"200px"}}>
-                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 ">Optional Enhancements s</Badge>
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 ">Optional Enhancements</Badge>
                     </td>
                   </tr>
                   <tr className="bg-gray-50 hover:bg-gray-100">
