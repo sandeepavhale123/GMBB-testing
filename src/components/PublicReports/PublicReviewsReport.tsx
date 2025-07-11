@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star, TrendingUp, MessageSquare, Heart, ArrowUp, ArrowDown } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -473,9 +474,19 @@ export const PublicReviewsReport: React.FC = () => {
               {reviewData.recentReviews.map((review, index) => (
                 <div key={index} className="p-4 border rounded-lg">
                   <div className="flex items-start justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="flex">{renderStars(review.rating)}</div>
-                      <span className="font-medium">{review.author}</span>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="/default-avatar.png" alt={review.author} />
+                        <AvatarFallback className="bg-primary/10 text-primary font-medium">
+                          {review.author.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <div className="flex">{renderStars(review.rating)}</div>
+                          <span className="font-medium">{review.author}</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">{review.date}</span>
