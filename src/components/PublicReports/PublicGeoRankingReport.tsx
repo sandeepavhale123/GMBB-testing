@@ -168,22 +168,39 @@ export const PublicGeoRankingReport: React.FC = () => {
     markersRef: React.RefObject<L.Marker[]>,
     data: typeof geoData
   ) => {
-    if (!mapRef.current || !data.defaultCoordinates) return null;
+    // Check if DOM element exists and is mounted
+    if (!mapRef.current || !data.defaultCoordinates) {
+      console.log('Map container not ready or no coordinates');
+      return null;
+    }
 
-    const map = L.map(mapRef.current).setView(
-      [data.defaultCoordinates.lat, data.defaultCoordinates.lng],
-      12
-    );
-    (mapInstanceRef as any).current = map;
+    // Clean up existing map instance if it exists
+    if ((mapInstanceRef as any).current) {
+      (mapInstanceRef as any).current.remove();
+      (mapInstanceRef as any).current = null;
+    }
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    try {
+      const map = L.map(mapRef.current).setView(
+        [data.defaultCoordinates.lat, data.defaultCoordinates.lng],
+        12
+      );
+      (mapInstanceRef as any).current = map;
 
-    // Add markers
-    addRankingMarkers(mapInstanceRef, markersRef, data);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
-    return map;
+      // Add markers after map is fully initialized
+      setTimeout(() => {
+        addRankingMarkers(mapInstanceRef, markersRef, data);
+      }, 100);
+
+      return map;
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      return null;
+    }
   };
 
   // Initialize maps based on report type
@@ -195,22 +212,43 @@ export const PublicGeoRankingReport: React.FC = () => {
     link.crossOrigin = "";
     document.head.appendChild(link);
 
+    // Clean up all existing maps first
+    if ((mapInstanceRef as any).current) {
+      (mapInstanceRef as any).current.remove();
+      (mapInstanceRef as any).current = null;
+    }
+    if ((mapInstanceRef1 as any).current) {
+      (mapInstanceRef1 as any).current.remove();
+      (mapInstanceRef1 as any).current = null;
+    }
+    if ((mapInstanceRef2 as any).current) {
+      (mapInstanceRef2 as any).current.remove();
+      (mapInstanceRef2 as any).current = null;
+    }
+
     let map1: L.Map | null = null;
     let map2: L.Map | null = null;
 
-    if (reportType === 'individual') {
-      map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
-    } else {
-      // Initialize both maps for comparison
-      setTimeout(() => {
+    // Use setTimeout to ensure DOM elements are ready
+    const initMaps = setTimeout(() => {
+      if (reportType === 'individual') {
+        map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
+      } else {
+        // Initialize both maps for comparison with additional delay
         map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);
-        map2 = initializeMap(mapRef2, mapInstanceRef2, markersRef2, comparisonData);
-      }, 100);
-    }
+        setTimeout(() => {
+          map2 = initializeMap(mapRef2, mapInstanceRef2, markersRef2, comparisonData);
+        }, 50);
+      }
+    }, 100);
 
     return () => {
+      clearTimeout(initMaps);
       if (map1) map1.remove();
       if (map2) map2.remove();
+      if ((mapInstanceRef as any).current) (mapInstanceRef as any).current.remove();
+      if ((mapInstanceRef1 as any).current) (mapInstanceRef1 as any).current.remove();
+      if ((mapInstanceRef2 as any).current) (mapInstanceRef2 as any).current.remove();
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
@@ -220,19 +258,24 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   // Update markers when keyword changes
   useEffect(() => {
-    if (reportType === 'individual' && mapInstanceRef.current) {
-      clearMarkers(mapInstanceRef, markersRef);
-      addRankingMarkers(mapInstanceRef, markersRef, geoData);
-    } else if (reportType === 'comparison') {
-      if (mapInstanceRef1.current) {
-        clearMarkers(mapInstanceRef1, markersRef1);
-        addRankingMarkers(mapInstanceRef1, markersRef1, geoData);
+    // Add delay to ensure maps are fully initialized
+    const updateMarkers = setTimeout(() => {
+      if (reportType === 'individual' && (mapInstanceRef as any).current) {
+        clearMarkers(mapInstanceRef, markersRef);
+        addRankingMarkers(mapInstanceRef, markersRef, geoData);
+      } else if (reportType === 'comparison') {
+        if ((mapInstanceRef1 as any).current) {
+          clearMarkers(mapInstanceRef1, markersRef1);
+          addRankingMarkers(mapInstanceRef1, markersRef1, geoData);
+        }
+        if ((mapInstanceRef2 as any).current) {
+          clearMarkers(mapInstanceRef2, markersRef2);
+          addRankingMarkers(mapInstanceRef2, markersRef2, comparisonData);
+        }
       }
-      if (mapInstanceRef2.current) {
-        clearMarkers(mapInstanceRef2, markersRef2);
-        addRankingMarkers(mapInstanceRef2, markersRef2, comparisonData);
-      }
-    }
+    }, 200);
+
+    return () => clearTimeout(updateMarkers);
   }, [selectedKeyword, reportType]);
   return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo}>
       <div className="space-y-6">
