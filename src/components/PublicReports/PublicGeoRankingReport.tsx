@@ -84,16 +84,10 @@ export const PublicGeoRankingReport: React.FC = () => {
               {/* Column 4: Keyword Frequency */}
               <div>
                 <label className="text-sm font-medium text-muted-foreground mb-2 block">Frequency</label>
-                <Select value={frequency} onValueChange={setFrequency}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="One Time">One Time</SelectItem>
-                    <SelectItem value="Weekly">Weekly</SelectItem>
-                    <SelectItem value="Monthly">Monthly</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                  <div className="text-xs text-purple-600 font-medium mb-1">Report Frequency</div>
+                  <div className="text-lg font-bold text-purple-900">{frequency}</div>
+                </div>
               </div>
             </div>
           </CardContent>
