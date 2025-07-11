@@ -503,6 +503,167 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Competitor Analysis */}
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-6">Competitor Analysis</h2>
+            
+            <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+              <div className="flex items-center justify-start mb-3">
+                <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+              </div>
+              <h3 className="font-semibold text-lg mb-3">The listing outperforms or matches its competitors in key areas</h3>
+              
+              <div className="mb-4">
+                <h4 className="font-medium mb-2">• Why It Matters:</h4>
+                <p className="text-sm text-muted-foreground ml-4">Standing out among competitors increase the chance of attraction more customer</p>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-2">• Recommendation:</h4>
+                <p className="text-sm text-muted-foreground ml-4">analyze competitor profile and focus on areas where they excel such as better rating or more details description</p>
+              </div>
+            </div>
+
+            {/* Competitor Analysis Chart */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+              <h3 className="text-lg font-semibold text-center mb-6">Competitor Analysis</h3>
+              
+              <div className="flex justify-center items-center gap-6 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                  <span className="text-sm">Avg. Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                  <span className="text-sm">Review Count</span>
+                </div>
+              </div>
+
+              {/* Chart Area */}
+              <div className="relative h-80 border-l border-b border-gray-300">
+                {/* Y-axis labels for Rating */}
+                <div className="absolute -left-8 top-0 bottom-12 flex flex-col justify-between text-xs text-gray-600">
+                  <span>5.0</span>
+                  <span>4.0</span>
+                  <span>3.0</span>
+                  <span>2.0</span>
+                  <span>1.0</span>
+                  <span>0.0</span>
+                </div>
+                
+                {/* Secondary Y-axis labels for Review Count */}
+                <div className="absolute -right-8 top-0 bottom-12 flex flex-col justify-between text-xs text-gray-600">
+                  <span>100.0</span>
+                  <span>80.0</span>
+                  <span>60.0</span>
+                  <span>40.0</span>
+                  <span>20.0</span>
+                  <span>0.0</span>
+                </div>
+
+                {/* Bars container */}
+                <div className="absolute bottom-0 left-0 right-0 h-64 flex items-end justify-around px-4">
+                  {/* Webmarts Software Solution (YOU) */}
+                  <div className="flex flex-col items-center w-16">
+                    <div className="flex items-end gap-1 mb-2">
+                      <div className="bg-blue-500 w-6 h-20 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.1</div>
+                      <div className="bg-orange-500 w-6 h-5 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">10</div>
+                    </div>
+                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Webmarts Software Solution</span>
+                  </div>
+
+                  {/* Redbytes Software */}
+                  <div className="flex flex-col items-center w-16">
+                    <div className="flex items-end gap-1 mb-2">
+                      <div className="bg-blue-500 w-6 h-24 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.7</div>
+                      <div className="bg-orange-500 w-6 h-12 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">23</div>
+                    </div>
+                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Redbytes Software</span>
+                  </div>
+
+                  {/* Websar IT Solutions */}
+                  <div className="flex flex-col items-center w-16">
+                    <div className="flex items-end gap-1 mb-2">
+                      <div className="bg-blue-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">5</div>
+                      <div className="bg-orange-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">61</div>
+                    </div>
+                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Websar IT Solutions</span>
+                  </div>
+
+                  {/* Web Square IT Solutions */}
+                  <div className="flex flex-col items-center w-16">
+                    <div className="flex items-end gap-1 mb-2">
+                      <div className="bg-blue-500 w-6 h-22 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">4.3</div>
+                      <div className="bg-orange-500 w-6 h-5 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">10</div>
+                    </div>
+                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">Web Square IT Solutions</span>
+                  </div>
+
+                  {/* WebNTT Technologies */}
+                  <div className="flex flex-col items-center w-16">
+                    <div className="flex items-end gap-1 mb-2">
+                      <div className="bg-blue-500 w-6 h-32 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">5</div>
+                      <div className="bg-orange-500 w-6 h-4 rounded-t flex items-end justify-center text-white text-xs font-bold pb-1">7</div>
+                    </div>
+                    <span className="text-xs text-center transform -rotate-45 origin-center mt-4">WebNTT Technologies</span>
+                  </div>
+                </div>
+
+                {/* Axis labels */}
+                <div className="absolute -left-12 top-1/2 transform -rotate-90 text-xs text-gray-600">Avg. Rating</div>
+                <div className="absolute -right-16 top-1/2 transform rotate-90 text-xs text-gray-600">Review Count</div>
+              </div>
+            </div>
+
+            {/* Competitor Table */}
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-green-200">
+                    <th className="px-4 py-3 text-left font-semibold">#</th>
+                    <th className="px-4 py-3 text-left font-semibold">Business Name</th>
+                    <th className="px-4 py-3 text-center font-semibold">Avg. Rating</th>
+                    <th className="px-4 py-3 text-center font-semibold">Review Count</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr className="bg-green-100">
+                    <td className="px-4 py-3 font-medium">YOU</td>
+                    <td className="px-4 py-3">Webmarts Software Solution</td>
+                    <td className="px-4 py-3 text-center">4.1</td>
+                    <td className="px-4 py-3 text-center">10</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="px-4 py-3 font-medium">2</td>
+                    <td className="px-4 py-3">Redbytes Software</td>
+                    <td className="px-4 py-3 text-center">4.7</td>
+                    <td className="px-4 py-3 text-center">23</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium">3</td>
+                    <td className="px-4 py-3">Websar IT Solutions</td>
+                    <td className="px-4 py-3 text-center">5</td>
+                    <td className="px-4 py-3 text-center">61</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="px-4 py-3 font-medium">4</td>
+                    <td className="px-4 py-3">Web Square IT Solutions</td>
+                    <td className="px-4 py-3 text-center">4.3</td>
+                    <td className="px-4 py-3 text-center">10</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium">5</td>
+                    <td className="px-4 py-3">WebNTT Technologies</td>
+                    <td className="px-4 py-3 text-center">5</td>
+                    <td className="px-4 py-3 text-center">7</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
