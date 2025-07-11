@@ -59,23 +59,23 @@ export const PublicInsightsReport: React.FC = () => {
     message: { label: 'Message', color: 'hsl(195 90% 50%)' }
   };
 
-  const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode) => (
+  const renderSummaryCard = (title: string, value: number, previousValue: number, change: number, icon: React.ReactNode, bgColor: string, iconColor: string) => (
     <Card>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <p className="text-2xl font-bold">{value.toLocaleString()}</p>
-            {reportType === 'comparison' && (
-              <p className={`text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {change >= 0 ? '+' : ''}{change.toFixed(1)}% vs previous
-              </p>
-            )}
-          </div>
-          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+      <CardContent className="p-4 text-center">
+        <div className={`flex items-center justify-center w-10 h-10 ${bgColor} rounded-lg mx-auto mb-2`}>
+          <div className={iconColor}>
             {icon}
           </div>
         </div>
+        <div className="text-2xl font-bold">{value.toLocaleString()}</div>
+        {reportType === 'comparison' && (
+          <div className="mt-1">
+            <div className={`text-sm ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {change >= 0 ? '+' : ''}{change.toFixed(1)}% vs previous
+            </div>
+          </div>
+        )}
+        <div className="text-sm text-muted-foreground">{title}</div>
       </CardContent>
     </Card>
   );
@@ -95,56 +95,72 @@ export const PublicInsightsReport: React.FC = () => {
             insightsData.summaryCards.website.current,
             insightsData.summaryCards.website.previous,
             insightsData.summaryCards.website.change,
-            <Globe className="h-4 w-4 text-primary" />
+            <Globe className="h-5 w-5" />,
+            'bg-blue-50',
+            'text-blue-600'
           )}
           {renderSummaryCard(
             'Direction Requests',
             insightsData.summaryCards.direction.current,
             insightsData.summaryCards.direction.previous,
             insightsData.summaryCards.direction.change,
-            <MapPin className="h-4 w-4 text-primary" />
+            <MapPin className="h-5 w-5" />,
+            'bg-green-50',
+            'text-green-600'
           )}
           {renderSummaryCard(
             'Phone Calls',
             insightsData.summaryCards.call.current,
             insightsData.summaryCards.call.previous,
             insightsData.summaryCards.call.change,
-            <Phone className="h-4 w-4 text-primary" />
+            <Phone className="h-5 w-5" />,
+            'bg-purple-50',
+            'text-purple-600'
           )}
           {renderSummaryCard(
             'Messages',
             insightsData.summaryCards.message.current,
             insightsData.summaryCards.message.previous,
             insightsData.summaryCards.message.change,
-            <MessageSquare className="h-4 w-4 text-primary" />
+            <MessageSquare className="h-5 w-5" />,
+            'bg-orange-50',
+            'text-orange-600'
           )}
           {renderSummaryCard(
             'Desktop Search',
             insightsData.summaryCards.desktopSearch.current,
             insightsData.summaryCards.desktopSearch.previous,
             insightsData.summaryCards.desktopSearch.change,
-            <Monitor className="h-4 w-4 text-primary" />
+            <Monitor className="h-5 w-5" />,
+            'bg-indigo-50',
+            'text-indigo-600'
           )}
           {renderSummaryCard(
             'Desktop Map',
             insightsData.summaryCards.desktopMap.current,
             insightsData.summaryCards.desktopMap.previous,
             insightsData.summaryCards.desktopMap.change,
-            <Monitor className="h-4 w-4 text-primary" />
+            <Monitor className="h-5 w-5" />,
+            'bg-teal-50',
+            'text-teal-600'
           )}
           {renderSummaryCard(
             'Mobile Search',
             insightsData.summaryCards.mobileSearch.current,
             insightsData.summaryCards.mobileSearch.previous,
             insightsData.summaryCards.mobileSearch.change,
-            <Smartphone className="h-4 w-4 text-primary" />
+            <Smartphone className="h-5 w-5" />,
+            'bg-pink-50',
+            'text-pink-600'
           )}
           {renderSummaryCard(
             'Mobile Map',
             insightsData.summaryCards.mobileMap.current,
             insightsData.summaryCards.mobileMap.previous,
             insightsData.summaryCards.mobileMap.change,
-            <Smartphone className="h-4 w-4 text-primary" />
+            <Smartphone className="h-5 w-5" />,
+            'bg-yellow-50',
+            'text-yellow-600'
           )}
         </div>
 
