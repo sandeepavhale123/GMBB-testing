@@ -90,7 +90,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         {/* Main Content Area */}
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
-          <header className="bg-slate-800 text-white h-[250px] z-10">
+          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10">
                             <h2 className="text-3xl font-bold text-white" style={{
             marginTop: "30px",
             textAlign: "center"
