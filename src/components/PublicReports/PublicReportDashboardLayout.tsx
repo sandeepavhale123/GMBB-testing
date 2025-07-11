@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BarChart3, Star, MapPin, Heart, Image, LogOut, Search, Bell, User, Sun, Moon, Target, FileText } from 'lucide-react';
@@ -54,16 +54,6 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [primaryColor, setPrimaryColor] = useState('#3b82f6');
-
-  useEffect(() => {
-    // Get primary color from localStorage
-    const storedPrimaryColor = localStorage.getItem('primaryColor');
-    if (storedPrimaryColor) {
-      setPrimaryColor(storedPrimaryColor);
-    }
-  }, []);
-
   const getCurrentReportId = () => {
     const path = location.pathname;
     return sidebarItems.find(item => path.includes(item.id))?.id || '';
@@ -100,12 +90,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         {/* Main Content Area */}
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
-          <header 
-            className="text-white h-[250px] z-10"
-            style={{
-              background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}dd, ${primaryColor}88)`
-            }}
-          >
+          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10">
                             <h2 className="text-3xl font-bold text-white" style={{
             marginTop: "30px",
             textAlign: "center"
