@@ -4,6 +4,7 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { Image, Play, Eye, Heart, Share2, TrendingUp, Video, ArrowUp, ArrowDown } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
@@ -243,6 +244,10 @@ export const PublicMediaReport: React.FC = () => {
                       {media.type === 'photo' ? 'Photo' : 'Video'}
                     </div>
                   </div>
+                  <Button variant="outline" size="sm">
+                    <Eye className="h-4 w-4 mr-2" />
+                    View
+                  </Button>
                 </div>
               ))}
             </div>
