@@ -982,6 +982,45 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Summary of Recommendations */}
+        <Card className="bg-white">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-bold text-gray-900">
+              Summary of Recommendations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>Add a working website link.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>Encourage satisfied customers to leave reviews.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>Average Rating is below 4 star</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>The logo is present and professional.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>Update your business hours.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-600 mt-1">•</span>
+                  <span>Less Than 5 Photos. Enhance Photo</span>
+                </li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
