@@ -6,9 +6,10 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MapPin, TrendingUp, Target, Users, Clock } from 'lucide-react';
 import { CircularProgress } from '@/components/ui/circular-progress';
-
 export const PublicGeoRankingReport: React.FC = () => {
-  const { token } = useParams();
+  const {
+    token
+  } = useParams();
   const [selectedKeyword, setSelectedKeyword] = useState('Webdesign');
   const [frequency, setFrequency] = useState('Weekly');
 
@@ -23,25 +24,14 @@ export const PublicGeoRankingReport: React.FC = () => {
       frequency: 'Weekly'
     },
     keywords: ['Webdesign', 'Digital Marketing', 'SEO Services', 'Local Business', 'Web Development'],
-    gridData: [
-      [1, 2, 3],
-      [4, 5, 6], 
-      [7, 8, 9]
-    ]
+    gridData: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
   };
-
   const getRankingColor = (position: number) => {
     if (position <= 3) return 'bg-green-500';
     if (position <= 6) return 'bg-yellow-500';
     return 'bg-red-500';
   };
-
-  return (
-    <PublicReportDashboardLayout
-      title="GEO Ranking Report"
-      companyName={geoData.companyName}
-      companyLogo={geoData.companyLogo}
-    >
+  return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo}>
       <div className="space-y-6">
         {/* First Row - Control Panel */}
         <Card>
@@ -55,9 +45,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {geoData.keywords.map((keyword) => (
-                      <SelectItem key={keyword} value={keyword}>{keyword}</SelectItem>
-                    ))}
+                    {geoData.keywords.map(keyword => <SelectItem key={keyword} value={keyword}>{keyword}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -83,7 +71,7 @@ export const PublicGeoRankingReport: React.FC = () => {
 
               {/* Column 4: Keyword Frequency */}
               <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">Frequency</label>
+                
                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
                   <div className="text-xs text-purple-600 font-medium mb-1">Report Frequency</div>
                   <div className="text-lg font-bold text-purple-900">{frequency}</div>
@@ -105,14 +93,9 @@ export const PublicGeoRankingReport: React.FC = () => {
             {/* 3x3 Grid Coordinate Display */}
             <div className="max-w-md mx-auto">
               <div className="grid grid-cols-3 gap-2 bg-muted/20 p-4 rounded-lg">
-                {geoData.gridData.flat().map((position, index) => (
-                  <div
-                    key={index}
-                    className={`w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-sm ${getRankingColor(position)}`}
-                  >
+                {geoData.gridData.flat().map((position, index) => <div key={index} className={`w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-sm ${getRankingColor(position)}`}>
                     #{position}
-                  </div>
-                ))}
+                  </div>)}
               </div>
               <div className="mt-4 text-center">
                 <p className="text-sm text-muted-foreground">
@@ -137,6 +120,5 @@ export const PublicGeoRankingReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportDashboardLayout>
-  );
+    </PublicReportDashboardLayout>;
 };
