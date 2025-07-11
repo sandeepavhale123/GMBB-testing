@@ -133,7 +133,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           </main>
 
           {/* CTA Section */}
-          <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 overflow-hidden">
+          <section className="relative overflow-hidden" style={{ backgroundColor: '#1e293b' }}>
             <div className="container mx-auto px-6 py-20">
               <div className="grid grid-cols-1  gap-12 items-center">
                 {/* Left Content */}
