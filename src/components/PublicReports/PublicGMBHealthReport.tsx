@@ -4,6 +4,7 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { CircularProgress } from '@/components/ui/circular-progress';
 import { 
   Heart, 
   CheckCircle, 
@@ -12,7 +13,15 @@ import {
   TrendingUp,
   Users,
   MapPin,
-  Star
+  Star,
+  MessageSquare,
+  Camera,
+  FileText,
+  Phone,
+  Clock,
+  Info,
+  Building,
+  HelpCircle
 } from 'lucide-react';
 
 export const PublicGMBHealthReport: React.FC = () => {
@@ -20,57 +29,130 @@ export const PublicGMBHealthReport: React.FC = () => {
 
   // Sample data - in real implementation, fetch based on token
   const healthData = {
-    overallScore: 87,
     companyName: 'Demo Business',
     companyLogo: null,
-    metrics: [
-      { label: 'Profile Completeness', score: 92, status: 'excellent' },
-      { label: 'Review Response Rate', score: 78, status: 'good' },
-      { label: 'Photo Quality', score: 85, status: 'good' },
-      { label: 'Business Hours Accuracy', score: 95, status: 'excellent' },
-      { label: 'Contact Information', score: 100, status: 'excellent' },
-      { label: 'Category Optimization', score: 70, status: 'needs-improvement' }
-    ],
-    insights: [
-      { type: 'success', title: 'Strong Profile Completion', description: 'Your business profile is 92% complete with all essential information filled.' },
-      { type: 'warning', title: 'Improve Review Responses', description: 'Consider responding to more customer reviews to improve engagement.' },
-      { type: 'info', title: 'Category Optimization', description: 'Review your business categories to ensure maximum visibility.' }
-    ],
-    stats: {
-      totalViews: '12.5K',
-      searchAppearances: '8.9K',
-      customerActions: '1.2K',
-      averageRating: 4.3
+    summaryStats: {
+      healthScore: 87,
+      reviews: 142,
+      avgRating: 4.3,
+      photos: 89,
+      posts: 24
+    },
+    healthSections: [
+      {
+        title: 'Business Information',
+        percentage: 85,
+        status: 'good',
+        items: [
+          { label: 'Business Name', status: 'complete', recommendation: 'Business name is properly set' },
+          { label: 'Business Description', status: 'complete', recommendation: 'Description is comprehensive and keyword-optimized' },
+          { label: 'Business Category', status: 'warning', recommendation: 'Consider adding secondary categories for better visibility' },
+          { label: 'Service Area', status: 'complete', recommendation: 'Service area is clearly defined' }
+        ]
+      },
+      {
+        title: 'Contact Details',
+        percentage: 95,
+        status: 'excellent',
+        items: [
+          { label: 'Phone Number', status: 'complete', recommendation: 'Phone number is verified and active' },
+          { label: 'Address', status: 'complete', recommendation: 'Address is accurate and verified' },
+          { label: 'Website URL', status: 'complete', recommendation: 'Website is accessible and mobile-friendly' },
+          { label: 'Email Address', status: 'warning', recommendation: 'Consider adding a business email for better contact options' }
+        ]
+      },
+      {
+        title: 'Business Hours',
+        percentage: 90,
+        status: 'good',
+        items: [
+          { label: 'Regular Hours', status: 'complete', recommendation: 'Operating hours are clearly defined' },
+          { label: 'Holiday Hours', status: 'warning', recommendation: 'Update holiday hours for upcoming seasons' },
+          { label: 'Special Hours', status: 'complete', recommendation: 'Special event hours are properly maintained' }
+        ]
+      },
+      {
+        title: 'Categories',
+        percentage: 75,
+        status: 'warning',
+        items: [
+          { label: 'Primary Category', status: 'complete', recommendation: 'Primary category accurately represents your business' },
+          { label: 'Additional Categories', status: 'warning', recommendation: 'Add relevant secondary categories to improve discoverability' },
+          { label: 'Category Accuracy', status: 'complete', recommendation: 'Categories align with actual business services' }
+        ]
+      },
+      {
+        title: 'Photos & Media',
+        percentage: 80,
+        status: 'good',
+        items: [
+          { label: 'Logo Photo', status: 'complete', recommendation: 'Logo is high-quality and represents brand well' },
+          { label: 'Cover Photo', status: 'complete', recommendation: 'Cover photo showcases business effectively' },
+          { label: 'Interior Photos', status: 'warning', recommendation: 'Add more interior photos to showcase atmosphere' },
+          { label: 'Product Photos', status: 'complete', recommendation: 'Product photos are high-quality and well-lit' },
+          { label: 'Team Photos', status: 'error', recommendation: 'Add team photos to build trust and personal connection' }
+        ]
+      },
+      {
+        title: 'Reviews & Ratings',
+        percentage: 70,
+        status: 'warning',
+        items: [
+          { label: 'Review Volume', status: 'warning', recommendation: 'Encourage more customers to leave reviews' },
+          { label: 'Response Rate', status: 'error', recommendation: 'Respond to more customer reviews, especially negative ones' },
+          { label: 'Average Rating', status: 'complete', recommendation: 'Maintain excellent service quality' },
+          { label: 'Recent Reviews', status: 'warning', recommendation: 'Focus on getting more recent reviews to show active engagement' }
+        ]
+      },
+      {
+        title: 'Posts & Updates',
+        percentage: 65,
+        status: 'warning',
+        items: [
+          { label: 'Post Frequency', status: 'warning', recommendation: 'Post more regularly (at least 2-3 times per week)' },
+          { label: 'Post Quality', status: 'complete', recommendation: 'Posts are engaging and relevant to your audience' },
+          { label: 'Post Types', status: 'warning', recommendation: 'Use varied post types: offers, events, products, updates' },
+          { label: 'Call-to-Actions', status: 'error', recommendation: 'Include clear call-to-actions in your posts' }
+        ]
+      },
+      {
+        title: 'Q&A Section',
+        percentage: 60,
+        status: 'error',
+        items: [
+          { label: 'Question Response', status: 'error', recommendation: 'Respond to customer questions within 24 hours' },
+          { label: 'FAQ Management', status: 'warning', recommendation: 'Proactively add frequently asked questions' },
+          { label: 'Answer Quality', status: 'complete', recommendation: 'Answers are helpful and detailed' }
+        ]
+      }
+    ]
+  };
+
+  const getStatusBg = (status: string) => {
+    switch (status) {
+      case 'complete': return 'bg-green-50 border-green-200';
+      case 'warning': return 'bg-yellow-50 border-yellow-200';
+      case 'error': return 'bg-red-50 border-red-200';
+      default: return 'bg-gray-50 border-gray-200';
     }
-  };
-
-  const getScoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-600';
-    if (score >= 70) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const getScoreBg = (score: number) => {
-    if (score >= 85) return 'bg-green-50';
-    if (score >= 70) return 'bg-yellow-50';
-    return 'bg-red-50';
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'excellent': return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'good': return <AlertCircle className="h-4 w-4 text-yellow-600" />;
-      case 'needs-improvement': return <XCircle className="h-4 w-4 text-red-600" />;
+      case 'complete': return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case 'warning': return <AlertCircle className="h-4 w-4 text-yellow-600" />;
+      case 'error': return <XCircle className="h-4 w-4 text-red-600" />;
       default: return <AlertCircle className="h-4 w-4 text-gray-600" />;
     }
   };
 
-  const getInsightIcon = (type: string) => {
-    switch (type) {
-      case 'success': return <CheckCircle className="h-5 w-5 text-green-600" />;
-      case 'warning': return <AlertCircle className="h-5 w-5 text-yellow-600" />;
-      case 'info': return <Heart className="h-5 w-5 text-blue-600" />;
-      default: return <Heart className="h-5 w-5 text-gray-600" />;
+  const getSectionStatusColor = (status: string) => {
+    switch (status) {
+      case 'excellent': return 'text-green-600';
+      case 'good': return 'text-blue-600';
+      case 'warning': return 'text-yellow-600';
+      case 'error': return 'text-red-600';
+      default: return 'text-gray-600';
     }
   };
 
@@ -81,123 +163,119 @@ export const PublicGMBHealthReport: React.FC = () => {
       companyLogo={healthData.companyLogo}
     >
       <div className="space-y-6">
-        {/* Overall Health Score */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-red-500" />
-              Overall Health Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center">
-              <div className={`relative w-32 h-32 rounded-full flex items-center justify-center ${getScoreBg(healthData.overallScore)}`}>
-                <div className="text-center">
-                  <div className={`text-3xl font-bold ${getScoreColor(healthData.overallScore)}`}>
-                    {healthData.overallScore}
-                  </div>
-                  <div className="text-sm text-muted-foreground">/ 100</div>
-                </div>
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {/* GMB Health Score */}
+          <Card className="text-center">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                <CircularProgress 
+                  value={healthData.summaryStats.healthScore} 
+                  size={80} 
+                  strokeWidth={8}
+                  className="text-primary mb-4"
+                >
+                  <span className="text-lg font-bold">{healthData.summaryStats.healthScore}%</span>
+                </CircularProgress>
+                <h3 className="font-semibold text-sm">GMB Health Score</h3>
               </div>
-            </div>
-            <div className="mt-4 text-center">
-              <Badge 
-                variant={healthData.overallScore >= 85 ? 'default' : healthData.overallScore >= 70 ? 'secondary' : 'destructive'}
-                className="px-3 py-1"
-              >
-                {healthData.overallScore >= 85 ? 'Excellent' : healthData.overallScore >= 70 ? 'Good' : 'Needs Improvement'}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* Key Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-blue-600" />
+          {/* No. Of Reviews */}
+          <Card className="text-center">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                  <MessageSquare className="h-8 w-8 text-blue-600" />
+                </div>
+                <div className="text-2xl font-bold text-blue-600">{healthData.summaryStats.reviews}</div>
+                <h3 className="font-semibold text-sm text-muted-foreground">No. Of Reviews</h3>
               </div>
-              <div className="text-2xl font-bold">{healthData.stats.totalViews}</div>
-              <div className="text-sm text-muted-foreground">Total Views</div>
             </CardContent>
           </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
-                <MapPin className="h-5 w-5 text-green-600" />
+
+          {/* GMB Avg Rating */}
+          <Card className="text-center">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-yellow-50 rounded-full flex items-center justify-center mb-4">
+                  <Star className="h-8 w-8 text-yellow-600" />
+                </div>
+                <div className="text-2xl font-bold text-yellow-600">{healthData.summaryStats.avgRating}</div>
+                <h3 className="font-semibold text-sm text-muted-foreground">GMB Avg Rating</h3>
               </div>
-              <div className="text-2xl font-bold">{healthData.stats.searchAppearances}</div>
-              <div className="text-sm text-muted-foreground">Search Appearances</div>
             </CardContent>
           </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
-                <Users className="h-5 w-5 text-purple-600" />
+
+          {/* No. Of GMB Photos */}
+          <Card className="text-center">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-4">
+                  <Camera className="h-8 w-8 text-green-600" />
+                </div>
+                <div className="text-2xl font-bold text-green-600">{healthData.summaryStats.photos}</div>
+                <h3 className="font-semibold text-sm text-muted-foreground">No. Of GMB Photos</h3>
               </div>
-              <div className="text-2xl font-bold">{healthData.stats.customerActions}</div>
-              <div className="text-sm text-muted-foreground">Customer Actions</div>
             </CardContent>
           </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
-                <Star className="h-5 w-5 text-yellow-600" />
+
+          {/* No. Of GMB Posts */}
+          <Card className="text-center">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mb-4">
+                  <FileText className="h-8 w-8 text-purple-600" />
+                </div>
+                <div className="text-2xl font-bold text-purple-600">{healthData.summaryStats.posts}</div>
+                <h3 className="font-semibold text-sm text-muted-foreground">No. Of GMB Posts</h3>
               </div>
-              <div className="text-2xl font-bold">{healthData.stats.averageRating}</div>
-              <div className="text-sm text-muted-foreground">Avg Rating</div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Detailed Metrics */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Health Metrics Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {healthData.metrics.map((metric, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-1">
-                    {getStatusIcon(metric.status)}
-                    <span className="font-medium">{metric.label}</span>
-                  </div>
-                  <div className="flex items-center gap-3 min-w-[200px]">
-                    <Progress value={metric.score} className="flex-1" />
-                    <span className={`font-semibold w-10 ${getScoreColor(metric.score)}`}>
-                      {metric.score}%
+        {/* Health Sections Breakdown */}
+        <div className="space-y-4">
+          {healthData.healthSections.map((section, sectionIndex) => (
+            <Card key={sectionIndex}>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-3">
+                    <div className={`w-3 h-3 rounded-full ${
+                      section.status === 'excellent' ? 'bg-green-500' :
+                      section.status === 'good' ? 'bg-blue-500' :
+                      section.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
+                    }`} />
+                    {section.title}
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-sm font-semibold ${getSectionStatusColor(section.status)}`}>
+                      {section.percentage}%
                     </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Insights & Recommendations */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Insights & Recommendations</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {healthData.insights.map((insight, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/30">
-                  {getInsightIcon(insight.type)}
-                  <div className="flex-1">
-                    <h4 className="font-medium mb-1">{insight.title}</h4>
-                    <p className="text-sm text-muted-foreground">{insight.description}</p>
-                  </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  {section.items.map((item, itemIndex) => (
+                    <div key={itemIndex} className={`p-3 rounded-lg border ${getStatusBg(item.status)}`}>
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-2 flex-1">
+                          {getStatusIcon(item.status)}
+                          <span className="font-medium text-sm">{item.label}</span>
+                        </div>
+                      </div>
+                      <div className="mt-2 ml-6">
+                        <p className="text-xs text-muted-foreground">{item.recommendation}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </PublicReportDashboardLayout>
   );
