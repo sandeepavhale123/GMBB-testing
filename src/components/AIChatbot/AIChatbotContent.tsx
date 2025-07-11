@@ -3,6 +3,7 @@ import { Card, CardContent } from '../ui/card';
 import { MessageCircle, Bot, Menu, X, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
+import { PromptBox } from '../ui/chatgpt-prompt-input';
 
 export const AIChatbotContent: React.FC = () => {
   const [showHistory, setShowHistory] = useState(true);
@@ -69,7 +70,7 @@ export const AIChatbotContent: React.FC = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-screen bg-background dark:bg-[#212121]">
         {/* Header Section */}
         <div className="p-6 border-b">
           <div className="flex items-center space-x-3">
@@ -93,40 +94,20 @@ export const AIChatbotContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Chat Interface */}
-        <div className="flex-1 flex flex-col p-6">
-          {/* Chat Messages Area */}
-          <Card className="flex-1 flex flex-col mb-4">
-            <CardContent className="p-6 flex-1 flex flex-col">
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <MessageCircle className="h-8 w-8 text-gray-400" />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    Welcome to AI Assistant
-                  </h3>
-                  <p className="text-gray-500 max-w-md">
-                    Start a conversation to get insights, recommendations, and assistance with your business needs.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Chat Messages Area */}
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="text-center">
+            <p className="text-3xl text-foreground mb-8">
+              How Can I Help You
+            </p>
+          </div>
+        </div>
 
-          {/* Chat Input Area */}
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-2">
-                <div className="flex-1 bg-gray-50 rounded-lg px-4 py-3">
-                  <p className="text-gray-500 text-sm">Type your message here...</p>
-                </div>
-                <div className="bg-blue-500 rounded-lg px-4 py-3">
-                  <p className="text-white text-sm">Send</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Chat Input Area */}
+        <div className="p-6">
+          <div className="w-full max-w-2xl mx-auto">
+            <PromptBox />
+          </div>
         </div>
       </div>
     </div>
