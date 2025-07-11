@@ -472,35 +472,40 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={[{
                   name: "Webmarts Software Solution",
-                  shortName: "Webmarts Software",
+                  shortName: "YOU",
+                  index: "YOU",
                   displayName: "Webmarts Software Solution",
                   avgRating: 4.1,
                   reviewCount: 10,
                   isYou: true
                 }, {
                   name: "Redbytes Software",
-                  shortName: "Redbytes Software",
+                  shortName: "2",
+                  index: "2",
                   displayName: "Redbytes Software",
                   avgRating: 4.7,
                   reviewCount: 23,
                   isYou: false
                 }, {
                   name: "Websar IT Solutions",
-                  shortName: "Websar IT",
+                  shortName: "3",
+                  index: "3",
                   displayName: "Websar IT Solutions",
                   avgRating: 5,
                   reviewCount: 61,
                   isYou: false
                 }, {
                   name: "Web Square IT Solutions",
-                  shortName: "Web Square IT",
+                  shortName: "4",
+                  index: "4",
                   displayName: "Web Square IT Solutions",
                   avgRating: 4.3,
                   reviewCount: 10,
                   isYou: false
                 }, {
                   name: "WebNTT Technologies",
-                  shortName: "WebNTT Tech",
+                  shortName: "5",
+                  index: "5",
                   displayName: "WebNTT Technologies",
                   avgRating: 5,
                   reviewCount: 7,
@@ -509,17 +514,15 @@ export const PublicGMBHealthReport: React.FC = () => {
                   top: 20,
                   right: 30,
                   left: 20,
-                  bottom: 100
+                  bottom: 60
                 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                     <XAxis 
-                      dataKey="shortName" 
-                      angle={-45} 
-                      textAnchor="end" 
-                      height={100} 
+                      dataKey="index" 
+                      height={60} 
                       interval={0} 
-                      fontSize={11}
-                      tick={{ fill: '#374151', fontWeight: 500 }}
+                      fontSize={14}
+                      tick={{ fill: '#374151', fontWeight: 600 }}
                     />
                     <YAxis yAxisId="left" orientation="left" domain={[0, 5]} tick={{ fill: '#374151', fontSize: 12 }} />
                     <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={{ fill: '#374151', fontSize: 12 }} />
@@ -530,12 +533,12 @@ export const PublicGMBHealthReport: React.FC = () => {
                       ]} 
                       labelFormatter={label => {
                         const business = [
-                          { shortName: "Webmarts Software", displayName: "Webmarts Software Solution" },
-                          { shortName: "Redbytes Software", displayName: "Redbytes Software" },
-                          { shortName: "Websar IT", displayName: "Websar IT Solutions" },
-                          { shortName: "Web Square IT", displayName: "Web Square IT Solutions" },
-                          { shortName: "WebNTT Tech", displayName: "WebNTT Technologies" }
-                        ].find(b => b.shortName === label);
+                          { index: "YOU", displayName: "Webmarts Software Solution" },
+                          { index: "2", displayName: "Redbytes Software" },
+                          { index: "3", displayName: "Websar IT Solutions" },
+                          { index: "4", displayName: "Web Square IT Solutions" },
+                          { index: "5", displayName: "WebNTT Technologies" }
+                        ].find(b => b.index === label);
                         return business ? business.displayName : label;
                       }}
                       contentStyle={{
