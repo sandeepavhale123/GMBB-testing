@@ -70,9 +70,9 @@ export const AIChatbotContent: React.FC = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-h-screen bg-background dark:bg-[#212121]">
+      <div className="flex-1 flex flex-col h-full">
         {/* Header Section */}
-        <div className="p-6 border-b">
+        <div className="flex-shrink-0 p-6 border-b">
           <div className="flex items-center space-x-3">
             {!showHistory && (
               <Button
@@ -95,7 +95,7 @@ export const AIChatbotContent: React.FC = () => {
         </div>
 
         {/* Chat Messages Area */}
-        <div className="flex-1 flex items-center justify-center p-6">
+        <div className="flex-1 flex items-center justify-center p-6 min-h-0 overflow-auto">
           <div className="text-center">
             <p className="text-3xl text-foreground mb-8">
               How Can I Help You
@@ -104,7 +104,7 @@ export const AIChatbotContent: React.FC = () => {
         </div>
 
         {/* Chat Input Area */}
-        <div className="p-6">
+        <div className="flex-shrink-0 p-6 border-t bg-white">
           <div className="w-full max-w-2xl mx-auto">
             <PromptBox />
           </div>
