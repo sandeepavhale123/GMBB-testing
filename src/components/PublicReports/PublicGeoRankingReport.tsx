@@ -176,12 +176,21 @@ export const PublicGeoRankingReport: React.FC = () => {
 
     // Clean up existing map instance if it exists
     if ((mapInstanceRef as any).current) {
-      (mapInstanceRef as any).current.remove();
+      try {
+        (mapInstanceRef as any).current.remove();
+      } catch (e) {
+        console.log('Error removing existing map:', e);
+      }
       (mapInstanceRef as any).current = null;
     }
 
+    // Clear the DOM container completely
+    const container = mapRef.current;
+    container.innerHTML = '';
+    (container as any)._leaflet_id = null; // Clear Leaflet's internal ID
+    
     try {
-      const map = L.map(mapRef.current).setView(
+      const map = L.map(container).setView(
         [data.defaultCoordinates.lat, data.defaultCoordinates.lng],
         12
       );
@@ -213,18 +222,26 @@ export const PublicGeoRankingReport: React.FC = () => {
     document.head.appendChild(link);
 
     // Clean up all existing maps first
-    if ((mapInstanceRef as any).current) {
-      (mapInstanceRef as any).current.remove();
-      (mapInstanceRef as any).current = null;
-    }
-    if ((mapInstanceRef1 as any).current) {
-      (mapInstanceRef1 as any).current.remove();
-      (mapInstanceRef1 as any).current = null;
-    }
-    if ((mapInstanceRef2 as any).current) {
-      (mapInstanceRef2 as any).current.remove();
-      (mapInstanceRef2 as any).current = null;
-    }
+    const cleanupMap = (mapInstanceRef: React.RefObject<L.Map>, mapRef: React.RefObject<HTMLDivElement>) => {
+      if ((mapInstanceRef as any).current) {
+        try {
+          (mapInstanceRef as any).current.remove();
+        } catch (e) {
+          console.log('Error during map cleanup:', e);
+        }
+        (mapInstanceRef as any).current = null;
+      }
+      
+      // Clear DOM container
+      if (mapRef.current) {
+        mapRef.current.innerHTML = '';
+        (mapRef.current as any)._leaflet_id = null;
+      }
+    };
+
+    cleanupMap(mapInstanceRef, mapRef);
+    cleanupMap(mapInstanceRef1, mapRef1);
+    cleanupMap(mapInstanceRef2, mapRef2);
 
     let map1: L.Map | null = null;
     let map2: L.Map | null = null;
@@ -244,11 +261,12 @@ export const PublicGeoRankingReport: React.FC = () => {
 
     return () => {
       clearTimeout(initMaps);
-      if (map1) map1.remove();
-      if (map2) map2.remove();
-      if ((mapInstanceRef as any).current) (mapInstanceRef as any).current.remove();
-      if ((mapInstanceRef1 as any).current) (mapInstanceRef1 as any).current.remove();
-      if ((mapInstanceRef2 as any).current) (mapInstanceRef2 as any).current.remove();
+      
+      // Cleanup all maps
+      cleanupMap(mapInstanceRef, mapRef);
+      cleanupMap(mapInstanceRef1, mapRef1);
+      cleanupMap(mapInstanceRef2, mapRef2);
+      
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
@@ -361,6 +379,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 <div className="relative">
                   <div
                     ref={mapRef}
+                    key={`individual-map-${reportType}`}
                     className="w-full h-[400px] rounded-lg border z-0"
                   />
                   {/* Legend */}
@@ -399,6 +418,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 <div className="relative">
                   <div
                     ref={mapRef1}
+                    key={`comparison-map-1-${reportType}`}
                     className="w-full h-[350px] rounded-lg border z-0"
                   />
                   {/* Legend */}
@@ -435,6 +455,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 <div className="relative">
                   <div
                     ref={mapRef2}
+                    key={`comparison-map-2-${reportType}`}
                     className="w-full h-[350px] rounded-lg border z-0"
                   />
                   {/* Legend */}
