@@ -413,8 +413,6 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">Sentiment Analysis</CardTitle>
-                  
-                  <p className="text-blue-100 text-sm">({getCurrentOverview().totalReviews})</p>
                 </CardHeader>
                 
                 {/* Sentiment Analysis Donut Chart */}
