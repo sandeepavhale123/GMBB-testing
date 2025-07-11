@@ -270,9 +270,10 @@ export const PublicGMBHealthReport: React.FC = () => {
                       className="drop-shadow-sm"
                     />
                     
-                    {/* Center score */}
-                    <text x="21" y="18" textAnchor="middle" className="text-xs font-semibold fill-gray-600">Score</text>
-                    <text x="21" y="25" textAnchor="middle" className="text-lg font-bold fill-gray-800">70%</text>
+                     {/* Center score */}
+                     <text x="21" y="17" textAnchor="middle" className="text-xs font-medium fill-gray-500 uppercase tracking-wide">Overall</text>
+                     <text x="21" y="22" textAnchor="middle" className="text-2xl font-bold fill-gray-800">70</text>
+                     <text x="21" y="27" textAnchor="middle" className="text-xs font-medium fill-gray-500">out of 100</text>
                   </svg>
                 </div>
                 
