@@ -18,30 +18,30 @@ const sidebarItems = [{
   icon: Heart,
   path: '/public-reports/gmb-health/demo-token'
 }, {
-  id: 'geo-ranking',
-  label: 'GEO Ranking',
-  icon: MapPin,
-  path: '/public-reports/geo-ranking/demo-token'
+  id: 'insights',
+  label: 'Business Insights',
+  icon: BarChart3,
+  path: '/public-reports/insights/demo-token'
 }, {
   id: 'reviews',
   label: 'Reviews',
   icon: Star,
   path: '/public-reports/reviews/demo-token'
 }, {
-  id: 'insights',
-  label: 'Business Insights',
-  icon: BarChart3,
-  path: '/public-reports/insights/demo-token'
+  id: 'post-performance',
+  label: 'Post Performance',
+  icon: FileText,
+  path: '/public-reports/post-performance/demo-token'
 }, {
   id: 'media',
   label: 'Media Performance',
   icon: Image,
   path: '/public-reports/media/demo-token'
 }, {
-  id: 'post-performance',
-  label: 'Post Performance',
-  icon: FileText,
-  path: '/public-reports/post-performance/demo-token'
+  id: 'geo-ranking',
+  label: 'GEO Ranking',
+  icon: MapPin,
+  path: '/public-reports/geo-ranking/demo-token'
 }];
 export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutProps> = ({
   children,
