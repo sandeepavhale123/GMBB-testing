@@ -9,7 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star, TrendingUp, MessageSquare, Heart, ArrowUp, ArrowDown, Bot } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 export const PublicReviewsReport: React.FC = () => {
   const {
     token
@@ -115,6 +115,11 @@ export const PublicReviewsReport: React.FC = () => {
           percentage: 2
         }]
       }
+    },
+    sentimentAnalysis: {
+      positive: 84, // 5-star + 4-star percentages
+      neutral: 10,  // 3-star percentage
+      negative: 6   // 2-star + 1-star percentages
     },
     reviewChartData: [{
       date: '2024-01-01',
@@ -405,7 +410,7 @@ export const PublicReviewsReport: React.FC = () => {
             <div className="lg:col-span-3">
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-white text-lg">Review Summary</CardTitle>
+                  <CardTitle className="text-white text-lg">Sentiment Analysis</CardTitle>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-bold text-white">{getCurrentOverview().averageRating}</span>
                     <div className="flex items-center gap-1">
@@ -414,10 +419,71 @@ export const PublicReviewsReport: React.FC = () => {
                   </div>
                   <p className="text-blue-100 text-sm">({getCurrentOverview().totalReviews})</p>
                 </CardHeader>
+                
+                {/* Sentiment Analysis Donut Chart */}
+                <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
+                  <div className="h-48 mb-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: 'Positive', value: reviewData.sentimentAnalysis.positive, fill: '#22c55e' },
+                            { name: 'Neutral', value: reviewData.sentimentAnalysis.neutral, fill: '#f59e0b' },
+                            { name: 'Negative', value: reviewData.sentimentAnalysis.negative, fill: '#ef4444' }
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={40}
+                          outerRadius={80}
+                          dataKey="value"
+                          startAngle={90}
+                          endAngle={450}
+                        >
+                          {[
+                            { name: 'Positive', value: reviewData.sentimentAnalysis.positive, fill: '#22c55e' },
+                            { name: 'Neutral', value: reviewData.sentimentAnalysis.neutral, fill: '#f59e0b' },
+                            { name: 'Negative', value: reviewData.sentimentAnalysis.negative, fill: '#ef4444' }
+                          ].map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value) => [`${value}%`, '']}
+                          contentStyle={{
+                            backgroundColor: 'white',
+                            border: '1px solid #e5e7eb',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Legend */}
+                  <div className="flex justify-center gap-4 text-xs">
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-700">Positive {reviewData.sentimentAnalysis.positive}%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <span className="text-gray-700">Neutral {reviewData.sentimentAnalysis.neutral}%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span className="text-gray-700">Negative {reviewData.sentimentAnalysis.negative}%</span>
+                    </div>
+                  </div>
+                </CardContent>
+                
                 <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
                   <div className="space-y-3">
                     {getCurrentSentiment().map(item => <div key={item.stars} className="flex items-center gap-3">
-                        
+                        <div className="flex items-center gap-1 w-8">
+                          <span className="text-sm font-medium text-gray-700">{item.stars}</span>
+                          <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                        </div>
                         <div className="flex-1">
                           <Progress value={item.percentage} className="h-2" />
                         </div>
