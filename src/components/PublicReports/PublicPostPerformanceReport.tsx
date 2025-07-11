@@ -252,11 +252,6 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     {getStatusBadge(post.status)}
-                    {post.status === 'published' && (
-                      <span className="text-sm text-muted-foreground">
-                        {post.engagement} interactions
-                      </span>
-                    )}
                   </div>
                   <Button variant="outline" size="sm">
                     <Eye className="h-4 w-4 mr-2" />
