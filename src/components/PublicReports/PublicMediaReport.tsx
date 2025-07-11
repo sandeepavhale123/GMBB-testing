@@ -225,38 +225,23 @@ export const PublicMediaReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Top Performing Media */}
+        {/* Recent Media */}
         <Card>
           <CardHeader>
-            <CardTitle>Top Performing Media</CardTitle>
+            <CardTitle>Recent Media</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {currentData.topPerforming.map((media, index) => (
+              {currentData.topPerforming.slice(0, 10).map((media, index) => (
                 <div key={media.id} className="flex items-center gap-4 p-4 rounded-lg border">
                   <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center">
                     {getMediaIcon(media.type)}
                   </div>
                   <div className="flex-1">
                     <h4 className="font-medium">{media.title}</h4>
-                    <div className="flex items-center gap-4 mt-1">
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Eye className="h-3 w-3" />
-                        {media.views.toLocaleString()}
-                      </div>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Heart className="h-3 w-3" />
-                        {media.likes}
-                      </div>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Share2 className="h-3 w-3" />
-                        {media.shares}
-                      </div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      {media.type === 'photo' ? 'Photo' : 'Video'}
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-green-600">{media.engagement}%</div>
-                    <div className="text-sm text-muted-foreground">engagement</div>
                   </div>
                 </div>
               ))}
