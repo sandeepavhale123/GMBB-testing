@@ -4,6 +4,7 @@ import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { MapPin, TrendingUp, Target, Users, Clock } from 'lucide-react';
 import { CircularProgress } from '@/components/ui/circular-progress';
 import L from 'leaflet';
@@ -19,9 +20,21 @@ export const PublicGeoRankingReport: React.FC = () => {
   const { token } = useParams();
   const [selectedKeyword, setSelectedKeyword] = useState('Webdesign');
   const [frequency, setFrequency] = useState('Weekly');
+  const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
+  
+  // Map refs for individual view
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
+  
+  // Map refs for comparison view
+  const mapRef1 = useRef<HTMLDivElement>(null);
+  const mapInstanceRef1 = useRef<L.Map | null>(null);
+  const markersRef1 = useRef<L.Marker[]>([]);
+  
+  const mapRef2 = useRef<HTMLDivElement>(null);
+  const mapInstanceRef2 = useRef<L.Map | null>(null);
+  const markersRef2 = useRef<L.Marker[]>([]);
 
   // Sample data with coordinates
   const geoData = {
@@ -49,6 +62,33 @@ export const PublicGeoRankingReport: React.FC = () => {
       { coordinate: "37.7549,-122.4194", rank: "9", positionId: "9" }
     ]
   };
+
+  // Sample data for comparison (second dataset)
+  const comparisonData = {
+    companyName: 'Competitor Business',
+    companyLogo: null,
+    overview: {
+      totalKeywords: 38,
+      overallVisibility: 4.80,
+      selectedKeyword: 'Webdesign',
+      frequency: 'Weekly'
+    },
+    keywords: ['Webdesign', 'Digital Marketing', 'SEO Services', 'Local Business', 'Web Development'],
+    gridData: [[3, 5, 7], [2, 8, 4], [9, 6, 1]],
+    // Demo coordinates (centered around Los Angeles)
+    defaultCoordinates: { lat: 34.0522, lng: -118.2437 },
+    rankDetails: [
+      { coordinate: "34.0622,-118.2337", rank: "3", positionId: "1" },
+      { coordinate: "34.0422,-118.2537", rank: "5", positionId: "2" },
+      { coordinate: "34.0522,-118.2637", rank: "7", positionId: "3" },
+      { coordinate: "34.0622,-118.2537", rank: "2", positionId: "4" },
+      { coordinate: "34.0422,-118.2337", rank: "8", positionId: "5" },
+      { coordinate: "34.0522,-118.2437", rank: "4", positionId: "6" },
+      { coordinate: "34.0622,-118.2637", rank: "9", positionId: "7" },
+      { coordinate: "34.0422,-118.2637", rank: "6", positionId: "8" },
+      { coordinate: "34.0322,-118.2437", rank: "1", positionId: "9" }
+    ]
+  };
   // Get rank color for grid display
   const getRankingColor = (position: number) => {
     if (position <= 3) return 'bg-green-500';
@@ -65,20 +105,24 @@ export const PublicGeoRankingReport: React.FC = () => {
   };
 
   // Clear all markers
-  const clearMarkers = () => {
-    markersRef.current.forEach((marker) => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.removeLayer(marker);
+  const clearMarkers = (mapInstance: React.RefObject<L.Map>, markers: React.RefObject<L.Marker[]>) => {
+    markers.current.forEach((marker) => {
+      if (mapInstance.current) {
+        mapInstance.current.removeLayer(marker);
       }
     });
-    markersRef.current = [];
+    markers.current.length = 0;
   };
 
   // Add ranking markers
-  const addRankingMarkers = () => {
-    if (!mapInstanceRef.current || !geoData.rankDetails) return;
+  const addRankingMarkers = (
+    mapInstance: React.RefObject<L.Map>, 
+    markers: React.RefObject<L.Marker[]>, 
+    data: typeof geoData
+  ) => {
+    if (!mapInstance.current || !data.rankDetails) return;
 
-    geoData.rankDetails.forEach((detail) => {
+    data.rankDetails.forEach((detail) => {
       const [lat, lng] = detail.coordinate.split(",").map(Number);
       const rankColor = getRankColorHex(detail.rank);
 
@@ -104,7 +148,7 @@ export const PublicGeoRankingReport: React.FC = () => {
 
       const marker = L.marker([lat, lng], {
         icon: rankIcon,
-      }).addTo(mapInstanceRef.current!);
+      }).addTo(mapInstance.current!);
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
@@ -113,11 +157,36 @@ export const PublicGeoRankingReport: React.FC = () => {
         </div>
       `);
 
-      markersRef.current.push(marker);
+      markers.current.push(marker);
     });
   };
 
-  // Initialize map
+  // Initialize single map
+  const initializeMap = (
+    mapRef: React.RefObject<HTMLDivElement>,
+    mapInstanceRef: React.RefObject<L.Map>,
+    markersRef: React.RefObject<L.Marker[]>,
+    data: typeof geoData
+  ) => {
+    if (!mapRef.current || !data.defaultCoordinates) return null;
+
+    const map = L.map(mapRef.current).setView(
+      [data.defaultCoordinates.lat, data.defaultCoordinates.lng],
+      12
+    );
+    (mapInstanceRef as any).current = map;
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Add markers
+    addRankingMarkers(mapInstanceRef, markersRef, data);
+
+    return map;
+  };
+
+  // Initialize maps based on report type
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -126,39 +195,45 @@ export const PublicGeoRankingReport: React.FC = () => {
     link.crossOrigin = "";
     document.head.appendChild(link);
 
-    if (!mapRef.current || !geoData.defaultCoordinates) return;
+    let map1: L.Map | null = null;
+    let map2: L.Map | null = null;
 
-    const map = L.map(mapRef.current).setView(
-      [geoData.defaultCoordinates.lat, geoData.defaultCoordinates.lng],
-      12
-    );
-    mapInstanceRef.current = map;
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    // Add markers
-    addRankingMarkers();
+    if (reportType === 'individual') {
+      map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
+    } else {
+      // Initialize both maps for comparison
+      setTimeout(() => {
+        map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);
+        map2 = initializeMap(mapRef2, mapInstanceRef2, markersRef2, comparisonData);
+      }, 100);
+    }
 
     return () => {
-      if (map) {
-        map.remove();
-      }
+      if (map1) map1.remove();
+      if (map2) map2.remove();
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
       }
     };
-  }, []);
+  }, [reportType]);
 
   // Update markers when keyword changes
   useEffect(() => {
-    if (mapInstanceRef.current) {
-      clearMarkers();
-      addRankingMarkers();
+    if (reportType === 'individual' && mapInstanceRef.current) {
+      clearMarkers(mapInstanceRef, markersRef);
+      addRankingMarkers(mapInstanceRef, markersRef, geoData);
+    } else if (reportType === 'comparison') {
+      if (mapInstanceRef1.current) {
+        clearMarkers(mapInstanceRef1, markersRef1);
+        addRankingMarkers(mapInstanceRef1, markersRef1, geoData);
+      }
+      if (mapInstanceRef2.current) {
+        clearMarkers(mapInstanceRef2, markersRef2);
+        addRankingMarkers(mapInstanceRef2, markersRef2, comparisonData);
+      }
     }
-  }, [selectedKeyword]);
+  }, [selectedKeyword, reportType]);
   return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo}>
       <div className="space-y-6">
         {/* First Row - Control Panel */}
@@ -209,46 +284,141 @@ export const PublicGeoRankingReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Second Row - GEO Ranking Report */}
+        {/* Report Type Toggle */}
         <Card>
           <CardContent className="p-6">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
-              <p className="text-muted-foreground mb-1">February 01 2025 - February 28 2025</p>
-              <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
-            </div>
-
-            {/* Map Display */}
-            <div>
-              <div className="relative">
-                <div
-                  ref={mapRef}
-                  className="w-full h-[400px] rounded-lg border z-0"
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
+                <p className="text-muted-foreground mb-1">February 01 2025 - February 28 2025</p>
+                <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className={`text-sm font-medium ${reportType === 'individual' ? 'text-primary' : 'text-muted-foreground'}`}>
+                  Individual
+                </span>
+                <Switch
+                  checked={reportType === 'comparison'}
+                  onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
                 />
-                {/* Legend */}
-                <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
-                  <div className="text-xs font-medium text-gray-700 mb-2">
-                    Ranking Legend
-                  </div>
-                  <div className="flex flex-col gap-1 text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span>1-3 (Top)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <span>4-6 (Good)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <span>7+ (Poor)</span>
-                    </div>
-                  </div>
-                </div>
+                <span className={`text-sm font-medium ${reportType === 'comparison' ? 'text-primary' : 'text-muted-foreground'}`}>
+                  Comparison
+                </span>
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* GEO Ranking Report Content */}
+        {reportType === 'individual' ? (
+          <Card>
+            <CardContent className="p-6">
+              {/* Map Display */}
+              <div>
+                <div className="relative">
+                  <div
+                    ref={mapRef}
+                    className="w-full h-[400px] rounded-lg border z-0"
+                  />
+                  {/* Legend */}
+                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
+                    <div className="text-xs font-medium text-gray-700 mb-2">
+                      Ranking Legend
+                    </div>
+                    <div className="flex flex-col gap-1 text-xs">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span>1-3 (Top)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <span>4-6 (Good)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <span>7+ (Poor)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* First Report Card */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold mb-1">{geoData.companyName}</h3>
+                  <p className="text-sm text-muted-foreground">Visibility: {geoData.overview.overallVisibility}%</p>
+                </div>
+                <div className="relative">
+                  <div
+                    ref={mapRef1}
+                    className="w-full h-[350px] rounded-lg border z-0"
+                  />
+                  {/* Legend */}
+                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
+                    <div className="text-xs font-medium text-gray-700 mb-1">
+                      Legend
+                    </div>
+                    <div className="flex flex-col gap-1 text-xs">
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span>1-3</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        <span>4-6</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                        <span>7+</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Second Report Card */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold mb-1">{comparisonData.companyName}</h3>
+                  <p className="text-sm text-muted-foreground">Visibility: {comparisonData.overview.overallVisibility}%</p>
+                </div>
+                <div className="relative">
+                  <div
+                    ref={mapRef2}
+                    className="w-full h-[350px] rounded-lg border z-0"
+                  />
+                  {/* Legend */}
+                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
+                    <div className="text-xs font-medium text-gray-700 mb-1">
+                      Legend
+                    </div>
+                    <div className="flex flex-col gap-1 text-xs">
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span>1-3</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        <span>4-6</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                        <span>7+</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </PublicReportDashboardLayout>;
 };
