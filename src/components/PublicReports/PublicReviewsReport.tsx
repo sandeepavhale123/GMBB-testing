@@ -482,9 +482,9 @@ export const PublicReviewsReport: React.FC = () => {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2">
-                          <div className="flex">{renderStars(review.rating)}</div>
+                        <div className="flex items-center gap-2 flex-col gap-1">
                           <span className="font-medium">{review.author}</span>
+                          <div className="flex">{renderStars(review.rating)}</div>
                         </div>
                       </div>
                     </div>
