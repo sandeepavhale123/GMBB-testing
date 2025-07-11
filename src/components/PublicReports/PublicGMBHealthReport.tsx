@@ -965,15 +965,15 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <tr className="bg-white hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium text-gray-900">21</td>
                     <td className="px-4 py-3 text-gray-700">Encourage Customer Photo Uploads</td>
-                    <td className="px-4 py-3 text-right">
-                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    <td className="px-4 py-3 text-right" style={{width:"200px"}}>
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 ">Optional Enhancements s</Badge>
                     </td>
                   </tr>
                   <tr className="bg-gray-50 hover:bg-gray-100">
                     <td className="px-4 py-3 font-medium text-gray-900">22</td>
                     <td className="px-4 py-3 text-gray-700">Leverage Offers and Coupons</td>
                     <td className="px-4 py-3 text-right">
-                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 whitespace-nowrap">Optional</Badge>
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
                     </td>
                   </tr>
                 </tbody>
