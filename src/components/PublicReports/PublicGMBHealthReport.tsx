@@ -215,9 +215,9 @@ export const PublicGMBHealthReport: React.FC = () => {
                     <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#ef4444" strokeWidth="4" strokeDasharray="30 70" strokeDashoffset="-45" strokeLinecap="round" transform="rotate(-90 21 21)" className="drop-shadow-sm" />
                     
                      {/* Center score */}
-                     <text x="21" y="17" textAnchor="middle" className="text-xs font-medium fill-gray-500 uppercase tracking-wide">Overall</text>
+                     {/* <text x="21" y="17" textAnchor="middle" className="text-xs font-medium fill-gray-500 uppercase tracking-wide">Overall</text>
                      <text x="21" y="22" textAnchor="middle" className="text-2xl font-bold fill-gray-800">70</text>
-                     <text x="21" y="27" textAnchor="middle" className="text-xs font-medium fill-gray-500">out of 100</text>
+                     <text x="21" y="27" textAnchor="middle" className="text-xs font-medium fill-gray-500">out of 100</text> */}
                   </svg>
                 </div>
                 
