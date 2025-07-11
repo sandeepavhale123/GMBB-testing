@@ -804,6 +804,184 @@ export const PublicGMBHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Advanced Suggestion Beyond Current Checks */}
+        <Card className="bg-white">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-bold text-gray-900">
+              Advanced Suggestion Beyond Current Checks
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="px-4 py-3 text-left font-semibold text-gray-900 w-16">#</th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-900">Suggestion</th>
+                    <th className="px-4 py-3 text-right font-semibold text-gray-900 w-48">Impact</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">1</td>
+                    <td className="px-4 py-3 text-gray-700">Use question and Answer (Q&A)</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">2</td>
+                    <td className="px-4 py-3 text-gray-700">Add a virtual Tour</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">3</td>
+                    <td className="px-4 py-3 text-gray-700">Highlight Special Features with Posts</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">4</td>
+                    <td className="px-4 py-3 text-gray-700">Use Call Tracking</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">5</td>
+                    <td className="px-4 py-3 text-gray-700">Optimize for Voice Search</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">6</td>
+                    <td className="px-4 py-3 text-gray-700">Add Service Areas</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">7</td>
+                    <td className="px-4 py-3 text-gray-700">Use Google Posts to Announce Offers</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">8</td>
+                    <td className="px-4 py-3 text-gray-700">Use Emoji in Posts</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">9</td>
+                    <td className="px-4 py-3 text-gray-700">Integrate Booking Options</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">10</td>
+                    <td className="px-4 py-3 text-gray-700">Share Customer Stories</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">11</td>
+                    <td className="px-4 py-3 text-gray-700">Promote Online Store or Delivery Options</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Moderate Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">12</td>
+                    <td className="px-4 py-3 text-gray-700">Add Industry Certifications</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">13</td>
+                    <td className="px-4 py-3 text-gray-700">Use Localized Keywords</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">14</td>
+                    <td className="px-4 py-3 text-gray-700">Participate in Local Events</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">15</td>
+                    <td className="px-4 py-3 text-gray-700">Use Custom Short Links</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">16</td>
+                    <td className="px-4 py-3 text-gray-700">Track Clicks from GMB</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">17</td>
+                    <td className="px-4 py-3 text-gray-700">Add Seasonal Business Hours</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">18</td>
+                    <td className="px-4 py-3 text-gray-700">Create Video Content</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">19</td>
+                    <td className="px-4 py-3 text-gray-700">Use Google Products and Services</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100">High Impact</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">20</td>
+                    <td className="px-4 py-3 text-gray-700">Monitor Competitor Activity</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-white hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">21</td>
+                    <td className="px-4 py-3 text-gray-700">Encourage Customer Photo Uploads</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 hover:bg-gray-100">
+                    <td className="px-4 py-3 font-medium text-gray-900">22</td>
+                    <td className="px-4 py-3 text-gray-700">Leverage Offers and Coupons</td>
+                    <td className="px-4 py-3 text-right">
+                      <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100">Optional Enhancements</Badge>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
           {healthData.healthSections.map((section, sectionIndex) => (
