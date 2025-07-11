@@ -5,36 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CircularProgress } from '@/components/ui/circular-progress';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer 
-} from 'recharts';
-import { 
-  Heart, 
-  CheckCircle, 
-  AlertCircle, 
-  XCircle, 
-  TrendingUp,
-  Users,
-  MapPin,
-  Star,
-  MessageSquare,
-  Camera,
-  FileText,
-  Phone,
-  Clock,
-  Info,
-  Building,
-  HelpCircle
-} from 'lucide-react';
-
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Heart, CheckCircle, AlertCircle, XCircle, TrendingUp, Users, MapPin, Star, MessageSquare, Camera, FileText, Phone, Clock, Info, Building, HelpCircle } from 'lucide-react';
 export const PublicGMBHealthReport: React.FC = () => {
-  const { token } = useParams();
+  const {
+    token
+  } = useParams();
 
   // Sample data - in real implementation, fetch based on token
   const healthData = {
@@ -49,41 +25,45 @@ export const PublicGMBHealthReport: React.FC = () => {
     },
     healthSections: []
   };
-
   const getStatusBg = (status: string) => {
     switch (status) {
-      case 'complete': return 'bg-green-50 border-green-200';
-      case 'warning': return 'bg-yellow-50 border-yellow-200';
-      case 'error': return 'bg-red-50 border-red-200';
-      default: return 'bg-gray-50 border-gray-200';
+      case 'complete':
+        return 'bg-green-50 border-green-200';
+      case 'warning':
+        return 'bg-yellow-50 border-yellow-200';
+      case 'error':
+        return 'bg-red-50 border-red-200';
+      default:
+        return 'bg-gray-50 border-gray-200';
     }
   };
-
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'complete': return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'warning': return <AlertCircle className="h-4 w-4 text-yellow-600" />;
-      case 'error': return <XCircle className="h-4 w-4 text-red-600" />;
-      default: return <AlertCircle className="h-4 w-4 text-gray-600" />;
+      case 'complete':
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case 'warning':
+        return <AlertCircle className="h-4 w-4 text-yellow-600" />;
+      case 'error':
+        return <XCircle className="h-4 w-4 text-red-600" />;
+      default:
+        return <AlertCircle className="h-4 w-4 text-gray-600" />;
     }
   };
-
   const getSectionStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'text-green-600';
-      case 'good': return 'text-blue-600';
-      case 'warning': return 'text-yellow-600';
-      case 'error': return 'text-red-600';
-      default: return 'text-gray-600';
+      case 'excellent':
+        return 'text-green-600';
+      case 'good':
+        return 'text-blue-600';
+      case 'warning':
+        return 'text-yellow-600';
+      case 'error':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
     }
   };
-
-  return (
-    <PublicReportDashboardLayout
-      title="GMB Health Report"
-      companyName={healthData.companyName}
-      companyLogo={healthData.companyLogo}
-    >
+  return <PublicReportDashboardLayout title="GMB Health Report" companyName={healthData.companyName} companyLogo={healthData.companyLogo}>
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -91,12 +71,7 @@ export const PublicGMBHealthReport: React.FC = () => {
           <Card className="text-center">
             <CardContent className="p-6">
               <div className="flex flex-col items-center">
-                <CircularProgress 
-                  value={healthData.summaryStats.healthScore} 
-                  size={80} 
-                  strokeWidth={8}
-                  className="text-primary mb-4"
-                >
+                <CircularProgress value={healthData.summaryStats.healthScore} size={80} strokeWidth={8} className="text-primary mb-4">
                   <span className="text-lg font-bold">{healthData.summaryStats.healthScore}%</span>
                 </CircularProgress>
                 <h3 className="font-semibold text-sm">GMB Health Score</h3>
@@ -233,42 +208,11 @@ export const PublicGMBHealthReport: React.FC = () => {
                         <stop offset="100%" stopColor="#f3f4f6" />
                       </linearGradient>
                     </defs>
-                    <circle
-                      cx="21"
-                      cy="21"
-                      r="15.915"
-                      fill="transparent"
-                      stroke="url(#bgGradient)"
-                      strokeWidth="4"
-                    />
+                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="url(#bgGradient)" strokeWidth="4" />
                     {/* Passed tests arc - enhanced */}
-                    <circle
-                      cx="21"
-                      cy="21"
-                      r="15.915"
-                      fill="transparent"
-                      stroke="#10b981"
-                      strokeWidth="4"
-                      strokeDasharray="70 30"
-                      strokeDashoffset="25"
-                      strokeLinecap="round"
-                      transform="rotate(-90 21 21)"
-                      className="drop-shadow-sm"
-                    />
+                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#10b981" strokeWidth="4" strokeDasharray="70 30" strokeDashoffset="25" strokeLinecap="round" transform="rotate(-90 21 21)" className="drop-shadow-sm" />
                     {/* Failed tests arc - enhanced */}
-                    <circle
-                      cx="21"
-                      cy="21"
-                      r="15.915"
-                      fill="transparent"
-                      stroke="#ef4444"
-                      strokeWidth="4"
-                      strokeDasharray="30 70"
-                      strokeDashoffset="-45"
-                      strokeLinecap="round"
-                      transform="rotate(-90 21 21)"
-                      className="drop-shadow-sm"
-                    />
+                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#ef4444" strokeWidth="4" strokeDasharray="30 70" strokeDashoffset="-45" strokeLinecap="round" transform="rotate(-90 21 21)" className="drop-shadow-sm" />
                     
                      {/* Center score */}
                      <text x="21" y="17" textAnchor="middle" className="text-xs font-medium fill-gray-500 uppercase tracking-wide">Overall</text>
@@ -298,14 +242,7 @@ export const PublicGMBHealthReport: React.FC = () => {
             </div>
 
             {/* Bottom Summary */}
-            <div className="mt-8 pt-6 border-t border-gray-100">
-              <div className="text-center">
-                <p className="text-gray-600">
-                  Your GMB profile has <span className="font-semibold text-green-600">room for improvement</span>. 
-                  Focus on the failed areas to boost your local search visibility.
-                </p>
-              </div>
-            </div>
+            
           </CardContent>
         </Card>
 
@@ -529,69 +466,47 @@ export const PublicGMBHealthReport: React.FC = () => {
               {/* Recharts Bar Chart */}
               <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={[
-                      {
-                        name: "Webmarts Software Solution",
-                        shortName: "Webmarts Software Solution",
-                        avgRating: 4.1,
-                        reviewCount: 10,
-                        isYou: true
-                      },
-                      {
-                        name: "Redbytes Software", 
-                        shortName: "Redbytes Software",
-                        avgRating: 4.7,
-                        reviewCount: 23,
-                        isYou: false
-                      },
-                      {
-                        name: "Websar IT Solutions",
-                        shortName: "Websar IT Solutions", 
-                        avgRating: 5,
-                        reviewCount: 61,
-                        isYou: false
-                      },
-                      {
-                        name: "Web Square IT Solutions",
-                        shortName: "Web Square IT Solutions",
-                        avgRating: 4.3,
-                        reviewCount: 10,
-                        isYou: false
-                      },
-                      {
-                        name: "WebNTT Technologies",
-                        shortName: "WebNTT Technologies",
-                        avgRating: 5,
-                        reviewCount: 7,
-                        isYou: false
-                      }
-                    ]}
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 20,
-                      bottom: 80,
-                    }}
-                  >
+                  <BarChart data={[{
+                  name: "Webmarts Software Solution",
+                  shortName: "Webmarts Software Solution",
+                  avgRating: 4.1,
+                  reviewCount: 10,
+                  isYou: true
+                }, {
+                  name: "Redbytes Software",
+                  shortName: "Redbytes Software",
+                  avgRating: 4.7,
+                  reviewCount: 23,
+                  isYou: false
+                }, {
+                  name: "Websar IT Solutions",
+                  shortName: "Websar IT Solutions",
+                  avgRating: 5,
+                  reviewCount: 61,
+                  isYou: false
+                }, {
+                  name: "Web Square IT Solutions",
+                  shortName: "Web Square IT Solutions",
+                  avgRating: 4.3,
+                  reviewCount: 10,
+                  isYou: false
+                }, {
+                  name: "WebNTT Technologies",
+                  shortName: "WebNTT Technologies",
+                  avgRating: 5,
+                  reviewCount: 7,
+                  isYou: false
+                }]} margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 80
+                }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
-                      dataKey="shortName" 
-                      angle={-45}
-                      textAnchor="end"
-                      height={80}
-                      interval={0}
-                      fontSize={12}
-                    />
+                    <XAxis dataKey="shortName" angle={-45} textAnchor="end" height={80} interval={0} fontSize={12} />
                     <YAxis yAxisId="left" orientation="left" domain={[0, 5]} />
                     <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
-                    <Tooltip 
-                      formatter={(value, name) => [
-                        name === 'avgRating' ? `${value}` : `${value}`,
-                        name === 'avgRating' ? 'Avg. Rating' : 'Review Count'
-                      ]}
-                      labelFormatter={(label) => `Business: ${label}`}
-                    />
+                    <Tooltip formatter={(value, name) => [name === 'avgRating' ? `${value}` : `${value}`, name === 'avgRating' ? 'Avg. Rating' : 'Review Count']} labelFormatter={label => `Business: ${label}`} />
                     <Bar yAxisId="left" dataKey="avgRating" fill="#3b82f6" name="avgRating" />
                     <Bar yAxisId="right" dataKey="reviewCount" fill="#f97316" name="reviewCount" />
                   </BarChart>
@@ -676,63 +591,41 @@ export const PublicGMBHealthReport: React.FC = () => {
               {/* Recharts Bar Chart */}
               <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={[
-                      {
-                        name: "Webmarts Software Solution",
-                        shortName: "Webmarts Software Solution",
-                        citationCount: 14,
-                        isYou: true
-                      },
-                      {
-                        name: "Redbytes Software", 
-                        shortName: "Redbytes Software",
-                        citationCount: 18,
-                        isYou: false
-                      },
-                      {
-                        name: "Websar IT Solutions",
-                        shortName: "Websar IT Solutions", 
-                        citationCount: 13,
-                        isYou: false
-                      },
-                      {
-                        name: "Web Square IT Solutions",
-                        shortName: "Web Square IT Solutions",
-                        citationCount: 26,
-                        isYou: false
-                      },
-                      {
-                        name: "WebNTT Technologies",
-                        shortName: "WebNTT Technologies",
-                        citationCount: 20,
-                        isYou: false
-                      }
-                    ]}
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 20,
-                      bottom: 80,
-                    }}
-                  >
+                  <BarChart data={[{
+                  name: "Webmarts Software Solution",
+                  shortName: "Webmarts Software Solution",
+                  citationCount: 14,
+                  isYou: true
+                }, {
+                  name: "Redbytes Software",
+                  shortName: "Redbytes Software",
+                  citationCount: 18,
+                  isYou: false
+                }, {
+                  name: "Websar IT Solutions",
+                  shortName: "Websar IT Solutions",
+                  citationCount: 13,
+                  isYou: false
+                }, {
+                  name: "Web Square IT Solutions",
+                  shortName: "Web Square IT Solutions",
+                  citationCount: 26,
+                  isYou: false
+                }, {
+                  name: "WebNTT Technologies",
+                  shortName: "WebNTT Technologies",
+                  citationCount: 20,
+                  isYou: false
+                }]} margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 80
+                }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
-                      dataKey="shortName" 
-                      angle={-45}
-                      textAnchor="end"
-                      height={80}
-                      interval={0}
-                      fontSize={12}
-                    />
+                    <XAxis dataKey="shortName" angle={-45} textAnchor="end" height={80} interval={0} fontSize={12} />
                     <YAxis domain={[0, 30]} />
-                    <Tooltip 
-                      formatter={(value, name) => [
-                        `${value}`,
-                        'Citation Count'
-                      ]}
-                      labelFormatter={(label) => `Business: ${label}`}
-                    />
+                    <Tooltip formatter={(value, name) => [`${value}`, 'Citation Count']} labelFormatter={label => `Business: ${label}`} />
                     <Bar dataKey="citationCount" fill="#3b82f6" name="citationCount" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -942,7 +835,9 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <tr className="bg-white hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium text-gray-900">21</td>
                     <td className="px-4 py-3 text-gray-700">Encourage Customer Photo Uploads</td>
-                    <td className="px-4 py-3 text-right" style={{width:"200px"}}>
+                    <td className="px-4 py-3 text-right" style={{
+                    width: "200px"
+                  }}>
                       <Badge className="bg-teal-100 text-teal-800 hover:bg-teal-100 ">Optional Enhancements</Badge>
                     </td>
                   </tr>
@@ -1000,16 +895,11 @@ export const PublicGMBHealthReport: React.FC = () => {
 
         {/* Health Sections Breakdown */}
         <div className="space-y-4">
-          {healthData.healthSections.map((section, sectionIndex) => (
-            <Card key={sectionIndex}>
+          {healthData.healthSections.map((section, sectionIndex) => <Card key={sectionIndex}>
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${
-                      section.status === 'excellent' ? 'bg-green-500' :
-                      section.status === 'good' ? 'bg-blue-500' :
-                      section.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
-                    }`} />
+                    <div className={`w-3 h-3 rounded-full ${section.status === 'excellent' ? 'bg-green-500' : section.status === 'good' ? 'bg-blue-500' : section.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'}`} />
                     {section.title}
                   </CardTitle>
                   <div className="flex items-center gap-2">
@@ -1021,8 +911,7 @@ export const PublicGMBHealthReport: React.FC = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="space-y-3">
-                  {section.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className={`p-3 rounded-lg border ${getStatusBg(item.status)}`}>
+                  {section.items.map((item, itemIndex) => <div key={itemIndex} className={`p-3 rounded-lg border ${getStatusBg(item.status)}`}>
                       <div className="flex items-start justify-between">
                         <div className="flex items-center gap-2 flex-1">
                           {getStatusIcon(item.status)}
@@ -1032,14 +921,11 @@ export const PublicGMBHealthReport: React.FC = () => {
                       <div className="mt-2 ml-6">
                         <p className="text-xs text-muted-foreground">{item.recommendation}</p>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
       </div>
-    </PublicReportDashboardLayout>
-  );
+    </PublicReportDashboardLayout>;
 };
