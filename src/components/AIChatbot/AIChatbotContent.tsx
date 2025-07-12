@@ -166,7 +166,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
             <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900">AI Genie Assistance</h1>
               <p className="text-gray-600">
-                {keyword ? `Get intelligent insights and assistance for "${keyword}"` : 'Get intelligent insights and assistance'}
+                {keyword ? `Get intelligent insights and assistance for keyword "${keyword}"` : 'Get intelligent insights and assistance'}
               </p>
             </div>
             {keyword && (
