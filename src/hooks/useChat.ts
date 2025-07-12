@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { ChatMessage, ChatSession, ChatHistoryItem, ChatMessageItem } from '../types/chatTypes';
-import { sendChatMessage, getChatHistory, getChatMessages, deleteChatSession } from '../api/chatApi';
+import { ChatMessage, ChatSession, ChatHistoryItem, ChatMessageItem, FeedbackType } from '../types/chatTypes';
+import { sendChatMessage, getChatHistory, getChatMessages, deleteChatSession, updateChatFeedback } from '../api/chatApi';
 import { useListingContext } from '../context/ListingContext';
 import { useAppSelector } from './useRedux';
 import { toast } from './use-toast';
@@ -201,21 +201,75 @@ export const useChat = (keywordId?: string) => {
     });
   }, []);
 
+  const submitFeedback = useCallback(async (messageId: string, feedback: FeedbackType) => {
+    if (!selectedListing?.id || !keywordId) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Missing listing or project information'
+      });
+      return;
+    }
+
+    // Set loading state for the specific message
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId 
+        ? { ...msg, isSubmittingFeedback: true }
+        : msg
+    ));
+
+    try {
+      const listingId = parseInt(selectedListing.id, 10);
+      const projectId = parseInt(keywordId, 10);
+
+      await updateChatFeedback({
+        listingId,
+        projectId,
+        chat_id: messageId,
+        feedback
+      });
+
+      // Update message with feedback
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId 
+          ? { ...msg, feedback, isSubmittingFeedback: false }
+          : msg
+      ));
+
+      toast({
+        title: 'Feedback submitted',
+        description: 'Thank you for your feedback!',
+      });
+
+    } catch (error: any) {
+      console.error('Failed to submit feedback:', error);
+      
+      // Remove loading state
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId 
+          ? { ...msg, isSubmittingFeedback: false }
+          : msg
+      ));
+
+      toast({
+        variant: 'destructive',
+        title: 'Feedback failed',
+        description: error.response?.data?.message || 'Failed to submit feedback. Please try again.',
+      });
+    }
+  }, [selectedListing?.id, keywordId]);
+
   const handleGoodResponse = useCallback((messageId: string) => {
-    console.log('Good response for message:', messageId);
-    toast({
-      title: 'Feedback recorded',
-      description: 'Thank you for your feedback!',
-    });
-  }, []);
+    submitFeedback(messageId, 'good');
+  }, [submitFeedback]);
 
   const handleBadResponse = useCallback((messageId: string) => {
-    console.log('Bad response for message:', messageId);
-    toast({
-      title: 'Feedback recorded',
-      description: 'Thank you for your feedback. We\'ll work to improve.',
-    });
-  }, []);
+    submitFeedback(messageId, 'bad');
+  }, [submitFeedback]);
+
+  const handleNeutralResponse = useCallback((messageId: string) => {
+    submitFeedback(messageId, 'neutral');
+  }, [submitFeedback]);
 
   // Transform API chat messages to ChatMessage format
   const transformChatMessages = useCallback((chatMessages: ChatMessageItem[]): ChatMessage[] => {
@@ -345,6 +399,7 @@ export const useChat = (keywordId?: string) => {
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
+    handleNeutralResponse,
     loadChatSession,
     deleteChatHistory,
     startNewChat,

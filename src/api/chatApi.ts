@@ -1,5 +1,5 @@
 import axiosInstance from './axiosInstance';
-import { ChatSendRequest, ChatSendResponse, ChatHistoryRequest, ChatHistoryResponse, ChatMessagesRequest, ChatMessagesResponse, ChatDeleteRequest, ChatDeleteResponse } from '../types/chatTypes';
+import { ChatSendRequest, ChatSendResponse, ChatHistoryRequest, ChatHistoryResponse, ChatMessagesRequest, ChatMessagesResponse, ChatDeleteRequest, ChatDeleteResponse, ChatFeedbackRequest, ChatFeedbackResponse } from '../types/chatTypes';
 
 export const sendChatMessage = async (data: ChatSendRequest): Promise<ChatSendResponse> => {
   const response = await axiosInstance.post('/chat/geo-ranking-agent', data);
@@ -18,5 +18,10 @@ export const getChatMessages = async (data: ChatMessagesRequest): Promise<ChatMe
 
 export const deleteChatSession = async (data: ChatDeleteRequest): Promise<ChatDeleteResponse> => {
   const response = await axiosInstance.post('/chat/delete-chat', data);
+  return response.data;
+};
+
+export const updateChatFeedback = async (data: ChatFeedbackRequest): Promise<ChatFeedbackResponse> => {
+  const response = await axiosInstance.post('/chat/update-feedback', data);
   return response.data;
 };

@@ -1,3 +1,5 @@
+export type FeedbackType = 'good' | 'bad' | 'neutral';
+
 export interface ChatMessage {
   id: string;
   type: 'user' | 'ai' | 'system';
@@ -5,6 +7,8 @@ export interface ChatMessage {
   timestamp: string;
   isLoading?: boolean;
   error?: string;
+  feedback?: FeedbackType;
+  isSubmittingFeedback?: boolean;
 }
 
 export interface ChatSendRequest {
@@ -92,6 +96,19 @@ export interface ChatDeleteRequest {
 }
 
 export interface ChatDeleteResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
+export interface ChatFeedbackRequest {
+  listingId: number;
+  projectId: number;
+  chat_id: string;
+  feedback: FeedbackType;
+}
+
+export interface ChatFeedbackResponse {
   code: number;
   message: string;
   data: any[];
