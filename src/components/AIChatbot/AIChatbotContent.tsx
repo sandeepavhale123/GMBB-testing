@@ -37,6 +37,54 @@ export const AIChatbotContent: React.FC = () => {
       type: 'ai', 
       content: 'Local SEO is crucial for businesses serving specific geographic areas. Here\'s how to optimize:\n\n• **Google My Business**: Complete your profile with accurate NAP (Name, Address, Phone)\n• **Local Keywords**: Use "near me" and location-based keywords\n• **Customer Reviews**: Encourage and respond to reviews\n• **Local Citations**: Ensure consistent business information across directories\n• **Local Content**: Create content about local events and community involvement\n\nThis helps you appear in local search results and Google Maps.',
       timestamp: '2:33 PM'
+    },
+    { 
+      id: 5, 
+      type: 'user', 
+      content: 'What about content marketing strategies?',
+      timestamp: '2:35 PM'
+    },
+    { 
+      id: 6, 
+      type: 'ai', 
+      content: 'Content marketing is essential for building authority and engaging your audience. Here are proven strategies:\n\n**Content Types:**\n• Blog posts addressing customer pain points\n• Video tutorials and demonstrations\n• Infographics and visual content\n• Case studies and success stories\n• Podcasts or webinars\n\n**Distribution:**\n• Social media platforms\n• Email newsletters\n• Guest posting on industry sites\n• YouTube and video platforms\n\n**Best Practices:**\n• Maintain consistent publishing schedule\n• Focus on providing value, not just promotion\n• Use analytics to track performance\n• Repurpose content across different formats',
+      timestamp: '2:36 PM'
+    },
+    { 
+      id: 7, 
+      type: 'user', 
+      content: 'How do I measure the success of my marketing campaigns?',
+      timestamp: '2:38 PM'
+    },
+    { 
+      id: 8, 
+      type: 'ai', 
+      content: 'Measuring marketing success requires tracking the right KPIs. Here\'s what to monitor:\n\n**Traffic Metrics:**\n• Website visitors and unique users\n• Page views and session duration\n• Bounce rate and exit pages\n• Traffic sources (organic, paid, social, direct)\n\n**Engagement Metrics:**\n• Social media likes, shares, comments\n• Email open and click-through rates\n• Video watch time and completion rates\n• Time spent on page\n\n**Conversion Metrics:**\n• Lead generation and conversion rates\n• Sales attribution to specific campaigns\n• Cost per acquisition (CPA)\n• Return on investment (ROI)\n\n**Tools to Use:**\n• Google Analytics for website data\n• Social media analytics platforms\n• Email marketing platform reports\n• CRM systems for sales tracking',
+      timestamp: '2:39 PM'
+    },
+    { 
+      id: 9, 
+      type: 'user', 
+      content: 'Can you help me create a social media strategy?',
+      timestamp: '2:41 PM'
+    },
+    { 
+      id: 10, 
+      type: 'ai', 
+      content: 'Absolutely! Here\'s a comprehensive social media strategy framework:\n\n**1. Platform Selection:**\n• LinkedIn: B2B, professional content\n• Instagram: Visual content, younger demographics\n• Facebook: Broad audience, community building\n• Twitter: News, customer service, thought leadership\n• TikTok: Short-form video, Gen Z audience\n\n**2. Content Pillars (80/20 rule):**\n• 80% valuable, educational content\n• 20% promotional content\n\n**3. Content Calendar:**\n• Plan posts 1-2 weeks in advance\n• Mix content types (images, videos, text)\n• Post consistently (daily for active platforms)\n\n**4. Engagement Strategy:**\n• Respond to comments within 2-4 hours\n• Share user-generated content\n• Use relevant hashtags and trends\n• Collaborate with influencers or partners\n\n**5. Analytics & Optimization:**\n• Track engagement rates\n• Monitor follower growth\n• Analyze best performing content\n• Adjust strategy based on data',
+      timestamp: '2:42 PM'
+    },
+    { 
+      id: 11, 
+      type: 'user', 
+      content: 'What are the latest digital marketing trends for 2024?',
+      timestamp: '2:44 PM'
+    },
+    { 
+      id: 12, 
+      type: 'ai', 
+      content: 'Here are the key digital marketing trends shaping 2024:\n\n**AI-Powered Marketing:**\n• Personalized customer experiences\n• Automated content creation\n• Predictive analytics for customer behavior\n• Chatbots and virtual assistants\n\n**Video Content Dominance:**\n• Short-form videos (TikTok, Instagram Reels)\n• Live streaming and interactive content\n• Video SEO optimization\n• 360-degree and VR experiences\n\n**Privacy-First Marketing:**\n• Cookie-less tracking alternatives\n• First-party data collection strategies\n• Transparent data usage policies\n• Enhanced customer consent management\n\n**Voice Search Optimization:**\n• Conversational keyword strategies\n• Featured snippet optimization\n• Local voice search focus\n• Smart speaker marketing\n\n**Sustainability Marketing:**\n• Eco-friendly brand messaging\n• Social responsibility campaigns\n• Sustainable packaging and practices\n• ESG (Environmental, Social, Governance) focus\n\n**Micro-Influencer Partnerships:**\n• Authentic, niche audience connections\n• Higher engagement rates\n• Cost-effective collaborations\n• Long-term brand partnerships',
+      timestamp: '2:45 PM'
     }
   ]);
 
@@ -134,9 +182,9 @@ export const AIChatbotContent: React.FC = () => {
         </div>
 
         {/* Chat Messages Area */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full">
-            <div className="max-w-4xl mx-auto p-6 space-y-6">
+            <div className="max-w-4xl mx-auto p-6 space-y-6 min-h-full">
               {messages.map((message) => (
                 <div key={message.id} className={`flex gap-4 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
                   {/* Avatar */}
