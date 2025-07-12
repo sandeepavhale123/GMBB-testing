@@ -182,9 +182,9 @@ export const AIChatbotContent: React.FC = () => {
         </div>
 
         {/* Chat Messages Area */}
-        <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full">
-            <div className="max-w-4xl mx-auto p-6 space-y-6 min-h-full">
+        <div className="flex-1 overflow-hidden min-h-0">
+          <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+            <div className="max-w-4xl mx-auto p-6 space-y-6">
               {messages.map((message) => (
                 <div key={message.id} className={`flex gap-4 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
                   {/* Avatar */}
@@ -256,7 +256,7 @@ export const AIChatbotContent: React.FC = () => {
                 </div>
               ))}
             </div>
-          </ScrollArea>
+          </div>
         </div>
 
         {/* Chat Input Area */}
