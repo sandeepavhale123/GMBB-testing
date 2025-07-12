@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
@@ -11,6 +12,12 @@ import { Sheet, SheetContent } from '../components/ui/sheet';
 const AIChatbotPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { listingId } = useParams();
+  const [searchParams] = useSearchParams();
+  
+  // Extract keyword information from URL parameters
+  const keyword = searchParams.get('keyword') || '';
+  const keywordId = searchParams.get('keywordId') || '';
 
   return (
     <Provider store={store}>
@@ -56,7 +63,7 @@ const AIChatbotPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
-              <AIChatbotContent />
+              <AIChatbotContent keyword={keyword} keywordId={keywordId} />
             </main>
           </div>
 

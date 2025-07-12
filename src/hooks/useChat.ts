@@ -5,7 +5,7 @@ import { useListingContext } from '../context/ListingContext';
 import { useAppSelector } from './useRedux';
 import { toast } from './use-toast';
 
-export const useChat = () => {
+export const useChat = (keywordId?: string) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([]);
@@ -49,7 +49,8 @@ export const useChat = () => {
 
     try {
       const listingId = parseInt(selectedListing.id, 10);
-      const projectId = user?.projectId || user?.userId ? parseInt(user.userId, 10) : 50407; // Fallback project ID
+      // Use keywordId as projectId if provided, otherwise fallback to user data
+      const projectId = keywordId ? parseInt(keywordId, 10) : (user?.projectId || user?.userId ? parseInt(user.userId, 10) : 50407);
 
       const response = await sendChatMessage({
         listingId,
@@ -95,7 +96,7 @@ export const useChat = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedListing?.id, user, chatSessionId]);
+  }, [selectedListing?.id, user, chatSessionId, keywordId]);
 
   const handleCopy = useCallback((content: string) => {
     navigator.clipboard.writeText(content);

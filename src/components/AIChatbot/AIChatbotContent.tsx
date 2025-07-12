@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
-import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, Loader2, Plus } from 'lucide-react';
+import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, Loader2, Plus, Tag } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
 import { useChat } from '../../hooks/useChat';
 
-export const AIChatbotContent: React.FC = () => {
+interface AIChatbotContentProps {
+  keyword?: string;
+  keywordId?: string;
+}
+
+export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, keywordId }) => {
   const [showHistory, setShowHistory] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -20,7 +25,7 @@ export const AIChatbotContent: React.FC = () => {
     handleBadResponse,
     deleteChatHistory,
     startNewChat,
-  } = useChat();
+  } = useChat(keywordId);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -119,10 +124,16 @@ export const AIChatbotContent: React.FC = () => {
             <div className="p-2 bg-blue-500 rounded-lg">
               <Bot className="h-6 w-6 text-white" />
             </div>
-            <div>
+            <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900">AI Genie Assistance</h1>
               <p className="text-gray-600">Get intelligent insights and assistance</p>
             </div>
+            {keyword && (
+              <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                <Tag className="h-3 w-3" />
+                {keyword}
+              </div>
+            )}
           </div>
         </div>
 
