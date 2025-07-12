@@ -29,10 +29,40 @@ export interface ChatSendResponse {
   };
 }
 
+export interface ChatHistoryRequest {
+  listingId: number;
+  projectId: number;
+  type: string;
+}
+
+export interface ChatHistoryItem {
+  id: string;
+  user_id: string;
+  chat_session_id: string;
+  site_id: string;
+  geo_project_id: string;
+  role: string;
+  type: string;
+  message: string;
+  feedback: string;
+  created_at: string;
+  site_url: string | null;
+  bname: string;
+}
+
+export interface ChatHistoryResponse {
+  code: number;
+  message: string;
+  data: {
+    chats: ChatHistoryItem[];
+  };
+}
+
 export interface ChatSession {
   id: string;
   title: string;
   lastMessage: string;
   timestamp: string;
   messages: ChatMessage[];
+  chat_session_id: string;
 }

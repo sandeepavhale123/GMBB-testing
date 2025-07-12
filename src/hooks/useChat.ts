@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
-import { ChatMessage, ChatSession } from '../types/chatTypes';
-import { sendChatMessage } from '../api/chatApi';
+import { useState, useCallback, useEffect } from 'react';
+import { ChatMessage, ChatSession, ChatHistoryItem } from '../types/chatTypes';
+import { sendChatMessage, getChatHistory } from '../api/chatApi';
 import { useListingContext } from '../context/ListingContext';
 import { useAppSelector } from './useRedux';
 import { toast } from './use-toast';
@@ -10,10 +10,83 @@ export const useChat = (keywordId?: string) => {
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [chatSessionId, setChatSessionId] = useState<string>('');
 
   const { selectedListing } = useListingContext();
   const { user } = useAppSelector((state) => state.auth);
+
+  // Transform API chat history to ChatSession format
+  const transformChatHistory = useCallback((chatItems: ChatHistoryItem[]): ChatSession[] => {
+    const sessionMap = new Map<string, ChatSession>();
+    
+    chatItems.forEach((item) => {
+      const sessionId = item.chat_session_id;
+      let messageContent = '';
+      
+      try {
+        const parsed = JSON.parse(item.message);
+        messageContent = parsed.reply || item.message;
+      } catch {
+        messageContent = item.message;
+      }
+
+      if (!sessionMap.has(sessionId)) {
+        sessionMap.set(sessionId, {
+          id: sessionId,
+          chat_session_id: sessionId,
+          title: messageContent.length > 50 ? messageContent.substring(0, 50) + '...' : messageContent,
+          lastMessage: messageContent,
+          timestamp: new Date(item.created_at).toLocaleDateString(),
+          messages: []
+        });
+      }
+
+      const session = sessionMap.get(sessionId)!;
+      session.lastMessage = messageContent;
+      session.timestamp = new Date(item.created_at).toLocaleDateString();
+    });
+
+    return Array.from(sessionMap.values()).sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  }, []);
+
+  // Fetch chat history
+  const fetchChatHistory = useCallback(async () => {
+    if (!selectedListing?.id || !keywordId) return;
+
+    setIsLoadingHistory(true);
+    try {
+      const listingId = parseInt(selectedListing.id, 10);
+      const projectId = parseInt(keywordId, 10);
+
+      const response = await getChatHistory({
+        listingId,
+        projectId,
+        type: 'geo-ranking-chat'
+      });
+
+      if (response.code === 200 && response.data.chats) {
+        const transformedHistory = transformChatHistory(response.data.chats);
+        setChatHistory(transformedHistory);
+      }
+    } catch (error: any) {
+      console.error('Failed to fetch chat history:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to load chat history'
+      });
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  }, [selectedListing?.id, keywordId, transformChatHistory]);
+
+  // Load chat history on component mount
+  useEffect(() => {
+    fetchChatHistory();
+  }, [fetchChatHistory]);
 
   const sendMessage = useCallback(async (messageContent: string) => {
     if (!selectedListing?.id || !messageContent.trim()) {
@@ -122,6 +195,16 @@ export const useChat = (keywordId?: string) => {
     });
   }, []);
 
+  const loadChatSession = useCallback((session: ChatSession) => {
+    setCurrentSession(session);
+    setChatSessionId(session.chat_session_id);
+    setMessages([]); // Clear current messages for now - could load session messages here
+    toast({
+      title: 'Chat Session Loaded',
+      description: `Loaded chat session: ${session.title}`
+    });
+  }, []);
+
   const deleteChatHistory = useCallback((id: string) => {
     setChatHistory(prev => prev.filter(chat => chat.id !== id));
   }, []);
@@ -137,11 +220,14 @@ export const useChat = (keywordId?: string) => {
     chatHistory,
     currentSession,
     isLoading,
+    isLoadingHistory,
     sendMessage,
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
+    loadChatSession,
     deleteChatHistory,
     startNewChat,
+    fetchChatHistory,
   };
 };

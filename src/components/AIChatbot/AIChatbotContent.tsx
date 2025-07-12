@@ -18,11 +18,14 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
   const {
     messages,
     chatHistory,
+    currentSession,
     isLoading,
+    isLoadingHistory,
     sendMessage,
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
+    loadChatSession,
     deleteChatHistory,
     startNewChat,
   } = useChat(keywordId);
@@ -68,7 +71,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
           
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-2">
-              {chatHistory.length === 0 ? (
+              {isLoadingHistory ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
+                  <p className="text-sm">Loading chat history...</p>
+                </div>
+              ) : chatHistory.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">No chat history yet</p>
@@ -77,7 +85,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                 chatHistory.map((chat) => (
                   <div
                     key={chat.id}
-                    className="group p-3 rounded-lg hover:bg-gray-50 cursor-pointer border"
+                    onClick={() => loadChatSession(chat)}
+                    className={`group p-3 rounded-lg hover:bg-gray-50 cursor-pointer border transition-colors ${
+                      currentSession?.id === chat.id ? 'bg-blue-50 border-blue-200' : ''
+                    }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
@@ -85,6 +96,11 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                           {chat.title}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">{chat.timestamp}</p>
+                        {chat.lastMessage && (
+                          <p className="text-xs text-gray-400 mt-1 truncate">
+                            {chat.lastMessage.length > 60 ? chat.lastMessage.substring(0, 60) + '...' : chat.lastMessage}
+                          </p>
+                        )}
                       </div>
                       <Button
                         variant="ghost"
