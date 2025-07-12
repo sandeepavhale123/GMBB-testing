@@ -336,7 +336,11 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const updateMarkers = () => {
     clearMarkers();
     clearManualMarkers();
-    addDefaultMarker();
+    
+    // Only add default marker if not in manual mode
+    if (mapPoint !== 'Manually') {
+      addDefaultMarker();
+    }
 
     if (mapPoint === 'Manually') {
       // Show manual markers
