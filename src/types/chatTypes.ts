@@ -1,4 +1,4 @@
-export type FeedbackType = 'good' | 'bad' | 'neutral';
+export type FeedbackType = 'good' | 'bad';
 
 export interface ChatMessage {
   id: string;

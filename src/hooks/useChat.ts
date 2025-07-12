@@ -267,9 +267,6 @@ export const useChat = (keywordId?: string) => {
     submitFeedback(messageId, 'bad');
   }, [submitFeedback]);
 
-  const handleNeutralResponse = useCallback((messageId: string) => {
-    submitFeedback(messageId, 'neutral');
-  }, [submitFeedback]);
 
   // Transform API chat messages to ChatMessage format
   const transformChatMessages = useCallback((chatMessages: ChatMessageItem[]): ChatMessage[] => {
@@ -288,6 +285,7 @@ export const useChat = (keywordId?: string) => {
         type: (item.role === 'user' ? 'user' : 'ai') as 'user' | 'ai',
         content: messageContent,
         timestamp: new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        feedback: item.feedback as FeedbackType | undefined,
       };
     }).sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
   }, []);
@@ -399,7 +397,6 @@ export const useChat = (keywordId?: string) => {
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
-    handleNeutralResponse,
     loadChatSession,
     deleteChatHistory,
     startNewChat,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
-import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, Minus, User, Loader2, Plus, Tag } from 'lucide-react';
+import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, Loader2, Plus, Tag } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
@@ -30,7 +30,6 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
-    handleNeutralResponse,
     loadChatSession,
     deleteChatHistory,
     startNewChat,
@@ -261,20 +260,6 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                            >
                              <ThumbsUp className="w-3 h-3 mr-1" />
                              Good
-                           </Button>
-                           <Button
-                             variant="ghost"
-                             size="sm"
-                             onClick={() => handleNeutralResponse(message.id)}
-                             disabled={message.isSubmittingFeedback || !!message.feedback}
-                             className={`h-8 px-2 text-xs hover:bg-accent ${
-                               message.feedback === 'neutral' 
-                                 ? 'bg-gray-100 text-gray-600 hover:bg-gray-100' 
-                                 : 'hover:text-gray-600'
-                             }`}
-                           >
-                             <Minus className="w-3 h-3 mr-1" />
-                             Neutral
                            </Button>
                            <Button
                              variant="ghost"
