@@ -8,6 +8,7 @@ import { Skeleton } from '../ui/skeleton';
 import { useListingContext } from '../../context/ListingContext';
 import { useScheduledPosts } from '../../hooks/useScheduledPosts';
 import { useNavigate, useParams } from 'react-router-dom';
+import { formatScheduledDate } from '../../utils/dateUtils';
 
 interface ScheduledPost {
   id: string;
@@ -104,12 +105,12 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                           <p className="text-xs text-gray-600 line-clamp-2">{post.content}</p>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <Calendar className="w-3 h-3" />
-                          <span>{post.scheduledDate}</span>
-                        </div>
-                      </TableCell>
+                       <TableCell>
+                         <div className="flex items-center gap-2 text-sm text-gray-600">
+                           <Calendar className="w-3 h-3" />
+                           <span>{formatScheduledDate(post.scheduledDate)}</span>
+                         </div>
+                       </TableCell>
                       <TableCell className="text-right">
                         <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={() => onApprovePost(post)}>
                           <Eye className="w-3 h-3 mr-1" />
@@ -136,10 +137,10 @@ export const ScheduledPostCard: React.FC<ScheduledPostCardProps> = ({
                           </Button>
                         </div>
                         <p className="text-xs text-gray-600 mb-2 line-clamp-2">{post.content}</p>
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Calendar className="w-3 h-3" />
-                          <span>{post.scheduledDate}</span>
-                        </div>
+                         <div className="flex items-center gap-1 text-xs text-gray-500">
+                           <Calendar className="w-3 h-3" />
+                           <span>{formatScheduledDate(post.scheduledDate)}</span>
+                         </div>
                       </div>
                     </div>
                   </CardContent>
