@@ -23,6 +23,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [gridCoordinates, setGridCoordinates] = useState<string[]>([]);
   const [loadingGrid, setLoadingGrid] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
+  const [manualCoordinates, setManualCoordinates] = useState<string[]>([]);
   const [submittingRank, setSubmittingRank] = useState(false);
   const [pollingKeyword, setPollingKeyword] = useState(false);
   const [keywordData, setKeywordData] = useState<KeywordDetailsData | null>(null);
@@ -285,6 +286,23 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  // Manual coordinates management functions
+  const addManualCoordinate = (coordinate: string) => {
+    setManualCoordinates(prev => [...prev, coordinate]);
+  };
+
+  const removeManualCoordinate = (index: number) => {
+    setManualCoordinates(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const clearManualCoordinates = () => {
+    setManualCoordinates([]);
+  };
+
+  const updateManualCoordinate = (index: number, coordinate: string) => {
+    setManualCoordinates(prev => prev.map((coord, i) => i === index ? coordinate : coord));
+  };
+
   // Helper function to detect multiple keywords
   const isMultipleKeywords = (keywords: string): boolean => {
     const keywordArray = keywords
@@ -381,11 +399,8 @@ export const useGeoRankingReport = (listingId: number) => {
         const defaultCoord = defaultCoordinates ? `${defaultCoordinates.lat},${defaultCoordinates.lng}` : null;
         coordinatesArray = defaultCoord ? [defaultCoord, ...gridCoordinates] : gridCoordinates;
       } else {
-        // Manual mode - extract coordinates from markers
-        coordinatesArray = currentMarkers.map(marker => {
-          const { lat, lng } = marker.getLatLng();
-          return `${lat},${lng}`;
-        });
+        // Manual mode - use manual coordinates
+        coordinatesArray = manualCoordinates;
       }
 
       if (coordinatesArray.length === 0) {
@@ -473,6 +488,11 @@ export const useGeoRankingReport = (listingId: number) => {
     loadingGrid,
     currentMarkers,
     setCurrentMarkers,
+    manualCoordinates,
+    addManualCoordinate,
+    removeManualCoordinate,
+    clearManualCoordinates,
+    updateManualCoordinate,
     submittingRank,
     pollingKeyword,
     pollingProgress,

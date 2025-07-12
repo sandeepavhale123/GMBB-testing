@@ -23,6 +23,11 @@ interface GeoRankingReportMapProps {
   pollingKeyword: boolean;
   loadingGrid: boolean;
   onMarkerClick: (coordinate: string, positionId: string) => void;
+  mapPoint?: string;
+  manualCoordinates?: string[];
+  onAddManualCoordinate?: (coordinate: string) => void;
+  onRemoveManualCoordinate?: (index: number) => void;
+  onUpdateManualCoordinate?: (index: number, coordinate: string) => void;
 }
 
 export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
@@ -32,10 +37,16 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   pollingKeyword,
   loadingGrid,
   onMarkerClick,
+  mapPoint = 'Automatic',
+  manualCoordinates = [],
+  onAddManualCoordinate,
+  onRemoveManualCoordinate,
+  onUpdateManualCoordinate,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
+  const manualMarkersRef = useRef<L.Marker[]>([]);
 
   // Get rank color based on ranking
   const getRankColor = (rank: string): string => {
@@ -54,6 +65,16 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       }
     });
     markersRef.current = [];
+  };
+
+  // Clear manual markers
+  const clearManualMarkers = () => {
+    manualMarkersRef.current.forEach((marker) => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.removeLayer(marker);
+      }
+    });
+    manualMarkersRef.current = [];
   };
 
   // Add default business marker
@@ -181,6 +202,89 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     });
   };
 
+  // Add manual markers
+  const addManualMarkers = () => {
+    if (!mapInstanceRef.current || manualCoordinates.length === 0) return;
+
+    manualCoordinates.forEach((coord, index) => {
+      const [lat, lng] = coord.split(",").map(Number);
+
+      const manualIcon = L.divIcon({
+        html: `<div style="
+          background: #3b82f6;
+          color: white;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 12px;
+          border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          cursor: pointer;
+        ">${index + 1}</div>`,
+        className: "manual-marker",
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+      });
+
+      const marker = L.marker([lat, lng], {
+        icon: manualIcon,
+        draggable: true,
+      }).addTo(mapInstanceRef.current!);
+
+      marker.bindPopup(`
+        <div style="text-align: center; padding: 5px;">
+          <strong>Manual Point ${index + 1}</strong><br>
+          <small>Drag to reposition</small><br>
+          <button onclick="window.removeManualMarker(${index})" style="
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 4px;
+          ">Remove</button>
+        </div>
+      `);
+
+      // Handle drag end
+      marker.on('dragend', () => {
+        const { lat: newLat, lng: newLng } = marker.getLatLng();
+        const newCoord = `${newLat},${newLng}`;
+        if (onUpdateManualCoordinate) {
+          onUpdateManualCoordinate(index, newCoord);
+        }
+      });
+
+      manualMarkersRef.current.push(marker);
+    });
+  };
+
+  // Enable manual point selection on map click
+  const enableManualSelection = () => {
+    if (!mapInstanceRef.current || mapPoint !== 'Manually') return;
+
+    mapInstanceRef.current.on('click', (e) => {
+      const { lat, lng } = e.latlng;
+      const coordinate = `${lat},${lng}`;
+      if (onAddManualCoordinate) {
+        onAddManualCoordinate(coordinate);
+      }
+    });
+  };
+
+  // Global function to remove manual markers (accessible from popup)
+  (window as any).removeManualMarker = (index: number) => {
+    if (onRemoveManualCoordinate) {
+      onRemoveManualCoordinate(index);
+    }
+  };
+
   // Calculate optimal zoom and center
   const calculateOptimalView = () => {
     if (!mapInstanceRef.current || !defaultCoordinates) return;
@@ -228,9 +332,13 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   // Update markers based on current state
   const updateMarkers = () => {
     clearMarkers();
+    clearManualMarkers();
     addDefaultMarker();
 
-    if (rankDetails && rankDetails.length > 0) {
+    if (mapPoint === 'Manually') {
+      // Show manual markers
+      addManualMarkers();
+    } else if (rankDetails && rankDetails.length > 0) {
       // Show ranking data
       addRankingMarkers();
     } else if (gridCoordinates.length > 0) {
@@ -277,6 +385,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
+    // Enable manual selection after map is initialized
+    setTimeout(() => enableManualSelection(), 100);
+
     return () => {
       if (map) {
         map.remove();
@@ -293,7 +404,17 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (mapInstanceRef.current) {
       updateMarkers();
     }
-  }, [gridCoordinates, rankDetails, defaultCoordinates]);
+  }, [gridCoordinates, rankDetails, defaultCoordinates, mapPoint, manualCoordinates]);
+
+  // Re-enable manual selection when mapPoint changes
+  useEffect(() => {
+    if (mapInstanceRef.current) {
+      // Remove previous click handlers
+      mapInstanceRef.current.off('click');
+      // Re-enable manual selection
+      setTimeout(() => enableManualSelection(), 100);
+    }
+  }, [mapPoint]);
 
   const getTitle = () => {
     if (rankDetails && rankDetails.length > 0) {

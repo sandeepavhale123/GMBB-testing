@@ -42,6 +42,11 @@ export const GeoRankingReportPage: React.FC = () => {
     loadingGrid,
     currentMarkers,
     setCurrentMarkers,
+    manualCoordinates,
+    addManualCoordinate,
+    removeManualCoordinate,
+    clearManualCoordinates,
+    updateManualCoordinate,
     submittingRank,
     pollingKeyword,
     pollingProgress,
@@ -177,6 +182,8 @@ export const GeoRankingReportPage: React.FC = () => {
                   languageOptions={languageOptions}
                   submittingRank={submittingRank}
                   pollingKeyword={pollingKeyword}
+                  manualCoordinates={manualCoordinates}
+                  onClearManualCoordinates={clearManualCoordinates}
                 />
               </div>
 
@@ -189,6 +196,11 @@ export const GeoRankingReportPage: React.FC = () => {
                   pollingKeyword={pollingKeyword}
                   loadingGrid={loadingGrid}
                   onMarkerClick={handleMarkerClick}
+                  mapPoint={formData.mapPoint}
+                  manualCoordinates={manualCoordinates}
+                  onAddManualCoordinate={addManualCoordinate}
+                  onRemoveManualCoordinate={removeManualCoordinate}
+                  onUpdateManualCoordinate={updateManualCoordinate}
                 />
               </div>
             </div>
