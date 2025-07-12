@@ -295,7 +295,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         </div>
 
         {/* Chat Input Area */}
-        <div className="flex-shrink-0 p-6 border-t bg-background dark:bg-[#212121]">
+        <div className="flex-shrink-0 p-6 border-t bg-background dark:bg-[#212121] -mt-[200px]">
           <div className="w-full max-w-2xl mx-auto">
             <PromptBox onSendMessage={handleSendMessage} disabled={isLoading} />
           </div>
