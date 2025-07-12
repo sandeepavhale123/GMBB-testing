@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { ChatMessage, ChatSession, ChatHistoryItem } from '../types/chatTypes';
-import { sendChatMessage, getChatHistory } from '../api/chatApi';
+import { ChatMessage, ChatSession, ChatHistoryItem, ChatMessageItem } from '../types/chatTypes';
+import { sendChatMessage, getChatHistory, getChatMessages } from '../api/chatApi';
 import { useListingContext } from '../context/ListingContext';
 import { useAppSelector } from './useRedux';
 import { toast } from './use-toast';
@@ -11,6 +11,7 @@ export const useChat = (keywordId?: string) => {
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [chatSessionId, setChatSessionId] = useState<string>('');
 
   const { selectedListing } = useListingContext();
@@ -195,15 +196,67 @@ export const useChat = (keywordId?: string) => {
     });
   }, []);
 
-  const loadChatSession = useCallback((session: ChatSession) => {
+  // Transform API chat messages to ChatMessage format
+  const transformChatMessages = useCallback((chatMessages: ChatMessageItem[]): ChatMessage[] => {
+    return chatMessages.map((item, index) => {
+      let messageContent = '';
+      
+      try {
+        const parsed = JSON.parse(item.message);
+        messageContent = parsed.reply || item.message;
+      } catch {
+        messageContent = item.message;
+      }
+
+      return {
+        id: item.id || `${item.chat_session_id}_${index}`,
+        type: (item.role === 'user' ? 'user' : 'ai') as 'user' | 'ai',
+        content: messageContent,
+        timestamp: new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+    }).sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+  }, []);
+
+  // Load chat messages for a specific session
+  const loadChatMessages = useCallback(async (sessionId: string) => {
+    if (!selectedListing?.id || !keywordId) return;
+
+    setIsLoadingMessages(true);
+    try {
+      const listingId = parseInt(selectedListing.id, 10);
+      const projectId = parseInt(keywordId, 10);
+
+      const response = await getChatMessages({
+        listingId,
+        projectId,
+        chat_session_id: sessionId
+      });
+
+      if (response.code === 200 && response.data.chat_messages) {
+        const transformedMessages = transformChatMessages(response.data.chat_messages);
+        setMessages(transformedMessages);
+      }
+    } catch (error: any) {
+      console.error('Failed to fetch chat messages:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to load chat messages'
+      });
+    } finally {
+      setIsLoadingMessages(false);
+    }
+  }, [selectedListing?.id, keywordId, transformChatMessages]);
+
+  const loadChatSession = useCallback(async (session: ChatSession) => {
     setCurrentSession(session);
     setChatSessionId(session.chat_session_id);
-    setMessages([]); // Clear current messages for now - could load session messages here
+    await loadChatMessages(session.chat_session_id);
     toast({
       title: 'Chat Session Loaded',
       description: `Loaded chat session: ${session.title}`
     });
-  }, []);
+  }, [loadChatMessages]);
 
   const deleteChatHistory = useCallback((id: string) => {
     setChatHistory(prev => prev.filter(chat => chat.id !== id));
@@ -221,6 +274,7 @@ export const useChat = (keywordId?: string) => {
     currentSession,
     isLoading,
     isLoadingHistory,
+    isLoadingMessages,
     sendMessage,
     handleCopy,
     handleGoodResponse,

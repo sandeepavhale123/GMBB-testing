@@ -21,6 +21,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
     currentSession,
     isLoading,
     isLoadingHistory,
+    isLoadingMessages,
     sendMessage,
     handleCopy,
     handleGoodResponse,
@@ -157,7 +158,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         <div className="flex-1 min-h-0 overflow-hidden">
           <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
             <div className="max-w-4xl mx-auto p-6 space-y-6">
-              {messages.length === 0 ? (
+              {isLoadingMessages ? (
+                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                  <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-blue-500" />
+                  <p className="text-sm text-gray-600">Loading chat messages...</p>
+                </div>
+              ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
                   <Bot className="h-16 w-16 text-blue-500 mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">Welcome to AI Genie Assistance</h2>

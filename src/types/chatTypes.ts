@@ -58,6 +58,33 @@ export interface ChatHistoryResponse {
   };
 }
 
+export interface ChatMessagesRequest {
+  listingId: number;
+  projectId: number;
+  chat_session_id: string;
+}
+
+export interface ChatMessageItem {
+  id: string;
+  user_id: string;
+  chat_session_id: string;
+  site_id: string;
+  geo_project_id: string;
+  role: string;
+  type: string;
+  message: string;
+  feedback: string;
+  created_at: string;
+}
+
+export interface ChatMessagesResponse {
+  code: number;
+  message: string;
+  data: {
+    chat_messages: ChatMessageItem[];
+  };
+}
+
 export interface ChatSession {
   id: string;
   title: string;
