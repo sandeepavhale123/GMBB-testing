@@ -30,6 +30,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [currentKeywordId, setCurrentKeywordId] = useState<string | null>(null);
   const [pollingProgress, setPollingProgress] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [previousMapPoint, setPreviousMapPoint] = useState<string>('');
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -256,10 +257,15 @@ export const useGeoRankingReport = (listingId: number) => {
   useEffect(() => {
     if (formData.mapPoint === 'Automatic' && defaultCoordinates) {
       fetchGridCoordinates();
-    } else if (formData.mapPoint === 'Manually') {
-      // Clear manual coordinates when switching to manual mode
+    }
+    
+    // Only clear manual coordinates when switching FROM another mode TO manual mode
+    if (formData.mapPoint === 'Manually' && previousMapPoint && previousMapPoint !== 'Manually') {
       clearManualCoordinates();
     }
+    
+    // Update previous map point
+    setPreviousMapPoint(formData.mapPoint);
   }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
 
   // Reset distance value when unit changes (but not during clone processing)

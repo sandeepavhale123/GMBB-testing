@@ -215,21 +215,21 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
         html: `<div style="
           background: #ef4444;
           color: white;
-          width: 16px;
-          height: 16px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 10px;
+          font-size: 12px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
           cursor: pointer;
         "></div>`,
         className: "manual-marker",
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
       });
 
       const marker = L.marker([lat, lng], {
@@ -272,14 +272,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const enableManualSelection = () => {
     if (!mapInstanceRef.current || mapPoint !== 'Manually') return;
 
-    // Clear existing manual coordinates when switching to manual mode
-    if (onClearManualCoordinates) {
-      onClearManualCoordinates();
-    }
-
     mapInstanceRef.current.on('click', (e) => {
       const { lat, lng } = e.latlng;
-      const coordinate = `${lat},${lng}`;
+      const coordinate = `${lat.toFixed(6)},${lng.toFixed(6)}`;
       if (onAddManualCoordinate) {
         onAddManualCoordinate(coordinate);
       }
