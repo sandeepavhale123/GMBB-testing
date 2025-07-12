@@ -25,7 +25,16 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
   const visibilityValue = parseFloat(overallVisibility);
 
   const handleGetInsights = () => {
-    navigate(`/ai-chatbot/${listingId || 'default'}`);
+    // Get keyword data from keywordDetails.projectDetails
+    const keyword = keywordDetails?.projectDetails?.keyword || '';
+    const keywordId = keywordDetails?.projectDetails?.id || '';
+    
+    // Navigate with keyword parameters
+    const params = new URLSearchParams();
+    if (keyword) params.set('keyword', keyword);
+    if (keywordId) params.set('keywordId', keywordId);
+    
+    navigate(`/ai-chatbot/${listingId || 'default'}?${params.toString()}`);
   };
 
   return (
@@ -64,7 +73,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
             onClick={handleGetInsights}
           >
             <Sparkles className="h-3 w-3 mr-1" />
-            Get Insights
+            Let's Chat
           </Button>
         </div>
       </div>

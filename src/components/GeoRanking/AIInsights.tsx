@@ -1,9 +1,18 @@
 
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
+import { Sparkles } from 'lucide-react';
 
 export const AIInsights: React.FC = () => {
+  const navigate = useNavigate();
+  const { listingId } = useParams();
+
+  const handleGetInsights = () => {
+    navigate(`/ai-chatbot/${listingId || 'default'}`);
+  };
+
   return (
     <Card className="bg-white">
       <CardHeader>
@@ -24,8 +33,12 @@ export const AIInsights: React.FC = () => {
             ✓ Content gaps analysis <br /> ✓ Competitor insights <br /> ✓ Action plan
           </div>
         </div>
-        <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm">
-          Get AI Recommendations
+        <Button 
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm"
+          onClick={handleGetInsights}
+        >
+          <Sparkles className="h-3 w-3 mr-1" />
+          Let's Chat
         </Button>
       </CardContent>
     </Card>
