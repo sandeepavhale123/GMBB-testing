@@ -146,7 +146,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-screen bg-background dark:bg-[#212121]">
+      <div className="flex-1 flex flex-col h-full bg-background dark:bg-[#212121]">
         {/* Header Section */}
         <div className="flex-shrink-0 p-6 border-b">
           <div className="flex items-center space-x-3">
@@ -183,12 +183,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
           <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
             <div className="max-w-4xl mx-auto p-6 space-y-6">
               {isLoadingMessages ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
                   <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-blue-500" />
                   <p className="text-sm text-gray-600">Loading chat messages...</p>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
                   <Bot className="h-16 w-16 text-blue-500 mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">Welcome to AI Genie Assistance</h2>
                   <p className="text-gray-600 mb-6 max-w-md">
