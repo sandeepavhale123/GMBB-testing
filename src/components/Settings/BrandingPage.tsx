@@ -21,12 +21,22 @@ import {
   setFavicon,
   setSelectedTheme,
   loadThemeFromAPI,
+  setThemeColors,
+  setAccentColor,
 } from "../../store/slices/themeSlice";
 import { useToast } from "@/hooks/use-toast";
 
 export const BrandingPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
+  const defaultThemeState = {
+    selected_theme: "theme_01",
+    accentColor: "blue",
+    bg_color: "#111827",
+    label_color: "#e2e8f0",
+    active_menu_bg_color: "#2563eb",
+    active_menu_label_color: "#fff",
+  };
   const {
     light_logo,
     dark_logo,
@@ -35,6 +45,7 @@ export const BrandingPage: React.FC = () => {
     dark_logo_url,
     favicon_url,
     selected_theme,
+    accentColor,
     accent_color,
     bg_color,
     label_color,
@@ -42,6 +53,14 @@ export const BrandingPage: React.FC = () => {
     active_menu_label_color,
     isLoading,
   } = useAppSelector((state) => state.theme);
+
+  const isCustomThemeApplied =
+    selected_theme !== defaultThemeState.selected_theme ||
+    accentColor !== defaultThemeState.accentColor ||
+    bg_color !== defaultThemeState.bg_color ||
+    label_color !== defaultThemeState.label_color ||
+    active_menu_bg_color !== defaultThemeState.active_menu_bg_color ||
+    active_menu_label_color !== defaultThemeState.active_menu_label_color;
 
   // Load existing theme data on component mount
   useEffect(() => {
@@ -67,18 +86,76 @@ export const BrandingPage: React.FC = () => {
     try {
       const response = await deleteTheme();
 
-      if (response?.data?.code === 200) {
+      console.log("Response of reset theme", response);
+
+      if (response?.code === 200) {
         toast({
           title: "Theme Reset",
           description:
-            response.data.message || "Theme has been reset successfully.",
+            response?.message || "Theme has been reset successfully.",
         });
+        // Default accent and sidebar values
+        const defaultAccentColor = "blue" as const; // maps to #3B82F6 in slice
+        const defaultSidebar = {
+          bg_color: "#111827",
+          label_color: "#e2e8f0",
+          active_menu_bg_color: "#2563eb",
+          active_menu_label_color: "#fff",
+        };
 
-        // Reset to default theme values
+        // Update Redux state
         dispatch(setSelectedTheme("theme_01"));
+        dispatch(setAccentColor(defaultAccentColor));
         dispatch(setLightLogo(null));
         dispatch(setDarkLogo(null));
         dispatch(setFavicon(null));
+        dispatch(setThemeColors(defaultSidebar));
+
+        // Apply accent HSL globally (matches `blue`)
+        const primaryHsl = "217 91% 60%";
+        document.documentElement.style.setProperty("--primary", primaryHsl);
+        document.documentElement.style.setProperty("--ring", primaryHsl);
+        document.documentElement.style.setProperty(
+          "--sidebar-ring",
+          primaryHsl
+        );
+        document.documentElement.style.setProperty(
+          "--accent-primary",
+          primaryHsl
+        );
+
+        // Apply sidebar styles globally
+        document.documentElement.style.setProperty(
+          "--sidebar-bg",
+          defaultSidebar.bg_color
+        );
+        document.documentElement.style.setProperty(
+          "--sidebar-text",
+          defaultSidebar.label_color
+        );
+        document.documentElement.style.setProperty(
+          "--sidebar-active-bg",
+          defaultSidebar.active_menu_bg_color
+        );
+        document.documentElement.style.setProperty(
+          "--sidebar-active-text",
+          defaultSidebar.active_menu_label_color
+        );
+
+        // Save updated theme back to backend
+        const themeData: ThemeUpdateData = {
+          accent_color: "#3B82F6",
+          selected_theme: "theme_01",
+          bg_color: defaultSidebar.bg_color,
+          label_color: defaultSidebar.label_color,
+          active_menu_bg_color: defaultSidebar.active_menu_bg_color,
+          active_menu_label_color: defaultSidebar.active_menu_label_color,
+          light_logo: null,
+          dark_logo: null,
+          favicon: null,
+        };
+
+        await updateTheme(themeData);
       }
     } catch (error) {
       console.error("Theme reset error:", error);
@@ -188,6 +265,7 @@ export const BrandingPage: React.FC = () => {
             isSaving={isLoading}
             onSave={handleSaveChanges}
             onReset={handleResetTheme}
+            canReset={isCustomThemeApplied}
           />
         </CardContent>
       </Card>

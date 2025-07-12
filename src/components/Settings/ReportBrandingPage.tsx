@@ -48,6 +48,8 @@ export const ReportBrandingPage: React.FC = () => {
     companyAddress: "",
   });
   const validation = useFormValidation(reportBrandingSchema);
+
+  console.log("branding data", brandingData?.data);
   // Load existing branding data when available
   useEffect(() => {
     if (brandingData?.data) {
@@ -153,6 +155,7 @@ export const ReportBrandingPage: React.FC = () => {
       };
 
       // Console logging for debugging
+
       console.log("Form data being submitted:", payload);
       console.log("Logo file:", logoFile);
       console.log("Original form state:", formData);
@@ -198,7 +201,7 @@ export const ReportBrandingPage: React.FC = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {brandingData?.data && (
+          {brandingData?.data && Object.keys(brandingData.data).length > 0 && (
             <Button
               variant="outline"
               size="sm"

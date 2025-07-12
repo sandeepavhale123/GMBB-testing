@@ -8,12 +8,14 @@ interface BrandingSaveActionsProps {
   isSaving: boolean;
   onSave: () => Promise<void>;
   onReset: () => void;
+  canReset: boolean;
 }
 
 export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
   isSaving,
   onSave,
   onReset,
+  canReset,
 }) => {
   const { toast } = useToast();
 
@@ -50,7 +52,7 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
       <Button
         variant="outline"
         onClick={handleReset}
-        disabled={isSaving}
+        disabled={isSaving || !canReset}
         className="px-6"
       >
         <RotateCcw className="w-4 h-4 mr-2" />
