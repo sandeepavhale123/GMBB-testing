@@ -175,7 +175,7 @@ export const AIChatbotContent: React.FC = () => {
               <Bot className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">AI Chatbot</h1>
+              <h1 className="text-2xl font-bold text-gray-900">AI Genie Assistance</h1>
               <p className="text-gray-600">Get intelligent insights and assistance</p>
             </div>
           </div>
