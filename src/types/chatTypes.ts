@@ -85,6 +85,18 @@ export interface ChatMessagesResponse {
   };
 }
 
+export interface ChatDeleteRequest {
+  listingId: number;
+  projectId: number;
+  chat_session_id: string;
+}
+
+export interface ChatDeleteResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export interface ChatSession {
   id: string;
   title: string;

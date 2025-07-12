@@ -4,6 +4,7 @@ import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, 
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { useChat } from '../../hooks/useChat';
 
 interface AIChatbotContentProps {
@@ -13,6 +14,8 @@ interface AIChatbotContentProps {
 
 export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, keywordId }) => {
   const [showHistory, setShowHistory] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const {
@@ -22,6 +25,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
     isLoading,
     isLoadingHistory,
     isLoadingMessages,
+    isDeleting,
     sendMessage,
     handleCopy,
     handleGoodResponse,
@@ -38,6 +42,19 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
 
   const handleSendMessage = (message: string) => {
     sendMessage(message);
+  };
+
+  const handleDeleteClick = (sessionId: string) => {
+    setSessionToDelete(sessionId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (sessionToDelete) {
+      await deleteChatHistory(sessionToDelete);
+      setDeleteDialogOpen(false);
+      setSessionToDelete(null);
+    }
   };
 
   return (
@@ -109,10 +126,15 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                         className="opacity-0 group-hover:opacity-100 h-6 w-6 p-0 ml-2"
                         onClick={(e) => {
                           e.stopPropagation();
-                          deleteChatHistory(chat.id);
+                          handleDeleteClick(chat.chat_session_id);
                         }}
+                        disabled={isDeleting}
                       >
-                        <Trash2 className="h-3 w-3 text-red-500" />
+                        {isDeleting && sessionToDelete === chat.chat_session_id ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-3 w-3 text-red-500" />
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -267,6 +289,35 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Chat Session</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this chat session? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

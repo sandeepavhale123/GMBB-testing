@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { ChatMessage, ChatSession, ChatHistoryItem, ChatMessageItem } from '../types/chatTypes';
-import { sendChatMessage, getChatHistory, getChatMessages } from '../api/chatApi';
+import { sendChatMessage, getChatHistory, getChatMessages, deleteChatSession } from '../api/chatApi';
 import { useListingContext } from '../context/ListingContext';
 import { useAppSelector } from './useRedux';
 import { toast } from './use-toast';
@@ -12,6 +12,7 @@ export const useChat = (keywordId?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [chatSessionId, setChatSessionId] = useState<string>('');
 
   const { selectedListing } = useListingContext();
@@ -258,9 +259,53 @@ export const useChat = (keywordId?: string) => {
     });
   }, [loadChatMessages]);
 
-  const deleteChatHistory = useCallback((id: string) => {
-    setChatHistory(prev => prev.filter(chat => chat.id !== id));
-  }, []);
+  const deleteChatHistory = useCallback(async (sessionId: string) => {
+    if (!selectedListing?.id || !keywordId) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Missing listing or project information'
+      });
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const listingId = parseInt(selectedListing.id, 10);
+      const projectId = parseInt(keywordId, 10);
+
+      await deleteChatSession({
+        listingId,
+        projectId,
+        chat_session_id: sessionId
+      });
+
+      // Remove from local state
+      setChatHistory(prev => prev.filter(chat => chat.chat_session_id !== sessionId));
+      
+      // Clear current session if it's the one being deleted
+      if (currentSession?.chat_session_id === sessionId) {
+        setCurrentSession(null);
+        setMessages([]);
+        setChatSessionId('');
+      }
+
+      toast({
+        title: 'Chat Deleted',
+        description: 'Chat session has been deleted successfully'
+      });
+
+    } catch (error: any) {
+      console.error('Failed to delete chat session:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Delete Failed',
+        description: error.response?.data?.message || 'Failed to delete chat session'
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [selectedListing?.id, keywordId, currentSession]);
 
   const startNewChat = useCallback(() => {
     setMessages([]);
@@ -275,6 +320,7 @@ export const useChat = (keywordId?: string) => {
     isLoading,
     isLoadingHistory,
     isLoadingMessages,
+    isDeleting,
     sendMessage,
     handleCopy,
     handleGoodResponse,
