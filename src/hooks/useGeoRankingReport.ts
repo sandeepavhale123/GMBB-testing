@@ -390,7 +390,7 @@ export const useGeoRankingReport = (listingId: number) => {
   };
 
   // Submit check rank request
-  const submitCheckRank = async (): Promise<{ success: boolean; shouldNavigate: boolean }> => {
+  const submitCheckRank = async (): Promise<{ success: boolean; shouldNavigate: boolean; redirectToGeoRanking?: boolean }> => {
     if (!formData.keywords.trim()) {
       toast({
         title: "Error",
@@ -469,6 +469,11 @@ export const useGeoRankingReport = (listingId: number) => {
           title: "Success",
           description: "Rank check submitted successfully",
         });
+        
+        // If manual mode, redirect to GEO ranking page
+        if (formData.mapPoint === 'Manually') {
+          return { success: true, shouldNavigate: false, redirectToGeoRanking: true };
+        }
         
         return { success: true, shouldNavigate: multipleKeywords };
       } else {

@@ -82,6 +82,13 @@ export const GeoRankingReportPage: React.FC = () => {
     const result = await submitCheckRank();
     if (result.success) {
       console.log("Rank check submitted successfully");
+      
+      // If manual mode, redirect to GEO ranking page
+      if (result.redirectToGeoRanking) {
+        navigate(`/geo-ranking/${numericListingId}`);
+        return;
+      }
+      
       // Show alert for multiple keywords
       if (result.shouldNavigate && isMultipleKeywords(formData.keywords)) {
         setShowMultiKeywordAlert(true);
