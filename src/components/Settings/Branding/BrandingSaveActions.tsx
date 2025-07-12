@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "../../ui/button";
 import { Check, Settings, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Toast } from "@/components/ui/toast";
 
 interface BrandingSaveActionsProps {
   isSaving: boolean;
@@ -39,9 +38,9 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
       await onReset();
     } catch (error) {
       // Error handling is done in the parent component
-      Toast({
+      toast({
         title: "Error in reset",
-        description: error,
+        description: error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     }

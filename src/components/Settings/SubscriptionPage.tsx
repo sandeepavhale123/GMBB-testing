@@ -294,7 +294,7 @@ export const SubscriptionPage: React.FC = () => {
         title: "Upgrade Error",
         description:
           error instanceof Error
-            ? error?.response?.data?.message
+            ? (error as any)?.response?.data?.message || error.message
             : "Failed to upgrade plan. Please try again.",
         variant: "destructive",
       });

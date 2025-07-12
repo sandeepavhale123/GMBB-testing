@@ -4,6 +4,7 @@ import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, 
 import { Button } from '../ui/button';
 import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { useChat } from '../../hooks/useChat';
 
 interface AIChatbotContentProps {
@@ -13,16 +14,23 @@ interface AIChatbotContentProps {
 
 export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, keywordId }) => {
   const [showHistory, setShowHistory] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const {
     messages,
     chatHistory,
+    currentSession,
     isLoading,
+    isLoadingHistory,
+    isLoadingMessages,
+    isDeleting,
     sendMessage,
     handleCopy,
     handleGoodResponse,
     handleBadResponse,
+    loadChatSession,
     deleteChatHistory,
     startNewChat,
   } = useChat(keywordId);
@@ -34,6 +42,19 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
 
   const handleSendMessage = (message: string) => {
     sendMessage(message);
+  };
+
+  const handleDeleteClick = (sessionId: string) => {
+    setSessionToDelete(sessionId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (sessionToDelete) {
+      await deleteChatHistory(sessionToDelete);
+      setDeleteDialogOpen(false);
+      setSessionToDelete(null);
+    }
   };
 
   return (
@@ -68,7 +89,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
           
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-2">
-              {chatHistory.length === 0 ? (
+              {isLoadingHistory ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
+                  <p className="text-sm">Loading chat history...</p>
+                </div>
+              ) : chatHistory.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">No chat history yet</p>
@@ -77,7 +103,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                 chatHistory.map((chat) => (
                   <div
                     key={chat.id}
-                    className="group p-3 rounded-lg hover:bg-gray-50 cursor-pointer border"
+                    onClick={() => loadChatSession(chat)}
+                    className={`group p-3 rounded-lg hover:bg-gray-50 cursor-pointer border transition-colors ${
+                      currentSession?.id === chat.id ? 'bg-blue-50 border-blue-200' : ''
+                    }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
@@ -85,6 +114,11 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                           {chat.title}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">{chat.timestamp}</p>
+                        {chat.lastMessage && (
+                          <p className="text-xs text-gray-400 mt-1 truncate">
+                            {chat.lastMessage.length > 60 ? chat.lastMessage.substring(0, 60) + '...' : chat.lastMessage}
+                          </p>
+                        )}
                       </div>
                       <Button
                         variant="ghost"
@@ -92,10 +126,15 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                         className="opacity-0 group-hover:opacity-100 h-6 w-6 p-0 ml-2"
                         onClick={(e) => {
                           e.stopPropagation();
-                          deleteChatHistory(chat.id);
+                          handleDeleteClick(chat.chat_session_id);
                         }}
+                        disabled={isDeleting}
                       >
-                        <Trash2 className="h-3 w-3 text-red-500" />
+                        {isDeleting && sessionToDelete === chat.chat_session_id ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-3 w-3 text-red-500" />
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -141,7 +180,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         <div className="flex-1 min-h-0 overflow-hidden">
           <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
             <div className="max-w-4xl mx-auto p-6 space-y-6">
-              {messages.length === 0 ? (
+              {isLoadingMessages ? (
+                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                  <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-blue-500" />
+                  <p className="text-sm text-gray-600">Loading chat messages...</p>
+                </div>
+              ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
                   <Bot className="h-16 w-16 text-blue-500 mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">Welcome to AI Genie Assistance</h2>
@@ -191,37 +235,47 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                         )}
                       </div>
                       
-                      {/* Action Buttons for AI messages */}
-                      {message.type === 'ai' && !message.isLoading && (
-                        <div className="flex items-center gap-2 mt-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleCopy(message.content)}
-                            className="h-8 px-2 text-xs hover:bg-accent"
-                          >
-                            <Copy className="w-3 h-3 mr-1" />
-                            Copy
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleGoodResponse(message.id)}
-                            className="h-8 px-2 text-xs hover:bg-accent hover:text-green-600"
-                          >
-                            <ThumbsUp className="w-3 h-3 mr-1" />
-                            Good
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleBadResponse(message.id)}
-                            className="h-8 px-2 text-xs hover:bg-accent hover:text-red-600"
-                          >
-                            <ThumbsDown className="w-3 h-3 mr-1" />
-                            Bad
-                          </Button>
-                        </div>
+                      {/* Action Buttons for AI messages - only show for messages with valid database IDs */}
+                      {message.type === 'ai' && !message.isLoading && message.id && !message.id.includes('_') && !isNaN(Number(message.id)) && (
+                         <div className="flex items-center gap-2 mt-2">
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             onClick={() => handleCopy(message.content)}
+                             className="h-8 px-2 text-xs hover:bg-accent"
+                           >
+                             <Copy className="w-3 h-3 mr-1" />
+                             Copy
+                           </Button>
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             onClick={() => handleGoodResponse(message.id)}
+                             disabled={message.isSubmittingFeedback || !!message.feedback}
+                             className={`h-8 px-2 text-xs hover:bg-accent ${
+                               message.feedback === 'good' 
+                                 ? 'bg-green-100 text-green-600 hover:bg-green-100' 
+                                 : 'hover:text-green-600'
+                             }`}
+                           >
+                             <ThumbsUp className="w-3 h-3 mr-1" />
+                             Good
+                           </Button>
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             onClick={() => handleBadResponse(message.id)}
+                             disabled={message.isSubmittingFeedback || !!message.feedback}
+                             className={`h-8 px-2 text-xs hover:bg-accent ${
+                               message.feedback === 'bad' 
+                                 ? 'bg-red-100 text-red-600 hover:bg-red-100' 
+                                 : 'hover:text-red-600'
+                             }`}
+                           >
+                             <ThumbsDown className="w-3 h-3 mr-1" />
+                             Bad
+                           </Button>
+                         </div>
                       )}
                       
                       <div className={`text-xs text-muted-foreground mt-1 ${
@@ -245,6 +299,35 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Chat Session</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this chat session? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

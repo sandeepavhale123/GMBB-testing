@@ -18,7 +18,7 @@ import {
 export const integrationKeys = {
   mapApiKey: ["mapApiKey"] as const,
   subdomainStatus: ["subdomainStatus"] as const,
-  smtpDetails: (listingId: number) => ["smtpDetails", listingId] as const,
+  smtpDetails: (listingId: number | string) => ["smtpDetails", listingId] as const,
 };
 
 // Map API Key hooks
@@ -127,7 +127,7 @@ export const useUpdateSubdomain = () => {
 export const useGetSmtpDetails = (listingId: number | string) => {
   return useQuery({
     queryKey: integrationKeys.smtpDetails(listingId),
-    queryFn: () => getSmtpDetails({ listingId }),
+    queryFn: () => getSmtpDetails({ listingId: typeof listingId === 'string' ? parseInt(listingId, 10) : listingId }),
     retry: false,
   });
 };
