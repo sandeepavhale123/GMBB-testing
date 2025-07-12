@@ -32,15 +32,42 @@ export const formatScheduledDate = (dateString: string): string => {
   if (!dateString) return '';
   
   try {
+    // Handle DD/MM/YYYY H:MM AM/PM format from API
+    if (dateString.includes('/') && dateString.includes(' ')) {
+      // Parse DD/MM/YYYY H:MM AM/PM format
+      const [datePart, timePart] = dateString.split(' ');
+      const [day, month, year] = datePart.split('/');
+      
+      // Convert to MM/DD/YYYY format for proper parsing
+      const formattedDateString = `${month}/${day}/${year} ${timePart}`;
+      const date = new Date(formattedDateString);
+      
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+      }
+    }
+    
+    // Fallback to standard date parsing
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+    
+    return dateString;
   } catch (error) {
     return dateString;
   }
