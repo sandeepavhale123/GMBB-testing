@@ -1,23 +1,21 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { MapPin, Eye, FileBarChart } from 'lucide-react';
-import { useProfile } from '../../hooks/useProfile';
-import { useListingContext } from '@/context/ListingContext';
-import { OverviewData } from '../../api/overviewApi';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import { MapPin, Eye, FileBarChart } from "lucide-react";
+import { useProfile } from "../../hooks/useProfile";
+import { useListingContext } from "@/context/ListingContext";
+import { OverviewData } from "../../api/overviewApi";
 interface BusinessProfileHeaderProps {
   overviewData?: OverviewData | null;
 }
 
-export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ overviewData }) => {
+export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
+  overviewData,
+}) => {
   const navigate = useNavigate();
-  const {
-    selectedListing
-  } = useListingContext();
-  const {
-    profileData
-  } = useProfile();
+  const { selectedListing } = useListingContext();
+  const { profileData } = useProfile();
   const listingName = selectedListing?.name || "KSoft Solution";
   const listingAddress = selectedListing?.address || "New York, NY";
 
@@ -61,7 +59,8 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
       navigate(`/reports/${selectedListing.id}`);
     }
   };
-  return <div className="space-y-3 sm:space-y-4">
+  return (
+    <div className="space-y-3 sm:space-y-4">
       {/* Business Overview Card - Responsive */}
       <Card
         className="text-white border-0"
@@ -116,8 +115,8 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({ ov
                   <span className="hidden sm:inline">View on Google</span>
                   <span className="sm:hidden">View</span>
                 </Button>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="bg-white text-primary hover:bg-white/90 flex-1 sm:flex-none text-xs sm:text-sm"
                   onClick={handleViewReports}
                 >
