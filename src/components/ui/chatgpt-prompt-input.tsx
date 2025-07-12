@@ -145,7 +145,7 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
         <div className="mt-0.5 p-1 pt-0">
           <TooltipProvider delayDuration={100}>
             <div className="flex items-center gap-2">
-              <Tooltip> <TooltipTrigger asChild><button type="button" onClick={handlePlusClick} className="flex h-8 w-8 items-center justify-center rounded-full text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none"><PlusIcon className="h-6 w-6" /><span className="sr-only">Attach image</span></button></TooltipTrigger> <TooltipContent side="top" showArrow={true}><p>Attach image</p></TooltipContent> </Tooltip>
+              
               
               <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <Tooltip>
