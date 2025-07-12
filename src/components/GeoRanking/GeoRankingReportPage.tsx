@@ -198,9 +198,10 @@ export const GeoRankingReportPage: React.FC = () => {
                   onMarkerClick={handleMarkerClick}
                   mapPoint={formData.mapPoint}
                   manualCoordinates={manualCoordinates}
-                  onAddManualCoordinate={addManualCoordinate}
-                  onRemoveManualCoordinate={removeManualCoordinate}
-                  onUpdateManualCoordinate={updateManualCoordinate}
+            onAddManualCoordinate={addManualCoordinate}
+            onRemoveManualCoordinate={removeManualCoordinate}
+            onUpdateManualCoordinate={updateManualCoordinate}
+            onClearManualCoordinates={clearManualCoordinates}
                 />
               </div>
             </div>

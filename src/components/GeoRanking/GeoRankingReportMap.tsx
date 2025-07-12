@@ -28,6 +28,7 @@ interface GeoRankingReportMapProps {
   onAddManualCoordinate?: (coordinate: string) => void;
   onRemoveManualCoordinate?: (index: number) => void;
   onUpdateManualCoordinate?: (index: number, coordinate: string) => void;
+  onClearManualCoordinates?: () => void;
 }
 
 export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
@@ -42,6 +43,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   onAddManualCoordinate,
   onRemoveManualCoordinate,
   onUpdateManualCoordinate,
+  onClearManualCoordinates,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -211,23 +213,23 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
       const manualIcon = L.divIcon({
         html: `<div style="
-          background: #3b82f6;
+          background: #ef4444;
           color: white;
-          width: 30px;
-          height: 30px;
+          width: 16px;
+          height: 16px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 12px;
+          font-size: 10px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
           cursor: pointer;
-        ">${index + 1}</div>`,
+        "></div>`,
         className: "manual-marker",
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
       });
 
       const marker = L.marker([lat, lng], {
@@ -237,7 +239,8 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Manual Point ${index + 1}</strong><br>
+          <strong>Manual Coordinate ${index + 1}</strong><br>
+          <small>Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</small><br>
           <small>Drag to reposition</small><br>
           <button onclick="window.removeManualMarker(${index})" style="
             background: #ef4444;
@@ -268,6 +271,11 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   // Enable manual point selection on map click
   const enableManualSelection = () => {
     if (!mapInstanceRef.current || mapPoint !== 'Manually') return;
+
+    // Clear existing manual coordinates when switching to manual mode
+    if (onClearManualCoordinates) {
+      onClearManualCoordinates();
+    }
 
     mapInstanceRef.current.on('click', (e) => {
       const { lat, lng } = e.latlng;

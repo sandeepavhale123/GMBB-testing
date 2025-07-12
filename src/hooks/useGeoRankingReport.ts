@@ -256,6 +256,9 @@ export const useGeoRankingReport = (listingId: number) => {
   useEffect(() => {
     if (formData.mapPoint === 'Automatic' && defaultCoordinates) {
       fetchGridCoordinates();
+    } else if (formData.mapPoint === 'Manually') {
+      // Clear manual coordinates when switching to manual mode
+      clearManualCoordinates();
     }
   }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
 
@@ -324,8 +327,10 @@ export const useGeoRankingReport = (listingId: number) => {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         console.log(`Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`);
         
-        // Update progress every 5 seconds - cap at 85% during polling
-        const progress = Math.min((attempt / maxAttempts) * 100, 85);
+        // Update progress from 0 to 80% based on time elapsed, not attempts
+        const timeElapsed = (attempt - 1) * 5; // seconds
+        const maxTime = 240; // 4 minutes to reach 80%
+        const progress = Math.min((timeElapsed / maxTime) * 80, 80);
         setPollingProgress(progress);
         
         const response = await getKeywordDetailsWithStatus(listingId, keywordId, 1);
