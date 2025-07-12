@@ -25,6 +25,7 @@ export const useKeywordPolling = (
   const startPolling = useCallback(() => {
     if (!listingId || !shouldPoll || intervalRef.current) return;
 
+    console.log('🚀 Starting keyword polling for listingId:', listingId, 'shouldPoll:', shouldPoll);
     setIsPolling(true);
     errorCountRef.current = 0;
 
@@ -32,15 +33,25 @@ export const useKeywordPolling = (
       // Check if page is visible
       if (document.hidden) return;
 
+      console.log('🔄 Polling keyword status for listingId:', listingId);
+
       try {
         const response = await checkKeywordStatus(listingId);
+        console.log('🔄 Keyword status response:', {
+          code: response.code,
+          keywordCount: response.data?.keywords?.length || 0,
+          keywords: response.data?.keywords?.map(k => k.keyword) || []
+        });
+        
         errorCountRef.current = 0; // Reset error count on success
 
         if (response.code === 200 && response.data.keywords.length > 0) {
           const keywordNames = response.data.keywords.map(k => k.keyword);
+          console.log('📊 Processing keywords found:', keywordNames);
           setProcessingKeywords(keywordNames);
         } else {
           // No more processing keywords - stop polling and refresh
+          console.log('✅ No processing keywords found, stopping polling and refreshing data');
           setProcessingKeywords([]);
           stopPolling();
           try {
@@ -50,12 +61,12 @@ export const useKeywordPolling = (
           }
         }
       } catch (error) {
-        console.error('Error checking keyword status:', error);
+        console.error('❌ Error checking keyword status:', error);
         errorCountRef.current++;
         
         // Stop polling after too many consecutive errors
         if (errorCountRef.current >= maxErrors) {
-          console.warn('Too many polling errors, stopping polling');
+          console.warn('⚠️ Too many polling errors, stopping polling');
           setProcessingKeywords([]);
           stopPolling();
         }

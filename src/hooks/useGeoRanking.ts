@@ -4,11 +4,11 @@ import { useKeywordDetails } from './useKeywordDetails';
 import { useKeywordPolling } from './useKeywordPolling';
 import { useKeywordRefresh } from './useKeywordRefresh';
 
-export const useGeoRanking = (listingId: number) => {
+export const useGeoRanking = (listingId: number, shouldStartPolling = false) => {
   // Progress tracking states
   const [pollingProgress, setPollingProgress] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
-  const [isPollingActive, setIsPollingActive] = useState(false);
+  const [isPollingActive, setIsPollingActive] = useState(shouldStartPolling);
 
   // Keywords management
   const {
