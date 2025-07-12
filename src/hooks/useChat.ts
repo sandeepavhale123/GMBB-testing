@@ -144,7 +144,7 @@ export const useChat = (keywordId?: string) => {
 
       // Replace loading message with actual AI response
       const aiMessage: ChatMessage = {
-        id: (Date.now() + 2).toString(),
+        id: response.data.chat_session_id, // Use chat_session_id as temporary ID for new messages
         type: 'ai',
         content: response.data.reply,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
