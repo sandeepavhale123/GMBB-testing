@@ -126,17 +126,15 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
             <div className="flex items-center gap-2">
               {/* Suggested Questions Button */}
               <Popover open={isSuggestedQuestionsOpen} onOpenChange={setIsSuggestedQuestionsOpen}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                      <button type="button" className="flex h-8 items-center gap-2 rounded-full p-2 text-sm text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none focus-visible:ring-ring">
-                        <HelpCircleIcon className="h-4 w-4" />
-                        Questions
-                      </button>
-                    </PopoverTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" showArrow={true}><p>Suggested Questions</p></TooltipContent>
-                </Tooltip>
+               <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="flex h-8 items-center gap-2 rounded-full p-2 text-sm text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none focus-visible:ring-ring"
+                  >
+                    <HelpCircleIcon className="h-4 w-4" />
+                    Questions
+                  </button>
+                </PopoverTrigger>
                 <PopoverContent side="top" align="center" className="w-96 max-h-[28rem] overflow-y-auto bg-background dark:bg-[#2a2a2a] border border-border dark:border-gray-600 shadow-lg rounded-lg p-4">
                   {!selectedCategory ? (
                     <div className="flex flex-col gap-2">
