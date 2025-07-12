@@ -16,7 +16,7 @@ export interface ChatQuestionsResponse {
 
 export const chatQuestionsApi = {
   getChatQuestions: async (): Promise<ChatQuestion[]> => {
-    const response = await axiosInstance.post<ChatQuestionsResponse>('/get-chat-questions');
+    const response = await axiosInstance.post<ChatQuestionsResponse>('/chat/get-chat-questions');
     return response.data.data;
   }
 };
