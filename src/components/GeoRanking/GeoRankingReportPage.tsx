@@ -7,6 +7,7 @@ import { Sidebar } from "../Sidebar";
 import { useBusinessListings } from "../../hooks/useBusinessListings";
 import { GeoRankingReportForm } from "./GeoRankingReportForm";
 import { GeoRankingReportMap } from "./GeoRankingReportMap";
+import { GeoRankingMap } from "./GeoRankingMap";
 import { GeoPositionModal } from "./GeoPositionModal";
 import { UnderPerformingTable } from "./UnderPerformingTable";
 import { useGeoRankingReport } from "../../hooks/useGeoRankingReport";
@@ -47,8 +48,13 @@ export const GeoRankingReportPage: React.FC = () => {
     pollingProgress,
     keywordData,
     currentKeywordId,
+    manualCoordinates,
     handleInputChange,
     submitCheckRank,
+    addManualCoordinate,
+    removeManualCoordinate,
+    clearAllManualCoordinates,
+    updateManualCoordinate
   } = useGeoRankingReport(numericListingId);
 
   const { toast } = useToast();
@@ -166,7 +172,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6">
               {/* Report Configuration */}
-              <div className="xl:col-span-4 order-1 xl:order-2">
+              <div className="xl:col-span-4 order-1 xl:order-2 space-y-4">
                 <GeoRankingReportForm
                   formData={formData}
                   onInputChange={handleInputChange}
@@ -177,10 +183,30 @@ export const GeoRankingReportPage: React.FC = () => {
                   languageOptions={languageOptions}
                   submittingRank={submittingRank}
                   pollingKeyword={pollingKeyword}
+                  manualCoordinates={manualCoordinates}
+                  onRemoveCoordinate={removeManualCoordinate}
+                  onClearAllCoordinates={clearAllManualCoordinates}
+                />
+                
+                {/* Interactive Map for Manual Selection */}
+                <GeoRankingMap
+                  mapPoint={formData.mapPoint}
+                  loadingGrid={loadingGrid}
+                  defaultCoordinates={defaultCoordinates}
+                  gridCoordinates={gridCoordinates}
+                  currentMarkers={currentMarkers}
+                  setCurrentMarkers={setCurrentMarkers}
+                  mapInstanceRef={mapInstanceRef}
+                  distanceValue={formData.distanceValue}
+                  distanceUnit={formData.distanceUnit}
+                  manualCoordinates={manualCoordinates}
+                  onAddManualCoordinate={addManualCoordinate}
+                  onRemoveManualCoordinate={removeManualCoordinate}
+                  onUpdateManualCoordinate={updateManualCoordinate}
                 />
               </div>
 
-              {/* Map Section */}
+              {/* Results Map Section */}
               <div className="xl:col-span-8 order-2 xl:order-1">
                 <GeoRankingReportMap
                   defaultCoordinates={defaultCoordinates}

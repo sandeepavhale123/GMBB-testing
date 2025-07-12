@@ -29,6 +29,10 @@ interface GeoRankingMapProps {
   mapInstanceRef: React.MutableRefObject<L.Map | null>;
   distanceValue: string;
   distanceUnit: string;
+  manualCoordinates: { lat: number; lng: number; id: string }[];
+  onAddManualCoordinate: (lat: number, lng: number) => void;
+  onRemoveManualCoordinate: (id: string) => void;
+  onUpdateManualCoordinate: (id: string, lat: number, lng: number) => void;
 }
 
 export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
@@ -40,7 +44,11 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
   setCurrentMarkers,
   mapInstanceRef,
   distanceValue,
-  distanceUnit
+  distanceUnit,
+  manualCoordinates,
+  onAddManualCoordinate,
+  onRemoveManualCoordinate,
+  onUpdateManualCoordinate
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
@@ -267,48 +275,52 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
     setCurrentMarkers(markers);
   };
 
-  // Enable manual point selection
-  const enableManualSelection = (): void => {
-    if (!mapInstanceRef.current || !defaultCoordinates) return;
+  // Add manual markers based on coordinates
+  const addManualMarkers = (): void => {
+    if (!mapInstanceRef.current) return;
 
     clearAllMarkers();
 
-    // Add click event for manual marker placement
-    const handleMapClick = (e: L.LeafletMouseEvent) => {
-      if (!mapInstanceRef.current) return;
-
+    manualCoordinates.forEach((coord, index) => {
       const manualIcon = L.divIcon({
         html: `<div style="
           background: #dc2626;
           color: white;
-          width: 24px;
-          height: 24px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          font-size: 12px;
+          font-size: 14px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
           cursor: pointer;
-        ">●</div>`,
+        ">${index + 1}</div>`,
         className: 'manual-marker',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
       });
 
-      const marker = L.marker(e.latlng, {
+      const marker = L.marker([coord.lat, coord.lng], {
         icon: manualIcon,
         draggable: true
       }).addTo(mapInstanceRef.current!);
 
+      // Handle drag events to update coordinates
+      marker.on('dragend', () => {
+        const { lat, lng } = marker.getLatLng();
+        onUpdateManualCoordinate(coord.id, lat, lng);
+      });
+
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Manual Point</strong><br>
+          <strong>Point ${index + 1}</strong><br>
+          <small>${coord.lat.toFixed(6)}, ${coord.lng.toFixed(6)}</small><br>
           <small>Drag to reposition</small><br>
           <button onclick="this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click(); 
-            window.removeManualMarker && window.removeManualMarker('${L.stamp(marker)}')" 
+            window.removeManualCoordinate && window.removeManualCoordinate('${coord.id}')" 
             style="background: #dc2626; color: white; border: none; padding: 4px 8px; border-radius: 4px; margin-top: 5px; cursor: pointer;">
             Remove
           </button>
@@ -316,18 +328,28 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       `);
 
       setCurrentMarkers(prev => [...prev, marker]);
+    });
+  };
+
+  // Enable manual point selection
+  const enableManualSelection = (): void => {
+    if (!mapInstanceRef.current) return;
+
+    // Add click event for manual marker placement
+    const handleMapClick = (e: L.LeafletMouseEvent) => {
+      const { lat, lng } = e.latlng;
+      onAddManualCoordinate(lat, lng);
     };
 
     mapInstanceRef.current.on('click', handleMapClick);
 
-    // Add global function to remove markers
-    (window as any).removeManualMarker = (markerId: string) => {
-      const marker = currentMarkers.find(m => L.stamp(m).toString() === markerId);
-      if (marker && mapInstanceRef.current) {
-        mapInstanceRef.current.removeLayer(marker);
-        setCurrentMarkers(prev => prev.filter(m => m !== marker));
-      }
+    // Add global function to remove coordinates
+    (window as any).removeManualCoordinate = (coordId: string) => {
+      onRemoveManualCoordinate(coordId);
     };
+
+    // Initial load of manual markers
+    addManualMarkers();
   };
 
   useEffect(() => {
@@ -377,13 +399,18 @@ export const GeoRankingMap: React.FC<GeoRankingMapProps> = ({
       // Auto-adjust view after markers are added
       setTimeout(() => calculateOptimalView(), 100);
     } else {
-      // For manual mode, show default marker initially
-      addDefaultMarker();
       enableManualSelection();
       // Use distance-based zoom for manual mode
       setTimeout(() => calculateOptimalView(), 100);
     }
   }, [mapPoint, gridCoordinates]);
+
+  // Handle manual coordinates changes
+  useEffect(() => {
+    if (mapPoint === 'Manually' && mapInstanceRef.current) {
+      addManualMarkers();
+    }
+  }, [manualCoordinates]);
 
   // Handle distance changes to adjust zoom automatically
   useEffect(() => {
