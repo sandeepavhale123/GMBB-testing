@@ -180,7 +180,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
 
         {/* Chat Messages Area */}
         <div className="flex-1 min-h-0 overflow-hidden">
-          <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+          <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800" style={{ height: 'calc(100% - 200px)' }}>
             <div className="max-w-4xl mx-auto p-6 space-y-6">
               {isLoadingMessages ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
