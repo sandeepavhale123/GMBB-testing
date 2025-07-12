@@ -57,6 +57,8 @@ const TelescopeIcon = (props: React.SVGProps<SVGSVGElement>) => <svg viewBox="0 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => <svg viewBox="0 0 24 24" fill="none" {...props}> <path d="M12 7C9.23858 7 7 9.23858 7 12C7 13.3613 7.54402 14.5955 8.42651 15.4972C8.77025 15.8484 9.05281 16.2663 9.14923 16.7482L9.67833 19.3924C9.86537 20.3272 10.6862 21 11.6395 21H12.3605C13.3138 21 14.1346 20.3272 14.3217 19.3924L14.8508 16.7482C14.9472 16.2663 15.2297 15.8484 15.5735 15.4972C16.456 14.5955 17 13.3613 17 12C17 9.23858 14.7614 7 12 7Z" stroke="currentColor" strokeWidth="2" /> <path d="M12 4V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> <path d="M18 6L19 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> <path d="M20 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> <path d="M4 12H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> <path d="M5 5L6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> <path d="M10 17H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> </svg>;
 // NEW: MicIcon
 const MicIcon = (props: React.SVGProps<SVGSVGElement>) => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}> <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path> <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path> <line x1="12" y1="19" x2="12" y2="23"></line> </svg>;
+// NEW: HelpCircleIcon for suggested questions
+const HelpCircleIcon = (props: React.SVGProps<SVGSVGElement>) => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}> <circle cx="12" cy="12" r="10"></circle> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path> <circle cx="12" cy="17" r="1"></circle> </svg>;
 const toolsList = [{
   id: 'createImage',
   name: 'Create an image',
@@ -85,6 +87,98 @@ const toolsList = [{
   icon: LightbulbIcon
 }];
 
+// Suggested questions data
+const suggestedQuestionsData = [
+  {
+    title: "GEO Grid Insights",
+    icon: "map-pin",
+    color: "#007cf3",
+    count: 12,
+    questions: [
+      "Can you list all pins with area name, coordinates, and our rank at each pin?",
+      "Which pins have missing or invalid rank data?",
+      "Can you provide a clean table of pin data ready for mapping?",
+      "How many pins show our business ranking in top 3?",
+      "Which pins show our business ranked below position 3?",
+      "What percentage of pins are underperforming?",
+      "Can you calculate the % of pins ranking in top 3?",
+      "Can you generate an executive summary of the GEO Grid scan?",
+      "Can you highlight the strongest and weakest locations?",
+      "Can you provide a plain-English summary of results?",
+      "Can you list the top 3 recurring competitors across the grid?",
+      "Can you export the rankings in CSV or JSON format?"
+    ]
+  },
+  {
+    title: "Clustering & Location Strategy",
+    icon: "milestone",
+    color: "#d68300",
+    count: 9,
+    questions: [
+      "Can you group underperforming pins into clusters within 2 km?",
+      "Can you list clusters with main hub and sublocations?",
+      "Which cluster has the highest number of underperforming pins?",
+      "Can you generate coordinates for each cluster center?",
+      "Can you provide a distance matrix between the clusters?",
+      "Can you generate SEO-friendly URLs for each cluster?",
+      "Can you create a URL map showing main and sublocations?",
+      "Can you suggest internal linking logic for these silo URLs?",
+      "Can you provide sample URL slugs for each area?"
+    ]
+  },
+  {
+    title: "Competitor & Visibility Planning",
+    icon: "bar-chart-3",
+    color: "#d60000",
+    count: 6,
+    questions: [
+      "Can you identify common competitors at these weak locations?",
+      "Can you provide suggestions for improving visibility in these areas?",
+      "Identify and list the top 3 competitors who appear most frequently in the top 3 positions where we underperform.",
+      "share me proper plan to rank on underperforming locations",
+      "Provide 3 high-level recommendations on how to improve visibility in these underperforming areas.",
+      "Can you match these URLs with the business category?"
+    ]
+  },
+  {
+    title: "Content Recommendations",
+    icon: "file-text",
+    color: "#7e18c7",
+    count: 11,
+    questions: [
+      "Can you generate content outlines for each underperforming location?",
+      "What H1 and H2 headings do you recommend for under performing pin pages",
+      "Can you suggest local FAQs to include?",
+      "Can you provide section titles for service, reviews, and directions?",
+      "Can you format this as a table ready for a content writer?",
+      "Can you provide draft content blocks mentioning local POIs?",
+      "What landmarks should be referenced for each location?",
+      "Can you generate location-specific CTAs?",
+      "Can you suggest opening paragraphs for these pages?",
+      "Can you format content blocks for website upload?",
+      "Can you provide draft content blocks mentioning local POIs?"
+    ]
+  },
+  {
+    title: "Review Analysis & Timing",
+    icon: "message-square",
+    color: "#3e8302",
+    count: 10,
+    questions: [
+      "Can you list top positive keywords from reviews?",
+      "Can you list top negative keywords from reviews?",
+      "Can you identify common themes in customer reviews?",
+      "Can you suggest how to incorporate these keywords in content?",
+      "Can you summarize sentiment trends from reviews?",
+      "What are the busiest times across all locations?",
+      "Can you list peak hours by day of week?",
+      "Can you recommend optimal posting times based on this?",
+      "Can you suggest time slots for promotions or ads?",
+      "Can you compare current popular times with historical data?"
+    ]
+  }
+];
+
 // --- The Final, Self-Contained PromptBox Component ---
 export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(({
   className,
@@ -98,6 +192,8 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
   const [selectedTool, setSelectedTool] = React.useState<string | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
   const [isImageDialogOpen, setIsImageDialogOpen] = React.useState(false);
+  const [isSuggestedQuestionsOpen, setIsSuggestedQuestionsOpen] = React.useState(false);
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
   React.useImperativeHandle(ref, () => internalTextareaRef.current!, []);
   React.useLayoutEffect(() => {
     const textarea = internalTextareaRef.current;
@@ -135,6 +231,20 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
   const hasValue = value.trim().length > 0 || imagePreview;
   const activeTool = selectedTool ? toolsList.find(t => t.id === selectedTool) : null;
   const ActiveToolIcon = activeTool?.icon;
+  
+  const handleQuestionSelect = (question: string) => {
+    setValue(question);
+    setIsSuggestedQuestionsOpen(false);
+    setSelectedCategory(null);
+  };
+  
+  const handleCategorySelect = (categoryTitle: string) => {
+    setSelectedCategory(categoryTitle);
+  };
+  
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+  };
   return <div className={cn("flex flex-col rounded-[28px] p-2 shadow-sm transition-colors bg-white border dark:bg-[#303030] dark:border-transparent cursor-text", className)}>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
         
@@ -177,6 +287,69 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
                     <XIcon className="h-4 w-4" />
                   </button>
                 </>}
+
+              {/* Suggested Questions Button */}
+              <Popover open={isSuggestedQuestionsOpen} onOpenChange={setIsSuggestedQuestionsOpen}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                      <button type="button" className="flex h-8 items-center gap-2 rounded-full p-2 text-sm text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none focus-visible:ring-ring">
+                        <HelpCircleIcon className="h-4 w-4" />
+                        Questions
+                      </button>
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" showArrow={true}><p>Suggested Questions</p></TooltipContent>
+                </Tooltip>
+                <PopoverContent side="top" align="center" className="w-80 max-h-96 overflow-y-auto">
+                  {!selectedCategory ? (
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-medium text-sm mb-2">Select a category:</h3>
+                      {suggestedQuestionsData.map(category => (
+                        <button
+                          key={category.title}
+                          onClick={() => handleCategorySelect(category.title)}
+                          className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
+                        >
+                          <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium"
+                            style={{ backgroundColor: category.color }}
+                          >
+                            {category.count}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium">{category.title}</div>
+                            <div className="text-xs text-muted-foreground dark:text-gray-400">{category.count} questions</div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2 mb-2">
+                        <button
+                          onClick={handleBackToCategories}
+                          className="text-sm text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white"
+                        >
+                          ← Back
+                        </button>
+                        <h3 className="font-medium text-sm">{selectedCategory}</h3>
+                      </div>
+                      {suggestedQuestionsData
+                        .find(cat => cat.title === selectedCategory)
+                        ?.questions.map((question, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleQuestionSelect(question)}
+                          className="text-left text-sm p-2 rounded-md hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
+                        >
+                          {question}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </PopoverContent>
+              </Popover>
 
               {/* MODIFIED: Right-aligned buttons container */}
               <div className="ml-auto flex items-center gap-2">
