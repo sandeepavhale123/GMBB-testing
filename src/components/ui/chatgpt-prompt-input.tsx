@@ -158,67 +158,7 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
                 </>}
 
               {/* Suggested Questions Button */}
-              <Popover open={isSuggestedQuestionsOpen} onOpenChange={setIsSuggestedQuestionsOpen}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                      <button type="button" className="flex h-8 items-center gap-2 rounded-full p-2 text-sm text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none focus-visible:ring-ring">
-                        <HelpCircleIcon className="h-4 w-4" />
-                        Questions
-                      </button>
-                    </PopoverTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" showArrow={true}><p>Suggested Questions</p></TooltipContent>
-                </Tooltip>
-                <PopoverContent side="top" align="center" className="w-96 max-h-[28rem] overflow-y-auto bg-background dark:bg-[#2a2a2a] border border-border dark:border-gray-600 shadow-lg rounded-lg p-4">
-                  {!selectedCategory ? (
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-medium text-sm mb-2">Select a category:</h3>
-                      {suggestedQuestionsData.map(category => (
-                        <button
-                          key={category.title}
-                          onClick={() => handleCategorySelect(category.title)}
-                          className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
-                        >
-                          <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium"
-                            style={{ backgroundColor: category.color }}
-                          >
-                            {category.count}
-                          </div>
-                          <div className="flex-1">
-                            <div className="font-medium">{category.title}</div>
-                            <div className="text-xs text-muted-foreground dark:text-gray-400">{category.count} questions</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <button
-                          onClick={handleBackToCategories}
-                          className="text-sm text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white"
-                        >
-                          ← Back
-                        </button>
-                        <h3 className="font-medium text-sm">{selectedCategory}</h3>
-                      </div>
-                      {suggestedQuestionsData
-                        .find(cat => cat.title === selectedCategory)
-                        ?.questions.map((question, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleQuestionSelect(question)}
-                          className="text-left text-sm p-2 rounded-md hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
-                        >
-                          {question}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </PopoverContent>
-              </Popover>
+              
 
               {/* MODIFIED: Right-aligned buttons container */}
               <div className="ml-auto flex items-center gap-2">
