@@ -275,6 +275,8 @@ const SelectListingsStep = ({
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
               Connecting...
             </>
+          ) : selectedCount === 0 ? (
+            "Select a listing to continue"
           ) : (
             `Connect with ${selectedCount} listing${
               selectedCount !== 1 ? "s" : ""

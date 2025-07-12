@@ -1,7 +1,8 @@
-import React from 'react';
-import { Button } from '../../ui/button';
-import { Check, Settings, RotateCcw } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import React from "react";
+import { Button } from "../../ui/button";
+import { Check, Settings, RotateCcw } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Toast } from "@/components/ui/toast";
 
 interface BrandingSaveActionsProps {
   isSaving: boolean;
@@ -31,24 +32,32 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
       });
     }
   };
+  const handleReset = async () => {
+    try {
+      await onReset();
+    } catch (error) {
+      // Error handling is done in the parent component
+      Toast({
+        title: "Error in reset",
+        description: error,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex justify-between">
-      <Button 
+      <Button
         variant="outline"
-        onClick={onReset} 
+        onClick={handleReset}
         disabled={isSaving}
         className="px-6"
       >
         <RotateCcw className="w-4 h-4 mr-2" />
         Reset
       </Button>
-      
-      <Button 
-        onClick={handleSave} 
-        disabled={isSaving}
-        className="px-8"
-      >
+
+      <Button onClick={handleSave} disabled={isSaving} className="px-8">
         {isSaving ? (
           <>
             <Settings className="w-4 h-4 mr-2 animate-spin" />

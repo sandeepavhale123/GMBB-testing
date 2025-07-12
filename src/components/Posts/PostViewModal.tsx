@@ -112,7 +112,6 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
               <Calendar className="w-3 h-3 mr-1" />
               {new Date(post.publishDate).toLocaleDateString()}
             </div>
-            <span>{post.business}</span>
           </div>
 
           {/* View Post Button */}

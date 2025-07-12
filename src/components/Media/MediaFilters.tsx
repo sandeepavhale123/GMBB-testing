@@ -1,8 +1,13 @@
-
-import React from 'react';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Search, Filter } from 'lucide-react';
+import React from "react";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Search, Filter } from "lucide-react";
 
 interface MediaFiltersProps {
   searchQuery: string;
@@ -27,40 +32,37 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
   sortBy,
   onSortByChange,
   sortOrder,
-  onSortOrderChange
+  onSortOrderChange,
 }) => {
   const categories = [
-    { value: 'all', label: 'All Categories' },
-    { value: 'COVER', label: 'Cover' },
-    { value: 'PROFILE', label: 'Profile' },
-    { value: 'LOGO', label: 'Logo' },
-    { value: 'EXTERIOR', label: 'Exterior' },
-    { value: 'INTERIOR', label: 'Interior' },
-    { value: 'PRODUCT', label: 'Product' },
-    { value: 'AT_WORK', label: 'At Work' },
-    { value: 'FOOD_AND_DRINK', label: 'Food and Drink' },
-    { value: 'MENU', label: 'Menu' },
-    { value: 'COMMON_AREA', label: 'Common Area' },
-    { value: 'ROOMS', label: 'Rooms' },
-    { value: 'TEAMS', label: 'Teams' },
-    { value: 'ADDITIONAL', label: 'Additional' }
+    { value: "all", label: "All Categories" },
+    { value: "COVER", label: "Cover" },
+    { value: "PROFILE", label: "Profile" },
+    { value: "LOGO", label: "Logo" },
+    { value: "EXTERIOR", label: "Exterior" },
+    { value: "INTERIOR", label: "Interior" },
+    { value: "PRODUCT", label: "Product" },
+    { value: "AT_WORK", label: "At Work" },
+    { value: "FOOD_AND_DRINK", label: "Food and Drink" },
+    { value: "MENU", label: "Menu" },
+    { value: "COMMON_AREA", label: "Common Area" },
+    { value: "ROOMS", label: "Rooms" },
+    { value: "TEAMS", label: "Teams" },
+    { value: "ADDITIONAL", label: "Additional" },
   ];
 
   const statuses = [
-    { value: 'all', label: 'All Status' },
-    { value: 'Live', label: 'Live' },
-    { value: 'Schedule', label: 'Scheduled' }
+    { value: "all", label: "All Status" },
+    { value: "Live", label: "Live" },
+    { value: "Schedule", label: "Scheduled" },
+    { value: "failed", label: "Failed" },
   ];
 
-  const sortOptions = [
-    { value: 'postdate', label: 'Upload Date' },
-    { value: 'category', label: 'Category' },
-    { value: 'insights', label: 'Views' }
-  ];
+  const sortOptions = [{ value: "postdate", label: "Upload Date" }];
 
   const sortOrderOptions = [
-    { value: 'desc', label: 'Descending' },
-    { value: 'asc', label: 'Ascending' }
+    { value: "desc", label: "Descending" },
+    { value: "asc", label: "Ascending" },
   ];
 
   return (
@@ -74,9 +76,9 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
           className="pl-10"
         />
       </div>
-      
+
       <div className="flex gap-3 flex-wrap">
-        <Select value={category || 'all'} onValueChange={onCategoryChange}>
+        <Select value={category || "all"} onValueChange={onCategoryChange}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
@@ -89,7 +91,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={status || 'all'} onValueChange={onStatusChange}>
+        <Select value={status || "all"} onValueChange={onStatusChange}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Status" />
           </SelectTrigger>

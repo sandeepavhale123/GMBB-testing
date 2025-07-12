@@ -294,7 +294,7 @@ export const SubscriptionPage: React.FC = () => {
         title: "Upgrade Error",
         description:
           error instanceof Error
-            ? error.message
+            ? error?.response?.data?.message
             : "Failed to upgrade plan. Please try again.",
         variant: "destructive",
       });
@@ -307,6 +307,34 @@ export const SubscriptionPage: React.FC = () => {
     setShowUpgradeModal(false);
     setSelectedUpgradePlan(null);
   };
+  const handleCancelSubscription = async () => {
+    try {
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_BASE_URL}/cancel-subscription`,
+        { isDelete: "delete" }
+      );
+
+      toast({
+        title: "Subscription Cancelled",
+        description:
+          response.data?.message || "Your subscription has been cancelled.",
+      });
+
+      // Optionally refresh state
+      setActivePlanId(null);
+      setPlanExpDate(null);
+      setIsExpired(false);
+    } catch (error: any) {
+      console.error("Cancel subscription error:", error);
+      toast({
+        title: "Error",
+        description:
+          error?.response?.data?.message || "Failed to cancel subscription.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const getSelectedPlanName = () => {
     const plan = plans.find((p) => p.id === selectedUpgradePlan);
     return plan ? plan.name : "";
@@ -314,35 +342,47 @@ export const SubscriptionPage: React.FC = () => {
   return (
     <div className="p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto">
       {/* Page Header */}
-      <div className="mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-          Subscription Plans
-        </h2>
-        <p className="text-gray-600 text-sm sm:text-base">
-          Choose the perfect plan for your business needs. Upgrade or downgrade
-          at any time.
-        </p>
-        {/* Show expiration status if user has a plan */}
-        {activePlanId && planExpDate && (
-          <div
-            className={`mt-4 p-3 rounded-lg ${
-              isExpired
-                ? "bg-red-50 border border-red-200"
-                : "bg-green-50 border border-green-200"
-            }`}
-          >
-            <p
-              className={`text-sm font-medium ${
-                isExpired ? "text-red-800" : "text-green-800"
+      <div className="mb-6 sm:mb-8 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            Subscription Plans
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Choose the perfect plan for your business needs. Upgrade or
+            downgrade at any time.
+          </p>
+
+          {/* Show expiration status if user has a plan */}
+          {activePlanId && planExpDate && (
+            <div
+              className={`mt-4 p-3 rounded-lg ${
+                isExpired
+                  ? "bg-red-50 border border-red-200"
+                  : "bg-green-50 border border-green-200"
               }`}
             >
-              {isExpired
-                ? `Your plan expired on ${formatDate(
-                    planExpDate
-                  )}. Please renew to continue accessing features.`
-                : `Your plan is active until ${formatDate(planExpDate)}.`}
-            </p>
-          </div>
+              <p
+                className={`text-sm font-medium ${
+                  isExpired ? "text-red-800" : "text-green-800"
+                }`}
+              >
+                {isExpired
+                  ? `Your plan expired on ${formatDate(
+                      planExpDate
+                    )}. Please renew to continue accessing features.`
+                  : `Your plan is active until ${formatDate(planExpDate)}.`}
+              </p>
+            </div>
+          )}
+        </div>
+        {hasActivePlan() && !isExpired && (
+          <Button
+            variant="destructive"
+            onClick={handleCancelSubscription}
+            className="mt-2 sm:mt-0"
+          >
+            Unsubscribe
+          </Button>
         )}
       </div>
 

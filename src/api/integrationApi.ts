@@ -1,0 +1,70 @@
+import axiosInstance from "@/api/axiosInstance";
+
+// Types
+export interface SmtpPayload {
+  fromName: string;
+  rpyEmail: string;
+  smtpHost: string;
+  smtpPort: string;
+  smtpUser: string;
+  smtpPass: string;
+}
+
+// Subdomain APIs
+export const updateSubdomain = async (data: { subDomain: string }) => {
+  const response = await axiosInstance.post("/update-subdomain", data);
+  return response.data;
+};
+
+export const getSubdomainStatus = async () => {
+  const response = await axiosInstance.post("/get-subdomain-status");
+  return response.data;
+};
+
+export const deleteSubdomainDetails = async () => {
+  const response = await axiosInstance.post("/delete-subdomain", {
+    isDelete: "delete",
+  });
+  return response.data;
+};
+
+// SMTP APIs
+export const getSmtpDetails = async (data: { listingId: number }) => {
+  const response = await axiosInstance.post("/get-smtp-details", data);
+  return response.data;
+};
+
+export const updateSmtpDetails = async (data: SmtpPayload) => {
+  const response = await axiosInstance.post("/update-smtp-details", data);
+  return response.data;
+};
+
+export const testSmtpDetails = async (data: SmtpPayload) => {
+  const response = await axiosInstance.post("/test-smtp-details", data);
+  return response.data;
+};
+
+export const deleteSmtpDetails = async () => {
+  const response = await axiosInstance.post("/delete-smtp-details", {
+    isDelete: "delete",
+  });
+  return response.data;
+};
+
+// Map API Key APIs
+export const getMapApiKey = async () => {
+  const response = await axiosInstance.post("/get-mapapi-key");
+  return response.data;
+};
+
+export const updateMapApiKey = async (data: { apiKey: string }) => {
+  const response = await axiosInstance.post("/update-apikey", data);
+  return response.data;
+};
+
+export const deleteMapApiKey = async () => {
+  const response = await axiosInstance.post("/delete-mapapi-key", {
+    isDelete: "delete",
+  });
+  return response.data;
+};

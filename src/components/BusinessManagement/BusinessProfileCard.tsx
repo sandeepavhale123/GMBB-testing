@@ -143,9 +143,9 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
                   "Refresh"
                 )}
               </Button>
-              <Button variant="outline" className="px-4 py-2 text-sm">
+              {/* <Button variant="outline" className="px-4 py-2 text-sm">
                 Edit access
-              </Button>
+              </Button> */}
             </div>
 
             {/* Visibility Section */}

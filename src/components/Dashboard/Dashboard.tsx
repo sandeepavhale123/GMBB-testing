@@ -287,7 +287,10 @@ export const Dashboard: React.FC = () => {
                 {/* Top Row - Responsive grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                   <LazyComponentLoader>
-                    <TrafficSourcesChart />
+                    <TrafficSourcesChart
+                      live={overviewData?.livePosts}
+                      failed={overviewData?.failedPosts}
+                    />
                   </LazyComponentLoader>
                   <LazyComponentLoader>
                     <CreatePostCard

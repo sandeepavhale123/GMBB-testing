@@ -12,6 +12,8 @@ export interface OverviewData {
   totalPosts: number;
   totalReview: number;
   totalMedia: number;
+  livePosts: number;
+  failedPosts: number;
   totalQuestion: number;
   totalAnswer: number;
   healthScore: number;
@@ -32,6 +34,8 @@ const transformApiResponse = (apiData: any): OverviewData => {
   return {
     totalPosts: Number(apiData.totalPosts) || 0,
     totalReview: Number(apiData.totalReview) || 0,
+    livePosts: Number(apiData.livePosts) || 0,
+    failedPosts: Number(apiData.failedPosts) || 0,
     totalMedia: Number(apiData.totalMedia) || 0,
     totalQuestion: Number(apiData.totalQuestion) || 0,
     totalAnswer: Number(apiData.totalAnswer) || 0,

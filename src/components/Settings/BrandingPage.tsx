@@ -1,16 +1,28 @@
-import React, { useEffect } from 'react';
-import { Badge } from '../ui/badge';
-import { Card, CardContent } from '../ui/card';
-import { Separator } from '../ui/separator';
-import { EnhancedLogoUploadSection } from './Branding/EnhancedLogoUploadSection';
-import { EnhancedFaviconUploadSection } from './Branding/EnhancedFaviconUploadSection';
-import { ThemeColorsSection } from './Branding/ThemeColorsSection';
-import { SidebarCustomizationSection } from './Branding/SidebarCustomizationSection';
-import { BrandingSaveActions } from './Branding/BrandingSaveActions';
-import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { updateTheme, ThemeUpdateData, getTheme } from '../../api/themeApi';
-import { setThemeLoading, setLightLogo, setDarkLogo, setFavicon, setSelectedTheme, loadThemeFromAPI } from '../../store/slices/themeSlice';
-import { useToast } from '@/hooks/use-toast';
+import React, { useEffect } from "react";
+import { Badge } from "../ui/badge";
+import { Card, CardContent } from "../ui/card";
+import { Separator } from "../ui/separator";
+import { EnhancedLogoUploadSection } from "./Branding/EnhancedLogoUploadSection";
+import { EnhancedFaviconUploadSection } from "./Branding/EnhancedFaviconUploadSection";
+import { ThemeColorsSection } from "./Branding/ThemeColorsSection";
+import { SidebarCustomizationSection } from "./Branding/SidebarCustomizationSection";
+import { BrandingSaveActions } from "./Branding/BrandingSaveActions";
+import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
+import {
+  updateTheme,
+  ThemeUpdateData,
+  getTheme,
+  deleteTheme,
+} from "../../api/themeApi";
+import {
+  setThemeLoading,
+  setLightLogo,
+  setDarkLogo,
+  setFavicon,
+  setSelectedTheme,
+  loadThemeFromAPI,
+} from "../../store/slices/themeSlice";
+import { useToast } from "@/hooks/use-toast";
 
 export const BrandingPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +40,7 @@ export const BrandingPage: React.FC = () => {
     label_color,
     active_menu_bg_color,
     active_menu_label_color,
-    isLoading
+    isLoading,
   } = useAppSelector((state) => state.theme);
 
   // Load existing theme data on component mount
@@ -41,7 +53,7 @@ export const BrandingPage: React.FC = () => {
           dispatch(loadThemeFromAPI(response.data));
         }
       } catch (error) {
-        console.error('Error loading theme data:', error);
+        console.error("Error loading theme data:", error);
       } finally {
         dispatch(setThemeLoading(false));
       }
@@ -50,13 +62,36 @@ export const BrandingPage: React.FC = () => {
     loadThemeData();
   }, [dispatch]);
 
-  const handleResetTheme = () => {
-    // Reset to default theme values
-    dispatch(setSelectedTheme('theme_01'));
-    dispatch(setLightLogo(null));
-    dispatch(setDarkLogo(null));
-    dispatch(setFavicon(null));
-    // You can add more reset actions here if needed
+  const handleResetTheme = async () => {
+    dispatch(setThemeLoading(true));
+    try {
+      const response = await deleteTheme();
+
+      if (response?.data?.code === 200) {
+        toast({
+          title: "Theme Reset",
+          description:
+            response.data.message || "Theme has been reset successfully.",
+        });
+
+        // Reset to default theme values
+        dispatch(setSelectedTheme("theme_01"));
+        dispatch(setLightLogo(null));
+        dispatch(setDarkLogo(null));
+        dispatch(setFavicon(null));
+      }
+    } catch (error) {
+      console.error("Theme reset error:", error);
+      toast({
+        title: "Reset Error",
+        description:
+          error?.response?.data?.message ||
+          "Failed to reset theme. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      dispatch(setThemeLoading(false));
+    }
   };
 
   const handleSaveChanges = async () => {
@@ -75,14 +110,14 @@ export const BrandingPage: React.FC = () => {
       };
 
       const response = await updateTheme(themeData);
-      
+
       if (response.code === 200) {
         // Fetch updated theme data to get new logo URLs
         const updatedTheme = await getTheme();
         if (updatedTheme.code === 200) {
           dispatch(loadThemeFromAPI(updatedTheme.data));
         }
-        
+
         toast({
           title: "Theme updated successfully",
           description: response.message,
@@ -91,7 +126,7 @@ export const BrandingPage: React.FC = () => {
         throw new Error(response.message);
       }
     } catch (error) {
-      console.error('Error saving theme:', error);
+      console.error("Error saving theme:", error);
       toast({
         title: "Error saving theme",
         description: "Please try again later",
@@ -101,11 +136,16 @@ export const BrandingPage: React.FC = () => {
       dispatch(setThemeLoading(false));
     }
   };
-  return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+  return (
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Theme Customization</h1>
-          <p className="text-gray-600">Customize your application's visual identity</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Theme Customization
+          </h1>
+          <p className="text-gray-600">
+            Customize your application's visual identity
+          </p>
         </div>
         <Badge variant="outline" className="text-blue-600 border-blue-200">
           White Label
@@ -114,21 +154,21 @@ export const BrandingPage: React.FC = () => {
 
       <Card>
         <CardContent className="space-y-6 pt-6">
-          <EnhancedLogoUploadSection 
-            lightLogoFile={light_logo} 
+          <EnhancedLogoUploadSection
+            lightLogoFile={light_logo}
             darkLogoFile={dark_logo}
             lightLogoUrl={light_logo_url}
             darkLogoUrl={dark_logo_url}
-            onLightLogoChange={(file) => dispatch(setLightLogo(file))} 
-            onDarkLogoChange={(file) => dispatch(setDarkLogo(file))} 
+            onLightLogoChange={(file) => dispatch(setLightLogo(file))}
+            onDarkLogoChange={(file) => dispatch(setDarkLogo(file))}
           />
 
           <Separator className="mx-0" />
 
-          <EnhancedFaviconUploadSection 
-            faviconFile={favicon} 
+          <EnhancedFaviconUploadSection
+            faviconFile={favicon}
             faviconUrl={favicon_url}
-            onFaviconChange={(file) => dispatch(setFavicon(file))} 
+            onFaviconChange={(file) => dispatch(setFavicon(file))}
           />
 
           <Separator className="mx-0" />
@@ -137,15 +177,20 @@ export const BrandingPage: React.FC = () => {
 
           <Separator className="mx-0" />
 
-          <SidebarCustomizationSection 
-            selectedTheme={selected_theme} 
-            onThemeChange={(theme) => dispatch(setSelectedTheme(theme))} 
+          <SidebarCustomizationSection
+            selectedTheme={selected_theme}
+            onThemeChange={(theme) => dispatch(setSelectedTheme(theme))}
           />
 
           <Separator className="mx-0" />
 
-          <BrandingSaveActions isSaving={isLoading} onSave={handleSaveChanges} onReset={handleResetTheme} />
+          <BrandingSaveActions
+            isSaving={isLoading}
+            onSave={handleSaveChanges}
+            onReset={handleResetTheme}
+          />
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };

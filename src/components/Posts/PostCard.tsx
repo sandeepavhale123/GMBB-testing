@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
-import { Calendar, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Card, CardContent, CardFooter } from '../ui/card';
-import { Checkbox } from '../ui/checkbox';
-import { PostViewModal } from './PostViewModal';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { deletePost, fetchPosts, clearDeleteError } from '../../store/slices/postsSlice';
-import { useListingContext } from '../../context/ListingContext';
-import { toast } from '@/hooks/use-toast';
-import { Post } from '../../types/postTypes';
+import React, { useState } from "react";
+import { Calendar, Trash2, Copy, Eye, Loader2 } from "lucide-react";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Card, CardContent, CardFooter } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
+import { PostViewModal } from "./PostViewModal";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import {
+  deletePost,
+  fetchPosts,
+  clearDeleteError,
+} from "../../store/slices/postsSlice";
+import { useListingContext } from "../../context/ListingContext";
+import { toast } from "@/hooks/use-toast";
+import { Post } from "../../types/postTypes";
 
 interface PostCardProps {
   post: Post;
@@ -20,48 +34,56 @@ interface PostCardProps {
   onClonePost?: (post: Post) => void;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ 
-  post, 
-  isSelectionMode = false, 
-  isSelected = false, 
+export const PostCard: React.FC<PostCardProps> = ({
+  post,
+  isSelectionMode = false,
+  isSelected = false,
   onSelect,
-  onClonePost
+  onClonePost,
 }) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  const { deleteLoading, deleteError } = useAppSelector(state => state.posts);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
 
   // Debug logging to check post status
-  console.log('PostCard - Post ID:', post.id, 'Status:', post.status, 'Post:', post);
+  console.log(
+    "PostCard - Post ID:",
+    post.id,
+    "Status:",
+    post.status,
+    "Post:",
+    post
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'published':
-        return 'bg-green-100 text-green-800';
-      case 'scheduled':
-        return 'bg-blue-100 text-blue-800';
-      case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      case 'failed':
-        return 'bg-red-100 text-red-800';
+      case "published":
+        return "bg-green-100 text-green-800";
+      case "scheduled":
+        return "bg-blue-100 text-blue-800";
+      case "draft":
+        return "bg-gray-100 text-gray-800";
+      case "failed":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'published':
-        return 'Live';
-      case 'scheduled':
-        return 'Scheduled';
-      case 'draft':
-        return 'Draft';
-      case 'failed':
-        return 'Failed';
+      case "published":
+        return "Live";
+      case "scheduled":
+        return "Scheduled";
+      case "draft":
+        return "Draft";
+      case "failed":
+        return "Failed";
       default:
         return status;
     }
@@ -77,13 +99,16 @@ export const PostCard: React.FC<PostCardProps> = ({
   };
 
   const formatPublishDate = (dateString: string) => {
-    if (!dateString) return 'No date';
-    
+    if (!dateString) return "No date";
+
     // If the date is already in a readable format (like "27/06/2025 11:30 AM"), return as is
-    if (dateString.includes('/') && (dateString.includes('AM') || dateString.includes('PM'))) {
+    if (
+      dateString.includes("/") &&
+      (dateString.includes("AM") || dateString.includes("PM"))
+    ) {
       return dateString;
     }
-    
+
     // Otherwise, try to format it using Date
     try {
       return new Date(dateString).toLocaleDateString();
@@ -100,12 +125,16 @@ export const PostCard: React.FC<PostCardProps> = ({
 
   const handleDeletePost = async () => {
     // Get listingId from context or URL
-    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
-    
+    const listingId =
+      selectedListing?.id ||
+      parseInt(window.location.pathname.split("/")[2]) ||
+      176832;
+
     if (!listingId) {
       toast({
         title: "Error",
-        description: "No business listing selected. Please select a listing first.",
+        description:
+          "No business listing selected. Please select a listing first.",
         variant: "destructive",
       });
       return;
@@ -113,12 +142,15 @@ export const PostCard: React.FC<PostCardProps> = ({
 
     try {
       // Clear any previous errors
+      setIsDeleting(true);
       dispatch(clearDeleteError());
 
-      await dispatch(deletePost({
-        postId: [parseInt(post.id)],
-        listingId: parseInt(listingId.toString())
-      })).unwrap();
+      await dispatch(
+        deletePost({
+          postId: [parseInt(post.id)],
+          listingId: parseInt(listingId.toString()),
+        })
+      ).unwrap();
 
       toast({
         title: "Post Deleted",
@@ -126,19 +158,25 @@ export const PostCard: React.FC<PostCardProps> = ({
       });
 
       // Refresh posts list
-      dispatch(fetchPosts({
-        listingId: parseInt(listingId.toString()),
-        filters: { status: 'all', search: '' },
-        pagination: { page: 1, limit: 12 },
-      }));
-
+      dispatch(
+        fetchPosts({
+          listingId: parseInt(listingId.toString()),
+          filters: { status: "all", search: "" },
+          pagination: { page: 1, limit: 12 },
+        })
+      );
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error("Error deleting post:", error);
       toast({
         title: "Failed to Delete Post",
-        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsDeleting(false); // ✅ reset local loading
     }
   };
 
@@ -184,22 +222,26 @@ export const PostCard: React.FC<PostCardProps> = ({
               )}
               {imageError ? (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                  <span className="text-gray-500 text-sm font-medium">Image not available</span>
+                  <span className="text-gray-500 text-sm font-medium">
+                    Image not available
+                  </span>
                 </div>
               ) : (
-                <img 
-                  src={post.media.images} 
-                  alt="Post" 
+                <img
+                  src={post.media.images}
+                  alt="Post"
                   className="w-full h-full object-cover"
                   onLoad={handleImageLoad}
                   onError={handleImageError}
-                  style={{ display: imageLoading ? 'none' : 'block' }}
+                  style={{ display: imageLoading ? "none" : "block" }}
                 />
               )}
             </>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <span className="text-gray-500 text-sm font-medium">Image not available</span>
+              <span className="text-gray-500 text-sm font-medium">
+                Image not available
+              </span>
             </div>
           )}
         </div>
@@ -207,40 +249,42 @@ export const PostCard: React.FC<PostCardProps> = ({
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-2">
             <h3 className="font-semibold text-gray-900 line-clamp-2">
-              {post.title || 'Untitled Post'}
+              {post.title || "Untitled Post"}
             </h3>
             <Badge className={getStatusColor(post.status)}>
               {getStatusText(post.status)}
             </Badge>
           </div>
-          
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.content}</p>
+
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+            {post.content}
+          </p>
 
           {/* Tags */}
           {post.tags && (
-            <div className="text-xs text-blue-600 mb-2">
-              {post.tags}
-            </div>
+            <div className="text-xs text-blue-600 mb-2">{post.tags}</div>
           )}
         </CardContent>
 
         <CardFooter className="p-4 pt-0 flex justify-between">
           <div className="flex items-center text-xs text-gray-500 mb-3">
             <Calendar className="w-3 h-3 mr-1" />
-            {post.status === 'scheduled' ? `Scheduled: ${formatPublishDate(post.publishDate)}` : formatPublishDate(post.publishDate)}
+            {post.status === "scheduled"
+              ? `Scheduled: ${formatPublishDate(post.publishDate)}`
+              : formatPublishDate(post.publishDate)}
           </div>
           <div className="flex gap-1">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="h-8 w-8 p-0"
               onClick={() => setIsViewModalOpen(true)}
             >
               <Eye className="w-3 h-3" />
             </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="h-8 w-8 p-0"
               onClick={handleClonePost}
             >
@@ -249,13 +293,13 @@ export const PostCard: React.FC<PostCardProps> = ({
             {!isSelectionMode && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                     disabled={deleteLoading}
                   >
-                    {deleteLoading ? (
+                    {isDeleting ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
                     ) : (
                       <Trash2 className="w-3 h-3" />
@@ -266,13 +310,17 @@ export const PostCard: React.FC<PostCardProps> = ({
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete Post</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete this post? This action cannot be undone.
+                      Are you sure you want to delete this post? This action
+                      cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDeletePost} disabled={deleteLoading}>
-                      {deleteLoading ? "Deleting..." : "Delete"}
+                    <AlertDialogAction
+                      onClick={handleDeletePost}
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? "Deleting..." : "Delete"}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -282,7 +330,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         </CardFooter>
       </Card>
 
-      <PostViewModal 
+      <PostViewModal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
         post={post}

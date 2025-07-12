@@ -1,20 +1,19 @@
-
-import React, { useState, useRef } from 'react';
-import { Lock, Pencil, Settings } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Card, CardContent } from '../ui/card';
-import { useToast } from '../../hooks/use-toast';
-import { useProfile } from '../../hooks/useProfile';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef } from "react";
+import { Lock, Pencil, Settings } from "lucide-react";
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
+import { useToast } from "../../hooks/use-toast";
+import { useProfile } from "../../hooks/useProfile";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileHeaderProps {
-  activeTab: 'edit' | 'password';
-  onTabChange: (tab: 'edit' | 'password') => void;
+  activeTab: "edit" | "password";
+  onTabChange: (tab: "edit" | "password") => void;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   activeTab,
-  onTabChange
+  onTabChange,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -22,16 +21,18 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { profileData, isLoading, updateProfile, isUpdating } = useProfile();
   const [isUploading, setIsUploading] = useState(false);
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith("image/")) {
       toast({
         title: "Invalid file type",
         description: "Please select an image file.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -41,7 +42,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       toast({
         title: "File too large",
         description: "Please select an image smaller than 5MB.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -52,7 +53,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const reader = new FileReader();
     reader.onload = async (e) => {
       const result = e.target?.result as string;
-      
+
       try {
         if (profileData) {
           await updateProfile({
@@ -62,9 +63,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             username: profileData.username,
             dashboardType: 1, // Default to advanced
             language: profileData.language,
-            profilePic: result
+            profilePic: result,
           });
-          
+
           toast({
             title: "Profile picture updated",
             description: "Your profile picture has been successfully updated.",
@@ -74,7 +75,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         toast({
           title: "Upload failed",
           description: "Failed to update profile picture. Please try again.",
-          variant: "destructive"
+          variant: "destructive",
         });
       } finally {
         setIsUploading(false);
@@ -107,20 +108,26 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     );
   }
 
-  const defaultImage = "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
-  const profileImage = (profileData?.profilePic && profileData.profilePic.trim() !== '') ? profileData.profilePic : defaultImage;
-  const fullName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
-  
+  const defaultImage =
+    "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
+  const profileImage =
+    profileData?.profilePic && profileData.profilePic.trim() !== ""
+      ? profileData.profilePic
+      : defaultImage;
+  const fullName = profileData
+    ? `${profileData.first_name} ${profileData.last_name}`
+    : "User";
+
   const handleManageSubscription = () => {
-    navigate('/settings/subscription');
+    navigate("/settings/subscription");
   };
 
   // Format plan expiry date
   const formatPlanDate = (planExpDate: string) => {
-    return new Date(planExpDate).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(planExpDate).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -131,9 +138,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           {/* Profile Picture */}
           <div className="relative flex-shrink-0">
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden border-4 border-gray-100">
-              <img 
+              <img
                 src={profileImage}
-                alt="Profile" 
+                alt="Profile"
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   if (e.currentTarget.src !== defaultImage) {
@@ -142,7 +149,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 }}
               />
             </div>
-            <button 
+            <button
               onClick={handlePencilClick}
               disabled={isUploading || isUpdating}
               className="absolute bottom-0 right-0 w-6 h-6 sm:w-7 sm:h-7 bg-primary rounded-full flex items-center justify-center text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
@@ -157,7 +164,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               className="hidden"
             />
           </div>
-          
+
           {/* User Info */}
           <div className="flex-1 text-center sm:text-left">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
@@ -165,26 +172,27 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </h1>
             <div className="mb-4">
               <p className="text-sm sm:text-base text-gray-600">
-                Worker
+                {profileData?.role}
               </p>
               {profileData?.planName && (
                 <p className="text-sm text-primary font-medium">
                   {profileData.planName} Plan
                   {profileData.planExpDate && (
                     <span className="text-gray-500 font-normal">
-                      {' '}• Expires {formatPlanDate(profileData.planExpDate)}
+                      {" "}
+                      • Expires {formatPlanDate(profileData.planExpDate)}
                     </span>
                   )}
                 </p>
               )}
             </div>
-            
+
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onTabChange('password')}
+                onClick={() => onTabChange("password")}
                 className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
               >
                 <Lock className="w-4 h-4 mr-2" />
