@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Badge } from "../ui/badge";
 import {
   Select,
   SelectContent,
@@ -18,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Info, MapPin, X, Trash2 } from "lucide-react";
+import { Info } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
@@ -45,9 +44,6 @@ interface GeoRankingReportFormProps {
   languageOptions: Array<{ value: string; label: string }>;
   submittingRank?: boolean;
   pollingKeyword?: boolean;
-  manualCoordinates?: { lat: number; lng: number; id: string }[];
-  onRemoveCoordinate?: (id: string) => void;
-  onClearAllCoordinates?: () => void;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
@@ -58,9 +54,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   languageOptions,
   submittingRank = false,
   pollingKeyword = false,
-  manualCoordinates = [],
-  onRemoveCoordinate,
-  onClearAllCoordinates,
 }) => {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
@@ -228,75 +221,10 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               </SelectContent>
             </Select>
             {formData.mapPoint === "Manually" && (
-              <div className="space-y-3">
-                <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                  Click on the map to place points manually. You can drag them to reposition or remove them.
-                </p>
-                
-                {/* Coordinate Management Section */}
-                <div className="bg-gray-50 p-3 rounded-lg space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-gray-600" />
-                      <span className="text-sm font-medium text-gray-700">
-                        Manual Coordinates ({manualCoordinates.length})
-                      </span>
-                    </div>
-                    {manualCoordinates.length > 0 && (
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={onClearAllCoordinates}
-                        className="text-xs h-7 px-2 text-red-600 border-red-200 hover:bg-red-50"
-                      >
-                        <Trash2 className="w-3 h-3 mr-1" />
-                        Clear All
-                      </Button>
-                    )}
-                  </div>
-                  
-                  {manualCoordinates.length === 0 ? (
-                    <p className="text-xs text-gray-500 text-center py-2">
-                      No coordinates selected. Click on the map to add points.
-                    </p>
-                  ) : (
-                    <div className="space-y-2 max-h-32 overflow-y-auto">
-                      {manualCoordinates.map((coord, index) => (
-                        <div
-                          key={coord.id}
-                          className="flex items-center justify-between bg-white p-2 rounded border text-xs"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Badge variant="secondary" className="text-xs px-1.5 py-0.5">
-                              {index + 1}
-                            </Badge>
-                            <span className="text-gray-600">
-                              {coord.lat.toFixed(6)}, {coord.lng.toFixed(6)}
-                            </span>
-                          </div>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => onRemoveCoordinate?.(coord.id)}
-                            className="h-6 w-6 p-0 text-red-600 hover:bg-red-50"
-                            title="Remove coordinate"
-                          >
-                            <X className="w-3 h-3" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {manualCoordinates.length > 0 && (
-                    <p className="text-xs text-green-600 bg-green-50 p-2 rounded">
-                      ✓ {manualCoordinates.length} coordinate{manualCoordinates.length !== 1 ? 's' : ''} selected and ready for ranking check.
-                    </p>
-                  )}
-                </div>
-              </div>
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                Click on the map to place points manually. You can drag them to
+                reposition.
+              </p>
             )}
           </div>
 
