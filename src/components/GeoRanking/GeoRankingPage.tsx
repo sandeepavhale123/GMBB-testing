@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
@@ -29,17 +29,6 @@ export const GeoRankingPage = () => {
   const { listingId } = useParams();
   const numericListingId = listingId ? parseInt(listingId, 10) : 0;
   
-  // Check if we should start polling (coming from multi-keyword submission)
-  const urlParams = new URLSearchParams(window.location.search);
-  const shouldStartPolling = urlParams.get('poll') === 'true';
-  
-  console.log('🏁 GeoRankingPage initialized:', { 
-    listingId, 
-    numericListingId, 
-    shouldStartPolling,
-    urlParams: Object.fromEntries(urlParams.entries())
-  });
-  
   const {
     keywords,
     selectedKeyword,
@@ -63,7 +52,7 @@ export const GeoRankingPage = () => {
     handleDateChange,
     handleRefreshKeyword,
     fetchPositionDetails
-  } = useGeoRanking(numericListingId, shouldStartPolling);
+  } = useGeoRanking(numericListingId);
 
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
@@ -168,15 +157,6 @@ export const GeoRankingPage = () => {
       isOpen: false
     }));
   }, []);
-
-  // Clean up URL parameters after polling starts
-  useEffect(() => {
-    if (shouldStartPolling && urlParams.get('poll')) {
-      // Replace the current history entry to remove the poll parameter
-      const newUrl = window.location.pathname;
-      window.history.replaceState(null, '', newUrl);
-    }
-  }, [shouldStartPolling, urlParams]);
 
   // Show page loader on initial load - after all hooks
   if (pageLoading) {

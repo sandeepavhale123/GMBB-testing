@@ -246,7 +246,7 @@ export const GeoRankingReportPage: React.FC = () => {
               <AlertDialogAction
                 onClick={() => {
                   setShowMultiKeywordAlert(false);
-                  navigate(`/geo-ranking/${numericListingId}?poll=true`);
+                  navigate("/geo-ranking");
                 }}
               >
                 Go to GEO Ranking Page
