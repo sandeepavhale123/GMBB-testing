@@ -159,6 +159,12 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const addRankingMarkers = () => {
     if (!mapInstanceRef.current || !rankDetails) return;
 
+    console.log('🎯 Adding ranking markers:', {
+      rankDetailsCount: rankDetails.length,
+      mapPoint,
+      rankDetails: rankDetails.map(rd => ({ coordinate: rd.coordinate, rank: rd.rank }))
+    });
+
     rankDetails.forEach((detail) => {
       const [lat, lng] = detail.coordinate.split(",").map(Number);
       const rankColor = getRankColor(detail.rank);
@@ -337,20 +343,21 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     clearMarkers();
     clearManualMarkers();
     
-    // Only add default marker if not in manual mode
-    if (mapPoint !== 'Manually') {
-      addDefaultMarker();
-    }
-
-    if (mapPoint === 'Manually') {
-      // Show manual markers
-      addManualMarkers();
-    } else if (rankDetails && rankDetails.length > 0) {
-      // Show ranking data
+    // Always show ranking data when available (highest priority)
+    if (rankDetails && rankDetails.length > 0) {
+      // Show ranking results - these replace all other markers
       addRankingMarkers();
-    } else if (gridCoordinates.length > 0) {
-      // Show grid points when coordinates exist
-      addGridMarkers();
+    } else if (mapPoint === 'Manually') {
+      // Show manual markers when no ranking data is available
+      addManualMarkers();
+    } else {
+      // Add default marker for automatic mode when no ranking data
+      addDefaultMarker();
+      
+      if (gridCoordinates.length > 0) {
+        // Show grid points when coordinates exist
+        addGridMarkers();
+      }
     }
 
     // Auto-adjust view after markers are added

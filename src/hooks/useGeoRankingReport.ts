@@ -356,7 +356,15 @@ export const useGeoRankingReport = (listingId: number) => {
           
           // Show 100% progress for 2 seconds before displaying results
           setTimeout(() => {
-            setKeywordData(response.data as KeywordDetailsData);
+            const keywordData = response.data as KeywordDetailsData;
+            console.log('🎯 Keyword data received:', {
+              rankDetails: keywordData.rankDetails,
+              totalRankDetails: keywordData.rankDetails?.length || 0,
+              mapPoint: formData.mapPoint,
+              manualCoordinatesSubmitted: manualCoordinates.length
+            });
+            
+            setKeywordData(keywordData);
             setPollingKeyword(false);
             setPollingProgress(0);
             setIsCompleting(false);
@@ -422,6 +430,13 @@ export const useGeoRankingReport = (listingId: number) => {
         });
         return { success: false, shouldNavigate: false };
       }
+
+      console.log('📍 Submitting coordinates:', {
+        mapPoint: formData.mapPoint,
+        coordinatesArray,
+        manualCoordinates: manualCoordinates.length,
+        gridCoordinates: gridCoordinates.length
+      });
 
       // Transform form data to API format
       const processedDistance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
