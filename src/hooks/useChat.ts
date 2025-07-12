@@ -134,6 +134,9 @@ export const useChat = (keywordId?: string) => {
         chat_id: chatSessionId,
       });
 
+      // Check if this is a new session being created
+      const isNewSession = !chatSessionId && response.data.chat_session_id;
+      
       // Update chat session ID if provided
       if (response.data.chat_session_id) {
         setChatSessionId(response.data.chat_session_id);
@@ -148,6 +151,23 @@ export const useChat = (keywordId?: string) => {
       };
 
       setMessages(prev => prev.slice(0, -1).concat(aiMessage));
+
+      // If this is a new session, refresh chat history and set current session
+      if (isNewSession) {
+        // Refresh chat history to include the new session
+        await fetchChatHistory();
+        
+        // Create and set the current session object
+        const newSession: ChatSession = {
+          id: response.data.chat_session_id,
+          chat_session_id: response.data.chat_session_id,
+          title: messageContent.length > 50 ? messageContent.substring(0, 50) + '...' : messageContent,
+          lastMessage: response.data.reply,
+          timestamp: new Date().toLocaleDateString(),
+          messages: []
+        };
+        setCurrentSession(newSession);
+      }
 
     } catch (error: any) {
       console.error('Chat send error:', error);
