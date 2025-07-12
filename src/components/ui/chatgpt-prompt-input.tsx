@@ -124,39 +124,6 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
         <div className="mt-0.5 p-1 pt-0">
           <TooltipProvider delayDuration={100}>
             <div className="flex items-center gap-2">
-              
-              
-              <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                      <button type="button" className="flex h-8 items-center gap-2 rounded-full p-2 text-sm text-foreground dark:text-white transition-colors hover:bg-accent dark:hover:bg-[#515151] focus-visible:outline-none focus-visible:ring-ring">
-                        <Settings2Icon className="h-4 w-4" />
-                        {!selectedTool && 'Tools'}
-                      </button>
-                    </PopoverTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" showArrow={true}><p>Explore Tools</p></TooltipContent>
-                </Tooltip>
-                <PopoverContent side="top" align="start">
-                  <div className="flex flex-col gap-1">
-                    {toolsList.map(tool => <button key={tool.id} onClick={() => {
-                  setSelectedTool(tool.id);
-                  setIsPopoverOpen(false);
-                }} className="flex w-full items-center gap-2 rounded-md p-2 text-left text-sm hover:bg-accent dark:hover:bg-[#515151]"> <tool.icon className="h-4 w-4" /> <span>{tool.name}</span> {tool.extra && <span className="ml-auto text-xs text-muted-foreground dark:text-gray-400">{tool.extra}</span>} </button>)}
-                  </div>
-                </PopoverContent>
-              </Popover>
-
-              {activeTool && <>
-                  <div className="h-4 w-px bg-border dark:bg-gray-600" />
-                  <button onClick={() => setSelectedTool(null)} className="flex h-8 items-center gap-2 rounded-full px-2 text-sm dark:hover:bg-[#3b4045] hover:bg-accent cursor-pointer dark:text-[#99ceff] text-[#2294ff] transition-colors flex-row items-center justify-center">
-                    {ActiveToolIcon && <ActiveToolIcon className="h-4 w-4" />}
-                    {activeTool.shortName}
-                    <XIcon className="h-4 w-4" />
-                  </button>
-                </>}
-
               {/* Suggested Questions Button */}
               <Popover open={isSuggestedQuestionsOpen} onOpenChange={setIsSuggestedQuestionsOpen}>
                 <Tooltip>
