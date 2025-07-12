@@ -6,6 +6,9 @@ export interface SuggestedQuestionsCategory {
   questions: string[];
 }
 
+// Fallback interface for backward compatibility
+export interface SuggestedQuestion extends SuggestedQuestionsCategory {}
+
 export const suggestedQuestionsData: SuggestedQuestionsCategory[] = [
   {
     title: "GEO Grid Insights",

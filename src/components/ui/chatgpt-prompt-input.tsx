@@ -3,9 +3,11 @@ import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { XIcon, Settings2Icon, SendIcon, HelpCircleIcon } from './chatgpt-prompt-input/icons';
+import { XIcon, Settings2Icon, SendIcon, HelpCircleIcon, RotateCcwIcon } from './chatgpt-prompt-input/icons';
 import { toolsList } from './chatgpt-prompt-input/tools-data';
-import { suggestedQuestionsData } from './chatgpt-prompt-input/suggested-questions-data';
+import { suggestedQuestionsData as fallbackSuggestedQuestionsData } from './chatgpt-prompt-input/suggested-questions-data';
+import { useChatQuestions } from '../../hooks/useChatQuestions';
+import * as LucideIcons from 'lucide-react';
 
 // --- Utility Function & Radix Primitives (Unchanged) ---
 type ClassValue = string | number | boolean | null | undefined;
@@ -63,6 +65,7 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
   const [isImageDialogOpen, setIsImageDialogOpen] = React.useState(false);
   const [isSuggestedQuestionsOpen, setIsSuggestedQuestionsOpen] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const { questions: suggestedQuestionsData, isLoading, error, retry } = useChatQuestions();
   React.useImperativeHandle(ref, () => internalTextareaRef.current!, []);
   React.useLayoutEffect(() => {
     const textarea = internalTextareaRef.current;
@@ -114,6 +117,16 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
   const handleBackToCategories = () => {
     setSelectedCategory(null);
   };
+
+  const getIconComponent = (iconName: string) => {
+    const iconKey = iconName.split('-').map((word, index) => 
+      index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join('');
+    
+    const IconComponent = (LucideIcons as any)[iconKey];
+    return IconComponent || LucideIcons.HelpCircle;
+  };
   return <div className={cn("flex flex-col rounded-[28px] p-2 shadow-sm transition-colors bg-white border dark:bg-[#303030] dark:border-transparent cursor-text", className)}>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
         
@@ -135,54 +148,73 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
                     Questions
                   </button>
                 </PopoverTrigger>
-                <PopoverContent side="top" align="center" className="w-96 max-h-[28rem] overflow-y-auto bg-background dark:bg-[#2a2a2a] border border-border dark:border-gray-600 shadow-lg rounded-lg p-4">
-                  {!selectedCategory ? (
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-medium text-sm mb-2">Select a category:</h3>
-                      {suggestedQuestionsData.map(category => (
-                        <button
-                          key={category.title}
-                          onClick={() => handleCategorySelect(category.title)}
-                          className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
-                        >
-                          <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-medium"
-                            style={{ backgroundColor: category.color }}
-                          >
-                            {category.count}
-                          </div>
-                          <div className="flex-1">
-                            <div className="font-medium">{category.title}</div>
-                            <div className="text-xs text-muted-foreground dark:text-gray-400">{category.count} questions</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <button
-                          onClick={handleBackToCategories}
-                          className="text-sm text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white"
-                        >
-                          ← Back
-                        </button>
-                        <h3 className="font-medium text-sm">{selectedCategory}</h3>
-                      </div>
-                      {suggestedQuestionsData
-                        .find(cat => cat.title === selectedCategory)
-                        ?.questions.map((question, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleQuestionSelect(question)}
-                          className="text-left text-sm p-2 rounded-md hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
-                        >
-                          {question}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </PopoverContent>
+                 <PopoverContent side="top" align="center" className="w-96 max-h-[28rem] overflow-y-auto bg-background dark:bg-[#2a2a2a] border border-border dark:border-gray-600 shadow-lg rounded-lg p-4">
+                   {isLoading ? (
+                     <div className="flex items-center justify-center py-8">
+                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                       <span className="ml-2 text-sm text-muted-foreground">Loading questions...</span>
+                     </div>
+                   ) : error ? (
+                     <div className="text-center py-4">
+                       <p className="text-sm text-destructive mb-3">{error}</p>
+                       <button
+                         onClick={retry}
+                         className="flex items-center gap-2 mx-auto px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                       >
+                         <RotateCcwIcon className="h-3 w-3" />
+                         Retry
+                       </button>
+                     </div>
+                   ) : !selectedCategory ? (
+                     <div className="flex flex-col gap-2">
+                       <h3 className="font-medium text-sm mb-2">Select a category:</h3>
+                       {suggestedQuestionsData.map(category => {
+                         const IconComponent = getIconComponent(category.icon);
+                         return (
+                           <button
+                             key={category.title}
+                             onClick={() => handleCategorySelect(category.title)}
+                             className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
+                           >
+                             <div 
+                               className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs"
+                               style={{ backgroundColor: category.color }}
+                             >
+                               <IconComponent className="h-4 w-4" />
+                             </div>
+                             <div className="flex-1">
+                               <div className="font-medium">{category.title}</div>
+                               <div className="text-xs text-muted-foreground dark:text-gray-400">{category.count} questions</div>
+                             </div>
+                           </button>
+                         );
+                       })}
+                     </div>
+                   ) : (
+                     <div className="flex flex-col gap-2">
+                       <div className="flex items-center gap-2 mb-2">
+                         <button
+                           onClick={handleBackToCategories}
+                           className="text-sm text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white"
+                         >
+                           ← Back
+                         </button>
+                         <h3 className="font-medium text-sm">{selectedCategory}</h3>
+                       </div>
+                       {suggestedQuestionsData
+                         .find(cat => cat.title === selectedCategory)
+                         ?.questions.map((question, index) => (
+                         <button
+                           key={index}
+                           onClick={() => handleQuestionSelect(question)}
+                           className="text-left text-sm p-2 rounded-md hover:bg-accent dark:hover:bg-[#515151] border border-border dark:border-gray-600"
+                         >
+                           {question}
+                         </button>
+                       ))}
+                     </div>
+                   )}
+                 </PopoverContent>
               </Popover>
 
               {/* MODIFIED: Right-aligned buttons container */}
