@@ -95,6 +95,10 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/notifications': [
     { title: 'Dashboard', path: '/' },
     { title: 'Notifications', path: '/notifications' }
+  ],
+  '/reports': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Reports', path: '/reports' }
   ]
 };
 

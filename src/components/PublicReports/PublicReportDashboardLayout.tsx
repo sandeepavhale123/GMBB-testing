@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
-  BarChart3, 
-  Star, 
-  MapPin, 
-  Heart, 
-  Image,
-  LogOut,
-  Search,
-  Bell,
-  User,
-  Sun,
-  Moon,
-  Target
-} from 'lucide-react';
+import { BarChart3, Star, MapPin, Heart, Image, LogOut, Search, Bell, User, Sun, Moon, Target, FileText } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
   title: string;
@@ -26,40 +12,37 @@ interface PublicReportDashboardLayoutProps {
   onExport?: () => void;
   onShare?: () => void;
 }
-
-const sidebarItems = [
-  { 
-    id: 'gmb-health', 
-    label: 'GMB Health', 
-    icon: Heart, 
-    path: '/public-reports/gmb-health/demo-token'
-  },
-  { 
-    id: 'geo-ranking', 
-    label: 'GEO Ranking', 
-    icon: MapPin, 
-    path: '/public-reports/geo-ranking/demo-token'
-  },
-  { 
-    id: 'reviews', 
-    label: 'Reviews', 
-    icon: Star, 
-    path: '/public-reports/reviews/demo-token'
-  },
-  { 
-    id: 'insights', 
-    label: 'Business Insights', 
-    icon: BarChart3, 
-    path: '/public-reports/insights/demo-token'
-  },
-  { 
-    id: 'media', 
-    label: 'Media Performance', 
-    icon: Image, 
-    path: '/public-reports/media/demo-token'
-  }
-];
-
+const sidebarItems = [{
+  id: 'gmb-health',
+  label: 'GMB Health',
+  icon: Heart,
+  path: '/public-reports/gmb-health/demo-token'
+}, {
+  id: 'insights',
+  label: 'Business Insights',
+  icon: BarChart3,
+  path: '/public-reports/insights/demo-token'
+}, {
+  id: 'reviews',
+  label: 'Reviews',
+  icon: Star,
+  path: '/public-reports/reviews/demo-token'
+}, {
+  id: 'post-performance',
+  label: 'Post Performance',
+  icon: FileText,
+  path: '/public-reports/post-performance/demo-token'
+}, {
+  id: 'media',
+  label: 'Media Performance',
+  icon: Image,
+  path: '/public-reports/media/demo-token'
+}, {
+  id: 'geo-ranking',
+  label: 'GEO Ranking',
+  icon: MapPin,
+  path: '/public-reports/geo-ranking/demo-token'
+}];
 export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutProps> = ({
   children,
   title,
@@ -71,79 +54,66 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
-
   const getCurrentReportId = () => {
     const path = location.pathname;
     return sidebarItems.find(item => path.includes(item.id))?.id || '';
   };
-
   const currentReportId = getCurrentReportId();
-
-  return (
-    <TooltipProvider>
+  return <TooltipProvider>
       <div className="min-h-screen bg-white flex">
         {/* Fixed Icon Sidebar */}
         <aside className="fixed left-0 top-0 h-full w-24 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8 px-2">
           {/* Favicon at Top */}
           <div className="mb-8">
-            <img 
-              src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" 
-              alt="Favicon" 
-              className="w-12 h-12 rounded-xl shadow-lg object-cover"
-            />
+            <img src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" alt="Favicon" className="w-12 h-12 rounded-xl shadow-lg object-cover" />
           </div>
 
           {/* Navigation Icons */}
           <div className="flex flex-col items-center space-y-6 flex-1 justify-center">
-            {sidebarItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = currentReportId === item.id;
-              
-              return (
-                <Tooltip key={item.id}>
+            {sidebarItems.map(item => {
+            const IconComponent = item.icon;
+            const isActive = currentReportId === item.id;
+            return <Tooltip key={item.id}>
                   <TooltipTrigger asChild>
-                    <button
-                      onClick={() => navigate(item.path)}
-                      className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
-                        isActive 
-                          ? 'bg-primary text-white shadow-md' 
-                          : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
-                      }`}
-                    >
+                    <button onClick={() => navigate(item.path)} className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${isActive ? 'bg-primary text-white shadow-md' : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'}`}>
                       <IconComponent className="h-10 w-10" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="right" className="ml-2">
                     <p>{item.label}</p>
                   </TooltipContent>
-                </Tooltip>
-              );
-            })}
+                </Tooltip>;
+          })}
           </div>
         </aside>
 
         {/* Main Content Area */}
         <div className="flex-1 ml-24 flex flex-col">
           {/* Dark Header */}
-          <header className="bg-slate-800 text-white h-[250px] z-10">
-            <div className="container mx-auto  flex items-center justify-between px-8" style={{paddingTop:'50px',paddingBottom:'50px'}}>
+          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10">
+                            <h2 className="text-3xl font-bold text-white" style={{
+            marginTop: "30px",
+            textAlign: "center"
+          }}>{title}</h2>
+            <div className="container mx-auto flex items-center justify-between px-8" style={{
+            paddingTop: '20px',
+            paddingBottom: '50px'
+          }}>
               {/* Left: Business Branding */}
               <div className="flex items-center space-x-4">
-                {companyLogo ? (
-                  <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" />
-                ) : (
-                  <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">{companyName?.charAt(0) || 'B'}</span>
-                  </div>
-                )}
+                {companyLogo ? <img src={companyLogo} alt="Business Logo" className="w-16 h-16 rounded-lg object-cover" /> : <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-900">{companyName?.charAt(0) || 'B'}</span>
+                  </div>}
                 <div className="flex flex-col">
                   <h1 className="text-2xl font-bold">{companyName}</h1>
-                  <p className="text-lg text-gray-300">{title}</p>
+                  <p className="text-lg text-gray-300">123 Main Street, Business City, BC 12345</p>
                 </div>
               </div>
 
-              {/* Center: Reserved for future expansion */}
-              <div className="flex-1"></div>
+              {/* Center: Report Title */}
+              <div className="flex-1 text-center">
+
+              </div>
 
               {/* Right: Report Date */}
               <div className="text-right">
@@ -154,11 +124,65 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           </header>
 
           {/* Main Content */}
-          <main className="flex-1  overflow-auto  relative z-40" style={{marginTop:'-100px'}}>
+          <main className="flex-1  overflow-auto  relative z-40" style={{
+          marginTop: '-100px'
+        }}>
             <div className="container mx-auto p-8">
                 {children}
             </div>
           </main>
+
+          {/* CTA Section */}
+          <section className="relative overflow-hidden" style={{ backgroundColor: '#1e293b' }}>
+            <div className="container mx-auto px-6 py-20">
+              <div className="grid grid-cols-1  gap-12 items-center">
+                {/* Left Content */}
+                <div className="text-white">
+                  {/* Report Branding Information */}
+                  
+
+                  {/* Company Branding Card */}
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                    <div className="flex items-center space-x-4 mb-4">
+                      {companyLogo ? <img src={companyLogo} alt="Company Logo" className="w-12 h-12 rounded-lg object-cover" /> : <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                          <span className="text-lg font-bold text-white">{companyName?.charAt(0) || 'C'}</span>
+                        </div>}
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{companyName}</h3>
+                        <p className="text-white/80 text-sm">Digital Marketing Solutions</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                      <div className="text-white/90">
+                        <span className="text-white/70">Email: </span>
+                        contact@{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com
+                      </div>
+                      <div className="text-white/90">
+                        <span className="text-white/70">Phone: </span>
+                        (555) 123-4567
+                      </div>
+                      <div className="text-white/90">
+                        <span className="text-white/70">Website: </span>
+                        www.{companyName?.toLowerCase().replace(/\s+/g, '') || 'company'}.com
+                      </div>
+                      <div className="text-white/90">
+                        <span className="text-white/70">Address: </span>
+                        123 Business Ave, Suite 100
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+            {/* Background decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+            </div>
+          </section>
 
           {/* Footer */}
           <footer className="bg-white border-t border-gray-100 px-6 py-4 flex items-center justify-between text-sm text-gray-500">
@@ -173,6 +197,5 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
           </footer>
         </div>
       </div>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 };

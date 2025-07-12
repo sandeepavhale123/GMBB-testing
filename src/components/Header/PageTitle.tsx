@@ -19,7 +19,8 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/analytics': { title: 'Analytics', subtitle: 'Comprehensive metrics and performance data for your business' },
   '/team': { title: 'Team', subtitle: 'Manage team members and their access permissions' },
   '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' },
-  '/location-dashboard': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' }
+  '/location-dashboard': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' },
+  '/reports': { title: 'Reports', subtitle: 'View and generate performance reports' }
 };
 
 export const PageTitle: React.FC = () => {

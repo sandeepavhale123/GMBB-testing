@@ -3,9 +3,11 @@ import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
 import InsightsPage from "@/pages/InsightsPage";
 import GeoRankingPage from "@/pages/GeoRankingPage";
+import AIChatbotPage from "@/pages/AIChatbotPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
+import ReportsPage from "@/pages/ReportsPage";
 import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
@@ -72,6 +74,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <GeoRankingPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // AI Chatbot routes
+  {
+    path: "/ai-chatbot",
+    element: <Navigate to="/ai-chatbot/default" replace />,
+  },
+  {
+    path: "/ai-chatbot/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <AIChatbotPage />
         </ListingProvider>
       </ProtectedRoute>
     ),
@@ -178,6 +196,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <QAPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Reports routes
+  {
+    path: "/reports",
+    element: <Navigate to="/reports/default" replace />,
+  },
+  {
+    path: "/reports/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <ReportsPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

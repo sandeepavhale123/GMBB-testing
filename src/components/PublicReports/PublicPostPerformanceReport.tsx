@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Image, Play, Eye, Heart, Share2, TrendingUp, Video, ArrowUp, ArrowDown } from 'lucide-react';
+import { FileText, Calendar, CheckCircle, XCircle, TrendingUp, ArrowUp, ArrowDown, Eye } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-export const PublicMediaReport: React.FC = () => {
+export const PublicPostPerformanceReport: React.FC = () => {
   const { token } = useParams();
   const [isComparison, setIsComparison] = useState(false);
 
@@ -17,50 +17,44 @@ export const PublicMediaReport: React.FC = () => {
     companyName: 'Demo Business',
     companyLogo: null,
     overview: {
-      totalMedia: 89,
-      totalPhotos: 67,
-      totalVideos: 15,
-      topPerforming: 12
+      totalPosts: 156,
+      totalScheduled: 23,
+      publishedPosts: 142,
+      failedPosts: 8
     },
     chartData: [
-      { date: 'Jan 1', uploads: 8},
-      { date: 'Jan 8', uploads: 12},
-      { date: 'Jan 15', uploads: 10 },
-      { date: 'Jan 22', uploads: 15 },
-      { date: 'Jan 29', uploads: 13},
-      { date: 'Feb 5', uploads: 18},
-      { date: 'Feb 12', uploads: 14 }
+      { date: 'Jan 1', posts: 12},
+      { date: 'Jan 8', posts: 18},
+      { date: 'Jan 15', posts: 15 },
+      { date: 'Jan 22', posts: 22 },
+      { date: 'Jan 29', posts: 19},
+      { date: 'Feb 5', posts: 25},
+      { date: 'Feb 12', posts: 21 }
     ],
-    topPerforming: [
+    recentPosts: [
       {
         id: 1,
-        type: 'photo',
-        title: 'Signature Dish Presentation',
-        views: 2340,
-        likes: 187,
-        shares: 23,
-        engagement: 9.8,
-        uploadDate: '2024-01-15'
+        type: 'standard',
+        title: 'New Menu Launch Announcement',
+        status: 'published',
+        publishedAt: '2 hours ago',
+        engagement: 94
       },
       {
         id: 2,
-        type: 'video',
-        title: 'Kitchen Behind the Scenes',
-        views: 1890,
-        likes: 234,
-        shares: 45,
-        engagement: 14.7,
-        uploadDate: '2024-01-12'
+        type: 'event',
+        title: 'Weekend Special Event',
+        status: 'scheduled',
+        publishedAt: 'Tomorrow 9:00 AM',
+        engagement: 0
       },
       {
         id: 3,
-        type: 'photo',
-        title: 'Restaurant Interior',
-        views: 1650,
-        likes: 123,
-        shares: 18,
-        engagement: 8.5,
-        uploadDate: '2024-01-10'
+        type: 'offer',
+        title: 'Happy Hour 50% Off',
+        status: 'published',
+        publishedAt: '1 day ago',
+        engagement: 127
       }
     ]
   };
@@ -69,35 +63,44 @@ export const PublicMediaReport: React.FC = () => {
   const comparisonData = {
     ...individualData,
     current: {
-      totalMedia: 89,
-      totalPhotos: 67,
-      totalVideos: 15,
-      topPerforming: 12
+      totalPosts: 156,
+      totalScheduled: 23,
+      publishedPosts: 142,
+      failedPosts: 8
     },
     previous: {
-      totalMedia: 76,
-      totalPhotos: 58,
-      totalVideos: 12,
-      topPerforming: 9
+      totalPosts: 134,
+      totalScheduled: 18,
+      publishedPosts: 125,
+      failedPosts: 5
     },
     chartData: [
-      { date: 'Jan 1', currentUploads: 8, previousUploads: 6 },
-      { date: 'Jan 8', currentUploads: 12, previousUploads: 9 },
-      { date: 'Jan 15', currentUploads: 10, previousUploads: 8},
-      { date: 'Jan 22', currentUploads: 15, previousUploads: 11 },
-      { date: 'Jan 29', currentUploads: 13, previousUploads: 10 },
-      { date: 'Feb 5', currentUploads: 18, previousUploads: 12 },
-      { date: 'Feb 12', currentUploads: 14, previousUploads: 11 }
+      { date: 'Jan 1', currentPosts: 12, previousPosts: 8 },
+      { date: 'Jan 8', currentPosts: 18, previousPosts: 14 },
+      { date: 'Jan 15', currentPosts: 15, previousPosts: 12},
+      { date: 'Jan 22', currentPosts: 22, previousPosts: 18 },
+      { date: 'Jan 29', currentPosts: 19, previousPosts: 15 },
+      { date: 'Feb 5', currentPosts: 25, previousPosts: 20 },
+      { date: 'Feb 12', currentPosts: 21, previousPosts: 17 }
     ]
   };
 
   const currentData = isComparison ? comparisonData : individualData;
 
-  const getMediaIcon = (type: string) => {
+  const getPostIcon = (type: string) => {
     switch (type) {
-      case 'photo': return <Image className="h-4 w-4" />;
-      case 'video': return <Play className="h-4 w-4" />;
-      default: return <Image className="h-4 w-4" />;
+      case 'event': return <Calendar className="h-4 w-4" />;
+      case 'offer': return <TrendingUp className="h-4 w-4" />;
+      default: return <FileText className="h-4 w-4" />;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'published': return <Badge variant="default" className="bg-green-100 text-green-800">Published</Badge>;
+      case 'scheduled': return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Scheduled</Badge>;
+      case 'failed': return <Badge variant="destructive">Failed</Badge>;
+      default: return <Badge variant="outline">{status}</Badge>;
     }
   };
 
@@ -121,7 +124,7 @@ export const PublicMediaReport: React.FC = () => {
 
   return (
     <PublicReportDashboardLayout
-      title="Media Performance Report"
+      title="Post Performance Report"
       companyName={currentData.companyName}
       companyLogo={currentData.companyLogo}
     >
@@ -132,60 +135,60 @@ export const PublicMediaReport: React.FC = () => {
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
-                <Image className="h-5 w-5 text-blue-600" />
+                <FileText className="h-5 w-5 text-blue-600" />
               </div>
               <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalMedia : currentData.overview.totalMedia}
+                {isComparison ? comparisonData.current.totalPosts : currentData.overview.totalPosts}
               </div>
-              <div className="text-sm text-muted-foreground">Total Media</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalMedia, comparisonData.previous.totalMedia)}
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
-                <Image className="h-5 w-5 text-green-600" />
-              </div>
-              <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalPhotos : currentData.overview.totalPhotos}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Photos</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalPhotos, comparisonData.previous.totalPhotos)}
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
-                <Video className="h-5 w-5 text-purple-600" />
-              </div>
-              <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalVideos : currentData.overview.totalVideos}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Videos</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalVideos, comparisonData.previous.totalVideos)}
+              <div className="text-sm text-muted-foreground">Total Posts</div>
+              {isComparison && renderChangeIndicator(comparisonData.current.totalPosts, comparisonData.previous.totalPosts)}
             </CardContent>
           </Card>
           
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-yellow-600" />
+                <Calendar className="h-5 w-5 text-yellow-600" />
               </div>
               <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.topPerforming : currentData.overview.topPerforming}
+                {isComparison ? comparisonData.current.totalScheduled : currentData.overview.totalScheduled}
               </div>
-              <div className="text-sm text-muted-foreground">Top Performing</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.topPerforming, comparisonData.previous.topPerforming)}
+              <div className="text-sm text-muted-foreground">Total Scheduled</div>
+              {isComparison && renderChangeIndicator(comparisonData.current.totalScheduled, comparisonData.previous.totalScheduled)}
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+              </div>
+              <div className="text-2xl font-bold">
+                {isComparison ? comparisonData.current.publishedPosts : currentData.overview.publishedPosts}
+              </div>
+              <div className="text-sm text-muted-foreground">Published Posts</div>
+              {isComparison && renderChangeIndicator(comparisonData.current.publishedPosts, comparisonData.previous.publishedPosts)}
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardContent className="p-4 text-center">
+              <div className="flex items-center justify-center w-10 h-10 bg-red-50 rounded-lg mx-auto mb-2">
+                <XCircle className="h-5 w-5 text-red-600" />
+              </div>
+              <div className="text-2xl font-bold">
+                {isComparison ? comparisonData.current.failedPosts : currentData.overview.failedPosts}
+              </div>
+              <div className="text-sm text-muted-foreground">Failed Posts</div>
+              {isComparison && renderChangeIndicator(comparisonData.current.failedPosts, comparisonData.previous.failedPosts)}
             </CardContent>
           </Card>
         </div>
 
-        {/* Media Performance Chart */}
+        {/* Post Performance Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Media Post Performance Over Time</CardTitle>
+            <CardTitle>Post Performance Over Time</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-80">
@@ -200,27 +203,27 @@ export const PublicMediaReport: React.FC = () => {
                     <>
                       <Line
                         type="monotone"
-                        dataKey="currentUploads"
+                        dataKey="currentPosts"
                         stroke="#2563eb"
                         strokeWidth={2}
-                        name="Current Period Uploads"
+                        name="Current Period Posts"
                       />
                       <Line
                         type="monotone"
-                        dataKey="previousUploads"
+                        dataKey="previousPosts"
                         stroke="#94a3b8"
                         strokeWidth={2}
                         strokeDasharray="5 5"
-                        name="Previous Period Uploads"
+                        name="Previous Period Posts"
                       />
                     </>
                   ) : (
                     <Line
                       type="monotone"
-                      dataKey="uploads"
+                      dataKey="posts"
                       stroke="#2563eb"
                       strokeWidth={2}
-                      name="Media Uploads"
+                      name="Posts Published"
                     />
                   )}
                 </LineChart>
@@ -229,23 +232,26 @@ export const PublicMediaReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Recent Media */}
+        {/* Recent Posts */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Media</CardTitle>
+            <CardTitle>Recent Posts</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {currentData.topPerforming.slice(0, 10).map((media, index) => (
-                <div key={media.id} className="flex items-center gap-4 p-4 rounded-lg border">
+              {currentData.recentPosts.slice(0, 10).map((post, index) => (
+                <div key={post.id} className="flex items-center gap-4 p-4 rounded-lg border">
                   <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center">
-                    {getMediaIcon(media.type)}
+                    {getPostIcon(post.type)}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-medium">{media.title}</h4>
+                    <h4 className="font-medium">{post.title}</h4>
                     <div className="text-sm text-muted-foreground mt-1">
-                      {media.type === 'photo' ? 'Photo' : 'Video'} • Uploaded {new Date(media.uploadDate).toLocaleDateString()}
+                      {post.publishedAt} • {post.type} post
                     </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {getStatusBadge(post.status)}
                   </div>
                   <Button variant="outline" size="sm">
                     <Eye className="h-4 w-4 mr-2" />
