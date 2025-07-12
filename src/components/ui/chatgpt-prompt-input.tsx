@@ -170,7 +170,7 @@ export const PromptBox = React.forwardRef<HTMLTextAreaElement, React.TextareaHTM
                   </TooltipTrigger>
                   <TooltipContent side="top" showArrow={true}><p>Suggested Questions</p></TooltipContent>
                 </Tooltip>
-                <PopoverContent side="top" align="center" className="w-80 max-h-96 overflow-y-auto">
+                <PopoverContent side="top" align="center" className="w-96 max-h-[28rem] overflow-y-auto bg-background dark:bg-[#2a2a2a] border border-border dark:border-gray-600 shadow-lg rounded-lg p-4">
                   {!selectedCategory ? (
                     <div className="flex flex-col gap-2">
                       <h3 className="font-medium text-sm mb-2">Select a category:</h3>
