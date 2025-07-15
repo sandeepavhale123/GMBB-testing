@@ -62,12 +62,7 @@ const menuItems = [
     icon: MapPin,
     path: "/geo-ranking",
   },
-  {
-    id: "ai-chatbot",
-    label: "AI Chatbot",
-    icon: Bot,
-    path: "/ai-chatbot",
-  },
+  
   {
     id: "reviews",
     label: "Reviews",
