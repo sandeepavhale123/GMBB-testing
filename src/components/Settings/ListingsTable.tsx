@@ -104,7 +104,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                     </Avatar>
                     <div className="min-w-0">
                       <p className="font-medium text-gray-900 truncate">{listing.name}</p>
-                      {listing.address && (
+                      {listing.address && truncateAddress(listing.address) && truncateAddress(listing.address) !== 'null' && !truncateAddress(listing.address).includes('null') && (
                         <p className="text-sm text-gray-500 truncate">
                           {truncateAddress(listing.address)}
                         </p>
