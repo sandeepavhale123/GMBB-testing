@@ -380,7 +380,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                          </div>
                        )}
                      </div>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className="space-y-4">
                        {filteredListings.map((listing) => (
                          <div key={listing.listingId} className="flex items-center justify-between p-4 border rounded-lg">
                            <div className="flex items-center gap-3">
