@@ -8,10 +8,12 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Globe, MapPin, Phone, Monitor, Smartphone, MessageSquare } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const PublicInsightsReport: React.FC = () => {
   const { token } = useParams();
   const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
+  const isMobile = useIsMobile();
 
   // Enhanced sample data
   const insightsData = {
@@ -175,16 +177,16 @@ export const PublicInsightsReport: React.FC = () => {
                   <CardTitle className="text-center">How Customers Search For Your Business</CardTitle>
                   <p className="text-sm text-muted-foreground text-center">Period 1: {insightsData.dateRange.comparison.period1}</p>
                 </CardHeader>
-                <CardContent>
-                  <ChartContainer config={{}} className="h-[300px]">
+                <CardContent className={isMobile ? "flex justify-center" : ""}>
+                  <ChartContainer config={{}} className={`${isMobile ? 'h-[250px] w-[250px]' : 'h-[300px]'}`}>
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
                           data={insightsData.customerSearchData}
                           cx="50%"
                           cy="50%"
-                          innerRadius={60}
-                          outerRadius={100}
+                          innerRadius={isMobile ? 45 : 60}
+                          outerRadius={isMobile ? 75 : 100}
                           paddingAngle={5}
                           dataKey="value"
                         >
@@ -233,8 +235,8 @@ export const PublicInsightsReport: React.FC = () => {
                   <CardTitle className="text-center">How Customers Search For Your Business</CardTitle>
                   <p className="text-sm text-muted-foreground text-center">Period 2: {insightsData.dateRange.comparison.period2}</p>
                 </CardHeader>
-                <CardContent>
-                  <ChartContainer config={{}} className="h-[300px]">
+                <CardContent className={isMobile ? "flex justify-center" : ""}>
+                  <ChartContainer config={{}} className={`${isMobile ? 'h-[250px] w-[250px]' : 'h-[300px]'}`}>
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
@@ -246,8 +248,8 @@ export const PublicInsightsReport: React.FC = () => {
                           ]}
                           cx="50%"
                           cy="50%"
-                          innerRadius={60}
-                          outerRadius={100}
+                          innerRadius={isMobile ? 45 : 60}
+                          outerRadius={isMobile ? 75 : 100}
                           paddingAngle={5}
                           dataKey="value"
                         >
