@@ -132,11 +132,11 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
             }}>
               {/* Left: Business Branding */}
               <div className={`flex items-center ${isMobile ? 'flex-col space-y-3 text-center' : 'space-x-4'}`}>
-                {companyLogo ? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-12 h-12' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'w-16 h-16'}`}>
-                    <span className={`font-bold text-gray-900 ${isMobile ? 'text-lg' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
+                {companyLogo ? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`}>
+                    <span className={`font-bold text-gray-900 ${isMobile ? 'text-sm' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
                   </div>}
                 <div className={`flex flex-col ${isMobile ? 'items-center space-y-1' : ''}`}>
-                  <h1 className={`font-bold ${isMobile ? 'text-lg' : 'text-2xl'}`}>{companyName}</h1>
+                  <h1 className={`font-bold ${isMobile ? 'text-base' : 'text-2xl'}`}>{companyName}</h1>
                   <p className={`text-gray-300 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
                 </div>
               </div>
@@ -157,9 +157,9 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
           {/* Main Content */}
           <main className="flex-1 overflow-auto relative z-40" style={{
-            marginTop: '-100px'
+            marginTop: isMobile ? '0' : '-100px'
           }}>
-            <div className={`container mx-auto ${isMobile ? 'p-4' : 'p-8'}`}>
+            <div className={`${isMobile ? 'w-full px-4 py-6' : 'container mx-auto p-8'}`}>
                 {children}
             </div>
           </main>
