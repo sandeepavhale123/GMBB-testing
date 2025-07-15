@@ -162,16 +162,6 @@ export const PublicReviewsReport: React.FC = () => {
       companyLogo={reviewData.companyLogo}
     >
       <div className="space-y-6">
-        {/* Report Type Toggle */}
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="report-type"
-            checked={reportType === 'comparison'}
-            onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
-          />
-          <Label htmlFor="report-type">Comparison Report</Label>
-        </div>
-
         {/* Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
@@ -674,6 +664,22 @@ export const PublicReviewsReport: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Report Type Toggle - Moved to Bottom */}
+        <div className="flex justify-center pt-6">
+          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
+            <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="individual" className="text-sm">Individual</Label>
+              <Switch
+                id="report-type"
+                checked={reportType === 'comparison'}
+                onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+              />
+              <Label htmlFor="comparison" className="text-sm">Comparison</Label>
+            </div>
+          </div>
+        </div>
       </div>
     </PublicReportDashboardLayout>
   );
