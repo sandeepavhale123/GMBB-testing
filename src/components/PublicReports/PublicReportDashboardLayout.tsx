@@ -126,7 +126,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               marginTop: isMobile ? "60px" : "30px",
               textAlign: "center"
             }}>{title}</h2>
-            <div className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${isMobile ? 'flex-col space-y-4' : ''}`} style={{
+            <div className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${isMobile ? 'space-x-4' : ''}`} style={{
               paddingTop: '20px',
               paddingBottom: '50px'
             }}>
