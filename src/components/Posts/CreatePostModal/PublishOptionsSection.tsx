@@ -69,7 +69,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
             <Input 
               type="datetime-local" 
               value={formData.scheduleDate} 
-              min={new Date().toISOString().slice(0, 16)}
+              min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)}
               onChange={e => onFormDataChange(prev => ({ ...prev, scheduleDate: e.target.value }))} 
               className="w-full" 
             />
