@@ -23,6 +23,7 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
   member,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [allowListings, setAllowListings] = useState(0);
   
   if (!member) return null;
 
@@ -64,6 +65,20 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
               {member.firstName} {member.lastName}
             </span>{" "}
             to give them direct access to their account.
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="allow-listings">Enter Allow Listings</Label>
+            <div className="text-sm text-gray-600 mb-2">
+              Available spots on the Dashboard - 397
+            </div>
+            <Input
+              id="allow-listings"
+              type="number"
+              value={allowListings}
+              onChange={(e) => setAllowListings(Number(e.target.value))}
+              placeholder="Enter number of allowed listings"
+            />
           </div>
 
           <div className="space-y-2">

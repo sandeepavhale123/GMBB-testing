@@ -88,6 +88,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
         name: reportName,
         type: reportType,
         dateRange,
+        domain: window.location.hostname,
         sections: selectedSections,
         listingId: selectedListing.id,
       });

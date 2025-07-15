@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Plus, Grid3X3, List, Users, Eye, Edit, Trash2, Share2, EyeOff } from "lucide-react";
+import { Search, Plus, Grid3X3, List, Users, Eye, Edit, Trash2, Share2, EyeOff, Copy } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -24,6 +24,7 @@ import { EditTeamMemberModal } from "./EditTeamMemberModal";
 import { DeleteTeamMemberModal } from "./DeleteTeamMemberModal";
 import { ShareableLinkModal } from "./ShareableLinkModal";
 import { TeamMemberCard } from "./TeamMemberCard";
+import { toast } from "@/hooks/use-toast";
 
 // Mock data for team members
 const mockTeamMembers = [
@@ -118,6 +119,22 @@ export const TeamMembersPage: React.FC = () => {
 
   const getRoleBadgeClass = (role: string) => {
     return roleColors[role as keyof typeof roleColors] || "bg-gray-100 text-gray-700 border-gray-200";
+  };
+
+  const handleCopyEmail = async (email: string) => {
+    try {
+      await navigator.clipboard.writeText(email);
+      toast({
+        title: "Email copied",
+        description: "Email address has been copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please copy the email manually",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -216,7 +233,7 @@ export const TeamMembersPage: React.FC = () => {
                       Team Member
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
-                      Role
+                      Email
                     </TableHead>
                     <TableHead className="font-semibold text-gray-900 text-center">
                       Password
@@ -244,19 +261,31 @@ export const TeamMembersPage: React.FC = () => {
                             <div className="font-medium text-gray-900">
                               {member.firstName} {member.lastName}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              {member.email}
+                            <div className="text-sm">
+                              <Badge
+                                variant="outline"
+                                className={getRoleBadgeClass(member.role)}
+                              >
+                                {member.role}
+                              </Badge>
                             </div>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge
-                          variant="outline"
-                          className={getRoleBadgeClass(member.role)}
-                        >
-                          {member.role}
-                        </Badge>
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="text-sm text-gray-600">
+                            {member.email}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleCopyEmail(member.email)}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
+                        </div>
                       </TableCell>
                       <TableCell className="text-center">
                         <div className="flex items-center justify-center gap-2">
@@ -293,18 +322,18 @@ export const TeamMembersPage: React.FC = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleDeleteMember(member)}
-                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
                             onClick={() => handleShareLink(member)}
                             className="h-8 w-8 p-0"
                           >
                             <Share2 className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteMember(member)}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>

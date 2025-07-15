@@ -64,18 +64,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(member)}
-            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() => onShare(member)}
             className="h-8 w-8 p-0"
           >
             <Share2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete(member)}
+            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+          >
+            <Trash2 className="h-4 w-4" />
           </Button>
         </div>
       </div>
@@ -86,6 +86,23 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {member.firstName} {member.lastName}
         </h3>
         <p className="text-sm text-gray-500">{member.email}</p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600">
+            {showPassword ? "password123" : member.password}
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onTogglePassword}
+            className="h-5 w-5 p-0"
+          >
+            {showPassword ? (
+              <EyeOff className="h-3 w-3" />
+            ) : (
+              <Eye className="h-3 w-3" />
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Role Badge */}
@@ -98,33 +115,13 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         </Badge>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      {/* Listings Card - Full Width */}
+      <div className="mb-4">
         <div className="bg-gray-50 rounded-lg p-3 text-center">
           <div className="text-lg font-semibold text-gray-900">
             {member.listingsCount}
           </div>
           <div className="text-xs text-gray-500">Listings</div>
-        </div>
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-sm text-gray-600">
-              {showPassword ? "password123" : member.password}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onTogglePassword}
-              className="h-5 w-5 p-0"
-            >
-              {showPassword ? (
-                <EyeOff className="h-3 w-3" />
-              ) : (
-                <Eye className="h-3 w-3" />
-              )}
-            </Button>
-          </div>
-          <div className="text-xs text-gray-500">Password</div>
         </div>
       </div>
 
