@@ -105,7 +105,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                     <div className="min-w-0">
                       <p className="font-medium text-gray-900 truncate">{listing.name}</p>
                       <p className="text-sm text-gray-500 truncate">
-                        {truncateAddress(listing.address)}
+                        {listing.address ? truncateAddress(listing.address) : 'No address provided'}
                       </p>
                     </div>
                   </div>
