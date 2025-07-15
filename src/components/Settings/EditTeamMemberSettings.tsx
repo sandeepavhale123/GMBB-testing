@@ -3,12 +3,22 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Upload, ChevronLeft, Building2 } from "lucide-react";
+import { 
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface TeamMember {
   id: string;
@@ -18,6 +28,25 @@ interface TeamMember {
   role: string;
   profilePicture?: string;
   password?: string;
+}
+
+interface ListingAccess {
+  listingId: string;
+  name: string;
+  account: string;
+  enabled: boolean;
+}
+
+interface Permission {
+  feature: string;
+  access: 'view' | 'edit' | 'hide';
+}
+
+interface Permissions {
+  allowListingAccess: boolean;
+  listings: ListingAccess[];
+  selectedAccount: string;
+  features: Permission[];
 }
 
 export const EditTeamMemberSettings: React.FC = () => {
@@ -36,6 +65,58 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
 
+  // Mock accounts and listings data
+  const mockAccounts = [
+    { id: "1", name: "Main Account", listingsCount: 12 },
+    { id: "2", name: "Secondary Account", listingsCount: 8 },
+    { id: "3", name: "Enterprise Account", listingsCount: 25 }
+  ];
+
+  const mockListings = [
+    { listingId: "1", name: "Downtown Restaurant", account: "Main Account", enabled: true },
+    { listingId: "2", name: "Uptown Cafe", account: "Main Account", enabled: false },
+    { listingId: "3", name: "City Mall Store", account: "Secondary Account", enabled: true },
+    { listingId: "4", name: "Suburban Branch", account: "Secondary Account", enabled: true },
+  ];
+
+  const featuresList = [
+    "Manage Google Account",
+    "Manage GMB Tags", 
+    "Bulk Actions",
+    "Manage Reports",
+    "Social Media",
+    "Gallery",
+    "RSS Feed",
+    "Reputation",
+    "Lead Dashboard",
+    "Proposal",
+    "To-Do List",
+    "Performance Report",
+    "Genie Module",
+    "Posts",
+    "Media",
+    "Reviews",
+    "Q&A",
+    "Insights",
+    "Management",
+    "Ranking",
+    "Competitor Analysis",
+    "Refer & Earn",
+    "Whitelabel Section",
+    "My Team",
+    "Pricing",
+    "API Key & Documentation",
+    "Razorpay & Stripe Integration",
+    "GEO Ranking"
+  ];
+
+  const [permissions, setPermissions] = useState<Permissions>({
+    allowListingAccess: true,
+    listings: mockListings,
+    selectedAccount: "all",
+    features: featuresList.map(feature => ({ feature, access: 'view' as const }))
+  });
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -53,11 +134,62 @@ export const EditTeamMemberSettings: React.FC = () => {
   const handleSave = () => {
     // Save logic here
     console.log("Saving member:", member);
+    console.log("Saving permissions:", permissions);
     navigate("/settings/team-members");
   };
 
+  const handlePermissionChange = (featureIndex: number, access: 'view' | 'edit' | 'hide') => {
+    setPermissions(prev => ({
+      ...prev,
+      features: prev.features.map((feature, index) => 
+        index === featureIndex ? { ...feature, access } : feature
+      )
+    }));
+  };
+
+  const handleListingToggle = (listingId: string) => {
+    setPermissions(prev => ({
+      ...prev,
+      listings: prev.listings.map(listing => 
+        listing.listingId === listingId 
+          ? { ...listing, enabled: !listing.enabled }
+          : listing
+      )
+    }));
+  };
+
+  const filteredListings = permissions.selectedAccount === "all" 
+    ? permissions.listings 
+    : permissions.listings.filter(listing => 
+        mockAccounts.find(acc => acc.name === listing.account)?.id === permissions.selectedAccount
+      );
+
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+      {/* Breadcrumb and Page Title */}
+      <div className="mb-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/settings/team-members" className="flex items-center gap-2">
+                <ChevronLeft className="h-4 w-4" />
+                Team Members
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Edit Team Member</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className="text-3xl font-bold text-foreground mt-2">
+          Edit Team Member
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Manage team member profile, listing access, and feature permissions
+        </p>
+      </div>
+
       {/* Header Card */}
       <Card className="mb-6">
         <CardContent className="p-6">
@@ -212,16 +344,108 @@ export const EditTeamMemberSettings: React.FC = () => {
 
         <TabsContent value="listings" className="mt-6">
           <Card>
+            <CardHeader>
+              <CardTitle>Listing Access Management</CardTitle>
+            </CardHeader>
             <CardContent className="p-6">
-              <p className="text-muted-foreground">Listings management content will go here.</p>
+              {/* Allow Listing Access Toggle */}
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <Label className="text-base font-medium">Allow Listing Access</Label>
+                  <p className="text-sm text-muted-foreground">Enable or disable access to business listings</p>
+                </div>
+                <Switch
+                  checked={permissions.allowListingAccess}
+                  onCheckedChange={(checked) => 
+                    setPermissions(prev => ({ ...prev, allowListingAccess: checked }))
+                  }
+                />
+              </div>
+
+              <Separator className="mb-6" />
+
+              {permissions.allowListingAccess && (
+                <>
+                  {/* Account Filter */}
+                  <div className="mb-6">
+                    <Label className="text-sm font-medium mb-2 block">Filter by Account</Label>
+                    <Select
+                      value={permissions.selectedAccount}
+                      onValueChange={(value) => 
+                        setPermissions(prev => ({ ...prev, selectedAccount: value }))
+                      }
+                    >
+                      <SelectTrigger className="w-full max-w-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white z-50">
+                        <SelectItem value="all">All Accounts</SelectItem>
+                        {mockAccounts.map((account) => (
+                          <SelectItem key={account.id} value={account.id}>
+                            {account.name} ({account.listingsCount} listings)
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Listings List */}
+                  <div>
+                    <Label className="text-sm font-medium mb-4 block">Business Listings</Label>
+                    <div className="space-y-4">
+                      {filteredListings.map((listing) => (
+                        <div key={listing.listingId} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <Building2 className="h-5 w-5 text-muted-foreground" />
+                            <div>
+                              <p className="font-medium">{listing.name}</p>
+                              <p className="text-sm text-muted-foreground">{listing.account}</p>
+                            </div>
+                          </div>
+                          <Switch
+                            checked={listing.enabled}
+                            onCheckedChange={() => handleListingToggle(listing.listingId)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="permissions" className="mt-6">
           <Card>
+            <CardHeader>
+              <CardTitle>Feature-Level Permissions</CardTitle>
+            </CardHeader>
             <CardContent className="p-6">
-              <p className="text-muted-foreground">Permissions management content will go here.</p>
+              <div className="space-y-4">
+                {permissions.features.map((permission, index) => (
+                  <div key={permission.feature} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <Label className="font-medium">{permission.feature}</Label>
+                    </div>
+                    <Select
+                      value={permission.access}
+                      onValueChange={(value: 'view' | 'edit' | 'hide') => 
+                        handlePermissionChange(index, value)
+                      }
+                    >
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white z-50">
+                        <SelectItem value="view">View</SelectItem>
+                        <SelectItem value="edit">Edit</SelectItem>
+                        <SelectItem value="hide">Hide</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
