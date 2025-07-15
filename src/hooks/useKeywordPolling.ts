@@ -4,7 +4,7 @@ import { checkKeywordStatus } from '../api/geoRankingApi';
 export const useKeywordPolling = (
   listingId: number, 
   onKeywordsUpdate: () => Promise<void>,
-  shouldPoll: boolean = false
+  enableInitialCheck: boolean = true
 ) => {
   const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
   const [isPolling, setIsPolling] = useState(false);
@@ -29,7 +29,7 @@ export const useKeywordPolling = (
 
   // Start polling function
   const startPolling = useCallback(() => {
-    if (!listingId || !shouldPoll || intervalRef.current) return;
+    if (!listingId || intervalRef.current) return;
 
     setIsPolling(true);
     errorCountRef.current = 0;
@@ -88,19 +88,35 @@ export const useKeywordPolling = (
     // Set up polling interval (5 seconds)
     console.log('⏰ Setting up 5-second polling interval');
     intervalRef.current = setInterval(pollKeywordStatus, 5000);
-  }, [listingId, shouldPoll, onKeywordsUpdate, stopPolling]);
+  }, [listingId, onKeywordsUpdate, stopPolling]);
 
-  // Effect to handle polling state changes
-  useEffect(() => {
-    if (shouldPoll && listingId && !isPolling) {
-      startPolling();
-    } else if (!shouldPoll && isPolling) {
-      stopPolling();
-      setProcessingKeywords([]);
+  // Initial check function to see if there are processing keywords
+  const checkInitialStatus = useCallback(async () => {
+    if (!listingId || !enableInitialCheck) return;
+
+    try {
+      console.log('🔍 Initial check for processing keywords');
+      const response = await checkKeywordStatus(listingId);
+      
+      if (response.code === 200 && response.data.keywords.length > 0) {
+        const keywordNames = response.data.keywords.map(k => k.keyword);
+        console.log('⏳ Initial processing keywords found, starting polling:', keywordNames);
+        setProcessingKeywords(keywordNames);
+        startPolling();
+      } else {
+        console.log('ℹ️ No initial processing keywords found');
+      }
+    } catch (error) {
+      console.error('❌ Error during initial check:', error);
     }
+  }, [listingId, enableInitialCheck, startPolling]);
 
-    return stopPolling;
-  }, [shouldPoll, listingId, isPolling, startPolling, stopPolling]);
+  // Effect to perform initial check when component mounts
+  useEffect(() => {
+    if (listingId && enableInitialCheck) {
+      checkInitialStatus();
+    }
+  }, [listingId, enableInitialCheck, checkInitialStatus]);
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {
@@ -108,7 +124,7 @@ export const useKeywordPolling = (
       if (document.hidden) {
         console.log('📱 Page hidden, stopping polling');
         stopPolling();
-      } else if (shouldPoll && listingId && processingKeywordsRef.current.length > 0) {
+      } else if (listingId && processingKeywordsRef.current.length > 0) {
         console.log('📱 Page visible, restarting polling');
         startPolling();
       }
@@ -120,7 +136,7 @@ export const useKeywordPolling = (
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       stopPolling();
     };
-  }, [shouldPoll, listingId, processingKeywords.length, startPolling, stopPolling]);
+  }, [listingId, startPolling, stopPolling]);
 
   return {
     processingKeywords,

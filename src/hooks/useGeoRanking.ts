@@ -56,7 +56,7 @@ export const useGeoRanking = (listingId: number) => {
     return await fetchKeywords(true);
   }, [fetchKeywords]);
 
-  // Polling for keyword status - always enable polling to check for processing keywords
+  // Polling for keyword status - enable initial check to detect processing keywords
   const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
     listingId,
     simpleKeywordsCallback,
