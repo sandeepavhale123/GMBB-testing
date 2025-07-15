@@ -126,7 +126,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               marginTop: isMobile ? "60px" : "30px",
               textAlign: "center"
             }}>{title}</h2>
-            <div className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${isMobile ? 'flex-col space-y-4' : ''}`} style={{
+            <div className={`container mx-auto px-4 md:px-8 ${isMobile ? 'flex-col space-y-4' : 'flex items-center justify-between'}`} style={{
               paddingTop: '20px',
               paddingBottom: '50px'
             }}>
@@ -136,8 +136,8 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
                     <span className={`font-bold text-gray-900 ${isMobile ? 'text-sm' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
                   </div>}
                 <div className={`flex flex-col ${isMobile ? 'items-center space-y-1' : ''}`}>
-                  <h1 className={`font-bold ${isMobile ? 'text-base' : 'text-2xl'}`}>{companyName}</h1>
-                  <p className={`text-gray-300 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
+                  <h1 className={`font-bold text-white ${isMobile ? 'text-base' : 'text-2xl'}`}>{companyName}</h1>
+                  <p className={`text-white/80 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
                 </div>
               </div>
 
@@ -149,7 +149,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
               {/* Right: Report Date */}
               <div className={`${isMobile ? 'text-center' : 'text-right'}`}>
-                <p className="text-sm text-gray-400">Report Date</p>
+                <p className="text-sm text-white/60">Report Date</p>
                 <p className={`text-white ${isMobile ? 'text-base' : 'text-lg'}`}>{new Date().toLocaleDateString()}</p>
               </div>
             </div>
