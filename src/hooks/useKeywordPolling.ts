@@ -33,20 +33,29 @@ export const useKeywordPolling = (
       if (document.hidden) return;
 
       try {
+        console.log('Checking keyword status for listing:', listingId);
         const response = await checkKeywordStatus(listingId);
         errorCountRef.current = 0; // Reset error count on success
 
         if (response.code === 200 && response.data.keywords.length > 0) {
           const keywordNames = response.data.keywords.map(k => k.keyword);
+          console.log('Processing keywords found:', keywordNames);
           setProcessingKeywords(keywordNames);
         } else {
-          // No more processing keywords - stop polling and refresh
+          // No more processing keywords - only now call the callback to refresh data
+          console.log('No processing keywords found, refreshing data...');
+          const hadProcessingKeywords = processingKeywords.length > 0;
           setProcessingKeywords([]);
           stopPolling();
-          try {
-            await onKeywordsUpdate();
-          } catch (error) {
-            console.error('Error refreshing keywords after polling:', error);
+          
+          // Only call the refresh callback if we previously had processing keywords
+          if (hadProcessingKeywords) {
+            try {
+              console.log('Calling onKeywordsUpdate after processing completion');
+              await onKeywordsUpdate();
+            } catch (error) {
+              console.error('Error refreshing keywords after polling:', error);
+            }
           }
         }
       } catch (error) {
