@@ -113,13 +113,13 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="font-mono text-sm text-gray-900">{listing.store_code}</span>
+                  <span className="font-mono text-sm text-gray-900">{listing.store_code || '-'}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.group_name}</span>
+                  <span className="text-sm text-gray-600">{listing.group_name || '-'}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.zipcode}</span>
+                  <span className="text-sm text-gray-600">{listing.zipcode || '-'}</span>
                 </TableCell>
                 <TableCell>
                   <Badge 
@@ -130,7 +130,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.state}</span>
+                  <span className="text-sm text-gray-600">{listing.state || '-'}</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center space-x-3">
