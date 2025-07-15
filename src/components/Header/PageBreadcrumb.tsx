@@ -99,6 +99,11 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/reports': [
     { title: 'Dashboard', path: '/' },
     { title: 'Reports', path: '/reports' }
+  ],
+  '/settings/team-members': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings/team-members' },
+    { title: 'Team Members', path: '/settings/team-members' }
   ]
 };
 
@@ -122,6 +127,9 @@ export const PageBreadcrumb: React.FC = () => {
         if (segments[2] === 'listings') {
           return '/settings/listings';
         }
+        if (segments[2] === 'team-members' && segments[3] === 'edit') {
+          return '/settings/team-members';
+        }
         return `/settings/${segments[2]}`;
       }
       return `/${segments[1]}`;
@@ -139,6 +147,17 @@ export const PageBreadcrumb: React.FC = () => {
       { title: 'Settings', path: '/settings/google-account' },
       { title: 'Manage Google Account', path: '/settings/google-account' },
       { title: profileEmail, path: `/settings/listings/${accountId}` }
+    ];
+  }
+
+  // Customize breadcrumb for edit team member page
+  if (baseRoute === '/settings/team-members' && location.pathname.includes('/edit/')) {
+    const memberId = location.pathname.split('/').pop();
+    breadcrumbItems = [
+      { title: 'Dashboard', path: '/' },
+      { title: 'Settings', path: '/settings/team-members' },
+      { title: 'Team Members', path: '/settings/team-members' },
+      { title: `Edit Team Member #${memberId}`, path: location.pathname }
     ];
   }
 

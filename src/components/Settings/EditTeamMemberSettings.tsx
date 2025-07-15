@@ -10,15 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Upload, ChevronLeft, Building2 } from "lucide-react";
-import { 
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Upload, ChevronLeft, Building2, Save, Search } from "lucide-react";
 
 interface TeamMember {
   id: string;
@@ -64,6 +56,7 @@ export const EditTeamMemberSettings: React.FC = () => {
   });
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Mock accounts and listings data
   const mockAccounts = [
@@ -166,29 +159,6 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
-      {/* Breadcrumb and Page Title */}
-      <div className="mb-6">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/settings/team-members" className="flex items-center gap-2">
-                <ChevronLeft className="h-4 w-4" />
-                Team Members
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Edit Team Member</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <h1 className="text-3xl font-bold text-foreground mt-2">
-          Edit Team Member
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Manage team member profile, listing access, and feature permissions
-        </p>
-      </div>
 
       {/* Header Card */}
       <Card className="mb-6">
@@ -365,54 +335,79 @@ export const EditTeamMemberSettings: React.FC = () => {
               <Separator className="mb-6" />
 
               {permissions.allowListingAccess && (
-                <>
-                  {/* Account Filter */}
-                  <div className="mb-6">
-                    <Label className="text-sm font-medium mb-2 block">Filter by Account</Label>
-                    <Select
-                      value={permissions.selectedAccount}
-                      onValueChange={(value) => 
-                        setPermissions(prev => ({ ...prev, selectedAccount: value }))
-                      }
-                    >
-                      <SelectTrigger className="w-full max-w-xs">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white z-50">
-                        <SelectItem value="all">All Accounts</SelectItem>
-                        {mockAccounts.map((account) => (
-                          <SelectItem key={account.id} value={account.id}>
-                            {account.name} ({account.listingsCount} listings)
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                 <>
+                   {/* Account Filter with Search */}
+                   <div className="mb-6">
+                     <Label className="text-sm font-medium mb-2 block">Filter by Account</Label>
+                     <div className="flex gap-2">
+                       <div className="relative flex-1">
+                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                         <Input
+                           placeholder="Search accounts..."
+                           value={searchQuery}
+                           onChange={(e) => setSearchQuery(e.target.value)}
+                           className="pl-9"
+                         />
+                       </div>
+                       <Select
+                         value={permissions.selectedAccount}
+                         onValueChange={(value) => 
+                           setPermissions(prev => ({ ...prev, selectedAccount: value }))
+                         }
+                       >
+                         <SelectTrigger className="w-[200px]">
+                           <SelectValue placeholder="Select account" />
+                         </SelectTrigger>
+                         <SelectContent className="bg-white z-50">
+                           <SelectItem value="all">All Accounts</SelectItem>
+                           {mockAccounts.map((account) => (
+                             <SelectItem key={account.id} value={account.id}>
+                               {account.name} ({account.listingsCount} listings)
+                             </SelectItem>
+                           ))}
+                         </SelectContent>
+                       </Select>
+                     </div>
+                   </div>
 
-                  {/* Listings List */}
-                  <div>
-                    <Label className="text-sm font-medium mb-4 block">Business Listings</Label>
-                    <div className="space-y-4">
-                      {filteredListings.map((listing) => (
-                        <div key={listing.listingId} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Building2 className="h-5 w-5 text-muted-foreground" />
-                            <div>
-                              <p className="font-medium">{listing.name}</p>
-                              <p className="text-sm text-muted-foreground">{listing.account}</p>
-                            </div>
-                          </div>
-                          <Switch
-                            checked={listing.enabled}
-                            onCheckedChange={() => handleListingToggle(listing.listingId)}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </CardContent>
+                   {/* Listings List */}
+                   <div>
+                     <div className="flex items-center justify-between mb-4">
+                       <Label className="text-sm font-medium">Business Listings</Label>
+                       {permissions.selectedAccount !== "all" && (
+                         <div className="text-sm text-muted-foreground">
+                           Account: {mockAccounts.find(acc => acc.id === permissions.selectedAccount)?.name || "Selected Account"}
+                         </div>
+                       )}
+                     </div>
+                     <div className="space-y-4">
+                       {filteredListings.map((listing) => (
+                         <div key={listing.listingId} className="flex items-center justify-between p-4 border rounded-lg">
+                           <div className="flex items-center gap-3">
+                             <Building2 className="h-5 w-5 text-muted-foreground" />
+                             <div>
+                               <p className="font-medium">{listing.name}</p>
+                               <p className="text-sm text-muted-foreground">{listing.account}</p>
+                             </div>
+                           </div>
+                           <Switch
+                             checked={listing.enabled}
+                             onCheckedChange={() => handleListingToggle(listing.listingId)}
+                           />
+                         </div>
+                       ))}
+                     </div>
+                     
+                     <div className="pt-4 border-t">
+                       <Button className="w-full">
+                         <Save className="w-4 h-4 mr-2" />
+                         Save Changes
+                       </Button>
+                     </div>
+                   </div>
+                 </>
+               )}
+             </CardContent>
           </Card>
         </TabsContent>
 
@@ -444,9 +439,16 @@ export const EditTeamMemberSettings: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                ))}
-              </div>
-            </CardContent>
+                  ))}
+                </div>
+                
+                <div className="pt-6 border-t">
+                  <Button className="w-full">
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
