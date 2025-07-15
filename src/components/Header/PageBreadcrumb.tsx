@@ -102,7 +102,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/settings/team-members': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/team-members' },
+    { title: 'Settings', path: '/settings' },
     { title: 'Team Members', path: '/settings/team-members' }
   ]
 };
@@ -155,7 +155,7 @@ export const PageBreadcrumb: React.FC = () => {
     const memberId = location.pathname.split('/').pop();
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
-      { title: 'Settings', path: '/settings/team-members' },
+      { title: 'Settings', path: '/settings' },
       { title: 'Team Members', path: '/settings/team-members' },
       { title: `Edit Team Member #${memberId}`, path: location.pathname }
     ];
