@@ -126,12 +126,12 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               marginTop: isMobile ? "60px" : "30px",
               textAlign: "center"
             }}>{title}</h2>
-            <div className={`container mx-auto px-4 md:px-8 ${isMobile ? 'flex-col space-y-4' : 'flex items-center justify-between'}`} style={{
+            <div className={`container mx-auto px-4 md:px-8 ${isMobile ? '' : 'flex items-center justify-between'}`} style={{
               paddingTop: '20px',
               paddingBottom: '50px'
             }}>
               {/* Left: Business Branding */}
-              <div className={`flex items-center ${isMobile ? 'space-y-3 text-center' : 'space-x-4'}`}>
+              <div className={`flex items-center ${isMobile ? 'space-y-3' : 'space-x-4'}`}>
                 {companyLogo? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`}>
                     <span className={`font-bold text-gray-900 ${isMobile ? 'text-sm' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
                   </div>}
