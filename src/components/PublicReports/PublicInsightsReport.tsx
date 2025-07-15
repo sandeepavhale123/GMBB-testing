@@ -170,7 +170,7 @@ export const PublicInsightsReport: React.FC = () => {
         <div className={`grid gap-6 ${reportType === 'comparison' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
           {/* How Customers Search Doughnut Chart */}
           {reportType === 'comparison' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
               {/* Period 1 Chart */}
               <Card>
                 <CardHeader>
@@ -302,16 +302,16 @@ export const PublicInsightsReport: React.FC = () => {
               <CardHeader>
                 <CardTitle>How Customers Search For Your Business</CardTitle>
               </CardHeader>
-              <CardContent>
-                <ChartContainer config={{}} className="h-[300px]">
+              <CardContent className={isMobile ? "flex justify-center" : ""}>
+                <ChartContainer config={{}} className={`${isMobile ? 'h-[250px] w-[250px]' : 'h-[300px]'}`}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={insightsData.customerSearchData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={60}
-                        outerRadius={100}
+                        innerRadius={isMobile ? 45 : 60}
+                        outerRadius={isMobile ? 75 : 100}
                         paddingAngle={5}
                         dataKey="value"
                       >
@@ -357,22 +357,26 @@ export const PublicInsightsReport: React.FC = () => {
 
           {/* Listing Views & Clicks Chart */}
           {reportType === 'comparison' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
               {/* Period 1 Chart */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">Listing Views & Clicks</CardTitle>
                   <p className="text-sm text-muted-foreground text-center">Period 1: {insightsData.dateRange.comparison.period1}</p>
                 </CardHeader>
-                <CardContent>
-                  <ChartContainer config={chartConfig} className="h-[300px]">
+                <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+                  <ChartContainer config={chartConfig} className={`${isMobile ? 'h-[250px] min-w-[350px]' : 'h-[300px]'}`}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={insightsData.viewsClicksData}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <XAxis 
+                          dataKey="month" 
+                          fontSize={isMobile ? 10 : 12}
+                          interval={isMobile ? 1 : 0}
+                        />
+                        <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend />
+                        <Legend fontSize={isMobile ? 10 : 12} />
                         {Object.keys(chartConfig).map((key) => (
                           <Bar
                             key={key}
@@ -393,8 +397,8 @@ export const PublicInsightsReport: React.FC = () => {
                   <CardTitle className="text-center">Listing Views & Clicks</CardTitle>
                   <p className="text-sm text-muted-foreground text-center">Period 2: {insightsData.dateRange.comparison.period2}</p>
                 </CardHeader>
-                <CardContent>
-                  <ChartContainer config={chartConfig} className="h-[300px]">
+                <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+                  <ChartContainer config={chartConfig} className={`${isMobile ? 'h-[250px] min-w-[350px]' : 'h-[300px]'}`}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={[
                         { month: 'Jan', search: 13500, map: 7800, website: 1100, direction: 620, call: 140, message: 78 },
@@ -405,10 +409,14 @@ export const PublicInsightsReport: React.FC = () => {
                         { month: 'Jun', search: 14300, map: 8200, website: 1240, direction: 690, call: 150, message: 86 }
                       ]}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <XAxis 
+                          dataKey="month" 
+                          fontSize={isMobile ? 10 : 12}
+                          interval={isMobile ? 1 : 0}
+                        />
+                        <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend />
+                        <Legend fontSize={isMobile ? 10 : 12} />
                         {Object.keys(chartConfig).map((key) => (
                           <Bar
                             key={key}
@@ -428,15 +436,19 @@ export const PublicInsightsReport: React.FC = () => {
               <CardHeader>
                 <CardTitle>Listing Views & Clicks</CardTitle>
               </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-[300px]">
+              <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+                <ChartContainer config={chartConfig} className={`${isMobile ? 'h-[250px] min-w-[350px]' : 'h-[300px]'}`}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={insightsData.viewsClicksData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
+                      <XAxis 
+                        dataKey="month" 
+                        fontSize={isMobile ? 10 : 12}
+                        interval={isMobile ? 1 : 0}
+                      />
+                      <YAxis fontSize={isMobile ? 10 : 12} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
+                      <Legend fontSize={isMobile ? 10 : 12} />
                       {Object.keys(chartConfig).map((key) => (
                         <Bar
                           key={key}
@@ -454,10 +466,10 @@ export const PublicInsightsReport: React.FC = () => {
         </div>
 
         {/* Report Type Toggle - Bottom positioned */}
-        <div className="flex justify-center pt-6">
-          <div className="flex items-center space-x-4 bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm">
+        <div className={`flex justify-center pt-6 ${isMobile ? 'px-4' : ''}`}>
+          <div className={`flex items-center bg-background/95 backdrop-blur border rounded-lg p-3 shadow-sm ${isMobile ? 'flex-col space-y-2 w-full max-w-sm' : 'space-x-4'}`}>
             <Label htmlFor="report-type" className="text-sm font-medium">Report Type:</Label>
-            <div className="flex items-center space-x-2">
+            <div className={`flex items-center ${isMobile ? 'space-x-4' : 'space-x-2'}`}>
               <Label htmlFor="individual" className="text-sm">Individual</Label>
               <Switch
                 id="report-type"
