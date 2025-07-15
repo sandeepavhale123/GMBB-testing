@@ -315,7 +315,7 @@ export const TeamMembersPage: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleEditMember(member)}
-                            className="h-8 w-8 p-0"
+                            className="h-8 w-8 p-0 hidden"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
