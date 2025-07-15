@@ -293,10 +293,10 @@ export const EditTeamMemberSettings: React.FC = () => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Admin">Admin</SelectItem>
-                      <SelectItem value="Moderator">Moderator</SelectItem>
-                      <SelectItem value="User">User</SelectItem>
-                      <SelectItem value="Viewer">Viewer</SelectItem>
+                       <SelectItem value="Moderator">Moderator</SelectItem>
+                      <SelectItem value="Staff">Staff</SelectItem>
+                      <SelectItem value="Client">Client</SelectItem>
+                      <SelectItem value="Lead Generator">Lead Generator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
