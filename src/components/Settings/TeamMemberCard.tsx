@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit, Trash2, Share2, Eye, EyeOff } from "lucide-react";
+import { Edit, Trash2, ExternalLink, Eye, EyeOff } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -64,18 +64,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(member)}
-            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+            onClick={() => onShare(member)}
+            className="h-8 w-8 p-0"
           >
-            <Trash2 className="h-4 w-4" />
+            <ExternalLink className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onShare(member)}
-            className="h-8 w-8 p-0"
+            onClick={() => onDelete(member)}
+            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
           >
-            <Share2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" />
           </Button>
         </div>
       </div>
@@ -86,28 +86,9 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {member.firstName} {member.lastName}
         </h3>
         <p className="text-sm text-gray-500">{member.email}</p>
-      </div>
-
-      {/* Role Badge */}
-      <div className="mb-4">
-        <Badge
-          variant="outline"
-          className={getRoleBadgeClass(member.role)}
-        >
-          {member.role}
-        </Badge>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <div className="text-lg font-semibold text-gray-900">
-            {member.listingsCount}
-          </div>
-          <div className="text-xs text-gray-500">Listings</div>
-        </div>
-        <div className="bg-gray-50 rounded-lg p-3 text-center">
-          <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Password:</span>
+          <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">
               {showPassword ? "password123" : member.password}
             </span>
@@ -124,7 +105,26 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               )}
             </Button>
           </div>
-          <div className="text-xs text-gray-500">Password</div>
+        </div>
+      </div>
+
+      {/* Role Badge */}
+      <div className="mb-4">
+        <Badge
+          variant="outline"
+          className={getRoleBadgeClass(member.role)}
+        >
+          {member.role}
+        </Badge>
+      </div>
+
+      {/* Listings - Full Width */}
+      <div className="bg-gray-50 rounded-lg p-3 mb-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Listings</span>
+          <span className="text-lg font-semibold text-gray-900">
+            {member.listingsCount}
+          </span>
         </div>
       </div>
 
