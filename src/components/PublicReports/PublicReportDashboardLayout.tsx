@@ -131,11 +131,11 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               paddingBottom: '50px'
             }}>
               {/* Left: Business Branding */}
-              <div className={`flex items-center ${isMobile ? 'flex-col space-y-3 text-center' : 'space-x-4'}`}>
-                {companyLogo ? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`}>
+              <div className={`flex items-center ${isMobile ? 'space-y-3 text-center' : 'space-x-4'}`}>
+                {companyLogo? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`}>
                     <span className={`font-bold text-gray-900 ${isMobile ? 'text-sm' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
                   </div>}
-                <div className={`flex flex-col ${isMobile ? 'items-center space-y-1' : ''}`}>
+                <div className={`flex flex-col}>
                   <h1 className={`font-bold text-white ${isMobile ? 'text-base' : 'text-2xl'}`}>{companyName}</h1>
                   <p className={`text-white/80 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
                 </div>
