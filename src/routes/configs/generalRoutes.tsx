@@ -14,6 +14,7 @@ import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
 import GMBHealthPage from "@/pages/GMBHealthPage";
 import { ListingProvider } from "@/context/ListingContext";
+import { EditTeamMemberPage } from "@/pages/EditTeamMemberPage";
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -126,6 +127,16 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/settings/team-members/edit/:memberId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <EditTeamMemberPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

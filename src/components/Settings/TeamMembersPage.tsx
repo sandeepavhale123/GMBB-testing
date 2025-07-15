@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Search, Plus, Grid3X3, List, Users, Eye, Edit, Trash2, Share2, EyeOff, Copy } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -75,11 +76,11 @@ export const TeamMembersPage: React.FC = () => {
   const [roleFilter, setRoleFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<any>(null);
   const [showPasswords, setShowPasswords] = useState<Record<string, boolean>>({});
+  const navigate = useNavigate();
 
   // Filter team members based on search and role
   const filteredMembers = useMemo(() => {
@@ -96,8 +97,7 @@ export const TeamMembersPage: React.FC = () => {
   }, [searchTerm, roleFilter]);
 
   const handleEditMember = (member: any) => {
-    setSelectedMember(member);
-    setShowEditModal(true);
+    navigate(`/settings/team-members/edit/${member.id}`);
   };
 
   const handleDeleteMember = (member: any) => {
@@ -386,12 +386,6 @@ export const TeamMembersPage: React.FC = () => {
 
       {/* Modals */}
       <AddTeamMemberModal open={showAddModal} onOpenChange={setShowAddModal} />
-      
-      <EditTeamMemberModal
-        open={showEditModal}
-        onOpenChange={setShowEditModal}
-        member={selectedMember}
-      />
       
       <DeleteTeamMemberModal
         open={showDeleteModal}
