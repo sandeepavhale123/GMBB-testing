@@ -156,10 +156,12 @@ export const PublicReviewsReport: React.FC = () => {
   };
 
   return (
-    <PublicReportDashboardLayout 
-      title="Reviews Report" 
-      companyName={reviewData.companyName} 
-      companyLogo={reviewData.companyLogo}
+    <PublicReportDashboardLayout
+      title="Reviews Performance Report"
+      companyName="Sample Business"
+      companyLogo="/placeholder.svg"
+      address=""
+      token=""
     >
       <div className="space-y-6">
         {/* Overview Stats */}
