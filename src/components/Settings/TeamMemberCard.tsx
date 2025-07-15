@@ -96,7 +96,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         <p className="text-sm text-gray-500">{member.email}</p>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">
-            {showPassword ? "password123" : member.password}
+            {showPassword ? member.password : "••••••••"}
           </span>
           <Button
             variant="ghost"
@@ -111,9 +111,6 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             )}
           </Button>
         </div>
-      </div>
-
-     
 
       {/* Listings Card - Full Width */}
       <div className="mb-4">
