@@ -10,7 +10,13 @@ export const useKeywordPolling = (
   const [isPolling, setIsPolling] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const errorCountRef = useRef(0);
+  const processingKeywordsRef = useRef<string[]>([]);
   const maxErrors = 3;
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    processingKeywordsRef.current = processingKeywords;
+  }, [processingKeywords]);
 
   // Stop polling function
   const stopPolling = useCallback(() => {
@@ -33,38 +39,42 @@ export const useKeywordPolling = (
       if (document.hidden) return;
 
       try {
-        console.log('Checking keyword status for listing:', listingId);
+        console.log('🔄 Checking keyword status for listing:', listingId);
         const response = await checkKeywordStatus(listingId);
         errorCountRef.current = 0; // Reset error count on success
 
         if (response.code === 200 && response.data.keywords.length > 0) {
           const keywordNames = response.data.keywords.map(k => k.keyword);
-          console.log('Processing keywords found:', keywordNames);
+          console.log('⏳ Processing keywords found:', keywordNames);
           setProcessingKeywords(keywordNames);
         } else {
-          // No more processing keywords - only now call the callback to refresh data
-          console.log('No processing keywords found, refreshing data...');
-          const hadProcessingKeywords = processingKeywords.length > 0;
+          // No more processing keywords - check if we had processing keywords before
+          console.log('✅ No processing keywords found - checking if we should refresh data...');
+          const hadProcessingKeywords = processingKeywordsRef.current.length > 0;
+          
           setProcessingKeywords([]);
           stopPolling();
           
           // Only call the refresh callback if we previously had processing keywords
           if (hadProcessingKeywords) {
+            console.log('🔄 Calling onKeywordsUpdate after processing completion');
             try {
-              console.log('Calling onKeywordsUpdate after processing completion');
               await onKeywordsUpdate();
+              console.log('✅ Keywords refreshed successfully');
             } catch (error) {
-              console.error('Error refreshing keywords after polling:', error);
+              console.error('❌ Error refreshing keywords after polling:', error);
             }
+          } else {
+            console.log('ℹ️ No previous processing keywords, skipping refresh');
           }
         }
       } catch (error) {
-        console.error('Error checking keyword status:', error);
+        console.error('❌ Error checking keyword status:', error);
         errorCountRef.current++;
         
         // Stop polling after too many consecutive errors
         if (errorCountRef.current >= maxErrors) {
-          console.warn('Too many polling errors, stopping polling');
+          console.warn('⚠️ Too many polling errors, stopping polling');
           setProcessingKeywords([]);
           stopPolling();
         }
@@ -72,9 +82,11 @@ export const useKeywordPolling = (
     };
 
     // Initial check
+    console.log('🚀 Starting keyword polling with initial check');
     pollKeywordStatus();
 
-    // Set up polling interval
+    // Set up polling interval (5 seconds)
+    console.log('⏰ Setting up 5-second polling interval');
     intervalRef.current = setInterval(pollKeywordStatus, 5000);
   }, [listingId, shouldPoll, onKeywordsUpdate, stopPolling]);
 
@@ -94,8 +106,10 @@ export const useKeywordPolling = (
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
+        console.log('📱 Page hidden, stopping polling');
         stopPolling();
-      } else if (shouldPoll && listingId && processingKeywords.length > 0) {
+      } else if (shouldPoll && listingId && processingKeywordsRef.current.length > 0) {
+        console.log('📱 Page visible, restarting polling');
         startPolling();
       }
     };
