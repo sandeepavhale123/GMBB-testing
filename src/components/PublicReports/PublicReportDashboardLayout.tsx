@@ -175,7 +175,7 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
 
                   {/* Company Branding Card */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <div className={`flex items-center mb-4 ${isMobile ? 'flex-col space-y-2 text-center' : 'space-x-4'}`}>
+                    <div className={`flex items-center mb-4 ${isMobile ? 'space-x-4' : 'space-x-4'}`}>
                       {companyLogo ? <img src={companyLogo} alt="Company Logo" className="w-12 h-12 rounded-lg object-cover" /> : <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
                           <span className="text-lg font-bold text-white">{companyName?.charAt(0) || 'C'}</span>
                         </div>}
