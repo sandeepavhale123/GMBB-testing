@@ -323,7 +323,7 @@ export const TeamMembersPage: React.FC = () => {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleShareLink(member)}
-                            className="h-8 w-8 p-0"
+                            className="h-8 w-8 p-0 hidden"
                           >
                             <Share2 className="h-4 w-4" />
                           </Button>
