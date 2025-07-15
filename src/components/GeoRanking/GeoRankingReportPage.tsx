@@ -246,7 +246,13 @@ export const GeoRankingReportPage: React.FC = () => {
               <AlertDialogAction
                 onClick={() => {
                   setShowMultiKeywordAlert(false);
-                  navigate("/geo-ranking");
+                  // Extract submitted keywords and pass as URL parameter
+                  const submittedKeywords = formData.keywords
+                    .split(/[,;\n\r]+/)
+                    .map(k => k.trim())
+                    .filter(k => k.length > 0)
+                    .join(',');
+                  navigate(`/geo-ranking?processing=true&submittedKeywords=${encodeURIComponent(submittedKeywords)}`);
                 }}
               >
                 Go to GEO Ranking Page
