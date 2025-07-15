@@ -81,7 +81,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
       </div>
 
       {/* Member Info */}
-      <div className="space-y-2 mb-4">
+      <div className="flex items-center gap-2 mb-4">
         <div className="flex align-center"></div>
         <h3 className="font-medium text-gray-900">
           {member.firstName} {member.lastName}
