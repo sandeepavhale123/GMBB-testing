@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Plus, Grid3X3, List, Users, Eye, Edit, Trash2, ExternalLink, EyeOff, Copy } from "lucide-react";
+import { Search, Plus, Grid3X3, List, Users, Eye, Edit, Trash2, Share2, EyeOff } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -20,7 +20,7 @@ import {
 } from "../ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { AddTeamMemberModal } from "./AddTeamMemberModal";
-import { useNavigate } from "react-router-dom";
+import { EditTeamMemberModal } from "./EditTeamMemberModal";
 import { DeleteTeamMemberModal } from "./DeleteTeamMemberModal";
 import { ShareableLinkModal } from "./ShareableLinkModal";
 import { TeamMemberCard } from "./TeamMemberCard";
@@ -70,11 +70,11 @@ const roleColors = {
 };
 
 export const TeamMembersPage: React.FC = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<any>(null);
@@ -95,7 +95,8 @@ export const TeamMembersPage: React.FC = () => {
   }, [searchTerm, roleFilter]);
 
   const handleEditMember = (member: any) => {
-    navigate(`/settings/team-members/edit/${member.id}`);
+    setSelectedMember(member);
+    setShowEditModal(true);
   };
 
   const handleDeleteMember = (member: any) => {
@@ -209,62 +210,54 @@ export const TeamMembersPage: React.FC = () => {
           {viewMode === "list" ? (
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
               <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-50">
-                      <TableHead className="font-semibold text-gray-900">
-                        Team Member
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Email
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Password
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        No. of Listings
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Actions
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
+                <TableHeader>
+                  <TableRow className="bg-gray-50">
+                    <TableHead className="font-semibold text-gray-900">
+                      Team Member
+                    </TableHead>
+                    <TableHead className="font-semibold text-gray-900 text-center">
+                      Role
+                    </TableHead>
+                    <TableHead className="font-semibold text-gray-900 text-center">
+                      Password
+                    </TableHead>
+                    <TableHead className="font-semibold text-gray-900 text-center">
+                      No. of Listings
+                    </TableHead>
+                    <TableHead className="font-semibold text-gray-900 text-center">
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
                 <TableBody>
                   {filteredMembers.map((member) => (
                     <TableRow key={member.id} className="hover:bg-gray-50">
-                        <TableCell className="p-4">
-                          <div className="flex items-center space-x-3">
-                            <Avatar className="h-10 w-10">
-                              <AvatarImage src={member.profilePicture} />
-                              <AvatarFallback className="bg-blue-100 text-blue-600">
-                                {member.firstName[0]}{member.lastName[0]}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <div className="font-medium text-gray-900">
-                                {member.firstName} {member.lastName}
-                              </div>
-                              <Badge
-                                variant="outline"
-                                className={`${getRoleBadgeClass(member.role)} text-xs mt-1`}
-                              >
-                                {member.role}
-                              </Badge>
+                      <TableCell className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage src={member.profilePicture} />
+                            <AvatarFallback className="bg-blue-100 text-blue-600">
+                              {member.firstName[0]}{member.lastName[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-medium text-gray-900">
+                              {member.firstName} {member.lastName}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {member.email}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <span className="text-sm text-gray-600">{member.email}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => navigator.clipboard.writeText(member.email)}
-                              className="h-6 w-6 p-0"
-                            >
-                              <Copy className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </TableCell>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Badge
+                          variant="outline"
+                          className={getRoleBadgeClass(member.role)}
+                        >
+                          {member.role}
+                        </Badge>
+                      </TableCell>
                       <TableCell className="text-center">
                         <div className="flex items-center justify-center gap-2">
                           <span className="text-sm text-gray-600">
@@ -287,34 +280,34 @@ export const TeamMembersPage: React.FC = () => {
                       <TableCell className="text-center">
                         <span className="text-sm font-medium">{member.listingsCount}</span>
                       </TableCell>
-                        <TableCell className="text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEditMember(member)}
-                              className="h-8 w-8 p-0"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleShareLink(member)}
-                              className="h-8 w-8 p-0"
-                            >
-                              <ExternalLink className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteMember(member)}
-                              className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditMember(member)}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteMember(member)}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleShareLink(member)}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Share2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -364,6 +357,12 @@ export const TeamMembersPage: React.FC = () => {
 
       {/* Modals */}
       <AddTeamMemberModal open={showAddModal} onOpenChange={setShowAddModal} />
+      
+      <EditTeamMemberModal
+        open={showEditModal}
+        onOpenChange={setShowEditModal}
+        member={selectedMember}
+      />
       
       <DeleteTeamMemberModal
         open={showDeleteModal}

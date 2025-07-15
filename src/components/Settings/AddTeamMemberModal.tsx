@@ -88,16 +88,16 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 <Upload className="h-8 w-8" />
               </AvatarFallback>
             </Avatar>
-            <Input
-              id="profile-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleProfileUpload}
-              className="hidden"
-            />
             <Label htmlFor="profile-upload" className="cursor-pointer">
-              <Button type="button" variant="outline" size="sm" asChild>
-                <span>Upload Photo</span>
+              <Input
+                id="profile-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleProfileUpload}
+                className="hidden"
+              />
+              <Button type="button" variant="outline" size="sm">
+                Upload Photo
               </Button>
             </Label>
           </div>

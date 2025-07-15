@@ -90,7 +90,6 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
         dateRange,
         sections: selectedSections,
         listingId: selectedListing.id,
-        domain: window.location.hostname,
       });
       onOpenChange(false);
       // Reset form
