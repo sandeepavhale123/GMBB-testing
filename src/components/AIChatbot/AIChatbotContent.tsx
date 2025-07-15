@@ -58,9 +58,9 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
   };
 
   return (
-    <div className="h-full flex">
+    <div className="h-full flex flex-col lg:flex-row">
       {/* Chat History Panel */}
-      <div className={`${showHistory ? 'w-80' : 'w-0'} transition-all duration-300 overflow-hidden border-r bg-white`}>
+      <div className={`${showHistory ? 'lg:w-80 w-full' : 'w-0'} transition-all duration-300 overflow-hidden lg:border-r border-b lg:border-b-0 bg-white lg:relative absolute lg:z-auto z-50 lg:h-auto h-full`}>
         <div className="h-full flex flex-col">
           <div className="p-4 border-b">
             <div className="flex items-center justify-between">
@@ -146,79 +146,86 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-screen bg-background dark:bg-[#212121]">
+      <div className="flex-1 flex flex-col h-screen lg:h-auto bg-background dark:bg-[#212121]">
         {/* Header Section */}
-        <div className="flex-shrink-0 p-6 border-b">
-          <div className="flex items-center space-x-3">
+        <div className="flex-shrink-0 p-4 sm:p-6 border-b">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {!showHistory && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowHistory(true)}
-                className="h-8 w-8 p-0 mr-2"
+                className="h-8 w-8 p-0 mr-1 sm:mr-2 lg:hidden"
               >
                 <Menu className="h-4 w-4" />
               </Button>
             )}
-            <div className="p-2 bg-blue-500 rounded-lg">
-              <Bot className="h-6 w-6 text-white" />
+            <div className="p-1.5 sm:p-2 bg-blue-500 rounded-lg">
+              <Bot className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">AI Genie Assistance</h1>
-              <p className="text-gray-600">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">AI Genie Assistance</h1>
+              <p className="text-sm sm:text-base text-gray-600 hidden sm:block">
                 {keyword ? `Get intelligent insights and assistance for keyword "${keyword}"` : 'Get intelligent insights and assistance'}
               </p>
             </div>
             {keyword && (
-              <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+              <div className="hidden sm:flex items-center gap-2 bg-blue-50 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                 <Tag className="h-3 w-3" />
-                {keyword}
+                <span className="truncate max-w-20 sm:max-w-none">{keyword}</span>
               </div>
             )}
           </div>
+          {/* Mobile keyword display */}
+          {keyword && (
+            <div className="sm:hidden mt-2 flex items-center gap-2 bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium w-fit">
+              <Tag className="h-3 w-3" />
+              <span className="truncate max-w-32">{keyword}</span>
+            </div>
+          )}
         </div>
 
         {/* Chat Messages Area */}
         <div className="flex-1 min-h-0 overflow-hidden">
           <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-            <div className="max-w-4xl mx-auto p-6 space-y-6">
+            <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 lg:space-y-6">
               {isLoadingMessages ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-                  <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin text-blue-500" />
-                  <p className="text-sm text-gray-600">Loading chat messages...</p>
+                <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center">
+                  <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 animate-spin text-blue-500" />
+                  <p className="text-xs sm:text-sm text-gray-600">Loading chat messages...</p>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-                  <Bot className="h-16 w-16 text-blue-500 mb-4" />
-                  <h2 className="text-xl font-semibold text-gray-900 mb-2">Welcome to AI Genie Assistance</h2>
-                  <p className="text-gray-600 mb-6 max-w-md">
+                <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center px-4">
+                  <Bot className="h-12 w-12 sm:h-16 sm:w-16 text-blue-500 mb-3 sm:mb-4" />
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Welcome to AI Genie Assistance</h2>
+                  <p className="text-sm sm:text-base text-gray-600 mb-6 max-w-sm sm:max-w-md">
                     Ask me questions about your business performance, SEO optimization, geo-ranking insights, and more. 
                     Try the suggested questions to get started!
                   </p>
                 </div>
               ) : (
                 messages.map((message) => (
-                  <div key={message.id} className={`flex gap-4 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                  <div key={message.id} className={`flex gap-2 sm:gap-4 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
                     {/* Avatar */}
                     <div className="flex-shrink-0">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
                         message.type === 'user' 
                           ? 'bg-primary text-primary-foreground' 
                           : 'bg-blue-500 text-white'
                       }`}>
                         {message.type === 'user' ? (
-                          <User className="w-4 h-4" />
+                          <User className="w-3 h-3 sm:w-4 sm:h-4" />
                         ) : message.isLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                         ) : (
-                          <Bot className="w-4 h-4" />
+                          <Bot className="w-3 h-3 sm:w-4 sm:h-4" />
                         )}
                       </div>
                     </div>
                     
                     {/* Message Content */}
-                    <div className={`flex-1 max-w-[80%] ${message.type === 'user' ? 'text-right' : ''}`}>
-                      <div className={`inline-block p-4 rounded-lg ${
+                    <div className={`flex-1 max-w-[85%] sm:max-w-[80%] ${message.type === 'user' ? 'text-right' : ''}`}>
+                      <div className={`inline-block p-3 sm:p-4 rounded-lg ${
                         message.type === 'user'
                           ? 'bg-primary text-primary-foreground ml-auto'
                           : message.error 
@@ -226,12 +233,12 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                           : 'bg-muted text-foreground'
                       }`}>
                         {message.isLoading ? (
-                          <div className="flex items-center gap-2 text-sm">
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                          <div className="flex items-center gap-2 text-xs sm:text-sm">
+                            <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                             AI is thinking...
                           </div>
                         ) : (
-                          <div className="whitespace-pre-wrap text-sm leading-6">
+                          <div className="whitespace-pre-wrap text-xs sm:text-sm leading-5 sm:leading-6">
                             {message.content}
                           </div>
                         )}
@@ -295,7 +302,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         </div>
 
         {/* Chat Input Area */}
-        <div className="flex-shrink-0 p-6 border-t bg-background dark:bg-[#212121]">
+        <div className="flex-shrink-0 p-3 sm:p-4 lg:p-6 border-t bg-background dark:bg-[#212121]">
           <div className="w-full max-w-2xl mx-auto">
             <PromptBox onSendMessage={handleSendMessage} disabled={isLoading} />
           </div>
