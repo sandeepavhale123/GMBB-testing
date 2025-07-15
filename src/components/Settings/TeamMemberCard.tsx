@@ -82,9 +82,17 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
 
       {/* Member Info */}
       <div className="space-y-2 mb-4">
+        <div className="flex align-center"></div>
         <h3 className="font-medium text-gray-900">
           {member.firstName} {member.lastName}
         </h3>
+         <Badge
+          variant="outline"
+          className={getRoleBadgeClass(member.role)}
+        >
+          {member.role}
+        </Badge>
+      </div>
         <p className="text-sm text-gray-500">{member.email}</p>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">
@@ -105,15 +113,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         </div>
       </div>
 
-      {/* Role Badge */}
-      <div className="mb-4">
-        <Badge
-          variant="outline"
-          className={getRoleBadgeClass(member.role)}
-        >
-          {member.role}
-        </Badge>
-      </div>
+     
 
       {/* Listings Card - Full Width */}
       <div className="mb-4">
