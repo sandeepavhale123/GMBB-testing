@@ -121,6 +121,16 @@ export const generalRoutes: RouteConfig[] = [
     ),
   },
   {
+    path: "/settings/team-members",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <SettingsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/settings/listings/:accountId",
     element: (
       <ProtectedRoute>

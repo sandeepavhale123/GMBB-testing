@@ -15,6 +15,7 @@ import { ListingManagementPage } from "../components/Settings/ListingManagementP
 import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { BrandingPage } from "../components/Settings/BrandingPage";
 import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
+import { TeamMembersPage } from "../components/Settings/TeamMembersPage";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
@@ -61,6 +62,9 @@ const SettingsPage = () => {
     if (path.includes("/integrations")) {
       return "integrations";
     }
+    if (path.includes("/team-members")) {
+      return "team-members";
+    }
     if (path.includes("/google-account")) {
       return "google-account";
     }
@@ -91,6 +95,8 @@ const SettingsPage = () => {
         return <ReportBrandingPage />;
       case "integrations":
         return <IntegrationsPage />;
+      case "team-members":
+        return <TeamMembersPage />;
       default:
         return <ManageGoogleAccountPage />;
     }
