@@ -311,11 +311,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                     className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                     disabled={deleteLoading}
                   >
-                    {isDeleting ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Trash2 className="w-3 h-3" />
-                    )}
+                    <Trash2 className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -332,7 +328,14 @@ export const PostCard: React.FC<PostCardProps> = ({
                       onClick={handleDeletePost}
                       disabled={isDeleting}
                     >
-                      {isDeleting ? "Deleting..." : "Delete"}
+                      {isDeleting ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Deleting...
+                        </div>
+                      ) : (
+                        "Delete"
+                      )}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
