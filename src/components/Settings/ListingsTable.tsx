@@ -106,7 +106,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                       <p className="font-medium text-gray-900 truncate">{listing.name}</p>
                       {listing.address && (
                         <p className="text-sm text-gray-500 truncate">
-                          {truncateAddress(listing.address) !== "null, null":  {truncateAddress(listing.address) : '' ?}
+                          {truncateAddress(listing.address)}
                         </p>
                       )}
                     </div>
