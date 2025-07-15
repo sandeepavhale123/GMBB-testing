@@ -90,16 +90,18 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
           />
         </div>
 
-        <div className="flex items-center space-x-2 pb-2">
-          <Checkbox 
-            id="silo-post"
-            checked={formData.siloPost}
-            onCheckedChange={checked => onFormDataChange(prev => ({ ...prev, siloPost: checked as boolean }))}
-          />
-          <Label htmlFor="silo-post" className="text-sm text-gray-600">
-            Add previous post tag url by this post (Silo post)
-          </Label>
-        </div>
+        {formData.postTags.trim() && (
+          <div className="flex items-center space-x-2 pb-2">
+            <Checkbox 
+              id="silo-post"
+              checked={formData.siloPost}
+              onCheckedChange={checked => onFormDataChange(prev => ({ ...prev, siloPost: checked as boolean }))}
+            />
+            <Label htmlFor="silo-post" className="text-sm text-gray-600">
+              Add previous post tag url by this post (Silo post)
+            </Label>
+          </div>
+        )}
       </div>
     </div>
   );

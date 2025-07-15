@@ -23,12 +23,14 @@ export const useGeoRankingReport = (listingId: number) => {
   const [gridCoordinates, setGridCoordinates] = useState<string[]>([]);
   const [loadingGrid, setLoadingGrid] = useState(false);
   const [currentMarkers, setCurrentMarkers] = useState<L.Marker[]>([]);
+  const [manualCoordinates, setManualCoordinates] = useState<string[]>([]);
   const [submittingRank, setSubmittingRank] = useState(false);
   const [pollingKeyword, setPollingKeyword] = useState(false);
   const [keywordData, setKeywordData] = useState<KeywordDetailsData | null>(null);
   const [currentKeywordId, setCurrentKeywordId] = useState<string | null>(null);
   const [pollingProgress, setPollingProgress] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [previousMapPoint, setPreviousMapPoint] = useState<string>('');
 
   const [formData, setFormData] = useState<FormData>({
     searchBusinessType: 'name',
@@ -256,6 +258,14 @@ export const useGeoRankingReport = (listingId: number) => {
     if (formData.mapPoint === 'Automatic' && defaultCoordinates) {
       fetchGridCoordinates();
     }
+    
+    // Only clear manual coordinates when switching FROM another mode TO manual mode
+    if (formData.mapPoint === 'Manually' && previousMapPoint && previousMapPoint !== 'Manually') {
+      clearManualCoordinates();
+    }
+    
+    // Update previous map point
+    setPreviousMapPoint(formData.mapPoint);
   }, [formData.gridSize, formData.distanceValue, defaultCoordinates, formData.mapPoint]);
 
   // Reset distance value when unit changes (but not during clone processing)
@@ -285,6 +295,23 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  // Manual coordinates management functions
+  const addManualCoordinate = (coordinate: string) => {
+    setManualCoordinates(prev => [...prev, coordinate]);
+  };
+
+  const removeManualCoordinate = (index: number) => {
+    setManualCoordinates(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const clearManualCoordinates = () => {
+    setManualCoordinates([]);
+  };
+
+  const updateManualCoordinate = (index: number, coordinate: string) => {
+    setManualCoordinates(prev => prev.map((coord, i) => i === index ? coordinate : coord));
+  };
+
   // Helper function to detect multiple keywords
   const isMultipleKeywords = (keywords: string): boolean => {
     const keywordArray = keywords
@@ -306,8 +333,10 @@ export const useGeoRankingReport = (listingId: number) => {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         console.log(`Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`);
         
-        // Update progress every 5 seconds - cap at 85% during polling
-        const progress = Math.min((attempt / maxAttempts) * 100, 85);
+        // Update progress from 0 to 80% based on time elapsed, not attempts
+        const timeElapsed = (attempt - 1) * 5; // seconds
+        const maxTime = 240; // 4 minutes to reach 80%
+        const progress = Math.min((timeElapsed / maxTime) * 80, 80);
         setPollingProgress(progress);
         
         const response = await getKeywordDetailsWithStatus(listingId, keywordId, 1);
@@ -327,7 +356,15 @@ export const useGeoRankingReport = (listingId: number) => {
           
           // Show 100% progress for 2 seconds before displaying results
           setTimeout(() => {
-            setKeywordData(response.data as KeywordDetailsData);
+            const keywordData = response.data as KeywordDetailsData;
+            console.log('🎯 Keyword data received:', {
+              rankDetails: keywordData.rankDetails,
+              totalRankDetails: keywordData.rankDetails?.length || 0,
+              mapPoint: formData.mapPoint,
+              manualCoordinatesSubmitted: manualCoordinates.length
+            });
+            
+            setKeywordData(keywordData);
             setPollingKeyword(false);
             setPollingProgress(0);
             setIsCompleting(false);
@@ -381,11 +418,8 @@ export const useGeoRankingReport = (listingId: number) => {
         const defaultCoord = defaultCoordinates ? `${defaultCoordinates.lat},${defaultCoordinates.lng}` : null;
         coordinatesArray = defaultCoord ? [defaultCoord, ...gridCoordinates] : gridCoordinates;
       } else {
-        // Manual mode - extract coordinates from markers
-        coordinatesArray = currentMarkers.map(marker => {
-          const { lat, lng } = marker.getLatLng();
-          return `${lat},${lng}`;
-        });
+        // Manual mode - use manual coordinates
+        coordinatesArray = manualCoordinates;
       }
 
       if (coordinatesArray.length === 0) {
@@ -396,6 +430,13 @@ export const useGeoRankingReport = (listingId: number) => {
         });
         return { success: false, shouldNavigate: false };
       }
+
+      console.log('📍 Submitting coordinates:', {
+        mapPoint: formData.mapPoint,
+        coordinatesArray,
+        manualCoordinates: manualCoordinates.length,
+        gridCoordinates: gridCoordinates.length
+      });
 
       // Transform form data to API format
       const processedDistance = processDistanceValue(formData.distanceValue, formData.distanceUnit);
@@ -473,6 +514,11 @@ export const useGeoRankingReport = (listingId: number) => {
     loadingGrid,
     currentMarkers,
     setCurrentMarkers,
+    manualCoordinates,
+    addManualCoordinate,
+    removeManualCoordinate,
+    clearManualCoordinates,
+    updateManualCoordinate,
     submittingRank,
     pollingKeyword,
     pollingProgress,

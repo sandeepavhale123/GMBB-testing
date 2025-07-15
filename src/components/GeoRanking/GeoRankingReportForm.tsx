@@ -44,6 +44,8 @@ interface GeoRankingReportFormProps {
   languageOptions: Array<{ value: string; label: string }>;
   submittingRank?: boolean;
   pollingKeyword?: boolean;
+  manualCoordinates?: string[];
+  onClearManualCoordinates?: () => void;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
@@ -54,6 +56,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   languageOptions,
   submittingRank = false,
   pollingKeyword = false,
+  manualCoordinates = [],
+  onClearManualCoordinates,
 }) => {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
@@ -221,10 +225,26 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               </SelectContent>
             </Select>
             {formData.mapPoint === "Manually" && (
-              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                Click on the map to place points manually. You can drag them to
-                reposition.
-              </p>
+              <div className="space-y-2">
+                <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                  Click on the map to place points manually. You can drag them to
+                  reposition.
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-600">
+                    Points selected: {manualCoordinates.length}
+                  </span>
+                  {manualCoordinates.length > 0 && onClearManualCoordinates && (
+                    <button
+                      type="button"
+                      onClick={onClearManualCoordinates}
+                      className="text-xs text-red-600 hover:text-red-800 underline"
+                    >
+                      Clear All Points
+                    </button>
+                  )}
+                </div>
+              </div>
             )}
           </div>
 

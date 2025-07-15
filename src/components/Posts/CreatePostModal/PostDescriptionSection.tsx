@@ -31,13 +31,26 @@ export const PostDescriptionSection: React.FC<PostDescriptionSectionProps> = ({
           Use GMB Genie to Write
         </Button>
       </div>
-      <Textarea 
-        value={description} 
-        onChange={e => onDescriptionChange(e.target.value)} 
-        placeholder="Write your post description..." 
-        rows={7} 
-        className="resize-none text-sm sm:text-base" 
-      />
+      <div className="space-y-2">
+        <Textarea 
+          value={description} 
+          onChange={e => {
+            const value = e.target.value;
+            if (value.length <= 1500) {
+              onDescriptionChange(value);
+            }
+          }}
+          placeholder="Write your post description..." 
+          rows={7} 
+          className="resize-none text-sm sm:text-base" 
+          maxLength={1500}
+        />
+        <div className="flex justify-end">
+          <span className={`text-xs ${description.length > 1400 ? 'text-destructive' : 'text-muted-foreground'}`}>
+            {description.length}/1500
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

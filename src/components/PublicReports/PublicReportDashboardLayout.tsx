@@ -15,6 +15,8 @@ import {
   Moon,
   Target,
   FileText,
+  X,
+  Menu,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -23,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -104,6 +107,8 @@ export const PublicReportDashboardLayout: React.FC<
   console.log("visible section", visibleSections);
   console.log("sidebar items", sidebarItems);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useIsMobile();
   const getCurrentReportName = () => {
     const path = location.pathname;
     return sidebarItems.find((item) => path.includes(item.name))?.name || "";
@@ -113,9 +118,22 @@ export const PublicReportDashboardLayout: React.FC<
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-white flex">
+      <div className="min-h-screen bg-white flex relative">
+        {/* Mobile Overlay */}
+        {isMobile && sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
         {/* Fixed Icon Sidebar */}
-        <aside className="fixed left-0 top-0 h-full w-24 bg-white/80 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8 px-2">
+        <aside
+          className={`
+          fixed left-0 top-0 h-full bg-white/95 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8 px-2 transition-transform duration-300
+          ${isMobile ? "w-24" : "w-24"}
+          ${isMobile && !sidebarOpen ? "-translate-x-full" : "translate-x-0"}
+        `}
+        >
           {/* Favicon at Top */}
           <div className="mb-8">
             <img
@@ -135,7 +153,10 @@ export const PublicReportDashboardLayout: React.FC<
                 <Tooltip key={item.id}>
                   <TooltipTrigger asChild>
                     <button
-                      onClick={() => navigate(item.path)}
+                      onClick={() => {
+                        navigate(item.path);
+                        if (isMobile) setSidebarOpen(false);
+                      }}
                       className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isActive
                           ? "bg-primary text-white shadow-md"
@@ -155,53 +176,101 @@ export const PublicReportDashboardLayout: React.FC<
         </aside>
 
         {/* Main Content Area */}
-        <div className="flex-1 ml-24 flex flex-col">
+        <div
+          className={`flex-1 flex flex-col transition-all duration-300 ${
+            isMobile ? "ml-0" : "ml-24"
+          }`}
+        >
           {/* Dark Header */}
-          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10">
+          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10 relative">
+            {/* Mobile Menu Button */}
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="absolute top-4 left-4 p-2 bg-white/20 rounded-lg backdrop-blur-sm z-20"
+              >
+                {sidebarOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            )}
+
             <h2
               className="text-3xl font-bold text-white"
               style={{
-                marginTop: "30px",
+                marginTop: isMobile ? "60px" : "30px",
                 textAlign: "center",
               }}
             >
               {title}
             </h2>
             <div
-              className="container mx-auto flex items-center justify-between px-8"
+              className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${
+                isMobile ? "flex-col space-y-4" : ""
+              }`}
               style={{
                 paddingTop: "20px",
                 paddingBottom: "50px",
               }}
             >
               {/* Left: Business Branding */}
-              <div className="flex items-center space-x-4">
+              <div className={`flex items-center space-x-4`}>
                 {companyLogo ? (
                   <img
                     src={companyLogo}
                     alt="Business Logo"
-                    className="w-16 h-16 rounded-lg object-cover"
+                    className={`rounded-lg object-cover ${
+                      isMobile ? "w-12 h-12" : "w-16 h-16"
+                    }`}
                   />
                 ) : (
-                  <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">
+                  <div
+                    className={`bg-white rounded-lg flex items-center justify-center ${
+                      isMobile ? "w-12 h-12" : "w-16 h-16"
+                    }`}
+                  >
+                    <span
+                      className={`font-bold text-gray-900 ${
+                        isMobile ? "text-lg" : "text-2xl"
+                      }`}
+                    >
                       {companyName?.charAt(0) || "B"}
                     </span>
                   </div>
                 )}
-                <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold">{companyName}</h1>
-                  <p className="text-lg text-gray-300">{address}</p>
+                <div
+                  className={`flex flex-col ${isMobile ? " space-y-1" : ""}`}
+                >
+                  <h1
+                    className={`font-bold text-white ${
+                      isMobile ? "text-base" : "text-2xl"
+                    }`}
+                  >
+                    {companyName}
+                  </h1>
+                  <p
+                    className={`text-gray-300 ${
+                      isMobile
+                        ? "text-xs leading-tight max-w-[280px]"
+                        : "text-lg"
+                    }`}
+                  >
+                    123 Main Street, Business City, BC 12345
+                  </p>
                 </div>
               </div>
 
-              {/* Center: Report Title */}
-              <div className="flex-1 text-center"></div>
+              {/* Center: Report Title - Hidden on mobile as it's already in the header */}
+              {!isMobile && <div className="flex-1 text-center"></div>}
 
               {/* Right: Report Date */}
-              <div className="text-right">
+              <div className={`${isMobile ? "text-center" : "text-right"}`}>
                 <p className="text-sm text-gray-400">Report Date</p>
-                <p className="text-lg text-white">
+                <p
+                  className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
+                >
                   {new Date().toLocaleDateString()}
                 </p>
               </div>
@@ -215,7 +284,9 @@ export const PublicReportDashboardLayout: React.FC<
               marginTop: "-100px",
             }}
           >
-            <div className="container mx-auto p-8">{children}</div>
+            <div className={`container mx-auto ${isMobile ? "p-4" : "p-8"}`}>
+              {children}
+            </div>
           </main>
 
           {/* CTA Section */}
@@ -223,13 +294,21 @@ export const PublicReportDashboardLayout: React.FC<
             className="relative overflow-hidden"
             style={{ backgroundColor: "#1e293b" }}
           >
-            <div className="container mx-auto px-6 py-20">
+            <div
+              className={`container mx-auto ${
+                isMobile ? "px-4 py-12" : "px-6 py-20"
+              }`}
+            >
               <div className="grid grid-cols-1 gap-12 items-center">
                 {/* Left Content */}
                 <div className="text-white">
                   {/* Company Branding Card */}
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                    <div className="flex items-center space-x-4 mb-4">
+                    <div
+                      className={`flex items-center mb-4 ${
+                        isMobile ? "space-x-4" : "space-x-4"
+                      }`}
+                    >
                       {companyLogo ? (
                         <img
                           src={companyLogo}
@@ -243,7 +322,7 @@ export const PublicReportDashboardLayout: React.FC<
                           </span>
                         </div>
                       )}
-                      <div>
+                      <div className={isMobile ? "text-center" : ""}>
                         <h3 className="text-lg font-semibold text-white">
                           {companyName}
                         </h3>
@@ -253,7 +332,11 @@ export const PublicReportDashboardLayout: React.FC<
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div
+                      className={`grid gap-3 text-sm ${
+                        isMobile ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"
+                      }`}
+                    >
                       <div className="text-white/90">
                         <span className="text-white/70">Email: </span>
                         contact@
@@ -290,12 +373,22 @@ export const PublicReportDashboardLayout: React.FC<
           </section>
 
           {/* Footer */}
-          <footer className="bg-white border-t border-gray-100 px-6 py-4 flex items-center justify-between text-sm text-gray-500">
-            <div>
+          <footer
+            className={`bg-white border-t border-gray-100 px-6 py-4 text-sm text-gray-500 ${
+              isMobile
+                ? "flex-col space-y-2"
+                : "flex items-center justify-between"
+            }`}
+          >
+            <div className={isMobile ? "text-center" : ""}>
               Created by{" "}
               <span className="font-medium text-gray-700">{companyName}</span>
             </div>
-            <div className="flex items-center space-x-6">
+            <div
+              className={`flex items-center ${
+                isMobile ? "justify-center space-x-4" : "space-x-6"
+              }`}
+            >
               <button className="hover:text-gray-700 transition-colors">
                 About
               </button>
