@@ -61,14 +61,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           >
             <Edit className="h-4 w-4" />
           </Button>
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             onClick={() => onShare(member)}
             className="h-8 w-8 p-0"
           >
             <Share2 className="h-4 w-4" />
-          </Button>
+          </Button> */}
           <Button
             variant="ghost"
             size="sm"
@@ -94,7 +94,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         </Badge>
       </div>
         <p className="text-sm text-gray-500">{member.email}</p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-4">
           <span className="text-sm text-gray-600">
             {showPassword ? member.password : "••••••••"}
           </span>
