@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Trash2, Copy, Eye, Loader2 } from "lucide-react";
+import { Calendar, Trash2, Copy, Eye, Loader2, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -282,6 +282,17 @@ export const PostCard: React.FC<PostCardProps> = ({
             >
               <Eye className="w-3 h-3" />
             </Button>
+            {post.searchUrl && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => window.open(post.searchUrl, "_blank")}
+                title="Open post on Google"
+              >
+                <ArrowUpRight className="w-3 h-3" />
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"
