@@ -16,6 +16,7 @@ import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { BrandingPage } from "../components/Settings/BrandingPage";
 import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
 import { TeamMembersPage } from "../components/Settings/TeamMembersPage";
+import { EditTeamMemberSettings } from "../components/Settings/EditTeamMemberSettings";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
@@ -71,6 +72,11 @@ const SettingsPage = () => {
     return "google-account"; // default
   };
 
+  // Check if we're on edit team member route
+  const isEditTeamMember = () => {
+    return location.pathname.includes("/settings/team-members/edit/");
+  };
+
   // Redirect base /settings to /settings/google-account
   if (location.pathname === "/settings") {
     return <Navigate to="/settings/google-account" replace />;
@@ -82,6 +88,11 @@ const SettingsPage = () => {
   const renderTabContent = () => {
     if (currentView === "listings" && accountId) {
       return <ListingManagementPage accountId={accountId} />;
+    }
+
+    // Check if we're on edit team member route
+    if (isEditTeamMember()) {
+      return <EditTeamMemberSettings />;
     }
 
     switch (activeTab) {
@@ -146,8 +157,8 @@ const SettingsPage = () => {
               showFilters={false}
             />
 
-            {/* Settings Sub Header - Only show on main view */}
-            {currentView === "main" && (
+            {/* Settings Sub Header - Only show on main view and not on edit team member */}
+            {currentView === "main" && !isEditTeamMember() && (
               <SettingsSubHeader activeTab={activeTab} />
             )}
 
