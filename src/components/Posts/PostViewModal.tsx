@@ -98,7 +98,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           </div>
 
           {/* Post Content */}
-          <p className="text-gray-600 text-sm leading-relaxed h-56 overflow-x-auto sm:h-72">
+          <p className="text-gray-600 text-sm leading-relaxed max-h-56 overflow-y-auto sm:max-h-72">
             {post.content}
           </p>
 
