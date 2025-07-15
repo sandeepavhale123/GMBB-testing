@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useKeywords } from './useKeywords';
 import { useKeywordDetails } from './useKeywordDetails';
 import { useKeywordPolling } from './useKeywordPolling';
@@ -51,23 +51,43 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetailsManually
   });
 
-  // Enhanced polling callback with progress tracking
-  const enhancedKeywordsCallback = useCallback(async () => {
-    if (isPollingActive) {
-      setPollingProgress(prev => {
-        const newProgress = Math.min(prev + 5, 85); // Cap at 85%
-        return newProgress;
-      });
-    }
+  // First create a simple callback without dependency on processingKeywords
+  const simpleKeywordsCallback = useCallback(async () => {
     return await fetchKeywords(true);
-  }, [fetchKeywords, isPollingActive]);
+  }, [fetchKeywords]);
 
-  // Polling for keyword status - only poll when refresh is active or custom polling is active
+  // Polling for keyword status - always enable polling to check for processing keywords
   const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
     listingId,
-    enhancedKeywordsCallback,
-    refreshPollingActive || isPollingActive
+    simpleKeywordsCallback,
+    true
   );
+
+  // Effect to handle progress when processing keywords exist
+  useEffect(() => {
+    if (processingKeywords.length > 0 && !refreshPollingActive) {
+      // Start progress tracking for processing keywords
+      setPollingProgress(prev => prev === 0 ? 10 : prev); // Initialize if not started
+      
+      // Increment progress periodically
+      const progressInterval = setInterval(() => {
+        setPollingProgress(prev => {
+          const newProgress = Math.min(prev + 5, 85); // Cap at 85%
+          return newProgress;
+        });
+      }, 3000); // Update every 3 seconds
+      
+      return () => clearInterval(progressInterval);
+    } else if (processingKeywords.length === 0 && !refreshPollingActive) {
+      // Reset progress when no processing keywords
+      setPollingProgress(0);
+    }
+  }, [processingKeywords.length, refreshPollingActive]);
+
+  // Enhanced polling callback with progress tracking (now processingKeywords is available)
+  const enhancedKeywordsCallback = useCallback(async () => {
+    return await fetchKeywords(true);
+  }, [fetchKeywords]);
 
   // Combined error state
   const error = keywordsError || keywordDetailsError;
@@ -121,8 +141,8 @@ export const useGeoRanking = (listingId: number) => {
     refreshing,
     refreshError,
     refreshProgress,
-    pollingProgress,
-    isPollingActive,
+    pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress, // Use refresh progress when refreshing, otherwise use polling progress
+    isPollingActive: isPolling || refreshPollingActive, // Show as active when either polling or refreshing
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange,
