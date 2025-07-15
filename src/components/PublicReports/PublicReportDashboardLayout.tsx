@@ -5,7 +5,6 @@ import { BarChart3, Star, MapPin, Heart, Image, LogOut, Search, Bell, User, Sun,
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
   title: string;
@@ -14,7 +13,6 @@ interface PublicReportDashboardLayoutProps {
   onExport?: () => void;
   onShare?: () => void;
 }
-
 const sidebarItems = [{
   id: 'gmb-health',
   label: 'GMB Health',
@@ -46,7 +44,6 @@ const sidebarItems = [{
   icon: MapPin,
   path: '/public-reports/geo-ranking/demo-token'
 }];
-
 export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutProps> = ({
   children,
   title,
@@ -60,14 +57,11 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isMobile = useIsMobile();
-
   const getCurrentReportId = () => {
     const path = location.pathname;
     return sidebarItems.find(item => path.includes(item.id))?.id || '';
   };
-
   const currentReportId = getCurrentReportId();
-
   return <TooltipProvider>
       <div className="min-h-screen bg-white flex relative">
         {/* Mobile Overlay */}
@@ -118,15 +112,6 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
         <div className={`flex-1 flex flex-col transition-all duration-300 ${isMobile ? 'ml-0' : 'ml-24'}`}>
           {/* Dark Header */}
           <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10 relative">
-            {/* Report Date - Top Right */}
-            <div className={`${isMobile ? 'absolute top-4 right-4 z-20' : 'absolute top-6 right-6'}`}>
-              <div className="text-right">
-                <span className={`text-white ${isMobile ? 'text-sm' : 'text-base'}`}>
-                  Report Date: {new Date().toLocaleDateString()}
-                </span>
-              </div>
-            </div>
-
             {/* Mobile Menu Button */}
             {isMobile && (
               <button
@@ -141,28 +126,40 @@ export const PublicReportDashboardLayout: React.FC<PublicReportDashboardLayoutPr
               marginTop: isMobile ? "60px" : "30px",
               textAlign: "center"
             }}>{title}</h2>
-            <div className={`container mx-auto px-4 md:px-8 ${isMobile ? 'flex items-center justify-center' : 'flex items-center justify-between'}`} style={{
+            <div className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${isMobile ? 'flex-col space-y-4' : ''}`} style={{
               paddingTop: '20px',
               paddingBottom: '50px'
             }}>
-              {/* Business Branding - Centered on mobile */}
-              <div className={`flex items-center ${isMobile ? 'space-x-4' : 'space-x-4'}`}>
-                {companyLogo ? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-16 h-16'}`}>
-                    <span className={`font-bold text-gray-900 ${isMobile ? 'text-sm' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
+              {/* Left: Business Branding */}
+              <div className={`flex items-center ${isMobile ? 'flex-col space-y-3 text-center' : 'space-x-4'}`}>
+                {companyLogo ? <img src={companyLogo} alt="Business Logo" className={`rounded-lg object-cover ${isMobile ? 'w-12 h-12' : 'w-16 h-16'}`} /> : <div className={`bg-white rounded-lg flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'w-16 h-16'}`}>
+                    <span className={`font-bold text-gray-900 ${isMobile ? 'text-lg' : 'text-2xl'}`}>{companyName?.charAt(0) || 'B'}</span>
                   </div>}
-                <div className={`flex flex-col`}>
-                  <h1 className={`font-bold text-white ${isMobile ? 'text-base' : 'text-2xl'}`}>{companyName}</h1>
-                  <p className={`text-white/80 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
+                <div className={`flex flex-col ${isMobile ? 'items-center space-y-1' : ''}`}>
+                  <h1 className={`font-bold ${isMobile ? 'text-lg' : 'text-2xl'}`}>{companyName}</h1>
+                  <p className={`text-gray-300 ${isMobile ? 'text-xs leading-tight max-w-[280px]' : 'text-lg'}`}>123 Main Street, Business City, BC 12345</p>
                 </div>
+              </div>
+
+              {/* Center: Report Title - Hidden on mobile as it's already in the header */}
+              {!isMobile && (
+                <div className="flex-1 text-center">
+                </div>
+              )}
+
+              {/* Right: Report Date */}
+              <div className={`${isMobile ? 'text-center' : 'text-right'}`}>
+                <p className="text-sm text-gray-400">Report Date</p>
+                <p className={`text-white ${isMobile ? 'text-base' : 'text-lg'}`}>{new Date().toLocaleDateString()}</p>
               </div>
             </div>
           </header>
 
           {/* Main Content */}
           <main className="flex-1 overflow-auto relative z-40" style={{
-            marginTop: '0'
+            marginTop: '-100px'
           }}>
-            <div className={`${isMobile ? 'w-full px-4 py-6' : 'container mx-auto p-8'}`}>
+            <div className={`container mx-auto ${isMobile ? 'p-4' : 'p-8'}`}>
                 {children}
             </div>
           </main>
