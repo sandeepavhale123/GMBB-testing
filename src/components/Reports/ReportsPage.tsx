@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { Button } from '../ui/button';
-import { Plus } from 'lucide-react';
-import { useListingContext } from '@/context/ListingContext';
-import { useReports } from '@/hooks/useReports';
-import { ReportsTable } from './ReportsTable';
-import { CreateReportModal } from './CreateReportModal';
+import React, { useState } from "react";
+import { Button } from "../ui/button";
+import { Plus } from "lucide-react";
+import { useListingContext } from "@/context/ListingContext";
+import { useReports } from "@/hooks/useReports";
+import { ReportsTable } from "./ReportsTable";
+import { CreateReportModal } from "./CreateReportModal";
 
 export const ReportsPage: React.FC = () => {
   const { selectedListing } = useListingContext();
-  const { data: reports, isLoading, error } = useReports(selectedListing?.id || '');
+  const {
+    data: reports,
+    isLoading,
+    error,
+  } = useReports(selectedListing?.id || "");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   if (isLoading) {
@@ -31,7 +35,9 @@ export const ReportsPage: React.FC = () => {
     return (
       <div className="p-6">
         <div className="text-center py-12">
-          <p className="text-destructive">Error loading reports. Please try again.</p>
+          <p className="text-destructive">
+            Error loading reports. Please try again.
+          </p>
         </div>
       </div>
     );
@@ -42,7 +48,7 @@ export const ReportsPage: React.FC = () => {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Reports</h1>
-        <Button 
+        <Button
           onClick={() => setIsCreateModalOpen(true)}
           className="flex items-center gap-2"
         >
@@ -55,7 +61,7 @@ export const ReportsPage: React.FC = () => {
       <ReportsTable reports={reports || []} />
 
       {/* Create Report Modal */}
-      <CreateReportModal 
+      <CreateReportModal
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
       />

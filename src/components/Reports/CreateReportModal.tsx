@@ -1,57 +1,76 @@
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-import { Checkbox } from '../ui/checkbox';
-import { Calendar } from '../ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { useListingContext } from '@/context/ListingContext';
-import { useCreateReport } from '@/hooks/useReports';
-import { REPORT_SECTIONS, ReportSectionId } from '@/types/reportTypes';
-import { DateRange } from 'react-day-picker';
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Checkbox } from "../ui/checkbox";
+import { Calendar } from "../ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useListingContext } from "@/context/ListingContext";
+import { useCreateReport } from "@/hooks/useReports";
+import { REPORT_SECTIONS, ReportSectionId } from "@/types/reportTypes";
+import { DateRange } from "react-day-picker";
 
 interface CreateReportModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOpenChange }) => {
+export const CreateReportModal: React.FC<CreateReportModalProps> = ({
+  open,
+  onOpenChange,
+}) => {
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();
-  
-  const [reportName, setReportName] = useState('');
-  const [reportType, setReportType] = useState<'Individual' | 'Compare'>('Individual');
+
+  const [reportName, setReportName] = useState("");
+  const [reportType, setReportType] = useState<"Individual" | "Compare">(
+    "Individual"
+  );
   const [showSections, setShowSections] = useState(false);
-  const [selectedSections, setSelectedSections] = useState<ReportSectionId[]>(['insights']);
+  const [selectedSections, setSelectedSections] = useState<ReportSectionId[]>([
+    "gmb-health",
+    "insights",
+    "reviews",
+    "posts",
+    "media",
+    "geo-ranking",
+  ]);
   const [individualDate, setIndividualDate] = useState<DateRange | undefined>();
   const [period1Date, setPeriod1Date] = useState<DateRange | undefined>();
   const [period2Date, setPeriod2Date] = useState<DateRange | undefined>();
 
   const handleSectionToggle = (sectionId: ReportSectionId) => {
-    setSelectedSections(prev => 
-      prev.includes(sectionId) 
-        ? prev.filter(id => id !== sectionId)
+    setSelectedSections((prev) =>
+      prev.includes(sectionId)
+        ? prev.filter((id) => id !== sectionId)
         : [...prev, sectionId]
     );
   };
 
   const handleGenerate = async () => {
+    console.log("generate is clicked with id", selectedListing?.id);
     if (!selectedListing?.id) return;
 
     let dateRange;
-    if (reportType === 'Individual') {
+    if (reportType === "Individual") {
       if (!individualDate?.from || !individualDate?.to) return;
       dateRange = {
         from: individualDate.from,
         to: individualDate.to,
       };
     } else {
-      if (!period1Date?.from || !period1Date?.to || !period2Date?.from || !period2Date?.to) return;
+      if (
+        !period1Date?.from ||
+        !period1Date?.to ||
+        !period2Date?.from ||
+        !period2Date?.to
+      )
+        return;
       dateRange = {
         period1: {
           from: period1Date.from,
@@ -74,15 +93,22 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
       });
       onOpenChange(false);
       // Reset form
-      setReportName('');
-      setReportType('Individual');
+      setReportName("");
+      setReportType("Individual");
       setShowSections(false);
-      setSelectedSections(['insights']);
+      setSelectedSections([
+        "gmb-health",
+        "insights",
+        "reviews",
+        "posts",
+        "media",
+        "geo-ranking",
+      ]);
       setIndividualDate(undefined);
       setPeriod1Date(undefined);
       setPeriod2Date(undefined);
     } catch (error) {
-      console.error('Failed to create report:', error);
+      console.error("Failed to create report:", error);
     }
   };
 
@@ -96,7 +122,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
         <div className="space-y-6">
           {/* Report Name Field */}
           <div className="space-y-2">
-            <Label htmlFor="reportName" className="text-sm font-medium">Report Name</Label>
+            <Label htmlFor="reportName" className="text-sm font-medium">
+              Report Name
+            </Label>
             <Input
               id="reportName"
               type="text"
@@ -107,19 +135,30 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
           </div>
 
           {/* Report Type Toggle */}
-          <div className="flex items-center space-x-2">
-            <Switch
-              checked={reportType === 'Compare'}
-              onCheckedChange={(checked) => setReportType(checked ? 'Compare' : 'Individual')}
-            />
-            <Label>{reportType === 'Individual' ? 'Individual Report' : 'Compare Report'}</Label>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Report Type</Label>
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={reportType === "Compare"}
+                onCheckedChange={(checked) =>
+                  setReportType(checked ? "Compare" : "Individual")
+                }
+              />
+              <Label>
+                {reportType === "Individual"
+                  ? "Compare Report"
+                  : "Compare Report"}
+              </Label>
+            </div>
           </div>
 
           {/* Date Range Pickers */}
           <div className="space-y-4">
-            {reportType === 'Individual' ? (
+            {reportType === "Individual" ? (
               <div>
-                <Label className="text-sm font-medium mb-2 block">Date Range</Label>
+                <Label className="text-sm font-medium mb-2 block">
+                  Date Range
+                </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -160,7 +199,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
             ) : (
               <div className="space-y-4">
                 <div>
-                  <Label className="text-sm font-medium mb-2 block">Period 1</Label>
+                  <Label className="text-sm font-medium mb-2 block">
+                    Period 1
+                  </Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -199,7 +240,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
                   </Popover>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium mb-2 block">Period 2</Label>
+                  <Label className="text-sm font-medium mb-2 block">
+                    Period 2
+                  </Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -243,10 +286,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
 
           {/* Section Toggle */}
           <div className="flex items-center space-x-2">
-            <Switch
-              checked={showSections}
-              onCheckedChange={setShowSections}
-            />
+            <Switch checked={showSections} onCheckedChange={setShowSections} />
             <Label>Toggle to show or hide sections of the report</Label>
           </div>
 
@@ -276,11 +316,11 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({ open, onOp
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Close
             </Button>
-            <Button 
+            <Button
               onClick={handleGenerate}
               disabled={isPending || !selectedListing?.id || !reportName.trim()}
             >
-              {isPending ? 'Generating...' : 'Generate'}
+              {isPending ? "Generating..." : "Generate"}
             </Button>
           </div>
         </div>

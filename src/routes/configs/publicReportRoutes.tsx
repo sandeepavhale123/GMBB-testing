@@ -1,6 +1,5 @@
 import { Navigate } from "react-router-dom";
 import { RouteConfig } from "../routeConfig";
-import { PublicReportsLanding } from "@/components/PublicReports/PublicReportsLanding";
 import { PublicGMBHealthReport } from "@/components/PublicReports/PublicGMBHealthReport";
 import { PublicGeoRankingReport } from "@/components/PublicReports/PublicGeoRankingReport";
 import { PublicReviewsReport } from "@/components/PublicReports/PublicReviewsReport";
@@ -10,31 +9,27 @@ import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPo
 
 export const publicReportRoutes: RouteConfig[] = [
   {
-    path: "/public-reports",
-    element: <PublicReportsLanding />,
-  },
-  {
-    path: "/public-reports/gmb-health/:token",
+    path: "/gmb-health/:token",
     element: <PublicGMBHealthReport />,
   },
   {
-    path: "/public-reports/geo-ranking/:token",
+    path: "/gmb-ranking/:token",
     element: <PublicGeoRankingReport />,
   },
   {
-    path: "/public-reports/reviews/:token",
+    path: "/gmb-review/:token",
     element: <PublicReviewsReport />,
   },
   {
-    path: "/public-reports/insights/:token",
+    path: "/gmb-insight/:token",
     element: <PublicInsightsReport />,
   },
   {
-    path: "/public-reports/media/:token",
+    path: "/gmb-media/:token",
     element: <PublicMediaReport />,
   },
   {
-    path: "/public-reports/post-performance/:token",
+    path: "/gmb-post/:token",
     element: <PublicPostPerformanceReport />,
   },
 ];
