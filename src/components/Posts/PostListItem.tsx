@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Edit, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
+import { formatScheduledDate } from '../../utils/dateUtils';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { PostViewModal } from './PostViewModal';
@@ -142,9 +143,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post, onClonePost })
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <div className="flex items-center">
               <Calendar className="w-3 h-3 mr-1" />
-              {new Date(post.publishDate).toLocaleDateString()}
+              {formatScheduledDate(post.publishDate)}
             </div>
-            <span>{post.business}</span>
             {post.tags && (
               <span className="text-blue-600">{post.tags}</span>
             )}
