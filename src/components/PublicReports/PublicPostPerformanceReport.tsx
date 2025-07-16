@@ -255,9 +255,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
   return (
     <PublicReportDashboardLayout
       title="Post Performance Report"
-      companyName={postData?.data.locationName}
+      listingName={postData?.data.locationName}
       address={postData?.data.address}
-      companyLogo={postData?.data?.companyLogo}
+      logo={postData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
     >
@@ -491,7 +491,11 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     )
                   ) : (
                     <p className="text-muted-foreground text-sm">
-                      No posts available for Period One.
+                      <img
+                        src="../../../public/nodata.svg"
+                        alt="No Data"
+                        className="h-64"
+                      />
                     </p>
                   )}
                 </div>

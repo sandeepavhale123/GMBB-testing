@@ -971,9 +971,9 @@ export const PublicGMBHealthReport: React.FC = () => {
   return isPublicLayout ? (
     <PublicReportDashboardLayout
       title="GMB Health Report"
-      companyName={healthData?.data.locationName}
+      listingName={healthData?.data.locationName}
       address={healthData?.data.address}
-      companyLogo={healthData?.data?.companyLogo}
+      logo={healthData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
     >

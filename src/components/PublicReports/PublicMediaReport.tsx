@@ -1,187 +1,175 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
-import { Image, Play, Eye, Heart, Share2, TrendingUp, Video, ArrowUp, ArrowDown } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import React, { useState } from "react";
+import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Image, Play, Eye, Video, ArrowUp, ArrowDown } from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+import { usePerformanceMediaReport } from "@/hooks/useReports";
 
 export const PublicMediaReport: React.FC = () => {
-  const { token } = useParams();
-  const [isComparison, setIsComparison] = useState(false);
+  // Extract reportId from URL
+  const reportId = window.location.pathname.split("/").pop() || "";
 
-  // Sample data for individual mode
-  const individualData = {
-    companyName: 'Demo Business',
-    companyLogo: null,
-    overview: {
-      totalMedia: 89,
-      totalPhotos: 67,
-      totalVideos: 15,
-      topPerforming: 12
-    },
-    chartData: [
-      { date: 'Jan 1', uploads: 8},
-      { date: 'Jan 8', uploads: 12},
-      { date: 'Jan 15', uploads: 10 },
-      { date: 'Jan 22', uploads: 15 },
-      { date: 'Jan 29', uploads: 13},
-      { date: 'Feb 5', uploads: 18},
-      { date: 'Feb 12', uploads: 14 }
-    ],
-    topPerforming: [
-      {
-        id: 1,
-        type: 'photo',
-        title: 'Signature Dish Presentation',
-        views: 2340,
-        likes: 187,
-        shares: 23,
-        engagement: 9.8,
-        uploadDate: '2024-01-15'
-      },
-      {
-        id: 2,
-        type: 'video',
-        title: 'Kitchen Behind the Scenes',
-        views: 1890,
-        likes: 234,
-        shares: 45,
-        engagement: 14.7,
-        uploadDate: '2024-01-12'
-      },
-      {
-        id: 3,
-        type: 'photo',
-        title: 'Restaurant Interior',
-        views: 1650,
-        likes: 123,
-        shares: 18,
-        engagement: 8.5,
-        uploadDate: '2024-01-10'
-      }
-    ]
-  };
+  const {
+    data: mediaReport,
+    isLoading,
+    isError,
+  } = usePerformanceMediaReport(reportId);
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading report</p>;
 
-  // Sample data for comparison mode
-  const comparisonData = {
-    ...individualData,
-    current: {
-      totalMedia: 89,
-      totalPhotos: 67,
-      totalVideos: 15,
-      topPerforming: 12
-    },
-    previous: {
-      totalMedia: 76,
-      totalPhotos: 58,
-      totalVideos: 12,
-      topPerforming: 9
-    },
-    chartData: [
-      { date: 'Jan 1', currentUploads: 8, previousUploads: 6 },
-      { date: 'Jan 8', currentUploads: 12, previousUploads: 9 },
-      { date: 'Jan 15', currentUploads: 10, previousUploads: 8},
-      { date: 'Jan 22', currentUploads: 15, previousUploads: 11 },
-      { date: 'Jan 29', currentUploads: 13, previousUploads: 10 },
-      { date: 'Feb 5', currentUploads: 18, previousUploads: 12 },
-      { date: 'Feb 12', currentUploads: 14, previousUploads: 11 }
-    ]
-  };
+  console.log("Media Report:", mediaReport);
 
-  const currentData = isComparison ? comparisonData : individualData;
+  // data from api
+  const reportType = mediaReport?.data?.reportType.toLowerCase(); // 'individual' or 'compare'
+  const periodOne = mediaReport?.data?.periodOne?.summary;
+  const periodTwo = mediaReport?.data?.periodTwo?.summary;
+  const changeSummary = mediaReport?.data?.changeSummary;
 
-  const getMediaIcon = (type: string) => {
-    switch (type) {
-      case 'photo': return <Image className="h-4 w-4" />;
-      case 'video': return <Play className="h-4 w-4" />;
-      default: return <Image className="h-4 w-4" />;
-    }
-  };
+  // Extract visible sections from API response
+  const visibleSections = Object.entries(mediaReport?.data.visibleSection || {})
+    .filter(([_, value]) => value === "1")
+    .map(([key]) => key);
 
-  const calculateChange = (current: number, previous: number) => {
-    const change = ((current - previous) / previous) * 100;
-    return {
-      value: change,
-      isPositive: change >= 0
-    };
-  };
-
-  const renderChangeIndicator = (current: number, previous: number) => {
-    const { value, isPositive } = calculateChange(current, previous);
+  const renderChangeIndicator = (value: string) => {
+    console.log("change summary..", value);
+    const isPositive = value >= 0;
+    console.log("positive summary", isPositive);
     return (
-      <div className={`flex items-center justify-center gap-1 text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-        {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+      <div
+        className={`flex items-center justify-center gap-1 text-xs ${
+          isPositive ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {isPositive ? (
+          <ArrowUp className="h-3 w-3" />
+        ) : (
+          <ArrowDown className="h-3 w-3" />
+        )}
         <span>{Math.abs(value).toFixed(1)}% vs previous</span>
       </div>
     );
   };
 
+  const prepareChartData = (
+    periodOneData: any[] = [],
+    periodTwoData: any[] = [],
+    reportType: string
+  ) => {
+    const merged: Record<string, any> = {};
+
+    periodOneData.forEach((item) => {
+      const date = item.upload_date;
+      merged[date] = {
+        date,
+        currentUploads: Number(item.total_uploads) || 0,
+      };
+    });
+
+    if (reportType === "compare") {
+      periodTwoData.forEach((item) => {
+        const date = item.upload_date;
+        if (!merged[date]) merged[date] = { date };
+        merged[date].previousUploads = Number(item.total_uploads) || 0;
+      });
+    }
+
+    return Object.values(merged).sort(
+      (a: any, b: any) =>
+        new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  };
+
+  const trendOne = mediaReport?.data?.periodOne?.trend_data || [];
+  const trendTwo = mediaReport?.data?.periodTwo?.trend_data || [];
+  const chartData = prepareChartData(trendOne, trendTwo, reportType);
+
+  // for recent media section
+  const recentMediaPeriodOne = mediaReport?.data?.periodOne?.recent_media || [];
+  const recentMediaPeriodTwo = mediaReport?.data?.periodTwo?.recent_media || [];
+
+  const combinedMedia =
+    reportType === "compare"
+      ? [...recentMediaPeriodOne, ...recentMediaPeriodTwo]
+      : recentMediaPeriodOne;
+
   return (
     <PublicReportDashboardLayout
       title="Media Performance Report"
-      companyName="Sample Business"
-      companyLogo="/placeholder.svg"
-      address=""
-      token=""
+      listingName={mediaReport?.data.locationName}
+      logo={mediaReport?.data.companyLogo}
+      address={mediaReport?.data.address}
+      visibleSections={visibleSections}
+      token={reportId}
     >
       <div className="space-y-6">
-
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mx-auto mb-2">
                 <Image className="h-5 w-5 text-blue-600" />
               </div>
-              <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalMedia : currentData.overview.totalMedia}
-              </div>
+              <div className="text-2xl font-bold">{periodOne?.total || 0}</div>
               <div className="text-sm text-muted-foreground">Total Media</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalMedia, comparisonData.previous.totalMedia)}
+              {reportType === "compare" &&
+                renderChangeIndicator(changeSummary?.total_media || 0)}
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-green-50 rounded-lg mx-auto mb-2">
                 <Image className="h-5 w-5 text-green-600" />
               </div>
-              <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalPhotos : currentData.overview.totalPhotos}
-              </div>
+              <div className="text-2xl font-bold">{periodOne?.photos || 0}</div>
               <div className="text-sm text-muted-foreground">Total Photos</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalPhotos, comparisonData.previous.totalPhotos)}
+              {reportType === "compare" &&
+                renderChangeIndicator(changeSummary?.total_photos || 0)}
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-purple-50 rounded-lg mx-auto mb-2">
                 <Video className="h-5 w-5 text-purple-600" />
               </div>
-              <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.totalVideos : currentData.overview.totalVideos}
-              </div>
+              <div className="text-2xl font-bold">{periodOne?.videos || 0}</div>
               <div className="text-sm text-muted-foreground">Total Videos</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.totalVideos, comparisonData.previous.totalVideos)}
+              {reportType === "compare" &&
+                renderChangeIndicator(changeSummary?.total_videos || 0)}
             </CardContent>
           </Card>
-          
-          <Card>
+
+          {/* <Card>
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center w-10 h-10 bg-yellow-50 rounded-lg mx-auto mb-2">
                 <TrendingUp className="h-5 w-5 text-yellow-600" />
               </div>
               <div className="text-2xl font-bold">
-                {isComparison ? comparisonData.current.topPerforming : currentData.overview.topPerforming}
+                {isComparison
+                  ? comparisonData.current.topPerforming
+                  : currentData.overview.topPerforming}
               </div>
-              <div className="text-sm text-muted-foreground">Top Performing</div>
-              {isComparison && renderChangeIndicator(comparisonData.current.topPerforming, comparisonData.previous.topPerforming)}
+              <div className="text-sm text-muted-foreground">
+                Top Performing
+              </div>
+              {isComparison &&
+                renderChangeIndicator(
+                  comparisonData.current.topPerforming,
+                  comparisonData.previous.topPerforming
+                )}
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Media Performance Chart */}
@@ -191,22 +179,30 @@ export const PublicMediaReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={currentData.chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  {isComparison ? (
-                    <>
-                      <Line
-                        type="monotone"
-                        dataKey="currentUploads"
-                        stroke="#2563eb"
-                        strokeWidth={2}
-                        name="Current Period Uploads"
-                      />
+              {chartData.length === 0 ? (
+                <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                  <img
+                    src="../../../public/nodata.svg"
+                    alt="No Data"
+                    className="h-64"
+                  />
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="currentUploads"
+                      stroke="#2563eb"
+                      strokeWidth={2}
+                      name="Current Period Uploads"
+                    />
+                    {reportType === "compare" && (
                       <Line
                         type="monotone"
                         dataKey="previousUploads"
@@ -215,18 +211,10 @@ export const PublicMediaReport: React.FC = () => {
                         strokeDasharray="5 5"
                         name="Previous Period Uploads"
                       />
-                    </>
-                  ) : (
-                    <Line
-                      type="monotone"
-                      dataKey="uploads"
-                      stroke="#2563eb"
-                      strokeWidth={2}
-                      name="Media Uploads"
-                    />
-                  )}
-                </LineChart>
-              </ResponsiveContainer>
+                    )}
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -237,39 +225,56 @@ export const PublicMediaReport: React.FC = () => {
             <CardTitle>Recent Media</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {currentData.topPerforming.slice(0, 10).map((media, index) => (
-                <div key={media.id} className="flex items-center gap-4 p-4 rounded-lg border">
-                  <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center">
-                    {getMediaIcon(media.type)}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">{media.title}</h4>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      {media.type === 'photo' ? 'Photo' : 'Video'} • Uploaded {new Date(media.uploadDate).toLocaleDateString()}
+            {combinedMedia.length === 0 ? (
+              <div className="text-sm text-muted-foreground text-center flex justify-center  py-10">
+                <img
+                  src="../../../public/nodata.svg"
+                  alt="No Data"
+                  className="h-64"
+                />
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {combinedMedia.slice(0, 10).map((media, index) => (
+                  <div
+                    key={media.id}
+                    className="flex items-center gap-4 p-4 rounded-lg border"
+                  >
+                    <div className="w-12 h-12 bg-muted/50 rounded-lg flex items-center justify-center overflow-hidden">
+                      {media.googleUrl ? (
+                        <img
+                          src={media.googleUrl}
+                          alt={`Media ${media.id}`}
+                          className="w-12 h-12 object-cover rounded-md"
+                        />
+                      ) : (
+                        <span className="text-sm text-gray-500">No Image</span>
+                      )}
                     </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium capitalize">
+                        {media.media_type || "media"}
+                      </h4>
+                      <div className="text-sm text-muted-foreground mt-1">
+                        Published on {media.publishDate || "N/A"}
+                      </div>
+                    </div>
+                    {media.googleUrl && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(media.googleUrl, "_blank")}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View
+                      </Button>
+                    )}
                   </div>
-                  <Button variant="outline" size="sm">
-                    <Eye className="h-4 w-4 mr-2" />
-                    View
-                  </Button>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
-
-        {/* Report Type Toggle */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">Individual</span>
-            <Switch
-              checked={isComparison}
-              onCheckedChange={setIsComparison}
-            />
-            <span className="text-sm font-medium">Comparison</span>
-          </div>
-        </div>
       </div>
     </PublicReportDashboardLayout>
   );

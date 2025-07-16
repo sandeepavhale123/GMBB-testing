@@ -62,9 +62,18 @@ export const PublicReviewsReport: React.FC = () => {
     .map(([key]) => key);
 
   const calculateChange = (current: number, previous: number) => {
+    if (previous === 0) {
+      // Handle edge case: No previous data
+      return {
+        value: current === 0 ? 0 : 100, // or any default logic (like null)
+        isPositive: current >= 0,
+      };
+    }
+
     const change = ((current - previous) / previous) * 100;
+
     return {
-      value: change,
+      value: isNaN(change) ? 0 : change,
       isPositive: change >= 0,
     };
   };
@@ -216,9 +225,9 @@ export const PublicReviewsReport: React.FC = () => {
   return (
     <PublicReportDashboardLayout
       title="Reviews Report"
-      companyName={reviewsData?.data.locationName}
+      listingName={reviewsData?.data.locationName}
       address={reviewsData?.data.address}
-      companyLogo={reviewsData?.data?.companyLogo}
+      logo={reviewsData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
     >
@@ -408,8 +417,12 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-48 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="text-center text-muted-foreground py-8">
-                          No data available
+                        <div className="flex justify-center py-8">
+                          <img
+                            src="../../../public/nodata.svg"
+                            alt="No Data"
+                            className="h-64"
+                          />
                         </div>
                       ) : (
                         <PieChart>
@@ -493,8 +506,12 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-48 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty2 ? (
-                        <div className="text-center text-muted-foreground py-8">
-                          No data available
+                        <div className="flex justify-center py-8">
+                          <img
+                            src="../../../public/nodata.svg"
+                            alt="No Data"
+                            className="h-64"
+                          />
                         </div>
                       ) : (
                         <PieChart>
@@ -623,8 +640,12 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-48 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="text-center text-muted-foreground py-8">
-                          No data available
+                        <div className="flex justify-center py-8">
+                          <img
+                            src="../../../public/nodata.svg"
+                            alt="No Data"
+                            className="h-64"
+                          />
                         </div>
                       ) : (
                         <PieChart>
@@ -737,8 +758,12 @@ export const PublicReviewsReport: React.FC = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     {trend1.length === 0 ? (
-                      <div className="text-center text-muted-foreground py-8">
-                        No data available
+                      <div className="flex justify-center py-8">
+                        <img
+                          src="../../../public/nodata.svg"
+                          alt="No Data"
+                          className="h-64"
+                        />
                       </div>
                     ) : (
                       <LineChart
@@ -998,8 +1023,12 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {trend2.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
-                    No data available
+                  <div className="flex justify-center py-8">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
                   </div>
                 ) : (
                   <Table>
@@ -1042,8 +1071,12 @@ export const PublicReviewsReport: React.FC = () => {
             </CardHeader>
             <CardContent>
               {trend1.length === 0 ? (
-                <div className="text-center text-muted-foreground py-8">
-                  No data available
+                <div className="flex justify-center py-8">
+                  <img
+                    src="../../../public/nodata.svg"
+                    alt="No Data"
+                    className="h-64"
+                  />
                 </div>
               ) : (
                 <Table>
@@ -1090,8 +1123,12 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {recentReviews1.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
-                    No recent reviews available
+                  <div className="flex justify-center py-8">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -1163,8 +1200,12 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {recentReviews2.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
-                    No recent reviews available
+                  <div className="flex justify-center py-8">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
                   </div>
                 ) : (
                   <div className="space-y-6">

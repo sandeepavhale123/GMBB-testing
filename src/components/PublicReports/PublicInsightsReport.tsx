@@ -152,8 +152,8 @@ export const PublicInsightsReport: React.FC = () => {
   return (
     <PublicReportDashboardLayout
       title="Business Insights Report"
-      companyName={insightData?.data.locationName}
-      companyLogo={insightData?.data.companyLogo}
+      listingName={insightData?.data.locationName}
+      logo={insightData?.data.companyLogo}
       address={insightData?.data.address}
       visibleSections={visibleSections}
       token={reportId}

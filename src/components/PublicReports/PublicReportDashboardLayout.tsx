@@ -26,16 +26,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePerformanceBrandingReport } from "@/hooks/useReports";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
   title: string;
-  companyName?: string;
-  companyLogo?: string;
+  listingName: string;
+  address: string;
+  logo: string;
   onExport?: () => void;
   onShare?: () => void;
   visibleSections?: string[];
-  address: string;
   token: string;
 }
 
@@ -44,17 +45,19 @@ export const PublicReportDashboardLayout: React.FC<
 > = ({
   children,
   title,
-  companyName = "Demo Business",
-  companyLogo,
+  listingName,
+  address,
+  logo,
   onExport,
   onShare,
   visibleSections = [],
-  address,
   token,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
+  const branding = brandingData?.data || null;
 
   const allSidebarItems = [
     {
@@ -104,8 +107,6 @@ export const PublicReportDashboardLayout: React.FC<
   const sidebarItems = allSidebarItems.filter((item) =>
     (visibleSections || []).includes(item.name)
   );
-  console.log("visible section", visibleSections);
-  console.log("sidebar items", sidebarItems);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -136,11 +137,24 @@ export const PublicReportDashboardLayout: React.FC<
         >
           {/* Favicon at Top */}
           <div className="mb-8">
-            <img
+            {/* <img
               src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
               alt="Favicon"
               className="w-12 h-12 rounded-xl shadow-lg object-cover"
-            />
+            /> */}
+            {branding?.company_logo ? (
+              <img
+                src={branding?.company_logo}
+                alt="Company Logo"
+                className="w-12 h-12 rounded-xl shadow-lg object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-white/20 rounded-xl shadow-lg flex items-center justify-center">
+                <span className="text-lg font-bold text-white">
+                  {branding?.company_name?.charAt(0) || "C"}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Navigation Icons - Only show visible sections */}
@@ -217,9 +231,9 @@ export const PublicReportDashboardLayout: React.FC<
             >
               {/* Left: Business Branding */}
               <div className={`flex items-center space-x-4`}>
-                {companyLogo ? (
+                {logo ? (
                   <img
-                    src={companyLogo}
+                    src={logo}
                     alt="Business Logo"
                     className={`rounded-lg object-cover ${
                       isMobile ? "w-12 h-12" : "w-16 h-16"
@@ -236,7 +250,7 @@ export const PublicReportDashboardLayout: React.FC<
                         isMobile ? "text-lg" : "text-2xl"
                       }`}
                     >
-                      {companyName?.charAt(0) || "B"}
+                      {listingName?.charAt(0) || "B"}
                     </span>
                   </div>
                 )}
@@ -248,7 +262,7 @@ export const PublicReportDashboardLayout: React.FC<
                       isMobile ? "text-base" : "text-2xl"
                     }`}
                   >
-                    {companyName}
+                    {listingName}
                   </h1>
                   <p
                     className={`text-gray-300 ${
@@ -303,61 +317,52 @@ export const PublicReportDashboardLayout: React.FC<
                 {/* Left Content */}
                 <div className="text-white">
                   {/* Company Branding Card */}
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between">
                     <div
-                      className={`flex items-center mb-4 ${
+                      className={`flex items-center ${
                         isMobile ? "space-x-4" : "space-x-4"
                       }`}
                     >
-                      {companyLogo ? (
+                      {branding?.company_logo ? (
                         <img
-                          src={companyLogo}
+                          src={branding?.company_logo}
                           alt="Company Logo"
-                          className="w-12 h-12 rounded-lg object-cover"
+                          className="w-20 h-20 rounded-lg object-cover"
                         />
                       ) : (
-                        <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                        <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
                           <span className="text-lg font-bold text-white">
-                            {companyName?.charAt(0) || "C"}
+                            {branding?.company_name?.charAt(0) || "C"}
                           </span>
                         </div>
                       )}
                       <div className={isMobile ? "text-center" : ""}>
-                        <h3 className="text-lg font-semibold text-white">
-                          {companyName}
+                        <h3 className="text-3xl font-semibold text-white mb-2">
+                          {branding?.company_name}
                         </h3>
-                        <p className="text-white/80 text-sm">
+                        {/* <p className="text-white/80 text-sm">
                           Digital Marketing Solutions
-                        </p>
+                        </p> */}
+                        <div className="text-white/90">
+                          {/* <span className="text-white/70">Website: </span> */}
+                          {branding?.company_website}
+                        </div>
                       </div>
                     </div>
 
-                    <div
-                      className={`grid gap-3 text-sm ${
-                        isMobile ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"
-                      }`}
-                    >
+                    <div className={`grid gap-2 text-sm  grid-cols-1`}>
                       <div className="text-white/90">
                         <span className="text-white/70">Email: </span>
-                        contact@
-                        {companyName?.toLowerCase().replace(/\s+/g, "") ||
-                          "company"}
-                        .com
+                        {branding?.company_email}
                       </div>
                       <div className="text-white/90">
                         <span className="text-white/70">Phone: </span>
-                        (555) 123-4567
+                        {branding?.company_phone}
                       </div>
-                      <div className="text-white/90">
-                        <span className="text-white/70">Website: </span>
-                        www.
-                        {companyName?.toLowerCase().replace(/\s+/g, "") ||
-                          "company"}
-                        .com
-                      </div>
+
                       <div className="text-white/90">
                         <span className="text-white/70">Address: </span>
-                        123 Business Ave, Suite 100
+                        {branding?.company_address}
                       </div>
                     </div>
                   </div>
@@ -382,7 +387,9 @@ export const PublicReportDashboardLayout: React.FC<
           >
             <div className={isMobile ? "text-center" : ""}>
               Created by{" "}
-              <span className="font-medium text-gray-700">{companyName}</span>
+              <span className="font-medium text-gray-700">
+                {branding?.company_name}
+              </span>
             </div>
             <div
               className={`flex items-center ${

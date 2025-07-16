@@ -172,4 +172,98 @@ export const reportsApi = {
       throw error;
     }
   },
+
+  // Get media report data
+  getPerformanceMediaReport: async (reportId: string): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-performance-media", {
+        reportId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("Performance media report data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch performance media report"
+        );
+      }
+    } catch (error) {
+      console.error("POST get-performance-media failed:", error);
+      throw error;
+    }
+  },
+
+  // For footer data
+  getPerformanceBrandingReport: async (reportId: string): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-performance-report", {
+        reportId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("Performance branding report data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch branding report"
+        );
+      }
+    } catch (error) {
+      console.error("POST get-performance-report failed:", error);
+      throw error;
+    }
+  },
+
+  // get keywords for georanking
+  getPerformanceGeoKeywords: async (reportId: string): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-performance-keywords", {
+        reportId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("Performance geo keywords data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch geo keyword list"
+        );
+      }
+    } catch (error) {
+      console.error("POST get-performance-keywords failed:", error);
+      throw error;
+    }
+  },
+
+  // geo ranking report api
+  getPerformanceGeoRankingReport: async (
+    reportId: string,
+    keywordId: number
+  ): Promise<any> => {
+    try {
+      console.log(
+        "Fetching performance geo ranking for ID:",
+        reportId,
+        "Keyword:",
+        keywordId
+      );
+      const response = await axiosInstance.post("/get-performance-ranking", {
+        reportId,
+        keywordId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("Performance geo ranking data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch geo ranking report"
+        );
+      }
+    } catch (error) {
+      console.error("POST get-performance-ranking failed:", error);
+      throw error;
+    }
+  },
 };

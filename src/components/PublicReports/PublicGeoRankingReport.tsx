@@ -1,99 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { PublicReportDashboardLayout } from './PublicReportDashboardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { MapPin, TrendingUp, Target, Users, Clock } from 'lucide-react';
-import { CircularProgress } from '@/components/ui/circular-progress';
-import L from 'leaflet';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { MapPin, TrendingUp, Target, Users, Clock } from "lucide-react";
+import { CircularProgress } from "@/components/ui/circular-progress";
+import L from "leaflet";
+import {
+  usePerformanceGeoKeywords,
+  usePerformanceGeoRankingReport,
+} from "@/hooks/useReports"; // Adjust path as needed
+
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 export const PublicGeoRankingReport: React.FC = () => {
-  const { token } = useParams();
-  const [selectedKeyword, setSelectedKeyword] = useState('Webdesign');
-  const [frequency, setFrequency] = useState('Weekly');
-  const [reportType, setReportType] = useState<'individual' | 'comparison'>('individual');
-  
+  const [selectedKeywordId, setSelectedKeywordId] = useState<number | null>(
+    null
+  );
+  const [keywordMap, setKeywordMap] = useState<Record<string, number>>({});
+  const [selectedKeywordLabel, setSelectedKeywordLabel] = useState("");
+
+  const [selectedKeyword, setSelectedKeyword] = useState("Webdesign");
+  const [frequency, setFrequency] = useState("Weekly");
+
+  // Extract reportId from URL
+  const reportId = window.location.pathname.split("/").pop() || "";
+  const { data: keywordData, isLoading: isKeywordLoading } =
+    usePerformanceGeoKeywords(reportId);
+  console.log("georanking keywords data....", keywordData);
+
+  const { data: geoRankingData, isLoading: isGeoLoading } =
+    usePerformanceGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
+  console.log("geo ranking report data", geoRankingData);
+
+  const reportType = geoRankingData?.data.reportType.toLowerCase();
   // Map refs for individual view
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
-  
+
   // Map refs for comparison view
   const mapRef1 = useRef<HTMLDivElement>(null);
   const mapInstanceRef1 = useRef<L.Map | null>(null);
   const markersRef1 = useRef<L.Marker[]>([]);
-  
+
   const mapRef2 = useRef<HTMLDivElement>(null);
   const mapInstanceRef2 = useRef<L.Map | null>(null);
   const markersRef2 = useRef<L.Marker[]>([]);
 
-  // Sample data with coordinates
-  const geoData = {
-    companyName: 'Demo Business',
-    companyLogo: null,
-    overview: {
-      totalKeywords: 45,
-      overallVisibility: 6.20,
-      selectedKeyword: 'Webdesign',
-      frequency: 'Weekly'
-    },
-    keywords: ['Webdesign', 'Digital Marketing', 'SEO Services', 'Local Business', 'Web Development'],
-    gridData: [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-    // Demo coordinates (centered around San Francisco)
-    defaultCoordinates: { lat: 37.7749, lng: -122.4194 },
-    rankDetails: [
-      { coordinate: "37.7849,-122.4094", rank: "1", positionId: "1" },
-      { coordinate: "37.7649,-122.4294", rank: "2", positionId: "2" },
-      { coordinate: "37.7749,-122.4394", rank: "3", positionId: "3" },
-      { coordinate: "37.7849,-122.4294", rank: "4", positionId: "4" },
-      { coordinate: "37.7649,-122.4094", rank: "5", positionId: "5" },
-      { coordinate: "37.7749,-122.4194", rank: "6", positionId: "6" },
-      { coordinate: "37.7849,-122.4394", rank: "7", positionId: "7" },
-      { coordinate: "37.7649,-122.4394", rank: "8", positionId: "8" },
-      { coordinate: "37.7549,-122.4194", rank: "9", positionId: "9" }
-    ]
-  };
+  const geoData = geoRankingData?.data?.periodOne?.geo_data || [];
+  console.log("geoData for map rendering", geoData);
 
-  // Sample data for comparison (second dataset)
-  const comparisonData = {
-    companyName: 'Competitor Business',
-    companyLogo: null,
-    overview: {
-      totalKeywords: 38,
-      overallVisibility: 4.80,
-      selectedKeyword: 'Webdesign',
-      frequency: 'Weekly'
-    },
-    keywords: ['Webdesign', 'Digital Marketing', 'SEO Services', 'Local Business', 'Web Development'],
-    gridData: [[3, 5, 7], [2, 8, 4], [9, 6, 1]],
-    // Demo coordinates (centered around Los Angeles)
-    defaultCoordinates: { lat: 34.0522, lng: -118.2437 },
-    rankDetails: [
-      { coordinate: "34.0622,-118.2337", rank: "3", positionId: "1" },
-      { coordinate: "34.0422,-118.2537", rank: "5", positionId: "2" },
-      { coordinate: "34.0522,-118.2637", rank: "7", positionId: "3" },
-      { coordinate: "34.0622,-118.2537", rank: "2", positionId: "4" },
-      { coordinate: "34.0422,-118.2337", rank: "8", positionId: "5" },
-      { coordinate: "34.0522,-118.2437", rank: "4", positionId: "6" },
-      { coordinate: "34.0622,-118.2637", rank: "9", positionId: "7" },
-      { coordinate: "34.0422,-118.2637", rank: "6", positionId: "8" },
-      { coordinate: "34.0322,-118.2437", rank: "1", positionId: "9" }
-    ]
-  };
+  const comparisonData = geoRankingData?.data?.periodTwo?.geo_data || [];
   // Get rank color for grid display
   const getRankingColor = (position: number) => {
-    if (position <= 3) return 'bg-green-500';
-    if (position <= 6) return 'bg-yellow-500';
-    return 'bg-red-500';
+    if (position <= 3) return "bg-green-500";
+    if (position <= 6) return "bg-yellow-500";
+    return "bg-red-500";
   };
 
   // Get rank color for map markers (hex colors)
@@ -105,7 +85,10 @@ export const PublicGeoRankingReport: React.FC = () => {
   };
 
   // Clear all markers
-  const clearMarkers = (mapInstance: React.RefObject<L.Map>, markers: React.RefObject<L.Marker[]>) => {
+  const clearMarkers = (
+    mapInstance: React.RefObject<L.Map>,
+    markers: React.RefObject<L.Marker[]>
+  ) => {
     markers.current.forEach((marker) => {
       if (mapInstance.current) {
         mapInstance.current.removeLayer(marker);
@@ -116,15 +99,19 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   // Add ranking markers
   const addRankingMarkers = (
-    mapInstance: React.RefObject<L.Map>, 
-    markers: React.RefObject<L.Marker[]>, 
+    mapInstance: React.RefObject<L.Map>,
+    markers: React.RefObject<L.Marker[]>,
     data: typeof geoData
   ) => {
-    if (!mapInstance.current || !data.rankDetails) return;
+    console.log("mapinstance, data", mapInstance.current, data);
+    if (!mapInstance.current || !data) return;
 
-    data.rankDetails.forEach((detail) => {
-      const [lat, lng] = detail.coordinate.split(",").map(Number);
-      const rankColor = getRankColorHex(detail.rank);
+    data.forEach((detail, index) => {
+      console.log("rank maker", detail, index + 1);
+      // const [lat, lng] = detail.coordinate.split(",").map(Number);
+      const lat = detail?.lat;
+      const lng = detail?.lng;
+      const rankColor = getRankColorHex(index + 1);
 
       const rankIcon = L.divIcon({
         html: `<div style="
@@ -140,7 +127,7 @@ export const PublicGeoRankingReport: React.FC = () => {
           font-size: 13px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        ">${detail.rank}</div>`,
+        ">${detail.rank === 0 ? "20+" : detail.rank}</div>`,
         className: "ranking-marker",
         iconSize: [40, 40],
         iconAnchor: [20, 20],
@@ -152,14 +139,76 @@ export const PublicGeoRankingReport: React.FC = () => {
 
       marker.bindPopup(`
         <div style="text-align: center; padding: 5px;">
-          <strong>Rank: ${detail.rank}</strong><br>
-          <small>Position ${detail.positionId}</small>
+          <strong>Rank: ${detail.rank === 0 ? "20+" : detail.rank}</strong><br>
+          // <small>Position ${detail?.positionId}</small>
         </div>
       `);
 
       markers.current.push(marker);
     });
   };
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(link);
+
+    return () => {
+      document.querySelector('link[href*="leaflet.css"]')?.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    const cleanupMap = (
+      mapInstanceRef: React.RefObject<L.Map>,
+      mapRef: React.RefObject<HTMLDivElement>
+    ) => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+
+      if (mapRef.current) {
+        mapRef.current.innerHTML = "";
+        (mapRef.current as any)._leaflet_id = null;
+      }
+    };
+
+    let map1: L.Map | null = null;
+    let map2: L.Map | null = null;
+
+    if (reportType === "individual" && geoData.length > 0) {
+      cleanupMap(mapInstanceRef, mapRef);
+      map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
+    }
+
+    if (
+      reportType === "compare" &&
+      geoData.length > 0 &&
+      comparisonData.length > 0
+    ) {
+      cleanupMap(mapInstanceRef1, mapRef1);
+      cleanupMap(mapInstanceRef2, mapRef2);
+
+      map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);
+      setTimeout(() => {
+        map2 = initializeMap(
+          mapRef2,
+          mapInstanceRef2,
+          markersRef2,
+          comparisonData
+        );
+      }, 50);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      cleanupMap(mapInstanceRef, mapRef);
+      cleanupMap(mapInstanceRef1, mapRef1);
+      cleanupMap(mapInstanceRef2, mapRef2);
+    };
+  }, [geoData, comparisonData, reportType]);
 
   // Initialize single map
   const initializeMap = (
@@ -169,8 +218,8 @@ export const PublicGeoRankingReport: React.FC = () => {
     data: typeof geoData
   ) => {
     // Check if DOM element exists and is mounted
-    if (!mapRef.current || !data.defaultCoordinates) {
-      console.log('Map container not ready or no coordinates');
+    if (!mapRef.current) {
+      console.log("Map container not ready or no coordinates");
       return null;
     }
 
@@ -179,25 +228,34 @@ export const PublicGeoRankingReport: React.FC = () => {
       try {
         (mapInstanceRef as any).current.remove();
       } catch (e) {
-        console.log('Error removing existing map:', e);
+        console.log("Error removing existing map:", e);
       }
       (mapInstanceRef as any).current = null;
     }
 
     // Clear the DOM container completely
     const container = mapRef.current;
-    container.innerHTML = '';
+    container.innerHTML = "";
     (container as any)._leaflet_id = null; // Clear Leaflet's internal ID
-    
+
     try {
-      const map = L.map(container).setView(
-        [data.defaultCoordinates.lat, data.defaultCoordinates.lng],
-        12
-      );
+      if (
+        !data ||
+        data.length === 0 ||
+        data[0]?.lat === undefined ||
+        data[0]?.lng === undefined
+      ) {
+        console.warn("Map initialization skipped: Invalid or empty geo_data");
+        return null;
+      }
+
+      const map = L.map(container).setView([data[0].lat, data[0].lng], 12);
+
       (mapInstanceRef as any).current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
       // Add markers after map is fully initialized
@@ -207,9 +265,36 @@ export const PublicGeoRankingReport: React.FC = () => {
 
       return map;
     } catch (error) {
-      console.error('Error initializing map:', error);
+      console.error("Error initializing map:", error);
       return null;
     }
+  };
+  // keyword handle
+  const keywords = keywordData?.data?.keywords ?? [];
+
+  useEffect(() => {
+    if (keywords.length) {
+      const map: Record<string, string> = {};
+      keywords.forEach((item) => {
+        map[item.keyword] = item.id;
+      });
+
+      setKeywordMap(map);
+      const firstKeyword = keywords[0];
+      setSelectedKeywordId(firstKeyword.id);
+      setSelectedKeywordLabel(firstKeyword.keyword);
+      setFrequency(firstKeyword.frequency);
+    }
+  }, [keywords]);
+
+  // legends
+  const legend1 = geoRankingData?.data?.periodOne?.summary?.legend || {};
+  const legend2 = geoRankingData?.data?.periodTwo?.summary?.legend || {};
+  const rankColors: Record<string, string> = {
+    "1-3": "bg-green-500",
+    "4-10": "bg-yellow-500",
+    "11-15": "bg-orange-500",
+    "16-20+": "bg-red-500",
   };
 
   // Initialize maps based on report type
@@ -222,19 +307,22 @@ export const PublicGeoRankingReport: React.FC = () => {
     document.head.appendChild(link);
 
     // Clean up all existing maps first
-    const cleanupMap = (mapInstanceRef: React.RefObject<L.Map>, mapRef: React.RefObject<HTMLDivElement>) => {
+    const cleanupMap = (
+      mapInstanceRef: React.RefObject<L.Map>,
+      mapRef: React.RefObject<HTMLDivElement>
+    ) => {
       if ((mapInstanceRef as any).current) {
         try {
           (mapInstanceRef as any).current.remove();
         } catch (e) {
-          console.log('Error during map cleanup:', e);
+          console.log("Error during map cleanup:", e);
         }
         (mapInstanceRef as any).current = null;
       }
-      
+
       // Clear DOM container
       if (mapRef.current) {
-        mapRef.current.innerHTML = '';
+        mapRef.current.innerHTML = "";
         (mapRef.current as any)._leaflet_id = null;
       }
     };
@@ -248,25 +336,31 @@ export const PublicGeoRankingReport: React.FC = () => {
 
     // Use setTimeout to ensure DOM elements are ready
     const initMaps = setTimeout(() => {
-      if (reportType === 'individual') {
+      if (reportType === "individual") {
         map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
+        console.log("map1 data", map1);
       } else {
         // Initialize both maps for comparison with additional delay
         map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);
         setTimeout(() => {
-          map2 = initializeMap(mapRef2, mapInstanceRef2, markersRef2, comparisonData);
+          map2 = initializeMap(
+            mapRef2,
+            mapInstanceRef2,
+            markersRef2,
+            comparisonData
+          );
         }, 50);
       }
-    }, 100);
+    }, 0);
 
     return () => {
       clearTimeout(initMaps);
-      
+
       // Cleanup all maps
       cleanupMap(mapInstanceRef, mapRef);
       cleanupMap(mapInstanceRef1, mapRef1);
       cleanupMap(mapInstanceRef2, mapRef2);
-      
+
       const existingLink = document.querySelector('link[href*="leaflet.css"]');
       if (existingLink) {
         existingLink.remove();
@@ -278,10 +372,10 @@ export const PublicGeoRankingReport: React.FC = () => {
   useEffect(() => {
     // Add delay to ensure maps are fully initialized
     const updateMarkers = setTimeout(() => {
-      if (reportType === 'individual' && (mapInstanceRef as any).current) {
+      if (reportType === "individual" && (mapInstanceRef as any).current) {
         clearMarkers(mapInstanceRef, markersRef);
         addRankingMarkers(mapInstanceRef, markersRef, geoData);
-      } else if (reportType === 'comparison') {
+      } else if (reportType === "compare") {
         if ((mapInstanceRef1 as any).current) {
           clearMarkers(mapInstanceRef1, markersRef1);
           addRankingMarkers(mapInstanceRef1, markersRef1, geoData);
@@ -295,7 +389,21 @@ export const PublicGeoRankingReport: React.FC = () => {
 
     return () => clearTimeout(updateMarkers);
   }, [selectedKeyword, reportType]);
-  return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo} address="" token="">
+
+  // Extract visible sections from API response
+  const visibleSections = Object.entries(keywordData?.data.visibleSection || {})
+    .filter(([_, value]) => value === "1")
+    .map(([key]) => key);
+
+  return (
+    <PublicReportDashboardLayout
+      title="GEO Ranking Report"
+      listingName={geoRankingData?.data.locationName}
+      logo={geoRankingData?.data.companyLogo}
+      address={geoRankingData?.data.address}
+      visibleSections={visibleSections}
+      token={reportId}
+    >
       <div className="space-y-6">
         {/* First Row - Control Panel */}
         <Card>
@@ -303,13 +411,31 @@ export const PublicGeoRankingReport: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {/* Column 1: Keyword Selection */}
               <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">Select Keyword</label>
-                <Select value={selectedKeyword} onValueChange={setSelectedKeyword}>
+                <label className="text-sm font-medium text-muted-foreground mb-2 block">
+                  Select Keyword
+                </label>
+                <Select
+                  value={selectedKeywordId?.toString() || ""}
+                  onValueChange={(id) => {
+                    const selected = keywords.find(
+                      (k) => k.id.toString() === id
+                    );
+                    if (selected) {
+                      setSelectedKeywordId(Number(selected.id));
+                      setSelectedKeywordLabel(selected.keyword);
+                      setFrequency(selected.frequency);
+                    }
+                  }}
+                >
                   <SelectTrigger>
-                    <SelectValue />
+                    <SelectValue placeholder="Select Keyword" />
                   </SelectTrigger>
                   <SelectContent>
-                    {geoData.keywords.map(keyword => <SelectItem key={keyword} value={keyword}>{keyword}</SelectItem>)}
+                    {keywords.map((item) => (
+                      <SelectItem key={item.id} value={item.id.toString()}>
+                        {item.keyword}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -318,27 +444,45 @@ export const PublicGeoRankingReport: React.FC = () => {
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
                 <div className="flex items-center justify-between h-full">
                   <div className="flex-1">
-                    <div className="text-xs text-blue-600 font-medium mb-1">Overall Visibility</div>
-                    <div className="text-2xl font-bold text-blue-900">{geoData.overview.overallVisibility}%</div>
+                    <div className="text-xs text-blue-600 font-medium mb-1">
+                      Overall Visibility
+                    </div>
+                    <div className="text-2xl font-bold text-blue-900">
+                      {geoRankingData?.data?.periodOne?.summary?.visibility}%
+                    </div>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">
-                    <CircularProgress value={geoData.overview.overallVisibility} size={48} className="text-blue-500" />
+                    <CircularProgress
+                      value={Number(
+                        geoRankingData?.data?.periodOne?.summary?.visibility ??
+                          0
+                      )}
+                      size={48}
+                      className="text-blue-500"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Column 3: Total Keywords */}
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
-                <div className="text-2xl font-bold text-orange-900">{geoData.overview.totalKeywords}</div>
+                <div className="text-xs text-orange-600 font-medium mb-1">
+                  Total Keywords
+                </div>
+                <div className="text-2xl font-bold text-orange-900">
+                  {keywordData?.data?.count}
+                </div>
               </div>
 
               {/* Column 4: Keyword Frequency */}
               <div>
-                
                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
-                  <div className="text-xs text-purple-600 font-medium mb-1">Report Frequency</div>
-                  <div className="text-lg font-bold text-purple-900">{frequency}</div>
+                  <div className="text-xs text-purple-600 font-medium mb-1">
+                    Report Frequency
+                  </div>
+                  <div className="text-lg font-bold text-purple-900">
+                    {frequency}
+                  </div>
                 </div>
               </div>
             </div>
@@ -351,62 +495,94 @@ export const PublicGeoRankingReport: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
-                <p className="text-muted-foreground mb-1">February 01 2025 - February 28 2025</p>
-                <p className="text-sm text-muted-foreground">Keyword: <span className="font-medium">{selectedKeyword}</span></p>
+                <p className="text-muted-foreground mb-1">
+                  {keywordData?.data?.date_range?.from} -{" "}
+                  {keywordData?.data?.date_range?.to}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Keyword:{" "}
+                  <span className="font-medium">{selectedKeywordLabel}</span>
+                </p>
               </div>
-              <div className="flex items-center gap-3">
-                <span className={`text-sm font-medium ${reportType === 'individual' ? 'text-primary' : 'text-muted-foreground'}`}>
+              {/* <div className="flex items-center gap-3">
+                <span
+                  className={`text-sm font-medium ${
+                    reportType === "individual"
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  }`}
+                >
                   Individual
                 </span>
                 <Switch
-                  checked={reportType === 'comparison'}
-                  onCheckedChange={(checked) => setReportType(checked ? 'comparison' : 'individual')}
+                  checked={reportType === "compare"}
+                  onCheckedChange={(checked) =>
+                    setReportType(checked ? "compare" : "individual")
+                  }
                 />
-                <span className={`text-sm font-medium ${reportType === 'comparison' ? 'text-primary' : 'text-muted-foreground'}`}>
+                <span
+                  className={`text-sm font-medium ${
+                    reportType === "compare"
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  }`}
+                >
                   Comparison
                 </span>
-              </div>
+              </div> */}
             </div>
           </CardContent>
         </Card>
 
         {/* GEO Ranking Report Content */}
-        {reportType === 'individual' ? (
+        {reportType === "individual" ? (
           <Card>
             <CardContent className="p-6">
               {/* Map Display */}
               <div>
-                <div className="relative">
-                  <div
-                    ref={mapRef}
-                    key={`individual-map-${reportType}`}
-                    className="w-full h-[400px] rounded-lg border z-0"
-                  />
-                  {/* Legend */}
-                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
-                    <div className="text-xs font-medium text-gray-700 mb-2">
-                      Ranking Legend
-                    </div>
-                    <div className="flex flex-col gap-1 text-xs">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span>1-3</span>
+                {geoData?.length === 0 ? (
+                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <div
+                      ref={mapRef}
+                      key={`individual-map-${reportType}`}
+                      className="w-full h-[400px] rounded-lg border z-0"
+                    />
+                    {/* Legend */}
+                    <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-3 rounded-lg shadow-lg border">
+                      <div className="text-xs font-medium text-gray-700 mb-2">
+                        Ranking Legend
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span>4-10</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                        <span>11- 15</span>
-                      </div>
-                        <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span> 16-20+</span>
+                      <div className="flex flex-col gap-1 text-xs">
+                        {Object.entries(legend1).map(([range, count]) => (
+                          <div
+                            key={range}
+                            className="flex items-center justify-between gap-3"
+                          >
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-3 h-3 rounded-full ${
+                                  rankColors[range] || "bg-gray-400"
+                                }`}
+                              ></div>
+                              <span>{range}</span>
+                            </div>
+                            <span className="text-sm font-semibold text-gray-900">
+                              {count}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -416,40 +592,58 @@ export const PublicGeoRankingReport: React.FC = () => {
             <Card>
               <CardContent className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold mb-1">Period 1 (Feb 01 - Feb 15, 2025)</h3>
-                  <p className="text-sm text-muted-foreground">Visibility: {geoData.overview.overallVisibility}%</p>
+                  <h3 className="text-lg font-semibold mb-1">
+                    Period 1 ({geoRankingData?.data?.periodOne?.date?.from_date}{" "}
+                    - {geoRankingData?.data?.periodOne?.date?.to_date})
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Visibility:{" "}
+                    {geoRankingData?.data?.periodOne?.summary?.visibility || 0}%
+                  </p>
                 </div>
-                <div className="relative">
-                  <div
-                    ref={mapRef1}
-                    key={`comparison-map-1-${reportType}`}
-                    className="w-full h-[350px] rounded-lg border z-0"
-                  />
-                  {/* Legend */}
-                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
-                    <div className="text-xs font-medium text-gray-700 mb-1">
-                      Legend
-                    </div>
-                    <div className="flex flex-col gap-1 text-xs">
-                     <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span>1-3</span>
+                {geoData?.length === 0 ? (
+                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <div
+                      ref={mapRef1}
+                      key={`comparison-map-1-${reportType}`}
+                      className="w-full h-[350px] rounded-lg border z-0"
+                    />
+                    {/* Legend */}
+                    <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
+                      <div className="text-xs font-medium text-gray-700 mb-1">
+                        Legend
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span>4-10</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                        <span>11- 15</span>
-                      </div>
-                        <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span> 16-20+</span>
+                      <div className="flex flex-col gap-1 text-xs">
+                        {Object.entries(legend1).map(([range, count]) => (
+                          <div
+                            key={range}
+                            className="flex items-center justify-between gap-3"
+                          >
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-3 h-3 rounded-full ${
+                                  rankColors[range] || "bg-gray-400"
+                                }`}
+                              ></div>
+                              <span>{range}</span>
+                            </div>
+                            <span className="text-sm font-semibold text-gray-900">
+                              {count}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
 
@@ -457,44 +651,63 @@ export const PublicGeoRankingReport: React.FC = () => {
             <Card>
               <CardContent className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold mb-1">Period 2 (Feb 16 - Feb 28, 2025)</h3>
-                  <p className="text-sm text-muted-foreground">Visibility: {comparisonData.overview.overallVisibility}%</p>
+                  <h3 className="text-lg font-semibold mb-1">
+                    Period 2 ({geoRankingData?.data?.periodTwo?.date?.from_date}{" "}
+                    - {geoRankingData?.data?.periodTwo?.date?.to_date})
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Visibility:{" "}
+                    {geoRankingData?.data?.periodTwo?.summary?.visibility || 0}%
+                  </p>
                 </div>
-                <div className="relative">
-                  <div
-                    ref={mapRef2}
-                    key={`comparison-map-2-${reportType}`}
-                    className="w-full h-[350px] rounded-lg border z-0"
-                  />
-                  {/* Legend */}
-                  <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
-                    <div className="text-xs font-medium text-gray-700 mb-1">
-                      Legend
-                    </div>
-                    <div className="flex flex-col gap-1 text-xs">
-                     <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span>1-3</span>
+                {comparisonData?.length === 0 ? (
+                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <div
+                      ref={mapRef2}
+                      key={`comparison-map-2-${reportType}`}
+                      className="w-full h-[350px] rounded-lg border z-0"
+                    />
+                    {/* Legend */}
+                    <div className="absolute bottom-4 left-4 z-20 bg-white/90 p-2 rounded-lg shadow-lg border">
+                      <div className="text-xs font-medium text-gray-700 mb-1">
+                        Legend
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <span>4-10</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                        <span>11- 15</span>
-                      </div>
-                        <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <span> 16-20+</span>
+                      <div className="flex flex-col gap-1 text-xs">
+                        {Object.entries(legend2).map(([range, count]) => (
+                          <div
+                            key={range}
+                            className="flex items-center justify-between gap-3"
+                          >
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-3 h-3 rounded-full ${
+                                  rankColors[range] || "bg-gray-400"
+                                }`}
+                              ></div>
+                              <span>{range}</span>
+                            </div>
+                            <span className="text-sm font-semibold text-gray-900">
+                              {count}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
         )}
       </div>
-    </PublicReportDashboardLayout>;
+    </PublicReportDashboardLayout>
+  );
 };

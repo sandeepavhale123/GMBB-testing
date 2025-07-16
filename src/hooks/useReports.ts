@@ -114,3 +114,109 @@ export const usePerformancePostsReport = (reportId: string) => {
     },
   });
 };
+
+// header and footer data
+export const usePerformanceBrandingReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ["performance-branding-report", reportId],
+    queryFn: () => reportsApi.getPerformanceBrandingReport(reportId),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "Branding Report Loaded",
+        description:
+          data?.message || "Performance branding report fetched successfully.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Loading Branding Report",
+        description:
+          error?.message || "Failed to fetch performance branding report.",
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+// Media Report
+export const usePerformanceMediaReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ["performance-media-report", reportId],
+    queryFn: () => reportsApi.getPerformanceMediaReport(reportId),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "Media Report Loaded",
+        description:
+          data?.message || "Performance media report fetched successfully.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Loading Media Report",
+        description:
+          error?.message || "Failed to fetch performance media report.",
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+// data for keywords in geo ranking
+export const usePerformanceGeoKeywords = (reportId: string) => {
+  return useQuery({
+    queryKey: ["performance-geo-keywords", reportId],
+    queryFn: () => reportsApi.getPerformanceGeoKeywords(reportId),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "Keyword List Loaded",
+        description: data?.message || "Successfully fetched geo keyword data.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Loading Keyword List",
+        description: error?.message || "Failed to fetch geo keyword data.",
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+export const usePerformanceGeoRankingReport = (
+  reportId: string,
+  keywordId: number
+) => {
+  const { toast } = useToast();
+
+  return useQuery({
+    queryKey: ["performance-geo-ranking", reportId, keywordId],
+    queryFn: () =>
+      reportsApi.getPerformanceGeoRankingReport(reportId, keywordId),
+    enabled: !!reportId && !!keywordId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "GEO Ranking Report Loaded",
+        description:
+          data?.message || "Successfully fetched GEO ranking report.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Loading GEO Report",
+        description: error?.message || "Failed to fetch GEO ranking report.",
+        variant: "destructive",
+      });
+    },
+  });
+};
