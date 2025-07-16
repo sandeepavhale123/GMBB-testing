@@ -137,7 +137,7 @@ export const PublicGMBHealthReport: React.FC = () => {
     );
   }
 
-  const competitors = healthData?.data.competitorAndCitationData || [];
+  const competitors = healthData?.competitorAndCitationData || [];
 
   const competitorChartData = competitors.map((item, index) => ({
     index: String(index + 1), // used on X axis

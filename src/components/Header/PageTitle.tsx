@@ -20,7 +20,8 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/team': { title: 'Team', subtitle: 'Manage team members and their access permissions' },
   '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' },
   '/location-dashboard': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' },
-  '/reports': { title: 'Reports', subtitle: 'View and generate performance reports' }
+  '/reports': { title: 'Reports', subtitle: 'View and generate performance reports' },
+  '/settings/team-members/edit': { title: 'Edit Team Member', subtitle: 'Manage team member profile, listing access, and feature permissions' }
 };
 
 export const PageTitle: React.FC = () => {
@@ -34,6 +35,10 @@ export const PageTitle: React.FC = () => {
       // Handle special case for settings/listings route
       if (segments[1] === 'settings' && segments[2] === 'listings') {
         return '/settings/listings';
+      }
+      // Handle special case for settings/team-members/edit route
+      if (segments[1] === 'settings' && segments[2] === 'team-members' && segments[3] === 'edit') {
+        return '/settings/team-members/edit';
       }
       return `/${segments[1]}`;
     }

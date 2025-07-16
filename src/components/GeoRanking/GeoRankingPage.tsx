@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
@@ -27,7 +27,13 @@ interface ModalData {
 export const GeoRankingPage = () => {
   const navigate = useNavigate();
   const { listingId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const numericListingId = listingId ? parseInt(listingId, 10) : 0;
+  
+  // Get URL parameters for processing state
+  const isProcessing = searchParams.get('processing') === 'true';
+  const submittedKeywords = searchParams.get('submittedKeywords') || '';
+  const submittedKeywordsList = submittedKeywords ? submittedKeywords.split(',').map(k => k.trim()).filter(k => k.length > 0) : [];
   
   const {
     keywords,
@@ -158,6 +164,17 @@ export const GeoRankingPage = () => {
     }));
   }, []);
 
+  // Clear URL parameters after initial processing setup
+  useEffect(() => {
+    if (isProcessing && submittedKeywordsList.length > 0) {
+      // Clear the URL parameters after a brief delay to allow the processing alert to show
+      const timer = setTimeout(() => {
+        setSearchParams({});
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isProcessing, submittedKeywordsList.length, setSearchParams]);
+
   // Show page loader on initial load - after all hooks
   if (pageLoading) {
     return <ListingLoader isLoading={true} children={null} />;
@@ -190,6 +207,8 @@ export const GeoRankingPage = () => {
               keywords={processingKeywords} 
               progress={pollingProgress}
               isPolling={isPollingActive || isPolling}
+              submittedKeywords={submittedKeywordsList}
+              isNewSubmission={isProcessing}
             />
             
             <GeoRankingHeader

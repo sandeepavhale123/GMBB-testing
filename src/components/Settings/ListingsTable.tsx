@@ -104,20 +104,22 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                     </Avatar>
                     <div className="min-w-0">
                       <p className="font-medium text-gray-900 truncate">{listing.name}</p>
-                      <p className="text-sm text-gray-500 truncate">
-                        {truncateAddress(listing.address)}
-                      </p>
+                      {listing.address && truncateAddress(listing.address) && truncateAddress(listing.address) !== 'null' && !truncateAddress(listing.address).includes('null') && (
+                        <p className="text-sm text-gray-500 truncate">
+                          {truncateAddress(listing.address)}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="font-mono text-sm text-gray-900">{listing.store_code}</span>
+                  <span className="font-mono text-sm text-gray-900">{listing.store_code || '-'}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.group_name}</span>
+                  <span className="text-sm text-gray-600">{listing.group_name || '-'}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.zipcode}</span>
+                  <span className="text-sm text-gray-600">{listing.zipcode || '-'}</span>
                 </TableCell>
                 <TableCell>
                   <Badge 
@@ -128,7 +130,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.state}</span>
+                  <span className="text-sm text-gray-600">{listing.state || '-'}</span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center space-x-3">

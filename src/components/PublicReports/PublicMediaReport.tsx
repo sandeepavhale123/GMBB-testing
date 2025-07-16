@@ -122,8 +122,10 @@ export const PublicMediaReport: React.FC = () => {
   return (
     <PublicReportDashboardLayout
       title="Media Performance Report"
-      companyName={currentData.companyName}
-      companyLogo={currentData.companyLogo}
+      companyName="Sample Business"
+      companyLogo="/placeholder.svg"
+      address=""
+      token=""
     >
       <div className="space-y-6">
 

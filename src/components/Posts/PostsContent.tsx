@@ -199,6 +199,9 @@ export const PostsContent: React.FC<PostsContentProps> = ({
               key={post.id} 
               post={post}
               onClonePost={onClonePost}
+              isSelectionMode={isSelectionMode}
+              isSelected={selectedPosts.has(post.id)}
+              onSelectionChange={handleSelectPost}
             />
           ))}
         </div>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Calendar, Edit, Trash2, Copy, Eye, Loader2 } from 'lucide-react';
+import { formatScheduledDate } from '../../utils/dateUtils';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { Checkbox } from '../ui/checkbox';
 import { PostViewModal } from './PostViewModal';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
@@ -13,9 +15,18 @@ import { Post } from '../../types/postTypes';
 interface PostListItemProps {
   post: Post;
   onClonePost?: (post: Post) => void;
+  isSelected?: boolean;
+  onSelectionChange?: (postId: string, selected: boolean) => void;
+  isSelectionMode?: boolean;
 }
 
-export const PostListItem: React.FC<PostListItemProps> = ({ post, onClonePost }) => {
+export const PostListItem: React.FC<PostListItemProps> = ({ 
+  post, 
+  onClonePost, 
+  isSelected = false, 
+  onSelectionChange, 
+  isSelectionMode = false 
+}) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const { deleteLoading, deleteError } = useAppSelector(state => state.posts);
@@ -115,6 +126,15 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post, onClonePost })
   return (
     <>
       <div className="flex items-center gap-4 p-4 hover:bg-gray-50">
+        {/* Selection Checkbox */}
+        {isSelectionMode && onSelectionChange && (
+          <Checkbox
+            checked={isSelected}
+            onCheckedChange={(checked) => onSelectionChange(post.id, !!checked)}
+            className="flex-shrink-0"
+          />
+        )}
+
         {/* Thumbnail */}
         <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
           {post.media?.images ? (
@@ -142,9 +162,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({ post, onClonePost })
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <div className="flex items-center">
               <Calendar className="w-3 h-3 mr-1" />
-              {new Date(post.publishDate).toLocaleDateString()}
+              {formatScheduledDate(post.publishDate)}
             </div>
-            <span>{post.business}</span>
             {post.tags && (
               <span className="text-blue-600">{post.tags}</span>
             )}

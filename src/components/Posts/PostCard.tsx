@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Trash2, Copy, Eye, Loader2 } from "lucide-react";
+import { Calendar, Trash2, Copy, Eye, Loader2, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -213,6 +213,18 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         {/* Post Image */}
         <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
+          {/* External Link Button */}
+          {post.searchUrl && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="absolute top-2 right-2 h-8 w-8 p-0 bg-gray-500/80 hover:bg-gray-600/80 text-white rounded-full z-20"
+              onClick={() => window.open(post.searchUrl, "_blank")}
+              title="Open post on Google"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+            </Button>
+          )}
           {post.media?.images ? (
             <>
               {imageLoading && (
@@ -299,11 +311,7 @@ export const PostCard: React.FC<PostCardProps> = ({
                     className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                     disabled={deleteLoading}
                   >
-                    {isDeleting ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Trash2 className="w-3 h-3" />
-                    )}
+                    <Trash2 className="w-3 h-3" />
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -320,7 +328,14 @@ export const PostCard: React.FC<PostCardProps> = ({
                       onClick={handleDeletePost}
                       disabled={isDeleting}
                     >
-                      {isDeleting ? "Deleting..." : "Delete"}
+                      {isDeleting ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Deleting...
+                        </div>
+                      ) : (
+                        "Delete"
+                      )}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

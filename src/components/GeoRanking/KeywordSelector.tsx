@@ -60,7 +60,6 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
           <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"}>
             {selectedKeywordName}
           </SelectValue>
-          {keywordChanging && !isRefreshing && <Loader size="sm" className="ml-2" />}
         </SelectTrigger>
         <SelectContent className="z-[9999]">
           <div className="p-3 border-b border-gray-100">
@@ -93,7 +92,6 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
         <Select value={selectedDate} onValueChange={onDateChange} disabled={isRefreshing ? false : (loading || availableDates.length === 0 || dateChanging)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={loading ? "Loading dates..." : "Select report date"} />
-            {dateChanging && !isRefreshing && <Loader size="sm" className="ml-2" />}
           </SelectTrigger>
           <SelectContent className="z-[9999]">
             {availableDates.map(date => (

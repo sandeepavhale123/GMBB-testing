@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Badge } from "../ui/badge";
 import { Calendar, ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/button";
+import { formatScheduledDate } from "../../utils/dateUtils";
 interface Post {
   id: string;
   title: string;
@@ -97,7 +98,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           </div>
 
           {/* Post Content */}
-          <p className="text-gray-600 text-sm leading-relaxed h-56 overflow-x-auto sm:h-72">
+          <p className="text-gray-600 text-sm leading-relaxed max-h-56 overflow-y-auto sm:max-h-72">
             {post.content}
           </p>
 
@@ -110,7 +111,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           <div className="flex items-center text-xs text-gray-500 gap-4">
             <div className="flex items-center">
               <Calendar className="w-3 h-3 mr-1" />
-              {new Date(post.publishDate).toLocaleDateString()}
+              {formatScheduledDate(post.publishDate)}
             </div>
           </div>
 

@@ -101,17 +101,28 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     if (keywordsValidation.hasFieldError("keywords")) {
       keywordsValidation.clearFieldError("keywords");
     }
-    const currentKeywordCount = countKeywords(formData.keywords);
+    
     const newKeywordCount = countKeywords(value);
-
-    // Only prevent if user is trying to ADD a 6th keyword (not editing existing ones)
-    if (currentKeywordCount === 5 && newKeywordCount > 5) {
+    
+    // Always prevent more than 5 keywords regardless of input method
+    if (newKeywordCount > 5) {
+      // If pasting, trim to first 5 keywords
+      const keywords = value
+        .split(",")
+        .map((keyword) => keyword.trim())
+        .filter((keyword) => keyword.length > 0)
+        .slice(0, 5) // Take only first 5 keywords
+        .join(", ");
+      
       toast({
         title: "Keyword Limit Exceeded",
-        description: "You can only add up to 5 keywords.",
+        description: "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
         variant: "destructive",
       });
-      return; // Don't update if trying to add more than 5
+      
+      // Update with trimmed keywords
+      onInputChange("keywords", keywords);
+      return;
     }
 
     // Validate keywords

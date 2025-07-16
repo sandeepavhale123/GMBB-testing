@@ -295,7 +295,7 @@ export const PublicGeoRankingReport: React.FC = () => {
 
     return () => clearTimeout(updateMarkers);
   }, [selectedKeyword, reportType]);
-  return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo}>
+  return <PublicReportDashboardLayout title="GEO Ranking Report" companyName={geoData.companyName} companyLogo={geoData.companyLogo} address="" token="">
       <div className="space-y-6">
         {/* First Row - Control Panel */}
         <Card>

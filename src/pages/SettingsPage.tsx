@@ -15,6 +15,8 @@ import { ListingManagementPage } from "../components/Settings/ListingManagementP
 import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { BrandingPage } from "../components/Settings/BrandingPage";
 import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
+import { TeamMembersPage } from "../components/Settings/TeamMembersPage";
+import { EditTeamMemberSettings } from "../components/Settings/EditTeamMemberSettings";
 import { useListingContext } from "@/context/ListingContext";
 
 const SettingsPage = () => {
@@ -61,10 +63,18 @@ const SettingsPage = () => {
     if (path.includes("/integrations")) {
       return "integrations";
     }
+    if (path.includes("/team-members")) {
+      return "team-members";
+    }
     if (path.includes("/google-account")) {
       return "google-account";
     }
     return "google-account"; // default
+  };
+
+  // Check if we're on edit team member route
+  const isEditTeamMember = () => {
+    return location.pathname.includes("/settings/team-members/edit/");
   };
 
   // Redirect base /settings to /settings/google-account
@@ -80,6 +90,11 @@ const SettingsPage = () => {
       return <ListingManagementPage accountId={accountId} />;
     }
 
+    // Check if we're on edit team member route
+    if (isEditTeamMember()) {
+      return <EditTeamMemberSettings />;
+    }
+
     switch (activeTab) {
       case "google-account":
         return <ManageGoogleAccountPage />;
@@ -91,6 +106,8 @@ const SettingsPage = () => {
         return <ReportBrandingPage />;
       case "integrations":
         return <IntegrationsPage />;
+      case "team-members":
+        return <TeamMembersPage />;
       default:
         return <ManageGoogleAccountPage />;
     }
@@ -140,8 +157,8 @@ const SettingsPage = () => {
               showFilters={false}
             />
 
-            {/* Settings Sub Header - Only show on main view */}
-            {currentView === "main" && (
+            {/* Settings Sub Header - Only show on main view and not on edit team member */}
+            {currentView === "main" && !isEditTeamMember() && (
               <SettingsSubHeader activeTab={activeTab} />
             )}
 
