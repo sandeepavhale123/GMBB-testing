@@ -13,8 +13,11 @@ export const useKeywordPolling = (
   const processingKeywordsRef = useRef<string[]>([]);
   const lastRequestTimeRef = useRef<number>(0);
   const isRequestingRef = useRef<boolean>(false);
+  const shouldStopPollingRef = useRef<boolean>(false);
+  const pollingCompletedTimeRef = useRef<number>(0);
   const maxErrors = 3;
   const MIN_REQUEST_INTERVAL = 3000; // 3 seconds minimum between requests
+  const RESTART_COOLDOWN = 10000; // 10 seconds cooldown after completion
 
   // Keep ref in sync with state
   useEffect(() => {
@@ -23,11 +26,14 @@ export const useKeywordPolling = (
 
   // Stop polling function
   const stopPolling = useCallback(() => {
+    console.log(`🛑 [${new Date().toISOString()}] Stopping polling`);
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
     setIsPolling(false);
+    shouldStopPollingRef.current = true;
+    pollingCompletedTimeRef.current = Date.now();
   }, []);
 
   // Check if we can make a request (prevent rapid successive calls)
@@ -41,8 +47,10 @@ export const useKeywordPolling = (
   const startPolling = useCallback(() => {
     if (!listingId || intervalRef.current) return;
 
+    console.log(`🚀 [${new Date().toISOString()}] Starting polling - shouldStopPolling: ${shouldStopPollingRef.current}`);
     setIsPolling(true);
     errorCountRef.current = 0;
+    shouldStopPollingRef.current = false;
 
     const pollKeywordStatus = async () => {
       // Check if page is visible and we can make a request
@@ -68,7 +76,9 @@ export const useKeywordPolling = (
           console.log(`✅ [${new Date().toISOString()}] No processing keywords found - checking if we should refresh data...`);
           const hadProcessingKeywords = processingKeywordsRef.current.length > 0;
           
+          // Update state synchronously before stopping polling
           setProcessingKeywords([]);
+          processingKeywordsRef.current = [];
           stopPolling();
           
           // Only call the refresh callback if we previously had processing keywords
@@ -92,6 +102,7 @@ export const useKeywordPolling = (
         if (errorCountRef.current >= maxErrors) {
           console.warn(`⚠️ [${new Date().toISOString()}] Too many polling errors (${maxErrors}), stopping polling`);
           setProcessingKeywords([]);
+          processingKeywordsRef.current = [];
           stopPolling();
         }
       } finally {
@@ -154,14 +165,28 @@ export const useKeywordPolling = (
       if (document.hidden) {
         console.log(`📱 [${new Date().toISOString()}] Page hidden, stopping polling`);
         stopPolling();
-      } else if (listingId && processingKeywordsRef.current.length > 0) {
-        console.log(`📱 [${new Date().toISOString()}] Page visible, restarting polling with delay...`);
-        // Add delay when restarting after page becomes visible
-        setTimeout(() => {
-          if (!document.hidden) { // Double check page is still visible
-            startPolling();
-          }
-        }, 2000);
+      } else {
+        const now = Date.now();
+        const timeSinceCompletion = now - pollingCompletedTimeRef.current;
+        const hasProcessingKeywords = processingKeywordsRef.current.length > 0;
+        const shouldRestart = listingId && 
+                             hasProcessingKeywords && 
+                             !shouldStopPollingRef.current && 
+                             timeSinceCompletion > RESTART_COOLDOWN;
+        
+        console.log(`📱 [${new Date().toISOString()}] Page visible - shouldRestart: ${shouldRestart}, hasProcessingKeywords: ${hasProcessingKeywords}, shouldStopPolling: ${shouldStopPollingRef.current}, timeSinceCompletion: ${timeSinceCompletion}ms`);
+        
+        if (shouldRestart) {
+          console.log(`📱 [${new Date().toISOString()}] Restarting polling with delay...`);
+          // Add delay when restarting after page becomes visible
+          setTimeout(() => {
+            if (!document.hidden && !shouldStopPollingRef.current) { // Double check conditions
+              startPolling();
+            }
+          }, 2000);
+        } else {
+          console.log(`📱 [${new Date().toISOString()}] Not restarting polling - conditions not met`);
+        }
       }
     };
 
