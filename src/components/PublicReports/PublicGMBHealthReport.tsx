@@ -47,7 +47,7 @@ export const PublicGMBHealthReport: React.FC = () => {
   } = usePerformanceHealthReport(isPublicLayout ? reportId : listingId || "");
 
   // Extract visible sections from API response
-  const visibleSections = Object.entries(healthData?.visibleSection || {})
+  const visibleSections = Object.entries(healthData?.data?.visibleSection || {})
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
   console.log("Health data from API call...", healthData);
@@ -380,7 +380,7 @@ export const PublicGMBHealthReport: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
 
           <div className="space-y-6">
-            {Object.entries(healthData?.detailedBreakdown).map(
+            {Object.entries(healthData?.data?.detailedBreakdown).map(
               ([key, value], index) => {
                 const breakdownInfo: Record<
                   string,
