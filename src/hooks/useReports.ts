@@ -75,3 +75,42 @@ export const usePerformanceInsightsReport = (reportId: string) => {
     refetchOnWindowFocus: false,
   });
 };
+
+// get Review Report
+export const usePerformanceReviewReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ["performance-review-report", reportId],
+    queryFn: () => reportsApi.getPerformanceReviewReport(reportId),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+};
+
+// get post report
+export const usePerformancePostsReport = (reportId: string) => {
+  const { toast } = useToast();
+
+  return useQuery({
+    queryKey: ["performance-posts-report", reportId],
+    queryFn: () => reportsApi.getPerformancePostsReport(reportId),
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "Post Report Loaded",
+        description:
+          data?.message || "Performance post report fetched successfully.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Loading Post Report",
+        description:
+          error?.message || "Failed to fetch performance post report.",
+        variant: "destructive",
+      });
+    },
+  });
+};

@@ -144,7 +144,7 @@ export const listingRoutes: RouteConfig[] = [
   //   ),
   // },
   {
-    path: "/health/:listingId",
+    path: "/health/:id",
     element: (
       <ProtectedRoute>
         <ListingProvider>

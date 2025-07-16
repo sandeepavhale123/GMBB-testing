@@ -257,7 +257,7 @@ export const PublicReportDashboardLayout: React.FC<
                         : "text-lg"
                     }`}
                   >
-                    123 Main Street, Business City, BC 12345
+                    {address}
                   </p>
                 </div>
               </div>

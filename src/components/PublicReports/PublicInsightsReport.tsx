@@ -90,8 +90,8 @@ export const PublicInsightsReport: React.FC = () => {
 
   const renderSummaryCard = (
     title: string,
-    previousValue: number,
     currentValue: number,
+    previousValue: number,
     change: number,
     icon: React.ReactNode,
     bgColor: string,

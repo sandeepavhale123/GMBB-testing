@@ -138,4 +138,38 @@ export const reportsApi = {
       throw error;
     }
   },
+
+  // Get Review Report Api
+  getPerformanceReviewReport: async (reportId: string) => {
+    try {
+      console.log("Fetching performance review report for ID:", reportId);
+      const response = await axiosInstance.post("/get-performance-review", {
+        reportId,
+      });
+      console.log("Performance review report data:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("POST get-performance-review failed:", error);
+      throw error;
+    }
+  },
+  //Get Post Report Api
+  getPerformancePostsReport: async (reportId: string): Promise<any> => {
+    try {
+      console.log("Fetching performance posts report for ID:", reportId);
+      const response = await axiosInstance.post("/get-performance-post", {
+        reportId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("Performance posts report data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(response.data?.message || "Failed to fetch report");
+      }
+    } catch (error) {
+      console.error("POST get-performance-post failed:", error);
+      throw error;
+    }
+  },
 };

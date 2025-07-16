@@ -9,7 +9,7 @@ import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPo
 
 export const publicReportRoutes: RouteConfig[] = [
   {
-    path: "/gmb-health/:token",
+    path: "/gmb-health/:reportId",
     element: <PublicGMBHealthReport />,
   },
   {
