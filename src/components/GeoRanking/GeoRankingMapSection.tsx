@@ -250,4 +250,12 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
       </Card>
     </div>
   );
+}, (prevProps, nextProps) => {
+  // Prevent re-render during polling by comparing only essential props
+  return prevProps.gridSize === nextProps.gridSize &&
+         JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+         JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats) &&
+         JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails) &&
+         prevProps.loading === nextProps.loading &&
+         prevProps.onMarkerClick === nextProps.onMarkerClick;
 });

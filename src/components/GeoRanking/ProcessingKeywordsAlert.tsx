@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
 import { Loader2, Clock, CheckCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+
 
 interface ProcessingKeywordsAlertProps {
   keywords: string[];
@@ -19,7 +19,7 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
   submittedKeywords = [],
   isNewSubmission = false
 }) => {
-  const navigate = useNavigate();
+  
   
   // Combine all processing keywords
   const allProcessingKeywords = [...new Set([...submittedKeywords, ...keywords])];
@@ -33,8 +33,7 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
   return (
     <Alert className="mb-6 border-blue-200 bg-blue-50">
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               {isNewSubmission ? (
                 <CheckCircle className="w-5 h-5 text-green-600" />
@@ -69,16 +68,8 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
               )}
             </div>
           </div>
-          
-          <button
-            onClick={() => navigate('/geo-ranking-report')}
-            className="text-sm text-blue-600 hover:text-blue-800 underline whitespace-nowrap ml-4"
-          >
-            Back to Report Form
-          </button>
-        </div>
         
-        {isPolling && (
+        {allProcessingKeywords.length > 0 && (
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-blue-700">
               <span>Processing keyword data...</span>
