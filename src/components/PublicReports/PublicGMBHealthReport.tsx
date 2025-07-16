@@ -43,10 +43,11 @@ export const PublicGMBHealthReport: React.FC = () => {
     data: healthData,
     isLoading,
     error,
+    refetch,
   } = usePerformanceHealthReport(isPublicLayout ? reportId : listingId || "");
 
   // Extract visible sections from API response
-  const visibleSections = Object.entries(healthData?.data.visibleSection || {})
+  const visibleSections = Object.entries(healthData?.visibleSection || {})
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
   console.log("Health data from API call...", healthData);
@@ -201,13 +202,13 @@ export const PublicGMBHealthReport: React.FC = () => {
           <CardContent className="p-6">
             <div className="flex flex-col items-center">
               <CircularProgress
-                value={healthData?.data.successScore}
+                value={healthData?.successScore}
                 size={80}
                 strokeWidth={8}
                 className="text-primary mb-4"
               >
                 <span className="text-lg font-bold">
-                  {healthData?.data.successScore}%
+                  {healthData?.successScore}%
                 </span>
               </CircularProgress>
               <h3 className="font-semibold text-sm">GMB Health Score</h3>
@@ -223,9 +224,9 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <MessageSquare className="h-8 w-8 text-blue-600" />
               </div>
               <div className="text-2xl font-bold text-blue-600">
-                {healthData?.data.reviews.reply}
+                {healthData?.reviews.reply}
                 <span className="text-sm">
-                  / {healthData?.data.reviews.review}
+                  / {healthData?.reviews.review}
                 </span>
               </div>
               <h3 className="font-semibold text-sm text-muted-foreground">
@@ -243,7 +244,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <Star className="h-8 w-8 text-yellow-600" />
               </div>
               <div className="text-2xl font-bold text-yellow-600">
-                {healthData?.data.avgRating}
+                {healthData?.avgRating}
               </div>
               <h3 className="font-semibold text-sm text-muted-foreground">
                 GMB Avg Rating
@@ -260,7 +261,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <Camera className="h-8 w-8 text-green-600" />
               </div>
               <div className="text-2xl font-bold text-green-600">
-                {healthData?.data.gmbPhotos}
+                {healthData?.gmbPhotos}
               </div>
               <h3 className="font-semibold text-sm text-muted-foreground">
                 No. Of GMB Photos
@@ -277,7 +278,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <FileText className="h-8 w-8 text-purple-600" />
               </div>
               <div className="text-2xl font-bold text-purple-600">
-                {healthData?.data.totalPosts}
+                {healthData?.totalPosts}
               </div>
               <h3 className="font-semibold text-sm text-muted-foreground">
                 No. Of GMB Posts
@@ -316,7 +317,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   Failed Tests
                 </div>
                 <div className="text-2xl font-bold text-red-800">
-                  {healthData?.data.failedScore}%
+                  {healthData?.failedScore}%
                 </div>
               </div>
 
@@ -326,7 +327,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   Passed Tests
                 </div>
                 <div className="text-2xl font-bold text-green-800">
-                  {healthData?.data.successScore} %
+                  {healthData?.successScore} %
                 </div>
               </div>
             </div>
@@ -340,12 +341,12 @@ export const PublicGMBHealthReport: React.FC = () => {
                       data={[
                         {
                           name: "Passed Tests",
-                          value: healthData?.data.successScore,
+                          value: healthData?.successScore,
                           fill: "#22c55e",
                         },
                         {
                           name: "Failed Tests",
-                          value: healthData?.data.failedScore,
+                          value: healthData?.failedScore,
                           fill: "#ef4444",
                         },
                       ]}
@@ -379,7 +380,7 @@ export const PublicGMBHealthReport: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
 
           <div className="space-y-6">
-            {Object.entries(healthData?.data.detailedBreakdown).map(
+            {Object.entries(healthData?.detailedBreakdown).map(
               ([key, value], index) => {
                 const breakdownInfo: Record<
                   string,
@@ -662,7 +663,7 @@ export const PublicGMBHealthReport: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {competitorChartData.map((item, idx) => {
-                  const isYou = healthData?.data.locationName
+                  const isYou = healthData?.locationName
                     .toLowerCase()
                     .includes(item.displayName.toLowerCase());
                   console.log("you value", isYou);
@@ -835,7 +836,7 @@ export const PublicGMBHealthReport: React.FC = () => {
 
                 {/* Competitor rows */}
                 {citationChartData.map((item, idx) => {
-                  const isYou = healthData?.data.locationName
+                  const isYou = healthData?.locationName
                     .toLowerCase()
                     .includes(item.displayName.toLowerCase());
                   return (
@@ -971,9 +972,9 @@ export const PublicGMBHealthReport: React.FC = () => {
   return isPublicLayout ? (
     <PublicReportDashboardLayout
       title="GMB Health Report"
-      companyName={healthData?.data.locationName}
-      address={healthData?.data.address}
-      companyLogo={healthData?.data?.companyLogo}
+      companyName={healthData?.locationName}
+      address={healthData?.address}
+      companyLogo={healthData?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
     >
