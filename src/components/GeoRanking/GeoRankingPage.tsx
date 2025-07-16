@@ -69,7 +69,7 @@ export const GeoRankingPage = () => {
   
   const userBusinessName = "Your Digital Agency";
 
-  // All callback hooks must be before early returns
+  // Memoized callback for marker clicks to prevent map re-renders
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
     if (!selectedKeyword) return;
 
