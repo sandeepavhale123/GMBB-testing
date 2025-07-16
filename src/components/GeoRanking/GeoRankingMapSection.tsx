@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankingMap } from "./RankingMap";
 import { RankDetail, RankStats, ProjectDetails } from "../../api/geoRankingApi";
@@ -13,7 +13,7 @@ interface GeoRankingMapSectionProps {
   loading: boolean;
 }
 
-export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
+export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
   gridSize,
   onMarkerClick,
   rankDetails,
@@ -21,8 +21,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
   projectDetails,
   loading,
 }) => {
-  // Calculate position summary from rank details
-  const calculatePositionSummary = () => {
+  // Memoize position summary calculation to prevent re-computation
+  const positionSummary = useMemo(() => {
     const summary = {
       "1-3": 0,
       "4-10": 0,
@@ -44,9 +44,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
     });
 
     return summary;
-  };
-
-  const positionSummary = calculatePositionSummary();
+  }, [rankDetails]);
 
   // Memoize distance formatting to prevent unnecessary recalculations
   const distance = useMemo(() => {
@@ -252,4 +250,12 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = ({
       </Card>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Prevent re-render during polling by comparing only essential props
+  return prevProps.gridSize === nextProps.gridSize &&
+         JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+         JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats) &&
+         JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails) &&
+         prevProps.loading === nextProps.loading &&
+         prevProps.onMarkerClick === nextProps.onMarkerClick;
+});

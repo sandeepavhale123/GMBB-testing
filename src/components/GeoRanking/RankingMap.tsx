@@ -211,4 +211,8 @@ export const RankingMap: React.FC<RankingMapProps> = memo(({ onMarkerClick, rank
       </CardContent>
     </Card>
   );
+}, (prevProps, nextProps) => {
+  // Only re-render if rankDetails actually change - prevent map re-rendering during polling
+  return JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+         prevProps.onMarkerClick === nextProps.onMarkerClick;
 });

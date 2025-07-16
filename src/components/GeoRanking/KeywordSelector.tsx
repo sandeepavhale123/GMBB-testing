@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Search } from 'lucide-react';
 import { Loader } from '../ui/loader';
@@ -18,7 +18,7 @@ interface KeywordSelectorProps {
   isRefreshing?: boolean;
 }
 
-export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
+export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
   keywords,
   selectedKeyword,
   selectedDate,
@@ -32,20 +32,24 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter keywords based on search term
-  const filteredKeywords = keywords.filter(keyword => 
-    keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
-  // Show all keywords, no limitation
-  const displayedKeywords = searchTerm ? filteredKeywords : keywords;
+  // Memoize filtered keywords to prevent unnecessary recalculations
+  const displayedKeywords = useMemo(() => {
+    const filteredKeywords = keywords.filter(keyword => 
+      keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return searchTerm ? filteredKeywords : keywords;
+  }, [keywords, searchTerm]);
 
-  // Get available dates for the selected keyword
-  const availableDates = keywordDetails?.dates || [];
+  // Memoize available dates for the selected keyword
+  const availableDates = useMemo(() => {
+    return keywordDetails?.dates || [];
+  }, [keywordDetails?.dates]);
 
-  // Get selected keyword name for display
-  const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
-  const selectedKeywordName = selectedKeywordData?.keyword || '';
+  // Memoize selected keyword name for display
+  const selectedKeywordName = useMemo(() => {
+    const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
+    return selectedKeywordData?.keyword || '';
+  }, [keywords, selectedKeyword]);
 
   const handleKeywordSelect = (keywordId: string) => {
     onKeywordChange(keywordId);
@@ -104,4 +108,4 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       </div>
     </div>
   );
-};
+});

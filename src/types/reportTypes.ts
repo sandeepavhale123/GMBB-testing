@@ -66,6 +66,10 @@ export interface PerformanceHealthReportData {
   };
   avgRating: number;
   gmbPhotos: string[];
+  totalPosts?: number;
+  locationName?: string;
+  address?: string;
+  companyLogo?: string;
   detailedBreakdown: {
     [key: string]: boolean;
   };

@@ -93,25 +93,26 @@ export const usePerformancePostsReport = (reportId: string) => {
 
   return useQuery({
     queryKey: ["performance-posts-report", reportId],
-    queryFn: () => reportsApi.getPerformancePostsReport(reportId),
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformancePostsReport(reportId);
+        toast({
+          title: "Post Report Loaded",
+          description: data?.message || "Performance post report fetched successfully.",
+        });
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading Post Report",
+          description: error?.message || "Failed to fetch performance post report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "Post Report Loaded",
-        description:
-          data?.message || "Performance post report fetched successfully.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Loading Post Report",
-        description:
-          error?.message || "Failed to fetch performance post report.",
-        variant: "destructive",
-      });
-    },
   });
 };
 

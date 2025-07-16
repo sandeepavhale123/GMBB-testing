@@ -3,10 +3,10 @@ import { useKeywords } from './useKeywords';
 import { useKeywordDetails } from './useKeywordDetails';
 import { useKeywordPolling } from './useKeywordPolling';
 import { useKeywordRefresh } from './useKeywordRefresh';
+import { usePollingProgress } from './usePollingProgress';
 
 export const useGeoRanking = (listingId: number) => {
-  // Progress tracking states
-  const [pollingProgress, setPollingProgress] = useState(0);
+  // Progress tracking states - isolated to prevent re-renders
   const [isCompleting, setIsCompleting] = useState(false);
   const [isPollingActive, setIsPollingActive] = useState(false);
 
@@ -24,7 +24,14 @@ export const useGeoRanking = (listingId: number) => {
 
   // Refresh functionality with proper parameter handling
   const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
-    return await fetchKeywords(true, selectKeywordId);
+    console.log(`🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - calling /get-keywords API`);
+    try {
+      await fetchKeywords(true, selectKeywordId);
+      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully`);
+    } catch (error) {
+      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed:`, error);
+      throw error;
+    }
   }, [fetchKeywords]);
 
   // Keyword details management (initialized without refresh mode first)
@@ -53,7 +60,14 @@ export const useGeoRanking = (listingId: number) => {
 
   // First create a simple callback without dependency on processingKeywords
   const simpleKeywordsCallback = useCallback(async () => {
-    return await fetchKeywords(true);
+    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - calling /get-keywords API`);
+    try {
+      await fetchKeywords(true);
+      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully from polling`);
+    } catch (error) {
+      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed from polling:`, error);
+      throw error;
+    }
   }, [fetchKeywords]);
 
   // Polling for keyword status - enable initial check to detect processing keywords
@@ -63,26 +77,11 @@ export const useGeoRanking = (listingId: number) => {
     true
   );
 
-  // Effect to handle progress when processing keywords exist
-  useEffect(() => {
-    if (processingKeywords.length > 0 && !refreshPollingActive) {
-      // Start progress tracking for processing keywords
-      setPollingProgress(prev => prev === 0 ? 10 : prev); // Initialize if not started
-      
-      // Increment progress periodically
-      const progressInterval = setInterval(() => {
-        setPollingProgress(prev => {
-          const newProgress = Math.min(prev + 5, 85); // Cap at 85%
-          return newProgress;
-        });
-      }, 3000); // Update every 3 seconds
-      
-      return () => clearInterval(progressInterval);
-    } else if (processingKeywords.length === 0 && !refreshPollingActive) {
-      // Reset progress when no processing keywords
-      setPollingProgress(0);
-    }
-  }, [processingKeywords.length, refreshPollingActive]);
+  // Use separate hook for progress tracking to isolate re-renders
+  const pollingProgress = usePollingProgress(
+    processingKeywords.length > 0 && !refreshPollingActive,
+    3000
+  );
 
   // Enhanced polling callback with progress tracking (now processingKeywords is available)
   const enhancedKeywordsCallback = useCallback(async () => {
@@ -106,19 +105,16 @@ export const useGeoRanking = (listingId: number) => {
   // Start custom polling with progress tracking
   const startCustomPolling = useCallback(() => {
     setIsPollingActive(true);
-    setPollingProgress(0);
     setIsCompleting(false);
   }, []);
 
   // Stop custom polling and complete progress
   const completePolling = useCallback(() => {
     setIsCompleting(true);
-    setPollingProgress(100);
     
-    // Show 100% for 2 seconds then reset
+    // Show completion for 2 seconds then reset
     setTimeout(() => {
       setIsPollingActive(false);
-      setPollingProgress(0);
       setIsCompleting(false);
     }, 2000);
   }, []);
