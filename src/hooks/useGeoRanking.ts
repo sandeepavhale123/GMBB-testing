@@ -24,7 +24,14 @@ export const useGeoRanking = (listingId: number) => {
 
   // Refresh functionality with proper parameter handling
   const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
-    return await fetchKeywords(true, selectKeywordId);
+    console.log(`🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - calling /get-keywords API`);
+    try {
+      await fetchKeywords(true, selectKeywordId);
+      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully`);
+    } catch (error) {
+      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed:`, error);
+      throw error;
+    }
   }, [fetchKeywords]);
 
   // Keyword details management (initialized without refresh mode first)
@@ -53,7 +60,14 @@ export const useGeoRanking = (listingId: number) => {
 
   // First create a simple callback without dependency on processingKeywords
   const simpleKeywordsCallback = useCallback(async () => {
-    return await fetchKeywords(true);
+    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - calling /get-keywords API`);
+    try {
+      await fetchKeywords(true);
+      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully from polling`);
+    } catch (error) {
+      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed from polling:`, error);
+      throw error;
+    }
   }, [fetchKeywords]);
 
   // Polling for keyword status - enable initial check to detect processing keywords
