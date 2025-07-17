@@ -166,7 +166,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     ) => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
+        (mapInstanceRef as any).current = null;
       }
 
       if (mapRef.current) {
@@ -274,9 +274,9 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   useEffect(() => {
     if (keywords.length) {
-      const map: Record<string, string> = {};
+      const map: Record<string, number> = {};
       keywords.forEach((item) => {
-        map[item.keyword] = item.id;
+        map[item.keyword] = Number(item.id);
       });
 
       setKeywordMap(map);
@@ -575,7 +575,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                               <span>{range}</span>
                             </div>
                             <span className="text-sm font-semibold text-gray-900">
-                              {count}
+                              {String(count)}
                             </span>
                           </div>
                         ))}
@@ -636,7 +636,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                               <span>{range}</span>
                             </div>
                             <span className="text-sm font-semibold text-gray-900">
-                              {count}
+                              {String(count)}
                             </span>
                           </div>
                         ))}
@@ -695,7 +695,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                               <span>{range}</span>
                             </div>
                             <span className="text-sm font-semibold text-gray-900">
-                              {count}
+                              {String(count)}
                             </span>
                           </div>
                         ))}

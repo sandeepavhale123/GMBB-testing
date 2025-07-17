@@ -47,7 +47,7 @@ export const PublicGMBHealthReport: React.FC = () => {
   } = usePerformanceHealthReport(isPublicLayout ? reportId : listingId || "");
 
   // Extract visible sections from API response
-  const visibleSections = Object.entries(healthData?.data?.visibleSection || {})
+  const visibleSections = Object.entries(healthData?.visibleSection || {})
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
   console.log("Health data from API call...", healthData);
@@ -224,9 +224,9 @@ export const PublicGMBHealthReport: React.FC = () => {
                 <MessageSquare className="h-8 w-8 text-blue-600" />
               </div>
               <div className="text-2xl font-bold text-blue-600">
-                {healthData?.data.reviews.reply}
+                {healthData?.reviews.reply}
                 <span className="text-sm">
-                  / {healthData?.data.reviews.review}
+                  / {healthData?.reviews.review}
                 </span>
               </div>
               <h3 className="font-semibold text-sm text-muted-foreground">
@@ -380,7 +380,7 @@ export const PublicGMBHealthReport: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">Detailed Breakdown</h2>
 
           <div className="space-y-6">
-            {Object.entries(healthData?.data?.detailedBreakdown).map(
+            {Object.entries(healthData?.detailedBreakdown).map(
               ([key, value], index) => {
                 const breakdownInfo: Record<
                   string,
@@ -972,9 +972,9 @@ export const PublicGMBHealthReport: React.FC = () => {
   return isPublicLayout ? (
     <PublicReportDashboardLayout
       title="GMB Health Report"
-      listingName={healthData?.data.locationName}
-      address={healthData?.data.address}
-      logo={healthData?.data?.companyLogo}
+      listingName={healthData?.locationName}
+      address={healthData?.address}
+      logo={healthData?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
     >
