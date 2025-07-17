@@ -115,7 +115,7 @@ export interface GetEditMemberResponse {
 }
 
 export interface UpdateTeamMemberRequest {
-  id: number;
+  Id: number;
   firstName: string;
   lastName: string;
   username: string;
@@ -148,7 +148,7 @@ export const getEditMember = async (payload: GetEditMemberRequest): Promise<GetE
 export const updateTeamMember = async (payload: UpdateTeamMemberRequest): Promise<UpdateTeamMemberResponse> => {
   try {
     const result = await axiosInstance({
-      url: "/update-member",
+      url: "/update-team-member",
       method: "POST",
       data: payload,
     });

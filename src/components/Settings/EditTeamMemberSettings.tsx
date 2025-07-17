@@ -90,7 +90,7 @@ export const EditTeamMemberSettings: React.FC = () => {
 
     try {
       const updateData = {
-        id: parseInt(memberId),
+        Id: parseInt(memberId),
         firstName: formData.firstName,
         lastName: formData.lastName,
         username: formData.email, // Map email back to username
