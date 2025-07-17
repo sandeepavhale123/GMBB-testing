@@ -4,19 +4,15 @@ import {
   fetchTeamMembers,
   addTeamMemberThunk,
   deleteTeamMemberThunk,
-  fetchEditMember,
-  updateEditMember,
   setSearchTerm, 
   setRoleFilter, 
   setCurrentPage, 
   setItemsPerPage, 
   clearError,
   clearAddError,
-  clearDeleteError,
-  clearEditError,
-  clearUpdateError
+  clearDeleteError
 } from '../store/slices/teamSlice';
-import { AddTeamMemberRequest, DeleteTeamMemberRequest, GetEditMemberRequest, UpdateTeamMemberRequest } from '../api/teamApi';
+import { AddTeamMemberRequest, DeleteTeamMemberRequest } from '../api/teamApi';
 
 export const useTeam = () => {
   const dispatch = useAppDispatch();
@@ -24,17 +20,12 @@ export const useTeam = () => {
     members,
     pagination,
     summary,
-    currentEditMember,
     isLoading,
     isAdding,
     isDeleting,
-    isLoadingEdit,
-    isUpdating,
     error,
     addError,
     deleteError,
-    editError,
-    updateError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -79,14 +70,6 @@ export const useTeam = () => {
     dispatch(clearDeleteError());
   };
 
-  const clearTeamEditError = () => {
-    dispatch(clearEditError());
-  };
-
-  const clearTeamUpdateError = () => {
-    dispatch(clearUpdateError());
-  };
-
   const refreshTeamMembers = () => {
     dispatch(fetchTeamMembers({
       page: currentPage,
@@ -114,35 +97,16 @@ export const useTeam = () => {
     return result;
   };
 
-  const getEditMember = async (memberData: GetEditMemberRequest) => {
-    const result = await dispatch(fetchEditMember(memberData));
-    return result;
-  };
-
-  const updateTeamMember = async (memberData: UpdateTeamMemberRequest) => {
-    const result = await dispatch(updateEditMember(memberData));
-    if (updateEditMember.fulfilled.match(result)) {
-      // Refresh the team members list after successful update
-      refreshTeamMembers();
-    }
-    return result;
-  };
-
   return {
     members,
     pagination,
     summary,
-    currentEditMember,
     isLoading,
     isAdding,
     isDeleting,
-    isLoadingEdit,
-    isUpdating,
     error,
     addError,
     deleteError,
-    editError,
-    updateError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -154,12 +118,8 @@ export const useTeam = () => {
     clearTeamError,
     clearTeamAddError,
     clearTeamDeleteError,
-    clearTeamEditError,
-    clearTeamUpdateError,
     refreshTeamMembers,
     addTeamMember,
-    deleteTeamMember,
-    getEditMember,
-    updateTeamMember
+    deleteTeamMember
   };
 };
