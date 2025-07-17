@@ -487,16 +487,14 @@ export const EditTeamMemberSettings: React.FC = () => {
 
               {/* Listings Table */}
               <div className="border rounded-lg">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[30%]">Business Name</TableHead>
-                      <TableHead className="w-[25%]">Account</TableHead>
-                      <TableHead className="w-[15%]">Type</TableHead>
-                      <TableHead className="w-[15%]">Status</TableHead>
-                      <TableHead className="w-[15%] text-center">Assign</TableHead>
-                    </TableRow>
-                  </TableHeader>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[40%]">Business Name</TableHead>
+                        <TableHead className="w-[40%]">Account</TableHead>
+                        <TableHead className="w-[20%] text-center">Assign</TableHead>
+                      </TableRow>
+                    </TableHeader>
                   <TableBody>
                     {listingsLoading ? (
                       <TableRow>
@@ -525,16 +523,6 @@ export const EditTeamMemberSettings: React.FC = () => {
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
                             {listing.accountName}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline" className="text-xs">
-                              GMB Listing
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant={getStatusBadgeVariant(listing.allocated)} className="text-xs">
-                              {listing.allocated ? 'Assigned' : 'Available'}
-                            </Badge>
                           </TableCell>
                           <TableCell className="text-center">
                             <Switch
