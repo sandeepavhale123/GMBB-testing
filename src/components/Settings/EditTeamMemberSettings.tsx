@@ -313,17 +313,6 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
-      {/* Back Button */}
-      <div className="mb-6">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="mb-4"
-        >
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Back to Team Members
-        </Button>
-      </div>
 
       {/* Header Card */}
       <Card className="mb-6">
@@ -342,13 +331,22 @@ export const EditTeamMemberSettings: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Profile Tab Only */}
+      {/* Tab Section with Back Button */}
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="listing">Listing</TabsTrigger>
-          <TabsTrigger value="permission">Permission</TabsTrigger>
-        </TabsList>
+        <div className="flex items-center gap-4 mb-4">
+          <Button
+            variant="ghost"
+            onClick={handleBack}
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Back
+          </Button>
+          <TabsList className="grid grid-cols-2 w-auto">
+            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="listing">Listing</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="profile" className="mt-6">
           <Card>
@@ -717,18 +715,6 @@ export const EditTeamMemberSettings: React.FC = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="permission" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Permission Management</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="text-center py-8">
-                <p className="text-muted-foreground">Permission management functionality will be implemented here using your existing APIs.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );
