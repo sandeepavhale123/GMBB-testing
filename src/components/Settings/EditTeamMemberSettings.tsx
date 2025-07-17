@@ -50,10 +50,10 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   // Fetch member data on component mount
   useEffect(() => {
-    if (memberId) {
+    if (memberId && !isLoadingEdit) {
       fetchEditTeamMember(parseInt(memberId));
     }
-  }, [memberId, fetchEditTeamMember]);
+  }, [memberId, fetchEditTeamMember, isLoadingEdit]);
 
   // Update form data when member data is loaded
   useEffect(() => {
