@@ -104,6 +104,63 @@ export const addTeamMember = async (payload: AddTeamMemberRequest): Promise<AddT
   }
 };
 
+export interface GetEditMemberRequest {
+  id: number;
+}
+
+export interface GetEditMemberResponse {
+  code: number;
+  message: string;
+  data: TeamMember;
+}
+
+export interface UpdateTeamMemberRequest {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password?: string;
+  role: string;
+}
+
+export interface UpdateTeamMemberResponse {
+  code: number;
+  message: string;
+  data: any;
+}
+
+export const getEditMember = async (payload: GetEditMemberRequest): Promise<GetEditMemberResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/get-edit-member",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Get edit member API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch edit member:", error);
+    throw error;
+  }
+};
+
+export const updateTeamMember = async (payload: UpdateTeamMemberRequest): Promise<UpdateTeamMemberResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/update-member",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Update team member API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to update team member:", error);
+    throw error;
+  }
+};
+
 export const deleteTeamMember = async (payload: DeleteTeamMemberRequest): Promise<DeleteTeamMemberResponse> => {
   try {
     const result = await axiosInstance({

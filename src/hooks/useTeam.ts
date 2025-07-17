@@ -4,15 +4,19 @@ import {
   fetchTeamMembers,
   addTeamMemberThunk,
   deleteTeamMemberThunk,
+  fetchEditMember,
+  updateEditMember,
   setSearchTerm, 
   setRoleFilter, 
   setCurrentPage, 
   setItemsPerPage, 
   clearError,
   clearAddError,
-  clearDeleteError
+  clearDeleteError,
+  clearEditError,
+  clearSaveError
 } from '../store/slices/teamSlice';
-import { AddTeamMemberRequest, DeleteTeamMemberRequest } from '../api/teamApi';
+import { AddTeamMemberRequest, DeleteTeamMemberRequest, GetEditMemberRequest, UpdateTeamMemberRequest } from '../api/teamApi';
 
 export const useTeam = () => {
   const dispatch = useAppDispatch();
@@ -23,9 +27,14 @@ export const useTeam = () => {
     isLoading,
     isAdding,
     isDeleting,
+    currentEditMember,
+    isLoadingEdit,
+    isSavingEdit,
     error,
     addError,
     deleteError,
+    editError,
+    saveError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -70,6 +79,28 @@ export const useTeam = () => {
     dispatch(clearDeleteError());
   };
 
+  const clearTeamEditError = () => {
+    dispatch(clearEditError());
+  };
+
+  const clearTeamSaveError = () => {
+    dispatch(clearSaveError());
+  };
+
+  const fetchEditTeamMember = async (memberId: number) => {
+    const result = await dispatch(fetchEditMember({ id: memberId }));
+    return result;
+  };
+
+  const updateTeamMember = async (memberData: UpdateTeamMemberRequest) => {
+    const result = await dispatch(updateEditMember(memberData));
+    if (updateEditMember.fulfilled.match(result)) {
+      // Refresh the team members list after successful update
+      refreshTeamMembers();
+    }
+    return result;
+  };
+
   const refreshTeamMembers = () => {
     dispatch(fetchTeamMembers({
       page: currentPage,
@@ -104,9 +135,14 @@ export const useTeam = () => {
     isLoading,
     isAdding,
     isDeleting,
+    currentEditMember,
+    isLoadingEdit,
+    isSavingEdit,
     error,
     addError,
     deleteError,
+    editError,
+    saveError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -118,8 +154,12 @@ export const useTeam = () => {
     clearTeamError,
     clearTeamAddError,
     clearTeamDeleteError,
+    clearTeamEditError,
+    clearTeamSaveError,
     refreshTeamMembers,
     addTeamMember,
-    deleteTeamMember
+    deleteTeamMember,
+    fetchEditTeamMember,
+    updateTeamMember
   };
 };
