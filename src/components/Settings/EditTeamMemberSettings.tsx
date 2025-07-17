@@ -203,8 +203,10 @@ export const EditTeamMemberSettings: React.FC = () => {
 
       {/* Profile Tab Only */}
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full grid-cols-1">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="listing">Listing</TabsTrigger>
+          <TabsTrigger value="permission">Permission</TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile" className="mt-6">
@@ -321,6 +323,32 @@ export const EditTeamMemberSettings: React.FC = () => {
                     "Save Changes"
                   )}
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="listing" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Listing Management</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Listing management functionality will be implemented here using your existing APIs.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="permission" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Permission Management</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Permission management functionality will be implemented here using your existing APIs.</p>
               </div>
             </CardContent>
           </Card>
