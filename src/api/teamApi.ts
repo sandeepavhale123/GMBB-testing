@@ -215,6 +215,27 @@ export interface GetActiveAccountsResponse {
   };
 }
 
+export interface GetActiveAccountListRequest {
+  id: number; // team member id
+  accountId: number;
+}
+
+export interface GetActiveAccountListResponse {
+  code: number;
+  message: string;
+  data: {
+    accountId: string;
+    accountName: string;
+    totalListings: number;
+    listings: Listing[];
+    page: number;
+    limit: number;
+    nextPageToken: string;
+    prevPageToken: string;
+    hasMore: boolean;
+  };
+}
+
 export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Promise<GetActiveAccountsResponse> => {
   try {
     const result = await axiosInstance({
@@ -227,6 +248,22 @@ export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Prom
     return result.data;
   } catch (error) {
     console.error("Failed to fetch active accounts:", error);
+    throw error;
+  }
+};
+
+export const getActiveAccountList = async (payload: GetActiveAccountListRequest): Promise<GetActiveAccountListResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/get-active-account-list",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Get active account list API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch active account list:", error);
     throw error;
   }
 };

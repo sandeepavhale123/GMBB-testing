@@ -71,7 +71,10 @@ export const EditTeamMemberSettings: React.FC = () => {
     toggleListingAssignment,
     isListingAssigned,
     pagination,
-    refetch: refetchListings
+    refetch: refetchListings,
+    searchByAccount,
+    selectedAccountId,
+    clearAccountSearch
   } = useActiveAccounts({
     employeeId: parseInt(memberId || '0'),
     page: currentPage,
@@ -183,13 +186,23 @@ export const EditTeamMemberSettings: React.FC = () => {
     setHasChanges(true);
   };
 
-  const handleAccountSelect = (account: string) => {
-    setSelectedAccount(account);
+  const handleAccountSelect = (accountName: string) => {
+    setSelectedAccount(accountName);
     setCurrentPage(1); // Reset to first page when changing account
     setIsAccountDropdownOpen(false);
     setAccountSearchQuery(''); // Clear search when selecting
-    // Refetch data for the new account selection
-    refetchListings();
+    
+    if (accountName === 'All') {
+      // Clear account search and show all listings
+      clearAccountSearch();
+      refetchListings();
+    } else {
+      // Find the account and trigger search
+      const account = accountsWithAll.find(acc => acc.accountName === accountName);
+      if (account && account.accountId !== 'All') {
+        searchByAccount(parseInt(account.accountId));
+      }
+    }
   };
 
   const handlePageChange = (page: number) => {
