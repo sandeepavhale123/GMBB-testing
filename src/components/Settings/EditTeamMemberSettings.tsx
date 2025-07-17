@@ -65,7 +65,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         firstName: currentEditMember.firstName || "",
         lastName: currentEditMember.lastName || "",
         email: currentEditMember.username || "", // Map username to email
-        password: "", // Don't prefill password for security
+        password: currentEditMember.password || "",
         role: currentEditMember.role || ""
       });
     }
