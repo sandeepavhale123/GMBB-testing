@@ -3,14 +3,16 @@ import { useAppDispatch, useAppSelector } from './useRedux';
 import { 
   fetchTeamMembers,
   addTeamMemberThunk,
+  deleteTeamMemberThunk,
   setSearchTerm, 
   setRoleFilter, 
   setCurrentPage, 
   setItemsPerPage, 
   clearError,
-  clearAddError
+  clearAddError,
+  clearDeleteError
 } from '../store/slices/teamSlice';
-import { AddTeamMemberRequest } from '../api/teamApi';
+import { AddTeamMemberRequest, DeleteTeamMemberRequest } from '../api/teamApi';
 
 export const useTeam = () => {
   const dispatch = useAppDispatch();
@@ -20,8 +22,10 @@ export const useTeam = () => {
     summary,
     isLoading,
     isAdding,
+    isDeleting,
     error,
     addError,
+    deleteError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -62,6 +66,10 @@ export const useTeam = () => {
     dispatch(clearAddError());
   };
 
+  const clearTeamDeleteError = () => {
+    dispatch(clearDeleteError());
+  };
+
   const refreshTeamMembers = () => {
     dispatch(fetchTeamMembers({
       page: currentPage,
@@ -80,14 +88,25 @@ export const useTeam = () => {
     return result;
   };
 
+  const deleteTeamMember = async (memberData: DeleteTeamMemberRequest) => {
+    const result = await dispatch(deleteTeamMemberThunk(memberData));
+    if (deleteTeamMemberThunk.fulfilled.match(result)) {
+      // Refresh the team members list after successful deletion
+      refreshTeamMembers();
+    }
+    return result;
+  };
+
   return {
     members,
     pagination,
     summary,
     isLoading,
     isAdding,
+    isDeleting,
     error,
     addError,
+    deleteError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -98,7 +117,9 @@ export const useTeam = () => {
     updateItemsPerPage,
     clearTeamError,
     clearTeamAddError,
+    clearTeamDeleteError,
     refreshTeamMembers,
-    addTeamMember
+    addTeamMember,
+    deleteTeamMember
   };
 };

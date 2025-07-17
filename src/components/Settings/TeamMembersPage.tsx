@@ -467,6 +467,10 @@ const TeamMembersPage: React.FC = () => {
         open={showDeleteModal}
         onOpenChange={setShowDeleteModal}
         member={selectedMember}
+        onSuccess={() => {
+          // The team list will be automatically refreshed by the deleteTeamMember function
+          console.log("Team member deleted successfully");
+        }}
       />
       
     </div>

@@ -61,6 +61,17 @@ export interface AddTeamMemberResponse {
   };
 }
 
+export interface DeleteTeamMemberRequest {
+  id: number;
+  isDelete: string;
+}
+
+export interface DeleteTeamMemberResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
 export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<GetTeamMembersResponse> => {
   try {
     const result = await axiosInstance({
@@ -89,6 +100,22 @@ export const addTeamMember = async (payload: AddTeamMemberRequest): Promise<AddT
     return result.data;
   } catch (error) {
     console.error("Failed to add team member:", error);
+    throw error;
+  }
+};
+
+export const deleteTeamMember = async (payload: DeleteTeamMemberRequest): Promise<DeleteTeamMemberResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/delete-member",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Delete team member API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to delete team member:", error);
     throw error;
   }
 };

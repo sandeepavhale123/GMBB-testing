@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getTeamMembers, addTeamMember, GetTeamMembersRequest, AddTeamMemberRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
+import { getTeamMembers, addTeamMember, deleteTeamMember, GetTeamMembersRequest, AddTeamMemberRequest, DeleteTeamMemberRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
 
 export const fetchTeamMembers = createAsyncThunk(
   'team/fetchTeamMembers',
@@ -15,14 +15,23 @@ export const addTeamMemberThunk = createAsyncThunk(
   }
 );
 
+export const deleteTeamMemberThunk = createAsyncThunk(
+  'team/deleteTeamMember',
+  async (params: DeleteTeamMemberRequest) => {
+    return await deleteTeamMember(params);
+  }
+);
+
 interface TeamState {
   members: TeamMember[];
   pagination: TeamPaginationInfo | null;
   summary: TeamSummary | null;
   isLoading: boolean;
   isAdding: boolean;
+  isDeleting: boolean;
   error: string | null;
   addError: string | null;
+  deleteError: string | null;
   searchTerm: string;
   roleFilter: string;
   currentPage: number;
@@ -35,8 +44,10 @@ const initialState: TeamState = {
   summary: null,
   isLoading: false,
   isAdding: false,
+  isDeleting: false,
   error: null,
   addError: null,
+  deleteError: null,
   searchTerm: '',
   roleFilter: 'all',
   currentPage: 1,
@@ -68,6 +79,9 @@ const teamSlice = createSlice({
     clearAddError: (state) => {
       state.addError = null;
     },
+    clearDeleteError: (state) => {
+      state.deleteError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -96,6 +110,18 @@ const teamSlice = createSlice({
       .addCase(addTeamMemberThunk.rejected, (state, action) => {
         state.isAdding = false;
         state.addError = action.error.message || 'Failed to add team member';
+      })
+      .addCase(deleteTeamMemberThunk.pending, (state) => {
+        state.isDeleting = true;
+        state.deleteError = null;
+      })
+      .addCase(deleteTeamMemberThunk.fulfilled, (state) => {
+        state.isDeleting = false;
+        state.deleteError = null;
+      })
+      .addCase(deleteTeamMemberThunk.rejected, (state, action) => {
+        state.isDeleting = false;
+        state.deleteError = action.error.message || 'Failed to delete team member';
       });
   },
 });
@@ -106,7 +132,8 @@ export const {
   setCurrentPage, 
   setItemsPerPage, 
   clearError,
-  clearAddError
+  clearAddError,
+  clearDeleteError
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

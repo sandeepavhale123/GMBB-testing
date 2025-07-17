@@ -7,22 +7,52 @@ import {
   DialogDescription,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
+import { useTeam } from "../../hooks/useTeam";
+import { useToast } from "../../hooks/use-toast";
 
 interface DeleteTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   member: any;
+  onSuccess?: () => void;
 }
 
 export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   open,
   onOpenChange,
   member,
+  onSuccess,
 }) => {
-  const handleDelete = () => {
-    console.log("Deleting team member:", member);
-    onOpenChange(false);
+  const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } = useTeam();
+  const { toast } = useToast();
+
+  const handleDelete = async () => {
+    if (!member) return;
+
+    try {
+      clearTeamDeleteError();
+      
+      const result = await deleteTeamMember({
+        id: parseInt(member.id),
+        isDelete: "delete"
+      });
+
+      if (result.meta.requestStatus === 'fulfilled') {
+        toast({
+          title: "Success",
+          description: "Team member deleted successfully",
+        });
+        onOpenChange(false);
+        onSuccess?.();
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: deleteError || "Failed to delete team member",
+        variant: "destructive",
+      });
+    }
   };
 
   if (!member) return null;
@@ -75,9 +105,17 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
           <Button
             variant="destructive"
             onClick={handleDelete}
+            disabled={isDeleting}
             className="flex-1"
           >
-            Delete Member
+            {isDeleting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete Member"
+            )}
           </Button>
         </div>
       </DialogContent>
