@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ChevronLeft, Eye, EyeOff, Loader2, Search, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye, EyeOff, Loader2, Search, ChevronDown } from "lucide-react";
 import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
 import { updateEditMember } from "@/store/slices/teamSlice";
@@ -55,7 +55,6 @@ export const EditTeamMemberSettings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
   // Listing management state
-  const [allowListingAccess, setAllowListingAccess] = useState(true);
   const [selectedAccount, setSelectedAccount] = useState('All');
   const [accountSearchQuery, setAccountSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -413,246 +412,214 @@ export const EditTeamMemberSettings: React.FC = () => {
             <CardTitle>Listing Management</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-              {/* Master Toggle for Listing Access */}
-              <div className="mb-6 p-4 border rounded-lg bg-muted/50">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-medium">Allow Listing Access</h3>
-                    <p className="text-sm text-muted-foreground">Enable this team member to access and manage listings</p>
+            <div className="space-y-6">
+              {/* Filter Section */}
+              <div className="flex gap-4 items-center">
+                {/* Account Dropdown (80% width) */}
+                <div className="flex-1 relative">
+                  <Label className="text-sm font-medium">Google Account</Label>
+                  <div className="relative mt-1">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-between"
+                      onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
+                    >
+                      <span className="truncate">{selectedAccount}</span>
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    </Button>
+                    
+                    {isAccountDropdownOpen && (
+                      <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
+                        <div className="p-2 border-b">
+                          <div className="relative">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              placeholder="Search accounts..."
+                              value={accountSearchQuery}
+                              onChange={(e) => setAccountSearchQuery(e.target.value)}
+                              className="pl-8"
+                            />
+                          </div>
+                        </div>
+                        <div className="max-h-48 overflow-y-auto">
+                          {filteredAccounts.map((account) => (
+                            <button
+                              key={account.accountId}
+                              className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                              onClick={() => handleAccountSelect(account.accountName)}
+                            >
+                              {account.accountName}
+                            </button>
+                          ))}
+                          {filteredAccounts.length === 0 && (
+                            <div className="px-3 py-2 text-sm text-muted-foreground">
+                              No accounts found
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <Switch
-                    checked={allowListingAccess}
-                    onCheckedChange={(checked) => {
-                      setAllowListingAccess(checked);
-                      setHasChanges(true);
-                    }}
-                  />
+                </div>
+
+                {/* Assigned Listing Badge (20% width) */}
+                <div className="flex-shrink-0">
+                  <Label className="text-sm font-medium">Assigned Listings</Label>
+                  <div className="mt-1">
+                    <Badge variant="secondary" className="text-sm px-3 py-1">
+                      {totalAssignListings} Assigned
+                    </Badge>
+                  </div>
                 </div>
               </div>
 
-              {!allowListingAccess ? (
-                <div className="text-center py-12">
-                  <div className="text-muted-foreground">
-                    <p className="text-lg mb-2">Listing access is disabled</p>
-                    <p className="text-sm">Enable listing access to allow this team member to manage listings</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {/* Filter Section */}
-                  <div className="flex gap-4 items-center">
-                    {/* Account Dropdown (80% width) */}
-                    <div className="flex-1 relative">
-                      <Label className="text-sm font-medium">Google Account</Label>
-                      <div className="relative mt-1">
-                        <Button
-                          variant="outline"
-                          className="w-full justify-between"
-                          onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
-                        >
-                          <span className="truncate">{selectedAccount}</span>
-                          <ChevronDown className="h-4 w-4 opacity-50" />
-                        </Button>
-                        
-                        {isAccountDropdownOpen && (
-                          <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
-                            <div className="p-2 border-b">
-                              <div className="relative">
-                                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                  placeholder="Search accounts..."
-                                  value={accountSearchQuery}
-                                  onChange={(e) => setAccountSearchQuery(e.target.value)}
-                                  className="pl-8"
-                                />
-                              </div>
-                            </div>
-                            <div className="max-h-48 overflow-y-auto">
-                              {filteredAccounts.map((account) => (
-                                <button
-                                  key={account.accountId}
-                                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
-                                  onClick={() => handleAccountSelect(account.accountName)}
-                                >
-                                  {account.accountName}
-                                </button>
-                              ))}
-                              {filteredAccounts.length === 0 && (
-                                <div className="px-3 py-2 text-sm text-muted-foreground">
-                                  No accounts found
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Assigned Listing Badge (20% width) */}
-                    <div className="flex-shrink-0">
-                      <Label className="text-sm font-medium">Assigned Listings</Label>
-                      <div className="mt-1">
-                        <Badge variant="secondary" className="text-sm px-3 py-1">
-                          {totalAssignListings} Assigned
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* GMB Listings Table */}
-                  <div className="border rounded-lg">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Business Name</TableHead>
-                          <TableHead>Address</TableHead>
-                          <TableHead>Category</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead className="text-center">Access</TableHead>
+              {/* Listings Table */}
+              <div className="border rounded-lg">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[30%]">Business Name</TableHead>
+                      <TableHead className="w-[25%]">Account</TableHead>
+                      <TableHead className="w-[15%]">Type</TableHead>
+                      <TableHead className="w-[15%]">Status</TableHead>
+                      <TableHead className="w-[15%] text-center">Assign</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {paginatedListings.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                          No listings found for the selected account
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      paginatedListings.map((listing) => (
+                        <TableRow key={listing.id} className="hover:bg-muted/50">
+                          <TableCell className="font-medium">
+                            {listing.name}
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {listing.accountName}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className="text-xs">
+                              GMB Listing
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={getStatusBadgeVariant(listing.allocated)} className="text-xs">
+                              {listing.allocated ? 'Assigned' : 'Available'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Switch
+                              checked={listing.allocated}
+                              onCheckedChange={() => handleListingToggle(listing.id)}
+                            />
+                          </TableCell>
                         </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {paginatedListings.length === 0 ? (
-                          <TableRow>
-                            <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                              No listings found for the selected account
-                            </TableCell>
-                          </TableRow>
-                        ) : (
-                          paginatedListings.map((listing) => (
-                            <TableRow key={listing.id} className="hover:bg-muted/50">
-                              <TableCell className="font-medium">
-                                {listing.name}
-                              </TableCell>
-                              <TableCell className="text-sm text-muted-foreground">
-                                {listing.accountName}
-                              </TableCell>
-                              <TableCell>
-                                <Badge variant="outline" className="text-xs">
-                                  GMB Listing
-                                </Badge>
-                              </TableCell>
-                              <TableCell>
-                                <Badge variant={getStatusBadgeVariant(listing.allocated)} className="text-xs">
-                                  {listing.allocated ? 'Assigned' : 'Available'}
-                                </Badge>
-                              </TableCell>
-                              <TableCell className="text-center">
-                                <Switch
-                                  checked={listing.allocated}
-                                  onCheckedChange={() => handleListingToggle(listing.id)}
-                                />
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        )}
-                      </TableBody>
-                    </Table>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      Showing {Math.min(startIndex + 1, filteredListings.length)} to {Math.min(startIndex + pageSize, filteredListings.length)} of {filteredListings.length} listings
+                    </span>
                   </div>
-
-                  {/* Pagination */}
-                  {filteredListings.length > 0 && (
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">
-                          Showing {startIndex + 1}-{Math.min(startIndex + pageSize, filteredListings.length)} of {filteredListings.length} listings
-                        </span>
-                      </div>
-                      
-                      <div className="flex items-center gap-4">
-                        {/* Page Size Selector */}
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-muted-foreground">Show:</span>
-                          <Select value={pageSize.toString()} onValueChange={(value) => handlePageSizeChange(parseInt(value))}>
-                            <SelectTrigger className="h-8 w-16">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="10">10</SelectItem>
-                              <SelectItem value="25">25</SelectItem>
-                              <SelectItem value="50">50</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        {/* Page Navigation */}
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            Previous
-                          </Button>
-                          
-                          <div className="flex items-center gap-1">
-                            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                              const pageNum = i + 1;
-                              if (totalPages <= 5) {
-                                return (
-                                  <Button
-                                    key={pageNum}
-                                    variant={currentPage === pageNum ? "default" : "outline"}
-                                    size="sm"
-                                    className="w-8 h-8 p-0"
-                                    onClick={() => handlePageChange(pageNum)}
-                                  >
-                                    {pageNum}
-                                  </Button>
-                                );
-                              }
-                              return null;
-                            })}
-                            {totalPages > 5 && currentPage < totalPages - 2 && (
-                              <>
-                                <span className="px-2 text-muted-foreground">...</span>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="w-8 h-8 p-0"
-                                  onClick={() => handlePageChange(totalPages)}
-                                >
-                                  {totalPages}
-                                </Button>
-                              </>
-                            )}
-                          </div>
-                          
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            Next
-                          </Button>
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm text-muted-foreground">Show:</span>
+                      <Select value={pageSize.toString()} onValueChange={(value) => handlePageSizeChange(parseInt(value))}>
+                        <SelectTrigger className="w-16 h-8">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="5">5</SelectItem>
+                          <SelectItem value="10">10</SelectItem>
+                          <SelectItem value="25">25</SelectItem>
+                          <SelectItem value="50">50</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                  )}
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-8 h-8 p-0"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </Button>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                        if (totalPages <= 5 || pageNum === 1 || pageNum === totalPages || (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)) {
+                          return (
+                            <Button
+                              key={pageNum}
+                              variant={pageNum === currentPage ? "default" : "outline"}
+                              size="sm"
+                              className="w-8 h-8 p-0"
+                              onClick={() => handlePageChange(pageNum)}
+                            >
+                              {pageNum}
+                            </Button>
+                          );
+                        }
+                        return null;
+                      })}
+                      {totalPages > 5 && currentPage < totalPages - 2 && (
+                        <>
+                          <span className="px-2 text-muted-foreground">...</span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-8 h-8 p-0"
+                            onClick={() => handlePageChange(totalPages)}
+                          >
+                            {totalPages}
+                          </Button>
+                        </>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-8 h-8 p-0"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
+            </div>
 
-              {/* Save Button */}
-              <div className="flex justify-end mt-8 pt-6 border-t">
-                <Button 
-                  onClick={handleSave} 
-                  className="px-8"
-                  disabled={isSavingEdit || !hasChanges}
-                >
-                  {isSavingEdit ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Changes"
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            {/* Save Button */}
+            <div className="flex justify-end mt-8 pt-6 border-t">
+              <Button 
+                onClick={handleSave} 
+                className="px-8"
+                disabled={isSavingEdit || !hasChanges}
+              >
+                {isSavingEdit ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
