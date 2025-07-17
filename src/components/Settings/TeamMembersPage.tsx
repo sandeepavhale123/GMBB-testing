@@ -100,6 +100,7 @@ const TeamMembersPage: React.FC = () => {
     return member.username.slice(0, 2).toUpperCase();
   };
 
+  // Helper function to construct profile picture URLs
   const getProfilePictureUrl = (profilePicture: string) => {
     if (!profilePicture) return '';
     return `https://member.gmbbriefcase.com/files/suninfo/profile/${profilePicture}`;
