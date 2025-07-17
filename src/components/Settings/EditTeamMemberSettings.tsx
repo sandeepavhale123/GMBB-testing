@@ -83,19 +83,27 @@ export const EditTeamMemberSettings: React.FC = () => {
     account.accountName.toLowerCase().includes(accountSearchQuery.toLowerCase())
   );
 
-  // Filter listings based on selected account
-  const filteredListings = listings.filter(listing => {
-    if (selectedAccount === 'All') return true;
-    return listing.accountName === selectedAccount;
-  });
+  // Filter listings based on selected account (client-side filter)
+  const displayListings = selectedAccount === 'All' 
+    ? listings 
+    : listings.filter(listing => listing.accountName === selectedAccount);
 
-  // Calculate pagination for filtered listings
-  const totalPages = Math.ceil(filteredListings.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const paginatedListings = filteredListings.slice(startIndex, startIndex + pageSize);
+  // Use API pagination data
+  const {
+    page: currentApiPage,
+    limit: currentApiLimit,
+    hasMore,
+    nextPageToken,
+    prevPageToken
+  } = pagination;
 
+  // Calculate total pages based on API data
+  const totalApiPages = hasMore ? currentApiPage + 1 : currentApiPage;
+  
   // Get assigned listings count for current filter
-  const assignedCount = filteredListings.filter(listing => listing.allocated).length;
+  const assignedCount = selectedAccount === 'All' 
+    ? totalAssignListings 
+    : displayListings.filter(listing => listing.allocated).length;
 
   const fetchedMemberIdRef = useRef<number | null>(null);
   useEffect(() => {
@@ -180,15 +188,19 @@ export const EditTeamMemberSettings: React.FC = () => {
     setCurrentPage(1); // Reset to first page when changing account
     setIsAccountDropdownOpen(false);
     setAccountSearchQuery(''); // Clear search when selecting
+    // Refetch data for the new account selection
+    refetchListings();
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // The useActiveAccounts hook will automatically refetch when currentPage changes
   };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
     setCurrentPage(1); // Reset to first page when changing page size
+    // The useActiveAccounts hook will automatically refetch when pageSize changes
   };
 
   const getStatusBadgeVariant = (allocated: boolean) => {
@@ -486,14 +498,27 @@ export const EditTeamMemberSettings: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paginatedListings.length === 0 ? (
+                    {listingsLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="text-center py-8">
+                          <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                          <p className="text-muted-foreground">Loading listings...</p>
+                        </TableCell>
+                      </TableRow>
+                    ) : listingsError ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="text-center py-8 text-destructive">
+                          Error loading listings: {listingsError}
+                        </TableCell>
+                      </TableRow>
+                    ) : displayListings.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                           No listings found for the selected account
                         </TableCell>
                       </TableRow>
                     ) : (
-                      paginatedListings.map((listing) => (
+                      displayListings.map((listing) => (
                         <TableRow key={listing.id} className="hover:bg-muted/50">
                           <TableCell className="font-medium">
                             {listing.name}
@@ -524,19 +549,21 @@ export const EditTeamMemberSettings: React.FC = () => {
                 </Table>
               </div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
+              {/* API-driven Pagination */}
+              {displayListings.length > 0 && !listingsLoading && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">
-                      Showing {Math.min(startIndex + 1, filteredListings.length)} to {Math.min(startIndex + pageSize, filteredListings.length)} of {filteredListings.length} listings
+                      Page {currentApiPage} of {totalApiPages} • {displayListings.length} listings
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
+                  
+                  <div className="flex items-center gap-4">
+                    {/* Page Size Selector */}
+                    <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">Show:</span>
                       <Select value={pageSize.toString()} onValueChange={(value) => handlePageSizeChange(parseInt(value))}>
-                        <SelectTrigger className="w-16 h-8">
+                        <SelectTrigger className="h-8 w-16">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -547,53 +574,37 @@ export const EditTeamMemberSettings: React.FC = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="flex items-center gap-1">
+
+                    {/* Page Navigation */}
+                    <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-8 h-8 p-0"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentApiPage - 1)}
+                        disabled={!prevPageToken || currentApiPage === 1}
                       >
-                        <ChevronLeft className="w-4 h-4" />
+                        Previous
                       </Button>
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
-                        if (totalPages <= 5 || pageNum === 1 || pageNum === totalPages || (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)) {
-                          return (
-                            <Button
-                              key={pageNum}
-                              variant={pageNum === currentPage ? "default" : "outline"}
-                              size="sm"
-                              className="w-8 h-8 p-0"
-                              onClick={() => handlePageChange(pageNum)}
-                            >
-                              {pageNum}
-                            </Button>
-                          );
-                        }
-                        return null;
-                      })}
-                      {totalPages > 5 && currentPage < totalPages - 2 && (
-                        <>
-                          <span className="px-2 text-muted-foreground">...</span>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-8 h-8 p-0"
-                            onClick={() => handlePageChange(totalPages)}
-                          >
-                            {totalPages}
-                          </Button>
-                        </>
-                      )}
+                      
+                      <div className="flex items-center gap-1">
+                        <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
+                          {currentApiPage}
+                        </span>
+                        {hasMore && (
+                          <>
+                            <span className="text-sm text-muted-foreground">of</span>
+                            <span className="text-sm text-muted-foreground">{totalApiPages}+</span>
+                          </>
+                        )}
+                      </div>
+                      
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-8 h-8 p-0"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentApiPage + 1)}
+                        disabled={!hasMore || !nextPageToken}
                       >
-                        <ChevronRight className="w-4 h-4" />
+                        Next
                       </Button>
                     </div>
                   </div>
