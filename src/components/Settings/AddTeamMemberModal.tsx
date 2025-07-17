@@ -81,7 +81,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Profile Picture Upload */}
-          <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-col items-center space-y-2 hidden">
             <Avatar className="h-20 w-20">
               <AvatarImage src={profilePreview} />
               <AvatarFallback className="bg-gray-100 text-gray-400">
