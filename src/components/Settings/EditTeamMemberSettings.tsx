@@ -471,7 +471,7 @@ export const EditTeamMemberSettings: React.FC = () => {
 
         <TabsContent value="listing" className="mt-6">
           <Card>
-            <CardHeader>
+            <CardHeader className="paddingBottom:0px">
               <CardTitle>Listing Management</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
