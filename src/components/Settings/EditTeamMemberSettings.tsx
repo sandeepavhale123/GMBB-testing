@@ -457,10 +457,11 @@ export const EditTeamMemberSettings: React.FC = () => {
                           {filteredAccounts.map((account) => (
                             <button
                               key={account.accountId}
-                              className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                              className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center"
                               onClick={() => handleAccountSelect(account.accountName)}
                             >
-                              {account.accountName}
+                              <span>{account.accountName}</span>
+                              <span className="text-muted-foreground">({account.totalListings || 0})</span>
                             </button>
                           ))}
                           {filteredAccounts.length === 0 && (
