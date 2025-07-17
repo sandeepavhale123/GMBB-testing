@@ -242,10 +242,9 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="moderator">Moderator</SelectItem>
-                <SelectItem value="staff">Staff</SelectItem>
-                <SelectItem value="client">Client</SelectItem>
-                <SelectItem value="lead generator">Lead Generator</SelectItem>
+                <SelectItem value="Moderator">Moderator</SelectItem>
+                <SelectItem value="Staff">Staff</SelectItem>
+                <SelectItem value="Client">Client</SelectItem>
               </SelectContent>
             </Select>
           </div>

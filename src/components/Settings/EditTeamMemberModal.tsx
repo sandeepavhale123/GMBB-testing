@@ -262,7 +262,6 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                     <SelectItem value="Moderator">Moderator</SelectItem>
                     <SelectItem value="Staff">Staff</SelectItem>
                     <SelectItem value="Client">Client</SelectItem>
-                    <SelectItem value="Lead Generator">Lead Generator</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
