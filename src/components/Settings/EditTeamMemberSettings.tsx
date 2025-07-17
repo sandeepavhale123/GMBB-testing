@@ -65,7 +65,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         firstName: currentEditMember.firstName || "",
         lastName: currentEditMember.lastName || "",
         email: currentEditMember.username || "", // Map username to email
-        password: "", // Don't prefill password for security
+        password: currentEditMember.password || "",
         role: currentEditMember.role || ""
       });
     }
@@ -90,7 +90,7 @@ export const EditTeamMemberSettings: React.FC = () => {
 
     try {
       const updateData = {
-        id: parseInt(memberId),
+        Id: parseInt(memberId),
         firstName: formData.firstName,
         lastName: formData.lastName,
         username: formData.email, // Map email back to username
@@ -206,7 +206,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="listing">Listing</TabsTrigger>
-          {/* <TabsTrigger value="permission">Permission</TabsTrigger> */}
+          <TabsTrigger value="permission">Permission</TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile" className="mt-6">
