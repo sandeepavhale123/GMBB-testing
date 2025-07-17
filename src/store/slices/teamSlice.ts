@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getTeamMembers, GetTeamMembersRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
+import { getTeamMembers, addTeamMember, GetTeamMembersRequest, AddTeamMemberRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
 
 export const fetchTeamMembers = createAsyncThunk(
   'team/fetchTeamMembers',
@@ -8,12 +8,21 @@ export const fetchTeamMembers = createAsyncThunk(
   }
 );
 
+export const addTeamMemberThunk = createAsyncThunk(
+  'team/addTeamMember',
+  async (params: AddTeamMemberRequest) => {
+    return await addTeamMember(params);
+  }
+);
+
 interface TeamState {
   members: TeamMember[];
   pagination: TeamPaginationInfo | null;
   summary: TeamSummary | null;
   isLoading: boolean;
+  isAdding: boolean;
   error: string | null;
+  addError: string | null;
   searchTerm: string;
   roleFilter: string;
   currentPage: number;
@@ -25,7 +34,9 @@ const initialState: TeamState = {
   pagination: null,
   summary: null,
   isLoading: false,
+  isAdding: false,
   error: null,
+  addError: null,
   searchTerm: '',
   roleFilter: 'all',
   currentPage: 1,
@@ -54,6 +65,9 @@ const teamSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    clearAddError: (state) => {
+      state.addError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,6 +84,18 @@ const teamSlice = createSlice({
       .addCase(fetchTeamMembers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Failed to fetch team members';
+      })
+      .addCase(addTeamMemberThunk.pending, (state) => {
+        state.isAdding = true;
+        state.addError = null;
+      })
+      .addCase(addTeamMemberThunk.fulfilled, (state) => {
+        state.isAdding = false;
+        state.addError = null;
+      })
+      .addCase(addTeamMemberThunk.rejected, (state, action) => {
+        state.isAdding = false;
+        state.addError = action.error.message || 'Failed to add team member';
       });
   },
 });
@@ -79,7 +105,8 @@ export const {
   setRoleFilter, 
   setCurrentPage, 
   setItemsPerPage, 
-  clearError 
+  clearError,
+  clearAddError
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

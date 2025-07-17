@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './useRedux';
 import { 
-  fetchTeamMembers, 
+  fetchTeamMembers,
+  addTeamMemberThunk,
   setSearchTerm, 
   setRoleFilter, 
   setCurrentPage, 
   setItemsPerPage, 
-  clearError 
+  clearError,
+  clearAddError
 } from '../store/slices/teamSlice';
+import { AddTeamMemberRequest } from '../api/teamApi';
 
 export const useTeam = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +19,9 @@ export const useTeam = () => {
     pagination,
     summary,
     isLoading,
+    isAdding,
     error,
+    addError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -53,13 +58,26 @@ export const useTeam = () => {
     dispatch(clearError());
   };
 
+  const clearTeamAddError = () => {
+    dispatch(clearAddError());
+  };
+
   const refreshTeamMembers = () => {
     dispatch(fetchTeamMembers({
       page: currentPage,
       limit: itemsPerPage,
       search: searchTerm,
-      role: roleFilter
+      role: roleFilter === 'all' ? '' : roleFilter
     }));
+  };
+
+  const addTeamMember = async (memberData: AddTeamMemberRequest) => {
+    const result = await dispatch(addTeamMemberThunk(memberData));
+    if (addTeamMemberThunk.fulfilled.match(result)) {
+      // Refresh the team members list after successful addition
+      refreshTeamMembers();
+    }
+    return result;
   };
 
   return {
@@ -67,7 +85,9 @@ export const useTeam = () => {
     pagination,
     summary,
     isLoading,
+    isAdding,
     error,
+    addError,
     searchTerm,
     roleFilter,
     currentPage,
@@ -77,6 +97,8 @@ export const useTeam = () => {
     updateCurrentPage,
     updateItemsPerPage,
     clearTeamError,
-    refreshTeamMembers
+    clearTeamAddError,
+    refreshTeamMembers,
+    addTeamMember
   };
 };

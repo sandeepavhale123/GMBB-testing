@@ -450,7 +450,11 @@ const TeamMembersPage: React.FC = () => {
       {/* Modals */}
       <AddTeamMemberModal 
         open={showAddModal} 
-        onOpenChange={setShowAddModal} 
+        onOpenChange={setShowAddModal}
+        onSuccess={() => {
+          // The team list will be automatically refreshed by the addTeamMember function
+          console.log("Team member added successfully");
+        }}
       />
       
       <EditTeamMemberModal

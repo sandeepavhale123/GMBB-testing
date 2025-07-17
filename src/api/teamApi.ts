@@ -45,6 +45,22 @@ export interface GetTeamMembersResponse {
   };
 }
 
+export interface AddTeamMemberRequest {
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  role: string;
+}
+
+export interface AddTeamMemberResponse {
+  code: number;
+  message: string;
+  data: {
+    user_id: number;
+  };
+}
+
 export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<GetTeamMembersResponse> => {
   try {
     const result = await axiosInstance({
@@ -57,6 +73,22 @@ export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<Ge
     return result.data;
   } catch (error) {
     console.error("Failed to fetch team members:", error);
+    throw error;
+  }
+};
+
+export const addTeamMember = async (payload: AddTeamMemberRequest): Promise<AddTeamMemberResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/add-team-member",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Add team member API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to add team member:", error);
     throw error;
   }
 };
