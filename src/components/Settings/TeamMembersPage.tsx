@@ -100,6 +100,11 @@ const TeamMembersPage: React.FC = () => {
     return member.username.slice(0, 2).toUpperCase();
   };
 
+  const getProfilePictureUrl = (profilePicture: string) => {
+    if (!profilePicture) return '';
+    return `https://member.gmbbriefcase.com/files/suninfo/profile/${profilePicture}`;
+  };
+
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="space-y-6">
@@ -240,33 +245,36 @@ const TeamMembersPage: React.FC = () => {
             {/* List View */}
             {viewMode === 'list' ? (
               <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-50">
-                      <TableHead className="font-semibold text-gray-900">
-                        Member
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Role
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Listings
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Status
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-900 text-center">
-                        Actions
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50">
+                        <TableHead className="font-semibold text-gray-900">
+                          Member
+                        </TableHead>
+                        <TableHead className="font-semibold text-gray-900 text-center">
+                          Password
+                        </TableHead>
+                        <TableHead className="font-semibold text-gray-900 text-center">
+                          Role
+                        </TableHead>
+                        <TableHead className="font-semibold text-gray-900 text-center">
+                          Listings
+                        </TableHead>
+                        <TableHead className="font-semibold text-gray-900 text-center">
+                          Status
+                        </TableHead>
+                        <TableHead className="font-semibold text-gray-900 text-center">
+                          Actions
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
                   <TableBody>
                     {members.map((member) => (
                       <TableRow key={member.id} className="hover:bg-gray-50">
                         <TableCell className="p-4">
                           <div className="flex items-center space-x-3">
                             <Avatar className="h-10 w-10">
-                              <AvatarImage src={member.profilePicture} alt={getDisplayName(member)} />
+                              <AvatarImage src={getProfilePictureUrl(member.profilePicture)} alt={getDisplayName(member)} />
                               <AvatarFallback className="bg-gray-100 text-gray-600">{getInitials(member)}</AvatarFallback>
                             </Avatar>
                             <div>
@@ -281,6 +289,20 @@ const TeamMembersPage: React.FC = () => {
                                 </button>
                               </div>
                             </div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="p-4 text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                              {member.password}
+                            </span>
+                            <button
+                              onClick={() => handleCopyEmail(member.password)}
+                              className="text-gray-400 hover:text-gray-600 transition-colors"
+                              title="Copy password"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
                           </div>
                         </TableCell>
                         <TableCell className="p-4 text-center">
@@ -331,7 +353,7 @@ const TeamMembersPage: React.FC = () => {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
                         <Avatar className="h-12 w-12">
-                          <AvatarImage src={member.profilePicture} alt={getDisplayName(member)} />
+                          <AvatarImage src={getProfilePictureUrl(member.profilePicture)} alt={getDisplayName(member)} />
                           <AvatarFallback>{getInitials(member)}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -370,6 +392,22 @@ const TeamMembersPage: React.FC = () => {
                     </div>
 
                     <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Password:</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                            {member.password}
+                          </span>
+                          <button
+                            onClick={() => handleCopyEmail(member.password)}
+                            className="text-muted-foreground hover:text-foreground"
+                            title="Copy password"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Role:</span>
                         <Badge className={getRoleBadgeClass(member.role)}>

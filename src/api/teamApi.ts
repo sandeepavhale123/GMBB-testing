@@ -6,6 +6,7 @@ export interface TeamMember {
   lastName: string;
   username: string;
   profilePicture: string;
+  password: string;
   role: string;
   listingsCount: number;
 }
