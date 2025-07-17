@@ -15,7 +15,7 @@ import { ListingManagementPage } from "../components/Settings/ListingManagementP
 import { IntegrationsPage } from "../components/Settings/IntegrationsPage";
 import { BrandingPage } from "../components/Settings/BrandingPage";
 import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
-import { TeamMembersPage } from "../components/Settings/TeamMembersPage";
+import TeamMembersPage from "../components/Settings/TeamMembersPage";
 import { EditTeamMemberSettings } from "../components/Settings/EditTeamMemberSettings";
 import { useListingContext } from "@/context/ListingContext";
 
