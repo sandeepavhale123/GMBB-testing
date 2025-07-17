@@ -176,3 +176,57 @@ export const deleteTeamMember = async (payload: DeleteTeamMemberRequest): Promis
     throw error;
   }
 };
+
+export interface GetActiveAccountsRequest {
+  id: number; // employee id
+  page: number;
+  limit: number;
+}
+
+export interface Account {
+  accountId: string;
+  accountName: string;
+  totalListings: number;
+  activeListings: number;
+  inActiveListings: number;
+}
+
+export interface Listing {
+  id: string;
+  name: string;
+  accountName: string;
+  allocated: boolean;
+}
+
+export interface GetActiveAccountsResponse {
+  code: number;
+  message: string;
+  data: {
+    totalAssignListings: number;
+    assignListingIds: number[];
+    accounts: Account[];
+    totalListings: number;
+    listings: Listing[];
+    page: number;
+    limit: number;
+    nextPageToken: number | null;
+    prevPageToken: number | null;
+    hasMore: boolean;
+  };
+}
+
+export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Promise<GetActiveAccountsResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/get-active-accounts",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Get active accounts API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch active accounts:", error);
+    throw error;
+  }
+};
