@@ -27,7 +27,7 @@ const initialState: TeamState = {
   isLoading: false,
   error: null,
   searchTerm: '',
-  roleFilter: '',
+  roleFilter: 'all',
   currentPage: 1,
   itemsPerPage: 10,
 };

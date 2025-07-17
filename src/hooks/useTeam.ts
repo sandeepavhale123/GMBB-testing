@@ -29,7 +29,7 @@ export const useTeam = () => {
       page: currentPage,
       limit: itemsPerPage,
       search: searchTerm,
-      role: roleFilter
+      role: roleFilter === 'all' ? '' : roleFilter
     }));
   }, [dispatch, currentPage, itemsPerPage, searchTerm, roleFilter]);
 

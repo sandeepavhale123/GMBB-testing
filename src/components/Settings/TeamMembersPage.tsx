@@ -144,7 +144,7 @@ const TeamMembersPage: React.FC = () => {
                 <SelectValue placeholder="All Roles" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Roles</SelectItem>
+                <SelectItem value="all">All Roles</SelectItem>
                 <SelectItem value="Admin">Admin</SelectItem>
                 <SelectItem value="Editor">Editor</SelectItem>
                 <SelectItem value="Viewer">Viewer</SelectItem>
