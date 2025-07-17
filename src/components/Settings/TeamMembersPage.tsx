@@ -7,16 +7,17 @@ import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { Separator } from '../ui/separator';
 import { Loader } from '../ui/loader';
-import { Eye, EyeOff, Search, Plus, Grid3X3, List, Edit, Trash2, Share2, Copy, MoreVertical } from 'lucide-react';
+import { Table, TableBody, TableHead, TableHeader, TableRow, TableCell } from '../ui/table';
+import { Eye, EyeOff, Search, Plus, Grid3X3, List, Edit, Trash2, Copy, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { AddTeamMemberModal } from './AddTeamMemberModal';
 import { EditTeamMemberModal } from './EditTeamMemberModal';
 import { DeleteTeamMemberModal } from './DeleteTeamMemberModal';
-import { ShareableLinkModal } from './ShareableLinkModal';
 import { TeamMemberPagination } from './TeamMemberPagination';
 import { toast } from '../../hooks/use-toast';
 import { useTeam } from '../../hooks/useTeam';
 import { TeamMember } from '../../api/teamApi';
+import { useNavigate } from 'react-router-dom';
 
 // Role color mapping
 const roleColors = {
@@ -33,9 +34,9 @@ const TeamMembersPage: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [passwordVisibility, setPasswordVisibility] = useState<{ [key: string]: boolean }>({});
+  const navigate = useNavigate();
 
   const {
     members,
@@ -52,8 +53,7 @@ const TeamMembersPage: React.FC = () => {
   } = useTeam();
 
   const handleEditMember = (member: TeamMember) => {
-    setSelectedMember(member);
-    setShowEditModal(true);
+    navigate(`/settings/team-members/edit/${member.id}`);
   };
 
   const handleDeleteMember = (member: TeamMember) => {
@@ -61,10 +61,6 @@ const TeamMembersPage: React.FC = () => {
     setShowDeleteModal(true);
   };
 
-  const handleShareLink = (member: TeamMember) => {
-    setSelectedMember(member);
-    setShowShareModal(true);
-  };
 
   const togglePasswordVisibility = (memberId: string) => {
     setPasswordVisibility(prev => ({
@@ -105,68 +101,95 @@ const TeamMembersPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-foreground">Team Members</h2>
-              <p className="text-sm text-muted-foreground">
-                Manage your team members and their access permissions
-              </p>
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Team Members</h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Manage your team members and their access permissions
+          </p>
+        </div>
+
+        {/* Top Controls Panel */}
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full lg:w-auto">
+              {/* Search Bar */}
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  placeholder="Search members by name or email"
+                  value={searchTerm}
+                  onChange={(e) => updateSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+
+              {/* Role Filter */}
+              <Select value={roleFilter} onValueChange={updateRoleFilter}>
+                <SelectTrigger className="w-full sm:w-40">
+                  <SelectValue placeholder="All Roles" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Roles</SelectItem>
+                  <SelectItem value="Admin">Admin</SelectItem>
+                  <SelectItem value="Editor">Editor</SelectItem>
+                  <SelectItem value="Viewer">Viewer</SelectItem>
+                  <SelectItem value="Staff">Staff</SelectItem>
+                  <SelectItem value="Client">Client</SelectItem>
+                  <SelectItem value="Moderator">Moderator</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Summary Badges */}
               {summary && (
-                <p className="text-sm text-muted-foreground mt-1">
-                  Total: {summary.totalMembers} members, Active: {summary.activeMembers}
-                </p>
+                <div className="flex gap-2">
+                  <Badge
+                    variant="outline"
+                    className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit"
+                  >
+                    Total: {summary.totalMembers}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-green-50 text-green-700 border-green-200 px-3 py-1 w-fit"
+                  >
+                    Active: {summary.activeMembers}
+                  </Badge>
+                </div>
               )}
             </div>
-            <Button onClick={() => setShowAddModal(true)} className="w-fit">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Member
-            </Button>
-          </div>
 
-          {/* Search and Filters */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                type="text"
-                placeholder="Search members..."
-                className="pl-10"
-                value={searchTerm}
-                onChange={(e) => updateSearchTerm(e.target.value)}
-              />
-            </div>
-            <Select value={roleFilter} onValueChange={updateRoleFilter}>
-              <SelectTrigger className="w-full sm:w-40">
-                <SelectValue placeholder="All Roles" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="Admin">Admin</SelectItem>
-                <SelectItem value="Editor">Editor</SelectItem>
-                <SelectItem value="Viewer">Viewer</SelectItem>
-                <SelectItem value="Staff">Staff</SelectItem>
-                <SelectItem value="Client">Client</SelectItem>
-                <SelectItem value="Moderator">Moderator</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-3 w-full lg:w-auto justify-between">
+              {/* View Switcher */}
+              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                <Button
+                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("grid")}
+                  className="h-8 w-8 p-0"
+                >
+                  <Grid3X3 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                  className="h-8 w-8 p-0"
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Add Member Button */}
               <Button
-                variant={viewMode === 'list' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setViewMode('list')}
+                onClick={() => setShowAddModal(true)}
+                className="flex items-center gap-2"
               >
-                <List className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid3X3 className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
+                <span className="hidden sm:inline">Add Member</span>
+                <span className="sm:hidden">Add</span>
               </Button>
             </div>
           </div>
@@ -216,67 +239,67 @@ const TeamMembersPage: React.FC = () => {
           <>
             {/* List View */}
             {viewMode === 'list' ? (
-              <Card className="overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-muted/50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="font-semibold text-gray-900">
                         Member
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      </TableHead>
+                      <TableHead className="font-semibold text-gray-900 text-center">
                         Role
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      </TableHead>
+                      <TableHead className="font-semibold text-gray-900 text-center">
                         Listings
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      </TableHead>
+                      <TableHead className="font-semibold text-gray-900 text-center">
                         Status
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      </TableHead>
+                      <TableHead className="font-semibold text-gray-900 text-center">
                         Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {members.map((member) => (
-                      <tr key={member.id} className="hover:bg-muted/50">
-                        <td className="px-6 py-4">
+                      <TableRow key={member.id} className="hover:bg-gray-50">
+                        <TableCell className="p-4">
                           <div className="flex items-center space-x-3">
                             <Avatar className="h-10 w-10">
                               <AvatarImage src={member.profilePicture} alt={getDisplayName(member)} />
-                              <AvatarFallback>{getInitials(member)}</AvatarFallback>
+                              <AvatarFallback className="bg-gray-100 text-gray-600">{getInitials(member)}</AvatarFallback>
                             </Avatar>
                             <div>
-                              <div className="font-medium text-foreground">{getDisplayName(member)}</div>
-                              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                              <div className="font-medium text-gray-900">{getDisplayName(member)}</div>
+                              <div className="text-sm text-gray-600 flex items-center gap-2">
                                 {member.username}
                                 <button
                                   onClick={() => handleCopyEmail(member.username)}
-                                  className="text-muted-foreground hover:text-foreground"
+                                  className="text-gray-400 hover:text-gray-600 transition-colors"
                                 >
                                   <Copy className="w-3 h-3" />
                                 </button>
                               </div>
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4">
+                        </TableCell>
+                        <TableCell className="p-4 text-center">
                           <Badge className={getRoleBadgeClass(member.role)}>
                             {member.role}
                           </Badge>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="text-sm text-foreground">{member.listingsCount}</span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <Badge variant="default">
+                        </TableCell>
+                        <TableCell className="p-4 text-center">
+                          <span className="text-sm font-medium text-gray-900">{member.listingsCount}</span>
+                        </TableCell>
+                        <TableCell className="p-4 text-center">
+                          <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">
                             Active
                           </Badge>
-                        </td>
-                        <td className="px-6 py-4">
+                        </TableCell>
+                        <TableCell className="p-4 text-center">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                                 <MoreVertical className="w-4 h-4" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -284,10 +307,6 @@ const TeamMembersPage: React.FC = () => {
                               <DropdownMenuItem onClick={() => handleEditMember(member)}>
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleShareLink(member)}>
-                                <Share2 className="w-4 h-4 mr-2" />
-                                Share Link
                               </DropdownMenuItem>
                               <DropdownMenuItem 
                                 onClick={() => handleDeleteMember(member)}
@@ -298,12 +317,12 @@ const TeamMembersPage: React.FC = () => {
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
-              </Card>
+                  </TableBody>
+                </Table>
+              </div>
             ) : (
               /* Grid View */
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -338,10 +357,6 @@ const TeamMembersPage: React.FC = () => {
                           <DropdownMenuItem onClick={() => handleEditMember(member)}>
                             <Edit className="w-4 h-4 mr-2" />
                             Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleShareLink(member)}>
-                            <Share2 className="w-4 h-4 mr-2" />
-                            Share Link
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             onClick={() => handleDeleteMember(member)}
@@ -408,11 +423,6 @@ const TeamMembersPage: React.FC = () => {
         member={selectedMember}
       />
       
-      <ShareableLinkModal
-        open={showShareModal}
-        onOpenChange={setShowShareModal}
-        member={selectedMember}
-      />
     </div>
   );
 };
