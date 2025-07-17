@@ -21,11 +21,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 interface AddTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   open,
   onOpenChange,
+  onSuccess,
 }) => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -60,6 +62,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     // Here you would typically send the data to your API
     console.log("Adding team member:", formData);
     onOpenChange(false);
+    onSuccess?.(); // Call the success callback
     // Reset form
     setFormData({
       firstName: "",
