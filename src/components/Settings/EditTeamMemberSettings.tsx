@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,13 +47,16 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const fetchedMemberIdRef = useRef<number | null>(null);
 
   // Fetch member data on component mount
   useEffect(() => {
-    if (memberId && !isLoadingEdit) {
-      fetchEditTeamMember(parseInt(memberId));
+    const memberIdNumber = parseInt(memberId || '0');
+    if (memberId && memberIdNumber && fetchedMemberIdRef.current !== memberIdNumber) {
+      fetchedMemberIdRef.current = memberIdNumber;
+      fetchEditTeamMember(memberIdNumber);
     }
-  }, [memberId, fetchEditTeamMember, isLoadingEdit]);
+  }, [memberId, fetchEditTeamMember]);
 
   // Update form data when member data is loaded
   useEffect(() => {
@@ -68,11 +71,12 @@ export const EditTeamMemberSettings: React.FC = () => {
     }
   }, [currentEditMember]);
 
-  // Clear errors when component unmounts
+  // Clear errors and reset fetch ref when component unmounts
   useEffect(() => {
     return () => {
       clearTeamEditError();
       clearTeamSaveError();
+      fetchedMemberIdRef.current = null;
     };
   }, [clearTeamEditError, clearTeamSaveError]);
 

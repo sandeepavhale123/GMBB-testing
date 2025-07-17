@@ -112,6 +112,11 @@ const teamSlice = createSlice({
     clearSaveError: (state) => {
       state.saveError = null;
     },
+    clearCurrentEditMember: (state) => {
+      state.currentEditMember = null;
+      state.editError = null;
+      state.saveError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -190,7 +195,8 @@ export const {
   clearAddError,
   clearDeleteError,
   clearEditError,
-  clearSaveError
+  clearSaveError,
+  clearCurrentEditMember
 } = teamSlice.actions;
 
 export default teamSlice.reducer;

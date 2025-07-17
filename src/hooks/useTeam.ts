@@ -94,12 +94,9 @@ export const useTeam = () => {
 
   const updateTeamMember = useCallback(async (memberData: UpdateTeamMemberRequest) => {
     const result = await dispatch(updateEditMember(memberData));
-    if (updateEditMember.fulfilled.match(result)) {
-      // Refresh the team members list after successful update
-      refreshTeamMembers();
-    }
+    // Note: We don't refresh team members list here since we're on the edit page
     return result;
-  }, [dispatch, currentPage, itemsPerPage, searchTerm, roleFilter]);
+  }, [dispatch]);
 
   const refreshTeamMembers = useCallback(() => {
     dispatch(fetchTeamMembers({
