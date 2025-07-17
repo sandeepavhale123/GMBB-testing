@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getTeamMembers, addTeamMember, deleteTeamMember, GetTeamMembersRequest, AddTeamMemberRequest, DeleteTeamMemberRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
+import { getTeamMembers, addTeamMember, deleteTeamMember, getEditMember, updateTeamMember, GetTeamMembersRequest, AddTeamMemberRequest, DeleteTeamMemberRequest, GetEditMemberRequest, UpdateTeamMemberRequest, TeamMember, TeamPaginationInfo, TeamSummary } from '../../api/teamApi';
 
 export const fetchTeamMembers = createAsyncThunk(
   'team/fetchTeamMembers',
@@ -22,16 +22,35 @@ export const deleteTeamMemberThunk = createAsyncThunk(
   }
 );
 
+export const fetchEditMember = createAsyncThunk(
+  'team/fetchEditMember',
+  async (params: GetEditMemberRequest) => {
+    return await getEditMember(params);
+  }
+);
+
+export const updateEditMember = createAsyncThunk(
+  'team/updateEditMember',
+  async (params: UpdateTeamMemberRequest) => {
+    return await updateTeamMember(params);
+  }
+);
+
 interface TeamState {
   members: TeamMember[];
   pagination: TeamPaginationInfo | null;
   summary: TeamSummary | null;
+  currentEditMember: TeamMember | null;
   isLoading: boolean;
   isAdding: boolean;
   isDeleting: boolean;
+  isLoadingEdit: boolean;
+  isUpdating: boolean;
   error: string | null;
   addError: string | null;
   deleteError: string | null;
+  editError: string | null;
+  updateError: string | null;
   searchTerm: string;
   roleFilter: string;
   currentPage: number;
@@ -42,12 +61,17 @@ const initialState: TeamState = {
   members: [],
   pagination: null,
   summary: null,
+  currentEditMember: null,
   isLoading: false,
   isAdding: false,
   isDeleting: false,
+  isLoadingEdit: false,
+  isUpdating: false,
   error: null,
   addError: null,
   deleteError: null,
+  editError: null,
+  updateError: null,
   searchTerm: '',
   roleFilter: 'all',
   currentPage: 1,
@@ -81,6 +105,12 @@ const teamSlice = createSlice({
     },
     clearDeleteError: (state) => {
       state.deleteError = null;
+    },
+    clearEditError: (state) => {
+      state.editError = null;
+    },
+    clearUpdateError: (state) => {
+      state.updateError = null;
     },
   },
   extraReducers: (builder) => {
@@ -122,6 +152,30 @@ const teamSlice = createSlice({
       .addCase(deleteTeamMemberThunk.rejected, (state, action) => {
         state.isDeleting = false;
         state.deleteError = action.error.message || 'Failed to delete team member';
+      })
+      .addCase(fetchEditMember.pending, (state) => {
+        state.isLoadingEdit = true;
+        state.editError = null;
+      })
+      .addCase(fetchEditMember.fulfilled, (state, action) => {
+        state.isLoadingEdit = false;
+        state.currentEditMember = action.payload.data as TeamMember;
+      })
+      .addCase(fetchEditMember.rejected, (state, action) => {
+        state.isLoadingEdit = false;
+        state.editError = action.error.message || 'Failed to fetch member details';
+      })
+      .addCase(updateEditMember.pending, (state) => {
+        state.isUpdating = true;
+        state.updateError = null;
+      })
+      .addCase(updateEditMember.fulfilled, (state) => {
+        state.isUpdating = false;
+        state.updateError = null;
+      })
+      .addCase(updateEditMember.rejected, (state, action) => {
+        state.isUpdating = false;
+        state.updateError = action.error.message || 'Failed to update team member';
       });
   },
 });
@@ -133,7 +187,9 @@ export const {
   setItemsPerPage, 
   clearError,
   clearAddError,
-  clearDeleteError
+  clearDeleteError,
+  clearEditError,
+  clearUpdateError
 } = teamSlice.actions;
 
 export default teamSlice.reducer;
