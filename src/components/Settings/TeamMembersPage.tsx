@@ -253,10 +253,10 @@ const TeamMembersPage: React.FC = () => {
                           Member
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Password
+                          Email
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
-                          Role
+                          Password
                         </TableHead>
                         <TableHead className="font-semibold text-gray-900 text-center">
                           Listings
@@ -280,36 +280,39 @@ const TeamMembersPage: React.FC = () => {
                             </Avatar>
                             <div>
                               <div className="font-medium text-gray-900">{getDisplayName(member)}</div>
-                              <div className="text-sm text-gray-600 flex items-center gap-2">
-                                {member.username}
-                                <button
-                                  onClick={() => handleCopyEmail(member.username)}
-                                  className="text-gray-400 hover:text-gray-600 transition-colors"
-                                >
-                                  <Copy className="w-3 h-3" />
-                                </button>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Badge className={getRoleBadgeClass(member.role)} variant="secondary">
+                                  {member.role}
+                                </Badge>
                               </div>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell className="p-4 text-center">
                           <div className="flex items-center justify-center gap-2">
-                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
-                              {member.password}
-                            </span>
+                            <span className="text-sm text-gray-600">{member.username}</span>
                             <button
-                              onClick={() => handleCopyEmail(member.password)}
+                              onClick={() => handleCopyEmail(member.username)}
                               className="text-gray-400 hover:text-gray-600 transition-colors"
-                              title="Copy password"
+                              title="Copy email"
                             >
                               <Copy className="w-3 h-3" />
                             </button>
                           </div>
                         </TableCell>
                         <TableCell className="p-4 text-center">
-                          <Badge className={getRoleBadgeClass(member.role)}>
-                            {member.role}
-                          </Badge>
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                              {passwordVisibility[member.id] ? member.password : '••••••••'}
+                            </span>
+                            <button
+                              onClick={() => togglePasswordVisibility(member.id)}
+                              className="text-gray-400 hover:text-gray-600 transition-colors"
+                              title={passwordVisibility[member.id] ? "Hide password" : "Show password"}
+                            >
+                              {passwordVisibility[member.id] ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
                         </TableCell>
                         <TableCell className="p-4 text-center">
                           <span className="text-sm font-medium text-gray-900">{member.listingsCount}</span>
