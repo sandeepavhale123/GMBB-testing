@@ -104,11 +104,21 @@ const TeamMembersPage: React.FC = () => {
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       <div className="space-y-6">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Team Members</h2>
-          <p className="text-gray-600 text-sm sm:text-base">
-            Manage your team members and their access permissions
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Team Members</h2>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Manage your team members and their access permissions
+            </p>
+          </div>
+          <Button
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 w-fit"
+          >
+            <Plus className="h-4 w-4" />
+            <span className="hidden sm:inline">Add Member</span>
+            <span className="sm:hidden">Add</span>
+          </Button>
         </div>
 
         {/* Top Controls Panel */}
@@ -181,16 +191,6 @@ const TeamMembersPage: React.FC = () => {
                   <List className="h-4 w-4" />
                 </Button>
               </div>
-
-              {/* Add Member Button */}
-              <Button
-                onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                <span className="hidden sm:inline">Add Member</span>
-                <span className="sm:hidden">Add</span>
-              </Button>
             </div>
           </div>
         </div>
