@@ -224,6 +224,12 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
     const currentAssignedIds = getAssignedListingIds().map(id => id.toString()).sort();
     const originalIds = [...originalAssignedIds].sort();
     
+    console.log('hasUnsavedChanges comparison:', {
+      currentAssignedIds,
+      originalIds,
+      areEqual: JSON.stringify(currentAssignedIds) === JSON.stringify(originalIds)
+    });
+    
     return JSON.stringify(currentAssignedIds) !== JSON.stringify(originalIds);
   }, [getAssignedListingIds, originalAssignedIds]);
 
