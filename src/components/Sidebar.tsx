@@ -105,6 +105,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { profileData } = useProfile();
   const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector((state) => state.theme);
 
+  // Helper function to check if user role should be restricted
+  const shouldHideForRole = () => {
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
+
   // Get user info from profile data
   const userName = profileData
     ? `${profileData.first_name} ${profileData.last_name}`
@@ -227,7 +233,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Navigation Menu */}
         <ScrollArea className="flex-1 px-3 py-4">
           <nav className="space-y-2">
-            {menuItems.map((item) => {
+            {menuItems
+              .filter((item) => !(item.id === 'settings' && shouldHideForRole()))
+              .map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
@@ -270,7 +278,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </ScrollArea>
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired && !collapsed && !isEnterprisePlan && (
+        {!isPlanExpired && !collapsed && !isEnterprisePlan && !shouldHideForRole() && (
           <div className="px-3 pb-4">
             <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
               <CardContent className="p-4">
