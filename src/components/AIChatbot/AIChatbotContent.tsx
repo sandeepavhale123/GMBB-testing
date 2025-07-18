@@ -150,6 +150,15 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         {/* Header Section */}
         <div className="flex-shrink-0 p-4 sm:p-6 border-b">
           <div className="flex items-center space-x-2 sm:space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="h-8 w-8 p-0 mr-1 sm:mr-2"
+              title={showHistory ? "Hide History" : "Show History"}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
             {!showHistory && (
               <Button
                 variant="ghost"
