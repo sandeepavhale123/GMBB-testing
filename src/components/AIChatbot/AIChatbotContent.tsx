@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, Loader2, Plus, Tag } from 'lucide-react';
@@ -197,8 +196,8 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         </div>
 
         {/* Chat Messages Area */}
-        <div className="flex-1 min-h-0 overflow-hidden">
-          <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 dark:hover:scrollbar-thumb-gray-500">
+        <div className="flex-1 min-h-0">
+          <ScrollArea className="h-full">
             <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 lg:space-y-6">
               {isLoadingMessages ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center">
@@ -310,7 +309,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
               )}
               <div ref={messagesEndRef} />
             </div>
-          </div>
+          </ScrollArea>
         </div>
 
         {/* Chat Input Area */}
