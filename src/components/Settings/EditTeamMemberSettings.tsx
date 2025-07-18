@@ -78,7 +78,8 @@ export const EditTeamMemberSettings: React.FC = () => {
     saveAssignments,
     hasUnsavedChanges,
     saveLoading,
-    saveError
+    saveError,
+    getAssignedListingIds
   } = useActiveAccounts({
     employeeId: parseInt(memberId || '0'),
     page: currentPage,
@@ -120,6 +121,9 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   const hasListingChanges = hasUnsavedChanges();
   const hasChanges = activeTab === 'profile' ? hasProfileChanges : hasListingChanges;
+  
+  // Add console logging for debugging
+  console.log('EditTeamMemberSettings - hasChanges:', hasChanges, 'activeTab:', activeTab, 'hasListingChanges:', hasListingChanges);
 
   const fetchedMemberIdRef = useRef<number | null>(null);
   useEffect(() => {
