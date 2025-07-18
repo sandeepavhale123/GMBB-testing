@@ -10,12 +10,13 @@ import { PostsControls } from './PostsControls';
 import { PostsLoadingState } from './PostsLoadingState';
 import { PostsEmptyState } from './PostsEmptyState';
 import { PostsContent } from './PostsContent';
+import { NoListingSelected } from '../ui/no-listing-selected';
 import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
 import { Post } from '../../types/postTypes';
 
 export const PostsPage = () => {
   const dispatch = useAppDispatch();
-  const { selectedListing } = useListingContext();
+  const { selectedListing, isInitialLoading } = useListingContext();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -125,6 +126,11 @@ export const PostsPage = () => {
     setCloneData(null);
     setIsCloning(false);
   };
+
+  // Show no listing state
+  if (!selectedListing && !isInitialLoading) {
+    return <NoListingSelected />;
+  }
 
   return (
     <div className="space-y-6">

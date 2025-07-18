@@ -1,274 +1,103 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useListingContext } from '../../context/ListingContext';
 import { GeoRankingHeader } from './GeoRankingHeader';
+import { MetricsCards } from './MetricsCards';
+import { FiltersSidebar } from './FiltersSidebar';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
 import { UnderPerformingTable } from './UnderPerformingTable';
-import { GeoPositionModal } from './GeoPositionModal';
-import { ProcessingKeywordsAlert } from './ProcessingKeywordsAlert';
+import { RankingDistribution } from './RankingDistribution';
+import { CompetitorAnalysis } from './CompetitorAnalysis';
+import { AIInsights } from './AIInsights';
 import { GeoRankingEmptyState } from './GeoRankingEmptyState';
-import { Card, CardContent } from '../ui/card';
-import { ListingLoader } from '../ui/listing-loader';
+import { ProcessingKeywordsAlert } from './ProcessingKeywordsAlert';
+import { NoListingSelected } from '../ui/no-listing-selected';
 import { useGeoRanking } from '../../hooks/useGeoRanking';
-
-interface ModalData {
-  isOpen: boolean;
-  gpsCoordinates: string;
-  competitors: Array<{
-    position: number;
-    name: string;
-    address: string;
-    rating: number;
-    reviewCount: number;
-    selected?: boolean;
-  }>;
-  loading: boolean;
-}
+import { Loader2 } from 'lucide-react';
 
 export const GeoRankingPage = () => {
-  const navigate = useNavigate();
-  const { listingId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const numericListingId = listingId ? parseInt(listingId, 10) : 0;
-  
-  // Get URL parameters for processing state
-  const isProcessing = searchParams.get('processing') === 'true';
-  const submittedKeywords = searchParams.get('submittedKeywords') || '';
-  const submittedKeywordsList = submittedKeywords ? submittedKeywords.split(',').map(k => k.trim()).filter(k => k.length > 0) : [];
-  
+  const { selectedListing, isInitialLoading } = useListingContext();
   const {
-    keywords,
-    selectedKeyword,
-    selectedDate,
-    keywordDetails,
-    credits,
-    loading,
-    keywordsLoading,
-    pageLoading,
-    keywordChanging,
-    dateChanging,
+    isLoading,
     error,
-    processingKeywords,
-    isPolling,
-    refreshing,
-    refreshError,
-    refreshProgress,
-    pollingProgress,
-    isPollingActive,
-    handleKeywordChange,
-    handleDateChange,
-    handleRefreshKeyword,
-    fetchPositionDetails
-  } = useGeoRanking(numericListingId);
+    geoRankingData,
+    filters,
+    setFilters,
+    underPerformingKeywords,
+    rankingDistributionData,
+    competitorData,
+    aiInsights,
+    isProcessingKeywords,
+  } = useGeoRanking();
 
-  const [modalData, setModalData] = useState<ModalData>({
-    isOpen: false,
-    gpsCoordinates: '',
-    competitors: [],
-    loading: false
-  });
-  
-  const userBusinessName = "Your Digital Agency";
+  // State for controlling the visibility of the filters sidebar
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  // Memoized callback for marker clicks to prevent map re-renders
-  const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
-    if (!selectedKeyword) return;
+  // Function to toggle the filters sidebar
+  const toggleFilters = () => {
+    setIsFiltersOpen(!isFiltersOpen);
+  };
 
-    // Open modal immediately with loading state
-    setModalData({
-      isOpen: true,
-      gpsCoordinates,
-      competitors: [],
-      loading: true
-    });
-
-    try {
-      const response = await fetchPositionDetails(selectedKeyword, positionId);
-      
-      if (response && response.data) {
-        // Transform API data to match modal interface
-        const transformedCompetitors = response.data.keywordDetails.map(detail => ({
-          position: detail.position,
-          name: detail.name,
-          address: detail.address,
-          rating: parseFloat(detail.rating),
-          reviewCount: parseInt(detail.review),
-          selected: detail.selected
-        }));
-
-        setModalData({
-          isOpen: true,
-          gpsCoordinates: response.data.coordinate,
-          competitors: transformedCompetitors,
-          loading: false
-        });
-      } else {
-        // Handle error case
-        setModalData({
-          isOpen: true,
-          gpsCoordinates,
-          competitors: [],
-          loading: false
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching position details:', error);
-      setModalData({
-        isOpen: true,
-        gpsCoordinates,
-        competitors: [],
-        loading: false
-      });
-    }
-  }, [selectedKeyword, fetchPositionDetails]);
-
-  const handleCreateReport = useCallback(() => {
-    navigate('/geo-ranking-report');
-  }, [navigate]);
-
-  const handleCheckRank = useCallback(() => {
-    if (numericListingId) {
-      navigate(`/geo-ranking-report/${numericListingId}`);
-    } else {
-      navigate('/geo-ranking-report');
-    }
-  }, [navigate, numericListingId]);
-
-  const handleClone = useCallback(() => {
-    if (!selectedKeyword) return;
-    
-    const currentKeyword = keywords.find(k => k.id === selectedKeyword);
-    if (!currentKeyword) return;
-
-    // Prepare clone data
-    const cloneData = {
-      clone: 'true',
-      keywordId: selectedKeyword,
-      keyword: currentKeyword.keyword,
-      ...(selectedDate && { date: selectedDate }),
-      ...(keywordDetails?.projectDetails?.distance && { distance: keywordDetails.projectDetails.distance }),
-      ...(keywordDetails?.projectDetails?.grid && { grid: keywordDetails.projectDetails.grid }),
-      ...(keywordDetails?.projectDetails?.schedule && { schedule: keywordDetails.projectDetails.schedule }),
-      ...(keywordDetails?.projectDetails?.mappoint && { mapPoint: keywordDetails.projectDetails.mappoint })
-    };
-
-    // Navigate to report page with keyword data as URL params, including listingId in path
-    const params = new URLSearchParams(cloneData);
-    
-    navigate(`/geo-ranking-report/${numericListingId}?${params.toString()}`);
-  }, [selectedKeyword, keywords, selectedDate, keywordDetails, navigate, numericListingId]);
-
-  const handleCloseModal = useCallback(() => {
-    setModalData(prev => ({
-      ...prev,
-      isOpen: false
-    }));
-  }, []);
-
-  // Clear URL parameters after initial processing setup
-  useEffect(() => {
-    if (isProcessing && submittedKeywordsList.length > 0) {
-      // Clear the URL parameters after a brief delay to allow the processing alert to show
-      const timer = setTimeout(() => {
-        setSearchParams({});
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isProcessing, submittedKeywordsList.length, setSearchParams]);
-
-  // Show page loader on initial load - after all hooks
-  if (pageLoading) {
-    return <ListingLoader isLoading={true} children={null} />;
-  }
-
-  // Show empty state when no keywords exist
-  if (keywords.length === 0 && !keywordsLoading) {
+  // Show loading state during initial load
+  if (isInitialLoading) {
     return (
-      <div className="mx-auto bg-gray-50 min-h-screen">
-        <GeoRankingEmptyState 
-          onCheckRank={handleCheckRank}
-          credits={credits}
-        />
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="w-6 h-6 animate-spin" />
       </div>
     );
   }
-  
-  const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
-  const projectDetails = keywordDetails?.projectDetails;
-  
-  // Fix grid display to show proper format
-  const grid = projectDetails?.grid ? `${projectDetails.grid}` : '3*3';
-  
+
+  // Show no listing state
+  if (!selectedListing && !isInitialLoading) {
+    return <NoListingSelected />;
+  }
+
+  // Check if keywords are still being processed
+  if (isProcessingKeywords) {
+    return <ProcessingKeywordsAlert />;
+  }
+
+  // Render the GeoRankingPage content if a listing is selected
   return (
-    <div className="mx-auto bg-gray-50 min-h-screen">
-      <Card className="bg-white shadow-sm">
-        <CardContent className="p-4 sm:p-6">
-          <div data-export-target>
-            <ProcessingKeywordsAlert 
-              keywords={processingKeywords} 
-              progress={pollingProgress}
-              isPolling={isPollingActive || isPolling}
-              submittedKeywords={submittedKeywordsList}
-              isNewSubmission={isProcessing}
-            />
-            
-            <GeoRankingHeader
-              keywords={keywords}
-              selectedKeyword={selectedKeyword}
-              selectedDate={selectedDate}
-              keywordDetails={keywordDetails}
-              credits={credits}
-              onKeywordChange={handleKeywordChange}
-              onDateChange={handleDateChange}
-              onClone={handleClone}
-              onRefresh={handleRefreshKeyword}
-              isRefreshing={refreshing}
-              refreshProgress={refreshProgress}
-              loading={keywordsLoading}
-              keywordChanging={keywordChanging}
-              dateChanging={dateChanging}
-              error={error}
-            />
+    <div className="flex flex-col h-full">
+      {/* GeoRanking Header */}
+      <GeoRankingHeader onFiltersToggle={toggleFilters} />
 
-            <div className="space-y-4 sm:space-y-6">
-              <GeoRankingMapSection 
-                gridSize={grid}
-                onMarkerClick={handleMarkerClick}
-                rankDetails={keywordDetails?.rankDetails || []}
-                rankStats={keywordDetails?.rankStats}
-                projectDetails={keywordDetails?.projectDetails}
-                loading={loading || keywordChanging || dateChanging}
-              />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Filters Sidebar */}
+        <FiltersSidebar
+          isOpen={isFiltersOpen}
+          onClose={toggleFilters}
+          filters={filters}
+          onFiltersChange={setFilters}
+        />
 
-              <UnderPerformingTable 
-                underPerformingAreas={keywordDetails?.underPerformingArea || []}
-                loading={loading || keywordChanging || dateChanging}
-              />
+        {/* Main Content */}
+        <div className="flex flex-col flex-1 overflow-auto">
+          {/* Metrics Cards */}
+          <MetricsCards geoRankingData={geoRankingData} isLoading={isLoading} />
 
-              {/* Powered By Section */}
-              <div className="flex items-center justify-center gap-2 py-4 border-t border-gray-200">
-                <span className="text-sm text-gray-500">Powered by</span>
-                <div className="flex items-center gap-2">
-                  <img 
-                    src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png" 
-                    alt="GMB-Briefcase favicon" 
-                    className="w-6 h-6"
-                  />
-                  <span className="text-sm font-medium text-gray-700">GMB-Briefcase</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {/* Geo Ranking Map Section */}
+          <GeoRankingMapSection geoRankingData={geoRankingData} isLoading={isLoading} />
 
-      <GeoPositionModal 
-        isOpen={modalData.isOpen} 
-        onClose={handleCloseModal} 
-        gpsCoordinates={modalData.gpsCoordinates} 
-        competitors={modalData.competitors}
-        loading={modalData.loading}
-        userBusinessName={userBusinessName} 
-      />
+          {/* Underperforming Keywords Table */}
+          <UnderPerformingTable
+            underPerformingKeywords={underPerformingKeywords}
+            isLoading={isLoading}
+          />
+
+          {/* Ranking Distribution Chart */}
+          <RankingDistribution
+            rankingDistributionData={rankingDistributionData}
+            isLoading={isLoading}
+          />
+
+          {/* Competitor Analysis Section */}
+          <CompetitorAnalysis competitorData={competitorData} isLoading={isLoading} />
+
+          {/* AI Insights Section */}
+          <AIInsights aiInsights={aiInsights} isLoading={isLoading} />
+        </div>
+      </div>
     </div>
   );
 };
