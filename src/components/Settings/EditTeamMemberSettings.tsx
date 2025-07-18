@@ -14,6 +14,7 @@ import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
 import { updateEditMember } from "@/store/slices/teamSlice";
 import { useActiveAccounts } from "@/hooks/useActiveAccounts";
+import { AccountListingPagination } from "./AccountListingPagination";
 
 interface EditFormData {
   firstName: string;
@@ -606,37 +607,13 @@ export const EditTeamMemberSettings: React.FC = () => {
                     </div>
 
                     {/* Page Navigation */}
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(currentApiPage - 1)}
-                        disabled={!prevPageToken || currentApiPage === 1}
-                      >
-                        Previous
-                      </Button>
-                      
-                      <div className="flex items-center gap-1">
-                        <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
-                          {currentApiPage}
-                        </span>
-                        {hasMore && (
-                          <>
-                            <span className="text-sm text-muted-foreground">of</span>
-                            <span className="text-sm text-muted-foreground">{totalApiPages}+</span>
-                          </>
-                        )}
-                      </div>
-                      
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(currentApiPage + 1)}
-                        disabled={!hasMore || !nextPageToken}
-                      >
-                        Next
-                      </Button>
-                    </div>
+                    <AccountListingPagination
+                      currentPage={currentApiPage}
+                      totalPages={Math.ceil(listings.length / pageSize) || 1}
+                      hasNext={!!nextPageToken}
+                      hasPrev={!!prevPageToken}
+                      onPageChange={handlePageChange}
+                    />
                   </div>
                 </div>
               )}
