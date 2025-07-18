@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { MessageCircle, Bot, Menu, X, Trash2, Copy, ThumbsUp, ThumbsDown, User, Loader2, Plus, Tag } from 'lucide-react';
@@ -6,6 +7,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { useChat } from '../../hooks/useChat';
+import { ChatMessageRenderer } from './ChatMessageRenderer';
 
 interface AIChatbotContentProps {
   keyword?: string;
@@ -247,9 +249,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                             AI is thinking...
                           </div>
                         ) : (
-                          <div className="whitespace-pre-wrap text-xs sm:text-sm leading-5 sm:leading-6">
-                            {message.content}
-                          </div>
+                          <ChatMessageRenderer 
+                            content={message.content}
+                            className="text-xs sm:text-sm leading-5 sm:leading-6"
+                          />
                         )}
                       </div>
                       
