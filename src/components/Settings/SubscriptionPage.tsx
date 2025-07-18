@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import axiosInstance from "@/api/axiosInstance";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { UpgradeNowConfirmationModal } from "./UpgradeConfirmationModal";
+import { UnsubscriptionModal } from "./UnsubscriptionModal";
 import { useProfile } from "@/hooks/useProfile";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchUserProfile } from "@/store/slices/profileSlice";
@@ -119,6 +120,8 @@ export const SubscriptionPage: React.FC = () => {
   const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(
     null
   );
+  const [showUnsubscribeModal, setShowUnsubscribeModal] = useState<boolean>(false);
+  const [isUnsubscribing, setIsUnsubscribing] = useState<boolean>(false);
   
   // Get profile refresh functions
   const dispatch = useAppDispatch();
@@ -339,11 +342,15 @@ export const SubscriptionPage: React.FC = () => {
     setShowUpgradeModal(false);
     setSelectedUpgradePlan(null);
   };
-  const handleCancelSubscription = async () => {
+  const handleCancelSubscription = async (feedback: string) => {
+    setIsUnsubscribing(true);
     try {
       const response = await axiosInstance.post(
         `${import.meta.env.VITE_BASE_URL}/cancel-subscription`,
-        { isDelete: "delete" }
+        { 
+          isDelete: "delete",
+          feedback: feedback 
+        }
       );
 
       toast({
@@ -367,7 +374,17 @@ export const SubscriptionPage: React.FC = () => {
           error?.response?.data?.message || "Failed to cancel subscription.",
         variant: "destructive",
       });
+    } finally {
+      setIsUnsubscribing(false);
     }
+  };
+
+  const handleUnsubscribeClick = () => {
+    setShowUnsubscribeModal(true);
+  };
+
+  const handleUnsubscribeCancel = () => {
+    setShowUnsubscribeModal(false);
   };
 
   const getSelectedPlanName = () => {
@@ -413,7 +430,7 @@ export const SubscriptionPage: React.FC = () => {
         {hasActivePlan() && !isExpired && (
           <Button
             variant="destructive"
-            onClick={handleCancelSubscription}
+            onClick={handleUnsubscribeClick}
             className="mt-2 sm:mt-0"
           >
             Unsubscribe
@@ -630,6 +647,14 @@ export const SubscriptionPage: React.FC = () => {
         onConfirm={handleUpgradeConfirm}
         planName={getSelectedPlanName()}
         isProcessing={isProcessing === selectedUpgradePlan}
+      />
+
+      {/* Unsubscription Modal */}
+      <UnsubscriptionModal
+        isOpen={showUnsubscribeModal}
+        onClose={handleUnsubscribeCancel}
+        onConfirm={handleCancelSubscription}
+        isLoading={isUnsubscribing}
       />
     </div>
   );
