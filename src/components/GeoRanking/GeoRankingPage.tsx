@@ -17,17 +17,26 @@ import { Loader2 } from 'lucide-react';
 export const GeoRankingPage = () => {
   const { selectedListing, isInitialLoading } = useListingContext();
   const {
-    isLoading,
-    error,
-    geoRankingData,
-    filters,
-    setFilters,
-    underPerformingKeywords,
-    rankingDistributionData,
-    competitorData,
-    aiInsights,
-    isProcessingKeywords,
-  } = useGeoRanking();
+    keywords,
+    selectedKeyword,
+    selectedDate,
+    keywordDetails,
+    credits,
+    loading: keywordsLoading,
+    pageLoading,
+    error: keywordsError,
+    refreshing,
+    refreshError,
+    refreshProgress,
+    handleRefreshKeyword,
+    processingKeywords,
+    isPolling,
+    pollingProgress,
+    handleKeywordChange,
+    handleDateChange,
+    startCustomPolling,
+    completePolling,
+  } = useGeoRanking(selectedListing?.id ? parseInt(selectedListing.id, 10) : 0);
 
   // State for controlling the visibility of the filters sidebar
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -52,50 +61,39 @@ export const GeoRankingPage = () => {
   }
 
   // Check if keywords are still being processed
-  if (isProcessingKeywords) {
-    return <ProcessingKeywordsAlert />;
+  if (processingKeywords) {
+    return <ProcessingKeywordsAlert keywords={keywords} />;
   }
 
   // Render the GeoRankingPage content if a listing is selected
   return (
     <div className="flex flex-col h-full">
       {/* GeoRanking Header */}
-      <GeoRankingHeader onFiltersToggle={toggleFilters} />
+      <GeoRankingHeader />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Filters Sidebar */}
-        <FiltersSidebar
-          isOpen={isFiltersOpen}
-          onClose={toggleFilters}
-          filters={filters}
-          onFiltersChange={setFilters}
-        />
+        <FiltersSidebar />
 
         {/* Main Content */}
         <div className="flex flex-col flex-1 overflow-auto">
           {/* Metrics Cards */}
-          <MetricsCards geoRankingData={geoRankingData} isLoading={isLoading} />
+          <MetricsCards />
 
           {/* Geo Ranking Map Section */}
-          <GeoRankingMapSection geoRankingData={geoRankingData} isLoading={isLoading} />
+          <GeoRankingMapSection />
 
           {/* Underperforming Keywords Table */}
-          <UnderPerformingTable
-            underPerformingKeywords={underPerformingKeywords}
-            isLoading={isLoading}
-          />
+          <UnderPerformingTable />
 
           {/* Ranking Distribution Chart */}
-          <RankingDistribution
-            rankingDistributionData={rankingDistributionData}
-            isLoading={isLoading}
-          />
+          <RankingDistribution />
 
           {/* Competitor Analysis Section */}
-          <CompetitorAnalysis competitorData={competitorData} isLoading={isLoading} />
+          <CompetitorAnalysis />
 
           {/* AI Insights Section */}
-          <AIInsights aiInsights={aiInsights} isLoading={isLoading} />
+          <AIInsights />
         </div>
       </div>
     </div>

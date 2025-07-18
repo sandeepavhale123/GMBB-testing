@@ -11,7 +11,7 @@ import { Loader2 } from 'lucide-react';
 export const InsightsPage = () => {
   const dispatch = useAppDispatch();
   const { selectedListing, isInitialLoading } = useListingContext();
-  const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility, error } = useAppSelector((state) => state.insights);
+  const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } = useAppSelector((state) => state.insights);
   const [insightsDateRange, setInsightsDateRange] = useState("30");
 
   useEffect(() => {
@@ -46,20 +46,15 @@ export const InsightsPage = () => {
 
   return (
     <div className="space-y-6">
-      <InsightsHeader
-        insightsDateRange={insightsDateRange}
-        setInsightsDateRange={setInsightsDateRange}
+      <InsightsHeader />
+      <InsightsContent
+        summary={summary}
+        visibilityTrends={visibilityTrends}
+        isLoadingSummary={isLoadingSummary}
+        isLoadingVisibility={isLoadingVisibility}
+        isLoadingCustomerActions={false}
+        customerActions={[]}
       />
-      {error ? (
-        <InsightsErrorState error={error} />
-      ) : (
-        <InsightsContent
-          summary={summary}
-          visibilityTrends={visibilityTrends}
-          isLoadingSummary={isLoadingSummary}
-          isLoadingVisibility={isLoadingVisibility}
-        />
-      )}
     </div>
   );
 };
