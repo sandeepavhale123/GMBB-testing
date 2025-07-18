@@ -58,6 +58,7 @@ export interface CreateReportPayload {
 }
 
 export interface PerformanceHealthReportData {
+  data: any;
   successScore: number;
   failedScore: number;
   reviews: {

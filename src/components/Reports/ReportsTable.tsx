@@ -85,6 +85,17 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
     return variants[section] || "outline";
   };
 
+  const getBadgeColor = (section: string) => {
+    const colorMap: Record<string, string> = {
+      "gmb-health": "border-green-500 bg-green-500 text-white ",
+      insights: "border-sky-500 bg-sky-500 text-white",
+      reviews: "border-yellow-500 bg-yellow-500 text-white",
+      posts: "border-pink-500 bg-pink-500 text-white",
+      media: "border-purple-500 bg-purple-500 text-white",
+      "geo-ranking": "border-orange-500 bg-orange-500 text-white",
+    };
+    return colorMap[section];
+  };
   const getReportRoute = (reportId: string, sections_visible: string[]) => {
     const section = sections_visible?.[0];
 
@@ -144,7 +155,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                       <Badge
                         key={sectionId}
                         variant={getReportTypeBadgeVariant(sectionId)}
-                        className="text-xs"
+                        className={`"text-xs" ${getBadgeColor(sectionId)}`}
                       >
                         {sectionId
                           .replace("-", " ")

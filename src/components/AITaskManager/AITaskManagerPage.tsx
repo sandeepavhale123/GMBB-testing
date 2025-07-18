@@ -135,13 +135,7 @@ export const AITaskManagerPage: React.FC = () => {
       console.log("Error occured", error);
     }
   };
-  // const handleFixTask = (taskId: string | Number) => {
-  //   setLocalTasks((prevTasks) =>
-  //     prevTasks.map((task) =>
-  //       task.id === taskId ? { ...task, status: "in-progress" as const } : task
-  //     )
-  //   );
-  // };
+
   const handleFixTask = (url: string, target: string) => {
     if (!url) return;
 
@@ -203,7 +197,7 @@ export const AITaskManagerPage: React.FC = () => {
           </div>
 
           {/* Status, Type and Actions Row */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4 flex-col sm:flex-row">
             <div className="flex items-center gap-2">
               <Badge className={statusColors[task.status]} variant="outline">
                 <StatusIcon className="w-3 h-3 mr-1" />
@@ -370,7 +364,7 @@ export const AITaskManagerPage: React.FC = () => {
 
       {/* Filter Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-max">
           <TabsTrigger value="pending">Pending ({pendingCount})</TabsTrigger>
           <TabsTrigger value="completed">
             Completed ({completedCount})
