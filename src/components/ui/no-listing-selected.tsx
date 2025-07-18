@@ -16,7 +16,7 @@ export const NoListingSelected: React.FC<NoListingSelectedProps> = ({ pageType }
           </div>
         </div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">
-          No Listing Selected
+          No Listing Available
         </h2>
         <p className="text-gray-600">
           Please select a business listing to view {pageType.toLowerCase()}.
