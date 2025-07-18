@@ -236,6 +236,20 @@ export interface GetActiveAccountListResponse {
   };
 }
 
+export interface SaveAssignListingsRequest {
+  id: number;
+  listId: number[];
+}
+
+export interface SaveAssignListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    id: number;
+    listId: string;
+  };
+}
+
 export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Promise<GetActiveAccountsResponse> => {
   try {
     const result = await axiosInstance({
@@ -264,6 +278,22 @@ export const getActiveAccountList = async (payload: GetActiveAccountListRequest)
     return result.data;
   } catch (error) {
     console.error("Failed to fetch active account list:", error);
+    throw error;
+  }
+};
+
+export const saveAssignListings = async (payload: SaveAssignListingsRequest): Promise<SaveAssignListingsResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/save-assign-listings",
+      method: "POST",
+      data: payload,
+    });
+
+    console.log("Save assign listings API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to save assign listings:", error);
     throw error;
   }
 };
