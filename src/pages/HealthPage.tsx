@@ -7,7 +7,6 @@ import { Header } from "../components/Header/Header";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { Health } from "../components/Health/Health";
-import { PublicGMBHealthReport } from "@/components/PublicReports/PublicGMBHealthReport";
 
 const HealthPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -56,9 +55,8 @@ const HealthPage = () => {
             showFilters={false}
           />
           {/* Page Content */}
-          <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
+          <main className="flex-1 overflow-auto">
             <Health />
-            {/* <PublicGMBHealthReport /> */}
           </main>
         </div>
         <Toaster />

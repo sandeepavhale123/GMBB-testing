@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -285,7 +286,7 @@ export const PublicReportDashboardLayout: React.FC<
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >
-                  {new Date().toLocaleDateString()}
+                  {formatToDayMonthYear(new Date())}
                 </p>
               </div>
             </div>

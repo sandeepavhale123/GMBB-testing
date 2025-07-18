@@ -18,20 +18,20 @@ const createReportPayload = (
     // Compare report with two periods
     apiDateRange = {
       period1: {
-        from: dateRange.period1.from.toISOString(),
-        to: dateRange.period1.to.toISOString(),
+        from: dateRange.period1.from,
+        to: dateRange.period1.to,
       },
       period2: {
-        from: dateRange.period2.from.toISOString(),
-        to: dateRange.period2.to.toISOString(),
+        from: dateRange.period2.from,
+        to: dateRange.period2.to,
       },
     };
   } else {
     // Individual report with single period
     apiDateRange = {
       period1: {
-        from: dateRange.from.toISOString(),
-        to: dateRange.to.toISOString(),
+        from: dateRange.from,
+        to: dateRange.to,
       },
     };
   }
@@ -113,8 +113,11 @@ export const reportsApi = {
   ): Promise<PerformanceHealthReportData> => {
     try {
       console.log("Fetching performance health report for ID:", reportId);
+      const payload = isNaN(Number(reportId))
+        ? { reportId: reportId }
+        : { listingId: reportId };
       const response = await axiosInstance.post("/get-performance-health", {
-        reportId: reportId || "KsP1pDlvqA1QcOF", // Use provided reportId or fallback
+        reportId: reportId,
       });
       console.log("Performance health report data:", response.data);
       return response.data;
@@ -263,6 +266,27 @@ export const reportsApi = {
       }
     } catch (error) {
       console.error("POST get-performance-ranking failed:", error);
+      throw error;
+    }
+  },
+
+  // get data for report tabel
+  getAllReports: async (listingId: number | string): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-all-reports", {
+        listingId,
+      });
+
+      if (response.data?.code === 200) {
+        console.log("📄 All reports data:", response.data);
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch all reports"
+        );
+      }
+    } catch (error) {
+      console.error("POST /get-all-reports failed:", error);
       throw error;
     }
   },

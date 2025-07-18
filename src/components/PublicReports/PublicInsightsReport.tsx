@@ -33,6 +33,7 @@ import {
 } from "recharts";
 import { usePerformanceInsightsReport } from "@/hooks/useReports";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 export const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
@@ -257,8 +258,14 @@ export const PublicInsightsReport: React.FC = () => {
                     How Customers Search For Your Business
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 1: {insightData?.data?.periodOne?.date?.from_date} -{" "}
-                    {insightData?.data?.periodOne?.date?.to_date}
+                    Period 1:{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodOne?.date?.from_date
+                    )}{" "}
+                    -{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodOne?.date?.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent className={isMobile ? "flex justify-center" : ""}>
@@ -332,8 +339,14 @@ export const PublicInsightsReport: React.FC = () => {
                     How Customers Search For Your Business
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 2: {insightData?.data?.periodTwo?.date?.from_date} -{" "}
-                    {insightData?.data?.periodTwo?.date?.to_date}
+                    Period 2:{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodTwo?.date?.from_date
+                    )}{" "}
+                    -{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodTwo?.date?.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent className={isMobile ? "flex justify-center" : ""}>
@@ -483,8 +496,14 @@ export const PublicInsightsReport: React.FC = () => {
                     Listing Views & Clicks
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 1: {insightData?.data?.periodOne?.date?.from_date} -
-                    {insightData?.data?.periodOne?.date?.to_date}
+                    Period 1:{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodOne?.date?.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodOne?.date?.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent className={isMobile ? "overflow-x-auto" : ""}>
@@ -528,8 +547,14 @@ export const PublicInsightsReport: React.FC = () => {
                     Listing Views & Clicks
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 2: {insightData?.data?.periodTwo?.date?.from_date} -{" "}
-                    {insightData?.data?.periodTwo?.date?.to_date}
+                    Period 2:{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodTwo?.date?.from_date
+                    )}{" "}
+                    -{" "}
+                    {formatToDayMonthYear(
+                      insightData?.data?.periodTwo?.date?.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent className={isMobile ? "overflow-x-auto" : ""}>

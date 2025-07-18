@@ -75,6 +75,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
 
   // Check if keyword limit is reached
   const keywordCount = countKeywords(formData.keywords);
+  const isKeywordCountValid = keywordCount > 0 && keywordCount <= 5;
   const isKeywordLimitReached = keywordCount >= 5;
 
   const handleSearchDataEngineChange = (value: string) => {
@@ -101,9 +102,9 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     if (keywordsValidation.hasFieldError("keywords")) {
       keywordsValidation.clearFieldError("keywords");
     }
-    
+
     const newKeywordCount = countKeywords(value);
-    
+
     // Always prevent more than 5 keywords regardless of input method
     if (newKeywordCount > 5) {
       // If pasting, trim to first 5 keywords
@@ -113,13 +114,14 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
         .filter((keyword) => keyword.length > 0)
         .slice(0, 5) // Take only first 5 keywords
         .join(", ");
-      
+
       toast({
         title: "Keyword Limit Exceeded",
-        description: "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
+        description:
+          "Only the first 5 keywords were added. Maximum limit is 5 keywords.",
         variant: "destructive",
       });
-      
+
       // Update with trimmed keywords
       onInputChange("keywords", keywords);
       return;
@@ -238,8 +240,8 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             {formData.mapPoint === "Manually" && (
               <div className="space-y-2">
                 <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-                  Click on the map to place points manually. You can drag them to
-                  reposition.
+                  Click on the map to place points manually. You can drag them
+                  to reposition.
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-600">
@@ -380,7 +382,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
           <Button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6"
-            disabled={submittingRank || pollingKeyword}
+            disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
           >
             {pollingKeyword
               ? "Processing keyword..."

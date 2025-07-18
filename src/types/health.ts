@@ -39,14 +39,27 @@ export interface CommunicationSection {
 }
 
 export interface HealthData {
+  logo: string;
+  detailedBreakdown(detailedBreakdown: any): unknown;
+  failedScore: number;
+  totalPosts: number;
+  successScore: number;
+  address: string;
+  locationName: string;
+  competitorAndCitationData: any[];
   healthScore: number;
-  reviews: { current: number; total: number };
+  reviews: {
+    review: number;
+    reply: number;
+    current: number;
+    total: number;
+  };
   questionsAnswers: { questions: number; answers: number };
   avgRating: number;
   gmbPhotos: number;
   gmbPosts: number;
   sections: HealthSection[];
-  insightMetrics:InsightMetrics[]
+  insightMetrics: InsightMetrics[];
   communication: CommunicationSection | CommunicationSection[];
   chartData: ChartDataItem[];
 }

@@ -10,45 +10,9 @@ export const healthApi = {
       listingId,
       refresh,
     });
+    console.log("health response api", response.data);
     return response.data;
   },
-};
-
-const transformApiResponse = (apiData: any): HealthData => {
-  const insightItems = apiData.insightper?.items?.[0] || {};
-  const chartData = (insightItems.chartData || []).map((item: any) => ({
-    ...item,
-    count: Number(item.count) || 0,
-    views: Number(item.views) || 0,
-  }));
-
-  const insightMetrics = (insightItems.insightMetrics || []).map(
-    (item: any) => ({
-      ...item,
-      value: Number(item.value) || 0,
-    })
-  );
-
-  return {
-    healthScore: Number(apiData.healthScore) || 0,
-    reviews: {
-      current: Number(apiData.reviews?.review) || 0,
-      total: Number(apiData.reviews?.reply) || 0,
-    },
-    questionsAnswers: {
-      questions: Number(apiData.questionsAnswers?.questions) || 0,
-      answers: Number(apiData.questionsAnswers?.answers) || 0,
-    },
-    avgRating: Number(apiData.avgRating) || 0,
-    gmbPhotos: Number(apiData.gmbPhotos) || 0,
-    gmbPosts: Number(apiData.gmbPosts) || 0,
-    chartData,
-    insightMetrics,
-    sections: apiData.sections || [],
-    communication: Array.isArray(apiData.communication)
-      ? apiData.communication
-      : [apiData.communication],
-  };
 };
 
 interface UseHealthReportReturn {
@@ -77,7 +41,7 @@ export const useHealthReport = (
           variant: "default",
         });
       }
-      return transformApiResponse(res.data);
+      return res.data;
     },
     enabled: !!listingId,
     refetchOnWindowFocus: false,

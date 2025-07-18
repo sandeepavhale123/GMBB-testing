@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { reportsApi } from "../api/reportsApi";
 import { CreateReportRequest } from "../types/reportTypes";
-import { useToast } from "./use-toast";
+import { toast } from "./use-toast";
 
 export const useReports = (listingId: string) => {
   return useQuery({
@@ -13,7 +13,6 @@ export const useReports = (listingId: string) => {
 
 export const useCreateReport = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   return useMutation({
     mutationFn: (data: CreateReportRequest) => reportsApi.createReport(data),
     onSuccess: ({ report, message, reportId, domain }, variables) => {
@@ -89,8 +88,6 @@ export const usePerformanceReviewReport = (reportId: string) => {
 
 // get post report
 export const usePerformancePostsReport = (reportId: string) => {
-  const { toast } = useToast();
-
   return useQuery({
     queryKey: ["performance-posts-report", reportId],
     queryFn: async () => {
@@ -98,13 +95,15 @@ export const usePerformancePostsReport = (reportId: string) => {
         const data = await reportsApi.getPerformancePostsReport(reportId);
         toast({
           title: "Post Report Loaded",
-          description: data?.message || "Performance post report fetched successfully.",
+          description:
+            data?.message || "Performance post report fetched successfully.",
         });
         return data;
       } catch (error: any) {
         toast({
           title: "Error Loading Post Report",
-          description: error?.message || "Failed to fetch performance post report.",
+          description:
+            error?.message || "Failed to fetch performance post report.",
           variant: "destructive",
         });
         throw error;
@@ -196,8 +195,6 @@ export const usePerformanceGeoRankingReport = (
   reportId: string,
   keywordId: number
 ) => {
-  const { toast } = useToast();
-
   return useQuery({
     queryKey: ["performance-geo-ranking", reportId, keywordId],
     queryFn: () =>
@@ -216,6 +213,29 @@ export const usePerformanceGeoRankingReport = (
       toast({
         title: "Error Loading GEO Report",
         description: error?.message || "Failed to fetch GEO ranking report.",
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+export const useAllReports = (listingId: number | string) => {
+  return useQuery({
+    queryKey: ["all-reports", listingId],
+    queryFn: () => reportsApi.getAllReports(listingId),
+    enabled: !!listingId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      toast({
+        title: "All Reports Loaded",
+        description: data?.message || "Fetched all reports successfully.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error Fetching Reports",
+        description: error?.message || "Failed to fetch all reports.",
         variant: "destructive",
       });
     },

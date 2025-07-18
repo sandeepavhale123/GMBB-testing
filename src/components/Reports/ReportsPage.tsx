@@ -58,7 +58,7 @@ export const ReportsPage: React.FC = () => {
       </div>
 
       {/* Reports Table */}
-      <ReportsTable reports={reports || []} />
+      <ReportsTable listingId={selectedListing?.id || ""} />
 
       {/* Create Report Modal */}
       <CreateReportModal

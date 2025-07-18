@@ -11,16 +11,38 @@ import {
   TableRow,
 } from "../ui/table";
 import { Card, CardContent } from "../ui/card";
-import { Eye } from "lucide-react";
+import { Eye, Loader2 } from "lucide-react";
 import { Report, DateRange, CompareDateRange } from "@/types/reportTypes";
 import { useNavigate } from "react-router-dom";
+import { useAllReports } from "@/hooks/useReports";
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 interface ReportsTableProps {
-  reports: Report[];
+  listingId: string;
 }
 
-export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
+export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   const navigate = useNavigate();
+  const { data, isLoading, isError } = useAllReports(listingId);
+
+  const reports = data?.data;
+  console.log("report data", reports);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-10">
+        <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
+        <span className="ml-2">Loading reports...</span>
+      </div>
+    );
+  }
+
+  if (isError || !data?.data) {
+    return (
+      <div className="text-center py-10 text-destructive">
+        Failed to load reports. Please try again later.
+      </div>
+    );
+  }
 
   const formatDateRange = (
     dateRange: DateRange | CompareDateRange,
@@ -28,21 +50,20 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
   ) => {
     if (type === "Individual") {
       const range = dateRange as DateRange;
-      return `${format(range.from, "dd/MM/yyyy")} to ${format(
-        range.to,
-        "dd/MM/yyyy"
+      return `${formatToDayMonthYear(range.from)} to ${formatToDayMonthYear(
+        range.to
       )}`;
     } else {
       const compareRange = dateRange as CompareDateRange;
       return (
         <div className="space-y-1">
           <div>
-            Period 1: {format(compareRange.period1.from, "dd/MM/yyyy")} to{" "}
-            {format(compareRange.period1.to, "dd/MM/yyyy")}
+            Period 1: {formatToDayMonthYear(compareRange.period1.from)} to{" "}
+            {formatToDayMonthYear(compareRange.period1.to)}
           </div>
           <div>
-            Period 2: {format(compareRange.period2.from, "dd/MM/yyyy")} to{" "}
-            {format(compareRange.period2.to, "dd/MM/yyyy")}
+            Period 2: {formatToDayMonthYear(compareRange.period2.from)} to{" "}
+            {formatToDayMonthYear(compareRange.period2.to)}
           </div>
         </div>
       );
@@ -54,18 +75,35 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
       string,
       "default" | "secondary" | "destructive" | "outline"
     > = {
-      insights: "default",
-      reviews: "secondary",
+      "gmb-health": "outline",
+      insights: "outline",
+      reviews: "outline",
       posts: "outline",
-      media: "destructive",
-      qa: "default",
-      "geo-ranking": "secondary",
+      media: "outline",
+      "geo-ranking": "outline",
     };
     return variants[section] || "outline";
   };
 
-  const handleViewReport = (reportId: string) => {
-    navigate(`/performance-report/${reportId}`);
+  const getReportRoute = (reportId: string, sections_visible: string[]) => {
+    const section = sections_visible?.[0];
+
+    const sectionRouteMap: Record<string, string> = {
+      "gmb-health": "/gmb-health",
+      insights: "/gmb-insight",
+      reviews: "/gmb-review",
+      posts: "/gmb-post",
+      media: "/gmb-media",
+      "geo-ranking": "/gmb-ranking",
+    };
+
+    const basePath = sectionRouteMap[section] || "/gmb-health";
+    return `${basePath}/${reportId}`;
+  };
+
+  const handleViewReport = (reportId: string, sections_visible: string[]) => {
+    const url = getReportRoute(reportId, sections_visible);
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   if (reports.length === 0) {
@@ -96,19 +134,21 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
           </TableHeader>
           <TableBody>
             {reports.map((report) => (
-              <TableRow key={report.id}>
+              <TableRow key={report.report_id}>
                 <TableCell>
-                  <div className="font-medium">{report.name}</div>
+                  <div className="font-medium">{report.title}</div>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
-                    {report.reportSections.map((section) => (
+                    {report.sections_visible.map((sectionId) => (
                       <Badge
-                        key={section.id}
-                        variant={getReportTypeBadgeVariant(section.id)}
+                        key={sectionId}
+                        variant={getReportTypeBadgeVariant(sectionId)}
                         className="text-xs"
                       >
-                        {section.name.replace(" Section", "")}
+                        {sectionId
+                          .replace("-", " ")
+                          .replace(/\b\w/g, (c) => c.toUpperCase())}
                       </Badge>
                     ))}
                   </div>
@@ -117,14 +157,19 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ reports }) => {
                   <span className="font-medium">{report.type} Report</span>
                 </TableCell>
                 <TableCell className="min-w-[200px]">
-                  {formatDateRange(report.dateRange, report.type)}
+                  {formatDateRange(report.date_range, report.type)}
                 </TableCell>
                 <TableCell className="text-right">
                   <Button
                     variant="outline"
                     size="sm"
                     className="flex items-center justify-center w-10 h-10 p-0"
-                    onClick={() => handleViewReport(report.id)}
+                    onClick={() =>
+                      handleViewReport(
+                        report.report_id,
+                        report.sections_visible
+                      )
+                    }
                   >
                     <Eye className="w-4 h-4" />
                   </Button>

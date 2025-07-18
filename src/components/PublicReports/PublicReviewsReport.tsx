@@ -37,6 +37,7 @@ import {
   Cell,
 } from "recharts";
 import { usePerformanceReviewReport } from "@/hooks/useReports";
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 export const PublicReviewsReport: React.FC = () => {
   // Extract reportId from URL
@@ -329,8 +330,13 @@ export const PublicReviewsReport: React.FC = () => {
                 <CardHeader>
                   <CardTitle>Rating Count Summary </CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {reviewsData?.data.periodOne.date.from_date} -
-                    {reviewsData?.data.periodOne.date.to_date}
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -368,8 +374,13 @@ export const PublicReviewsReport: React.FC = () => {
                 <CardHeader>
                   <CardTitle>Rating Count Summary</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {reviewsData?.data.periodTwo.date.from_date} -
-                    {reviewsData?.data.periodTwo.date.to_date}
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodTwo.date.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodTwo.date.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -414,10 +425,10 @@ export const PublicReviewsReport: React.FC = () => {
                 </CardHeader>
 
                 <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
-                  <div className="h-48 mb-4">
+                  <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="flex justify-center py-8">
+                        <div className="flex justify-center ">
                           <img
                             src="../../../public/nodata.svg"
                             alt="No Data"
@@ -503,10 +514,10 @@ export const PublicReviewsReport: React.FC = () => {
                 </CardHeader>
 
                 <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
-                  <div className="h-48 mb-4">
+                  <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty2 ? (
-                        <div className="flex justify-center py-8">
+                        <div className="flex justify-center">
                           <img
                             src="../../../public/nodata.svg"
                             alt="No Data"
@@ -591,8 +602,13 @@ export const PublicReviewsReport: React.FC = () => {
                 <CardHeader>
                   <CardTitle>Rating Count Summary</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {reviewsData?.data.periodOne.date.from_date} -
-                    {reviewsData?.data.periodOne.date.to_date}
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.to_date
+                    )}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -637,10 +653,10 @@ export const PublicReviewsReport: React.FC = () => {
 
                 {/* Sentiment Analysis Donut Chart */}
                 <CardContent className="bg-white rounded-lg mx-4 mb-4 p-4">
-                  <div className="h-48 mb-4">
+                  <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="flex justify-center py-8">
+                        <div className="flex justify-center">
                           <img
                             src="../../../public/nodata.svg"
                             alt="No Data"
@@ -750,15 +766,20 @@ export const PublicReviewsReport: React.FC = () => {
               <CardHeader>
                 <CardTitle>Review Trends Over Time </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {reviewsData?.data.periodOne.date.from_date} -
-                  {reviewsData?.data.periodOne.date.to_date}
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodOne.date.from_date
+                  )}{" "}
+                  -
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodOne.date.to_date
+                  )}
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     {trend1.length === 0 ? (
-                      <div className="flex justify-center py-8">
+                      <div className="flex justify-center">
                         <img
                           src="../../../public/nodata.svg"
                           alt="No Data"
@@ -829,16 +850,25 @@ export const PublicReviewsReport: React.FC = () => {
               <CardHeader>
                 <CardTitle>Review Trends Over Time </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {reviewsData?.data.periodTwo.date.from_date} -
-                  {reviewsData?.data.periodTwo.date.to_date}
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodTwo.date.from_date
+                  )}{" "}
+                  -
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodTwo.date.to_date
+                  )}
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     {trend2.length === 0 ? (
-                      <div className="text-center text-muted-foreground py-8">
-                        No data available
+                      <div className="flex justify-center">
+                        <img
+                          src="../../../public/nodata.svg"
+                          alt="No Data"
+                          className="h-64"
+                        />
                       </div>
                     ) : (
                       <LineChart
@@ -904,8 +934,11 @@ export const PublicReviewsReport: React.FC = () => {
             <CardHeader>
               <CardTitle>Review Trends Over Time</CardTitle>
               <p className="text-sm text-muted-foreground">
-                {reviewsData?.data.periodOne.date.from_date} -
-                {reviewsData?.data.periodOne.date.to_date}
+                {formatToDayMonthYear(
+                  reviewsData?.data.periodOne.date.from_date
+                )}{" "}
+                -
+                {formatToDayMonthYear(reviewsData?.data.periodOne.date.to_date)}
               </p>
             </CardHeader>
             <CardContent>
@@ -979,8 +1012,12 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {trend1.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
-                    No data available
+                  <div className="flex justify-center">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
                   </div>
                 ) : (
                   <Table>
@@ -1023,7 +1060,7 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {trend2.length === 0 ? (
-                  <div className="flex justify-center py-8">
+                  <div className="flex justify-center">
                     <img
                       src="../../../public/nodata.svg"
                       alt="No Data"
@@ -1071,7 +1108,7 @@ export const PublicReviewsReport: React.FC = () => {
             </CardHeader>
             <CardContent>
               {trend1.length === 0 ? (
-                <div className="flex justify-center py-8">
+                <div className="flex justify-center">
                   <img
                     src="../../../public/nodata.svg"
                     alt="No Data"
@@ -1123,7 +1160,7 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {recentReviews1.length === 0 ? (
-                  <div className="flex justify-center py-8">
+                  <div className="flex justify-center">
                     <img
                       src="../../../public/nodata.svg"
                       alt="No Data"
@@ -1200,7 +1237,7 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {recentReviews2.length === 0 ? (
-                  <div className="flex justify-center py-8">
+                  <div className="flex justify-center">
                     <img
                       src="../../../public/nodata.svg"
                       alt="No Data"
@@ -1277,8 +1314,12 @@ export const PublicReviewsReport: React.FC = () => {
             </CardHeader>
             <CardContent>
               {recentReviews1.length === 0 ? (
-                <div className="text-center text-muted-foreground py-8">
-                  No recent reviews available
+                <div className="flex justify-center">
+                  <img
+                    src="../../../public/nodata.svg"
+                    alt="No Data"
+                    className="h-64"
+                  />
                 </div>
               ) : (
                 <div className="space-y-6">

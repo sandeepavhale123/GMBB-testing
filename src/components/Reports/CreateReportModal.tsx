@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
@@ -43,6 +43,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const [individualDate, setIndividualDate] = useState<DateRange | undefined>();
   const [period1Date, setPeriod1Date] = useState<DateRange | undefined>();
   const [period2Date, setPeriod2Date] = useState<DateRange | undefined>();
+  const formatDateForAPI = (date: Date) => format(date, "yyyy-MM-dd");
 
   const handleSectionToggle = (sectionId: ReportSectionId) => {
     setSelectedSections((prev) =>
@@ -52,6 +53,47 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     );
   };
 
+  // Track previous type
+  const prevType = useRef<"Individual" | "Compare">("Individual");
+
+  useEffect(() => {
+    if (
+      reportType === "Compare" &&
+      prevType.current === "Individual" &&
+      individualDate
+    ) {
+      // Moving from Individual → Compare: copy individualDate to period1
+      setPeriod1Date(individualDate);
+    } else if (
+      reportType === "Individual" &&
+      prevType.current === "Compare" &&
+      period1Date
+    ) {
+      // Moving from Compare → Individual: copy period1Date to individualDate
+      setIndividualDate(period1Date);
+    }
+
+    prevType.current = reportType;
+  }, [reportType, individualDate, period1Date]);
+
+  // close button
+  const handleClose = () => {
+    onOpenChange(false);
+    setReportName("");
+    setReportType("Individual");
+    setShowSections(false);
+    setSelectedSections([
+      "gmb-health",
+      "insights",
+      "reviews",
+      "posts",
+      "media",
+      "geo-ranking",
+    ]);
+    setIndividualDate(undefined);
+    setPeriod1Date(undefined);
+    setPeriod2Date(undefined);
+  };
   const handleGenerate = async () => {
     console.log("generate is clicked with id", selectedListing?.id);
     if (!selectedListing?.id) return;
@@ -60,8 +102,8 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     if (reportType === "Individual") {
       if (!individualDate?.from || !individualDate?.to) return;
       dateRange = {
-        from: individualDate.from,
-        to: individualDate.to,
+        from: formatDateForAPI(individualDate.from),
+        to: formatDateForAPI(individualDate.to),
       };
     } else {
       if (
@@ -73,17 +115,18 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
         return;
       dateRange = {
         period1: {
-          from: period1Date.from,
-          to: period1Date.to,
+          from: formatDateForAPI(period1Date.from),
+          to: formatDateForAPI(period1Date.to),
         },
         period2: {
-          from: period2Date.from,
-          to: period2Date.to,
+          from: formatDateForAPI(period2Date.from),
+          to: formatDateForAPI(period2Date.to),
         },
       };
     }
 
     try {
+      console.log("report date range", dateRange);
       await createReport({
         name: reportName,
         type: reportType,
@@ -201,7 +244,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium mb-2 block">
-                    Period 1
+                    Period 1 (Current)
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -242,7 +285,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                 </div>
                 <div>
                   <Label className="text-sm font-medium mb-2 block">
-                    Period 2
+                    Period 2 (Previous)
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -314,7 +357,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
 
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" onClick={handleClose}>
               Close
             </Button>
             <Button

@@ -18,6 +18,7 @@ import {
   usePerformanceGeoKeywords,
   usePerformanceGeoRankingReport,
 } from "@/hooks/useReports"; // Adjust path as needed
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -496,8 +497,8 @@ export const PublicGeoRankingReport: React.FC = () => {
               <div>
                 <h2 className="text-2xl font-bold mb-2">GEO Ranking Report</h2>
                 <p className="text-muted-foreground mb-1">
-                  {keywordData?.data?.date_range?.from} -{" "}
-                  {keywordData?.data?.date_range?.to}
+                  {formatToDayMonthYear(keywordData?.data?.date_range?.from)} -{" "}
+                  {formatToDayMonthYear(keywordData?.data?.date_range?.to)}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Keyword:{" "}

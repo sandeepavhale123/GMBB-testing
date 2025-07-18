@@ -394,33 +394,43 @@ export const PublicPostPerformanceReport: React.FC = () => {
           </CardHeader>
           <CardContent>
             {reportType === "compare" ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
+              trendDataOne.length > 0 ? (
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
 
-                  <Line
-                    type="monotone"
-                    data={formatTrendData(trendDataOne)}
-                    dataKey="totalPosts"
-                    stroke="#3b82f6"
-                    strokeWidth={2}
-                    name="Period One"
-                  />
+                    <Line
+                      type="monotone"
+                      data={formatTrendData(trendDataOne)}
+                      dataKey="totalPosts"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      name="Period One"
+                    />
 
-                  <Line
-                    type="monotone"
-                    data={formatTrendData(trendDataTwo)}
-                    dataKey="totalPosts"
-                    stroke="#f97316"
-                    strokeWidth={2}
-                    name="Period Two"
+                    <Line
+                      type="monotone"
+                      data={formatTrendData(trendDataTwo)}
+                      dataKey="totalPosts"
+                      stroke="#f97316"
+                      strokeWidth={2}
+                      name="Period Two"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex justify-center text-sm">
+                  <img
+                    src="../../../public/nodata.svg"
+                    alt="No Data"
+                    className="h-64"
                   />
-                </LineChart>
-              </ResponsiveContainer>
-            ) : (
+                </div>
+              )
+            ) : trendDataOne.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={formatTrendData(trendDataOne)}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -436,6 +446,14 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   />
                 </LineChart>
               </ResponsiveContainer>
+            ) : (
+              <div className="flex justify-center text-sm">
+                <img
+                  src="../../../public/nodata.svg"
+                  alt="No Data"
+                  className="h-64"
+                />
+              </div>
             )}
           </CardContent>
         </Card>
@@ -490,13 +508,13 @@ export const PublicPostPerformanceReport: React.FC = () => {
                       renderPostCard(post, index)
                     )
                   ) : (
-                    <p className="text-muted-foreground text-sm">
+                    <div className="flex justify-center text-sm">
                       <img
                         src="../../../public/nodata.svg"
                         alt="No Data"
                         className="h-64"
                       />
-                    </p>
+                    </div>
                   )}
                 </div>
                 <div className="pt-6 border-t mt-6">
@@ -508,9 +526,13 @@ export const PublicPostPerformanceReport: React.FC = () => {
                       renderPostCard(post, index)
                     )
                   ) : (
-                    <p className="text-muted-foreground text-sm">
-                      No posts available for Period Two.
-                    </p>
+                    <div className="flex justify-center text-sm">
+                      <img
+                        src="../../../public/nodata.svg"
+                        alt="No Data"
+                        className="h-64"
+                      />
+                    </div>
                   )}
                 </div>
               </>
@@ -521,9 +543,13 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     renderPostCard(post, index)
                   )
                 ) : (
-                  <p className="text-muted-foreground text-sm">
-                    No posts available.
-                  </p>
+                  <div className="flex justify-center text-sm">
+                    <img
+                      src="../../../public/nodata.svg"
+                      alt="No Data"
+                      className="h-64"
+                    />
+                  </div>
                 )}
               </>
             )}
