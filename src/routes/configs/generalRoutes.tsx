@@ -1,9 +1,11 @@
+
 import Profile from "@/pages/Profile";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import TeamPage from "@/pages/TeamPage";
 import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/NotFound";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
+import { RoleProtectedRoute } from "@/routes/RoleProtectedRoute";
 import { RouteConfig } from "../routeConfig";
 import { ManageGoogleAccountPage } from "@/components/Settings/ManageGoogleAccountPage";
 import { SubscriptionPage } from "@/components/Settings/SubscriptionPage";
@@ -56,51 +58,51 @@ export const generalRoutes: RouteConfig[] = [
   {
     path: "/settings",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/google-account",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/subscription",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/theme-customization",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/report-branding",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
@@ -114,51 +116,51 @@ export const generalRoutes: RouteConfig[] = [
   {
     path: "/settings/integrations",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/team-members",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/listings/:accountId",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/team-members/edit/:memberId",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {
     path: "/settings/:listingId",
     element: (
-      <ProtectedRoute>
+      <RoleProtectedRoute>
         <ListingProvider>
           <SettingsPage />
         </ListingProvider>
-      </ProtectedRoute>
+      </RoleProtectedRoute>
     ),
   },
   {

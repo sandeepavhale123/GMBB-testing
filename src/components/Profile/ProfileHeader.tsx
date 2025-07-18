@@ -21,6 +21,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { profileData, isLoading, updateProfile, isUpdating } = useProfile();
   const [isUploading, setIsUploading] = useState(false);
 
+  // Helper function to check if subscription info should be hidden
+  const shouldHideSubscriptionInfo = () => {
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
+
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -174,7 +180,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <p className="text-sm sm:text-base text-gray-600">
                 {profileData?.role}
               </p>
-              {profileData?.planName && (
+              {/* Conditionally show plan information */}
+              {!shouldHideSubscriptionInfo() && profileData?.planName && (
                 <p className="text-sm text-primary font-medium">
                   {profileData.planName} Plan
                   {profileData.planExpDate && (
@@ -198,15 +205,18 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 <Lock className="w-4 h-4 mr-2" />
                 Change Password
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleManageSubscription}
-                className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Manage Subscription
-              </Button>
+              {/* Conditionally show manage subscription button */}
+              {!shouldHideSubscriptionInfo() && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleManageSubscription}
+                  className="px-4 py-2 rounded-lg font-medium border-primary/20 text-primary hover:bg-primary/5 transition-all"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Manage Subscription
+                </Button>
+              )}
             </div>
           </div>
         </div>
