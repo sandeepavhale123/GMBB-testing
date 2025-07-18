@@ -242,18 +242,5 @@ export const useAllReports = (listingId: number | string) => {
     enabled: !!listingId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "All Reports Loaded",
-        description: data?.message || "Fetched all reports successfully.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Fetching Reports",
-        description: error?.message || "Failed to fetch all reports.",
-        variant: "destructive",
-      });
-    },
   });
 };
