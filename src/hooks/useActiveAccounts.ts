@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getActiveAccounts, getActiveAccountList, GetActiveAccountsRequest, GetActiveAccountsResponse, GetActiveAccountListRequest, GetActiveAccountListResponse, Account, Listing } from '../api/teamApi';
+import { getActiveAccounts, getActiveAccountList, saveAssignListings, GetActiveAccountsRequest, GetActiveAccountsResponse, GetActiveAccountListRequest, GetActiveAccountListResponse, Account, Listing } from '../api/teamApi';
 
 export interface UseActiveAccountsParams {
   employeeId: number;
@@ -14,6 +14,9 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   const [accountLoading, setAccountLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
+  const [originalAssignedIds, setOriginalAssignedIds] = useState<string[]>([]);
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const {
     employeeId,
@@ -47,6 +50,13 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   useEffect(() => {
     fetchActiveAccounts();
   }, [fetchActiveAccounts]);
+
+  // Track original assigned listings when data is loaded
+  useEffect(() => {
+    if (data?.assignListingIds) {
+      setOriginalAssignedIds(data.assignListingIds.map(id => id.toString()));
+    }
+  }, [data?.assignListingIds]);
 
   const fetchAccountListings = useCallback(async (accountId: number) => {
     if (!employeeId) return;
@@ -173,6 +183,50 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
     };
   }, [selectedAccountId, accountData, data, limit]);
 
+  const getAssignedListingIds = useCallback((): number[] => {
+    const currentListings = getCurrentListings();
+    return currentListings
+      .filter((listing: any) => listing.allocated)
+      .map((listing: any) => parseInt(listing.id, 10));
+  }, [getCurrentListings]);
+
+  const saveAssignments = useCallback(async (): Promise<void> => {
+    if (!employeeId) {
+      throw new Error('Employee ID is required');
+    }
+
+    setSaveLoading(true);
+    setSaveError(null);
+
+    try {
+      const assignedIds = getAssignedListingIds();
+      const payload = {
+        id: employeeId,
+        listId: assignedIds
+      };
+
+      await saveAssignListings(payload);
+      
+      // Update original assigned IDs after successful save
+      setOriginalAssignedIds(assignedIds.map(id => id.toString()));
+      
+      // Refresh data to reflect server state
+      await fetchActiveAccounts();
+    } catch (error: any) {
+      setSaveError(error.message || 'Failed to save listing assignments');
+      throw error;
+    } finally {
+      setSaveLoading(false);
+    }
+  }, [employeeId, getAssignedListingIds, fetchActiveAccounts]);
+
+  const hasUnsavedChanges = useCallback((): boolean => {
+    const currentAssignedIds = getAssignedListingIds().map(id => id.toString()).sort();
+    const originalIds = [...originalAssignedIds].sort();
+    
+    return JSON.stringify(currentAssignedIds) !== JSON.stringify(originalIds);
+  }, [getAssignedListingIds, originalAssignedIds]);
+
   return {
     data,
     accountData,
@@ -194,5 +248,10 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
       setSelectedAccountId(null);
       setAccountData(null);
     }, []),
+    getAssignedListingIds,
+    saveAssignments,
+    hasUnsavedChanges,
+    saveLoading,
+    saveError,
   };
 };

@@ -34,7 +34,7 @@ export const EditTeamMemberSettings: React.FC = () => {
     isLoadingEdit,
     isSavingEdit,
     editError,
-    saveError,
+    saveError: teamSaveError,
     fetchEditTeamMember,
     updateTeamMember,
     clearTeamEditError,
@@ -50,7 +50,7 @@ export const EditTeamMemberSettings: React.FC = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [hasChanges, setHasChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   // Tab state
   const [activeTab, setActiveTab] = useState('profile');
 
@@ -74,7 +74,11 @@ export const EditTeamMemberSettings: React.FC = () => {
     refetch: refetchListings,
     searchByAccount,
     selectedAccountId,
-    clearAccountSearch
+    clearAccountSearch,
+    saveAssignments,
+    hasUnsavedChanges,
+    saveLoading,
+    saveError
   } = useActiveAccounts({
     employeeId: parseInt(memberId || '0'),
     page: currentPage,
@@ -107,6 +111,15 @@ export const EditTeamMemberSettings: React.FC = () => {
   const assignedCount = selectedAccount === 'All' 
     ? totalAssignListings 
     : displayListings.filter(listing => listing.allocated).length;
+
+  // Track changes for save button
+  const hasProfileChanges = Object.keys(formData).some(key => {
+    const formKey = key as keyof EditFormData;
+    return formData[formKey] !== (currentEditMember?.[formKey === 'email' ? 'username' : formKey] || '');
+  });
+
+  const hasListingChanges = hasUnsavedChanges();
+  const hasChanges = activeTab === 'profile' ? hasProfileChanges : hasListingChanges;
 
   const fetchedMemberIdRef = useRef<number | null>(null);
   useEffect(() => {
@@ -141,38 +154,50 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   const handleInputChange = (field: keyof EditFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    setHasChanges(true);
   };
 
   const handleSave = async () => {
-    if (!memberId || !currentEditMember) return;
+    if (!memberId) return;
 
+    setIsSaving(true);
     try {
-      const updateData = {
-        Id: parseInt(memberId),
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.email, // Map email back to username
-        role: formData.role,
-        ...(formData.password && { password: formData.password }) // Only include password if provided
-      };
+      if (activeTab === 'profile') {
+        // Save profile changes
+        const updateData = {
+          Id: parseInt(memberId),
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          username: formData.email, // Map email back to username
+          role: formData.role,
+          ...(formData.password && { password: formData.password }) // Only include password if provided
+        };
 
-      const result = await updateTeamMember(updateData);
-      
-      if (updateEditMember.fulfilled.match(result)) {
+        const result = await updateTeamMember(updateData);
+        
+        if (updateEditMember.fulfilled.match(result)) {
+          toast({
+            title: "Success",
+            description: "Team member profile updated successfully",
+          });
+          navigate("/settings/team-members");
+        }
+      } else if (activeTab === 'listing') {
+        // Save listing assignments
+        await saveAssignments();
+
         toast({
           title: "Success",
-          description: "Team member updated successfully",
+          description: "Listing assignments updated successfully",
         });
-        setHasChanges(false);
-        navigate("/settings/team-members");
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to update team member",
+        description: error.message || `Failed to update ${activeTab === 'profile' ? 'profile' : 'listing assignments'}`,
         variant: "destructive",
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -183,7 +208,6 @@ export const EditTeamMemberSettings: React.FC = () => {
   // Listing management handlers
   const handleListingToggle = (listingId: string) => {
     toggleListingAssignment(listingId);
-    setHasChanges(true);
   };
 
   const handleAccountSelect = (accountName: string) => {
@@ -318,9 +342,9 @@ export const EditTeamMemberSettings: React.FC = () => {
             <CardTitle>Edit Team Member</CardTitle>
           </CardHeader>
             <CardContent className="p-6">
-              {saveError && (
+              {teamSaveError && (
                 <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                  <p className="text-destructive text-sm">{saveError}</p>
+                  <p className="text-destructive text-sm">{teamSaveError}</p>
                 </div>
               )}
 
@@ -415,9 +439,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                 <Button 
                   onClick={handleSave} 
                   className="px-8"
-                  disabled={isSavingEdit || !hasChanges}
+                  disabled={isSaving || !hasChanges}
                 >
-                  {isSavingEdit ? (
+                  {isSaving ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Saving...
@@ -619,9 +643,9 @@ export const EditTeamMemberSettings: React.FC = () => {
               <Button 
                 onClick={handleSave} 
                 className="px-8"
-                disabled={isSavingEdit || !hasChanges}
+                disabled={isSaving || saveLoading || !hasChanges}
               >
-                {isSavingEdit ? (
+                {(isSaving || saveLoading) ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Saving...
