@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
 import { reportsApi } from "../api/reportsApi";
 import { CreateReportRequest } from "../types/reportTypes";
-import { toast } from "./use-toast";
 
 export const useReports = (listingId: string) => {
   return useQuery({
@@ -119,25 +119,29 @@ export const usePerformancePostsReport = (reportId: string) => {
 export const usePerformanceBrandingReport = (reportId: string) => {
   return useQuery({
     queryKey: ["performance-branding-report", reportId],
-    queryFn: () => reportsApi.getPerformanceBrandingReport(reportId),
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceBrandingReport(reportId);
+        toast({
+          title: "Branding Report Loaded",
+          description:
+            data?.message ||
+            "Performance branding report fetched successfully.",
+        });
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading Branding Report",
+          description:
+            error?.message || "Failed to fetch performance branding report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "Branding Report Loaded",
-        description:
-          data?.message || "Performance branding report fetched successfully.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Loading Branding Report",
-        description:
-          error?.message || "Failed to fetch performance branding report.",
-        variant: "destructive",
-      });
-    },
   });
 };
 
@@ -145,25 +149,28 @@ export const usePerformanceBrandingReport = (reportId: string) => {
 export const usePerformanceMediaReport = (reportId: string) => {
   return useQuery({
     queryKey: ["performance-media-report", reportId],
-    queryFn: () => reportsApi.getPerformanceMediaReport(reportId),
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceMediaReport(reportId);
+        toast({
+          title: "Media Report Loaded",
+          description:
+            data?.message || "Performance media report fetched successfully.",
+        });
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading Media Report",
+          description:
+            error?.message || "Failed to fetch performance media report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "Media Report Loaded",
-        description:
-          data?.message || "Performance media report fetched successfully.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Loading Media Report",
-        description:
-          error?.message || "Failed to fetch performance media report.",
-        variant: "destructive",
-      });
-    },
   });
 };
 
@@ -171,23 +178,27 @@ export const usePerformanceMediaReport = (reportId: string) => {
 export const usePerformanceGeoKeywords = (reportId: string) => {
   return useQuery({
     queryKey: ["performance-geo-keywords", reportId],
-    queryFn: () => reportsApi.getPerformanceGeoKeywords(reportId),
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceGeoKeywords(reportId);
+        toast({
+          title: "Keyword List Loaded",
+          description:
+            data?.message || "Successfully fetched geo keyword data.",
+        });
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading Keyword List",
+          description: error?.message || "Failed to fetch geo keyword data.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
     enabled: !!reportId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "Keyword List Loaded",
-        description: data?.message || "Successfully fetched geo keyword data.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Loading Keyword List",
-        description: error?.message || "Failed to fetch geo keyword data.",
-        variant: "destructive",
-      });
-    },
   });
 };
 
@@ -197,25 +208,30 @@ export const usePerformanceGeoRankingReport = (
 ) => {
   return useQuery({
     queryKey: ["performance-geo-ranking", reportId, keywordId],
-    queryFn: () =>
-      reportsApi.getPerformanceGeoRankingReport(reportId, keywordId),
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceGeoRankingReport(
+          reportId,
+          keywordId
+        );
+        toast({
+          title: "GEO Ranking Report Loaded",
+          description:
+            data?.message || "Successfully fetched GEO ranking report.",
+        });
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading GEO Report",
+          description: error?.message || "Failed to fetch GEO ranking report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
     enabled: !!reportId && !!keywordId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      toast({
-        title: "GEO Ranking Report Loaded",
-        description:
-          data?.message || "Successfully fetched GEO ranking report.",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error Loading GEO Report",
-        description: error?.message || "Failed to fetch GEO ranking report.",
-        variant: "destructive",
-      });
-    },
   });
 };
 

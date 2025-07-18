@@ -11,6 +11,7 @@ import profileReducer from "./slices/profileSlice";
 import insightsReducer from "./slices/insightsSlice";
 import qaReducer from "./slices/qaSlice";
 import businessInfoReducer from "./slices/businessInfoSlice";
+import teamReducer from "./slices/teamSlice";
 import { RESET_STORE } from "./actions/globalActions";
 import onboardingReducer from "./slices/onboarding/onboardingSlice";
 import { timeZoneApi } from "@/api/timeZoneApi";
@@ -29,6 +30,7 @@ const appReducer = combineReducers({
   insights: insightsReducer,
   qa: qaReducer,
   businessInfo: businessInfoReducer,
+  team: teamReducer,
   onboarding: onboardingReducer,
   [timeZoneApi.reducerPath]: timeZoneApi.reducer,
   [qaApi.reducerPath]: qaApi.reducer,

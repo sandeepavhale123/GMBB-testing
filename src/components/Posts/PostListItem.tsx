@@ -196,11 +196,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
                 className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                 disabled={deleteLoading}
               >
-                {deleteLoading ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  <Trash2 className="w-3 h-3" />
-                )}
+               <Trash2 className="w-3 h-3" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

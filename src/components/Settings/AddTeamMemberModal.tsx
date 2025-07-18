@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, Eye, EyeOff } from "lucide-react";
+import { Upload, Eye, EyeOff, Loader } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,16 +17,21 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useTeam } from "../../hooks/useTeam";
+import { toast } from "../../hooks/use-toast";
 
 interface AddTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   open,
   onOpenChange,
+  onSuccess,
 }) => {
+  const { addTeamMember, isAdding, addError, clearTeamAddError } = useTeam();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -55,12 +60,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the data to your API
-    console.log("Adding team member:", formData);
-    onOpenChange(false);
-    // Reset form
+  const resetForm = () => {
     setFormData({
       firstName: "",
       lastName: "",
@@ -70,7 +70,72 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       profilePicture: "",
     });
     setProfilePreview("");
+    setShowPassword(false);
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.password.trim() || !formData.role) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+        variant: "error",
+      });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "error",
+      });
+      return;
+    }
+
+    try {
+      // Map form data to API request format
+      const requestData = {
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        username: formData.email.trim(), // Email field maps to username in API
+        password: formData.password,
+        role: formData.role.toLowerCase(), // Ensure role is lowercase for API
+      };
+
+      const result = await addTeamMember(requestData);
+      
+      if (result.meta.requestStatus === 'fulfilled') {
+        toast({
+          title: "Team Member Added",
+          description: `${formData.firstName} ${formData.lastName} has been added successfully.`,
+          variant: "success",
+        });
+        
+        resetForm();
+        onOpenChange(false);
+        onSuccess?.();
+      }
+    } catch (error) {
+      console.error("Failed to add team member:", error);
+      toast({
+        title: "Error",
+        description: addError || "Failed to add team member. Please try again.",
+        variant: "error",
+      });
+    }
+  };
+
+  // Clear add error when modal opens
+  React.useEffect(() => {
+    if (open && addError) {
+      clearTeamAddError();
+    }
+  }, [open, addError, clearTeamAddError]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -81,7 +146,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Profile Picture Upload */}
-          <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-col items-center space-y-2 hidden">
             <Avatar className="h-20 w-20">
               <AvatarImage src={profilePreview} />
               <AvatarFallback className="bg-gray-100 text-gray-400">
@@ -180,7 +245,6 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 <SelectItem value="Moderator">Moderator</SelectItem>
                 <SelectItem value="Staff">Staff</SelectItem>
                 <SelectItem value="Client">Client</SelectItem>
-                <SelectItem value="Lead Generator">Lead Generator</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -190,13 +254,24 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
+              onClick={() => {
+                resetForm();
+                onOpenChange(false);
+              }}
               className="flex-1"
+              disabled={isAdding}
             >
               Cancel
             </Button>
-            <Button type="submit" className="flex-1">
-              Add Member
+            <Button type="submit" className="flex-1" disabled={isAdding}>
+              {isAdding ? (
+                <>
+                  <Loader className="w-4 h-4 mr-2 animate-spin" />
+                  Adding...
+                </>
+              ) : (
+                "Add Member"
+              )}
             </Button>
           </div>
         </form>

@@ -42,7 +42,8 @@ export const PublicMediaReport: React.FC = () => {
 
   const renderChangeIndicator = (value: string) => {
     console.log("change summary..", value);
-    const isPositive = value >= 0;
+    const numericValue = Number(value);
+    const isPositive = numericValue >= 0;
     console.log("positive summary", isPositive);
     return (
       <div
@@ -55,7 +56,7 @@ export const PublicMediaReport: React.FC = () => {
         ) : (
           <ArrowDown className="h-3 w-3" />
         )}
-        <span>{Math.abs(value).toFixed(1)}% vs previous</span>
+        <span>{Math.abs(numericValue).toFixed(1)}% vs previous</span>
       </div>
     );
   };

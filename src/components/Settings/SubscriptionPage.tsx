@@ -9,6 +9,9 @@ import { toast } from "@/hooks/use-toast";
 import axiosInstance from "@/api/axiosInstance";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { UpgradeNowConfirmationModal } from "./UpgradeConfirmationModal";
+import { useProfile } from "@/hooks/useProfile";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { fetchUserProfile } from "@/store/slices/profileSlice";
 
 // ⚠️ Load Stripe publishable key from .env
 const stripePromise = loadStripe(
@@ -116,6 +119,16 @@ export const SubscriptionPage: React.FC = () => {
   const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(
     null
   );
+  
+  // Get profile refresh functions
+  const dispatch = useAppDispatch();
+  const { profileData } = useProfile();
+  
+  const refreshProfileData = async () => {
+    // Trigger immediate profile data refresh in Redux store
+    dispatch(fetchUserProfile());
+  };
+  
   const renderFeatureValue = (value: boolean | number | string) => {
     if (typeof value === "boolean") {
       return value ? (
@@ -154,6 +167,21 @@ export const SubscriptionPage: React.FC = () => {
       }
     };
     fetchUserPlan();
+  }, []);
+
+  // Check for successful payment return and refresh profile data
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentSuccess = urlParams.get('payment_success');
+    
+    if (paymentSuccess === 'true') {
+      // Payment was successful, refresh profile data immediately
+      refreshProfileData();
+      
+      // Clean up URL parameters
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
   }, []);
   const isPlanActive = (planId: string) => {
     return activePlanId === planId && !isExpired;
@@ -288,6 +316,10 @@ export const SubscriptionPage: React.FC = () => {
         setPlanExpDate(planExpDate);
         setIsExpired(isSubscriptionExpired(planExpDate));
       }
+
+      // Trigger immediate profile refresh for sidebar update
+      await refreshProfileData();
+      
     } catch (error) {
       console.error("Upgrade error:", error);
       toast({
@@ -324,6 +356,9 @@ export const SubscriptionPage: React.FC = () => {
       setActivePlanId(null);
       setPlanExpDate(null);
       setIsExpired(false);
+      
+      // Trigger immediate profile refresh for sidebar update
+      await refreshProfileData();
     } catch (error: any) {
       console.error("Cancel subscription error:", error);
       toast({
