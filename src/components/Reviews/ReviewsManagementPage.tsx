@@ -1,90 +1,69 @@
+
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, fetchReviews } from '../../store/slices/reviews/thunks';
 import { ReviewSummary } from './ReviewSummary';
-import { ReviewsFilters } from './ReviewsFilters';
 import { ReviewsList } from './ReviewsList';
-import { ReviewsPagination } from './ReviewsPagination';
-import { ReviewsEmptyState } from './ReviewsEmptyState';
-import { Loader2 } from 'lucide-react';
-import { NoListingSelected } from '../ui/no-listing-selected';
+import { useToast } from '../../hooks/use-toast';
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
+import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
 export const ReviewsManagementPage: React.FC = () => {
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
-  const { selectedListing, isInitialLoading } = useListingContext();
+  const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
 
-  const {
-    reviews,
-    summaryCards,
-    starDistribution,
-    sentimentAnalysis,
-    pagination,
-    reviewsLoading,
-    summaryLoading,
-    reviewsError,
-    summaryError,
-    filter,
-    searchQuery,
-    sortBy,
-    sortOrder,
-    sentimentFilter,
-    dateRange,
-    currentPage,
-  } = useAppSelector(state => state.reviews);
+  // Show toast for API errors
+  useEffect(() => {
+    if (summaryError) {
+      toast.error({
+        title: "Error Loading Review Summary",
+        description: summaryError,
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearSummaryError());
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [summaryError, toast, dispatch]);
 
   useEffect(() => {
-    if (selectedListing?.id) {
-      dispatch(fetchReviewSummary({ listingId: selectedListing.id }));
-      dispatch(fetchReviews({
-        listingId: selectedListing.id,
-        filter,
-        searchQuery,
-        sortBy,
-        sortOrder,
-        sentimentFilter,
-        dateRange,
-        currentPage,
-      }));
+    if (reviewsError) {
+      toast.error({
+        title: "Error Loading Reviews",
+        description: reviewsError,
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearReviewsError());
+      }, 5000);
+
+      return () => clearTimeout(timer);
     }
-  }, [dispatch, selectedListing?.id, filter, searchQuery, sortBy, sortOrder, sentimentFilter, dateRange, currentPage]);
+  }, [reviewsError, toast, dispatch]);
 
-  // Show loading state during initial load
-  if (isInitialLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin" />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (replyError) {
+      toast.error({
+        title: "Error Sending Reply",
+        description: replyError,
+      });
+      
+      // Clear error after showing toast
+      const timer = setTimeout(() => {
+        dispatch(clearReplyError());
+      }, 5000);
 
-  // Show no listing state
-  if (!selectedListing && !isInitialLoading) {
-    return <NoListingSelected />;
-  }
+      return () => clearTimeout(timer);
+    }
+  }, [replyError, toast, dispatch]);
 
   return (
     <div className="space-y-6">
-      <ReviewSummary
-        summaryCards={summaryCards}
-        starDistribution={starDistribution}
-        sentimentAnalysis={sentimentAnalysis}
-        isLoading={summaryLoading}
-        error={summaryError}
-      />
-      <ReviewsFilters />
-      {reviewsLoading ? (
-        <div className="flex items-center justify-center p-8">
-          <Loader2 className="w-6 h-6 animate-spin" />
-        </div>
-      ) : reviews.length === 0 ? (
-        <ReviewsEmptyState />
-      ) : (
-        <>
-          <ReviewsList reviews={reviews} />
-          <ReviewsPagination pagination={pagination} />
-        </>
-      )}
+      <ReviewSummary />
+      <ReviewsList />
     </div>
   );
 };

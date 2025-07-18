@@ -1,104 +1,104 @@
-import React, { useEffect, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { NoListingSelected } from '../ui/no-listing-selected';
-import {
-  fetchQASummary,
-  fetchQAItems,
-} from '../../store/slices/qaThunks';
-import {
-  setFilters,
-  setPagination,
-  setSorting,
-  dismissTipBanner,
-  resetFilters,
-} from '../../store/slices/qaSlice';
-import { QASummaryCard } from './QASummaryCard';
+import React, { useEffect, useMemo } from 'react';
+import { QAHeader } from './QAHeader';
 import { QAFilters } from './QAFilters';
-import { QASorting } from './QASorting';
+import { QASEOTipBanner } from './QASEOTipBanner';
 import { QAList } from './QAList';
+import { QAEmptyState } from './QAEmptyState';
 import { QAPagination } from './QAPagination';
-import { QATipBanner } from './QATipBanner';
-import { Loader2 } from 'lucide-react';
-
+import { useListingContext } from '@/context/ListingContext';
+import { useToast } from '@/hooks/use-toast';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { useGetQASummaryQuery } from '@/api/qaApi';
+import { setFilters, setPagination, setSorting, dismissTipBanner, setError } from '@/store/slices/qaSlice';
 export const QAManagementPage: React.FC = () => {
+  const {
+    selectedListing
+  } = useListingContext();
+  const {
+    toast
+  } = useToast();
   const dispatch = useAppDispatch();
-  const { selectedListing, isInitialLoading } = useListingContext();
   const {
     filters,
     pagination,
     sorting,
-    summary,
+    showTipBanner
+  } = useAppSelector(state => state.qa);
+
+  // Prepare API request
+  const qaRequest = useMemo(() => {
+    if (!selectedListing?.id) return null;
+    return {
+      listingId: parseInt(selectedListing.id),
+      pagination,
+      filters,
+      sorting
+    };
+  }, [selectedListing?.id, pagination, filters, sorting]);
+
+  // API query
+  const {
+    data: qaData,
     isLoading,
     error,
-    showTipBanner,
-  } = useAppSelector((state) => state.qa);
+    refetch
+  } = useGetQASummaryQuery(qaRequest!, {
+    skip: !qaRequest
+  });
 
-  const fetchInitialData = useCallback(() => {
-    if (selectedListing?.id) {
-      const listingId = parseInt(selectedListing.id, 10);
-      dispatch(fetchQASummary(listingId));
-      dispatch(fetchQAItems({ listingId, filters, pagination, sorting }));
-    }
-  }, [dispatch, selectedListing, filters, pagination, sorting]);
-
+  // Handle errors
   useEffect(() => {
-    fetchInitialData();
-  }, [fetchInitialData]);
-
-  const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
-    dispatch(setFilters(newFilters));
+    if (error) {
+      dispatch(setError('Failed to load Q&A data'));
+      toast({
+        title: "Error",
+        description: "Failed to load Q&A data",
+        variant: "destructive"
+      });
+    }
+  }, [error, dispatch, toast]);
+  const handleSearchChange = (searchTerm: string) => {
+    dispatch(setFilters({
+      search: searchTerm
+    }));
   };
-
-  const handlePaginationChange = (newPagination: Partial<typeof pagination>) => {
-    dispatch(setPagination(newPagination));
+  const handleStatusChange = (status: 'all' | 'answered' | 'unanswered') => {
+    dispatch(setFilters({
+      status
+    }));
   };
-
-  const handleSortingChange = (newSorting: Partial<typeof sorting>) => {
-    dispatch(setSorting(newSorting));
+  const handlePageChange = (page: number) => {
+    dispatch(setPagination({
+      page
+    }));
   };
-
-  const handleDismissTipBanner = () => {
-    dispatch(dismissTipBanner());
+  const handleLimitChange = (limit: number) => {
+    dispatch(setPagination({
+      limit,
+      page: 1
+    }));
   };
-
-  const handleResetFilters = () => {
-    dispatch(resetFilters());
-  };
-
-  // Show no listing state
-  if (!selectedListing && !isInitialLoading) {
-    return <NoListingSelected />;
+  if (!selectedListing) {
+    return <div className="space-y-6">
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            No Listing Selected
+          </h2>
+          <p className="text-gray-600">Please select a business listing to view Q&A.</p>
+        </div>
+      </div>;
   }
+  const questions = qaData?.data?.questions || [];
+  const paginationInfo = qaData?.data?.pagination;
+  const summary = qaData?.data?.summary;
+  return <div className="space-y-6 max-w-6xl mx-auto">
+      <QAFilters searchTerm={filters.search} onSearchChange={handleSearchChange} statusFilter={filters.status} onStatusChange={handleStatusChange} />
 
-  return (
-    <div className="space-y-6">
-      {showTipBanner && (
-        <QATipBanner onDismiss={handleDismissTipBanner} />
-      )}
-
-      <QASummaryCard summary={summary} isLoading={isLoading} error={error} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-1">
-          <QAFilters
-            filters={filters}
-            onFiltersChange={handleFiltersChange}
-            onResetFilters={handleResetFilters}
-          />
-        </div>
-        <div className="lg:col-span-3">
-          <QASorting
-            sorting={sorting}
-            onSortingChange={handleSortingChange}
-          />
-          <QAList isLoading={isLoading} error={error} />
-          <QAPagination
-            pagination={pagination}
-            onPaginationChange={handlePaginationChange}
-          />
-        </div>
-      </div>
-    </div>
-  );
+      {isLoading ? <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <p className="text-gray-600">Loading Q&A data...</p>
+        </div> : questions.length > 0 ? <>
+          <QAList questions={questions} />
+          {paginationInfo && <QAPagination currentPage={paginationInfo.page} totalPages={paginationInfo.totalPages} total={paginationInfo.total} limit={pagination.limit} hasNext={paginationInfo.hasNext} hasPrev={paginationInfo.hasPrev} onPageChange={handlePageChange} onLimitChange={handleLimitChange} />}
+        </> : <QAEmptyState hasQuestions={false} />}
+    </div>;
 };
