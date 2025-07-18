@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { PageBreadcrumb } from "../Header/PageBreadcrumb";
+import { SafeHtmlRenderer } from "../ui/safe-html-renderer";
 import {
   useCompleteAiTask,
   usePendingAiTask,
@@ -185,9 +187,10 @@ export const AITaskManagerPage: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-900 mb-1">
                 {task.task_name}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {task.task_description}
-              </p>
+              <SafeHtmlRenderer 
+                html={task.task_description}
+                className="text-gray-600 text-sm leading-relaxed"
+              />
               {task.frequency && (
                 <p className="text-xs text-gray-500 mt-1">
                   Frequency: {task.frequency}
