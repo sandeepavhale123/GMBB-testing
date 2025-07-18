@@ -51,10 +51,28 @@ const menuItems = [
     path: "/media",
   },
   {
+    id: "reviews",
+    label: "Reviews",
+    icon: Star,
+    path: "/reviews",
+  },
+  {
     id: "insights",
     label: "Insights",
     icon: BarChart3,
     path: "/insights",
+  },
+   {
+    id: "qa",
+    label: "Q&A",
+    icon: MessageCircleQuestion,
+    path: "/qa",
+  },
+   {
+    id: "businesses",
+    label: "Management",
+    icon: Building,
+    path: "/business-info",
   },
   {
     id: "geo-ranking",
@@ -62,31 +80,13 @@ const menuItems = [
     icon: MapPin,
     path: "/geo-ranking",
   },
-  
-  {
-    id: "reviews",
-    label: "Reviews",
-    icon: Star,
-    path: "/reviews",
-  },
-  {
-    id: "qa",
-    label: "Q&A",
-    icon: MessageCircleQuestion,
-    path: "/qa",
-  },
   {
     id: "reports",
     label: "Reports",
     icon: FileBarChart,
     path: "/reports",
   },
-  {
-    id: "businesses",
-    label: "Management",
-    icon: Building,
-    path: "/business-info",
-  },
+ 
   {
     id: "settings",
     label: "Settings",
