@@ -25,7 +25,7 @@ export const GeoRankingEmptyState: React.FC<GeoRankingEmptyStateProps> = ({
           {/* Heading */}
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-gray-900">
-              Start To Track Your Rankings
+              Start Tracking Your Rankings
             </h2>
             <p className="text-gray-600 max-w-md">
               Track your Google Business Profile rankings across different locations to see how you perform in local search results.
