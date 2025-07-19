@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { checkKeywordStatus } from '../api/geoRankingApi';
 
@@ -72,13 +73,16 @@ export const useKeywordPolling = (
           console.log(`⏳ [${new Date().toISOString()}] Processing keywords found:`, keywordNames);
           setProcessingKeywords(keywordNames);
         } else {
-          // No more processing keywords - check if we had processing keywords before
-          console.log(`✅ [${new Date().toISOString()}] No processing keywords found - checking if we should refresh data...`);
+          // No more processing keywords - immediately clear state and stop polling
+          console.log(`✅ [${new Date().toISOString()}] No processing keywords found - clearing state immediately`);
+          
           const hadProcessingKeywords = processingKeywordsRef.current.length > 0;
           
-          // Update state synchronously before stopping polling
+          // Clear processing keywords state immediately
           setProcessingKeywords([]);
           processingKeywordsRef.current = [];
+          
+          // Stop polling immediately
           stopPolling();
           
           // Only call the refresh callback if we previously had processing keywords
@@ -139,7 +143,10 @@ export const useKeywordPolling = (
         setProcessingKeywords(keywordNames);
         startPolling();
       } else {
-        console.log(`ℹ️ [${new Date().toISOString()}] No initial processing keywords found`);
+        console.log(`ℹ️ [${new Date().toISOString()}] No initial processing keywords found - clearing state`);
+        // Ensure state is cleared immediately if no processing keywords
+        setProcessingKeywords([]);
+        processingKeywordsRef.current = [];
       }
     } catch (error) {
       console.error(`❌ [${new Date().toISOString()}] Error during initial check:`, error);

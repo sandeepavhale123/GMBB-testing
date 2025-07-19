@@ -1,8 +1,8 @@
+
 import React from 'react';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
 import { Loader2, Clock, CheckCircle } from 'lucide-react';
-
 
 interface ProcessingKeywordsAlertProps {
   keywords: string[];
@@ -19,12 +19,19 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
   submittedKeywords = [],
   isNewSubmission = false
 }) => {
-  
-  
   // Combine all processing keywords
   const allProcessingKeywords = [...new Set([...submittedKeywords, ...keywords])];
   
-  if (allProcessingKeywords.length === 0) return null;
+  // Hide component completely when no keywords are being processed
+  if (allProcessingKeywords.length === 0 && !isNewSubmission) {
+    return null;
+  }
+
+  // Also hide if we only have submitted keywords but no actual processing keywords
+  // and it's not a new submission
+  if (keywords.length === 0 && submittedKeywords.length === 0) {
+    return null;
+  }
 
   // Determine if we have newly submitted keywords vs already processing ones
   const newlySubmittedCount = submittedKeywords.length;
