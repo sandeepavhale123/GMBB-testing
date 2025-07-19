@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { getKeywords, KeywordData, Credits } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
@@ -9,6 +10,7 @@ export const useKeywords = (listingId: number) => {
   const [keywordsLoading, setKeywordsLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [keywordsVersion, setKeywordsVersion] = useState(0); // Add version counter
   const { toast } = useToast();
 
   // Reusable function to fetch keywords
@@ -20,10 +22,19 @@ export const useKeywords = (listingId: number) => {
     setError(null);
     
     try {
+      console.log(`🔄 useKeywords: Fetching keywords (isRefresh: ${isRefresh})`);
       const response = await getKeywords(listingId);
       if (response.code === 200) {
+        console.log(`✅ useKeywords: Received ${response.data.keywords.length} keywords`);
         setKeywords(response.data.keywords);
         setCredits(response.data.credits);
+        
+        // Increment version to trigger UI updates
+        setKeywordsVersion(prev => {
+          const newVersion = prev + 1;
+          console.log(`🔄 useKeywords: Keywords version updated to ${newVersion}`);
+          return newVersion;
+        });
         
         // Set first keyword as default only on initial load
         if (!isRefresh && response.data.keywords.length > 0) {
@@ -66,6 +77,7 @@ export const useKeywords = (listingId: number) => {
     keywordsLoading,
     pageLoading,
     error,
+    keywordsVersion, // Export version counter
     fetchKeywords
   };
 };

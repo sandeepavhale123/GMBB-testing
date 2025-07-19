@@ -55,6 +55,7 @@ export const GeoRankingPage = () => {
     refreshProgress,
     pollingProgress,
     isPollingActive,
+    keywordsVersion, // Get keywordsVersion from useGeoRanking
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
@@ -233,6 +234,7 @@ export const GeoRankingPage = () => {
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               error={error}
+              keywordsVersion={keywordsVersion} // Pass keywordsVersion to header
             />
 
             <div className="space-y-4 sm:space-y-6">

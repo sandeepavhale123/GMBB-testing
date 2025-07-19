@@ -29,6 +29,7 @@ interface GeoRankingHeaderProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   error: string | null;
+  keywordsVersion?: number; // Add keywordsVersion prop
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -47,6 +48,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   keywordChanging,
   dateChanging,
   error,
+  keywordsVersion, // Add keywordsVersion prop
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -178,6 +180,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               isRefreshing={isRefreshing}
+              keywordsVersion={keywordsVersion} // Pass version to force re-renders
             />
 
             <MetricsCards
