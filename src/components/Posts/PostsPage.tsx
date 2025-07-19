@@ -20,11 +20,31 @@ import {
 } from "../../utils/postCloneUtils";
 import { Post } from "../../types/postTypes";
 
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
+import { fetchPosts, setFilter, setSearchQuery } from '../../store/slices/postsSlice';
+import { useListingContext } from '../../context/ListingContext';
+import { DateRange } from 'react-day-picker';
+import { toast } from '@/hooks/use-toast';
+import { CreatePostModal } from './CreatePostModal';
+import { PostsHeader } from './PostsHeader';
+import { PostsControls } from './PostsControls';
+import { PostsLoadingState } from './PostsLoadingState';
+import { PostsEmptyState } from './PostsEmptyState';
+import { PostsContent } from './PostsContent';
+import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
+import { Post } from '../../types/postTypes';
+
 export const PostsPage = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const { listingId: urlListingId } = useParams<{ listingId?: string }>();
+  const { selectedListing, isInitialLoading, listings } = useListingContext();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [cloneData, setCloneData] = useState<CreatePostFormData | null>(null);
@@ -33,10 +53,25 @@ export const PostsPage = () => {
   const { posts, loading, error, filter, searchQuery, pagination } =
     useAppSelector((state) => state.posts);
 
-  // Get listingId from URL or context
-  // const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
-  const listingId =
-    selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+  // Resolve listing ID with proper validation
+  const getValidListingId = (): string | null => {
+    // Priority 1: Selected listing from context
+    if (selectedListing?.id) {
+      return selectedListing.id;
+    }
+    
+    // Priority 2: URL parameter if it exists in user's listings
+    if (urlListingId && urlListingId !== 'default') {
+      const existsInListings = listings.some(listing => listing.id === urlListingId);
+      if (existsInListings) {
+        return urlListingId;
+      }
+    }
+    
+    return null;
+  };
+
+  const validListingId = getValidListingId();
 
   // Fetch posts when component mounts or dependencies change
   useEffect(() => {
@@ -62,6 +97,26 @@ export const PostsPage = () => {
           },
         })
       );
+    // Only fetch if we have a valid listing ID and context is initialized
+    if (validListingId && !isInitialLoading) {
+      console.log('📝 PostsPage: Fetching posts for listing:', validListingId);
+      dispatch(fetchPosts({
+        listingId: parseInt(validListingId),
+        filters: {
+          status: filter === 'all' ? 'all' : filter,
+          search: searchQuery,
+          dateRange: {
+            startDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : '',
+            endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : '',
+          },
+        },
+        pagination: {
+          page: pagination.currentPage,
+          limit: 12,
+        },
+      }));
+    } else if (!isInitialLoading && !validListingId) {
+      console.log('📝 PostsPage: No valid listing ID available, skipping fetch');
     }
   }, [
     dispatch,
@@ -71,6 +126,7 @@ export const PostsPage = () => {
     dateRange,
     pagination.currentPage,
   ]);
+  }, [dispatch, validListingId, filter, searchQuery, dateRange, pagination.currentPage, isInitialLoading]);
 
   // Handle search with debounce
   useEffect(() => {
@@ -131,6 +187,23 @@ export const PostsPage = () => {
         },
       })
     );
+    if (!validListingId) return;
+    
+    dispatch(fetchPosts({
+      listingId: parseInt(validListingId),
+      filters: {
+        status: filter === 'all' ? 'all' : filter,
+        search: searchQuery,
+        dateRange: {
+          startDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : '',
+          endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : '',
+        },
+      },
+      pagination: {
+        page,
+        limit: 12,
+      },
+    }));
   };
 
   const handleCreatePost = () => {
@@ -151,6 +224,26 @@ export const PostsPage = () => {
     setCloneData(null);
     setIsCloning(false);
   };
+
+  // Show loading state while context is initializing
+  if (isInitialLoading) {
+    return <PostsLoadingState />;
+  }
+
+  // Show error state if no valid listing is available
+  if (!validListingId) {
+    return (
+      <div className="space-y-6">
+        <PostsHeader onCreatePost={handleCreatePost} />
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+          <h3 className="text-lg font-semibold text-yellow-800 mb-2">No Business Listing Selected</h3>
+          <p className="text-yellow-700">
+            Please select a valid business listing to view and manage posts.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

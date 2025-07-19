@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
@@ -12,12 +12,26 @@ import { NoListingSelected } from '../components/ui/no-listing-selected';
 import { useListingContext } from '../context/ListingContext';
 
 const PostsPage = () => {
+  const { listingId } = useParams<{ listingId?: string }>();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { selectedListing, isInitialLoading } = useListingContext();
+  const { selectedListing, isInitialLoading, listings } = useListingContext();
+
+  // Check if we have a valid listing
+  const hasValidListing = () => {
+    // If we have a selected listing, that's valid
+    if (selectedListing) return true;
+    
+    // If we have a URL listing ID that exists in user's listings, that's valid
+    if (listingId && listingId !== 'default') {
+      return listings.some(listing => listing.id === listingId);
+    }
+    
+    return false;
+  };
 
   // Show no listing selected state
-  if (!selectedListing && !isInitialLoading) {
+  if (!hasValidListing() && !isInitialLoading) {
     return (
       <Provider store={store}>
         <ThemeProvider>
