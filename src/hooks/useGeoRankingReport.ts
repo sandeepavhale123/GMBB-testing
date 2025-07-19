@@ -494,23 +494,11 @@ export const useGeoRankingReport = (listingId: number) => {
         });
         return { success: false, shouldNavigate: false };
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error submitting rank check:', error);
-      
-      // Extract backend error message from axios error response
-      let errorMessage = "Failed to submit rank check";
-      
-      if (error?.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (error?.response?.data?.error) {
-        errorMessage = error.response.data.error;
-      } else if (error?.message) {
-        errorMessage = error.message;
-      }
-      
       toast({
         title: "Error",
-        description: errorMessage,
+        description: "Failed to submit rank check",
         variant: "destructive"
       });
       return { success: false, shouldNavigate: false };

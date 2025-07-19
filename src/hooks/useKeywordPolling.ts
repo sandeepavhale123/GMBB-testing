@@ -16,8 +16,6 @@ export const useKeywordPolling = (
   const isRequestingRef = useRef<boolean>(false);
   const shouldStopPollingRef = useRef<boolean>(false);
   const pollingCompletedTimeRef = useRef<number>(0);
-  const hasPerformedInitialCheckRef = useRef<boolean>(false);
-  const initialCheckTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const maxErrors = 3;
   const MIN_REQUEST_INTERVAL = 3000; // 3 seconds minimum between requests
   const RESTART_COOLDOWN = 10000; // 10 seconds cooldown after completion
@@ -26,16 +24,6 @@ export const useKeywordPolling = (
   useEffect(() => {
     processingKeywordsRef.current = processingKeywords;
   }, [processingKeywords]);
-
-  // Reset initial check flag when listingId changes
-  useEffect(() => {
-    hasPerformedInitialCheckRef.current = false;
-    // Clear any pending initial check timeout
-    if (initialCheckTimeoutRef.current) {
-      clearTimeout(initialCheckTimeoutRef.current);
-      initialCheckTimeoutRef.current = null;
-    }
-  }, [listingId]);
 
   // Stop polling function
   const stopPolling = useCallback(() => {
@@ -167,25 +155,16 @@ export const useKeywordPolling = (
     }
   }, [listingId, enableInitialCheck, startPolling, canMakeRequest]);
 
-  // Effect to perform initial check when component mounts with delay - ONLY ONCE per listing
+  // Effect to perform initial check when component mounts with delay
   useEffect(() => {
-    if (listingId && enableInitialCheck && !hasPerformedInitialCheckRef.current) {
-      // Mark that we're performing the initial check
-      hasPerformedInitialCheckRef.current = true;
-      
+    if (listingId && enableInitialCheck) {
       // Add a small delay to prevent immediate check on mount
-      initialCheckTimeoutRef.current = setTimeout(() => {
+      const timer = setTimeout(() => {
         checkInitialStatus();
       }, 1000);
-      
-      return () => {
-        if (initialCheckTimeoutRef.current) {
-          clearTimeout(initialCheckTimeoutRef.current);
-          initialCheckTimeoutRef.current = null;
-        }
-      };
+      return () => clearTimeout(timer);
     }
-  }, [listingId, enableInitialCheck]); // Removed checkInitialStatus from dependencies
+  }, [listingId, enableInitialCheck, checkInitialStatus]);
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {
@@ -223,11 +202,6 @@ export const useKeywordPolling = (
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       stopPolling();
-      // Clear initial check timeout on cleanup
-      if (initialCheckTimeoutRef.current) {
-        clearTimeout(initialCheckTimeoutRef.current);
-        initialCheckTimeoutRef.current = null;
-      }
     };
   }, [listingId, startPolling, stopPolling]);
 
