@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
@@ -32,9 +34,28 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isCloning = false
 }) => {
   const dispatch = useAppDispatch();
-  const { selectedListing } = useListingContext();
+  const { listingId: urlListingId } = useParams<{ listingId?: string }>();
+  const { selectedListing, listings } = useListingContext();
   const { createLoading, createError } = useAppSelector(state => state.posts);
   
+  // Resolve listing ID with proper validation
+  const getValidListingId = (): string | null => {
+    // Priority 1: Selected listing from context
+    if (selectedListing?.id) {
+      return selectedListing.id;
+    }
+    
+    // Priority 2: URL parameter if it exists in user's listings
+    if (urlListingId && urlListingId !== 'default') {
+      const existsInListings = listings.some(listing => listing.id === urlListingId);
+      if (existsInListings) {
+        return urlListingId;
+      }
+    }
+    
+    return null;
+  };
+
   const getInitialFormData = () => {
     if (initialData) {
       return initialData;
@@ -128,10 +149,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       return;
     }
     
-    // Get listingId from context or URL
-    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    // Get valid listing ID
+    const validListingId = getValidListingId();
     
-    if (!listingId) {
+    if (!validListingId) {
       toast({
         title: "Error",
         description: "No business listing selected. Please select a listing first.",
@@ -145,7 +166,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       dispatch(clearCreateError());
 
       const createPostData = {
-        listingId: parseInt(listingId.toString()),
+        listingId: parseInt(validListingId),
         title: formData.title,
         postType: formData.postType,
         description: formData.description,
@@ -180,7 +201,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
       // Refresh posts list
       dispatch(fetchPosts({
-        listingId: parseInt(listingId.toString()),
+        listingId: parseInt(validListingId),
         filters: { status: 'all', search: '' },
         pagination: { page: 1, limit: 12 },
       }));
