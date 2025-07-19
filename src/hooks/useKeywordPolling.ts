@@ -16,6 +16,8 @@ export const useKeywordPolling = (
   const isRequestingRef = useRef<boolean>(false);
   const shouldStopPollingRef = useRef<boolean>(false);
   const pollingCompletedTimeRef = useRef<number>(0);
+  const hasPerformedInitialCheckRef = useRef<boolean>(false);
+  const currentListingRef = useRef<number>(0);
   const maxErrors = 3;
   const MIN_REQUEST_INTERVAL = 3000; // 3 seconds minimum between requests
   const RESTART_COOLDOWN = 10000; // 10 seconds cooldown after completion
@@ -24,6 +26,19 @@ export const useKeywordPolling = (
   useEffect(() => {
     processingKeywordsRef.current = processingKeywords;
   }, [processingKeywords]);
+
+  // Reset initial check flag when listing changes
+  useEffect(() => {
+    if (currentListingRef.current !== listingId) {
+      console.log(`🔄 [${new Date().toISOString()}] Listing changed from ${currentListingRef.current} to ${listingId}, resetting initial check flag`);
+      hasPerformedInitialCheckRef.current = false;
+      currentListingRef.current = listingId;
+      // Clear any existing state
+      setProcessingKeywords([]);
+      processingKeywordsRef.current = [];
+      stopPolling();
+    }
+  }, [listingId]);
 
   // Stop polling function
   const stopPolling = useCallback(() => {
@@ -46,7 +61,10 @@ export const useKeywordPolling = (
 
   // Start polling function
   const startPolling = useCallback(() => {
-    if (!listingId || intervalRef.current) return;
+    if (!listingId || intervalRef.current) {
+      console.log(`🚫 [${new Date().toISOString()}] Cannot start polling - listingId: ${listingId}, intervalRef exists: ${!!intervalRef.current}`);
+      return;
+    }
 
     console.log(`🚀 [${new Date().toISOString()}] Starting polling - shouldStopPolling: ${shouldStopPollingRef.current}`);
     setIsPolling(true);
@@ -57,6 +75,12 @@ export const useKeywordPolling = (
       // Check if page is visible and we can make a request
       if (document.hidden || !canMakeRequest()) {
         console.log('🚫 Skipping request - page hidden or too soon since last request');
+        return;
+      }
+
+      // Additional check to prevent polling if it should be stopped
+      if (shouldStopPollingRef.current) {
+        console.log('🚫 Skipping request - polling should be stopped');
         return;
       }
 
@@ -74,7 +98,7 @@ export const useKeywordPolling = (
           setProcessingKeywords(keywordNames);
         } else {
           // No more processing keywords - immediately clear state and stop polling
-          console.log(`✅ [${new Date().toISOString()}] No processing keywords found - clearing state immediately`);
+          console.log(`✅ [${new Date().toISOString()}] No processing keywords found - clearing state and stopping polling`);
           
           const hadProcessingKeywords = processingKeywordsRef.current.length > 0;
           
@@ -114,27 +138,48 @@ export const useKeywordPolling = (
       }
     };
 
-    // Add delay before starting initial check to prevent immediate rapid calls
+    // Start polling with initial delay
     console.log(`🚀 [${new Date().toISOString()}] Starting keyword polling with 2-second delay...`);
-    setTimeout(() => {
-      if (intervalRef.current) { // Only proceed if polling wasn't cancelled
-        console.log(`⏰ [${new Date().toISOString()}] Starting initial check and setting up 8-second polling interval`);
-        pollKeywordStatus();
-        intervalRef.current = setInterval(pollKeywordStatus, 8000); // Increased to 8 seconds
+    const initialTimeout = setTimeout(() => {
+      if (intervalRef.current || shouldStopPollingRef.current) { 
+        console.log(`🚫 [${new Date().toISOString()}] Polling cancelled before initial check`);
+        return;
       }
+      console.log(`⏰ [${new Date().toISOString()}] Starting initial check and setting up 8-second polling interval`);
+      pollKeywordStatus();
+      intervalRef.current = setInterval(pollKeywordStatus, 8000);
     }, 2000);
 
+    // Store timeout reference for cleanup
+    const timeoutRef = initialTimeout;
+    return () => {
+      clearTimeout(timeoutRef);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
   }, [listingId, onKeywordsUpdate, stopPolling, canMakeRequest]);
 
   // Initial check function to see if there are processing keywords
   const checkInitialStatus = useCallback(async () => {
-    if (!listingId || !enableInitialCheck || !canMakeRequest()) return;
+    if (!listingId || !enableInitialCheck || !canMakeRequest()) {
+      console.log(`🚫 [${new Date().toISOString()}] Skipping initial check - listingId: ${listingId}, enableInitialCheck: ${enableInitialCheck}, canMakeRequest: ${canMakeRequest()}`);
+      return;
+    }
 
+    // Prevent multiple initial checks for the same listing
+    if (hasPerformedInitialCheckRef.current) {
+      console.log(`🚫 [${new Date().toISOString()}] Initial check already performed for listing ${listingId}`);
+      return;
+    }
+
+    hasPerformedInitialCheckRef.current = true;
     isRequestingRef.current = true;
     lastRequestTimeRef.current = Date.now();
 
     try {
-      console.log(`🔍 [${new Date().toISOString()}] Initial check for processing keywords`);
+      console.log(`🔍 [${new Date().toISOString()}] Performing initial check for processing keywords`);
       const response = await checkKeywordStatus(listingId);
       
       if (response.code === 200 && response.data.keywords.length > 0) {
@@ -150,21 +195,26 @@ export const useKeywordPolling = (
       }
     } catch (error) {
       console.error(`❌ [${new Date().toISOString()}] Error during initial check:`, error);
+      // Reset flag on error to allow retry
+      hasPerformedInitialCheckRef.current = false;
     } finally {
       isRequestingRef.current = false;
     }
   }, [listingId, enableInitialCheck, startPolling, canMakeRequest]);
 
-  // Effect to perform initial check when component mounts with delay
+  // Effect to perform initial check when component mounts - STABLE DEPENDENCIES
   useEffect(() => {
-    if (listingId && enableInitialCheck) {
+    if (listingId && enableInitialCheck && !hasPerformedInitialCheckRef.current) {
       // Add a small delay to prevent immediate check on mount
       const timer = setTimeout(() => {
-        checkInitialStatus();
+        // Double-check conditions before proceeding
+        if (listingId && !hasPerformedInitialCheckRef.current) {
+          checkInitialStatus();
+        }
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [listingId, enableInitialCheck, checkInitialStatus]);
+  }, [listingId, enableInitialCheck]); // Removed checkInitialStatus from dependencies to prevent re-triggering
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {
