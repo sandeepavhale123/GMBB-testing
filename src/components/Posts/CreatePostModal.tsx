@@ -242,19 +242,25 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <PostTypeSelector 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  formData={{ postType: formData.postType }}
+                  onFormDataChange={(updater) => {
+                    const result = updater({ postType: formData.postType });
+                    setFormData(prev => ({ ...prev, postType: result.postType }));
+                  }}
                 />
 
                 <TitleField 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  formData={{ title: formData.title, postType: formData.postType }}
+                  onFormDataChange={(updater) => {
+                    const result = updater({ title: formData.title, postType: formData.postType });
+                    setFormData(prev => ({ ...prev, title: result.title }));
+                  }}
                 />
 
                 <PostDescriptionSection 
-                  formData={formData}
-                  onFormDataChange={setFormData}
-                  onOpenAI={() => setIsAIDescriptionOpen(true)}
+                  description={formData.description}
+                  onDescriptionChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
+                  onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
                 />
 
                 <PostImageSection 
@@ -264,30 +270,100 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 />
 
                 <CTAButtonSection 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  showCTAButton={!!formData.ctaButton}
+                  onShowCTAButtonChange={(show) => setFormData(prev => ({ ...prev, ctaButton: show ? 'LEARN_MORE' : '' }))}
+                  ctaButton={formData.ctaButton}
+                  onCTAButtonChange={(value) => setFormData(prev => ({ ...prev, ctaButton: value }))}
+                  ctaUrl={formData.ctaUrl}
+                  onCTAUrlChange={(value) => setFormData(prev => ({ ...prev, ctaUrl: value }))}
                 />
               </div>
 
               <div className="space-y-4">
                 <PublishOptionsSection 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  formData={{
+                    publishOption: formData.publishOption,
+                    scheduleDate: formData.scheduleDate,
+                    postTags: formData.postTags,
+                    siloPost: formData.siloPost
+                  }}
+                  onFormDataChange={(updater) => {
+                    const result = updater({
+                      publishOption: formData.publishOption,
+                      scheduleDate: formData.scheduleDate,
+                      postTags: formData.postTags,
+                      siloPost: formData.siloPost
+                    });
+                    setFormData(prev => ({ 
+                      ...prev, 
+                      publishOption: result.publishOption,
+                      scheduleDate: result.scheduleDate,
+                      postTags: result.postTags,
+                      siloPost: result.siloPost
+                    }));
+                  }}
                 />
 
                 <EventFields 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  formData={{
+                    postType: formData.postType,
+                    startDate: formData.startDate,
+                    endDate: formData.endDate
+                  }}
+                  onFormDataChange={(updater) => {
+                    const result = updater({
+                      postType: formData.postType,
+                      startDate: formData.startDate,
+                      endDate: formData.endDate
+                    });
+                    setFormData(prev => ({ 
+                      ...prev, 
+                      startDate: result.startDate,
+                      endDate: result.endDate
+                    }));
+                  }}
                 />
 
                 <OfferFields 
-                  formData={formData}
-                  onFormDataChange={setFormData}
+                  formData={{
+                    postType: formData.postType,
+                    startDate: formData.startDate,
+                    endDate: formData.endDate,
+                    couponCode: formData.couponCode,
+                    redeemOnlineUrl: formData.redeemOnlineUrl,
+                    termsConditions: formData.termsConditions
+                  }}
+                  onFormDataChange={(updater) => {
+                    const result = updater({
+                      postType: formData.postType,
+                      startDate: formData.startDate,
+                      endDate: formData.endDate,
+                      couponCode: formData.couponCode,
+                      redeemOnlineUrl: formData.redeemOnlineUrl,
+                      termsConditions: formData.termsConditions
+                    });
+                    setFormData(prev => ({ 
+                      ...prev, 
+                      startDate: result.startDate,
+                      endDate: result.endDate,
+                      couponCode: result.couponCode,
+                      redeemOnlineUrl: result.redeemOnlineUrl,
+                      termsConditions: result.termsConditions
+                    }));
+                  }}
                 />
 
                 <AdvancedOptionsSection 
+                  showAdvancedOptions={false}
+                  onShowAdvancedOptionsChange={() => {}}
                   formData={formData}
-                  onFormDataChange={setFormData}
+                  onFormDataChange={(updater) => {
+                    const result = updater(formData);
+                    setFormData(result);
+                  }}
+                  listingsSearch=""
+                  onListingsSearchChange={() => {}}
+                  onListingToggle={() => {}}
                 />
               </div>
             </div>
@@ -327,14 +403,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <AIImageModal 
         isOpen={isAIImageOpen}
         onClose={() => setIsAIImageOpen(false)}
-        onImageGenerated={handleAIImageGenerated}
+        onSelect={handleAIImageGenerated}
       />
 
       <AIDescriptionModal 
         isOpen={isAIDescriptionOpen}
         onClose={() => setIsAIDescriptionOpen(false)}
-        onDescriptionGenerated={handleAIDescriptionGenerated}
-        currentTitle={formData.title}
+        onSelect={handleAIDescriptionGenerated}
       />
     </>
   );
