@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
-import { Eye } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { ScrollArea } from '../ui/scroll-area';
-import { Separator } from '../ui/separator';
-import { PostPreview } from './PostPreview';
-import { PostPreviewModal } from './PostPreviewModal';
-import { AIDescriptionModal } from './AIDescriptionModal';
-import { AIImageModal } from './AIImageModal';
-import { PostDescriptionSection } from './CreatePostModal/PostDescriptionSection';
-import { PostImageSection } from './CreatePostModal/PostImageSection';
-import { CTAButtonSection } from './CreatePostModal/CTAButtonSection';
-import { AdvancedOptionsSection } from './CreatePostModal/AdvancedOptionsSection';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { createPost, fetchPosts, clearCreateError } from '../../store/slices/postsSlice';
-import { useListingContext } from '../../context/ListingContext';
-import { toast } from '@/hooks/use-toast';
-import { transformPostForCloning, CreatePostFormData } from '../../utils/postCloneUtils';
+import React, { useState } from "react";
+import { Eye } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
+import { Separator } from "../ui/separator";
+import { PostPreview } from "./PostPreview";
+import { PostPreviewModal } from "./PostPreviewModal";
+import { AIDescriptionModal } from "./AIDescriptionModal";
+import { AIImageModal } from "./AIImageModal";
+import { PostDescriptionSection } from "./CreatePostModal/PostDescriptionSection";
+import { PostImageSection } from "./CreatePostModal/PostImageSection";
+import { CTAButtonSection } from "./CreatePostModal/CTAButtonSection";
+import { AdvancedOptionsSection } from "./CreatePostModal/AdvancedOptionsSection";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import {
+  createPost,
+  fetchPosts,
+  clearCreateError,
+} from "../../store/slices/postsSlice";
+import { useListingContext } from "../../context/ListingContext";
+import { toast } from "@/hooks/use-toast";
+import {
+  transformPostForCloning,
+  CreatePostFormData,
+} from "../../utils/postCloneUtils";
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -29,35 +36,35 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isOpen,
   onClose,
   initialData = null,
-  isCloning = false
+  isCloning = false,
 }) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  const { createLoading, createError } = useAppSelector(state => state.posts);
-  
+  const { createLoading, createError } = useAppSelector((state) => state.posts);
+
   const getInitialFormData = () => {
     if (initialData) {
       return initialData;
     }
     return {
       listings: [] as string[],
-      title: '',
-      postType: '',
-      description: '',
+      title: "",
+      postType: "",
+      description: "",
       image: null as File | string | null,
-      imageSource: null as 'local' | 'ai' | null,
-      ctaButton: '',
-      ctaUrl: '',
-      publishOption: 'now',
-      scheduleDate: '',
+      imageSource: null as "local" | "ai" | null,
+      ctaButton: "",
+      ctaUrl: "",
+      publishOption: "now",
+      scheduleDate: "",
       platforms: [] as string[],
-      startDate: '',
-      endDate: '',
-      couponCode: '',
-      redeemOnlineUrl: '',
-      termsConditions: '',
-      postTags: '',
-      siloPost: false
+      startDate: "",
+      endDate: "",
+      couponCode: "",
+      redeemOnlineUrl: "",
+      termsConditions: "",
+      postTags: "",
+      siloPost: false,
     };
   };
 
@@ -74,50 +81,58 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
   const [isAIImageOpen, setIsAIImageOpen] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [listingsSearch, setListingsSearch] = useState('');
+  const [listingsSearch, setListingsSearch] = useState("");
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string;
+  }>({});
 
   const handleListingToggle = (listing: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      listings: prev.listings.includes(listing) 
-        ? prev.listings.filter(l => l !== listing) 
-        : [...prev.listings, listing]
+      listings: prev.listings.includes(listing)
+        ? prev.listings.filter((l) => l !== listing)
+        : [...prev.listings, listing],
     }));
   };
 
   // Updated image change handler to track source
-  const handleImageChange = (image: File | string | null, source: 'local' | 'ai' | null = null) => {
-    setFormData(prev => ({
+  const handleImageChange = (
+    image: File | string | null,
+    source: "local" | "ai" | null = null
+  ) => {
+    setFormData((prev) => ({
       ...prev,
       image,
-      imageSource: source
+      imageSource: source,
     }));
   };
 
   // Updated AI image selection handler
   const handleAIImageSelect = (imageUrl: string) => {
-    handleImageChange(imageUrl, 'ai');
+    handleImageChange(imageUrl, "ai");
     setIsAIImageOpen(false);
   };
 
   // Validation function
   const validateForm = () => {
-    const errors: {[key: string]: string} = {};
-    
+    const errors: { [key: string]: string } = {};
+
     // Title validation for event and offer post types
-    if ((formData.postType === 'event' || formData.postType === 'offer') && !formData.title.trim()) {
-      errors.title = 'Title is required for event and offer posts';
+    if (
+      (formData.postType === "event" || formData.postType === "offer") &&
+      !formData.title.trim()
+    ) {
+      errors.title = "Title is required for event and offer posts";
     }
-    
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!validateForm()) {
       toast({
@@ -127,14 +142,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       });
       return;
     }
-    
+
     // Get listingId from context or URL
-    const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
-    
+    // const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
+    const listingId =
+      selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+
     if (!listingId) {
       toast({
         title: "Error",
-        description: "No business listing selected. Please select a listing first.",
+        description:
+          "No business listing selected. Please select a listing first.",
         variant: "destructive",
       });
       return;
@@ -152,77 +170,103 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         ctaButton: showCTAButton ? formData.ctaButton : undefined,
         ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
         publishOption: formData.publishOption,
-        scheduleDate: formData.publishOption === 'schedule' && formData.scheduleDate ? 
-          formData.scheduleDate : undefined,
+        scheduleDate:
+          formData.publishOption === "schedule" && formData.scheduleDate
+            ? formData.scheduleDate
+            : undefined,
         platforms: formData.platforms,
-        startDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.startDate ? 
-          formData.startDate : undefined,
-        endDate: (formData.postType === 'event' || formData.postType === 'offer') && formData.endDate ? 
-          formData.endDate : undefined,
-        couponCode: formData.postType === 'offer' ? formData.couponCode : undefined,
-        redeemOnlineUrl: formData.postType === 'offer' ? formData.redeemOnlineUrl : undefined,
-        termsConditions: formData.postType === 'offer' ? formData.termsConditions : undefined,
+        startDate:
+          (formData.postType === "event" || formData.postType === "offer") &&
+          formData.startDate
+            ? formData.startDate
+            : undefined,
+        endDate:
+          (formData.postType === "event" || formData.postType === "offer") &&
+          formData.endDate
+            ? formData.endDate
+            : undefined,
+        couponCode:
+          formData.postType === "offer" ? formData.couponCode : undefined,
+        redeemOnlineUrl:
+          formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
+        termsConditions:
+          formData.postType === "offer" ? formData.termsConditions : undefined,
         postTags: formData.postTags,
         siloPost: formData.siloPost,
         // Handle image based on source
         selectedImage: formData.imageSource, // Set to "local" or "ai"
-        userfile: formData.imageSource === 'local' && formData.image instanceof File ? formData.image : undefined,
-        aiImageUrl: formData.imageSource === 'ai' && typeof formData.image === 'string' ? formData.image : undefined,
+        userfile:
+          formData.imageSource === "local" && formData.image instanceof File
+            ? formData.image
+            : undefined,
+        aiImageUrl:
+          formData.imageSource === "ai" && typeof formData.image === "string"
+            ? formData.image
+            : undefined,
       };
 
       const response = await dispatch(createPost(createPostData)).unwrap();
-      
+
       // Show success message
       toast({
-        title: isCloning ? "Post Cloned Successfully" : "Post Created Successfully",
-        description: `Post ${isCloning ? 'cloned' : 'created'} with ID: ${response.data.postId}`,
+        title: isCloning
+          ? "Post Cloned Successfully"
+          : "Post Created Successfully",
+        description: `Post ${isCloning ? "cloned" : "created"} with ID: ${
+          response.data.postId
+        }`,
       });
 
       // Refresh posts list
-      dispatch(fetchPosts({
-        listingId: parseInt(listingId.toString()),
-        filters: { status: 'all', search: '' },
-        pagination: { page: 1, limit: 12 },
-      }));
+      dispatch(
+        fetchPosts({
+          listingId: parseInt(listingId.toString()),
+          filters: { status: "all", search: "" },
+          pagination: { page: 1, limit: 12 },
+        })
+      );
 
       // Reset form and close modal
       setFormData({
         listings: [],
-        title: '',
-        postType: '',
-        description: '',
+        title: "",
+        postType: "",
+        description: "",
         image: null,
         imageSource: null,
-        ctaButton: '',
-        ctaUrl: '',
-        publishOption: 'now',
-        scheduleDate: '',
+        ctaButton: "",
+        ctaUrl: "",
+        publishOption: "now",
+        scheduleDate: "",
         platforms: [],
-        startDate: '',
-        endDate: '',
-        couponCode: '',
-        redeemOnlineUrl: '',
-        termsConditions: '',
-        postTags: '',
-        siloPost: false
+        startDate: "",
+        endDate: "",
+        couponCode: "",
+        redeemOnlineUrl: "",
+        termsConditions: "",
+        postTags: "",
+        siloPost: false,
       });
       setValidationErrors({});
       setShowCTAButton(false);
       setShowAdvancedOptions(false);
       onClose();
-      
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error("Error creating post:", error);
       toast({
         title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
-        description: error instanceof Error ? error.message : "An unexpected error occurred. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
     }
   };
 
   // Check if Create Post button should be enabled
-  const isCreatePostEnabled = formData.description.trim().length > 0 && !createLoading;
+  const isCreatePostEnabled =
+    formData.description.trim().length > 0 && !createLoading;
 
   // Show error toast if there's a create error
   React.useEffect(() => {
@@ -248,7 +292,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <DialogTitle className="text-xl sm:text-2xl font-semibold">
-              {isCloning ? 'Clone Post' : 'Create Post'}
+              {isCloning ? "Clone Post" : "Create Post"}
             </DialogTitle>
           </DialogHeader>
 
@@ -256,18 +300,24 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
             <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                
                 {/* Post Description Field */}
                 <PostDescriptionSection
                   description={formData.description}
-                  onDescriptionChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
+                  onDescriptionChange={(value) =>
+                    setFormData((prev) => ({ ...prev, description: value }))
+                  }
                   onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
                 />
 
                 {/* Post Image Upload */}
                 <PostImageSection
                   image={formData.image}
-                  onImageChange={(image) => handleImageChange(image, image instanceof File ? 'local' : null)}
+                  onImageChange={(image) =>
+                    handleImageChange(
+                      image,
+                      image instanceof File ? "local" : null
+                    )
+                  }
                   onOpenAIImage={() => setIsAIImageOpen(true)}
                 />
 
@@ -276,9 +326,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   showCTAButton={showCTAButton}
                   onShowCTAButtonChange={setShowCTAButton}
                   ctaButton={formData.ctaButton}
-                  onCTAButtonChange={(value) => setFormData(prev => ({ ...prev, ctaButton: value }))}
+                  onCTAButtonChange={(value) =>
+                    setFormData((prev) => ({ ...prev, ctaButton: value }))
+                  }
                   ctaUrl={formData.ctaUrl}
-                  onCTAUrlChange={(value) => setFormData(prev => ({ ...prev, ctaUrl: value }))}
+                  onCTAUrlChange={(value) =>
+                    setFormData((prev) => ({ ...prev, ctaUrl: value }))
+                  }
                 />
 
                 {/* Advanced Post Options */}
@@ -310,8 +364,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
             <div className="order-2 sm:order-1">
               {/* Preview button - only visible on mobile/tablet */}
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setIsPreviewOpen(true)}
                 className="lg:hidden w-full sm:w-auto"
               >
@@ -320,16 +374,26 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               </Button>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
-              <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                onClick={onClose}
+                className="w-full sm:w-auto"
+              >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 type="submit"
-                onClick={handleSubmit} 
+                onClick={handleSubmit}
                 disabled={!isCreatePostEnabled}
                 className="bg-primary hover:bg-primary/90 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {createLoading ? (isCloning ? "Cloning..." : "Creating...") : (isCloning ? "Clone Post" : "Create Post")}
+                {createLoading
+                  ? isCloning
+                    ? "Cloning..."
+                    : "Creating..."
+                  : isCloning
+                  ? "Clone Post"
+                  : "Create Post"}
               </Button>
             </div>
           </div>
@@ -337,26 +401,26 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       </Dialog>
 
       {/* AI Modals */}
-      <AIDescriptionModal 
-        isOpen={isAIDescriptionOpen} 
-        onClose={() => setIsAIDescriptionOpen(false)} 
-        onSelect={description => {
-          setFormData(prev => ({ ...prev, description }));
+      <AIDescriptionModal
+        isOpen={isAIDescriptionOpen}
+        onClose={() => setIsAIDescriptionOpen(false)}
+        onSelect={(description) => {
+          setFormData((prev) => ({ ...prev, description }));
           setIsAIDescriptionOpen(false);
-        }} 
+        }}
       />
 
-      <AIImageModal 
-        isOpen={isAIImageOpen} 
-        onClose={() => setIsAIImageOpen(false)} 
+      <AIImageModal
+        isOpen={isAIImageOpen}
+        onClose={() => setIsAIImageOpen(false)}
         onSelect={handleAIImageSelect}
       />
 
       {/* Preview Modal - only for mobile/tablet */}
-      <PostPreviewModal 
-        isOpen={isPreviewOpen} 
-        onClose={() => setIsPreviewOpen(false)} 
-        data={formData} 
+      <PostPreviewModal
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        data={formData}
       />
     </>
   );

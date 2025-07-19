@@ -133,10 +133,12 @@ export const PostCard: React.FC<PostCardProps> = ({
 
   const handleDeletePost = async () => {
     // Get listingId from context or URL
+    // const listingId =
+    //   selectedListing?.id ||
+    //   parseInt(window.location.pathname.split("/")[2]) ||
+    //   176832;
     const listingId =
-      selectedListing?.id ||
-      parseInt(window.location.pathname.split("/")[2]) ||
-      176832;
+      selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
 
     if (!listingId) {
       toast({

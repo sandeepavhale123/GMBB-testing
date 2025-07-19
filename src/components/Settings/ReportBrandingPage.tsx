@@ -607,7 +607,7 @@ export const ReportBrandingPage: React.FC = () => {
                     <div className="border-t pt-4 text-sm text-muted-foreground">
                       <div className="flex justify-between items-start flex-col gap-4 xxl:flex-row xxl:gap-0 xxl:items-center">
                         <div>
-                          <p>
+                          <p className="break-all">
                             {formData.companyEmail || "contact@yourcompany.com"}
                           </p>
                           <p>{formData.companyPhone || "+1 (555) 123-4567"}</p>

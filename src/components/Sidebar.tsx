@@ -62,13 +62,13 @@ const menuItems = [
     icon: BarChart3,
     path: "/insights",
   },
-   {
+  {
     id: "qa",
     label: "Q&A",
     icon: MessageCircleQuestion,
     path: "/qa",
   },
-   {
+  {
     id: "businesses",
     label: "Management",
     icon: Building,
@@ -86,7 +86,7 @@ const menuItems = [
     icon: FileBarChart,
     path: "/reports",
   },
- 
+
   {
     id: "settings",
     label: "Settings",
@@ -103,12 +103,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { listingId } = useParams();
   const { profileData } = useProfile();
-  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector((state) => state.theme);
+  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector(
+    (state) => state.theme
+  );
+
+  console.log("user", profileData);
+  const isAdmin = profileData?.role?.toLowerCase() === "admin";
 
   // Helper function to check if user role should be restricted
   const shouldHideForRole = () => {
     const userRole = profileData?.role?.toLowerCase();
-    return userRole === 'staff' || userRole === 'client';
+    return userRole === "staff" || userRole === "client";
   };
 
   // Get user info from profile data
@@ -128,10 +133,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Check if plan is expired using the subscription utility
   const isPlanExpired = isSubscriptionExpired(planExpDate);
-  const isEnterprisePlan = profileData?.planName?.toLowerCase() === 'enterprise';
+  const isEnterprisePlan =
+    profileData?.planName?.toLowerCase() === "enterprise";
   console.log("plan exp or not .....", isPlanExpired);
   console.log("is enterprise plan .....", isEnterprisePlan);
-  console.log("result of condition", !isPlanExpired && !collapsed && !isEnterprisePlan);
+  console.log(
+    "result of condition",
+    !isPlanExpired && !collapsed && !isEnterprisePlan
+  );
   // Determine active tab based on current path
   const getActiveTab = () => {
     const currentPath = location.pathname;
@@ -156,7 +165,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return URL.createObjectURL(dark_logo);
     }
     // Otherwise use the API URL or fallback
-    return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
+    return (
+      dark_logo_url ||
+      "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png"
+    );
   };
 
   const getFaviconUrl = () => {
@@ -165,7 +177,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return URL.createObjectURL(favicon);
     }
     // Otherwise use the API URL or fallback
-    return favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
+    return (
+      favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
+    );
   };
 
   const handleTabChange = (tab: string, basePath: string) => {
@@ -195,6 +209,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  React.useEffect(() => {
+    if (isAdmin) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = "https://client.crisp.chat/l.js";
+      document.head.appendChild(script);
+
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
+
+      window.CRISP_READY_TRIGGER = function () {
+        const visitorEmail = window.$crisp?.get("user:email");
+        if (!visitorEmail) {
+          window.$crisp.push(["set", "user:email", profileData?.username]);
+        }
+      };
+
+      return () => {
+        // Cleanup: Remove Crisp script and globals when component unmounts
+        document.head.removeChild(script);
+        delete window.$crisp;
+        delete window.CRISP_WEBSITE_ID;
+        delete window.CRISP_READY_TRIGGER;
+      };
+    }
+  }, [isAdmin, profileData?.username]);
+
   return (
     <div
       className={cn(
@@ -202,15 +244,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         collapsed ? "w-16" : "w-64"
       )}
       style={{
-        backgroundColor: 'var(--sidebar-bg, #111827)',
-        borderColor: 'var(--sidebar-border, #374151)'
+        backgroundColor: "var(--sidebar-bg, #111827)",
+        borderColor: "var(--sidebar-border, #374151)",
       }}
     >
       <div className="flex h-full flex-col">
         {/* Logo Section */}
-        <div 
+        <div
           className="flex h-20 items-center justify-between border-b px-4"
-          style={{ borderColor: 'var(--sidebar-border, #374151)' ,height:'107px'}}
+          style={{
+            borderColor: "var(--sidebar-border, #374151)",
+            height: "107px",
+          }}
         >
           {!collapsed ? (
             <div className="flex items-center space-x-2">
@@ -218,7 +263,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 src={getDarkLogoUrl()}
                 alt="GMB Genie Logo"
                 className=" w-auto object-contain"
-                style={{height:'60px',maxWidth:'220px'}}
+                style={{ height: "60px", maxWidth: "220px" }}
               />
             </div>
           ) : (
@@ -234,82 +279,94 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <ScrollArea className="flex-1 px-3 py-4">
           <nav className="space-y-2">
             {menuItems
-              .filter((item) => !(item.id === 'settings' && shouldHideForRole()))
+              .filter(
+                (item) => !(item.id === "settings" && shouldHideForRole())
+              )
               .map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              return (
-                <Button
-                  key={item.id}
-                  variant={isActive ? "default" : "ghost"}
-                  className={cn(
-                    "w-full justify-start h-10",
-                    collapsed ? "px-2 justify-center" : "px-3"
-                  )}
-                  style={{
-                    backgroundColor: isActive ? 'var(--sidebar-active-bg, #2563eb)' : 'transparent',
-                    color: isActive ? 'var(--sidebar-active-text, #ffffff)' : 'var(--sidebar-text, #d1d5db)'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'var(--sidebar-hover-bg, #374151)';
-                      e.currentTarget.style.color = 'var(--sidebar-hover-text, #ffffff)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = 'var(--sidebar-text, #d1d5db)';
-                    }
-                  }}
-                  onClick={() => handleTabChange(item.id, item.path)}
-                  title={collapsed ? item.label : undefined}
-                >
-                  <Icon
-                    className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")}
-                  />
-                  {!collapsed && (
-                    <span className="text-sm font-medium">{item.label}</span>
-                  )}
-                </Button>
-              );
-            })}
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <Button
+                    key={item.id}
+                    variant={isActive ? "default" : "ghost"}
+                    className={cn(
+                      "w-full justify-start h-10",
+                      collapsed ? "px-2 justify-center" : "px-3"
+                    )}
+                    style={{
+                      backgroundColor: isActive
+                        ? "var(--sidebar-active-bg, #2563eb)"
+                        : "transparent",
+                      color: isActive
+                        ? "var(--sidebar-active-text, #ffffff)"
+                        : "var(--sidebar-text, #d1d5db)",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor =
+                          "var(--sidebar-hover-bg, #374151)";
+                        e.currentTarget.style.color =
+                          "var(--sidebar-hover-text, #ffffff)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color =
+                          "var(--sidebar-text, #d1d5db)";
+                      }
+                    }}
+                    onClick={() => handleTabChange(item.id, item.path)}
+                    title={collapsed ? item.label : undefined}
+                  >
+                    <Icon
+                      className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")}
+                    />
+                    {!collapsed && (
+                      <span className="text-sm font-medium">{item.label}</span>
+                    )}
+                  </Button>
+                );
+              })}
           </nav>
         </ScrollArea>
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired && !collapsed && !isEnterprisePlan && !shouldHideForRole() && (
-          <div className="px-3 pb-4">
-            <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Crown className="h-5 w-5 text-yellow-400" />
-                  <span className="text-sm font-semibold text-white">
-                    {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
-                  </span>
-                </div>
-                <p className="text-xs text-blue-100 mb-3">
-                  {isPlanExpired
-                    ? "Your plan has expired. Renew to continue accessing features"
-                    : "Unlock premium features and get unlimited access"}
-                </p>
-                <Button
-                  size="sm"
-                  className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
-                  onClick={() => navigate("/settings/subscription")}
-                >
-                  <Sparkles className="h-3 w-3 mr-1" />
-                  {isPlanExpired ? "Renew Now" : "Upgrade Now"}
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+        {!isPlanExpired &&
+          !collapsed &&
+          !isEnterprisePlan &&
+          !shouldHideForRole() && (
+            <div className="px-3 pb-4">
+              <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Crown className="h-5 w-5 text-yellow-400" />
+                    <span className="text-sm font-semibold text-white">
+                      {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-100 mb-3">
+                    {isPlanExpired
+                      ? "Your plan has expired. Renew to continue accessing features"
+                      : "Unlock premium features and get unlimited access"}
+                  </p>
+                  <Button
+                    size="sm"
+                    className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
+                    onClick={() => navigate("/settings/subscription")}
+                  >
+                    <Sparkles className="h-3 w-3 mr-1" />
+                    {isPlanExpired ? "Renew Now" : "Upgrade Now"}
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
         {/* User Profile Section */}
-        <div 
+        <div
           className="border-t p-4"
-          style={{ borderColor: 'var(--sidebar-border, #374151)' }}
+          style={{ borderColor: "var(--sidebar-border, #374151)" }}
         >
           <Button
             variant="ghost"
@@ -317,16 +374,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
               "w-full justify-start h-12",
               collapsed ? "px-2 justify-center" : "px-3"
             )}
-            style={{ 
-              color: 'var(--sidebar-text, #d1d5db)'
+            style={{
+              color: "var(--sidebar-text, #d1d5db)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--sidebar-hover-bg, #374151)';
-              e.currentTarget.style.color = 'var(--sidebar-hover-text, #ffffff)';
+              e.currentTarget.style.backgroundColor =
+                "var(--sidebar-hover-bg, #374151)";
+              e.currentTarget.style.color =
+                "var(--sidebar-hover-text, #ffffff)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = 'var(--sidebar-text, #d1d5db)';
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
             }}
             onClick={() => navigate("/profile")}
             title={collapsed ? userName : undefined}

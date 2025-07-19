@@ -1,41 +1,72 @@
-import React, { useState } from 'react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Badge } from '../ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
-import { Separator } from '../ui/separator';
-import { Loader } from '../ui/loader';
-import { Table, TableBody, TableHead, TableHeader, TableRow, TableCell } from '../ui/table';
-import { Eye, EyeOff, Search, Plus, Grid3X3, List, Edit, Trash2, Copy, MoreVertical } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { AddTeamMemberModal } from './AddTeamMemberModal';
-import { EditTeamMemberModal } from './EditTeamMemberModal';
-import { DeleteTeamMemberModal } from './DeleteTeamMemberModal';
-import { TeamMemberPagination } from './TeamMemberPagination';
-import { toast } from '../../hooks/use-toast';
-import { useTeam } from '../../hooks/useTeam';
-import { TeamMember } from '../../api/teamApi';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Badge } from "../ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { Separator } from "../ui/separator";
+import { Loader } from "../ui/loader";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableCell,
+} from "../ui/table";
+import {
+  Eye,
+  EyeOff,
+  Search,
+  Plus,
+  Grid3X3,
+  List,
+  Edit,
+  Trash2,
+  Copy,
+  MoreVertical,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { AddTeamMemberModal } from "./AddTeamMemberModal";
+import { EditTeamMemberModal } from "./EditTeamMemberModal";
+import { DeleteTeamMemberModal } from "./DeleteTeamMemberModal";
+import { TeamMemberPagination } from "./TeamMemberPagination";
+import { toast } from "../../hooks/use-toast";
+import { useTeam } from "../../hooks/useTeam";
+import { TeamMember } from "../../api/teamApi";
+import { useNavigate } from "react-router-dom";
 
 // Role color mapping
 const roleColors = {
-  Admin: 'bg-red-100 text-red-800',
-  Editor: 'bg-blue-100 text-blue-800',
-  Viewer: 'bg-green-100 text-green-800',
-  Staff: 'bg-purple-100 text-purple-800',
-  Client: 'bg-orange-100 text-orange-800',
-  Moderator: 'bg-teal-100 text-teal-800',
+  Admin: "bg-red-100 text-red-800",
+  Editor: "bg-blue-100 text-blue-800",
+  Viewer: "bg-green-100 text-green-800",
+  Staff: "bg-purple-100 text-purple-800",
+  Client: "bg-orange-100 text-orange-800",
+  Moderator: "bg-teal-100 text-teal-800",
 };
 
 const TeamMembersPage: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
-  const [passwordVisibility, setPasswordVisibility] = useState<{ [key: string]: boolean }>({});
+  const [passwordVisibility, setPasswordVisibility] = useState<{
+    [key: string]: boolean;
+  }>({});
   const navigate = useNavigate();
 
   const {
@@ -49,7 +80,7 @@ const TeamMembersPage: React.FC = () => {
     updateSearchTerm,
     updateRoleFilter,
     updateCurrentPage,
-    clearTeamError
+    clearTeamError,
   } = useTeam();
 
   const handleEditMember = (member: TeamMember) => {
@@ -61,16 +92,17 @@ const TeamMembersPage: React.FC = () => {
     setShowDeleteModal(true);
   };
 
-
   const togglePasswordVisibility = (memberId: string) => {
-    setPasswordVisibility(prev => ({
+    setPasswordVisibility((prev) => ({
       ...prev,
-      [memberId]: !prev[memberId]
+      [memberId]: !prev[memberId],
     }));
   };
 
   const getRoleBadgeClass = (role: string) => {
-    return roleColors[role as keyof typeof roleColors] || 'bg-gray-100 text-gray-800';
+    return (
+      roleColors[role as keyof typeof roleColors] || "bg-gray-100 text-gray-800"
+    );
   };
 
   const handleCopyEmail = async (email: string) => {
@@ -95,14 +127,16 @@ const TeamMembersPage: React.FC = () => {
 
   const getInitials = (member: TeamMember) => {
     if (member.firstName || member.lastName) {
-      return `${member.firstName?.[0] || ''}${member.lastName?.[0] || ''}`.toUpperCase();
+      return `${member.firstName?.[0] || ""}${
+        member.lastName?.[0] || ""
+      }`.toUpperCase();
     }
     return member.username.slice(0, 2).toUpperCase();
   };
 
   // Helper function to construct profile picture URLs
   const getProfilePictureUrl = (profilePicture: string) => {
-    if (!profilePicture) return '';
+    if (!profilePicture) return "";
     return `https://member.gmbbriefcase.com/files/suninfo/profile/${profilePicture}`;
   };
 
@@ -112,7 +146,9 @@ const TeamMembersPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Team Members</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              Team Members
+            </h2>
             <p className="text-gray-600 text-sm sm:text-base">
               Manage your team members and their access permissions
             </p>
@@ -167,12 +203,12 @@ const TeamMembersPage: React.FC = () => {
                   >
                     Total: {summary.totalMembers}
                   </Badge>
-                  <Badge
+                  {/* <Badge
                     variant="outline"
                     className="bg-green-50 text-green-700 border-green-200 px-3 py-1 w-fit"
                   >
                     Active: {summary.activeMembers}
-                  </Badge>
+                  </Badge> */}
                 </div>
               )}
             </div>
@@ -212,7 +248,9 @@ const TeamMembersPage: React.FC = () => {
         {error && (
           <Card className="p-8 text-center border-destructive">
             <div className="text-destructive mb-4">
-              <h3 className="text-lg font-semibold mb-2">Error Loading Team Members</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Error Loading Team Members
+              </h3>
               <p className="text-sm">{error}</p>
             </div>
             <Button onClick={clearTeamError} variant="outline">
@@ -227,12 +265,13 @@ const TeamMembersPage: React.FC = () => {
             <div className="text-muted-foreground mb-4">
               <Search className="w-12 h-12 mx-auto" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">No team members found</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              No team members found
+            </h3>
             <p className="text-muted-foreground mb-4">
-              {searchTerm || roleFilter 
+              {searchTerm || roleFilter
                 ? "Try adjusting your search criteria or filters"
-                : "Get started by adding your first team member"
-              }
+                : "Get started by adding your first team member"}
             </p>
             {!searchTerm && !roleFilter && (
               <Button onClick={() => setShowAddModal(true)}>
@@ -241,11 +280,13 @@ const TeamMembersPage: React.FC = () => {
               </Button>
             )}
           </Card>
-        ) : !isLoading && !error && (
-          <>
-            {/* List View */}
-            {viewMode === 'list' ? (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+        ) : (
+          !isLoading &&
+          !error && (
+            <>
+              {/* List View */}
+              {viewMode === "list" ? (
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-gray-50">
@@ -261,181 +302,253 @@ const TeamMembersPage: React.FC = () => {
                         <TableHead className="font-semibold text-gray-900 text-center">
                           Listings
                         </TableHead>
-                        <TableHead className="font-semibold text-gray-900 text-center">
+                        {/* <TableHead className="font-semibold text-gray-900 text-center">
                           Status
-                        </TableHead>
+                        </TableHead> */}
                         <TableHead className="font-semibold text-gray-900 text-center">
                           Actions
                         </TableHead>
                       </TableRow>
                     </TableHeader>
-                  <TableBody>
-                    {members.map((member) => (
-                      <TableRow key={member.id} className="hover:bg-gray-50">
-                        <TableCell className="p-4">
-                          <div className="flex items-center space-x-3">
-                            <Avatar className="h-10 w-10">
-                              <AvatarImage src={getProfilePictureUrl(member.profilePicture)} alt={getDisplayName(member)} />
-                              <AvatarFallback className="bg-gray-100 text-gray-600">{getInitials(member)}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <div className="font-medium text-gray-900">{getDisplayName(member)}</div>
-                              <div className="flex items-center gap-2 mt-1">
-                                <Badge className={getRoleBadgeClass(member.role)} variant="secondary">
-                                  {member.role}
-                                </Badge>
+                    <TableBody>
+                      {members.map((member) => (
+                        <TableRow key={member.id} className="hover:bg-gray-50">
+                          <TableCell className="p-4">
+                            <div className="flex items-center space-x-3">
+                              <Avatar className="h-10 w-10">
+                                <AvatarImage
+                                  src={getProfilePictureUrl(
+                                    member.profilePicture
+                                  )}
+                                  alt={getDisplayName(member)}
+                                />
+                                <AvatarFallback className="bg-gray-100 text-gray-600">
+                                  {getInitials(member)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <div className="font-medium text-gray-900">
+                                  {getDisplayName(member)}
+                                </div>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <Badge
+                                    className={getRoleBadgeClass(member.role)}
+                                    variant="secondary"
+                                  >
+                                    {member.role}
+                                  </Badge>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="p-4 text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <span className="text-sm text-gray-600">{member.username}</span>
-                            <button
-                              onClick={() => handleCopyEmail(member.username)}
-                              className="text-gray-400 hover:text-gray-600 transition-colors"
-                              title="Copy email"
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          </div>
-                        </TableCell>
-                        <TableCell className="p-4 text-center">
-                          <div className="flex items-center justify-center gap-2">
-                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
-                              {passwordVisibility[member.id] ? member.password : '••••••••'}
-                            </span>
-                            <button
-                              onClick={() => togglePasswordVisibility(member.id)}
-                              className="text-gray-400 hover:text-gray-600 transition-colors"
-                              title={passwordVisibility[member.id] ? "Hide password" : "Show password"}
-                            >
-                              {passwordVisibility[member.id] ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                            </button>
-                          </div>
-                        </TableCell>
-                        <TableCell className="p-4 text-center">
-                          <span className="text-sm font-medium text-gray-900">{member.listingsCount}</span>
-                        </TableCell>
-                        <TableCell className="p-4 text-center">
-                          <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">
-                            Active
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="p-4 text-center">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                <MoreVertical className="w-4 h-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleEditMember(member)}>
-                                <Edit className="w-4 h-4 mr-2" />
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuItem 
-                                onClick={() => handleDeleteMember(member)}
-                                className="text-destructive"
+                          </TableCell>
+                          <TableCell className="p-4 text-center">
+                            <div className="flex items-center justify-center gap-2">
+                              <span className="text-sm text-gray-600">
+                                {member.username}
+                              </span>
+                              <button
+                                onClick={() => handleCopyEmail(member.username)}
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
+                                title="Copy email"
                               >
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            ) : (
-              /* Grid View */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {members.map((member) => (
-                  <Card key={member.id} className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <Avatar className="h-12 w-12">
-                          <AvatarImage src={getProfilePictureUrl(member.profilePicture)} alt={getDisplayName(member)} />
-                          <AvatarFallback>{getInitials(member)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium text-foreground">{getDisplayName(member)}</div>
-                          <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            {member.username}
-                            <button
-                              onClick={() => handleCopyEmail(member.username)}
-                              className="text-muted-foreground hover:text-foreground"
+                                <Copy className="w-3 h-3" />
+                              </button>
+                            </div>
+                          </TableCell>
+                          <TableCell className="p-4 text-center">
+                            <div className="flex items-center justify-center gap-2">
+                              <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                                {passwordVisibility[member.id]
+                                  ? member.password
+                                  : "••••••••"}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  togglePasswordVisibility(member.id)
+                                }
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
+                                title={
+                                  passwordVisibility[member.id]
+                                    ? "Hide password"
+                                    : "Show password"
+                                }
+                              >
+                                {passwordVisibility[member.id] ? (
+                                  <EyeOff className="w-4 h-4" />
+                                ) : (
+                                  <Eye className="w-4 h-4" />
+                                )}
+                              </button>
+                            </div>
+                          </TableCell>
+                          <TableCell className="p-4 text-center">
+                            <span className="text-sm font-medium text-gray-900">
+                              {member.listingsCount}
+                            </span>
+                          </TableCell>
+                          {/* <TableCell className="p-4 text-center">
+                            <Badge
+                              variant="default"
+                              className="bg-green-100 text-green-800 border-green-200"
                             >
-                              <Copy className="w-3 h-3" />
-                            </button>
+                              Active
+                            </Badge>
+                          </TableCell> */}
+                          <TableCell className="p-4 text-center">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0"
+                                >
+                                  <MoreVertical className="w-4 h-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  onClick={() => handleEditMember(member)}
+                                >
+                                  <Edit className="w-4 h-4 mr-2" />
+                                  Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => handleDeleteMember(member)}
+                                  className="text-destructive"
+                                >
+                                  <Trash2 className="w-4 h-4 mr-2" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                /* Grid View */
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {members.map((member) => (
+                    <Card key={member.id} className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <Avatar className="h-12 w-12">
+                            <AvatarImage
+                              src={getProfilePictureUrl(member.profilePicture)}
+                              alt={getDisplayName(member)}
+                            />
+                            <AvatarFallback>
+                              {getInitials(member)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-medium text-foreground">
+                              {getDisplayName(member)}
+                            </div>
+                            <div className="text-sm text-muted-foreground flex items-center gap-2 break-all">
+                              {member.username}
+                              <button
+                                onClick={() => handleCopyEmail(member.username)}
+                                className="text-muted-foreground hover:text-foreground"
+                              >
+                                <Copy className="w-3 h-3" />
+                              </button>
+                            </div>
                           </div>
                         </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreVertical className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => handleEditMember(member)}
+                            >
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => handleDeleteMember(member)}
+                              className="text-destructive"
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreVertical className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEditMember(member)}>
-                            <Edit className="w-4 h-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={() => handleDeleteMember(member)}
-                            className="text-destructive"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
 
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Password:</span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
-                            {member.password}
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">
+                            Password:
                           </span>
-                          <button
-                            onClick={() => handleCopyEmail(member.password)}
-                            className="text-muted-foreground hover:text-foreground"
-                            title="Copy password"
-                          >
-                            <Copy className="w-3 h-3" />
-                          </button>
+                          <div className="flex items-center gap-2">
+                            {/* <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                            {member.password}
+                          </span> */}
+                            <div className="flex items-center justify-center gap-2">
+                              <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded border">
+                                {passwordVisibility[member.id]
+                                  ? member.password
+                                  : "••••••••"}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  togglePasswordVisibility(member.id)
+                                }
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
+                                title={
+                                  passwordVisibility[member.id]
+                                    ? "Hide password"
+                                    : "Show password"
+                                }
+                              >
+                                {passwordVisibility[member.id] ? (
+                                  <EyeOff className="w-4 h-4" />
+                                ) : (
+                                  <Eye className="w-4 h-4" />
+                                )}
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Role:</span>
-                        <Badge className={getRoleBadgeClass(member.role)}>
-                          {member.role}
-                        </Badge>
-                      </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">
+                            Role:
+                          </span>
+                          <Badge className={getRoleBadgeClass(member.role)}>
+                            {member.role}
+                          </Badge>
+                        </div>
 
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Listings:</span>
-                        <span className="text-sm text-foreground">{member.listingsCount}</span>
-                      </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">
+                            Listings:
+                          </span>
+                          <span className="text-sm text-foreground">
+                            {member.listingsCount}
+                          </span>
+                        </div>
 
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Status:</span>
-                        <Badge variant="default">
-                          Active
-                        </Badge>
+                        {/* <div className="flex items-center justify-between">
+                          <span className="text-sm text-muted-foreground">
+                            Status:
+                          </span>
+                          <Badge variant="default">Active</Badge>
+                        </div> */}
                       </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </>
+          )
         )}
 
         {/* Pagination */}
@@ -448,21 +561,21 @@ const TeamMembersPage: React.FC = () => {
       </div>
 
       {/* Modals */}
-      <AddTeamMemberModal 
-        open={showAddModal} 
+      <AddTeamMemberModal
+        open={showAddModal}
         onOpenChange={setShowAddModal}
         onSuccess={() => {
           // The team list will be automatically refreshed by the addTeamMember function
           console.log("Team member added successfully");
         }}
       />
-      
+
       <EditTeamMemberModal
         open={showEditModal}
         onOpenChange={setShowEditModal}
         member={selectedMember}
       />
-      
+
       <DeleteTeamMemberModal
         open={showDeleteModal}
         onOpenChange={setShowDeleteModal}
@@ -472,7 +585,6 @@ const TeamMembersPage: React.FC = () => {
           console.log("Team member deleted successfully");
         }}
       />
-      
     </div>
   );
 };

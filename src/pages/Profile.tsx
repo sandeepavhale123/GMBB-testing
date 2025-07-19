@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
@@ -8,12 +7,27 @@ import { EditProfileForm } from "../components/Profile/EditProfileForm";
 import { ChangePasswordModal } from "../components/Profile/ChangePasswordModal";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
+import { useListingContext } from "@/context/ListingContext";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"edit" | "password">("edit");
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { listingId } = useParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { listings, selectedListing, initializeSelectedListing } =
+    useListingContext();
+
+  useEffect(() => {
+    if (listingId && listings.length > 0 && !selectedListing) {
+      console.log(
+        "📍 SettingsPage: Triggering initializeSelectedListing for listingId:",
+        listingId
+      );
+      initializeSelectedListing(listingId);
+    }
+  }, [listingId, listings, selectedListing, initializeSelectedListing]);
 
   const handleTabChange = (tab: "edit" | "password") => {
     if (tab === "password") {
@@ -71,9 +85,12 @@ const Profile = () => {
             <div className="max-w-4xl mx-auto space-y-6">
               {/* Page Title and Subtext */}
               <div className="mb-6">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                  Profile Settings
+                </h1>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  Manage your account information, security settings, and subscription preferences.
+                  Manage your account information, security settings, and
+                  subscription preferences.
                 </p>
               </div>
 

@@ -74,13 +74,19 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
   const baseRoute = useMemo(() => {
     const pathParts = location.pathname.split("/");
     const firstSegment = pathParts[1] || "location-dashboard";
-    
+
     // Don't interfere with profile, settings, or other non-listing routes
-    const excludedRoutes = ["profile", "settings", "team", "reports", "ai-chatbot"];
+    const excludedRoutes = [
+      "profile",
+      "settings",
+      "team",
+      "reports",
+      "ai-chatbot",
+    ];
     if (excludedRoutes.includes(firstSegment)) {
       return null; // No automatic redirection for these routes
     }
-    
+
     return firstSegment;
   }, [location.pathname]);
 
@@ -115,7 +121,11 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       !isAuthenticated
     ) {
       console.log(
-        "🔄 ListingContext: Skipping initialization - conditions not met"
+        "🔄 ListingContext: Skipping initialization - conditions not met",
+        listingsLoading,
+        hasInitialized,
+        !isInitialized,
+        !isAuthenticated
       );
       return;
     }
@@ -196,8 +206,8 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       const shouldRedirect =
         baseRoute &&
         (!listingId ||
-        listingId === "default" ||
-        !listings.find((l) => l.id === listingId));
+          listingId === "default" ||
+          !listings.find((l) => l.id === listingId));
 
       if (shouldRedirect) {
         console.log(

@@ -1,6 +1,5 @@
-
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BusinessListing } from '@/components/Header/types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BusinessListing } from "@/components/Header/types";
 
 interface BusinessListingsState {
   userAddedListings: BusinessListing[];
@@ -17,10 +16,10 @@ const initialState: BusinessListingsState = {
 // Load from localStorage on initialization
 const loadFromLocalStorage = (): BusinessListing[] => {
   try {
-    const stored = localStorage.getItem('userBusinessListings');
+    const stored = localStorage.getItem("userBusinessListings");
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
-    console.error('Failed to load business listings from localStorage:', error);
+    console.error("Failed to load business listings from localStorage:", error);
     return [];
   }
 };
@@ -28,10 +27,17 @@ const loadFromLocalStorage = (): BusinessListing[] => {
 // Load selected business ID from localStorage
 const loadSelectedBusinessId = (): string | null => {
   try {
-    const stored = localStorage.getItem('selectedBusinessId');
+    const stored = localStorage.getItem("selectedBusinessId");
+    console.log(
+      "Load BusinessId from local storage......................................",
+      stored
+    );
     return stored || null;
   } catch (error) {
-    console.error('Failed to load selected business ID from localStorage:', error);
+    console.error(
+      "Failed to load selected business ID from localStorage:",
+      error
+    );
     return null;
   }
 };
@@ -39,33 +45,33 @@ const loadSelectedBusinessId = (): string | null => {
 // Load last user session
 const loadLastUserSession = (): string | null => {
   try {
-    const stored = localStorage.getItem('current_user_session');
+    const stored = localStorage.getItem("current_user_session");
     return stored || null;
   } catch (error) {
-    console.error('Failed to load user session from localStorage:', error);
+    console.error("Failed to load user session from localStorage:", error);
     return null;
   }
 };
 
 // Check if user has changed
 const checkUserChanged = (): boolean => {
-  const currentSession = localStorage.getItem('current_user_session');
-  const lastSession = localStorage.getItem('last_user_session');
-  
+  const currentSession = localStorage.getItem("current_user_session");
+  const lastSession = localStorage.getItem("last_user_session");
+
   if (currentSession && lastSession && currentSession !== lastSession) {
-    console.log('🔄 User change detected:', { lastSession, currentSession });
+    console.log("🔄 User change detected:", { lastSession, currentSession });
     return true;
   }
-  
+
   return false;
 };
 
 // Save to localStorage
 const saveToLocalStorage = (listings: BusinessListing[]) => {
   try {
-    localStorage.setItem('userBusinessListings', JSON.stringify(listings));
+    localStorage.setItem("userBusinessListings", JSON.stringify(listings));
   } catch (error) {
-    console.error('Failed to save business listings to localStorage:', error);
+    console.error("Failed to save business listings to localStorage:", error);
   }
 };
 
@@ -73,34 +79,37 @@ const saveToLocalStorage = (listings: BusinessListing[]) => {
 const saveSelectedBusinessId = (businessId: string | null) => {
   try {
     if (businessId) {
-      localStorage.setItem('selectedBusinessId', businessId);
+      localStorage.setItem("selectedBusinessId", businessId);
     } else {
-      localStorage.removeItem('selectedBusinessId');
+      localStorage.removeItem("selectedBusinessId");
     }
   } catch (error) {
-    console.error('Failed to save selected business ID to localStorage:', error);
+    console.error(
+      "Failed to save selected business ID to localStorage:",
+      error
+    );
   }
 };
 
 // Initialize state with user change detection
 const getInitialState = (): BusinessListingsState => {
   const userChanged = checkUserChanged();
-  
+
   if (userChanged) {
-    console.log('🔄 User changed - clearing business listings data');
-    localStorage.removeItem('userBusinessListings');
-    localStorage.removeItem('selectedBusinessId');
+    console.log("🔄 User changed - clearing business listings data");
+    localStorage.removeItem("userBusinessListings");
+    localStorage.removeItem("selectedBusinessId");
     // Update last session tracker
-    const currentSession = localStorage.getItem('current_user_session');
+    const currentSession = localStorage.getItem("current_user_session");
     if (currentSession) {
-      localStorage.setItem('last_user_session', currentSession);
+      localStorage.setItem("last_user_session", currentSession);
     }
     return {
       ...initialState,
       lastUserSession: loadLastUserSession(),
     };
   }
-  
+
   return {
     ...initialState,
     userAddedListings: loadFromLocalStorage(),
@@ -110,70 +119,72 @@ const getInitialState = (): BusinessListingsState => {
 };
 
 const businessListingsSlice = createSlice({
-  name: 'businessListings',
+  name: "businessListings",
   initialState: getInitialState(),
   reducers: {
     addBusinessListing: (state, action: PayloadAction<BusinessListing>) => {
       const existingIndex = state.userAddedListings.findIndex(
-        listing => listing.id === action.payload.id
+        (listing) => listing.id === action.payload.id
       );
-      
+
       if (existingIndex === -1) {
         // Add new listing at the beginning of the array
         state.userAddedListings.unshift(action.payload);
         saveToLocalStorage(state.userAddedListings);
-        console.log('✅ Added business listing at top:', action.payload.name);
+        console.log("✅ Added business listing at top:", action.payload.name);
       } else {
-        console.log('ℹ️ Business listing already exists:', action.payload.name);
+        console.log("ℹ️ Business listing already exists:", action.payload.name);
       }
     },
     moveListingToTop: (state, action: PayloadAction<string>) => {
       const listingIndex = state.userAddedListings.findIndex(
-        listing => listing.id === action.payload
+        (listing) => listing.id === action.payload
       );
-      
+
       if (listingIndex > 0) {
         // Remove listing from current position and add to beginning
         const [listing] = state.userAddedListings.splice(listingIndex, 1);
         state.userAddedListings.unshift(listing);
         saveToLocalStorage(state.userAddedListings);
-        console.log('🔝 Moved business listing to top:', listing.name);
+        console.log("🔝 Moved business listing to top:", listing.name);
       }
     },
     removeBusinessListing: (state, action: PayloadAction<string>) => {
       state.userAddedListings = state.userAddedListings.filter(
-        listing => listing.id !== action.payload
+        (listing) => listing.id !== action.payload
       );
       saveToLocalStorage(state.userAddedListings);
-      console.log('🗑️ Removed business listing with ID:', action.payload);
+      console.log("🗑️ Removed business listing with ID:", action.payload);
     },
     setSelectedBusiness: (state, action: PayloadAction<string | null>) => {
       state.selectedBusinessId = action.payload;
       saveSelectedBusinessId(action.payload);
-      console.log('📍 Set selected business ID:', action.payload);
+      console.log("📍 Set selected business ID:", action.payload);
     },
     clearUserListings: (state) => {
       state.userAddedListings = [];
       state.selectedBusinessId = null;
-      localStorage.removeItem('userBusinessListings');
-      localStorage.removeItem('selectedBusinessId');
-      console.log('🧹 Cleared all user business listings and selected business');
+      localStorage.removeItem("userBusinessListings");
+      localStorage.removeItem("selectedBusinessId");
+      console.log(
+        "🧹 Cleared all user business listings and selected business"
+      );
     },
     updateUserSession: (state, action: PayloadAction<string>) => {
       state.lastUserSession = action.payload;
-      localStorage.setItem('last_user_session', action.payload);
-      console.log('📝 Updated user session:', action.payload);
-    }
+      localStorage.setItem("last_user_session", action.payload);
+      console.log("📝 Updated user session:", action.payload);
+    },
   },
 });
 
-export const { 
-  addBusinessListing, 
+export const {
+  addBusinessListing,
   moveListingToTop,
-  removeBusinessListing, 
+  removeBusinessListing,
   setSelectedBusiness,
   clearUserListings,
-  updateUserSession
+  updateUserSession,
 } = businessListingsSlice.actions;
 
 export default businessListingsSlice.reducer;
