@@ -1,4 +1,3 @@
-
 import { useCallback, useState, useEffect } from 'react';
 import { useKeywords } from './useKeywords';
 import { useKeywordDetails } from './useKeywordDetails';
@@ -20,7 +19,7 @@ export const useGeoRanking = (listingId: number) => {
     keywordsLoading,
     pageLoading,
     error: keywordsError,
-    keywordsVersion,
+    keywordsVersion, // Get version counter
     fetchKeywords
   } = useKeywords(listingId);
 
@@ -51,7 +50,7 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetailsManually,
     handleKeywordChange: onKeywordChange,
     handleDateChange: onDateChange
-  } = useKeywordDetails(listingId, selectedKeyword, false);
+  } = useKeywordDetails(listingId, selectedKeyword, false); // Initialize with false first
 
   const { refreshing, refreshError, refreshProgress, isPollingActive: refreshPollingActive, handleRefreshKeyword } = useKeywordRefresh({
     listingId,
@@ -60,9 +59,9 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetailsManually
   });
 
-  // Optimized keywords callback for polling - simpler version
-  const optimizedKeywordsCallback = useCallback(async () => {
-    console.log(`🔄 [${new Date().toISOString()}] optimizedKeywordsCallback called - calling /get-keywords API`);
+  // First create a simple callback without dependency on processingKeywords
+  const simpleKeywordsCallback = useCallback(async () => {
+    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - calling /get-keywords API`);
     try {
       await fetchKeywords(true);
       console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully from polling`);
@@ -75,7 +74,7 @@ export const useGeoRanking = (listingId: number) => {
   // Polling for keyword status - enable initial check to detect processing keywords
   const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
     listingId,
-    optimizedKeywordsCallback,
+    simpleKeywordsCallback,
     true
   );
 
@@ -84,6 +83,11 @@ export const useGeoRanking = (listingId: number) => {
     processingKeywords.length > 0 && !refreshPollingActive,
     3000
   );
+
+  // Enhanced polling callback with progress tracking (now processingKeywords is available)
+  const enhancedKeywordsCallback = useCallback(async () => {
+    return await fetchKeywords(true);
+  }, [fetchKeywords]);
 
   // Combined error state
   const error = keywordsError || keywordDetailsError;
@@ -134,9 +138,9 @@ export const useGeoRanking = (listingId: number) => {
     refreshing,
     refreshError,
     refreshProgress,
-    pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress,
-    isPollingActive: isPolling || refreshPollingActive,
-    keywordsVersion,
+    pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress, // Use refresh progress when refreshing, otherwise use polling progress
+    isPollingActive: isPolling || refreshPollingActive, // Show as active when either polling or refreshing
+    keywordsVersion, // Export version counter
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange,
