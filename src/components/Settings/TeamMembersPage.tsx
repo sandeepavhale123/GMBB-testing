@@ -363,7 +363,7 @@ const TeamMembersPage: React.FC = () => {
                         <div>
                           <div className="font-medium text-foreground">{getDisplayName(member)}</div>
                           <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            {member.username.length > 10 ? member.username.slice(0, 10) + '...' : member.username}
+                            {member.username.length > 15 ? member.username.slice(0, 15) + '...' : member.username}
                             <button
                               onClick={() => handleCopyEmail(member.username)}
                               className="text-muted-foreground hover:text-foreground"
