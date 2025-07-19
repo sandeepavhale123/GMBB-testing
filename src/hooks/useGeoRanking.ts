@@ -19,7 +19,6 @@ export const useGeoRanking = (listingId: number) => {
     keywordsLoading,
     pageLoading,
     error: keywordsError,
-    keywordsVersion, // Get version counter
     fetchKeywords
   } = useKeywords(listingId);
 
@@ -140,7 +139,6 @@ export const useGeoRanking = (listingId: number) => {
     refreshProgress,
     pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress, // Use refresh progress when refreshing, otherwise use polling progress
     isPollingActive: isPolling || refreshPollingActive, // Show as active when either polling or refreshing
-    keywordsVersion, // Export version counter
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange,

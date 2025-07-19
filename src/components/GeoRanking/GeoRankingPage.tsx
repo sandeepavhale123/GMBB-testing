@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
@@ -55,7 +54,6 @@ export const GeoRankingPage = () => {
     refreshProgress,
     pollingProgress,
     isPollingActive,
-    keywordsVersion, // Get keywordsVersion from useGeoRanking
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
@@ -200,23 +198,18 @@ export const GeoRankingPage = () => {
   // Fix grid display to show proper format
   const grid = projectDetails?.grid ? `${projectDetails.grid}` : '3*3';
   
-  // Check if we should show processing alert - only show if there are actual processing keywords or new submission
-  const shouldShowProcessingAlert = processingKeywords.length > 0 || (isProcessing && submittedKeywordsList.length > 0);
-  
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
-            {shouldShowProcessingAlert && (
-              <ProcessingKeywordsAlert 
-                keywords={processingKeywords} 
-                progress={pollingProgress}
-                isPolling={isPollingActive || isPolling}
-                submittedKeywords={submittedKeywordsList}
-                isNewSubmission={isProcessing}
-              />
-            )}
+            <ProcessingKeywordsAlert 
+              keywords={processingKeywords} 
+              progress={pollingProgress}
+              isPolling={isPollingActive || isPolling}
+              submittedKeywords={submittedKeywordsList}
+              isNewSubmission={isProcessing}
+            />
             
             <GeoRankingHeader
               keywords={keywords}
@@ -234,7 +227,6 @@ export const GeoRankingPage = () => {
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               error={error}
-              keywordsVersion={keywordsVersion} // Pass keywordsVersion to header
             />
 
             <div className="space-y-4 sm:space-y-6">

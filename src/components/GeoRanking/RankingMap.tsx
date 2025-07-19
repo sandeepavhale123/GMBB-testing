@@ -14,8 +14,14 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const mapInstanceRef = useRef<L.Map | null>(null);
 
     useEffect(() => {
-      if (!mapRef.current) return;
-      
+      if (!mapRef.current || mapInstanceRef.current) return;
+
+      // Load Leaflet CSS
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+
       // Calculate optimal view based on rank details
       let allCoordinates: [number, number][] = [];
       let centerLat = 28.6139;
@@ -38,33 +44,14 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
           centerLng = allCoordinates[0][1];
         }
       }
-      
-      // Only initialize if map doesn't exist
-      if (mapInstanceRef.current) {
-        // Clear existing markers and update with new data
-        mapInstanceRef.current.eachLayer((layer) => {
-          if (layer instanceof L.Marker) {
-            mapInstanceRef.current?.removeLayer(layer);
-          }
-        });
-      } else {
-        // Initialize map only once
-        // Load Leaflet CSS
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-        document.head.appendChild(link);
 
-        const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
-        mapInstanceRef.current = map;
+      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+      mapInstanceRef.current = map;
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-      }
-
-      const map = mapInstanceRef.current!;
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
       // Add markers and auto-fit bounds
       if (rankDetails.length > 0) {
@@ -234,10 +221,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         });
       }
 
-    }, [onMarkerClick, rankDetails]);
-
-    // Cleanup effect only on unmount
-    useEffect(() => {
       return () => {
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
@@ -250,7 +233,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
           existingLink.remove();
         }
       };
-    }, []);
+    }, [onMarkerClick, rankDetails]);
 
     return (
       <Card className="bg-white">

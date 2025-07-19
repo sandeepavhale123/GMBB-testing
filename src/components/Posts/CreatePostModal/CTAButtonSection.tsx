@@ -5,8 +5,6 @@ import { Switch } from '../../ui/switch';
 import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Input } from '../../ui/input';
-import { z } from 'zod';
-import { useFormValidation } from '../../../hooks/useFormValidation';
 
 interface CTAButtonSectionProps {
   showCTAButton: boolean;
@@ -37,10 +35,6 @@ const ctaOptions = [{
   label: 'Sign Up'
 }, ];
 
-const urlSchema = z.object({
-  ctaUrl: z.string().min(1, "URL is required").url("Please enter a valid URL")
-});
-
 export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
   showCTAButton,
   onShowCTAButtonChange,
@@ -49,23 +43,6 @@ export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
   ctaUrl,
   onCTAUrlChange
 }) => {
-  const { getFieldError, hasFieldError, clearFieldError } = useFormValidation(urlSchema);
-
-  const handleUrlChange = (value: string) => {
-    onCTAUrlChange(value);
-    
-    // Validate URL if not empty
-    if (value.trim()) {
-      const result = urlSchema.safeParse({ ctaUrl: value });
-      if (!result.success) {
-        // Error will be handled by validation hook
-      } else {
-        clearFieldError('ctaUrl');
-      }
-    } else {
-      clearFieldError('ctaUrl');
-    }
-  };
   return (
     <div className="space-y-3">
       <div className="flex items-center space-x-3">
@@ -106,13 +83,10 @@ export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
                 <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input 
                   value={ctaUrl} 
-                  onChange={e => handleUrlChange(e.target.value)} 
+                  onChange={e => onCTAUrlChange(e.target.value)} 
                   placeholder="https://example.com" 
-                  className={`pl-10 ${hasFieldError('ctaUrl') ? 'border-red-500' : ''}`}
+                  className="pl-10" 
                 />
-                {hasFieldError('ctaUrl') && (
-                  <p className="text-red-500 text-xs mt-1">{getFieldError('ctaUrl')}</p>
-                )}
               </div>
             </div>
           )}

@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Search } from 'lucide-react';
 import { Loader } from '../ui/loader';
@@ -16,10 +16,9 @@ interface KeywordSelectorProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   isRefreshing?: boolean;
-  keywordsVersion?: number; // Add version prop to force re-renders
 }
 
-export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
+export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
   keywords,
   selectedKeyword,
   selectedDate,
@@ -30,50 +29,37 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   keywordChanging,
   dateChanging,
   isRefreshing = false,
-  keywordsVersion = 0,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Add keywordsVersion to dependencies to ensure re-calculation when keywords update
+  // Memoize filtered keywords to prevent unnecessary recalculations
   const displayedKeywords = useMemo(() => {
-    console.log(`🔄 KeywordSelector: Recalculating displayed keywords (version: ${keywordsVersion}, count: ${keywords.length})`);
     const filteredKeywords = keywords.filter(keyword => 
       keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
     );
     return searchTerm ? filteredKeywords : keywords;
-  }, [keywords, searchTerm, keywordsVersion]);
+  }, [keywords, searchTerm]);
 
   // Memoize available dates for the selected keyword
   const availableDates = useMemo(() => {
     return keywordDetails?.dates || [];
   }, [keywordDetails?.dates]);
 
-  // Memoize selected keyword name for display with keywordsVersion dependency
+  // Memoize selected keyword name for display
   const selectedKeywordName = useMemo(() => {
     const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
-    const name = selectedKeywordData?.keyword || '';
-    console.log(`🔄 KeywordSelector: Selected keyword name updated (version: ${keywordsVersion}): ${name}`);
-    return name;
-  }, [keywords, selectedKeyword, keywordsVersion]);
+    return selectedKeywordData?.keyword || '';
+  }, [keywords, selectedKeyword]);
 
   const handleKeywordSelect = (keywordId: string) => {
-    console.log(`🔄 KeywordSelector: Keyword selected: ${keywordId}`);
     onKeywordChange(keywordId);
     setSearchTerm('');
   };
 
-  // Log when component re-renders
-  console.log(`🔄 KeywordSelector: Rendering with ${keywords.length} keywords (version: ${keywordsVersion})`);
-
   return (
     <div className="lg:col-span-3 space-y-3">
       <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
-      <Select 
-        key={`keyword-select-${keywordsVersion}`} // Force re-render when keywords update
-        value={selectedKeyword} 
-        onValueChange={handleKeywordSelect} 
-        disabled={isRefreshing ? false : (loading || keywordChanging)}
-      >
+      <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={isRefreshing ? false : (loading || keywordChanging)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={loading ? "Loading keywords..." : "Select keyword"}>
             {selectedKeywordName}
@@ -122,4 +108,4 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       </div>
     </div>
   );
-};
+});
