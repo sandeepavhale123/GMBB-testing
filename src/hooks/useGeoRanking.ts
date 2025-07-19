@@ -1,3 +1,4 @@
+
 import { useCallback, useState, useEffect } from 'react';
 import { useKeywords } from './useKeywords';
 import { useKeywordDetails } from './useKeywordDetails';
@@ -19,15 +20,21 @@ export const useGeoRanking = (listingId: number) => {
     keywordsLoading,
     pageLoading,
     error: keywordsError,
-    fetchKeywords
+    fetchKeywords,
+    keywordsVersion
   } = useKeywords(listingId);
 
-  // Refresh functionality with proper parameter handling
+  // Enhanced refresh functionality with proper parameter handling and state sync
   const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
     console.log(`🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - calling /get-keywords API`);
     try {
       await fetchKeywords(true, selectKeywordId);
       console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully`);
+      
+      // Add a small delay to ensure state has fully updated before resolving
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      console.log(`🔄 [${new Date().toISOString()}] Keywords state updated, triggering dropdown refresh`);
     } catch (error) {
       console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed:`, error);
       throw error;
@@ -58,14 +65,17 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetailsManually
   });
 
-  // First create a simple callback without dependency on processingKeywords
-  const simpleKeywordsCallback = useCallback(async () => {
-    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - calling /get-keywords API`);
+  // Enhanced polling callback with forced state refresh
+  const enhancedKeywordsCallback = useCallback(async () => {
+    console.log(`🔄 [${new Date().toISOString()}] enhancedKeywordsCallback called from polling completion`);
     try {
       await fetchKeywords(true);
-      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully from polling`);
+      console.log(`✅ [${new Date().toISOString()}] Keywords refreshed successfully via polling completion`);
+      
+      // Force a small delay to ensure UI updates
+      await new Promise(resolve => setTimeout(resolve, 200));
     } catch (error) {
-      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed from polling:`, error);
+      console.error(`❌ [${new Date().toISOString()}] Error refreshing keywords from polling:`, error);
       throw error;
     }
   }, [fetchKeywords]);
@@ -73,7 +83,7 @@ export const useGeoRanking = (listingId: number) => {
   // Polling for keyword status - enable initial check to detect processing keywords
   const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
     listingId,
-    simpleKeywordsCallback,
+    enhancedKeywordsCallback,
     true
   );
 
@@ -83,16 +93,12 @@ export const useGeoRanking = (listingId: number) => {
     3000
   );
 
-  // Enhanced polling callback with progress tracking (now processingKeywords is available)
-  const enhancedKeywordsCallback = useCallback(async () => {
-    return await fetchKeywords(true);
-  }, [fetchKeywords]);
-
   // Combined error state
   const error = keywordsError || keywordDetailsError;
 
-  // Enhanced keyword change handler
+  // Enhanced keyword change handler with forced update
   const handleKeywordChange = useCallback((keywordId: string, isRefresh = false) => {
+    console.log(`🔄 [${new Date().toISOString()}] handleKeywordChange called with keywordId:`, keywordId);
     setSelectedKeyword(keywordId);
     onKeywordChange(keywordId, isRefresh);
   }, [setSelectedKeyword, onKeywordChange]);
@@ -139,6 +145,7 @@ export const useGeoRanking = (listingId: number) => {
     refreshProgress,
     pollingProgress: refreshPollingActive ? refreshProgress : pollingProgress, // Use refresh progress when refreshing, otherwise use polling progress
     isPollingActive: isPolling || refreshPollingActive, // Show as active when either polling or refreshing
+    keywordsVersion, // Add this to help with reactivity
     fetchPositionDetails,
     handleKeywordChange,
     handleDateChange,

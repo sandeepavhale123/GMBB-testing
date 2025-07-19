@@ -55,6 +55,7 @@ export const GeoRankingPage = () => {
     refreshProgress,
     pollingProgress,
     isPollingActive,
+    keywordsVersion, // Get the keywords version for reactivity
     handleKeywordChange,
     handleDateChange,
     handleRefreshKeyword,
@@ -202,6 +203,8 @@ export const GeoRankingPage = () => {
   // Check if we should show processing alert - only show if there are actual processing keywords or new submission
   const shouldShowProcessingAlert = processingKeywords.length > 0 || (isProcessing && submittedKeywordsList.length > 0);
   
+  console.log(`🔄 [${new Date().toISOString()}] GeoRankingPage: Rendering with keywordsVersion:`, keywordsVersion, 'keywords count:', keywords.length);
+  
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
       <Card className="bg-white shadow-sm">
@@ -233,6 +236,7 @@ export const GeoRankingPage = () => {
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               error={error}
+              keywordsVersion={keywordsVersion} // Pass version to header
             />
 
             <div className="space-y-4 sm:space-y-6">

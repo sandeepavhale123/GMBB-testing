@@ -1,24 +1,17 @@
-import React from "react";
-import { Card, CardContent } from "../ui/card";
-import { Progress } from "../ui/progress";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate, useParams } from "react-router-dom";
-import html2canvas from "html2canvas";
-import {
-  KeywordData,
-  KeywordDetailsResponse,
-  Credits,
-} from "../../api/geoRankingApi";
-import { HeaderExportActions } from "./HeaderExportActions";
-import { KeywordSelector } from "./KeywordSelector";
-import { MetricsCards } from "./MetricsCards";
+
+import React from 'react';
+import { Card, CardContent } from '../ui/card';
+import { KeywordSelector } from './KeywordSelector';
+import { HeaderExportActions } from './HeaderExportActions';
+import { MetricsCards } from './MetricsCards';
+import { KeywordData, KeywordDetailsResponse } from '../../api/geoRankingApi';
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
   selectedKeyword: string;
   selectedDate: string;
-  keywordDetails: KeywordDetailsResponse["data"] | null;
-  credits: Credits | null;
+  keywordDetails: KeywordDetailsResponse['data'] | null;
+  credits: any;
   onKeywordChange: (keywordId: string) => void;
   onDateChange: (dateId: string) => void;
   onClone: () => void;
@@ -29,6 +22,7 @@ interface GeoRankingHeaderProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   error: string | null;
+  keywordsVersion?: number; // Add version prop
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -47,147 +41,49 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   keywordChanging,
   dateChanging,
   error,
+  keywordsVersion = 0,
 }) => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const { listingId } = useParams();
-  const [isExporting, setIsExporting] = React.useState(false);
-
-  // Total keywords count
-  const totalKeywords = keywords.length;
-
-  const handleCheckRank = () => {
-    if (listingId) {
-      navigate(`/geo-ranking-report/${listingId}`);
-    } else {
-      navigate("/geo-ranking-report");
-    }
-  };
-
-  const handleExportImage = async () => {
-    const exportElement = document.querySelector(
-      "[data-export-target]"
-    ) as HTMLElement;
-    if (!exportElement) {
-      toast({
-        title: "Export Failed",
-        description: "Could not find the report content to export.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsExporting(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      const tempContainer = document.createElement("div");
-      tempContainer.style.padding = "40px";
-      tempContainer.style.backgroundColor = "#f9fafb";
-      tempContainer.style.position = "absolute";
-      tempContainer.style.left = "-9999px";
-      tempContainer.style.top = "0";
-      tempContainer.style.width = `${exportElement.offsetWidth + 80}px`;
-
-      const clonedElement = exportElement.cloneNode(true) as HTMLElement;
-      tempContainer.appendChild(clonedElement);
-      document.body.appendChild(tempContainer);
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const canvas = await html2canvas(tempContainer, {
-        backgroundColor: "#f9fafb",
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        width: tempContainer.offsetWidth,
-        height: tempContainer.offsetHeight,
-        scrollX: 0,
-        scrollY: 0,
-      });
-
-      document.body.removeChild(tempContainer);
-
-      const link = document.createElement("a");
-      link.download = `geo-ranking-report-${
-        new Date().toISOString().split("T")[0]
-      }.png`;
-      link.href = canvas.toDataURL("image/png", 0.95);
-      link.click();
-
-      toast({
-        title: "Export Complete",
-        description:
-          "Your geo-ranking report has been downloaded as an image with padding.",
-      });
-    } catch (error) {
-      console.error("Error exporting image:", error);
-      toast({
-        title: "Export Failed",
-        description: "Failed to export image. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  console.log(`🔄 [${new Date().toISOString()}] GeoRankingHeader: Rendering with keywordsVersion:`, keywordsVersion);
 
   return (
-    <div className="mb-4 sm:mb-4">
-      <HeaderExportActions
-        isExporting={isExporting}
-        onExportImage={handleExportImage}
-        onCheckRank={handleCheckRank}
-        onClone={onClone}
-        onRefresh={onRefresh}
-        isRefreshing={isRefreshing}
-        credits={credits}
-      />
+    <Card className="mb-4 sm:mb-6">
+      <CardContent className="p-4 sm:p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+          <KeywordSelector
+            keywords={keywords}
+            selectedKeyword={selectedKeyword}
+            selectedDate={selectedDate}
+            keywordDetails={keywordDetails}
+            onKeywordChange={onKeywordChange}
+            onDateChange={onDateChange}
+            loading={loading}
+            keywordChanging={keywordChanging}
+            dateChanging={dateChanging}
+            isRefreshing={isRefreshing}
+            keywordsVersion={keywordsVersion} // Pass version to KeywordSelector
+          />
 
-      {/* Progress Bar - shown when refreshing */}
-      {isRefreshing && (
-        <Card className="bg-white shadow-sm mb-4">
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">
-                  Refreshing keyword data...
-                </span>
-                <span className="text-gray-900 font-medium">
-                  {refreshProgress}%
-                </span>
-              </div>
-              <Progress value={refreshProgress} className="w-full" />
-            </div>
-          </CardContent>
-        </Card>
-      )}
+          <HeaderExportActions
+            onClone={onClone}
+            onRefresh={onRefresh}
+            isRefreshing={isRefreshing}
+            refreshProgress={refreshProgress}
+            selectedKeyword={selectedKeyword}
+            credits={credits}
+          />
+        </div>
 
-      {/* Main Header Card */}
-      <Card className="bg-white shadow-sm">
-        <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-12 gap-4 items-center">
-            <KeywordSelector
-              keywords={keywords}
-              selectedKeyword={selectedKeyword}
-              selectedDate={selectedDate}
-              keywordDetails={keywordDetails}
-              onKeywordChange={onKeywordChange}
-              onDateChange={onDateChange}
-              loading={loading}
-              keywordChanging={keywordChanging}
-              dateChanging={dateChanging}
-              isRefreshing={isRefreshing}
-            />
+        <MetricsCards
+          keywordDetails={keywordDetails}
+          loading={loading || keywordChanging || dateChanging}
+        />
 
-            <MetricsCards
-              keywordDetails={keywordDetails}
-              totalKeywords={totalKeywords}
-              onCheckRank={handleCheckRank}
-            />
+        {error && (
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-600">{error}</p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
