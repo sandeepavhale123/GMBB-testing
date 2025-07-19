@@ -6,6 +6,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { PromptBox } from '../ui/chatgpt-prompt-input';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { useChat } from '../../hooks/useChat';
+import { ChatMessageRenderer } from './ChatMessageRenderer';
 
 interface AIChatbotContentProps {
   keyword?: string;
@@ -150,6 +151,15 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         {/* Header Section */}
         <div className="flex-shrink-0 p-4 sm:p-6 border-b">
           <div className="flex items-center space-x-2 sm:space-x-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="h-8 w-8 p-0 mr-1 sm:mr-2"
+              title={showHistory ? "Hide History" : "Show History"}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
             {!showHistory && (
               <Button
                 variant="ghost"
@@ -186,8 +196,8 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
         </div>
 
         {/* Chat Messages Area */}
-        <div className="flex-1 min-h-0 overflow-hidden">
-          <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+        <div className="flex-1 min-h-0">
+          <ScrollArea className="h-full">
             <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4 lg:space-y-6">
               {isLoadingMessages ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center">
@@ -238,9 +248,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
                             AI is thinking...
                           </div>
                         ) : (
-                          <div className="whitespace-pre-wrap text-xs sm:text-sm leading-5 sm:leading-6">
-                            {message.content}
-                          </div>
+                          <ChatMessageRenderer 
+                            content={message.content}
+                            className="text-xs sm:text-sm leading-5 sm:leading-6"
+                          />
                         )}
                       </div>
                       
@@ -298,7 +309,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({ keyword, key
               )}
               <div ref={messagesEndRef} />
             </div>
-          </div>
+          </ScrollArea>
         </div>
 
         {/* Chat Input Area */}

@@ -17,6 +17,12 @@ export const UserProfileDropdown: React.FC = () => {
     navigate('/settings');
   };
 
+  // Helper function to check if user role should be restricted
+  const shouldHideAccountSettings = () => {
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
+
   // Get user info from profile data
   const userName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
   const userEmail = profileData?.username || "user@example.com";
@@ -47,10 +53,12 @@ export const UserProfileDropdown: React.FC = () => {
             <User className="w-4 h-4 mr-2" />
             View Profile
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleAccountSettings} className="cursor-pointer">
-            <Settings className="w-4 h-4 mr-2" />
-            Account Settings
-          </DropdownMenuItem>
+          {!shouldHideAccountSettings() && (
+            <DropdownMenuItem onClick={handleAccountSettings} className="cursor-pointer">
+              <Settings className="w-4 h-4 mr-2" />
+              Account Settings
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50" onClick={logout}>
             <LogOut className="w-4 h-4 mr-2" />

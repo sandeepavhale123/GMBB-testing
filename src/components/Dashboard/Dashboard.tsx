@@ -22,6 +22,7 @@ import { CircularProgress } from "../ui/circular-progress";
 import { CreatePostModal } from "../Posts/CreatePostModal";
 import { PostPreview } from "../Posts/PostPreview";
 import { ListingLoader } from "../ui/listing-loader";
+import { NoListingSelected } from "../ui/no-listing-selected";
 import {
   BarChart3,
   FileText,
@@ -156,18 +157,7 @@ export const Dashboard: React.FC = () => {
 
   // Show no listing state
   if (!selectedListing && !isInitialLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            No Listing Selected
-          </h2>
-          <p className="text-gray-600">
-            Please select a business listing to view the dashboard.
-          </p>
-        </div>
-      </div>
-    );
+    return <NoListingSelected pageType="Dashboard" />;
   }
 
   return (

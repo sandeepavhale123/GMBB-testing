@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "@/context/ListingContext";
 import {
   fetchBusinessInfo,
   refreshAndFetchBusinessInfo,
@@ -15,9 +16,11 @@ import {
 import { Alert, AlertDescription } from "../ui/alert";
 import { AlertTriangle, ExternalLink } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
+import { NoListingSelected } from "../ui/no-listing-selected";
 type TabType = "business-info" | "opening-hours" | "edit-log";
 export const BusinessManagement: React.FC = () => {
   const { listingId } = useParams();
+  const { selectedListing, isInitialLoading } = useListingContext();
   const dispatch = useAppDispatch();
   const { data, isLoading, error, isRefreshing, refreshError } = useAppSelector(
     (state) => state.businessInfo
@@ -78,6 +81,12 @@ export const BusinessManagement: React.FC = () => {
   const formatFieldValue = (value: string | null | undefined): string => {
     return value && value.trim() !== "" ? value : "-";
   };
+
+  // Show no listing state
+  if (!selectedListing && !isInitialLoading) {
+    return <NoListingSelected pageType="Business Management" />;
+  }
+
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">

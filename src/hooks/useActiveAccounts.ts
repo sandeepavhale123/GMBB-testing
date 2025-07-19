@@ -15,6 +15,7 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
   const [originalAssignedIds, setOriginalAssignedIds] = useState<string[]>([]);
+  const [hasLoadedInitialData, setHasLoadedInitialData] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -51,12 +52,13 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
     fetchActiveAccounts();
   }, [fetchActiveAccounts]);
 
-  // Track original assigned listings when data is loaded
+  // Track original assigned listings when data is loaded for the first time only
   useEffect(() => {
-    if (data?.assignListingIds) {
+    if (data?.assignListingIds && !hasLoadedInitialData) {
       setOriginalAssignedIds(data.assignListingIds.map(id => id.toString()));
+      setHasLoadedInitialData(true);
     }
-  }, [data?.assignListingIds]);
+  }, [data?.assignListingIds, hasLoadedInitialData]);
 
   const fetchAccountListings = useCallback(async (accountId: number) => {
     if (!employeeId) return;
@@ -223,6 +225,12 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   const hasUnsavedChanges = useCallback((): boolean => {
     const currentAssignedIds = getAssignedListingIds().map(id => id.toString()).sort();
     const originalIds = [...originalAssignedIds].sort();
+    
+    console.log('hasUnsavedChanges comparison:', {
+      currentAssignedIds,
+      originalIds,
+      areEqual: JSON.stringify(currentAssignedIds) === JSON.stringify(originalIds)
+    });
     
     return JSON.stringify(currentAssignedIds) !== JSON.stringify(originalIds);
   }, [getAssignedListingIds, originalAssignedIds]);

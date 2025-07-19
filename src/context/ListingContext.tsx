@@ -73,7 +73,15 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
 
   const baseRoute = useMemo(() => {
     const pathParts = location.pathname.split("/");
-    return pathParts[1] || "location-dashboard";
+    const firstSegment = pathParts[1] || "location-dashboard";
+    
+    // Don't interfere with profile, settings, or other non-listing routes
+    const excludedRoutes = ["profile", "settings", "team", "reports", "ai-chatbot"];
+    if (excludedRoutes.includes(firstSegment)) {
+      return null; // No automatic redirection for these routes
+    }
+    
+    return firstSegment;
   }, [location.pathname]);
 
   // Update user session when user changes
@@ -184,11 +192,12 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
-      // Redirect if necessary
+      // Redirect if necessary and baseRoute is valid (not excluded)
       const shouldRedirect =
-        !listingId ||
+        baseRoute &&
+        (!listingId ||
         listingId === "default" ||
-        !listings.find((l) => l.id === listingId);
+        !listings.find((l) => l.id === listingId));
 
       if (shouldRedirect) {
         console.log(
