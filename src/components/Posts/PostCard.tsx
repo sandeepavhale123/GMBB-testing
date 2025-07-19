@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Calendar, Trash2, Copy, Eye, Loader2, ArrowUpRight } from "lucide-react";
+import {
+  Calendar,
+  Trash2,
+  Copy,
+  Eye,
+  Loader2,
+  ArrowUpRight,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -25,6 +32,7 @@ import {
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface PostCardProps {
   post: Post;
@@ -263,9 +271,22 @@ export const PostCard: React.FC<PostCardProps> = ({
             <h3 className="font-semibold text-gray-900 line-clamp-2">
               {post.title || "Untitled Post"}
             </h3>
-            <Badge className={getStatusColor(post.status)}>
-              {getStatusText(post.status)}
-            </Badge>
+            {post.status === "failed" ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge className={getStatusColor(post.status)}>
+                    {getStatusText(post.status)}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{post.reason}</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Badge className={getStatusColor(post.status)}>
+                {getStatusText(post.status)}
+              </Badge>
+            )}
           </div>
 
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">

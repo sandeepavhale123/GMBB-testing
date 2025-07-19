@@ -299,7 +299,7 @@ export const AITaskManagerPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="hover:shadow-lg transition-all duration-200 border-gray-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
             <CardTitle className="text-xs sm:text-sm font-semibold text-gray-600 tracking-tight">

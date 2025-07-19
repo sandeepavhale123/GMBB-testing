@@ -197,7 +197,7 @@ export const PublicReportDashboardLayout: React.FC<
           }`}
         >
           {/* Dark Header */}
-          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10 relative">
+          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[350px] z-10 relative sm:h-[250px]">
             {/* Mobile Menu Button */}
             {isMobile && (
               <button
@@ -318,7 +318,7 @@ export const PublicReportDashboardLayout: React.FC<
                 {/* Left Content */}
                 <div className="text-white">
                   {/* Company Branding Card */}
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-0">
                     <div
                       className={`flex items-center ${
                         isMobile ? "space-x-4" : "space-x-4"

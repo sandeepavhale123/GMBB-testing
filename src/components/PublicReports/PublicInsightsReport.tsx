@@ -38,7 +38,7 @@ import { formatToDayMonthYear } from "@/utils/dateUtils";
 export const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1281);
 
   // Fetch performance insights data using the hook
   const {
@@ -322,6 +322,8 @@ export const PublicInsightsReport: React.FC = () => {
                         <Legend
                           verticalAlign="bottom"
                           height={36}
+                          width={450}
+                          wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
                           formatter={(value, entry) => (
                             <span style={{ color: entry.color }}>{value}</span>
                           )}
@@ -403,6 +405,8 @@ export const PublicInsightsReport: React.FC = () => {
                         <Legend
                           verticalAlign="bottom"
                           height={36}
+                          width={450}
+                          wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
                           formatter={(value, entry) => (
                             <span style={{ color: entry.color }}>{value}</span>
                           )}
@@ -471,6 +475,8 @@ export const PublicInsightsReport: React.FC = () => {
                       <Legend
                         verticalAlign="bottom"
                         height={36}
+                        width={450}
+                        wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
                         formatter={(value, entry) => (
                           <span style={{ color: entry.color }}>{value}</span>
                         )}
@@ -506,7 +512,11 @@ export const PublicInsightsReport: React.FC = () => {
                     )}
                   </p>
                 </CardHeader>
-                <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+                <CardContent
+                  className={
+                    isMobile ? "flex justify-center overflow-x-auto" : ""
+                  }
+                >
                   <ChartContainer
                     config={chartConfig}
                     className={`${
@@ -557,7 +567,11 @@ export const PublicInsightsReport: React.FC = () => {
                     )}
                   </p>
                 </CardHeader>
-                <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+                <CardContent
+                  className={
+                    isMobile ? "flex justify-center overflow-x-auto" : ""
+                  }
+                >
                   <ChartContainer
                     config={chartConfig}
                     className={`${
@@ -596,7 +610,11 @@ export const PublicInsightsReport: React.FC = () => {
               <CardHeader>
                 <CardTitle>Listing Views & Clicks</CardTitle>
               </CardHeader>
-              <CardContent className={isMobile ? "overflow-x-auto" : ""}>
+              <CardContent
+                className={
+                  isMobile ? "flex justify-center overflow-x-auto" : ""
+                }
+              >
                 <ChartContainer
                   config={chartConfig}
                   className={`${

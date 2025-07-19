@@ -1,11 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postsApi, GetPostsRequest, ApiPost, CreatePostRequest, DeletePostRequest } from '../../api/postsApi';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  postsApi,
+  GetPostsRequest,
+  ApiPost,
+  CreatePostRequest,
+  DeletePostRequest,
+} from "../../api/postsApi";
 
 interface Post {
   id: string;
   title: string;
   content: string;
-  status: 'published' | 'draft' | 'scheduled' | 'failed';
+  status: "published" | "draft" | "scheduled" | "failed";
   business: string;
   publishDate: string;
   engagement: {
@@ -18,13 +24,14 @@ interface Post {
     images: string;
   };
   tags?: string;
+  reason: string;
 }
 
 interface PostsState {
   posts: Post[];
   loading: boolean;
   error: string | null;
-  filter: 'all' | 'published' | 'draft' | 'scheduled' | 'failed';
+  filter: "all" | "published" | "draft" | "scheduled" | "failed";
   searchQuery: string;
   pagination: {
     currentPage: number;
@@ -43,8 +50,8 @@ const initialState: PostsState = {
   posts: [],
   loading: false,
   error: null,
-  filter: 'all',
-  searchQuery: '',
+  filter: "all",
+  searchQuery: "",
   pagination: {
     currentPage: 1,
     totalPages: 1,
@@ -59,36 +66,38 @@ const initialState: PostsState = {
 };
 
 // Helper function to map API status to frontend status
-const mapApiStatusToFrontendStatus = (apiStatus: string): 'published' | 'draft' | 'scheduled' | 'failed' => {
+const mapApiStatusToFrontendStatus = (
+  apiStatus: string
+): "published" | "draft" | "scheduled" | "failed" => {
   const normalizedStatus = apiStatus.toUpperCase();
   switch (normalizedStatus) {
-    case 'LIVE':
-    case 'PUBLISHED':
-      return 'published';
-    case 'DRAFT':
-      return 'draft';
-    case 'SCHEDULED':
-      return 'scheduled';
-    case 'FAILED':
-      return 'failed';
+    case "LIVE":
+    case "PUBLISHED":
+      return "published";
+    case "DRAFT":
+      return "draft";
+    case "SCHEDULED":
+      return "scheduled";
+    case "FAILED":
+      return "failed";
     default:
-      return 'draft';
+      return "draft";
   }
 };
 
 // Helper function to map frontend filter to API filter
 const mapFilterToApiStatus = (filter: string): string => {
   switch (filter) {
-    case 'published':
-      return 'LIVE';
-    case 'draft':
-      return 'DRAFT';
-    case 'scheduled':
-      return 'SCHEDULED';
-    case 'failed':
-      return 'FAILED';
+    case "published":
+      return "LIVE";
+    case "draft":
+      return "DRAFT";
+    case "scheduled":
+      return "SCHEDULED";
+    case "failed":
+      return "FAILED";
     default:
-      return 'all';
+      return "all";
   }
 };
 
@@ -96,11 +105,11 @@ const mapFilterToApiStatus = (filter: string): string => {
 const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => {
   const transformedPost = {
     id: apiPost.id,
-    title: apiPost.title || 'Untitled Post',
+    title: apiPost.title || "Untitled Post",
     content: apiPost.content,
     status: mapApiStatusToFrontendStatus(apiPost.status),
-    business: 'Business Name', // You might want to get this from context or API
-    publishDate: apiPost.publishDate || new Date().toISOString().split('T')[0],
+    business: "Business Name", // You might want to get this from context or API
+    publishDate: apiPost.publishDate || new Date().toISOString().split("T")[0],
     engagement: {
       views: 0,
       clicks: 0,
@@ -109,14 +118,15 @@ const transformApiPostToFrontendPost = (apiPost: ApiPost): Post => {
     searchUrl: apiPost.searchUrl,
     media: apiPost.media,
     tags: apiPost.tags,
+    reason: apiPost.reason || "",
   };
-  
+
   return transformedPost;
 };
 
 // Async thunk for fetching posts
 export const fetchPosts = createAsyncThunk(
-  'posts/fetchPosts',
+  "posts/fetchPosts",
   async ({
     listingId,
     filters,
@@ -144,11 +154,11 @@ export const fetchPosts = createAsyncThunk(
     const request: GetPostsRequest = {
       listingId,
       filters: {
-        status: filters?.status || 'all',
-        search: filters?.search || '',
+        status: filters?.status || "all",
+        search: filters?.search || "",
         dateRange: {
-          startDate: filters?.dateRange?.startDate || '',
-          endDate: filters?.dateRange?.endDate || '',
+          startDate: filters?.dateRange?.startDate || "",
+          endDate: filters?.dateRange?.endDate || "",
         },
       },
       pagination: {
@@ -160,8 +170,8 @@ export const fetchPosts = createAsyncThunk(
         has_prev: false,
       },
       sorting: {
-        sortBy: sorting?.sortBy || 'postdate',
-        sortOrder: sorting?.sortOrder || 'desc',
+        sortBy: sorting?.sortBy || "postdate",
+        sortOrder: sorting?.sortOrder || "desc",
       },
     };
 
@@ -172,7 +182,7 @@ export const fetchPosts = createAsyncThunk(
 
 // Async thunk for creating posts
 export const createPost = createAsyncThunk(
-  'posts/createPost',
+  "posts/createPost",
   async (postData: CreatePostRequest) => {
     const response = await postsApi.createPost(postData);
     return response;
@@ -181,7 +191,7 @@ export const createPost = createAsyncThunk(
 
 // Async thunk for deleting posts (handles both single and multi-delete)
 export const deletePost = createAsyncThunk(
-  'posts/deletePost',
+  "posts/deletePost",
   async (deleteData: DeletePostRequest) => {
     const response = await postsApi.deletePost(deleteData);
     return { ...response, deletedPostIds: deleteData.postId };
@@ -189,11 +199,11 @@ export const deletePost = createAsyncThunk(
 );
 
 const postsSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState,
   reducers: {
     setFilter: (state, action) => {
-      console.log('Setting filter to:', action.payload);
+      console.log("Setting filter to:", action.payload);
       state.filter = action.payload;
     },
     setSearchQuery: (state, action) => {
@@ -203,7 +213,9 @@ const postsSlice = createSlice({
       state.posts.unshift(action.payload);
     },
     updatePost: (state, action) => {
-      const index = state.posts.findIndex(post => post.id === action.payload.id);
+      const index = state.posts.findIndex(
+        (post) => post.id === action.payload.id
+      );
       if (index !== -1) {
         state.posts[index] = action.payload;
       }
@@ -226,14 +238,16 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('Raw API response:', action.payload);
-        state.posts = action.payload.data.posts.map(transformApiPostToFrontendPost);
-        console.log('Transformed posts:', state.posts);
+        console.log("Raw API response:", action.payload);
+        state.posts = action.payload.data.posts.map(
+          transformApiPostToFrontendPost
+        );
+        console.log("Transformed posts:", state.posts);
         state.pagination = action.payload.data.pagination;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch posts';
+        state.error = action.error.message || "Failed to fetch posts";
       })
       .addCase(createPost.pending, (state) => {
         state.createLoading = true;
@@ -241,13 +255,13 @@ const postsSlice = createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.createLoading = false;
-        console.log('Post created successfully:', action.payload);
+        console.log("Post created successfully:", action.payload);
         // Increment total posts count
         state.pagination.totalPosts += 1;
       })
       .addCase(createPost.rejected, (state, action) => {
         state.createLoading = false;
-        state.createError = action.error.message || 'Failed to create post';
+        state.createError = action.error.message || "Failed to create post";
       })
       .addCase(deletePost.pending, (state) => {
         state.deleteLoading = true;
@@ -255,19 +269,31 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.deleteLoading = false;
-        console.log('Posts deleted successfully:', action.payload);
+        console.log("Posts deleted successfully:", action.payload);
         // Remove deleted posts from state
-        const deletedIds = action.payload.deletedPostIds.map(id => id.toString());
-        state.posts = state.posts.filter(post => !deletedIds.includes(post.id));
+        const deletedIds = action.payload.deletedPostIds.map((id) =>
+          id.toString()
+        );
+        state.posts = state.posts.filter(
+          (post) => !deletedIds.includes(post.id)
+        );
         // Update pagination totals
         state.pagination.totalPosts -= deletedIds.length;
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.deleteLoading = false;
-        state.deleteError = action.error.message || 'Failed to delete posts';
+        state.deleteError = action.error.message || "Failed to delete posts";
       });
   },
 });
 
-export const { setFilter, setSearchQuery, addPost, updatePost, clearError, clearCreateError, clearDeleteError } = postsSlice.actions;
+export const {
+  setFilter,
+  setSearchQuery,
+  addPost,
+  updatePost,
+  clearError,
+  clearCreateError,
+  clearDeleteError,
+} = postsSlice.actions;
 export default postsSlice.reducer;

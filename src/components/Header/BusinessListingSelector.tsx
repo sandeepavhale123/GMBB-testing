@@ -55,7 +55,7 @@ export const BusinessListingSelector: React.FC = () => {
 
   if (isRefreshing) {
     return (
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <Skeleton className="w-72 lg:w-96 h-12" />
       </div>
     );
@@ -63,7 +63,7 @@ export const BusinessListingSelector: React.FC = () => {
 
   if (!selectedListing && listings.length === 0) {
     return (
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <Button
           variant="outline"
           className="w-72 lg:w-96 justify-between border-gray-200"
@@ -79,7 +79,7 @@ export const BusinessListingSelector: React.FC = () => {
 
   if (!currentBusiness) {
     return (
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <Button
           variant="outline"
           className="w-72 lg:w-96 justify-between border-gray-200"
@@ -91,7 +91,7 @@ export const BusinessListingSelector: React.FC = () => {
   }
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden lg:block">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

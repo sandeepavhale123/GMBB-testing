@@ -191,7 +191,7 @@ export const ReportBrandingPage: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 flex-col gap-4 md:flex-row md:gap-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
             Report Branding
@@ -527,8 +527,8 @@ export const ReportBrandingPage: React.FC = () => {
                   <CardContent className="p-6 space-y-6">
                     {/* Report Header */}
                     <div className="border-b pb-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
+                      <div className="flex items-start justify-between mb-2 flex-col gap-4 xxl:item-center xxl:flex-row xxl:gap-0">
+                        <div className="flex items-center gap-3 flex-col xl:flex-row">
                           {logoFile ? (
                             <img
                               src={URL.createObjectURL(logoFile)}
@@ -605,7 +605,7 @@ export const ReportBrandingPage: React.FC = () => {
 
                     {/* Report Footer */}
                     <div className="border-t pt-4 text-sm text-muted-foreground">
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-start flex-col gap-4 xxl:flex-row xxl:gap-0 xxl:items-center">
                         <div>
                           <p>
                             {formData.companyEmail || "contact@yourcompany.com"}

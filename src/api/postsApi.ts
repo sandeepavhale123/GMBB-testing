@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from "./axiosInstance";
 
 export interface GetPostsRequest {
   listingId: number;
@@ -58,7 +58,7 @@ export interface ApiPost {
   id: string;
   title: string;
   content: string;
-  status: 'LIVE' | 'DRAFT' | 'SCHEDULED' | 'FAILED';
+  status: "LIVE" | "DRAFT" | "SCHEDULED" | "FAILED";
   listingId: string;
   searchUrl: string;
   publishDate: string | null;
@@ -66,6 +66,7 @@ export interface ApiPost {
     images: string;
   };
   tags: string;
+  reason: string;
 }
 
 export interface GetPostsResponse {
@@ -102,72 +103,76 @@ export interface DeletePostResponse {
 
 export const postsApi = {
   getPosts: async (request: GetPostsRequest): Promise<GetPostsResponse> => {
-    const response = await axiosInstance.post('/get-posts', request);
+    const response = await axiosInstance.post("/get-posts", request);
     return response.data;
   },
 
-  createPost: async (request: CreatePostRequest): Promise<CreatePostResponse> => {
+  createPost: async (
+    request: CreatePostRequest
+  ): Promise<CreatePostResponse> => {
     const formData = new FormData();
-    
+
     // Add all fields to FormData
-    formData.append('listingId', request.listingId.toString());
-    formData.append('title', request.title || '');
-    formData.append('postType', request.postType || '');
-    formData.append('description', request.description);
-    formData.append('publishOption', request.publishOption);
-    formData.append('platforms', JSON.stringify(request.platforms));
-    
+    formData.append("listingId", request.listingId.toString());
+    formData.append("title", request.title || "");
+    formData.append("postType", request.postType || "");
+    formData.append("description", request.description);
+    formData.append("publishOption", request.publishOption);
+    formData.append("platforms", JSON.stringify(request.platforms));
+
     // Add optional fields
     if (request.userfile) {
-      formData.append('userfile', request.userfile);
+      formData.append("userfile", request.userfile);
     }
     if (request.selectedImage) {
-      formData.append('selectedImage', request.selectedImage);
+      formData.append("selectedImage", request.selectedImage);
     }
     if (request.aiImageUrl) {
-      formData.append('aiImageUrl', request.aiImageUrl);
+      formData.append("aiImageUrl", request.aiImageUrl);
     }
     if (request.ctaButton) {
-      formData.append('ctaButton', request.ctaButton);
+      formData.append("ctaButton", request.ctaButton);
     }
     if (request.ctaUrl) {
-      formData.append('ctaUrl', request.ctaUrl);
+      formData.append("ctaUrl", request.ctaUrl);
     }
     if (request.scheduleDate) {
-      formData.append('scheduleDate', request.scheduleDate);
+      formData.append("scheduleDate", request.scheduleDate);
     }
     if (request.startDate) {
-      formData.append('startDate', request.startDate);
+      formData.append("startDate", request.startDate);
     }
     if (request.endDate) {
-      formData.append('endDate', request.endDate);
+      formData.append("endDate", request.endDate);
     }
     if (request.couponCode) {
-      formData.append('couponCode', request.couponCode);
+      formData.append("couponCode", request.couponCode);
     }
     if (request.redeemOnlineUrl) {
-      formData.append('redeemOnlineUrl', request.redeemOnlineUrl);
+      formData.append("redeemOnlineUrl", request.redeemOnlineUrl);
     }
     if (request.termsConditions) {
-      formData.append('termsConditions', request.termsConditions);
+      formData.append("termsConditions", request.termsConditions);
     }
     if (request.postTags) {
-      formData.append('postTags', request.postTags);
+      formData.append("postTags", request.postTags);
     }
     if (request.siloPost !== undefined) {
-      formData.append('siloPost', request.siloPost.toString());
+      formData.append("siloPost", request.siloPost.toString());
     }
 
-    const response = await axiosInstance.post('/create-post', formData, {
+    const response = await axiosInstance.post("/create-post", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   },
 
-  deletePost: async (request: DeletePostRequest): Promise<DeletePostResponse> => {
-    const response = await axiosInstance.post('/delete-posts', request);
+  deletePost: async (
+    request: DeletePostRequest
+  ): Promise<DeletePostResponse> => {
+    const response = await axiosInstance.post("/delete-posts", request);
     return response.data;
-  }
+  },
 };

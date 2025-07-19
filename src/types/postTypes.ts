@@ -1,9 +1,8 @@
-
 export interface Post {
   id: string;
   title: string;
   content: string;
-  status: 'published' | 'draft' | 'scheduled' | 'failed';
+  status: "published" | "draft" | "scheduled" | "failed";
   business: string;
   publishDate: string;
   engagement: {
@@ -16,4 +15,5 @@ export interface Post {
     images: string;
   };
   tags?: string;
+  reason: string;
 }

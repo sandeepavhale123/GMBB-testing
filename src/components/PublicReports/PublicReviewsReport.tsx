@@ -1038,7 +1038,9 @@ export const PublicReviewsReport: React.FC = () => {
                         reviewsData?.data?.periodOne?.trend_data || []
                       ).map((row, index) => (
                         <TableRow key={index}>
-                          <TableCell>{row.date}</TableCell>
+                          <TableCell>
+                            {formatToDayMonthYear(row.date)}
+                          </TableCell>
                           <TableCell>{row.totalReviews}</TableCell>
                           <TableCell>{row.star5}</TableCell>
                           <TableCell>{row.star4}</TableCell>
@@ -1086,7 +1088,9 @@ export const PublicReviewsReport: React.FC = () => {
                         reviewsData?.data?.periodTwo?.trend_data || []
                       ).map((row, index) => (
                         <TableRow key={index}>
-                          <TableCell>{row.date}</TableCell>
+                          <TableCell>
+                            {formatToDayMonthYear(row.date)}
+                          </TableCell>
                           <TableCell>{row.totalReviews}</TableCell>
                           <TableCell>{row.star5}</TableCell>
                           <TableCell>{row.star4}</TableCell>
@@ -1134,7 +1138,7 @@ export const PublicReviewsReport: React.FC = () => {
                       reviewsData?.data?.periodOne?.trend_data || []
                     ).map((row, index) => (
                       <TableRow key={index}>
-                        <TableCell>{row.date}</TableCell>
+                        <TableCell>{formatToDayMonthYear(row.date)}</TableCell>
                         <TableCell>{row.totalReviews}</TableCell>
                         <TableCell>{row.star5}</TableCell>
                         <TableCell>{row.star4}</TableCell>
