@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
@@ -110,6 +109,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       // Update current keyword reference ONLY when we actually start fetching
       currentKeywordRef.current = selectedKeyword;
       
+      // Set keywordChanging to true only when we actually start fetching
       setKeywordChanging(true);
       setLoading(true);
       setError(null);
@@ -271,12 +271,9 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     // Reset states for new keyword
     resetKeywordStates();
     
-    // Set keywordChanging to true immediately for better UX
-    console.log('🔄 handleKeywordChange - Setting keywordChanging to true');
-    setKeywordChanging(true);
-    
-    // DON'T update currentKeywordRef.current here - let the useEffect do it
-    // This prevents the race condition
+    // DON'T set keywordChanging to true here - let the useEffect handle it
+    // This prevents the race condition where keywordChanging gets stuck
+    console.log('🔄 handleKeywordChange - States reset, waiting for useEffect to handle loading');
   };
 
   const handleDateChange = (dateId: string, isRefresh = false) => {
