@@ -140,20 +140,11 @@ export const getKeywordDetails = async (
     status: 0,
   };
   
-  // Add dateId if provided
-  if (dateId) {
-    payload.dateId = dateId;
-    console.log('🗺️ getKeywordDetails - API call with dateId:', {
-      listingId,
-      keywordId,
-      dateId
-    });
-  } else {
-    console.log('🗺️ getKeywordDetails - API call without dateId:', {
-      listingId,
-      keywordId
-    });
-  }
+  console.log('🗺️ getKeywordDetails - API call:', {
+    listingId,
+    keywordId,
+    dateId
+  });
   
   const response = await axiosInstance.post("/get-keyword-details", payload);
   

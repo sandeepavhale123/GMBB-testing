@@ -130,7 +130,8 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       setError(null);
       
       try {
-        const response = await getKeywordDetails(listingId, selectedKeyword, selectedDate);
+        // When date is selected, use dateId as keywordId (no dateId parameter)
+        const response = await getKeywordDetails(listingId, selectedDate);
         console.log('🗺️ useKeywordDetails - Date Change API Response:', {
           code: response.code,
           hasData: !!response.data,
