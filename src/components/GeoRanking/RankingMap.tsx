@@ -17,6 +17,12 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const [isInitialized, setIsInitialized] = useState(false);
     const lastRankDetailsRef = useRef<string>('');
 
+    console.log('🗺️ [RankingMap] Rendering with:', {
+      rankDetailsLength: rankDetails.length,
+      isInitialized,
+      hasMap: !!mapInstanceRef.current
+    });
+
     // Clear all markers without destroying map
     const clearMarkers = () => {
       markersRef.current.forEach((marker) => {
@@ -30,6 +36,8 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     // Add markers to existing map
     const addMarkersToMap = (details: RankDetail[]) => {
       if (!mapInstanceRef.current || !details.length) return;
+
+      console.log('🗺️ [RankingMap] Adding markers to existing map:', details.length);
 
       clearMarkers();
 
@@ -100,7 +108,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     useEffect(() => {
       if (!mapRef.current || isInitialized) return;
 
-      console.log(`🗺️ [${new Date().toISOString()}] Initializing map for the first time`);
+      console.log(`🗺️ [RankingMap] Initializing map for the first time`);
 
       // Load Leaflet CSS
       const link = document.createElement("link");
@@ -239,6 +247,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       }
 
       return () => {
+        console.log('🗺️ [RankingMap] Cleaning up map');
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
           mapInstanceRef.current = null;
@@ -257,11 +266,11 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
       const newRankDetailsString = JSON.stringify(rankDetails);
       if (lastRankDetailsRef.current === newRankDetailsString) {
-        console.log(`🗺️ [${new Date().toISOString()}] Skipping marker update - no rank details change`);
+        console.log(`🗺️ [RankingMap] Skipping marker update - no rank details change`);
         return;
       }
 
-      console.log(`🗺️ [${new Date().toISOString()}] Updating markers without re-initializing map`);
+      console.log(`🗺️ [RankingMap] Updating markers without re-initializing map`);
       lastRankDetailsRef.current = newRankDetailsString;
       addMarkersToMap(rankDetails);
     }, [rankDetails, isInitialized]);
@@ -284,8 +293,13 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const shouldNotRerender = prevRankDetailsString === nextRankDetailsString &&
                              prevProps.onMarkerClick === nextProps.onMarkerClick;
     
-    if (shouldNotRerender) {
-      console.log(`🗺️ [${new Date().toISOString()}] Preventing map re-render - no meaningful changes`);
+    if (!shouldNotRerender) {
+      console.log(`🗺️ [RankingMap] Re-rendering due to changes:`, {
+        rankDetails: prevRankDetailsString !== nextRankDetailsString,
+        onMarkerClick: prevProps.onMarkerClick !== nextProps.onMarkerClick
+      });
+    } else {
+      console.log(`🗺️ [RankingMap] Preventing re-render - no meaningful changes`);
     }
     
     return shouldNotRerender;

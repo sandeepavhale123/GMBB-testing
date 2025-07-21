@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { GeoRankingHeader } from './GeoRankingHeader';
 import { GeoRankingMapSection } from './GeoRankingMapSection';
@@ -60,6 +60,26 @@ export const GeoRankingPage = () => {
     fetchPositionDetails
   } = useGeoRanking(numericListingId);
 
+  // Memoize stable references for map props to prevent re-rendering
+  const stableRankDetails = useMemo(() => {
+    console.log('🗺️ [GeoRankingPage] Memoizing rankDetails:', keywordDetails?.rankDetails?.length || 0);
+    return keywordDetails?.rankDetails || [];
+  }, [keywordDetails?.rankDetails]);
+
+  const stableRankStats = useMemo(() => {
+    console.log('🗺️ [GeoRankingPage] Memoizing rankStats:', !!keywordDetails?.rankStats);
+    return keywordDetails?.rankStats || null;
+  }, [keywordDetails?.rankStats]);
+
+  const stableProjectDetails = useMemo(() => {
+    console.log('🗺️ [GeoRankingPage] Memoizing projectDetails:', !!keywordDetails?.projectDetails);
+    return keywordDetails?.projectDetails || null;
+  }, [keywordDetails?.projectDetails]);
+
+  const stableUnderPerformingAreas = useMemo(() => {
+    return keywordDetails?.underPerformingArea || [];
+  }, [keywordDetails?.underPerformingArea]);
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     gpsCoordinates: '',
@@ -72,6 +92,8 @@ export const GeoRankingPage = () => {
   // Memoized callback for marker clicks to prevent map re-renders
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
     if (!selectedKeyword) return;
+
+    console.log('🗺️ [GeoRankingPage] Marker clicked:', { gpsCoordinates, positionId });
 
     // Open modal immediately with loading state
     setModalData({
@@ -233,14 +255,14 @@ export const GeoRankingPage = () => {
               <GeoRankingMapSection 
                 gridSize={grid}
                 onMarkerClick={handleMarkerClick}
-                rankDetails={keywordDetails?.rankDetails || []}
-                rankStats={keywordDetails?.rankStats}
-                projectDetails={keywordDetails?.projectDetails}
+                rankDetails={stableRankDetails}
+                rankStats={stableRankStats}
+                projectDetails={stableProjectDetails}
                 loading={loading || keywordChanging || dateChanging}
               />
 
               <UnderPerformingTable 
-                underPerformingAreas={keywordDetails?.underPerformingArea || []}
+                underPerformingAreas={stableUnderPerformingAreas}
                 loading={loading || keywordChanging || dateChanging}
               />
 
