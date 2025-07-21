@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 
 export const usePollingProgress = (isActive: boolean, intervalMs = 3000) => {
@@ -7,14 +8,29 @@ export const usePollingProgress = (isActive: boolean, intervalMs = 3000) => {
   
   useEffect(() => {
     if (isActive) {
-      // Initialize progress
+      // Initialize progress to 10%
       setProgress(10);
       progressRef.current = 10;
       
       // Start progress increment interval
       intervalRef.current = setInterval(() => {
-        progressRef.current = Math.min(progressRef.current + 5, 85);
-        setProgress(progressRef.current);
+        let newProgress = progressRef.current;
+        
+        // Enhanced increment logic:
+        // - Start at 10%
+        // - Increment by +10% until 85%
+        // - After 85%, increment by +2% until 99%
+        if (newProgress < 85) {
+          newProgress += 10;
+        } else if (newProgress < 99) {
+          newProgress += 2;
+        }
+        
+        // Cap at 99% to prevent going over 100% before completion
+        newProgress = Math.min(newProgress, 99);
+        
+        progressRef.current = newProgress;
+        setProgress(newProgress);
       }, intervalMs);
     } else {
       // Reset progress when not active
