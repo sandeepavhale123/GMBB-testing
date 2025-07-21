@@ -24,6 +24,15 @@ import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { useAppSelector } from "../hooks/useRedux";
 
+// Extend Window interface for Crisp chat
+declare global {
+  interface Window {
+    $crisp?: any;
+    CRISP_WEBSITE_ID?: string;
+    CRISP_READY_TRIGGER?: () => void;
+  }
+}
+
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;

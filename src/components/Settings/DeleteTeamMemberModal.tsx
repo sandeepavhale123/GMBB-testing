@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +11,7 @@ import { Button } from "../ui/button";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { useTeam } from "../../hooks/useTeam";
 import { useToast } from "../../hooks/use-toast";
+import { cleanupBodyStyles } from "../../utils/domUtils";
 
 interface DeleteTeamMemberModalProps {
   open: boolean;
@@ -27,6 +29,31 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } = useTeam();
   const { toast } = useToast();
 
+  // Enhanced onOpenChange handler with cleanup
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    if (!newOpen) {
+      // Add a small delay to ensure proper cleanup
+      setTimeout(() => {
+        cleanupBodyStyles();
+      }, 100);
+    }
+    onOpenChange(newOpen);
+  }, [onOpenChange]);
+
+  // Cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      cleanupBodyStyles();
+    };
+  }, []);
+
+  // Cleanup when modal closes
+  useEffect(() => {
+    if (!open) {
+      cleanupBodyStyles();
+    }
+  }, [open]);
+
   const handleDelete = async () => {
     if (!member) return;
 
@@ -43,8 +70,12 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
           title: "Success",
           description: "Team member deleted successfully",
         });
-        onOpenChange(false);
-        onSuccess?.();
+        
+        // Add delay before closing modal to ensure async operations complete
+        setTimeout(() => {
+          handleOpenChange(false);
+          onSuccess?.();
+        }, 150);
       }
     } catch (error) {
       toast({
@@ -52,13 +83,18 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
         description: deleteError || "Failed to delete team member",
         variant: "destructive",
       });
+      
+      // Even on error, ensure cleanup happens
+      setTimeout(() => {
+        cleanupBodyStyles();
+      }, 100);
     }
   };
 
   if (!member) return null;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-3">
@@ -97,7 +133,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
         <div className="flex space-x-2">
           <Button
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() => handleOpenChange(false)}
             className="flex-1"
           >
             Cancel
