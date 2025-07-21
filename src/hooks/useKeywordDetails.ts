@@ -104,11 +104,12 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       return;
     }
 
-    // Update current keyword reference
-    currentKeywordRef.current = selectedKeyword;
-
     const fetchKeywordDetails = async () => {
       console.log('🗺️ useKeywordDetails - Starting keyword fetch, setting keywordChanging to true');
+      
+      // Update current keyword reference ONLY when we actually start fetching
+      currentKeywordRef.current = selectedKeyword;
+      
       setKeywordChanging(true);
       setLoading(true);
       setError(null);
@@ -274,8 +275,8 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     console.log('🔄 handleKeywordChange - Setting keywordChanging to true');
     setKeywordChanging(true);
     
-    // Update the current keyword reference immediately
-    currentKeywordRef.current = keywordId;
+    // DON'T update currentKeywordRef.current here - let the useEffect do it
+    // This prevents the race condition
   };
 
   const handleDateChange = (dateId: string, isRefresh = false) => {
