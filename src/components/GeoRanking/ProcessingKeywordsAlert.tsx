@@ -1,8 +1,8 @@
-import React from 'react';
+
+import React, { memo } from 'react';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
 import { Loader2, Clock, CheckCircle } from 'lucide-react';
-
 
 interface ProcessingKeywordsAlertProps {
   keywords: string[];
@@ -12,7 +12,7 @@ interface ProcessingKeywordsAlertProps {
   isNewSubmission?: boolean;
 }
 
-export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = ({ 
+export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = memo(({ 
   keywords, 
   progress = 0, 
   isPolling = false,
@@ -20,11 +20,15 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
   isNewSubmission = false
 }) => {
   
-  
   // Combine all processing keywords
   const allProcessingKeywords = [...new Set([...submittedKeywords, ...keywords])];
   
-  if (allProcessingKeywords.length === 0) return null;
+  if (allProcessingKeywords.length === 0) {
+    console.log(`⚠️ [${new Date().toISOString()}] ProcessingKeywordsAlert: No keywords to display`);
+    return null;
+  }
+
+  console.log(`📊 [${new Date().toISOString()}] ProcessingKeywordsAlert: Displaying ${allProcessingKeywords.length} keywords, isPolling: ${isPolling}`);
 
   // Determine if we have newly submitted keywords vs already processing ones
   const newlySubmittedCount = submittedKeywords.length;
@@ -97,4 +101,17 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
       </div>
     </Alert>
   );
-};
+}, (prevProps, nextProps) => {
+  // Enhanced memo comparison to prevent unnecessary re-renders
+  const shouldNotRerender = JSON.stringify(prevProps.keywords) === JSON.stringify(nextProps.keywords) &&
+                            JSON.stringify(prevProps.submittedKeywords) === JSON.stringify(nextProps.submittedKeywords) &&
+                            prevProps.progress === nextProps.progress &&
+                            prevProps.isPolling === nextProps.isPolling &&
+                            prevProps.isNewSubmission === nextProps.isNewSubmission;
+
+  if (shouldNotRerender) {
+    console.log(`🚫 [${new Date().toISOString()}] ProcessingKeywordsAlert: Preventing re-render - no changes`);
+  }
+
+  return shouldNotRerender;
+});

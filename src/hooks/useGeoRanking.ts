@@ -1,3 +1,4 @@
+
 import { useCallback, useState, useEffect } from 'react';
 import { useKeywords } from './useKeywords';
 import { useKeywordDetails } from './useKeywordDetails';
@@ -9,6 +10,7 @@ export const useGeoRanking = (listingId: number) => {
   // Progress tracking states - isolated to prevent re-renders
   const [isCompleting, setIsCompleting] = useState(false);
   const [isPollingActive, setIsPollingActive] = useState(false);
+  const [keywordUpdateTrigger, setKeywordUpdateTrigger] = useState(0);
 
   // Keywords management
   const {
@@ -22,14 +24,25 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywords
   } = useKeywords(listingId);
 
-  // Refresh functionality with proper parameter handling
+  // Enhanced keywords update callback with guaranteed refresh
   const keywordsUpdateCallback = useCallback(async (selectKeywordId?: string) => {
-    console.log(`🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - calling /get-keywords API`);
+    console.log(`🔄 [${new Date().toISOString()}] keywordsUpdateCallback called - forcing keyword dropdown refresh`);
     try {
+      // Force refresh with explicit flag
       await fetchKeywords(true, selectKeywordId);
-      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully`);
+      
+      // Force state update trigger to ensure UI refresh
+      setKeywordUpdateTrigger(prev => prev + 1);
+      
+      console.log(`✅ [${new Date().toISOString()}] Keyword dropdown refresh completed successfully`);
+      
+      // Add small delay to ensure state propagation
+      setTimeout(() => {
+        console.log(`🔄 [${new Date().toISOString()}] Post-refresh state update trigger fired`);
+      }, 100);
+      
     } catch (error) {
-      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed:`, error);
+      console.error(`❌ [${new Date().toISOString()}] Error refreshing keyword dropdown:`, error);
       throw error;
     }
   }, [fetchKeywords]);
@@ -58,14 +71,19 @@ export const useGeoRanking = (listingId: number) => {
     fetchKeywordDetailsManually
   });
 
-  // First create a simple callback without dependency on processingKeywords
+  // Simple keywords callback for polling with enhanced refresh logic
   const simpleKeywordsCallback = useCallback(async () => {
-    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - calling /get-keywords API`);
+    console.log(`🔄 [${new Date().toISOString()}] simpleKeywordsCallback called - executing guaranteed refresh`);
     try {
+      // Force refresh
       await fetchKeywords(true);
-      console.log(`✅ [${new Date().toISOString()}] /get-keywords API call completed successfully from polling`);
+      
+      // Trigger additional state updates
+      setKeywordUpdateTrigger(prev => prev + 1);
+      
+      console.log(`✅ [${new Date().toISOString()}] Polling-triggered keyword refresh completed`);
     } catch (error) {
-      console.error(`❌ [${new Date().toISOString()}] /get-keywords API call failed from polling:`, error);
+      console.error(`❌ [${new Date().toISOString()}] Error in polling keyword refresh:`, error);
       throw error;
     }
   }, [fetchKeywords]);
@@ -83,41 +101,52 @@ export const useGeoRanking = (listingId: number) => {
     3000
   );
 
-  // Enhanced polling callback with progress tracking (now processingKeywords is available)
-  const enhancedKeywordsCallback = useCallback(async () => {
-    return await fetchKeywords(true);
-  }, [fetchKeywords]);
-
   // Combined error state
   const error = keywordsError || keywordDetailsError;
 
-  // Enhanced keyword change handler
+  // Enhanced keyword change handler with logging
   const handleKeywordChange = useCallback((keywordId: string, isRefresh = false) => {
+    console.log(`🔄 [${new Date().toISOString()}] handleKeywordChange called - keywordId: ${keywordId}, isRefresh: ${isRefresh}`);
     setSelectedKeyword(keywordId);
     onKeywordChange(keywordId, isRefresh);
   }, [setSelectedKeyword, onKeywordChange]);
 
-  // Enhanced date change handler
+  // Enhanced date change handler with logging
   const handleDateChange = useCallback((dateId: string, isRefresh = false) => {
+    console.log(`🔄 [${new Date().toISOString()}] handleDateChange called - dateId: ${dateId}, isRefresh: ${isRefresh}`);
     onDateChange(dateId, isRefresh);
   }, [onDateChange]);
 
   // Start custom polling with progress tracking
   const startCustomPolling = useCallback(() => {
+    console.log(`🚀 [${new Date().toISOString()}] Starting custom polling`);
     setIsPollingActive(true);
     setIsCompleting(false);
   }, []);
 
   // Stop custom polling and complete progress
   const completePolling = useCallback(() => {
+    console.log(`🏁 [${new Date().toISOString()}] Completing polling`);
     setIsCompleting(true);
     
     // Show completion for 2 seconds then reset
     setTimeout(() => {
       setIsPollingActive(false);
       setIsCompleting(false);
+      console.log(`✅ [${new Date().toISOString()}] Polling completion cycle finished`);
     }, 2000);
   }, []);
+
+  // Effect to handle polling completion and force keyword refresh
+  useEffect(() => {
+    if (!isPolling && processingKeywords.length === 0 && keywordUpdateTrigger > 0) {
+      console.log(`🔄 [${new Date().toISOString()}] Polling stopped - ensuring keyword dropdown is updated`);
+      // Force a final refresh to ensure dropdown is current
+      setTimeout(() => {
+        fetchKeywords(true);
+      }, 500);
+    }
+  }, [isPolling, processingKeywords.length, keywordUpdateTrigger, fetchKeywords]);
 
   return {
     keywords,
