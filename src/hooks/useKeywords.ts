@@ -1,8 +1,11 @@
+
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { getKeywords, KeywordData, Credits } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useKeywords = (listingId: number) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [keywords, setKeywords] = useState<KeywordData[]>([]);
   const [selectedKeyword, setSelectedKeyword] = useState<string>('');
   const [credits, setCredits] = useState<Credits | null>(null);
@@ -10,6 +13,20 @@ export const useKeywords = (listingId: number) => {
   const [pageLoading, setPageLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Enhanced setSelectedKeyword to update URL params
+  const setSelectedKeywordWithURL = (keywordId: string) => {
+    setSelectedKeyword(keywordId);
+    
+    // Update URL params
+    const newParams = new URLSearchParams(searchParams);
+    if (keywordId) {
+      newParams.set('keyword', keywordId);
+    } else {
+      newParams.delete('keyword');
+    }
+    setSearchParams(newParams);
+  };
 
   // Reusable function to fetch keywords
   const fetchKeywords = async (isRefresh = false, selectKeywordId?: string): Promise<void> => {
@@ -25,15 +42,27 @@ export const useKeywords = (listingId: number) => {
         setKeywords(response.data.keywords);
         setCredits(response.data.credits);
         
-        // Set first keyword as default only on initial load
+        // Handle keyword selection with URL persistence
         if (!isRefresh && response.data.keywords.length > 0) {
-          const firstKeyword = response.data.keywords[0];
-          setSelectedKeyword(firstKeyword.id);
+          // Check URL params first
+          const urlKeyword = searchParams.get('keyword');
+          
+          if (urlKeyword && response.data.keywords.some(k => k.id === urlKeyword)) {
+            // Use keyword from URL if it exists in the list
+            setSelectedKeyword(urlKeyword);
+          } else if (selectKeywordId && response.data.keywords.some(k => k.id === selectKeywordId)) {
+            // Use provided selectKeywordId (for refresh scenarios)
+            setSelectedKeywordWithURL(selectKeywordId);
+          } else {
+            // Fall back to first keyword
+            const firstKeyword = response.data.keywords[0];
+            setSelectedKeywordWithURL(firstKeyword.id);
+          }
         }
         
         // Set specific keyword if provided (used after refresh)
         if (selectKeywordId && response.data.keywords.some(k => k.id === selectKeywordId)) {
-          setSelectedKeyword(selectKeywordId);
+          setSelectedKeywordWithURL(selectKeywordId);
         }
       } else {
         throw new Error(response.message || 'Failed to fetch keywords');
@@ -61,7 +90,7 @@ export const useKeywords = (listingId: number) => {
   return {
     keywords,
     selectedKeyword,
-    setSelectedKeyword,
+    setSelectedKeyword: setSelectedKeywordWithURL,
     credits,
     keywordsLoading,
     pageLoading,

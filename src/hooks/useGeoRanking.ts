@@ -10,7 +10,7 @@ export const useGeoRanking = (listingId: number) => {
   const [isCompleting, setIsCompleting] = useState(false);
   const [isPollingActive, setIsPollingActive] = useState(false);
 
-  // Keywords management
+  // Keywords management with URL persistence
   const {
     keywords,
     selectedKeyword,
@@ -52,7 +52,7 @@ export const useGeoRanking = (listingId: number) => {
     [fetchKeywords, keywords, selectedKeyword, setSelectedKeyword]
   );
 
-  // Keyword details management
+  // Keyword details management with URL persistence
   const {
     selectedDate,
     setSelectedDate,

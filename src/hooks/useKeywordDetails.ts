@@ -1,9 +1,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useKeywordDetails = (listingId: number, selectedKeyword: string, refreshMode = false) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -16,6 +18,20 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   // Add a ref to track if we should skip the next effect
   const skipNextEffect = useRef(false);
   const isInitializedRef = useRef(false);
+
+  // Enhanced setSelectedDate to update URL params
+  const setSelectedDateWithURL = (dateId: string) => {
+    setSelectedDate(dateId);
+    
+    // Update URL params
+    const newParams = new URLSearchParams(searchParams);
+    if (dateId) {
+      newParams.set('date', dateId);
+    } else {
+      newParams.delete('date');
+    }
+    setSearchParams(newParams);
+  };
 
   // Function to manually fetch keyword details (used during refresh)
   const fetchKeywordDetailsManually = useCallback(async (keywordId: string, dateId?: string) => {
@@ -79,15 +95,24 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         if (response.code === 200) {
           setKeywordDetails(response.data);
           
-          // Set the most recent date as default ONLY if no date is selected and this is initial load
-          if (!selectedDate && response.data.dates && response.data.dates.length > 0 && !isInitializedRef.current) {
-            const sortedDates = response.data.dates
-              .filter(d => d.date)
-              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+          // Handle date selection with URL persistence
+          if (response.data.dates && response.data.dates.length > 0 && !isInitializedRef.current) {
+            // Check URL params first
+            const urlDate = searchParams.get('date');
             
-            if (sortedDates.length > 0) {
-              console.log('🗺️ useKeywordDetails - Setting default date:', sortedDates[0]);
-              setSelectedDate(sortedDates[0].id);
+            if (urlDate && response.data.dates.some(d => d.id === urlDate)) {
+              // Use date from URL if it exists in the list
+              setSelectedDate(urlDate);
+            } else {
+              // Fall back to most recent date
+              const sortedDates = response.data.dates
+                .filter(d => d.date)
+                .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+              
+              if (sortedDates.length > 0) {
+                console.log('🗺️ useKeywordDetails - Setting default date:', sortedDates[0]);
+                setSelectedDateWithURL(sortedDates[0].id);
+              }
             }
           }
           isInitializedRef.current = true;
@@ -196,7 +221,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     }
     
     // Reset date and initialization when keyword changes
-    setSelectedDate('');
+    setSelectedDateWithURL('');
     isInitializedRef.current = false;
   };
 
@@ -207,12 +232,12 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     if (!isRefresh) {
       setDateChanging(true);
     }
-    setSelectedDate(dateId);
+    setSelectedDateWithURL(dateId);
   };
 
   return {
     selectedDate,
-    setSelectedDate,
+    setSelectedDate: setSelectedDateWithURL,
     keywordDetails,
     setKeywordDetails,
     loading,
