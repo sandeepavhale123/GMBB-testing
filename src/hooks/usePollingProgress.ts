@@ -21,10 +21,10 @@ export const usePollingProgress = (isActive: boolean, intervalMs = 3000) => {
         
         // Enhanced increment logic:
         // - Start at 10%
-        // - Increment by +10% until 85%
+        // - Increment by +5% until 85%
         // - After 85%, increment by +2% until 99%
         if (newProgress < 85) {
-          newProgress += 10;
+          newProgress += 5;
         } else if (newProgress < 99) {
           newProgress += 2;
         }
