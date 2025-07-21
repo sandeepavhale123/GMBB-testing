@@ -14,9 +14,9 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Track initialization and current keyword for debugging
+  // Add a ref to track if we should skip the next effect
+  const skipNextEffect = useRef(false);
   const isInitializedRef = useRef(false);
-  const currentKeywordRef = useRef<string>('');
 
   // Enhanced setSelectedDate to update URL params (now using 'id' parameter)
   const setSelectedDateWithURL = (dateId: string) => {
@@ -60,58 +60,27 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     }
   }, [listingId]);
 
-  // Reset states when keyword changes
-  const resetKeywordStates = useCallback(() => {
-    console.log('🔄 resetKeywordStates - Resetting states for new keyword');
-    setSelectedDateWithURL('');
-    setError(null);
-    isInitializedRef.current = false;
-  }, []);
-
   // Fetch keyword details when selected keyword changes (initial load)
   useEffect(() => {
-    console.log('🗺️ useKeywordDetails - useEffect triggered:', {
-      refreshMode,
-      selectedKeyword,
-      listingId,
-      currentKeyword: currentKeywordRef.current,
-      keywordChanging
-    });
-
-    // Skip if in refresh mode
-    if (refreshMode) {
-      console.log('🗺️ useKeywordDetails - Skipping due to refresh mode');
+    // Skip the effect during refresh mode to prevent blinking
+    if (refreshMode || skipNextEffect.current) {
+      skipNextEffect.current = false;
       return;
     }
-
-    // Skip if no keyword or listingId
-    if (!selectedKeyword || !listingId) {
-      console.log('🗺️ useKeywordDetails - Skipping due to missing keyword or listingId');
-      return;
-    }
-
-    // Check if this is actually a new keyword
-    const isNewKeyword = currentKeywordRef.current !== selectedKeyword;
-    console.log('🗺️ useKeywordDetails - Keyword comparison:', {
-      currentKeyword: currentKeywordRef.current,
-      selectedKeyword,
-      isNewKeyword
-    });
-
-    if (!isNewKeyword) {
-      console.log('🗺️ useKeywordDetails - Skipping due to same keyword');
-      return;
-    }
-
+    
     const fetchKeywordDetails = async () => {
-      console.log('🗺️ useKeywordDetails - Starting keyword fetch, setting keywordChanging to true');
+      if (!listingId || !selectedKeyword) return;
       
-      // Update current keyword reference ONLY when we actually start fetching
-      currentKeywordRef.current = selectedKeyword;
+      console.log('🗺️ useKeywordDetails - Fetching for keyword change:', {
+        listingId,
+        selectedKeyword,
+        selectedDate,
+        isInitialized: isInitializedRef.current
+      });
       
-      // Set keywordChanging to true only when we actually start fetching
-      setKeywordChanging(true);
+      // Set loading states immediately for better UX
       setLoading(true);
+      setKeywordChanging(true);
       setError(null);
       
       try {
@@ -161,14 +130,14 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
           variant: "destructive"
         });
       } finally {
-        console.log('🗺️ useKeywordDetails - Keyword fetch completed, setting keywordChanging to false');
-        setKeywordChanging(false);
         setLoading(false);
+        // Keep keywordChanging true until all data is loaded
+        console.log('🗺️ useKeywordDetails - Keyword loading completed');
       }
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast, refreshMode, searchParams]);
+  }, [listingId, selectedKeyword, toast, refreshMode]);
 
   // Fetch keyword details when selectedDate changes (user selection)
   useEffect(() => {
@@ -213,26 +182,15 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
           variant: "destructive"
         });
       } finally {
-        console.log('🗺️ useKeywordDetails - Date loading completed');
         setDateChanging(false);
+        // Reset keywordChanging after date change completes
+        setKeywordChanging(false);
+        console.log('🗺️ useKeywordDetails - Date loading completed, keywordChanging reset');
       }
     };
 
     fetchKeywordDetailsByDate();
   }, [selectedDate, listingId, selectedKeyword, toast, refreshMode]);
-
-  // Safety timeout to reset keywordChanging if it gets stuck
-  useEffect(() => {
-    if (keywordChanging) {
-      console.log('🔄 Starting safety timeout for keywordChanging');
-      const timeout = setTimeout(() => {
-        console.log('⚠️ Safety timeout - Resetting keywordChanging state');
-        setKeywordChanging(false);
-      }, 10000); // 10 second safety timeout
-
-      return () => clearTimeout(timeout);
-    }
-  }, [keywordChanging]);
 
   const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
     if (!listingId) return null;
@@ -261,23 +219,19 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   };
 
   const handleKeywordChange = (keywordId: string, isRefresh = false) => {
-    console.log('🔄 handleKeywordChange - Called with:', { 
-      keywordId, 
-      isRefresh, 
-      currentKeywordChanging: keywordChanging,
-      currentKeyword: currentKeywordRef.current 
-    });
+    console.log('🗺️ handleKeywordChange - Called with:', { keywordId, isRefresh });
     
-    // Reset states for new keyword
-    resetKeywordStates();
+    // Always set keywordChanging to true immediately for better UX
+    setKeywordChanging(true);
+    console.log('🗺️ handleKeywordChange - keywordChanging set to true');
     
-    // DON'T set keywordChanging to true here - let the useEffect handle it
-    // This prevents the race condition where keywordChanging gets stuck
-    console.log('🔄 handleKeywordChange - States reset, waiting for useEffect to handle loading');
+    // Reset date and initialization when keyword changes
+    setSelectedDateWithURL('');
+    isInitializedRef.current = false;
   };
 
   const handleDateChange = (dateId: string, isRefresh = false) => {
-    console.log('🔄 handleDateChange - Called with:', { dateId, isRefresh });
+    console.log('🗺️ handleDateChange - Called with:', { dateId, isRefresh });
     
     // Only show changing state for user-initiated changes, not refresh
     if (!isRefresh) {
