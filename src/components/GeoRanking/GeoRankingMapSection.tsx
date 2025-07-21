@@ -9,8 +9,8 @@ interface GeoRankingMapSectionProps {
   gridSize: string;
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
   rankDetails: RankDetail[];
-  rankStats?: RankStats | null;
-  projectDetails?: ProjectDetails | null;
+  rankStats?: RankStats;
+  projectDetails?: ProjectDetails;
   loading: boolean;
 }
 
@@ -22,14 +22,6 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
   projectDetails,
   loading,
 }) => {
-  console.log('🗺️ [GeoRankingMapSection] Rendering with:', {
-    rankDetailsLength: rankDetails.length,
-    hasRankStats: !!rankStats,
-    hasProjectDetails: !!projectDetails,
-    loading,
-    gridSize
-  });
-
   // Memoize position summary calculation to prevent re-computation
   const positionSummary = useMemo(() => {
     const summary = {
@@ -116,6 +108,9 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return `${gridNumber} * ${gridNumber}`;
   };
 
+  // Memoize the stable onMarkerClick callback to prevent map re-renders
+  const stableOnMarkerClick = useMemo(() => onMarkerClick, [onMarkerClick]);
+
   return (
     <div className="relative">
       <Card className="bg-white">
@@ -162,7 +157,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
               </div>
             ) : (
               <RankingMap
-                onMarkerClick={onMarkerClick}
+                onMarkerClick={stableOnMarkerClick}
                 rankDetails={rankDetails}
               />
             )}
@@ -261,28 +256,15 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
   );
 }, (prevProps, nextProps) => {
   // Enhanced memo comparison to prevent re-renders during polling
-  const rankDetailsEqual = JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails);
-  const rankStatsEqual = JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats);
-  const projectDetailsEqual = JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails);
-  
   const shouldNotRerender = prevProps.gridSize === nextProps.gridSize &&
-         rankDetailsEqual &&
-         rankStatsEqual &&
-         projectDetailsEqual &&
+         JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+         JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats) &&
+         JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails) &&
          prevProps.loading === nextProps.loading &&
          prevProps.onMarkerClick === nextProps.onMarkerClick;
 
-  if (!shouldNotRerender) {
-    console.log('🗺️ [GeoRankingMapSection] Re-rendering due to changes:', {
-      gridSize: prevProps.gridSize !== nextProps.gridSize,
-      rankDetails: !rankDetailsEqual,
-      rankStats: !rankStatsEqual,
-      projectDetails: !projectDetailsEqual,
-      loading: prevProps.loading !== nextProps.loading,
-      onMarkerClick: prevProps.onMarkerClick !== nextProps.onMarkerClick
-    });
-  } else {
-    console.log('🗺️ [GeoRankingMapSection] Preventing re-render - no changes detected');
+  if (shouldNotRerender) {
+    console.log(`🗺️ [${new Date().toISOString()}] Preventing GeoRankingMapSection re-render - no changes detected`);
   }
 
   return shouldNotRerender;

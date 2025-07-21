@@ -1,15 +1,8 @@
+
 import React, { useEffect, useRef, memo, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankDetail } from "../../api/geoRankingApi";
 import L from "leaflet";
-
-// Fix for default markers in Leaflet with Webpack
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
-});
 
 interface RankingMapProps {
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
@@ -23,13 +16,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const markersRef = useRef<L.Marker[]>([]);
     const [isInitialized, setIsInitialized] = useState(false);
     const lastRankDetailsRef = useRef<string>('');
-    const componentMountedRef = useRef(true);
-
-    console.log('🗺️ [RankingMap] Rendering with:', {
-      rankDetailsLength: rankDetails.length,
-      isInitialized,
-      hasMap: !!mapInstanceRef.current
-    });
 
     // Clear all markers without destroying map
     const clearMarkers = () => {
@@ -44,8 +30,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     // Add markers to existing map
     const addMarkersToMap = (details: RankDetail[]) => {
       if (!mapInstanceRef.current || !details.length) return;
-
-      console.log('🗺️ [RankingMap] Adding markers to existing map:', details.length);
 
       clearMarkers();
 
@@ -114,170 +98,156 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
     // Initialize map only once
     useEffect(() => {
-      if (!mapRef.current || isInitialized || !componentMountedRef.current) return;
+      if (!mapRef.current || isInitialized) return;
 
-      console.log(`🗺️ [RankingMap] Initializing map for the first time`);
+      console.log(`🗺️ [${new Date().toISOString()}] Initializing map for the first time`);
 
-      // Wait for CSS to be loaded and container to be ready
-      const initializeMap = () => {
-        if (!mapRef.current) return;
+      // Load Leaflet CSS
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
 
-        // Check if container has proper dimensions
-        const container = mapRef.current;
-        if (!container.offsetWidth || !container.offsetHeight) {
-          console.log('🗺️ [RankingMap] Container not ready, retrying...');
-          setTimeout(initializeMap, 100);
-          return;
+      // Calculate center coordinates
+      let centerLat = 28.6139;
+      let centerLng = 77.209;
+      let allCoordinates: [number, number][] = [];
+
+      if (rankDetails.length > 0) {
+        rankDetails.forEach((detail) => {
+          const coords = detail.coordinate.split(",");
+          if (coords.length === 2) {
+            const lat = parseFloat(coords[0]);
+            const lng = parseFloat(coords[1]);
+            allCoordinates.push([lat, lng]);
+          }
+        });
+
+        if (allCoordinates.length > 0) {
+          centerLat = allCoordinates[0][0];
+          centerLng = allCoordinates[0][1];
         }
+      }
 
-        // Calculate center coordinates
-        let centerLat = 28.6139;
-        let centerLng = 77.209;
-        let allCoordinates: [number, number][] = [];
+      // Initialize map
+      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+      mapInstanceRef.current = map;
 
-        if (rankDetails.length > 0) {
-          rankDetails.forEach((detail) => {
-            const coords = detail.coordinate.split(",");
-            if (coords.length === 2) {
-              const lat = parseFloat(coords[0]);
-              const lng = parseFloat(coords[1]);
-              allCoordinates.push([lat, lng]);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      setIsInitialized(true);
+
+      // Add initial markers
+      if (rankDetails.length > 0) {
+        addMarkersToMap(rankDetails);
+        
+        // Auto-fit bounds if we have multiple coordinates
+        if (allCoordinates.length > 1) {
+          const bounds = L.latLngBounds(allCoordinates);
+          map.whenReady(() => {
+            const container = map.getContainer();
+            const isVisible = container && container.offsetParent !== null;
+
+            if (isVisible && map && map.getSize().x > 0 && map.getSize().y > 0) {
+              map.fitBounds(bounds, {
+                padding: [20, 20],
+                maxZoom: 16,
+                animate: true,
+              });
             }
           });
-
-          if (allCoordinates.length > 0) {
-            centerLat = allCoordinates[0][0];
-            centerLng = allCoordinates[0][1];
-          }
         }
+      } else {
+        // Generate fallback grid data
+        const generateGridData = () => {
+          const gridData = [];
+          const spacing = 0.005;
 
-        try {
-          // Initialize map
-          const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
-          mapInstanceRef.current = map;
-
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(map);
-
-          setIsInitialized(true);
-
-          // Add initial markers
-          if (rankDetails.length > 0) {
-            addMarkersToMap(rankDetails);
-            
-            // Auto-fit bounds if we have multiple coordinates
-            if (allCoordinates.length > 1) {
-              const bounds = L.latLngBounds(allCoordinates);
-              map.whenReady(() => {
-                const container = map.getContainer();
-                const isVisible = container && container.offsetParent !== null;
-
-                if (isVisible && map && map.getSize().x > 0 && map.getSize().y > 0) {
-                  map.fitBounds(bounds, {
-                    padding: [20, 20],
-                    maxZoom: 16,
-                    animate: true,
-                  });
-                }
+          for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              const lat = centerLat + (i - 1.5) * spacing;
+              const lng = centerLng + (j - 1.5) * spacing;
+              const ranking = Math.floor(Math.random() * 25) + 1;
+              gridData.push({
+                lat,
+                lng,
+                ranking,
+                id: `${i}-${j}`,
               });
             }
-          } else {
-            // Generate fallback grid data
-            const generateGridData = () => {
-              const gridData = [];
-              const spacing = 0.005;
-
-              for (let i = 0; i < 4; i++) {
-                for (let j = 0; j < 4; j++) {
-                  const lat = centerLat + (i - 1.5) * spacing;
-                  const lng = centerLng + (j - 1.5) * spacing;
-                  const ranking = Math.floor(Math.random() * 25) + 1;
-                  gridData.push({
-                    lat,
-                    lng,
-                    ranking,
-                    id: `${i}-${j}`,
-                  });
-                }
-              }
-              return gridData;
-            };
-
-            const gridData = generateGridData();
-            gridData.forEach((point) => {
-              const color =
-                point.ranking <= 3
-                  ? "#22c55e"
-                  : point.ranking <= 10
-                  ? "#f59e0b"
-                  : point.ranking <= 15
-                  ? "#f97316"
-                  : "#ef4444";
-
-              const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
-              const fontSize = point.ranking >= 20 ? "12px" : "14px";
-
-              const rankingIcon = L.divIcon({
-                html: `<div style="
-                background: ${color};
-                color: white;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: ${fontSize};
-                border: 2px solid white;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                cursor: pointer;
-              ">${displayText}</div>`,
-                className: "custom-ranking-marker",
-                iconSize: [50, 50],
-                iconAnchor: [25, 25],
-              });
-
-              const marker = L.marker([point.lat, point.lng], {
-                icon: rankingIcon,
-              }).addTo(map);
-
-              marker.on("click", () => {
-                const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
-                onMarkerClick(gpsCoordinates, point.id);
-              });
-
-              marker.bindPopup(`
-              <div class="text-sm">
-                <strong>Position: ${displayText}</strong><br>
-                Location: Grid ${point.id}<br>
-                <em>Click for detailed view</em>
-              </div>
-            `);
-
-              markersRef.current.push(marker);
-            });
           }
+          return gridData;
+        };
 
-          console.log('🗺️ [RankingMap] Map initialized successfully');
-        } catch (error) {
-          console.error('🗺️ [RankingMap] Error initializing map:', error);
-        }
-      };
+        const gridData = generateGridData();
+        gridData.forEach((point) => {
+          const color =
+            point.ranking <= 3
+              ? "#22c55e"
+              : point.ranking <= 10
+              ? "#f59e0b"
+              : point.ranking <= 15
+              ? "#f97316"
+              : "#ef4444";
 
-      // Start initialization with a small delay to ensure CSS is loaded
-      setTimeout(initializeMap, 50);
+          const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
+          const fontSize = point.ranking >= 20 ? "12px" : "14px";
+
+          const rankingIcon = L.divIcon({
+            html: `<div style="
+            background: ${color};
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: ${fontSize};
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+          ">${displayText}</div>`,
+            className: "custom-ranking-marker",
+            iconSize: [50, 50],
+            iconAnchor: [25, 25],
+          });
+
+          const marker = L.marker([point.lat, point.lng], {
+            icon: rankingIcon,
+          }).addTo(map);
+
+          marker.on("click", () => {
+            const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
+            onMarkerClick(gpsCoordinates, point.id);
+          });
+
+          marker.bindPopup(`
+          <div class="text-sm">
+            <strong>Position: ${displayText}</strong><br>
+            Location: Grid ${point.id}<br>
+            <em>Click for detailed view</em>
+          </div>
+        `);
+
+          markersRef.current.push(marker);
+        });
+      }
 
       return () => {
-        console.log('🗺️ [RankingMap] Cleaning up map');
-        componentMountedRef.current = false;
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
           mapInstanceRef.current = null;
         }
         setIsInitialized(false);
+        const existingLink = document.querySelector('link[href*="leaflet.css"]');
+        if (existingLink) {
+          existingLink.remove();
+        }
       };
     }, [isInitialized]); // Only depend on isInitialized
 
@@ -287,11 +257,11 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
       const newRankDetailsString = JSON.stringify(rankDetails);
       if (lastRankDetailsRef.current === newRankDetailsString) {
-        console.log(`🗺️ [RankingMap] Skipping marker update - no rank details change`);
+        console.log(`🗺️ [${new Date().toISOString()}] Skipping marker update - no rank details change`);
         return;
       }
 
-      console.log(`🗺️ [RankingMap] Updating markers without re-initializing map`);
+      console.log(`🗺️ [${new Date().toISOString()}] Updating markers without re-initializing map`);
       lastRankDetailsRef.current = newRankDetailsString;
       addMarkersToMap(rankDetails);
     }, [rankDetails, isInitialized]);
@@ -314,13 +284,8 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const shouldNotRerender = prevRankDetailsString === nextRankDetailsString &&
                              prevProps.onMarkerClick === nextProps.onMarkerClick;
     
-    if (!shouldNotRerender) {
-      console.log(`🗺️ [RankingMap] Re-rendering due to changes:`, {
-        rankDetails: prevRankDetailsString !== nextRankDetailsString,
-        onMarkerClick: prevProps.onMarkerClick !== nextProps.onMarkerClick
-      });
-    } else {
-      console.log(`🗺️ [RankingMap] Preventing re-render - no meaningful changes`);
+    if (shouldNotRerender) {
+      console.log(`🗺️ [${new Date().toISOString()}] Preventing map re-render - no meaningful changes`);
     }
     
     return shouldNotRerender;
