@@ -69,7 +69,7 @@ export const BusinessManagement: React.FC = () => {
   const transformedWorkingHours = transformWorkingHours(workingHours);
   const transformedEditLogs = transformEditLogs(editLogs);
   const handleWorkingHoursSave = (hours: any) => {
-    console.log("Saving working hours:", hours);
+    // console.log("Saving working hours:", hours);
     setEditMode(false);
   };
   const handleWorkingHoursCancel = () => {

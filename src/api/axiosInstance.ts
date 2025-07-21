@@ -57,7 +57,7 @@ const processQueue = (error: any, token: string | null = null) => {
 
 // Enhanced function to handle token expiry with more nuanced logic
 const handleAuthFailure = async (shouldForceLogout: boolean = false) => {
-  console.log("🔒 Handling auth failure, force logout:", shouldForceLogout);
+  // console.log("🔒 Handling auth failure, force logout:", shouldForceLogout);
 
   if (shouldForceLogout) {
     // // Clear expired tokens from store
@@ -65,7 +65,7 @@ const handleAuthFailure = async (shouldForceLogout: boolean = false) => {
 
     // If we have a logout handler, use it for complete cleanup
     if (handleLogout) {
-      console.log("🚪 Performing complete logout");
+      // console.log("🚪 Performing complete logout");
       handleLogout();
     } else {
       // Fallback: reset store and redirect
@@ -75,21 +75,21 @@ const handleAuthFailure = async (shouldForceLogout: boolean = false) => {
     }
   } else {
     // Clear expired tokens and immediately attempt refresh
-    console.log("🔄 Clearing expired tokens and attempting immediate refresh");
+    // console.log("🔄 Clearing expired tokens and attempting immediate refresh");
     try {
       const result = await store.dispatch(clearExpiredTokensAndRefresh());
 
       if (clearExpiredTokensAndRefresh.fulfilled.match(result)) {
-        console.log("✅ Auto-refresh successful after token expiry");
+        // console.log("✅ Auto-refresh successful after token expiry");
         return true;
       } else {
-        console.log("❌ Auto-refresh failed, will redirect to login");
+        // console.log("❌ Auto-refresh failed, will redirect to login");
         store.dispatch(logout());
         window.location.href = "/login";
         return false;
       }
     } catch (error) {
-      console.error("❌ Error during auto-refresh:", error);
+      // console.error("❌ Error during auto-refresh:", error);
       store.dispatch(logout());
       window.location.href = "/login";
       return false;
@@ -107,17 +107,17 @@ axiosInstance.interceptors.request.use(
 
     if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(
-        `🔑 Added token to ${config.method?.toUpperCase()} request to ${
-          config.url
-        }`
-      );
+      // console.log(
+      //   `🔑 Added token to ${config.method?.toUpperCase()} request to ${
+      //     config.url
+      //   }`
+      // );
     } else if (!isAuthRoute) {
-      console.log(
-        `⚠️ No token available for ${config.method?.toUpperCase()} request to ${
-          config.url
-        }`
-      );
+      // console.log(
+      //   `⚠️ No token available for ${config.method?.toUpperCase()} request to ${
+      //     config.url
+      //   }`
+      // );
     }
 
     return config;
@@ -140,20 +140,20 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry &&
       !isAuthRoute
     ) {
-      console.log("❌ 401 error detected for:", originalRequest.url);
+      // console.log("❌ 401 error detected for:", originalRequest.url);
       const errorMessage = error.response?.data?.message;
       // Only perform token refresh/logout for "Invalid token." message
       if (errorMessage === "Invalid token.") {
-        console.log("🔒 Invalid token detected, attempting refresh");
+        // console.log("🔒 Invalid token detected, attempting refresh");
 
         if (isRefreshing) {
           // If refresh is already in progress, queue this request
-          console.log("⏳ Token refresh in progress, queueing request");
+          // console.log("⏳ Token refresh in progress, queueing request");
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });
           })
             .then(() => {
-              console.log("🔄 Retrying queued request after refresh");
+              // console.log("🔄 Retrying queued request after refresh");
               return axiosInstance(originalRequest);
             })
             .catch((err) => {
@@ -165,33 +165,33 @@ axiosInstance.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          console.log("🔄 Attempting auto-refresh for expired token");
+          // console.log("🔄 Attempting auto-refresh for expired token");
 
           // Use the new auto-refresh logic
           const refreshSuccess = await handleAuthFailure(false);
 
           if (refreshSuccess) {
-            console.log(
-              "✅ Auto-refresh successful, retrying original request"
-            );
+            // console.log(
+            //   "✅ Auto-refresh successful, retrying original request"
+            // );
             processQueue(null);
 
             // Get the new token and retry the original request
             const newToken = getAccessToken?.();
             if (newToken) {
               originalRequest.headers.Authorization = `Bearer ${newToken}`;
-              console.log("🔄 Retrying original request with new token");
+              // console.log("🔄 Retrying original request with new token");
               return axiosInstance(originalRequest);
             } else {
-              console.log("❌ No new token available after auto-refresh");
+              // console.log("❌ No new token available after auto-refresh");
               throw new Error("No token available after refresh");
             }
           } else {
-            console.log("❌ Auto-refresh failed, not retrying request");
+            // console.log("❌ Auto-refresh failed, not retrying request");
             throw new Error("Auto-refresh failed");
           }
         } catch (refreshError) {
-          console.error("❌ Auto-refresh failed:", refreshError);
+          // console.error("❌ Auto-refresh failed:", refreshError);
           processQueue(refreshError, null);
 
           // Check if we've already attempted refresh recently to prevent loops
@@ -205,10 +205,10 @@ axiosInstance.interceptors.response.use(
             lastRefreshAttempt &&
             parseInt(lastRefreshAttempt) > fiveMinutesAgo
           ) {
-            console.log("🔒 Recent refresh attempts failed, forcing logout");
+            // console.log("🔒 Recent refresh attempts failed, forcing logout");
             await handleAuthFailure(true);
           } else {
-            console.log("🔒 First recent refresh failure, noting attempt");
+            // console.log("🔒 First recent refresh failure, noting attempt");
             localStorage.setItem("last_refresh_attempt", now.toString());
           }
         } finally {
@@ -216,7 +216,7 @@ axiosInstance.interceptors.response.use(
         }
       } else {
         // For other 401 errors, show toast and reject without clearing tokens
-        console.log("⚠️ 401 error with message:", errorMessage);
+        // console.log("⚠️ 401 error with message:", errorMessage);
         toast({
           title: "Error",
           description: errorMessage || "Unauthorized request",

@@ -26,7 +26,7 @@ export const useCreateReport = () => {
           message ||
           `Your ${variables.type.toLowerCase()} report is being generated.`,
       });
-      console.log(reportId, domain, "usereport");
+      // console.log(reportId, domain, "usereport");
       // Open new tab with performance report
       if (reportId) {
         const url = `${domain}`;
@@ -38,7 +38,10 @@ export const useCreateReport = () => {
       console.error("Report creation error:", error);
       toast({
         title: "Error",
-        description: "Failed to create report. Please try again.",
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          "Failed to create report. Please try again.",
         variant: "destructive",
       });
     },
@@ -103,7 +106,9 @@ export const usePerformancePostsReport = (reportId: string) => {
         toast({
           title: "Error Loading Post Report",
           description:
-            error?.message || "Failed to fetch performance post report.",
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch performance post report.",
           variant: "destructive",
         });
         throw error;
@@ -133,7 +138,9 @@ export const usePerformanceBrandingReport = (reportId: string) => {
         toast({
           title: "Error Loading Branding Report",
           description:
-            error?.message || "Failed to fetch performance branding report.",
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch performance branding report.",
           variant: "destructive",
         });
         throw error;
@@ -162,7 +169,9 @@ export const usePerformanceMediaReport = (reportId: string) => {
         toast({
           title: "Error Loading Media Report",
           description:
-            error?.message || "Failed to fetch performance media report.",
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch performance media report.",
           variant: "destructive",
         });
         throw error;
@@ -190,7 +199,10 @@ export const usePerformanceGeoKeywords = (reportId: string) => {
       } catch (error: any) {
         toast({
           title: "Error Loading Keyword List",
-          description: error?.message || "Failed to fetch geo keyword data.",
+          description:
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch geo keyword data.",
           variant: "destructive",
         });
         throw error;
@@ -223,7 +235,10 @@ export const usePerformanceGeoRankingReport = (
       } catch (error: any) {
         toast({
           title: "Error Loading GEO Report",
-          description: error?.message || "Failed to fetch GEO ranking report.",
+          description:
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch GEO ranking report.",
           variant: "destructive",
         });
         throw error;

@@ -24,7 +24,8 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   member,
   onSuccess,
 }) => {
-  const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } = useTeam();
+  const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } =
+    useTeam();
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -32,13 +33,13 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
 
     try {
       clearTeamDeleteError();
-      
+
       const result = await deleteTeamMember({
         id: parseInt(member.id),
-        isDelete: "delete"
+        isDelete: "delete",
       });
 
-      if (result.meta.requestStatus === 'fulfilled') {
+      if (result.meta.requestStatus === "fulfilled") {
         toast({
           title: "Success",
           description: "Team member deleted successfully",
@@ -49,7 +50,11 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: deleteError || "Failed to delete team member",
+        description:
+          deleteError ||
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to delete team member",
         variant: "destructive",
       });
     }
@@ -73,15 +78,17 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
             </div>
           </div>
         </DialogHeader>
-        
+
         <div className="py-4">
           <p className="text-sm text-gray-600">
             Are you sure you want to delete{" "}
             <span className="font-medium text-gray-900">
               {member.firstName} {member.lastName}
-            </span>? This will permanently remove their account and revoke all access to the system.
+            </span>
+            ? This will permanently remove their account and revoke all access
+            to the system.
           </p>
-          
+
           <div className="mt-4 p-3 bg-red-50 rounded-lg">
             <h4 className="font-medium text-red-900 text-sm mb-1">
               This will also remove:

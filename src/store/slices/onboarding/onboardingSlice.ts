@@ -191,7 +191,7 @@ export const fetchGoals = createAsyncThunk(
   "onboarding/fetchGoals",
   async () => {
     const response = await getGoalList();
-    console.log("goals from onboardingslice", response);
+    // console.log("goals from onboardingslice", response);
     return response;
   }
 );
@@ -201,7 +201,7 @@ export const saveGoals = createAsyncThunk(
   "onboarding/saveGoals",
   async (goalIds: number[]) => {
     const payload = { listIds: goalIds };
-    console.log("payload in onboarding", JSON.stringify(payload));
+    // console.log("payload in onboarding", JSON.stringify(payload));
     const response = await updateGoalList(payload);
     return response;
   }
@@ -339,7 +339,7 @@ const onboardingSlice = createSlice({
 
         // If there are active goals, update the form data
         if (action.payload.data && action.payload.data.activeList) {
-          console.log("Active goals received:", action.payload.data.activeList);
+          // console.log("Active goals received:", action.payload.data.activeList);
           const selectedGoals = action.payload.data.activeList.map(
             (goal: any) => (typeof goal === "string" ? goal : goal.id)
           );

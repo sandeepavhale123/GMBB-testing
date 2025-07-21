@@ -74,7 +74,10 @@ export const NewPasswordForm = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to update password. Please try again.",
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          "Failed to update password. Please try again.",
         variant: "destructive",
       });
     } finally {

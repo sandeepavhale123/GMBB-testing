@@ -86,7 +86,7 @@ export const BrandingPage: React.FC = () => {
     try {
       const response = await deleteTheme();
 
-      console.log("Response of reset theme", response);
+      // console.log("Response of reset theme", response);
 
       if (response?.code === 200) {
         toast({
@@ -206,7 +206,10 @@ export const BrandingPage: React.FC = () => {
       console.error("Error saving theme:", error);
       toast({
         title: "Error saving theme",
-        description: "Please try again later",
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          "Please try again later",
         variant: "destructive",
       });
     } finally {

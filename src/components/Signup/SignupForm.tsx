@@ -99,9 +99,9 @@ export const SignupForm = () => {
 
     const success = await signup(formData);
     if (success) {
-      console.log("✅ Signup completed successfully");
+      // console.log("✅ Signup completed successfully");
     } else {
-      console.log("❌ Signup failed:", error);
+      // console.log("❌ Signup failed:", error);
     }
   };
 

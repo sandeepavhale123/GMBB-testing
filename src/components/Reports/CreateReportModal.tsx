@@ -95,7 +95,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     setPeriod2Date(undefined);
   };
   const handleGenerate = async () => {
-    console.log("generate is clicked with id", selectedListing?.id);
+    // console.log("generate is clicked with id", selectedListing?.id);
     if (!selectedListing?.id) return;
 
     let dateRange;
@@ -126,7 +126,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     }
 
     try {
-      console.log("report date range", dateRange);
+      // console.log("report date range", dateRange);
       await createReport({
         name: reportName,
         type: reportType,

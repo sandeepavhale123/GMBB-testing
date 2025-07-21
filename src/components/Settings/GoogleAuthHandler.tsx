@@ -21,13 +21,13 @@ const GoogleAuthHandler = () => {
   const urlParams = new URLSearchParams(location.search);
   const code = urlParams.get("code");
 
-  console.log("GoogleAuthHandler: Processing code", code);
+  // console.log("GoogleAuthHandler: Processing code", code);
 
   useEffect(() => {
     // Prevent duplicate processing globally and in this component instance
     if (!code || hasProcessed.current || isProcessing || isProcessingGlobally) {
       if (!code) {
-        console.log("GoogleAuthHandler: No code found, redirecting");
+        // console.log("GoogleAuthHandler: No code found, redirecting");
         navigate("/settings/google-account", { replace: true });
       }
       return;
@@ -39,7 +39,7 @@ const GoogleAuthHandler = () => {
 
     const handleGoogleCallback = async () => {
       try {
-        console.log("GoogleAuthHandler: Starting authentication process");
+        // console.log("GoogleAuthHandler: Starting authentication process");
 
         const localAccessToken = localStorage.getItem("access_token");
         if (!localAccessToken) {
@@ -59,7 +59,7 @@ const GoogleAuthHandler = () => {
         );
 
         const responseData = await response.json();
-        console.log("GoogleAuthHandler: API response", responseData);
+        // console.log("GoogleAuthHandler: API response", responseData);
 
         if (!response.ok) {
           const message =
@@ -71,7 +71,7 @@ const GoogleAuthHandler = () => {
 
         // Extract accountId from the nested data structure
         const accountId = responseData.data?.accountId;
-        console.log("GoogleAuthHandler: Received accountId", accountId);
+        // console.log("GoogleAuthHandler: Received accountId", accountId);
 
         if (!accountId) {
           throw new Error("No account ID received from Google authentication");
@@ -88,10 +88,10 @@ const GoogleAuthHandler = () => {
         window.history.replaceState({}, document.title, url.toString());
 
         // Navigate to the listings management page
-        console.log(
-          "GoogleAuthHandler: Navigating to listings page",
-          `/settings/listings/${accountId}`
-        );
+        // console.log(
+        //   "GoogleAuthHandler: Navigating to listings page",
+        //   `/settings/listings/${accountId}`
+        // );
         navigate(`/settings/listings/${accountId}`, { replace: true });
       } catch (error) {
         console.error("GoogleAuthHandler: Authentication error", error);

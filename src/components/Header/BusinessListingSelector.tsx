@@ -41,7 +41,7 @@ export const BusinessListingSelector: React.FC = () => {
     : listings;
 
   const handleSelect = (listing: (typeof listings)[0]) => {
-    console.log("🔍 BusinessSelector: Setting selected listing:", listing);
+    // console.log("🔍 BusinessSelector: Setting selected listing:", listing);
     setSelectedListing(listing);
     setOpen(false);
     setSearchQuery("");
@@ -50,8 +50,8 @@ export const BusinessListingSelector: React.FC = () => {
   };
   const displayListings = selectedListing || listings[0];
 
-  console.log("🔍 BusinessSelector: selectedListing:", selectedListing);
-  console.log("🔍 BusinessSelector: listings count:", listings.length);
+  // console.log("🔍 BusinessSelector: selectedListing:", selectedListing);
+  // console.log("🔍 BusinessSelector: listings count:", listings.length);
 
   if (isRefreshing) {
     return (

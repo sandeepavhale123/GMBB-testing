@@ -28,7 +28,10 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
     } catch (error) {
       toast({
         title: "Error saving changes",
-        description: "Please try again later",
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          "Please try again later",
         variant: "destructive",
       });
     }
@@ -40,7 +43,8 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
       // Error handling is done in the parent component
       toast({
         title: "Error in reset",
-        description: error instanceof Error ? error.message : "An error occurred",
+        description:
+          error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     }

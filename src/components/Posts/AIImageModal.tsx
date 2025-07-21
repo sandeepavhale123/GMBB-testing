@@ -1,14 +1,19 @@
-
-import React, { useState } from 'react';
-import { Wand2, Loader2, ZoomIn, RotateCcw } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Label } from '../ui/label';
-import { Checkbox } from '../ui/checkbox';
-import { generateAIImage } from '../../api/mediaApi';
-import { useToast } from '../../hooks/use-toast';
+import React, { useState } from "react";
+import { Wand2, Loader2, ZoomIn, RotateCcw } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
+import { generateAIImage } from "../../api/mediaApi";
+import { useToast } from "../../hooks/use-toast";
 
 interface AIImageModalProps {
   isOpen: boolean;
@@ -19,13 +24,13 @@ interface AIImageModalProps {
 export const AIImageModal: React.FC<AIImageModalProps> = ({
   isOpen,
   onClose,
-  onSelect
+  onSelect,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
-    prompt: '',
-    variants: '1',
-    style: ''
+    prompt: "",
+    variants: "1",
+    style: "",
   });
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -49,25 +54,28 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
       const response = await generateAIImage({
         prompt: formData.prompt,
         variants: parseInt(formData.variants),
-        style: formData.style
+        style: formData.style,
       });
 
       if (response.code === 200 && response.data.results) {
-        const imageUrls = response.data.results.map(result => result.url);
+        const imageUrls = response.data.results.map((result) => result.url);
         setGeneratedImages(imageUrls);
-        
+
         toast({
           title: "Success",
           description: `Generated ${imageUrls.length} image(s) successfully.`,
         });
       } else {
-        throw new Error(response.message || 'Failed to generate images');
+        throw new Error(response.message || "Failed to generate images");
       }
     } catch (error) {
-      console.error('AI Image generation error:', error);
+      console.error("AI Image generation error:", error);
       toast({
         title: "Error",
-        description: "Failed to generate images. Please try again.",
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          "Failed to generate images. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -76,9 +84,9 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
   };
 
   const toggleImageSelection = (image: string) => {
-    setSelectedImages(prev => 
-      prev.includes(image) 
-        ? prev.filter(img => img !== image) 
+    setSelectedImages((prev) =>
+      prev.includes(image)
+        ? prev.filter((img) => img !== image)
         : [...prev, image]
     );
   };
@@ -105,15 +113,22 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
           {/* Input Form */}
           <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div>
-              <Label htmlFor="image-prompt" className="text-sm font-medium mb-2 block">Image Title / Prompt</Label>
-              <Textarea 
-                id="image-prompt" 
-                value={formData.prompt} 
-                onChange={e => setFormData(prev => ({
-                  ...prev,
-                  prompt: e.target.value
-                }))} 
-                placeholder="Describe the image you want to generate..." 
+              <Label
+                htmlFor="image-prompt"
+                className="text-sm font-medium mb-2 block"
+              >
+                Image Title / Prompt
+              </Label>
+              <Textarea
+                id="image-prompt"
+                value={formData.prompt}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    prompt: e.target.value,
+                  }))
+                }
+                placeholder="Describe the image you want to generate..."
                 className="text-sm sm:text-base min-h-[80px]"
                 rows={3}
               />
@@ -121,11 +136,18 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <Label className="text-sm font-medium mb-2 block">Number of Variants</Label>
-                <Select value={formData.variants} onValueChange={value => setFormData(prev => ({
-                  ...prev,
-                  variants: value
-                }))}>
+                <Label className="text-sm font-medium mb-2 block">
+                  Number of Variants
+                </Label>
+                <Select
+                  value={formData.variants}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      variants: value,
+                    }))
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -137,11 +159,18 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
               </div>
 
               <div>
-                <Label className="text-sm font-medium mb-2 block">Image Style (Optional)</Label>
-                <Select value={formData.style} onValueChange={value => setFormData(prev => ({
-                  ...prev,
-                  style: value
-                }))}>
+                <Label className="text-sm font-medium mb-2 block">
+                  Image Style (Optional)
+                </Label>
+                <Select
+                  value={formData.style}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      style: value,
+                    }))
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Choose style" />
                   </SelectTrigger>
@@ -156,7 +185,11 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
               </div>
             </div>
 
-            <Button onClick={handleGenerate} disabled={isGenerating} className="w-full">
+            <Button
+              onClick={handleGenerate}
+              disabled={isGenerating}
+              className="w-full"
+            >
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -175,24 +208,37 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
           {generatedImages.length > 0 && (
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <h3 className="font-medium text-sm sm:text-base">Generated Images</h3>
-                <Button variant="outline" size="sm" onClick={handleGenerate} className="w-full sm:w-auto">
+                <h3 className="font-medium text-sm sm:text-base">
+                  Generated Images
+                </h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleGenerate}
+                  className="w-full sm:w-auto"
+                >
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Regenerate
                 </Button>
               </div>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {generatedImages.map((image, index) => (
                   <div key={index} className="relative group">
                     <div className="border rounded-lg overflow-hidden">
-                      <img src={image} alt={`Generated ${index + 1}`} className="w-full h-32 sm:h-40 object-cover" />
+                      <img
+                        src={image}
+                        alt={`Generated ${index + 1}`}
+                        className="w-full h-32 sm:h-40 object-cover"
+                      />
                       <div className="p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <Checkbox 
-                              checked={selectedImages.includes(image)} 
-                              onCheckedChange={() => toggleImageSelection(image)} 
+                            <Checkbox
+                              checked={selectedImages.includes(image)}
+                              onCheckedChange={() =>
+                                toggleImageSelection(image)
+                              }
                             />
                             <span className="text-sm">Select</span>
                           </div>
@@ -212,11 +258,15 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
             {selectedImages.length} image(s) selected
           </span>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="w-full sm:w-auto"
+            >
               Close
             </Button>
-            <Button 
-              disabled={selectedImages.length === 0} 
+            <Button
+              disabled={selectedImages.length === 0}
               onClick={handleUseSelected}
               className="w-full sm:w-auto"
             >

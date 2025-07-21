@@ -72,7 +72,9 @@ export interface DeleteTeamMemberResponse {
   data: [];
 }
 
-export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<GetTeamMembersResponse> => {
+export const getTeamMembers = async (
+  payload: GetTeamMembersRequest
+): Promise<GetTeamMembersResponse> => {
   try {
     const result = await axiosInstance({
       url: "/get-team",
@@ -80,7 +82,7 @@ export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<Ge
       data: payload,
     });
 
-    console.log("Team members API response:", result.data);
+    // console.log("Team members API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch team members:", error);
@@ -88,7 +90,9 @@ export const getTeamMembers = async (payload: GetTeamMembersRequest): Promise<Ge
   }
 };
 
-export const addTeamMember = async (payload: AddTeamMemberRequest): Promise<AddTeamMemberResponse> => {
+export const addTeamMember = async (
+  payload: AddTeamMemberRequest
+): Promise<AddTeamMemberResponse> => {
   try {
     const result = await axiosInstance({
       url: "/add-team-member",
@@ -96,7 +100,7 @@ export const addTeamMember = async (payload: AddTeamMemberRequest): Promise<AddT
       data: payload,
     });
 
-    console.log("Add team member API response:", result.data);
+    // console.log("Add team member API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to add team member:", error);
@@ -129,7 +133,9 @@ export interface UpdateTeamMemberResponse {
   data: any;
 }
 
-export const getEditMember = async (payload: GetEditMemberRequest): Promise<GetEditMemberResponse> => {
+export const getEditMember = async (
+  payload: GetEditMemberRequest
+): Promise<GetEditMemberResponse> => {
   try {
     const result = await axiosInstance({
       url: "/get-edit-member",
@@ -137,7 +143,7 @@ export const getEditMember = async (payload: GetEditMemberRequest): Promise<GetE
       data: payload,
     });
 
-    console.log("Get edit member API response:", result.data);
+    // console.log("Get edit member API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch edit member:", error);
@@ -145,7 +151,9 @@ export const getEditMember = async (payload: GetEditMemberRequest): Promise<GetE
   }
 };
 
-export const updateTeamMember = async (payload: UpdateTeamMemberRequest): Promise<UpdateTeamMemberResponse> => {
+export const updateTeamMember = async (
+  payload: UpdateTeamMemberRequest
+): Promise<UpdateTeamMemberResponse> => {
   try {
     const result = await axiosInstance({
       url: "/update-team-member",
@@ -153,7 +161,7 @@ export const updateTeamMember = async (payload: UpdateTeamMemberRequest): Promis
       data: payload,
     });
 
-    console.log("Update team member API response:", result.data);
+    // console.log("Update team member API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to update team member:", error);
@@ -161,7 +169,9 @@ export const updateTeamMember = async (payload: UpdateTeamMemberRequest): Promis
   }
 };
 
-export const deleteTeamMember = async (payload: DeleteTeamMemberRequest): Promise<DeleteTeamMemberResponse> => {
+export const deleteTeamMember = async (
+  payload: DeleteTeamMemberRequest
+): Promise<DeleteTeamMemberResponse> => {
   try {
     const result = await axiosInstance({
       url: "/delete-member",
@@ -169,7 +179,7 @@ export const deleteTeamMember = async (payload: DeleteTeamMemberRequest): Promis
       data: payload,
     });
 
-    console.log("Delete team member API response:", result.data);
+    // console.log("Delete team member API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to delete team member:", error);
@@ -250,7 +260,9 @@ export interface SaveAssignListingsResponse {
   };
 }
 
-export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Promise<GetActiveAccountsResponse> => {
+export const getActiveAccounts = async (
+  payload: GetActiveAccountsRequest
+): Promise<GetActiveAccountsResponse> => {
   try {
     const result = await axiosInstance({
       url: "/get-active-accounts",
@@ -258,7 +270,7 @@ export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Prom
       data: payload,
     });
 
-    console.log("Get active accounts API response:", result.data);
+    // console.log("Get active accounts API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch active accounts:", error);
@@ -266,7 +278,9 @@ export const getActiveAccounts = async (payload: GetActiveAccountsRequest): Prom
   }
 };
 
-export const getActiveAccountList = async (payload: GetActiveAccountListRequest): Promise<GetActiveAccountListResponse> => {
+export const getActiveAccountList = async (
+  payload: GetActiveAccountListRequest
+): Promise<GetActiveAccountListResponse> => {
   try {
     const result = await axiosInstance({
       url: "/get-active-account-list",
@@ -274,7 +288,7 @@ export const getActiveAccountList = async (payload: GetActiveAccountListRequest)
       data: payload,
     });
 
-    console.log("Get active account list API response:", result.data);
+    // console.log("Get active account list API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch active account list:", error);
@@ -282,7 +296,9 @@ export const getActiveAccountList = async (payload: GetActiveAccountListRequest)
   }
 };
 
-export const saveAssignListings = async (payload: SaveAssignListingsRequest): Promise<SaveAssignListingsResponse> => {
+export const saveAssignListings = async (
+  payload: SaveAssignListingsRequest
+): Promise<SaveAssignListingsResponse> => {
   try {
     const result = await axiosInstance({
       url: "/save-assign-listings",
@@ -290,7 +306,7 @@ export const saveAssignListings = async (payload: SaveAssignListingsRequest): Pr
       data: payload,
     });
 
-    console.log("Save assign listings API response:", result.data);
+    // console.log("Save assign listings API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to save assign listings:", error);

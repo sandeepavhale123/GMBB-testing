@@ -50,7 +50,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading review report</div>;
 
-  console.log("post Report:", postData);
+  // console.log("post Report:", postData);
 
   const defaultImage =
     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=200&q=80";
@@ -423,11 +423,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                 </ResponsiveContainer>
               ) : (
                 <div className="flex justify-center text-sm">
-                  <img
-                    src="../../../public/nodata.svg"
-                    alt="No Data"
-                    className="h-64"
-                  />
+                  <img src="/nodata.svg" alt="No Data" className="h-64" />
                 </div>
               )
             ) : trendDataOne.length > 0 ? (
@@ -448,11 +444,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
               </ResponsiveContainer>
             ) : (
               <div className="flex justify-center text-sm">
-                <img
-                  src="../../../public/nodata.svg"
-                  alt="No Data"
-                  className="h-64"
-                />
+                <img src="/nodata.svg" alt="No Data" className="h-64" />
               </div>
             )}
           </CardContent>
@@ -509,11 +501,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     )
                   ) : (
                     <div className="flex justify-center text-sm">
-                      <img
-                        src="../../../public/nodata.svg"
-                        alt="No Data"
-                        className="h-64"
-                      />
+                      <img src="/nodata.svg" alt="No Data" className="h-64" />
                     </div>
                   )}
                 </div>
@@ -527,11 +515,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     )
                   ) : (
                     <div className="flex justify-center text-sm">
-                      <img
-                        src="../../../public/nodata.svg"
-                        alt="No Data"
-                        className="h-64"
-                      />
+                      <img src="/nodata.svg" alt="No Data" className="h-64" />
                     </div>
                   )}
                 </div>
@@ -544,11 +528,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   )
                 ) : (
                   <div className="flex justify-center text-sm">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 )}
               </>

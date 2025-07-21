@@ -1,4 +1,3 @@
-
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import dashboardSlice from "./slices/dashboardSlice";
 import postsSlice from "./slices/postsSlice";
@@ -40,7 +39,7 @@ const appReducer = combineReducers({
 const rootReducer = (state: any, action: any) => {
   // Reset store to initial state when RESET_STORE action is dispatched
   if (action.type === RESET_STORE) {
-    console.log("🔄 Global store reset triggered");
+    // console.log("🔄 Global store reset triggered");
     // Clear all storage
     sessionStorage.clear();
     localStorage.clear();

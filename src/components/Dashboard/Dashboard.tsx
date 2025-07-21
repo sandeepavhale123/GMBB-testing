@@ -117,7 +117,7 @@ export const Dashboard: React.FC = () => {
         endDate: "",
       };
 
-      console.log("Fetching dashboard insights data with params:", params);
+      // console.log("Fetching dashboard insights data with params:", params);
 
       dispatch(fetchInsightsSummary(params));
       dispatch(fetchVisibilityTrends(params));
@@ -135,13 +135,13 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleOptimize = () => {
-    console.log("handleOptimize called - listings:", listings);
-    console.log("selectedListing:", selectedListing);
+    // console.log("handleOptimize called - listings:", listings);
+    // console.log("selectedListing:", selectedListing);
 
     navigate(`/health/${selectedListing?.id}`);
 
     // If no valid listing is available, show an error or redirect to a selection page
-    console.warn("No valid listing available to navigate to health page");
+    // console.warn("No valid listing available to navigate to health page");
     // You might want to show a toast notification here or redirect to a listing selection page
     // For now, we'll just log the warning
   };

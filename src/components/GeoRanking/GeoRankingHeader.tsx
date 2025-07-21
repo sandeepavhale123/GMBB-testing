@@ -124,7 +124,9 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       console.error("Error exporting image:", error);
       toast({
         title: "Export Failed",
-        description: "Failed to export image. Please try again.",
+        description:
+          error?.response?.data?.message ||
+          "Failed to export image. Please try again.",
         variant: "destructive",
       });
     } finally {

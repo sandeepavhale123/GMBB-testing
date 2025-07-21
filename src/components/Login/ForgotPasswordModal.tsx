@@ -61,7 +61,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
       });
 
       const data = await response.json();
-      console.log("response from api", data);
+      // console.log("response from api", data);
       if (!response.ok) {
         toast({
           title: "Error found!",
@@ -80,7 +80,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || error?.response?.data?.message,
         variant: "destructive",
       });
     } finally {

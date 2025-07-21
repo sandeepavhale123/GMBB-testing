@@ -139,9 +139,9 @@ export const useAutoTokenRefresh = () => {
     const timeUntilExpiry = getTimeUntilExpiry(accessToken);
 
     if (timeUntilExpiry <= 0) {
-      console.log(
-        "⚠️ Auto-refresh: Token expiry time calculated as 0 or negative, refreshing immediately"
-      );
+      // console.log(
+      //   "⚠️ Auto-refresh: Token expiry time calculated as 0 or negative, refreshing immediately"
+      // );
       handleImmediateRefresh();
       return;
     }
@@ -152,9 +152,9 @@ export const useAutoTokenRefresh = () => {
 
     // If the buffer time is greater than the time until expiry, refresh immediately
     if (timeUntilRefresh === 0) {
-      console.log(
-        "⚠️ Auto-refresh: Token expires within refresh buffer, refreshing immediately"
-      );
+      // console.log(
+      //   "⚠️ Auto-refresh: Token expires within refresh buffer, refreshing immediately"
+      // );
       handleImmediateRefresh();
       return;
     }
@@ -167,7 +167,7 @@ export const useAutoTokenRefresh = () => {
 
     isRefreshScheduledRef.current = true;
     refreshTimeoutRef.current = setTimeout(async () => {
-      console.log("⏰ Auto-refresh: Executing scheduled token refresh");
+      // console.log("⏰ Auto-refresh: Executing scheduled token refresh");
       isRefreshScheduledRef.current = false;
 
       // Double-check token hasn't already been refreshed by comparing with current Redux state
@@ -176,17 +176,17 @@ export const useAutoTokenRefresh = () => {
         try {
           const success = await refreshAccessToken();
           if (success) {
-            console.log("✅ Auto-refresh: Scheduled token refresh successful");
+            // console.log("✅ Auto-refresh: Scheduled token refresh successful");
           } else {
-            console.log("❌ Auto-refresh: Scheduled token refresh failed");
+            // console.log("❌ Auto-refresh: Scheduled token refresh failed");
           }
         } catch (error) {
-          console.error("❌ Auto-refresh: Scheduled refresh error:", error);
+          // console.error("❌ Auto-refresh: Scheduled refresh error:", error);
         }
       } else {
-        console.log(
-          "ℹ️ Auto-refresh: Token already refreshed by another process"
-        );
+        // console.log(
+        //   "ℹ️ Auto-refresh: Token already refreshed by another process"
+        // );
       }
     }, timeUntilRefresh);
 

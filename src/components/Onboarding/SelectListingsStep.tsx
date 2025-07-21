@@ -27,7 +27,7 @@ const SelectListingsStep = ({
     goToStep,
   } = useOnboarding();
 
-  console.log("googlebusinessdata", googleBusinessData);
+  // console.log("googlebusinessdata", googleBusinessData);
   const [isConnecting, setIsConnecting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
@@ -47,7 +47,7 @@ const SelectListingsStep = ({
   // ⏩ Skip step if no listings found
   useEffect(() => {
     if (Array.isArray(listings) && listings.length === 0) {
-      console.log("No listings found, skipping to next step...");
+      // console.log("No listings found, skipping to next step...");
       goToStep(3); // or call goToStep(4) if that's directly available
     }
   }, [listings]);
@@ -59,7 +59,7 @@ const SelectListingsStep = ({
   const allSelected = selectedCount === listings.length && listings.length > 0;
   const remainingAllowed = allowedListings - selectedCount;
 
-  console.log("selectedCount", selectedCount);
+  // console.log("selectedCount", selectedCount);
   const handleListingToggle = (
     listingId: string,
     isCurrentlySelected: boolean
@@ -96,7 +96,7 @@ const SelectListingsStep = ({
       const selectedListingIds = listings
         .filter((listing) => Number(listing.isActive))
         .map((listing) => parseInt(listing.id, 10));
-      console.log("selected listing", selectedListingIds);
+      // console.log("selected listing", selectedListingIds);
       // Get account ID from googleBusinessData
       const accountId = parseInt(googleBusinessData?.accountId || "0", 10);
 
@@ -111,7 +111,7 @@ const SelectListingsStep = ({
         isActive: 1,
       };
 
-      console.log("Connecting listings with payload:", payload);
+      // console.log("Connecting listings with payload:", payload);
 
       // Make API call
       const response = await enableDisableListings(payload);

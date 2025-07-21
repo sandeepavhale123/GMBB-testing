@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from "./axiosInstance";
 
 export interface MediaUploadData {
   file?: File;
@@ -112,91 +112,122 @@ export interface MediaStatsResponse {
   };
 }
 
-export const uploadMedia = async (data: MediaUploadData): Promise<MediaUploadResponse> => {
-  console.log('uploadMedia called with:', {
-    fileName: data.file?.name,
-    fileSize: data.file?.size,
-    fileType: data.file?.type,
-    title: data.title,
-    category: data.category,
-    publishOption: data.publishOption,
-    listingId: data.listingId,
-    selectedImage: data.selectedImage,
-    aiImageUrl: data.aiImageUrl
-  });
+export const uploadMedia = async (
+  data: MediaUploadData
+): Promise<MediaUploadResponse> => {
+  // console.log('uploadMedia called with:', {
+  //   fileName: data.file?.name,
+  //   fileSize: data.file?.size,
+  //   fileType: data.file?.type,
+  //   title: data.title,
+  //   category: data.category,
+  //   publishOption: data.publishOption,
+  //   listingId: data.listingId,
+  //   selectedImage: data.selectedImage,
+  //   aiImageUrl: data.aiImageUrl
+  // });
 
   const formData = new FormData();
-  
+
   // Add the file only for local uploads
-  if (data.selectedImage === 'local' && data.file) {
-    formData.append('userfile', data.file);
-    formData.append('type', data.file.type.startsWith('image/') ? 'photo' : 'video');
+  if (data.selectedImage === "local" && data.file) {
+    formData.append("userfile", data.file);
+    formData.append(
+      "type",
+      data.file.type.startsWith("image/") ? "photo" : "video"
+    );
   }
-  
+
   // Add other form fields
-  formData.append('title', data.title);
-  formData.append('category', data.category.toUpperCase());
-  formData.append('publish_option', data.publishOption);
-  formData.append('listingId', data.listingId);
-  formData.append('selectedImage', data.selectedImage);
-  
+  formData.append("title", data.title);
+  formData.append("category", data.category.toUpperCase());
+  formData.append("publish_option", data.publishOption);
+  formData.append("listingId", data.listingId);
+  formData.append("selectedImage", data.selectedImage);
+
   // Add AI image URL if it's an AI-generated image
-  if (data.selectedImage === 'ai' && data.aiImageUrl) {
-    formData.append('aiImageUrl', data.aiImageUrl);
-    formData.append('type', 'photo');
+  if (data.selectedImage === "ai" && data.aiImageUrl) {
+    formData.append("aiImageUrl", data.aiImageUrl);
+    formData.append("type", "photo");
   }
-  
+
   // Add schedule date if provided (should already be in UTC format)
-  if (data.scheduleDate && data.publishOption === 'schedule') {
-    formData.append('schedule_date', data.scheduleDate);
+  if (data.scheduleDate && data.publishOption === "schedule") {
+    formData.append("schedule_date", data.scheduleDate);
   }
 
   // Log FormData contents
-  console.log('FormData contents:');
+  // console.log("FormData contents:");
   for (const [key, value] of formData.entries()) {
     if (value instanceof File) {
-      console.log(`${key}: File(${value.name}, ${value.size} bytes, ${value.type})`);
+      // console.log(
+      //   `${key}: File(${value.name}, ${value.size} bytes, ${value.type})`
+      // );
     } else {
-      console.log(`${key}: ${value}`);
+      // console.log(`${key}: ${value}`);
     }
   }
 
   try {
-    const response = await axiosInstance.post<MediaUploadResponse>('/upload-media', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axiosInstance.post<MediaUploadResponse>(
+      "/upload-media",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-    console.log('Upload API response:', response.data);
+    // console.log("Upload API response:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Upload API error:', error);
+    console.error("Upload API error:", error);
     throw error;
   }
 };
 
-export const getMediaList = async (params: MediaListRequest): Promise<MediaListResponse> => {
-  const response = await axiosInstance.post<MediaListResponse>('/get-media-list', params);
+export const getMediaList = async (
+  params: MediaListRequest
+): Promise<MediaListResponse> => {
+  const response = await axiosInstance.post<MediaListResponse>(
+    "/get-media-list",
+    params
+  );
   return response.data;
 };
 
-export const deleteMedia = async (params: MediaDeleteRequest): Promise<MediaDeleteResponse> => {
-  const response = await axiosInstance.post<MediaDeleteResponse>('/delete-media', {
-    listingId: parseInt(params.listingId),
-    mediaId: parseInt(params.mediaId)
-  });
+export const deleteMedia = async (
+  params: MediaDeleteRequest
+): Promise<MediaDeleteResponse> => {
+  const response = await axiosInstance.post<MediaDeleteResponse>(
+    "/delete-media",
+    {
+      listingId: parseInt(params.listingId),
+      mediaId: parseInt(params.mediaId),
+    }
+  );
   return response.data;
 };
 
-export const generateAIImage = async (data: AIImageGenerationRequest): Promise<AIImageGenerationResponse> => {
-  const response = await axiosInstance.post<AIImageGenerationResponse>('/generate-ai-image', data);
+export const generateAIImage = async (
+  data: AIImageGenerationRequest
+): Promise<AIImageGenerationResponse> => {
+  const response = await axiosInstance.post<AIImageGenerationResponse>(
+    "/generate-ai-image",
+    data
+  );
   return response.data;
 };
 
-export const getMediaStats = async (params: MediaStatsRequest): Promise<MediaStatsResponse> => {
-  const response = await axiosInstance.post<MediaStatsResponse>('/get-media-stats', {
-    listingId: parseInt(params.listingId)
-  });
+export const getMediaStats = async (
+  params: MediaStatsRequest
+): Promise<MediaStatsResponse> => {
+  const response = await axiosInstance.post<MediaStatsResponse>(
+    "/get-media-stats",
+    {
+      listingId: parseInt(params.listingId),
+    }
+  );
   return response.data;
 };

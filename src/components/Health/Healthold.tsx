@@ -27,9 +27,11 @@ export const Health: React.FC = () => {
     loading,
     error,
     refreshHealthReport,
-  } = useHealthReport(selectedListing?.id ? parseInt(selectedListing.id) : null);
+  } = useHealthReport(
+    selectedListing?.id ? parseInt(selectedListing.id) : null
+  );
 
-  console.log("health data", healthData);
+  // console.log("health data", healthData);
   if (loading)
     return <div className="text-center py-10">Loading health data...</div>;
   if (error)
@@ -114,12 +116,16 @@ export const Health: React.FC = () => {
       </Card>
 
       {/* communication section */}
-      {Array.isArray(healthData.communication) 
-        ? healthData.communication.map((section) => (
-            <CommunicationSectionComponent key={section.id} section={section} />
-          ))
-        : <CommunicationSectionComponent key={healthData.communication.id} section={healthData.communication} />
-      }
+      {Array.isArray(healthData.communication) ? (
+        healthData.communication.map((section) => (
+          <CommunicationSectionComponent key={section.id} section={section} />
+        ))
+      ) : (
+        <CommunicationSectionComponent
+          key={healthData.communication.id}
+          section={healthData.communication}
+        />
+      )}
     </div>
   );
 };

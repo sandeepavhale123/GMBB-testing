@@ -17,16 +17,9 @@ export const ReportsPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-32 mb-6"></div>
-          <div className="h-10 bg-gray-200 rounded w-40 mb-4"></div>
-          <div className="space-y-4">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-16 bg-gray-200 rounded"></div>
-            ))}
-          </div>
-        </div>
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-500">Loading reports...</p>
       </div>
     );
   }

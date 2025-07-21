@@ -133,8 +133,8 @@ const BusinessInfoStep = ({
         locationCount:
           mapManageListingToLocationCount(businessDetails.manageListing) || "",
       };
-      console.log("Prefilling form with business details:", businessDetails);
-      console.log("Mapped prefill data:", prefillData);
+      // console.log("Prefilling form with business details:", businessDetails);
+      // console.log("Mapped prefill data:", prefillData);
       setLocalData(prefillData);
       updateFormData(prefillData);
     }
@@ -171,7 +171,7 @@ const BusinessInfoStep = ({
     const validationResult = validate(localData);
 
     if (!validationResult.isValid) {
-      console.log("Form validation failed");
+      // console.log("Form validation failed");
       return;
     }
 

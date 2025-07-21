@@ -48,7 +48,7 @@ export const PublicInsightsReport: React.FC = () => {
   } = usePerformanceInsightsReport(reportId);
   // const { token } = useParams();
   const reportType = insightData?.data?.reportType.toLowerCase();
-  console.log("reportType is", reportType);
+  // console.log("reportType is", reportType);
 
   // Handle loading state
   if (isLoading) {

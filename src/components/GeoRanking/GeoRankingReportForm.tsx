@@ -62,7 +62,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 
-  console.log("📋 GeoRankingReportForm - Current formData:", formData);
+  // console.log("📋 GeoRankingReportForm - Current formData:", formData);
 
   // Helper function to count keywords
   const countKeywords = (keywordsString: string): number => {

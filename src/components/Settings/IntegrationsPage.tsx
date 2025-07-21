@@ -127,8 +127,8 @@ export const IntegrationsPage: React.FC = () => {
     typeof subdomainStatusData?.data?.domain === "string" &&
     subdomainStatusData?.data?.domain.length > 0;
 
-  console.log("connected subdomain", connectedSubdomain);
-  console.log("has subdomain", hasSubdomain);
+  // console.log("connected subdomain", connectedSubdomain);
+  // console.log("has subdomain", hasSubdomain);
 
   const [integrations, setIntegrations] = useState<Integration[]>([
     {

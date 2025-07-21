@@ -95,7 +95,10 @@ export const ProfileFormContainer: React.FC = () => {
     } catch (error) {
       toast({
         title: "Update Failed",
-        description: "Failed to update profile. Please try again.",
+        description:
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to update profile. Please try again.",
         variant: "destructive",
       });
     }

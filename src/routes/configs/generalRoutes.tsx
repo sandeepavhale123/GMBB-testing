@@ -1,4 +1,3 @@
-
 import Profile from "@/pages/Profile";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import TeamPage from "@/pages/TeamPage";
@@ -16,7 +15,7 @@ import { PaymentSuccess } from "@/pages/PaymentSuccess";
 import { VerifyPayment } from "@/pages/VerifyPayment";
 import GMBHealthPage from "@/pages/GMBHealthPage";
 import { ListingProvider } from "@/context/ListingContext";
-
+import ReportsPage from "@/pages/ReportsPage";
 
 export const generalRoutes: RouteConfig[] = [
   {
@@ -35,6 +34,26 @@ export const generalRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <Profile />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/reports",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <ReportsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/reports/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <ReportsPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

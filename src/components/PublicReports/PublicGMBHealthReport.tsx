@@ -52,14 +52,16 @@ export const PublicGMBHealthReport: React.FC = () => {
   )
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
-  console.log("Health data from API call...", publichealthData);
+  // console.log("Health data from API call...", publichealthData);
 
   // Show toast on error
   React.useEffect(() => {
     if (error) {
       toast({
         title: "Error Loading Report",
-        description: "Failed to load the performance report. Please try again.",
+        description:
+          error.message ||
+          "Failed to load the performance report. Please try again.",
         variant: "destructive",
       });
     }
@@ -155,7 +157,7 @@ export const PublicGMBHealthReport: React.FC = () => {
     citationCount: item.citation ?? 0,
   }));
 
-  console.log("competitorChartData", competitorChartData);
+  // console.log("competitorChartData", competitorChartData);
   const getStatusBg = (status: string) => {
     switch (status) {
       case "complete":
@@ -678,7 +680,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                     const isYou = publichealthData?.data?.locationName
                       .toLowerCase()
                       .includes(item.displayName.toLowerCase());
-                    console.log("you value", isYou);
+                    // console.log("you value", isYou);
                     return (
                       <tr
                         key={item.index}

@@ -1,26 +1,27 @@
-
-import { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
-import { useAccountListings } from './useAccountListings';
-import { useListingStatusToggle } from './useListingStatusToggle';
+import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { useAccountListings } from "./useAccountListings";
+import { useListingStatusToggle } from "./useListingStatusToggle";
 
 export interface UseListingManagementParams {
   accountId: string;
 }
 
-export const useListingManagement = ({ accountId }: UseListingManagementParams) => {
+export const useListingManagement = ({
+  accountId,
+}: UseListingManagementParams) => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   // Debounced search to prevent excessive API calls
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-  
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -60,9 +61,9 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     accountId,
     page: 1,
     limit: 1, // We only need the counts, not the actual listings
-    search: '',
-    status: 'all',
-    sortOrder: 'asc',
+    search: "",
+    status: "all",
+    sortOrder: "asc",
   });
 
   const { toggleListingStatus, isLoading } = useListingStatusToggle();
@@ -80,36 +81,42 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     setCurrentPage(page);
   }, []);
 
-  const handleViewListing = useCallback((listingId: string) => {
-    navigate(`/business-info/${listingId}`);
-    const listing = listings.find(l => l.id === listingId);
-    if (listing) {
-      toast({
-        title: "Opening Listing",
-        description: `Opening ${listing.name} listing page.`
-      });
-    }
-    console.log(`Navigating to listing page for listing ${listingId}`);
-  }, [navigate, listings, toast]);
+  const handleViewListing = useCallback(
+    (listingId: string) => {
+      navigate(`/business-info/${listingId}`);
+      const listing = listings.find((l) => l.id === listingId);
+      if (listing) {
+        toast({
+          title: "Opening Listing",
+          description: `Opening ${listing.name} listing page.`,
+        });
+      }
+      // console.log(`Navigating to listing page for listing ${listingId}`);
+    },
+    [navigate, listings, toast]
+  );
 
-  const handleToggleListing = useCallback(async (listingId: string, isActive: boolean) => {
-    try {
-      await toggleListingStatus(
-        listingId, 
-        parseInt(accountId), 
-        isActive,
-        (data) => {
-          // Refetch both filtered data and summary statistics
-          refetch();
-          refetchSummary();
-          console.log('Updated active listings count:', data.activeListings);
-        }
-      );
-    } catch (error) {
-      // Error handling is done in the hook
-      console.error('Failed to toggle listing:', error);
-    }
-  }, [toggleListingStatus, accountId, refetch, refetchSummary]);
+  const handleToggleListing = useCallback(
+    async (listingId: string, isActive: boolean) => {
+      try {
+        await toggleListingStatus(
+          listingId,
+          parseInt(accountId),
+          isActive,
+          (data) => {
+            // Refetch both filtered data and summary statistics
+            refetch();
+            refetchSummary();
+            // console.log('Updated active listings count:', data.activeListings);
+          }
+        );
+      } catch (error) {
+        // Error handling is done in the hook
+        console.error("Failed to toggle listing:", error);
+      }
+    },
+    [toggleListingStatus, accountId, refetch, refetchSummary]
+  );
 
   return {
     // State
@@ -117,7 +124,7 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     filterStatus,
     currentPage,
     debouncedSearchTerm,
-    
+
     // Data
     listings,
     filteredTotalListings,
@@ -127,19 +134,19 @@ export const useListingManagement = ({ accountId }: UseListingManagementParams) 
     summaryActiveListings,
     summaryInactiveListings,
     pagination,
-    
+
     // Loading states - separate for filtered data and summary
     filteredDataLoading,
     summaryDataLoading,
     error,
-    
+
     // Handlers
     handleSearchChange,
     handleFilterChange,
     handlePageChange,
     handleViewListing,
     handleToggleListing,
-    
+
     // Utils
     refetch,
     isLoading,

@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { Upload, Eye, EyeOff, Loader } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -44,7 +39,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   const [profilePreview, setProfilePreview] = useState<string>("");
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleProfileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +49,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setProfilePreview(result);
-        setFormData(prev => ({ ...prev, profilePicture: result }));
+        setFormData((prev) => ({ ...prev, profilePicture: result }));
       };
       reader.readAsDataURL(file);
     }
@@ -75,9 +70,15 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Basic validation
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.password.trim() || !formData.role) {
+    if (
+      !formData.firstName.trim() ||
+      !formData.lastName.trim() ||
+      !formData.email.trim() ||
+      !formData.password.trim() ||
+      !formData.role
+    ) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields.",
@@ -108,14 +109,14 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       };
 
       const result = await addTeamMember(requestData);
-      
-      if (result.meta.requestStatus === 'fulfilled') {
+
+      if (result.meta.requestStatus === "fulfilled") {
         toast({
           title: "Team Member Added",
           description: `${formData.firstName} ${formData.lastName} has been added successfully.`,
           variant: "success",
         });
-        
+
         resetForm();
         onOpenChange(false);
         onSuccess?.();
@@ -124,7 +125,10 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       console.error("Failed to add team member:", error);
       toast({
         title: "Error",
-        description: addError || "Failed to add team member. Please try again.",
+        description:
+          addError ||
+          error?.response?.data?.message ||
+          "Failed to add team member. Please try again.",
         variant: "error",
       });
     }
@@ -143,7 +147,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
         <DialogHeader>
           <DialogTitle>Add New Team Member</DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Profile Picture Upload */}
           <div className="flex flex-col items-center space-y-2 hidden">
@@ -237,7 +241,10 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
           {/* Role */}
           <div className="space-y-2">
             <Label htmlFor="role">Role</Label>
-            <Select value={formData.role} onValueChange={(value) => handleInputChange("role", value)}>
+            <Select
+              value={formData.role}
+              onValueChange={(value) => handleInputChange("role", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>

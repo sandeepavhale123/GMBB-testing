@@ -107,7 +107,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     (state) => state.theme
   );
 
-  console.log("user", profileData);
+  // console.log("user", profileData);
   const isAdmin = profileData?.role?.toLowerCase() === "admin";
 
   // Helper function to check if user role should be restricted
@@ -135,12 +135,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const isPlanExpired = isSubscriptionExpired(planExpDate);
   const isEnterprisePlan =
     profileData?.planName?.toLowerCase() === "enterprise";
-  console.log("plan exp or not .....", isPlanExpired);
-  console.log("is enterprise plan .....", isEnterprisePlan);
-  console.log(
-    "result of condition",
-    !isPlanExpired && !collapsed && !isEnterprisePlan
-  );
+  // console.log("plan exp or not .....", isPlanExpired);
+  // console.log("is enterprise plan .....", isEnterprisePlan);
+  // console.log(
+  //   "result of condition",
+  //   !isPlanExpired && !collapsed && !isEnterprisePlan
+  // );
   // Determine active tab based on current path
   const getActiveTab = () => {
     const currentPath = location.pathname;

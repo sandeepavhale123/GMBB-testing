@@ -1,21 +1,21 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/store/store';
-import { loadThemeFromAPI } from '@/store/slices/themeSlice';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 
 export const getThemeUnauthenticated = async () => {
   const domain = window.location.hostname;
-  
+
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/get-theme`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ domain }),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch theme');
+    throw new Error("Failed to fetch theme");
   }
 
   return response.json();
@@ -27,15 +27,15 @@ export const useThemeLoader = () => {
   useEffect(() => {
     const loadTheme = async () => {
       try {
-        console.log('🎨 Loading theme on login page...');
+        // console.log('🎨 Loading theme on login page...');
         const themeResponse = await getThemeUnauthenticated();
-        
+
         if (themeResponse.code === 200) {
           dispatch(loadThemeFromAPI(themeResponse.data));
-          console.log('🎨 Theme loaded successfully on login page');
+          // console.log('🎨 Theme loaded successfully on login page');
         }
       } catch (error) {
-        console.warn('Failed to load theme on login page:', error);
+        console.warn("Failed to load theme on login page:", error);
         // Graceful fallback - continue without custom theme
       }
     };

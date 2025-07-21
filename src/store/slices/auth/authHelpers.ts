@@ -37,7 +37,7 @@ export const restoreNavigationState = (
     const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
     if (savedTimestamp > fiveMinutesAgo) {
-      console.log("Navigating to saved path:", pathToRedirect);
+      // console.log("Navigating to saved path:", pathToRedirect);
       // Clear the stored path immediately to prevent loops
       sessionStorage.removeItem("post_refresh_path");
       sessionStorage.removeItem("navigation_saved_at");
@@ -55,7 +55,7 @@ export const restoreNavigationState = (
 
       return true; // Indicate that navigation was restored
     } else {
-      console.log("Saved navigation state is too old, clearing it");
+      // console.log("Saved navigation state is too old, clearing it");
       sessionStorage.removeItem("post_refresh_path");
       sessionStorage.removeItem("scrollY");
       sessionStorage.removeItem("navigation_saved_at");

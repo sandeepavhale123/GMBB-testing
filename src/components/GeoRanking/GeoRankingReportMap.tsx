@@ -38,7 +38,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   pollingKeyword,
   loadingGrid,
   onMarkerClick,
-  mapPoint = 'Automatic',
+  mapPoint = "Automatic",
   manualCoordinates = [],
   onAddManualCoordinate,
   onRemoveManualCoordinate,
@@ -159,11 +159,11 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const addRankingMarkers = () => {
     if (!mapInstanceRef.current || !rankDetails) return;
 
-    console.log('🎯 Adding ranking markers:', {
-      rankDetailsCount: rankDetails.length,
-      mapPoint,
-      rankDetails: rankDetails.map(rd => ({ coordinate: rd.coordinate, rank: rd.rank }))
-    });
+    // console.log('🎯 Adding ranking markers:', {
+    //   rankDetailsCount: rankDetails.length,
+    //   mapPoint,
+    //   rankDetails: rankDetails.map(rd => ({ coordinate: rd.coordinate, rank: rd.rank }))
+    // });
 
     rankDetails.forEach((detail) => {
       const [lat, lng] = detail.coordinate.split(",").map(Number);
@@ -262,7 +262,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       `);
 
       // Handle drag end
-      marker.on('dragend', () => {
+      marker.on("dragend", () => {
         const { lat: newLat, lng: newLng } = marker.getLatLng();
         const newCoord = `${newLat},${newLng}`;
         if (onUpdateManualCoordinate) {
@@ -276,9 +276,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   // Enable manual point selection on map click
   const enableManualSelection = () => {
-    if (!mapInstanceRef.current || mapPoint !== 'Manually') return;
+    if (!mapInstanceRef.current || mapPoint !== "Manually") return;
 
-    mapInstanceRef.current.on('click', (e) => {
+    mapInstanceRef.current.on("click", (e) => {
       const { lat, lng } = e.latlng;
       const coordinate = `${lat.toFixed(6)},${lng.toFixed(6)}`;
       if (onAddManualCoordinate) {
@@ -299,19 +299,19 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (!mapInstanceRef.current || !defaultCoordinates) return;
 
     let allCoordinates: [number, number][] = [];
-    
+
     // Always include default coordinates
     allCoordinates.push([defaultCoordinates.lat, defaultCoordinates.lng]);
-    
+
     // Add ranking coordinates if available
     if (rankDetails && rankDetails.length > 0) {
-      rankDetails.forEach(detail => {
+      rankDetails.forEach((detail) => {
         const [lat, lng] = detail.coordinate.split(",").map(Number);
         allCoordinates.push([lat, lng]);
       });
     } else if (gridCoordinates.length > 0) {
       // Add grid coordinates
-      gridCoordinates.forEach(coord => {
+      gridCoordinates.forEach((coord) => {
         const [lat, lng] = coord.split(",").map(Number);
         allCoordinates.push([lat, lng]);
       });
@@ -322,12 +322,15 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
       const bounds = L.latLngBounds(allCoordinates);
       mapInstanceRef.current.fitBounds(bounds, {
         padding: [20, 20],
-        maxZoom: 16
+        maxZoom: 16,
       });
     } else {
       // Single coordinate - use distance-based zoom
       const zoom = getZoomForDistance();
-      mapInstanceRef.current.setView([defaultCoordinates.lat, defaultCoordinates.lng], zoom);
+      mapInstanceRef.current.setView(
+        [defaultCoordinates.lat, defaultCoordinates.lng],
+        zoom
+      );
     }
   };
 
@@ -342,18 +345,18 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
   const updateMarkers = () => {
     clearMarkers();
     clearManualMarkers();
-    
+
     // Always show ranking data when available (highest priority)
     if (rankDetails && rankDetails.length > 0) {
       // Show ranking results - these replace all other markers
       addRankingMarkers();
-    } else if (mapPoint === 'Manually') {
+    } else if (mapPoint === "Manually") {
       // Show manual markers when no ranking data is available
       addManualMarkers();
     } else {
       // Add default marker for automatic mode when no ranking data
       addDefaultMarker();
-      
+
       if (gridCoordinates.length > 0) {
         // Show grid points when coordinates exist
         addGridMarkers();
@@ -418,13 +421,19 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     if (mapInstanceRef.current) {
       updateMarkers();
     }
-  }, [gridCoordinates, rankDetails, defaultCoordinates, mapPoint, manualCoordinates]);
+  }, [
+    gridCoordinates,
+    rankDetails,
+    defaultCoordinates,
+    mapPoint,
+    manualCoordinates,
+  ]);
 
   // Re-enable manual selection when mapPoint changes
   useEffect(() => {
     if (mapInstanceRef.current) {
       // Remove previous click handlers
-      mapInstanceRef.current.off('click');
+      mapInstanceRef.current.off("click");
       // Re-enable manual selection
       setTimeout(() => enableManualSelection(), 100);
     }

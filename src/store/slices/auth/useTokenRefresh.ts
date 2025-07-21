@@ -24,7 +24,7 @@ const isTokenExpiredOrNearExpiry = (
   try {
     const decoded = jwtDecode<{ exp: number }>(token);
     if (!decoded?.exp) {
-      console.log("❌ Token has no expiry field");
+      // console.log("❌ Token has no expiry field");
       return true;
     }
 
@@ -32,13 +32,13 @@ const isTokenExpiredOrNearExpiry = (
     const bufferTime = bufferMinutes * 60; // Convert minutes to seconds
     const isExpiredOrNearExpiry = decoded.exp <= currentTime + bufferTime;
 
-    console.log("🔍 Token expiry check:", {
-      currentTime: new Date(currentTime * 1000).toISOString(),
-      expiryTime: new Date(decoded.exp * 1000).toISOString(),
-      bufferMinutes,
-      isExpiredOrNearExpiry,
-      timeUntilExpiryMinutes: Math.round((decoded.exp - currentTime) / 60),
-    });
+    // console.log("🔍 Token expiry check:", {
+    //   currentTime: new Date(currentTime * 1000).toISOString(),
+    //   expiryTime: new Date(decoded.exp * 1000).toISOString(),
+    //   bufferMinutes,
+    //   isExpiredOrNearExpiry,
+    //   timeUntilExpiryMinutes: Math.round((decoded.exp - currentTime) / 60),
+    // });
 
     return isExpiredOrNearExpiry;
   } catch (error) {
@@ -49,7 +49,7 @@ const isTokenExpiredOrNearExpiry = (
 
 // Helper to clear all token storage
 const clearAllTokenStorage = (dispatch: AppDispatch) => {
-  console.log("🗑️ Clearing all token storage...");
+  // console.log("🗑️ Clearing all token storage...");
 
   // Clear from localStorage
   localStorage.removeItem("access_token");
@@ -65,7 +65,7 @@ const clearAllTokenStorage = (dispatch: AppDispatch) => {
   // Clear Redux state
   dispatch(clearExpiredTokens());
 
-  console.log("✅ All token storage cleared");
+  // console.log("✅ All token storage cleared");
 };
 
 export const useTokenRefresh = (
@@ -78,35 +78,35 @@ export const useTokenRefresh = (
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const refreshAccessToken = async (): Promise<boolean> => {
-    console.log("🔄 Starting token refresh evaluation...");
+    // console.log("🔄 Starting token refresh evaluation...");
 
     // Check if we should skip refresh based on token validity
     if (accessToken && user) {
       // If we have both token and user, check if token is still valid
       if (!isTokenExpiredOrNearExpiry(accessToken, 1)) {
-        console.log("✅ Token is still valid. Skipping refresh.");
+        // console.log("✅ Token is still valid. Skipping refresh.");
         dispatch(setHasAttemptedRefresh(true));
         return true;
       } else {
-        console.log(
-          "⚠️ Token is expired or near expiry. Proceeding with refresh."
-        );
+        // console.log(
+        //   "⚠️ Token is expired or near expiry. Proceeding with refresh."
+        // );
       }
     } else if (accessToken && !user) {
-      console.log("⚠️ Have token but no user data. Checking token validity...");
+      // console.log("⚠️ Have token but no user data. Checking token validity...");
       if (isTokenExpiredOrNearExpiry(accessToken, 0)) {
-        console.log(
-          "❌ Token is expired and no user data. Clearing expired token."
-        );
+        // console.log(
+        //   "❌ Token is expired and no user data. Clearing expired token."
+        // );
         clearAllTokenStorage(dispatch);
       }
     } else {
-      console.log("ℹ️ No access token found. Checking for refresh token...");
+      // console.log("ℹ️ No access token found. Checking for refresh token...");
     }
 
     // Prevent concurrent refresh attempts
     if (isRefreshing || isRefreshingGlobally) {
-      console.log("⏳ Refresh already in progress, waiting...");
+      // console.log("⏳ Refresh already in progress, waiting...");
       return false;
     }
 
@@ -114,7 +114,7 @@ export const useTokenRefresh = (
     const { refreshToken, userId } = getStoredTokenData();
 
     if (!refreshToken) {
-      console.log("❌ No refresh token found, cannot refresh");
+      // console.log("❌ No refresh token found, cannot refresh");
       dispatch(setHasAttemptedRefresh(true));
       return false;
     }
@@ -124,7 +124,7 @@ export const useTokenRefresh = (
     dispatch(setIsRefreshing(true));
 
     try {
-      console.log("🔄 Calling refresh API...");
+      // console.log("🔄 Calling refresh API...");
 
       const payload: TokenRefreshPayload = {
         refresh_token: refreshToken,
@@ -147,9 +147,9 @@ export const useTokenRefresh = (
 
         // Handle different error scenarios
         if (response.status === 401 || response.status === 403) {
-          console.log(
-            "🔒 Refresh token is invalid/expired. Clearing all auth data."
-          );
+          // console.log(
+          //   "🔒 Refresh token is invalid/expired. Clearing all auth data."
+          // );
           clearAllTokenStorage(dispatch);
           navigate("/login", { replace: true });
           return false;
@@ -159,7 +159,7 @@ export const useTokenRefresh = (
       }
 
       const data: TokenRefreshResponse = await response.json();
-      console.log("✅ Token refresh API successful");
+      // console.log("✅ Token refresh API successful");
 
       // Update Redux state with new tokens
       dispatch(setAccessToken(data.data.access_token));
@@ -187,10 +187,10 @@ export const useTokenRefresh = (
       // Attempt to restore navigation state
       const navigationRestored = restoreNavigationState(navigate);
       if (!navigationRestored) {
-        console.log("ℹ️ No saved navigation state to restore");
+        // console.log("ℹ️ No saved navigation state to restore");
       }
 
-      console.log("✅ Token refresh completed successfully");
+      // console.log("✅ Token refresh completed successfully");
       return true;
     } catch (error) {
       console.error("❌ Token refresh failed with error:", error);

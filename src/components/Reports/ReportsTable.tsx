@@ -26,12 +26,12 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   const { data, isLoading, isError } = useAllReports(listingId);
 
   const reports = data?.data;
-  console.log("report data", reports);
+  // console.log("report data", reports);
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-10">
-        <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
-        <span className="ml-2">Loading reports...</span>
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-500">Loading reports...</p>
       </div>
     );
   }

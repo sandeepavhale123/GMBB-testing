@@ -1,27 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '../ui/button';
-import { Upload } from 'lucide-react';
-import { useToast } from '../../hooks/use-toast';
-import { MediaUploadModal } from './MediaUploadModal';
-import { MediaStatsChart } from './MediaStatsChart';
-import { MediaStatsCards } from './MediaStatsCards';
-import { MediaMostViewedCard } from './MediaMostViewedCard';
-import { MediaLibraryCard } from './MediaLibraryCard';
-import { MediaEmptyState } from './MediaEmptyState';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
-import { getMediaList, MediaListItem, deleteMedia } from '../../api/mediaApi';
-import { useListingContext } from '../../context/ListingContext';
-import { useMediaStats } from '../../hooks/useMediaStats';
+import React, { useState, useEffect } from "react";
+import { Button } from "../ui/button";
+import { Upload } from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
+import { MediaUploadModal } from "./MediaUploadModal";
+import { MediaStatsChart } from "./MediaStatsChart";
+import { MediaStatsCards } from "./MediaStatsCards";
+import { MediaMostViewedCard } from "./MediaMostViewedCard";
+import { MediaLibraryCard } from "./MediaLibraryCard";
+import { MediaEmptyState } from "./MediaEmptyState";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import { getMediaList, MediaListItem, deleteMedia } from "../../api/mediaApi";
+import { useListingContext } from "../../context/ListingContext";
+import { useMediaStats } from "../../hooks/useMediaStats";
 
 interface MediaItem {
   id: string;
   name: string;
   views: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   url: string;
   uploadDate: string;
   size: string;
-  status: 'Live' | 'Schedule' | 'Failed';
+  status: "Live" | "Schedule" | "Failed";
   category: string;
   isScheduled: boolean;
 }
@@ -30,12 +39,12 @@ export const MediaPage: React.FC = () => {
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [mediaTypeTab, setMediaTypeTab] = useState('all');
-  const [sortBy, setSortBy] = useState('postdate');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [mediaTypeTab, setMediaTypeTab] = useState("all");
+  const [sortBy, setSortBy] = useState("postdate");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(12);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +58,11 @@ export const MediaPage: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Use the media stats hook
-  const { stats, isLoading: statsLoading, refetch: refetchStats } = useMediaStats(selectedListing?.id || null);
+  const {
+    stats,
+    isLoading: statsLoading,
+    refetch: refetchStats,
+  } = useMediaStats(selectedListing?.id || null);
 
   // Map API response to MediaItem format
   const mapApiToMediaItem = (apiItem: MediaListItem): MediaItem => {
@@ -58,45 +71,52 @@ export const MediaPage: React.FC = () => {
 
     return {
       id: apiItem.id,
-      name: apiItem.category.charAt(0).toUpperCase() + apiItem.category.slice(1).toLowerCase(),
+      name:
+        apiItem.category.charAt(0).toUpperCase() +
+        apiItem.category.slice(1).toLowerCase(),
       views: `${apiItem.insights || 0}`,
-      type: apiItem.media_type === 'image' ? 'image' : 'video',
+      type: apiItem.media_type === "image" ? "image" : "video",
       url: apiItem.googleUrl,
       uploadDate: publishDate,
-      size: '2.1 MB', // API doesn't provide size, using placeholder
-      status: apiItem.status === 'Live' ? 'Live' : apiItem.status === 'Schedule' ? 'Schedule' : 'Failed',
+      size: "2.1 MB", // API doesn't provide size, using placeholder
+      status:
+        apiItem.status === "Live"
+          ? "Live"
+          : apiItem.status === "Schedule"
+          ? "Schedule"
+          : "Failed",
       category: apiItem.category.toLowerCase(),
-      isScheduled: apiItem.status === 'Schedule'
+      isScheduled: apiItem.status === "Schedule",
     };
   };
 
   // Fetch media list from API
   const fetchMediaList = async () => {
     if (!selectedListing) {
-      console.log('No listing selected');
+      // console.log("No listing selected");
       return;
     }
 
     setIsLoading(true);
     try {
-      console.log('Fetching media list with filters:', {
-        listingId: selectedListing.id,
-        page: currentPage,
-        category: categoryFilter === 'all' ? '' : categoryFilter,
-        status: statusFilter === 'all' ? '' : statusFilter,
-        type: mediaTypeTab === 'all' ? '' : mediaTypeTab
-      });
+      // console.log("Fetching media list with filters:", {
+      //   listingId: selectedListing.id,
+      //   page: currentPage,
+      //   category: categoryFilter === "all" ? "" : categoryFilter,
+      //   status: statusFilter === "all" ? "" : statusFilter,
+      //   type: mediaTypeTab === "all" ? "" : mediaTypeTab,
+      // });
 
       const response = await getMediaList({
         listingId: selectedListing.id,
         page: currentPage,
         limit: itemsPerPage,
         search: searchQuery,
-        category: categoryFilter === 'all' ? '' : categoryFilter,
-        status: statusFilter === 'all' ? '' : statusFilter,
-        type: mediaTypeTab === 'all' ? '' : mediaTypeTab,
+        category: categoryFilter === "all" ? "" : categoryFilter,
+        status: statusFilter === "all" ? "" : statusFilter,
+        type: mediaTypeTab === "all" ? "" : mediaTypeTab,
         sort_by: sortBy,
-        sort_order: sortOrder
+        sort_order: sortOrder,
       });
 
       if (response.code === 200) {
@@ -114,7 +134,7 @@ export const MediaPage: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching media list:', error);
+      console.error("Error fetching media list:", error);
       toast({
         title: "Error",
         description: "Failed to fetch media list. Please try again.",
@@ -128,23 +148,39 @@ export const MediaPage: React.FC = () => {
   // Fetch media list when dependencies change
   useEffect(() => {
     fetchMediaList();
-  }, [selectedListing, currentPage, searchQuery, categoryFilter, statusFilter, mediaTypeTab, sortBy, sortOrder]);
+  }, [
+    selectedListing,
+    currentPage,
+    searchQuery,
+    categoryFilter,
+    statusFilter,
+    mediaTypeTab,
+    sortBy,
+    sortOrder,
+  ]);
 
   // Reset to first page when filters change
   useEffect(() => {
     if (currentPage !== 1) {
       setCurrentPage(1);
     }
-  }, [searchQuery, categoryFilter, statusFilter, mediaTypeTab, sortBy, sortOrder]);
+  }, [
+    searchQuery,
+    categoryFilter,
+    statusFilter,
+    mediaTypeTab,
+    sortBy,
+    sortOrder,
+  ]);
 
   const handleViewImage = (item: MediaItem) => {
-    window.open(item.url, '_blank');
+    window.open(item.url, "_blank");
   };
 
   const handleEditMedia = (id: string) => {
     toast({
       title: "Edit Media",
-      description: "Edit functionality will be implemented."
+      description: "Edit functionality will be implemented.",
     });
   };
 
@@ -158,11 +194,14 @@ export const MediaPage: React.FC = () => {
 
     setIsDeleting(true);
     try {
-      console.log('Deleting media:', { listingId: selectedListing.id, mediaId: itemToDelete });
-      
+      // console.log("Deleting media:", {
+      //   listingId: selectedListing.id,
+      //   mediaId: itemToDelete,
+      // });
+
       const response = await deleteMedia({
         listingId: selectedListing.id,
-        mediaId: itemToDelete
+        mediaId: itemToDelete,
       });
 
       if (response.code === 200) {
@@ -171,7 +210,7 @@ export const MediaPage: React.FC = () => {
           description: response.message || "Media deleted successfully.",
           variant: "default",
         });
-        
+
         // Refresh the media list after successful deletion
         await fetchMediaList();
       } else {
@@ -182,10 +221,13 @@ export const MediaPage: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Error deleting media:', error);
+      console.error("Error deleting media:", error);
       toast({
         title: "Error",
-        description: "Failed to delete media. Please try again.",
+        description:
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to delete media. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -196,23 +238,23 @@ export const MediaPage: React.FC = () => {
   };
 
   const handleDownloadMedia = (item: MediaItem) => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = item.url;
     link.download = item.name;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     toast({
       title: "Download Started",
-      description: `Downloading ${item.name}...`
+      description: `Downloading ${item.name}...`,
     });
   };
 
   const handleSetAsCover = (id: string) => {
     toast({
       title: "Cover Image Set",
-      description: "Media has been set as cover image."
+      description: "Media has been set as cover image.",
     });
   };
 
@@ -222,7 +264,7 @@ export const MediaPage: React.FC = () => {
     refetchStats();
     toast({
       title: "Media Uploaded",
-      description: `${newMedia.length} media file(s) uploaded successfully.`
+      description: `${newMedia.length} media file(s) uploaded successfully.`,
     });
   };
 
@@ -238,10 +280,11 @@ export const MediaPage: React.FC = () => {
     setStatusFilter(status);
   };
 
-  const mostViewedImage = mediaItems.find(item => item.type === 'image') || mediaItems[0];
+  const mostViewedImage =
+    mediaItems.find((item) => item.type === "image") || mediaItems[0];
 
   const handleViewLastUpdatedImage = (imageData: any) => {
-    window.open(imageData.url, '_blank');
+    window.open(imageData.url, "_blank");
   };
 
   if (!selectedListing) {
@@ -254,7 +297,10 @@ export const MediaPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-900">Your Media</h2>
         <div className="flex items-center gap-4">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setShowUploadModal(true)}>
+          <Button
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            onClick={() => setShowUploadModal(true)}
+          >
             <Upload className="w-4 h-4 mr-2" />
             Upload Media
           </Button>
@@ -263,17 +309,17 @@ export const MediaPage: React.FC = () => {
 
       {/* Overview Stats Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        <MediaStatsCards 
-          totalItems={stats?.totalMediaUploaded || 0} 
-          currentPageItems={stats?.lastWeekUploadedImages || 0} 
+        <MediaStatsCards
+          totalItems={stats?.totalMediaUploaded || 0}
+          currentPageItems={stats?.lastWeekUploadedImages || 0}
           isLoading={statsLoading}
         />
-        <MediaMostViewedCard 
-          lastUpdatedImage={stats?.lastUpdatedImage || null} 
+        <MediaMostViewedCard
+          lastUpdatedImage={stats?.lastUpdatedImage || null}
           onViewImage={handleViewLastUpdatedImage}
           isLoading={statsLoading}
         />
-        <MediaStatsChart 
+        <MediaStatsChart
           imageCount={stats?.mediaDistribution.images.count || 0}
           videoCount={stats?.mediaDistribution.videos.count || 0}
           isLoading={statsLoading}
@@ -310,7 +356,11 @@ export const MediaPage: React.FC = () => {
         itemsPerPage={itemsPerPage}
       />
 
-      <MediaUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} onUpload={handleMediaUpload} />
+      <MediaUploadModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+        onUpload={handleMediaUpload}
+      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
@@ -318,13 +368,14 @@ export const MediaPage: React.FC = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the media file.
+              This action cannot be undone. This will permanently delete the
+              media file.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={confirmDeleteMedia} 
+            <AlertDialogAction
+              onClick={confirmDeleteMedia}
               disabled={isDeleting}
               className="bg-red-600 hover:bg-red-700"
             >

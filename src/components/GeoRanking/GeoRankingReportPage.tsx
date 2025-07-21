@@ -81,7 +81,7 @@ export const GeoRankingReportPage: React.FC = () => {
     e.preventDefault();
     const result = await submitCheckRank();
     if (result.success) {
-      console.log("Rank check submitted successfully");
+      // console.log("Rank check submitted successfully");
       // Show alert for multiple keywords
       if (result.shouldNavigate && isMultipleKeywords(formData.keywords)) {
         setShowMultiKeywordAlert(true);
@@ -123,7 +123,8 @@ export const GeoRankingReportPage: React.FC = () => {
       console.error("Error fetching position details:", error);
       toast({
         title: "Error",
-        description: "Failed to load position details",
+        description:
+          error?.response?.data?.message || "Failed to load position details",
         variant: "destructive",
       });
     } finally {
@@ -198,10 +199,10 @@ export const GeoRankingReportPage: React.FC = () => {
                   onMarkerClick={handleMarkerClick}
                   mapPoint={formData.mapPoint}
                   manualCoordinates={manualCoordinates}
-            onAddManualCoordinate={addManualCoordinate}
-            onRemoveManualCoordinate={removeManualCoordinate}
-            onUpdateManualCoordinate={updateManualCoordinate}
-            onClearManualCoordinates={clearManualCoordinates}
+                  onAddManualCoordinate={addManualCoordinate}
+                  onRemoveManualCoordinate={removeManualCoordinate}
+                  onUpdateManualCoordinate={updateManualCoordinate}
+                  onClearManualCoordinates={clearManualCoordinates}
                 />
               </div>
             </div>
@@ -249,10 +250,14 @@ export const GeoRankingReportPage: React.FC = () => {
                   // Extract submitted keywords and pass as URL parameter
                   const submittedKeywords = formData.keywords
                     .split(/[,;\n\r]+/)
-                    .map(k => k.trim())
-                    .filter(k => k.length > 0)
-                    .join(',');
-                  navigate(`/geo-ranking?processing=true&submittedKeywords=${encodeURIComponent(submittedKeywords)}`);
+                    .map((k) => k.trim())
+                    .filter((k) => k.length > 0)
+                    .join(",");
+                  navigate(
+                    `/geo-ranking?processing=true&submittedKeywords=${encodeURIComponent(
+                      submittedKeywords
+                    )}`
+                  );
                 }}
               >
                 Go to GEO Ranking Page

@@ -1,29 +1,33 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { X, Sparkles } from 'lucide-react';
-import { generateAIImage } from '../../api/mediaApi';
-import { useToast } from '../../hooks/use-toast';
-import { AIPromptInput } from './AIGeneration/AIPromptInput';
-import { AIParameters } from './AIGeneration/AIParameters';
-import { AIImagePreview } from './AIGeneration/AIImagePreview';
-import { AIActionButtons } from './AIGeneration/AIActionButtons';
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { X, Sparkles } from "lucide-react";
+import { generateAIImage } from "../../api/mediaApi";
+import { useToast } from "../../hooks/use-toast";
+import { AIPromptInput } from "./AIGeneration/AIPromptInput";
+import { AIParameters } from "./AIGeneration/AIParameters";
+import { AIImagePreview } from "./AIGeneration/AIImagePreview";
+import { AIActionButtons } from "./AIGeneration/AIActionButtons";
 
 interface AIMediaGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerated: (media: { imageUrl: string; prompt: string; variants: number; style: string }) => void;
+  onGenerated: (media: {
+    imageUrl: string;
+    prompt: string;
+    variants: number;
+    style: string;
+  }) => void;
 }
 
 export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   isOpen,
   onClose,
-  onGenerated
+  onGenerated,
 }) => {
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState("");
   const [variants, setVariants] = useState(1);
-  const [style, setStyle] = useState('realistic');
+  const [style, setStyle] = useState("realistic");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -40,31 +44,36 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
     }
 
     setIsGenerating(true);
-    
+
     try {
       const response = await generateAIImage({
         prompt: prompt.trim(),
         variants,
-        style
+        style,
       });
 
       if (response.code === 200 && response.data.results.length > 0) {
-        const imageUrls = response.data.results.map(result => result.url);
+        const imageUrls = response.data.results.map((result) => result.url);
         setGeneratedImages(imageUrls);
         setSelectedImageIndex(0);
-        
+
         toast({
           title: "Images Generated",
-          description: `Successfully generated ${imageUrls.length} image${imageUrls.length > 1 ? 's' : ''}.`,
+          description: `Successfully generated ${imageUrls.length} image${
+            imageUrls.length > 1 ? "s" : ""
+          }.`,
         });
       } else {
-        throw new Error(response.message || 'Failed to generate images');
+        throw new Error(response.message || "Failed to generate images");
       }
     } catch (error) {
-      console.error('AI image generation error:', error);
+      console.error("AI image generation error:", error);
       toast({
         title: "Generation Failed",
-        description: error instanceof Error ? error.message : "Failed to generate images. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to generate images. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -75,16 +84,16 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   const handleUseMedia = () => {
     if (generatedImages.length > 0 && generatedImages[selectedImageIndex]) {
       const imageUrl = generatedImages[selectedImageIndex];
-      
-      console.log('Using AI image URL:', imageUrl);
-      
+
+      // console.log("Using AI image URL:", imageUrl);
+
       onGenerated({
         imageUrl: imageUrl,
         prompt: prompt,
         variants: variants,
-        style: style
+        style: style,
       });
-      
+
       toast({
         title: "Image Ready",
         description: "AI-generated image has been prepared for upload.",
@@ -100,9 +109,9 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
 
   const handleClose = () => {
     // Clear all AI generation state
-    setPrompt('');
+    setPrompt("");
     setVariants(1);
-    setStyle('realistic');
+    setStyle("realistic");
     setGeneratedImages([]);
     setSelectedImageIndex(0);
     setIsGenerating(false);
@@ -110,11 +119,15 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
   };
 
   const handlePreviousImage = () => {
-    setSelectedImageIndex(prev => (prev > 0 ? prev - 1 : generatedImages.length - 1));
+    setSelectedImageIndex((prev) =>
+      prev > 0 ? prev - 1 : generatedImages.length - 1
+    );
   };
 
   const handleNextImage = () => {
-    setSelectedImageIndex(prev => (prev < generatedImages.length - 1 ? prev + 1 : 0));
+    setSelectedImageIndex((prev) =>
+      prev < generatedImages.length - 1 ? prev + 1 : 0
+    );
   };
 
   return (
@@ -142,10 +155,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         <div className="p-6 space-y-6">
           {generatedImages.length === 0 ? (
             <>
-              <AIPromptInput
-                prompt={prompt}
-                onPromptChange={setPrompt}
-              />
+              <AIPromptInput prompt={prompt} onPromptChange={setPrompt} />
 
               <AIParameters
                 variants={variants}

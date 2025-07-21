@@ -29,10 +29,10 @@ export const SmartRedirect = () => {
     const savedPath = sessionStorage.getItem("post_refresh_path");
     const savedAt = sessionStorage.getItem("navigation_saved_at");
 
-    console.log("SmartRedirect: Checking saved navigation state:", {
-      savedPath,
-      savedAt,
-    });
+    // console.log("SmartRedirect: Checking saved navigation state:", {
+    //   savedPath,
+    //   savedAt,
+    // });
 
     if (savedPath && savedAt) {
       // Check if the saved navigation state is not too old (within 5 minutes)
@@ -40,7 +40,7 @@ export const SmartRedirect = () => {
       const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
       if (savedTimestamp > fiveMinutesAgo) {
-        console.log("SmartRedirect: Using saved path:", savedPath);
+        // console.log("SmartRedirect: Using saved path:", savedPath);
 
         // Clear the stored path to prevent loops
         sessionStorage.removeItem("post_refresh_path");
@@ -58,9 +58,9 @@ export const SmartRedirect = () => {
         setRedirectPath(savedPath);
         return;
       } else {
-        console.log(
-          "SmartRedirect: Saved navigation state is too old, clearing it"
-        );
+        // console.log(
+        //   "SmartRedirect: Saved navigation state is too old, clearing it"
+        // );
         sessionStorage.removeItem("post_refresh_path");
         sessionStorage.removeItem("scrollY");
         sessionStorage.removeItem("navigation_saved_at");
@@ -68,7 +68,7 @@ export const SmartRedirect = () => {
     }
 
     // Default to dashboard if no saved path
-    console.log("SmartRedirect: No valid saved path, defaulting to dashboard");
+    // console.log("SmartRedirect: No valid saved path, defaulting to dashboard");
     setRedirectPath("/location-dashboard/default");
   }, [isAuthenticated, isAuthLoading, shouldWaitForAuth]);
 

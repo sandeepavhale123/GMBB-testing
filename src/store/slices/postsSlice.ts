@@ -203,7 +203,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setFilter: (state, action) => {
-      console.log("Setting filter to:", action.payload);
+      // console.log("Setting filter to:", action.payload);
       state.filter = action.payload;
     },
     setSearchQuery: (state, action) => {
@@ -238,11 +238,11 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("Raw API response:", action.payload);
+        // console.log("Raw API response:", action.payload);
         state.posts = action.payload.data.posts.map(
           transformApiPostToFrontendPost
         );
-        console.log("Transformed posts:", state.posts);
+        // console.log("Transformed posts:", state.posts);
         state.pagination = action.payload.data.pagination;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -255,7 +255,7 @@ const postsSlice = createSlice({
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.createLoading = false;
-        console.log("Post created successfully:", action.payload);
+        // console.log("Post created successfully:", action.payload);
         // Increment total posts count
         state.pagination.totalPosts += 1;
       })
@@ -269,7 +269,7 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.deleteLoading = false;
-        console.log("Posts deleted successfully:", action.payload);
+        // console.log("Posts deleted successfully:", action.payload);
         // Remove deleted posts from state
         const deletedIds = action.payload.deletedPostIds.map((id) =>
           id.toString()

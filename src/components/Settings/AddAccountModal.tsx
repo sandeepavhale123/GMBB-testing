@@ -30,7 +30,7 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
       window.location.href = authUrl;
       setIsConnecting(false);
     } catch (err) {
-      console.log("error", err);
+      // console.log("error", err);
       toast({
         title: "Connection Error",
         description:

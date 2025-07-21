@@ -58,14 +58,14 @@ export const PostCard: React.FC<PostCardProps> = ({
   const [imageError, setImageError] = useState(false);
 
   // Debug logging to check post status
-  console.log(
-    "PostCard - Post ID:",
-    post.id,
-    "Status:",
-    post.status,
-    "Post:",
-    post
-  );
+  // console.log(
+  //   "PostCard - Post ID:",
+  //   post.id,
+  //   "Status:",
+  //   post.status,
+  //   "Post:",
+  //   post
+  // );
 
   const getStatusColor = (status: string) => {
     switch (status) {

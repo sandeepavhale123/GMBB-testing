@@ -45,11 +45,11 @@ export const PublicGeoRankingReport: React.FC = () => {
   const reportId = window.location.pathname.split("/").pop() || "";
   const { data: keywordData, isLoading: isKeywordLoading } =
     usePerformanceGeoKeywords(reportId);
-  console.log("georanking keywords data....", keywordData);
+  // console.log("georanking keywords data....", keywordData);
 
   const { data: geoRankingData, isLoading: isGeoLoading } =
     usePerformanceGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
-  console.log("geo ranking report data", geoRankingData);
+  // console.log("geo ranking report data", geoRankingData);
 
   const reportType = geoRankingData?.data.reportType.toLowerCase();
   // Map refs for individual view
@@ -67,7 +67,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   const markersRef2 = useRef<L.Marker[]>([]);
 
   const geoData = geoRankingData?.data?.periodOne?.geo_data || [];
-  console.log("geoData for map rendering", geoData);
+  // console.log("geoData for map rendering", geoData);
 
   const comparisonData = geoRankingData?.data?.periodTwo?.geo_data || [];
   // Get rank color for grid display
@@ -104,11 +104,11 @@ export const PublicGeoRankingReport: React.FC = () => {
     markers: React.RefObject<L.Marker[]>,
     data: typeof geoData
   ) => {
-    console.log("mapinstance, data", mapInstance.current, data);
+    // console.log("mapinstance, data", mapInstance.current, data);
     if (!mapInstance.current || !data) return;
 
     data.forEach((detail, index) => {
-      console.log("rank maker", detail, index + 1);
+      // console.log("rank maker", detail, index + 1);
       // const [lat, lng] = detail.coordinate.split(",").map(Number);
       const lat = detail?.lat;
       const lng = detail?.lng;
@@ -220,7 +220,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   ) => {
     // Check if DOM element exists and is mounted
     if (!mapRef.current) {
-      console.log("Map container not ready or no coordinates");
+      // console.log("Map container not ready or no coordinates");
       return null;
     }
 
@@ -229,7 +229,7 @@ export const PublicGeoRankingReport: React.FC = () => {
       try {
         (mapInstanceRef as any).current.remove();
       } catch (e) {
-        console.log("Error removing existing map:", e);
+        // console.log("Error removing existing map:", e);
       }
       (mapInstanceRef as any).current = null;
     }
@@ -316,7 +316,7 @@ export const PublicGeoRankingReport: React.FC = () => {
         try {
           (mapInstanceRef as any).current.remove();
         } catch (e) {
-          console.log("Error during map cleanup:", e);
+          // console.log("Error during map cleanup:", e);
         }
         (mapInstanceRef as any).current = null;
       }
@@ -339,7 +339,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     const initMaps = setTimeout(() => {
       if (reportType === "individual") {
         map1 = initializeMap(mapRef, mapInstanceRef, markersRef, geoData);
-        console.log("map1 data", map1);
+        // console.log("map1 data", map1);
       } else {
         // Initialize both maps for comparison with additional delay
         map1 = initializeMap(mapRef1, mapInstanceRef1, markersRef1, geoData);
@@ -491,7 +491,7 @@ export const PublicGeoRankingReport: React.FC = () => {
         </Card>
 
         {/* Report Type Toggle */}
-        <Card>
+        {/* <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -505,7 +505,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                   <span className="font-medium">{selectedKeywordLabel}</span>
                 </p>
               </div>
-              {/* <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3">
                 <span
                   className={`text-sm font-medium ${
                     reportType === "individual"
@@ -530,10 +530,10 @@ export const PublicGeoRankingReport: React.FC = () => {
                 >
                   Comparison
                 </span>
-              </div> */}
+              </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* GEO Ranking Report Content */}
         {reportType === "individual" ? (
@@ -543,11 +543,7 @@ export const PublicGeoRankingReport: React.FC = () => {
               <div>
                 {geoData?.length === 0 ? (
                   <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <div className="relative">
@@ -594,9 +590,16 @@ export const PublicGeoRankingReport: React.FC = () => {
               <CardContent className="p-6">
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold mb-1">
-                    Period 1 ({geoRankingData?.data?.periodOne?.date?.from_date}{" "}
-                    - {geoRankingData?.data?.periodOne?.date?.to_date})
+                    {selectedKeywordLabel}{" "}
+                    {geoRankingData?.data?.periodOne?.date?.from_date?.length >
+                      0 &&
+                      `(${formatToDayMonthYear(
+                        geoRankingData.data.periodOne.date.from_date
+                      )} - ${formatToDayMonthYear(
+                        geoRankingData.data.periodOne.date.to_date
+                      )})`}
                   </h3>
+
                   <p className="text-sm text-muted-foreground">
                     Visibility:{" "}
                     {geoRankingData?.data?.periodOne?.summary?.visibility || 0}%
@@ -604,11 +607,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 </div>
                 {geoData?.length === 0 ? (
                   <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <div className="relative">
@@ -653,8 +652,14 @@ export const PublicGeoRankingReport: React.FC = () => {
               <CardContent className="p-6">
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold mb-1">
-                    Period 2 ({geoRankingData?.data?.periodTwo?.date?.from_date}{" "}
-                    - {geoRankingData?.data?.periodTwo?.date?.to_date})
+                    {selectedKeywordLabel}{" "}
+                    {geoRankingData?.data?.periodTwo?.date?.from_date.length >
+                      0 &&
+                      `(${formatToDayMonthYear(
+                        geoRankingData?.data?.periodTwo?.date?.from_date
+                      )} - ${formatToDayMonthYear(
+                        geoRankingData?.data?.periodTwo?.date?.to_date
+                      )})`}
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     Visibility:{" "}
@@ -663,11 +668,7 @@ export const PublicGeoRankingReport: React.FC = () => {
                 </div>
                 {comparisonData?.length === 0 ? (
                   <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <div className="relative">

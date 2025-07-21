@@ -54,9 +54,9 @@ export const LoginForm = () => {
       const loginResult = await login(credentials);
       // Check if subscription expired
       if (loginResult?.subscriptionExpired) {
-        console.log(
-          "🚫 Login successful but subscription expired - redirecting to subscription page"
-        );
+        // console.log(
+        //   "🚫 Login successful but subscription expired - redirecting to subscription page"
+        // );
 
         toast({
           title: "Subscription Expired",
@@ -107,12 +107,11 @@ export const LoginForm = () => {
           src={lightLogo}
           alt="GMB Briefcase Logo"
           style={{
-            maxHeight:"60px",
-            height:"auto",
-            width:"auto",
-            maxWidth:"130px"
+            maxHeight: "60px",
+            height: "auto",
+            width: "auto",
+            maxWidth: "130px",
           }}
-          
         />
       </div>
 

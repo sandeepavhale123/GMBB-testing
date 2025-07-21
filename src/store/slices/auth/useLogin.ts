@@ -34,18 +34,18 @@ export const useLogin = () => {
       }
 
       const data: LoginResponse = await response.json();
-      console.log("Login response data:", data);
+      // console.log("Login response data:", data);
 
       // Check if subscription is expired based on planExpDate in profile
       const planExpDate = data.data.profile.planExpDate;
       const subscriptionExpired = isSubscriptionExpired(planExpDate);
 
-      console.log("Plan expiration date:", planExpDate);
-      console.log("Is subscription expired:", subscriptionExpired);
+      // console.log("Plan expiration date:", planExpDate);
+      // console.log("Is subscription expired:", subscriptionExpired);
 
       // Clear any existing business listings data before setting new user
       dispatch(clearUserListings());
-      console.log("🧹 Cleared existing business listings data on login");
+      // console.log("🧹 Cleared existing business listings data on login");
 
       // Dispatch actions to update Redux state (which also updates localStorage)
       dispatch(setAccessToken(data.data.jwtTokens.access_token));
@@ -53,7 +53,7 @@ export const useLogin = () => {
 
       // Set hasAttemptedRefresh to true since this is a fresh login with valid tokens
       dispatch(setHasAttemptedRefresh(true));
-      console.log("✅ Set hasAttemptedRefresh to true after successful login");
+      // console.log("✅ Set hasAttemptedRefresh to true after successful login");
 
       // Store additional items in localStorage
       localStorage.setItem("refresh_token", data.data.jwtTokens.refresh_token);
@@ -62,7 +62,7 @@ export const useLogin = () => {
 
       // Store current user session for tracking user changes
       localStorage.setItem("current_user_session", data.data.profile.userId);
-      console.log("💾 Stored user session ID:", data.data.profile.userId);
+      // console.log("💾 Stored user session ID:", data.data.profile.userId);
 
       // Return the response with our added subscriptionExpired flag
       return { ...data, subscriptionExpired };

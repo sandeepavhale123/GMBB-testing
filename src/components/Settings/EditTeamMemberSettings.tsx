@@ -6,10 +6,31 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ChevronLeft, ChevronRight, Eye, EyeOff, Loader2, Search, ChevronDown } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Loader2,
+  Search,
+  ChevronDown,
+} from "lucide-react";
 import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
 import { updateEditMember } from "@/store/slices/teamSlice";
@@ -23,12 +44,11 @@ interface EditFormData {
   role: string;
 }
 
-
 export const EditTeamMemberSettings: React.FC = () => {
   const { memberId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const {
     currentEditMember,
     isLoadingEdit,
@@ -38,7 +58,7 @@ export const EditTeamMemberSettings: React.FC = () => {
     fetchEditTeamMember,
     updateTeamMember,
     clearTeamEditError,
-    clearTeamSaveError
+    clearTeamSaveError,
   } = useTeam();
 
   const [formData, setFormData] = useState<EditFormData>({
@@ -46,17 +66,17 @@ export const EditTeamMemberSettings: React.FC = () => {
     lastName: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   // Tab state
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
 
   // Listing management state
-  const [selectedAccount, setSelectedAccount] = useState('All');
-  const [accountSearchQuery, setAccountSearchQuery] = useState('');
+  const [selectedAccount, setSelectedAccount] = useState("All");
+  const [accountSearchQuery, setAccountSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
@@ -79,22 +99,23 @@ export const EditTeamMemberSettings: React.FC = () => {
     hasUnsavedChanges,
     saveLoading,
     saveError,
-    getAssignedListingIds
+    getAssignedListingIds,
   } = useActiveAccounts({
-    employeeId: parseInt(memberId || '0'),
+    employeeId: parseInt(memberId || "0"),
     page: currentPage,
-    limit: pageSize
+    limit: pageSize,
   });
 
   // Filter accounts based on search query
-  const filteredAccounts = accountsWithAll.filter(account =>
+  const filteredAccounts = accountsWithAll.filter((account) =>
     account.accountName.toLowerCase().includes(accountSearchQuery.toLowerCase())
   );
 
   // Filter listings based on selected account (client-side filter)
-  const displayListings = selectedAccount === 'All' 
-    ? listings 
-    : listings.filter(listing => listing.accountName === selectedAccount);
+  const displayListings =
+    selectedAccount === "All"
+      ? listings
+      : listings.filter((listing) => listing.accountName === selectedAccount);
 
   // Use API pagination data
   const {
@@ -102,33 +123,49 @@ export const EditTeamMemberSettings: React.FC = () => {
     limit: currentApiLimit,
     hasMore,
     nextPageToken,
-    prevPageToken
+    prevPageToken,
   } = pagination;
 
   // Calculate total pages based on API data
   const totalApiPages = hasMore ? currentApiPage + 1 : currentApiPage;
-  
+
   // Get assigned listings count for current filter
-  const assignedCount = selectedAccount === 'All' 
-    ? totalAssignListings 
-    : displayListings.filter(listing => listing.allocated).length;
+  const assignedCount =
+    selectedAccount === "All"
+      ? totalAssignListings
+      : displayListings.filter((listing) => listing.allocated).length;
 
   // Track changes for save button
-  const hasProfileChanges = Object.keys(formData).some(key => {
+  const hasProfileChanges = Object.keys(formData).some((key) => {
     const formKey = key as keyof EditFormData;
-    return formData[formKey] !== (currentEditMember?.[formKey === 'email' ? 'username' : formKey] || '');
+    return (
+      formData[formKey] !==
+      (currentEditMember?.[formKey === "email" ? "username" : formKey] || "")
+    );
   });
 
   const hasListingChanges = hasUnsavedChanges();
-  const hasChanges = activeTab === 'profile' ? hasProfileChanges : hasListingChanges;
-  
+  const hasChanges =
+    activeTab === "profile" ? hasProfileChanges : hasListingChanges;
+
   // Add console logging for debugging
-  console.log('EditTeamMemberSettings - hasChanges:', hasChanges, 'activeTab:', activeTab, 'hasListingChanges:', hasListingChanges);
+  // console.log(
+  //   "EditTeamMemberSettings - hasChanges:",
+  //   hasChanges,
+  //   "activeTab:",
+  //   activeTab,
+  //   "hasListingChanges:",
+  //   hasListingChanges
+  // );
 
   const fetchedMemberIdRef = useRef<number | null>(null);
   useEffect(() => {
-    const memberIdNumber = parseInt(memberId || '0');
-    if (memberId && memberIdNumber && fetchedMemberIdRef.current !== memberIdNumber) {
+    const memberIdNumber = parseInt(memberId || "0");
+    if (
+      memberId &&
+      memberIdNumber &&
+      fetchedMemberIdRef.current !== memberIdNumber
+    ) {
       fetchedMemberIdRef.current = memberIdNumber;
       fetchEditTeamMember(memberIdNumber);
     }
@@ -142,7 +179,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         lastName: currentEditMember.lastName || "",
         email: currentEditMember.username || "", // Map username to email
         password: currentEditMember.password || "",
-        role: currentEditMember.role || ""
+        role: currentEditMember.role || "",
       });
     }
   }, [currentEditMember]);
@@ -157,7 +194,7 @@ export const EditTeamMemberSettings: React.FC = () => {
   }, [clearTeamEditError, clearTeamSaveError]);
 
   const handleInputChange = (field: keyof EditFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
@@ -165,7 +202,7 @@ export const EditTeamMemberSettings: React.FC = () => {
 
     setIsSaving(true);
     try {
-      if (activeTab === 'profile') {
+      if (activeTab === "profile") {
         // Save profile changes
         const updateData = {
           Id: parseInt(memberId),
@@ -173,19 +210,20 @@ export const EditTeamMemberSettings: React.FC = () => {
           lastName: formData.lastName,
           username: formData.email, // Map email back to username
           role: formData.role,
-          ...(formData.password && { password: formData.password }) // Only include password if provided
+          ...(formData.password && { password: formData.password }), // Only include password if provided
         };
 
         const result = await updateTeamMember(updateData);
-        
+
         if (updateEditMember.fulfilled.match(result)) {
           toast({
             title: "Success",
-            description: "Team member profile updated successfully",
+            description:
+              result.meta.message || "Team member profile updated successfully",
           });
           navigate("/settings/team-members");
         }
-      } else if (activeTab === 'listing') {
+      } else if (activeTab === "listing") {
         // Save listing assignments
         await saveAssignments();
 
@@ -197,7 +235,12 @@ export const EditTeamMemberSettings: React.FC = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || `Failed to update ${activeTab === 'profile' ? 'profile' : 'listing assignments'}`,
+        description:
+          error.message ||
+          error?.response?.data?.message ||
+          `Failed to update ${
+            activeTab === "profile" ? "profile" : "listing assignments"
+          }`,
         variant: "destructive",
       });
     } finally {
@@ -218,16 +261,18 @@ export const EditTeamMemberSettings: React.FC = () => {
     setSelectedAccount(accountName);
     setCurrentPage(1); // Reset to first page when changing account
     setIsAccountDropdownOpen(false);
-    setAccountSearchQuery(''); // Clear search when selecting
-    
-    if (accountName === 'All') {
+    setAccountSearchQuery(""); // Clear search when selecting
+
+    if (accountName === "All") {
       // Clear account search and show all listings
       clearAccountSearch();
       refetchListings();
     } else {
       // Find the account and trigger search
-      const account = accountsWithAll.find(acc => acc.accountName === accountName);
-      if (account && account.accountId !== 'All') {
+      const account = accountsWithAll.find(
+        (acc) => acc.accountName === accountName
+      );
+      if (account && account.accountId !== "All") {
         searchByAccount(parseInt(account.accountId));
       }
     }
@@ -245,7 +290,7 @@ export const EditTeamMemberSettings: React.FC = () => {
   };
 
   const getStatusBadgeVariant = (allocated: boolean) => {
-    return allocated ? 'default' : 'outline';
+    return allocated ? "default" : "outline";
   };
 
   // Show loading state
@@ -285,7 +330,9 @@ export const EditTeamMemberSettings: React.FC = () => {
         <Card>
           <CardContent className="p-6">
             <div className="text-center">
-              <p className="text-muted-foreground mb-4">Team member not found</p>
+              <p className="text-muted-foreground mb-4">
+                Team member not found
+              </p>
               <Button onClick={handleBack} variant="outline">
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 Back to Team Members
@@ -299,8 +346,6 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
-
-
       {/* Tab Section with Back Button */}
       <div className="bg-white border-b border-gray-200 mb-6">
         <div className="px-6 py-4">
@@ -315,21 +360,21 @@ export const EditTeamMemberSettings: React.FC = () => {
             </Button>
             <div className="flex space-x-8 -mb-[1px]">
               <button
-                onClick={() => setActiveTab('profile')}
+                onClick={() => setActiveTab("profile")}
                 className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'profile'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  activeTab === "profile"
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 Profile
               </button>
               <button
-                onClick={() => setActiveTab('listing')}
+                onClick={() => setActiveTab("listing")}
                 className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'listing'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  activeTab === "listing"
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 Listing
@@ -340,126 +385,134 @@ export const EditTeamMemberSettings: React.FC = () => {
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'profile' && (
+      {activeTab === "profile" && (
         <Card>
           <CardHeader>
             <CardTitle>Edit Team Member</CardTitle>
           </CardHeader>
-            <CardContent className="p-6">
-              {teamSaveError && (
-                <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                  <p className="text-destructive text-sm">{teamSaveError}</p>
-                </div>
-              )}
+          <CardContent className="p-6">
+            {teamSaveError && (
+              <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                <p className="text-destructive text-sm">{teamSaveError}</p>
+              </div>
+            )}
 
-              {/* Form Fields */}
-              <div className="grid grid-cols-2 gap-6">
-                {/* First Row */}
-                <div>
-                  <Label htmlFor="firstName">First name</Label>
+            {/* Form Fields */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* First Row */}
+              <div>
+                <Label htmlFor="firstName">First name</Label>
+                <Input
+                  id="firstName"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    handleInputChange("firstName", e.target.value)
+                  }
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
+              </div>
+              <div>
+                <Label htmlFor="lastName">Last name</Label>
+                <Input
+                  id="lastName"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    handleInputChange("lastName", e.target.value)
+                  }
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
+              </div>
+
+              {/* Second Row */}
+              <div>
+                <Label htmlFor="email">Email Id</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <div className="relative mt-1">
                   <Input
-                    id="firstName"
-                    value={formData.firstName}
-                    onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className="mt-1"
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) =>
+                      handleInputChange("password", e.target.value)
+                    }
+                    className="pr-10"
+                    placeholder="Leave empty to keep current password"
                     disabled={isSavingEdit}
                   />
-                </div>
-                <div>
-                  <Label htmlFor="lastName">Last name</Label>
-                  <Input
-                    id="lastName"
-                    value={formData.lastName}
-                    onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className="mt-1"
-                    disabled={isSavingEdit}
-                  />
-                </div>
-
-                {/* Second Row */}
-                <div>
-                  <Label htmlFor="email">Email Id</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="mt-1"
-                    disabled={isSavingEdit}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative mt-1">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={formData.password}
-                      onChange={(e) => handleInputChange('password', e.target.value)}
-                      className="pr-10"
-                      placeholder="Leave empty to keep current password"
-                      disabled={isSavingEdit}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                      disabled={isSavingEdit}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Third Row */}
-                <div className="col-span-1">
-                  <Label htmlFor="role">Select Role</Label>
-                  <Select
-                    value={formData.role}
-                    onValueChange={(value) => handleInputChange('role', value)}
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
                     disabled={isSavingEdit}
                   >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Moderator">Moderator</SelectItem>
-                      <SelectItem value="Staff">Staff</SelectItem>
-                      <SelectItem value="Client">Client</SelectItem>
-                      <SelectItem value="Lead Generator">Lead Generator</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
                 </div>
               </div>
 
-              {/* Save Button */}
-              <div className="flex justify-end mt-8">
-                <Button 
-                  onClick={handleSave} 
-                  className="px-8"
-                  disabled={isSaving || !hasChanges}
+              {/* Third Row */}
+              <div className="col-span-1">
+                <Label htmlFor="role">Select Role</Label>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) => handleInputChange("role", value)}
+                  disabled={isSavingEdit}
                 >
-                  {isSaving ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Changes"
-                  )}
-                </Button>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Moderator">Moderator</SelectItem>
+                    <SelectItem value="Staff">Staff</SelectItem>
+                    <SelectItem value="Client">Client</SelectItem>
+                    <SelectItem value="Lead Generator">
+                      Lead Generator
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            </CardContent>
+            </div>
+
+            {/* Save Button */}
+            <div className="flex justify-end mt-8">
+              <Button
+                onClick={handleSave}
+                className="px-8"
+                disabled={isSaving || !hasChanges}
+              >
+                {isSaving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
+            </div>
+          </CardContent>
         </Card>
       )}
 
-      {activeTab === 'listing' && (
+      {activeTab === "listing" && (
         <Card>
           <CardHeader>
             <CardTitle>Listing Management</CardTitle>
@@ -475,12 +528,14 @@ export const EditTeamMemberSettings: React.FC = () => {
                     <Button
                       variant="outline"
                       className="w-full justify-between"
-                      onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
+                      onClick={() =>
+                        setIsAccountDropdownOpen(!isAccountDropdownOpen)
+                      }
                     >
                       <span className="truncate">{selectedAccount}</span>
                       <ChevronDown className="h-4 w-4 opacity-50" />
                     </Button>
-                    
+
                     {isAccountDropdownOpen && (
                       <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
                         <div className="p-2 border-b">
@@ -489,7 +544,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                             <Input
                               placeholder="Search accounts..."
                               value={accountSearchQuery}
-                              onChange={(e) => setAccountSearchQuery(e.target.value)}
+                              onChange={(e) =>
+                                setAccountSearchQuery(e.target.value)
+                              }
                               className="pl-8"
                             />
                           </div>
@@ -499,10 +556,14 @@ export const EditTeamMemberSettings: React.FC = () => {
                             <button
                               key={account.accountId}
                               className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center"
-                              onClick={() => handleAccountSelect(account.accountName)}
+                              onClick={() =>
+                                handleAccountSelect(account.accountName)
+                              }
                             >
                               <span>{account.accountName}</span>
-                              <span className="text-muted-foreground">({account.totalListings || 0})</span>
+                              <span className="text-muted-foreground">
+                                ({account.totalListings || 0})
+                              </span>
                             </button>
                           ))}
                           {filteredAccounts.length === 0 && (
@@ -518,7 +579,9 @@ export const EditTeamMemberSettings: React.FC = () => {
 
                 {/* Assigned Listing Badge (20% width) */}
                 <div className="flex-shrink-0">
-                  <Label className="text-sm font-medium">Assigned Listings</Label>
+                  <Label className="text-sm font-medium">
+                    Assigned Listings
+                  </Label>
                   <div className="mt-1">
                     <Badge variant="secondary" className="text-sm px-3 py-1">
                       {totalAssignListings} Assigned
@@ -529,37 +592,50 @@ export const EditTeamMemberSettings: React.FC = () => {
 
               {/* Listings Table */}
               <div className="border rounded-lg">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[40%]">Business Name</TableHead>
-                        <TableHead className="w-[40%]">Account</TableHead>
-                        <TableHead className="w-[20%] text-center">Assign</TableHead>
-                      </TableRow>
-                    </TableHeader>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[40%]">Business Name</TableHead>
+                      <TableHead className="w-[40%]">Account</TableHead>
+                      <TableHead className="w-[20%] text-center">
+                        Assign
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
                   <TableBody>
                     {listingsLoading ? (
                       <TableRow>
                         <TableCell colSpan={5} className="text-center py-8">
                           <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
-                          <p className="text-muted-foreground">Loading listings...</p>
+                          <p className="text-muted-foreground">
+                            Loading listings...
+                          </p>
                         </TableCell>
                       </TableRow>
                     ) : listingsError ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8 text-destructive">
+                        <TableCell
+                          colSpan={5}
+                          className="text-center py-8 text-destructive"
+                        >
                           Error loading listings: {listingsError}
                         </TableCell>
                       </TableRow>
                     ) : displayListings.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={5}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           No listings found for the selected account
                         </TableCell>
                       </TableRow>
                     ) : (
                       displayListings.map((listing) => (
-                        <TableRow key={listing.id} className="hover:bg-muted/50">
+                        <TableRow
+                          key={listing.id}
+                          className="hover:bg-muted/50"
+                        >
                           <TableCell className="font-medium">
                             {listing.name}
                           </TableCell>
@@ -569,7 +645,9 @@ export const EditTeamMemberSettings: React.FC = () => {
                           <TableCell className="text-center">
                             <Switch
                               checked={listing.allocated}
-                              onCheckedChange={() => handleListingToggle(listing.id)}
+                              onCheckedChange={() =>
+                                handleListingToggle(listing.id)
+                              }
                             />
                           </TableCell>
                         </TableRow>
@@ -584,15 +662,23 @@ export const EditTeamMemberSettings: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">
-                      Page {currentApiPage} of {totalApiPages} • {displayListings.length} listings
+                      Page {currentApiPage} of {totalApiPages} •{" "}
+                      {displayListings.length} listings
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center gap-4">
                     {/* Page Size Selector */}
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">Show:</span>
-                      <Select value={pageSize.toString()} onValueChange={(value) => handlePageSizeChange(parseInt(value))}>
+                      <span className="text-sm text-muted-foreground">
+                        Show:
+                      </span>
+                      <Select
+                        value={pageSize.toString()}
+                        onValueChange={(value) =>
+                          handlePageSizeChange(parseInt(value))
+                        }
+                      >
                         <SelectTrigger className="h-8 w-16">
                           <SelectValue />
                         </SelectTrigger>
@@ -615,19 +701,23 @@ export const EditTeamMemberSettings: React.FC = () => {
                       >
                         Previous
                       </Button>
-                      
+
                       <div className="flex items-center gap-1">
                         <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
                           {currentApiPage}
                         </span>
                         {hasMore && (
                           <>
-                            <span className="text-sm text-muted-foreground">of</span>
-                            <span className="text-sm text-muted-foreground">{totalApiPages}+</span>
+                            <span className="text-sm text-muted-foreground">
+                              of
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {totalApiPages}+
+                            </span>
                           </>
                         )}
                       </div>
-                      
+
                       <Button
                         variant="outline"
                         size="sm"
@@ -644,12 +734,12 @@ export const EditTeamMemberSettings: React.FC = () => {
 
             {/* Save Button */}
             <div className="flex justify-end mt-8 pt-6 border-t">
-              <Button 
-                onClick={handleSave} 
+              <Button
+                onClick={handleSave}
                 className="px-8"
                 disabled={isSaving || saveLoading || !hasChanges}
               >
-                {(isSaving || saveLoading) ? (
+                {isSaving || saveLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Saving...

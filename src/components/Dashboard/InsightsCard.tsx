@@ -1,26 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Skeleton } from '../ui/skeleton';
-import { Eye, MapPin, Search, TrendingUp, TrendingDown, MousePointer, Navigation, Phone, MessageSquare, BarChart3 } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchInsightsSummary } from '../../store/slices/insightsSlice';
-import { useListingContext } from '../../context/ListingContext';
-import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Skeleton } from "../ui/skeleton";
+import {
+  Eye,
+  MapPin,
+  Search,
+  TrendingUp,
+  TrendingDown,
+  MousePointer,
+  Navigation,
+  Phone,
+  MessageSquare,
+  BarChart3,
+} from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { fetchInsightsSummary } from "../../store/slices/insightsSlice";
+import { useListingContext } from "../../context/ListingContext";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 export const InsightsCard: React.FC = () => {
-  const [dateRange, setDateRange] = useState('30');
+  const [dateRange, setDateRange] = useState("30");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedListing } = useListingContext();
-  
-  const { 
-    summary, 
-    isLoadingSummary,
-    summaryError 
-  } = useAppSelector(state => state.insights);
+
+  const { summary, isLoadingSummary, summaryError } = useAppSelector(
+    (state) => state.insights
+  );
 
   // Fetch data when component mounts or parameters change
   useEffect(() => {
@@ -35,16 +50,16 @@ export const InsightsCard: React.FC = () => {
     const params = {
       listingId: parseInt(selectedListing.id, 10),
       dateRange,
-      startDate: '',
-      endDate: '',
+      startDate: "",
+      endDate: "",
     };
 
-    console.log('Fetching dashboard insights data with params:', params);
-    
+    // console.log('Fetching dashboard insights data with params:', params);
+
     try {
       await dispatch(fetchInsightsSummary(params));
     } catch (error) {
-      console.error('Error fetching dashboard insights data:', error);
+      console.error("Error fetching dashboard insights data:", error);
     }
   };
 
@@ -53,14 +68,14 @@ export const InsightsCard: React.FC = () => {
   };
 
   const handleViewInsights = () => {
-    navigate('/insights');
+    navigate("/insights");
   };
 
   // Top search queries mock data (since this data is not in the current API response)
   const topQueries = [
-    { query: 'restaurant near me', impressions: 2847, trend: 'up' },
-    { query: 'best pizza delivery', impressions: 1923, trend: 'up' },
-    { query: 'italian restaurant', impressions: 1456, trend: 'down' },
+    { query: "restaurant near me", impressions: 2847, trend: "up" },
+    { query: "best pizza delivery", impressions: 1923, trend: "up" },
+    { query: "italian restaurant", impressions: 1456, trend: "down" },
   ];
 
   return (
@@ -105,55 +120,86 @@ export const InsightsCard: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Search className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-gray-700">Search Views</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Search Views
+                  </span>
                 </div>
                 <p className="text-2xl font-bold text-gray-900">
-                  {summary?.visibility_summary.google_search_views.current_period || 0}
+                  {summary?.visibility_summary.google_search_views
+                    .current_period || 0}
                 </p>
-                <p className={`text-xs flex items-center gap-1 ${
-                  summary?.visibility_summary.google_search_views.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {summary?.visibility_summary.google_search_views.trend === 'up' ? (
+                <p
+                  className={`text-xs flex items-center gap-1 ${
+                    summary?.visibility_summary.google_search_views.trend ===
+                    "up"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {summary?.visibility_summary.google_search_views.trend ===
+                  "up" ? (
                     <TrendingUp className="w-3 h-3" />
                   ) : (
                     <TrendingDown className="w-3 h-3" />
                   )}
-                  {summary?.visibility_summary.google_search_views.percentage_change > 0 ? '+' : ''}
-                  {summary?.visibility_summary.google_search_views.percentage_change || 0}%
+                  {summary?.visibility_summary.google_search_views
+                    .percentage_change > 0
+                    ? "+"
+                    : ""}
+                  {summary?.visibility_summary.google_search_views
+                    .percentage_change || 0}
+                  %
                 </p>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-red-600" />
-                  <span className="text-sm font-medium text-gray-700">Maps Views</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Maps Views
+                  </span>
                 </div>
                 <p className="text-2xl font-bold text-gray-900">
-                  {summary?.visibility_summary.google_maps_views.current_period || 0}
+                  {summary?.visibility_summary.google_maps_views
+                    .current_period || 0}
                 </p>
-                <p className={`text-xs flex items-center gap-1 ${
-                  summary?.visibility_summary.google_maps_views.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {summary?.visibility_summary.google_maps_views.trend === 'up' ? (
+                <p
+                  className={`text-xs flex items-center gap-1 ${
+                    summary?.visibility_summary.google_maps_views.trend === "up"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {summary?.visibility_summary.google_maps_views.trend ===
+                  "up" ? (
                     <TrendingUp className="w-3 h-3" />
                   ) : (
                     <TrendingDown className="w-3 h-3" />
                   )}
-                  {summary?.visibility_summary.google_maps_views.percentage_change > 0 ? '+' : ''}
-                  {summary?.visibility_summary.google_maps_views.percentage_change || 0}%
+                  {summary?.visibility_summary.google_maps_views
+                    .percentage_change > 0
+                    ? "+"
+                    : ""}
+                  {summary?.visibility_summary.google_maps_views
+                    .percentage_change || 0}
+                  %
                 </p>
               </div>
             </div>
 
             {/* Customer Interactions */}
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Customer Actions</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">
+                Customer Actions
+              </h4>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
                   <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                     <Phone className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.phone_calls.value || 0}</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {summary?.customer_actions.phone_calls.value || 0}
+                    </p>
                     <p className="text-xs text-gray-600">Calls</p>
                   </div>
                 </div>
@@ -162,7 +208,9 @@ export const InsightsCard: React.FC = () => {
                     <MousePointer className="w-4 h-4 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.website_clicks.value || 0}</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {summary?.customer_actions.website_clicks.value || 0}
+                    </p>
                     <p className="text-xs text-gray-600">Website</p>
                   </div>
                 </div>
@@ -171,7 +219,9 @@ export const InsightsCard: React.FC = () => {
                     <Navigation className="w-4 h-4 text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.direction_requests.value || 0}</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {summary?.customer_actions.direction_requests.value || 0}
+                    </p>
                     <p className="text-xs text-gray-600">Directions</p>
                   </div>
                 </div>
@@ -180,7 +230,9 @@ export const InsightsCard: React.FC = () => {
                     <MessageSquare className="w-4 h-4 text-orange-600" />
                   </div>
                   <div>
-                    <p className="text-lg font-bold text-gray-900">{summary?.customer_actions.messages.value || 0}</p>
+                    <p className="text-lg font-bold text-gray-900">
+                      {summary?.customer_actions.messages.value || 0}
+                    </p>
                     <p className="text-xs text-gray-600">Messages</p>
                   </div>
                 </div>
@@ -189,17 +241,28 @@ export const InsightsCard: React.FC = () => {
 
             {/* Top Search Queries */}
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Top Search Queries</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">
+                Top Search Queries
+              </h4>
               <div className="space-y-2">
                 {topQueries.map((query, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-gray-50">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-2 rounded-lg bg-gray-50"
+                  >
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-500">#{index + 1}</span>
-                      <span className="text-sm text-gray-900">{query.query}</span>
+                      <span className="text-xs font-medium text-gray-500">
+                        #{index + 1}
+                      </span>
+                      <span className="text-sm text-gray-900">
+                        {query.query}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-600">{query.impressions}</span>
-                      {query.trend === 'up' ? (
+                      <span className="text-xs text-gray-600">
+                        {query.impressions}
+                      </span>
+                      {query.trend === "up" ? (
                         <TrendingUp className="w-3 h-3 text-green-600" />
                       ) : (
                         <TrendingDown className="w-3 h-3 text-red-600" />

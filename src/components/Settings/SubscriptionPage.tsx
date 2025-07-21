@@ -18,10 +18,10 @@ import { fetchUserProfile } from "@/store/slices/profileSlice";
 const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
 );
-console.log(
-  "stripe promise......",
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-);
+// console.log(
+//   "stripe promise......",
+//   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+// );
 interface PlanFeature {
   name: string;
   business: boolean | number | string;
@@ -120,18 +120,19 @@ export const SubscriptionPage: React.FC = () => {
   const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string | null>(
     null
   );
-  const [showUnsubscribeModal, setShowUnsubscribeModal] = useState<boolean>(false);
+  const [showUnsubscribeModal, setShowUnsubscribeModal] =
+    useState<boolean>(false);
   const [isUnsubscribing, setIsUnsubscribing] = useState<boolean>(false);
-  
+
   // Get profile refresh functions
   const dispatch = useAppDispatch();
   const { profileData } = useProfile();
-  
+
   const refreshProfileData = async () => {
     // Trigger immediate profile data refresh in Redux store
     dispatch(fetchUserProfile());
   };
-  
+
   const renderFeatureValue = (value: boolean | number | string) => {
     if (typeof value === "boolean") {
       return value ? (
@@ -146,10 +147,10 @@ export const SubscriptionPage: React.FC = () => {
     const fetchUserPlan = async () => {
       try {
         const response = await axiosInstance.get("/get-user-profile");
-        console.log(
-          "user data from user profile",
-          response.data.data.profileDetails
-        );
+        // console.log(
+        //   "user data from user profile",
+        //   response.data.data.profileDetails
+        // );
         const { planId, planExpDate, planName } =
           response.data.data.profileDetails;
         if (planId) {
@@ -159,11 +160,11 @@ export const SubscriptionPage: React.FC = () => {
           setPlanExpDate(planExpDate);
           const expired = isSubscriptionExpired(planExpDate);
           setIsExpired(expired);
-          console.log("Plan expiration check:", {
-            planExpDate,
-            isExpired: expired,
-            planId,
-          });
+          // console.log("Plan expiration check:", {
+          //   planExpDate,
+          //   isExpired: expired,
+          //   planId,
+          // });
         }
       } catch (error) {
         console.error("Failed to fetch user plan:", error);
@@ -175,12 +176,12 @@ export const SubscriptionPage: React.FC = () => {
   // Check for successful payment return and refresh profile data
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const paymentSuccess = urlParams.get('payment_success');
-    
-    if (paymentSuccess === 'true') {
+    const paymentSuccess = urlParams.get("payment_success");
+
+    if (paymentSuccess === "true") {
       // Payment was successful, refresh profile data immediately
       refreshProfileData();
-      
+
       // Clean up URL parameters
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
@@ -189,7 +190,7 @@ export const SubscriptionPage: React.FC = () => {
   const isPlanActive = (planId: string) => {
     return activePlanId === planId && !isExpired;
   };
-  console.log("active plan id", activePlanId);
+  // console.log("active plan id", activePlanId);
   const paynowId = ["50", "51", "0", "34", "68", "69", "70"];
   const hasActivePlan = () => {
     return (
@@ -198,7 +199,7 @@ export const SubscriptionPage: React.FC = () => {
       !isExpired
     );
   };
-  console.log("Has active plan", hasActivePlan());
+  // console.log("Has active plan", hasActivePlan());
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -213,8 +214,8 @@ export const SubscriptionPage: React.FC = () => {
     if (isProcessing === planId) {
       return "Processing...";
     }
-    console.log("planid", planId);
-    console.log("active plan ", isPlanActive(planId));
+    // console.log("planid", planId);
+    // console.log("active plan ", isPlanActive(planId));
     // Show "Pay Now" if no active plan, "Upgrade Now" if there's an active plan
     return hasActivePlan()
       ? isPlanActive(planId)
@@ -244,7 +245,7 @@ export const SubscriptionPage: React.FC = () => {
     setSelectedPlan(planId);
     try {
       // Here you would integrate with your payment system
-      console.log(`Selected plan: ${planId}`);
+      // console.log(`Selected plan: ${planId}`);
 
       // Call custom backend API to create subscription
       const response = await axiosInstance.post(
@@ -256,11 +257,11 @@ export const SubscriptionPage: React.FC = () => {
         }
       );
       const data = response.data;
-      console.log("response from the backend", response.data);
+      // console.log("response from the backend", response.data);
       if (data.id) {
         // Get Stripe instance and redirect to checkout
         const stripe = await stripePromise;
-        console.log("stripe key", stripe);
+        // console.log("stripe key", stripe);
         if (!stripe) {
           throw new Error("Stripe failed to initialize");
         }
@@ -302,7 +303,7 @@ export const SubscriptionPage: React.FC = () => {
       const response = await axiosInstance.post("/update-subscription", {
         planId: selectedUpgradePlan,
       });
-      console.log("response message on upgrade", response);
+      // console.log("response message on upgrade", response);
 
       toast({
         title: "Upgrade Successful",
@@ -322,7 +323,6 @@ export const SubscriptionPage: React.FC = () => {
 
       // Trigger immediate profile refresh for sidebar update
       await refreshProfileData();
-      
     } catch (error) {
       console.error("Upgrade error:", error);
       toast({
@@ -347,9 +347,9 @@ export const SubscriptionPage: React.FC = () => {
     try {
       const response = await axiosInstance.post(
         `${import.meta.env.VITE_BASE_URL}/cancel-subscription`,
-        { 
+        {
           isDelete: "delete",
-          feedback: feedback 
+          feedback: feedback,
         }
       );
 
@@ -363,7 +363,7 @@ export const SubscriptionPage: React.FC = () => {
       setActivePlanId(null);
       setPlanExpDate(null);
       setIsExpired(false);
-      
+
       // Trigger immediate profile refresh for sidebar update
       await refreshProfileData();
     } catch (error: any) {

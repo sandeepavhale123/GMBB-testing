@@ -79,7 +79,7 @@ const extractImageUrl = (mediaImages: string): string => {
 };
 
 const transformApiPostToScheduledPost = (apiPost: ApiPost): ScheduledPost => {
-  console.log("post datain transformed api post", apiPost);
+  // console.log("post datain transformed api post", apiPost);
   return {
     id: apiPost.id,
     title: apiPost.title || "Untitled Post",

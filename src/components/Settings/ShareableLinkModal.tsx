@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -24,7 +19,7 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [allowListings, setAllowListings] = useState(0);
-  
+
   if (!member) return null;
 
   const shareableLink = `https://yourapp.com/login?token=${member.id}`;
@@ -41,14 +36,17 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
     } catch (err) {
       toast({
         title: "Failed to copy",
-        description: "Please copy the link manually",
+        description:
+          err.message ||
+          err?.response?.data?.message ||
+          "Please copy the link manually",
         variant: "destructive",
       });
     }
   };
 
   const handleOpenLink = () => {
-    window.open(shareableLink, '_blank');
+    window.open(shareableLink, "_blank");
   };
 
   return (
@@ -57,7 +55,7 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
         <DialogHeader>
           <DialogTitle>Shareable Link</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           <div className="text-sm text-gray-600">
             Share this link with{" "}
@@ -125,10 +123,7 @@ export const ShareableLinkModal: React.FC<ShareableLinkModalProps> = ({
             >
               Close
             </Button>
-            <Button
-              onClick={handleOpenLink}
-              className="flex-1"
-            >
+            <Button onClick={handleOpenLink} className="flex-1">
               <ExternalLink className="h-4 w-4 mr-2" />
               Test Link
             </Button>

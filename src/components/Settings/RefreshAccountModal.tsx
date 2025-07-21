@@ -54,7 +54,7 @@ export const RefreshAccountModal: React.FC<
       return [groupId, group?.name || ""];
     });
 
-    console.log("Submitting with accountGrpIds format:", selectedGroupPairs);
+    // console.log("Submitting with accountGrpIds format:", selectedGroupPairs);
     onSubmit(selectedGroupPairs);
     setSelectedGroups([]);
   };

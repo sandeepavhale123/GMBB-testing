@@ -55,7 +55,7 @@ export const PublicReviewsReport: React.FC = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading review report</div>;
 
-  console.log("Review Report:", reviewsData);
+  // console.log("Review Report:", reviewsData);
 
   // Extract visible sections from API response
   const visibleSections = Object.entries(reviewsData?.data.visibleSection || {})
@@ -430,7 +430,7 @@ export const PublicReviewsReport: React.FC = () => {
                       {isSentimentEmpty1 ? (
                         <div className="flex justify-center ">
                           <img
-                            src="../../../public/nodata.svg"
+                            src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
@@ -519,7 +519,7 @@ export const PublicReviewsReport: React.FC = () => {
                       {isSentimentEmpty2 ? (
                         <div className="flex justify-center">
                           <img
-                            src="../../../public/nodata.svg"
+                            src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
@@ -658,7 +658,7 @@ export const PublicReviewsReport: React.FC = () => {
                       {isSentimentEmpty1 ? (
                         <div className="flex justify-center">
                           <img
-                            src="../../../public/nodata.svg"
+                            src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
@@ -780,11 +780,7 @@ export const PublicReviewsReport: React.FC = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     {trend1.length === 0 ? (
                       <div className="flex justify-center">
-                        <img
-                          src="../../../public/nodata.svg"
-                          alt="No Data"
-                          className="h-64"
-                        />
+                        <img src="/nodata.svg" alt="No Data" className="h-64" />
                       </div>
                     ) : (
                       <LineChart
@@ -864,11 +860,7 @@ export const PublicReviewsReport: React.FC = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     {trend2.length === 0 ? (
                       <div className="flex justify-center">
-                        <img
-                          src="../../../public/nodata.svg"
-                          alt="No Data"
-                          className="h-64"
-                        />
+                        <img src="/nodata.svg" alt="No Data" className="h-64" />
                       </div>
                     ) : (
                       <LineChart
@@ -1013,11 +1005,7 @@ export const PublicReviewsReport: React.FC = () => {
               <CardContent>
                 {trend1.length === 0 ? (
                   <div className="flex justify-center">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <Table>
@@ -1063,11 +1051,7 @@ export const PublicReviewsReport: React.FC = () => {
               <CardContent>
                 {trend2.length === 0 ? (
                   <div className="flex justify-center">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <Table>
@@ -1113,11 +1097,7 @@ export const PublicReviewsReport: React.FC = () => {
             <CardContent>
               {trend1.length === 0 ? (
                 <div className="flex justify-center">
-                  <img
-                    src="../../../public/nodata.svg"
-                    alt="No Data"
-                    className="h-64"
-                  />
+                  <img src="/nodata.svg" alt="No Data" className="h-64" />
                 </div>
               ) : (
                 <Table>
@@ -1165,11 +1145,7 @@ export const PublicReviewsReport: React.FC = () => {
               <CardContent>
                 {recentReviews1.length === 0 ? (
                   <div className="flex justify-center">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -1242,11 +1218,7 @@ export const PublicReviewsReport: React.FC = () => {
               <CardContent>
                 {recentReviews2.length === 0 ? (
                   <div className="flex justify-center">
-                    <img
-                      src="../../../public/nodata.svg"
-                      alt="No Data"
-                      className="h-64"
-                    />
+                    <img src="/nodata.svg" alt="No Data" className="h-64" />
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -1319,11 +1291,7 @@ export const PublicReviewsReport: React.FC = () => {
             <CardContent>
               {recentReviews1.length === 0 ? (
                 <div className="flex justify-center">
-                  <img
-                    src="../../../public/nodata.svg"
-                    alt="No Data"
-                    className="h-64"
-                  />
+                  <img src="/nodata.svg" alt="No Data" className="h-64" />
                 </div>
               ) : (
                 <div className="space-y-6">

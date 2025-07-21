@@ -41,7 +41,7 @@ export const VerifySignupPage = () => {
         }
 
         const data = await res.json();
-        console.log("✅ Verification success:", data);
+        // console.log("✅ Verification success:", data);
         setStatus("success");
 
         toast({
@@ -60,7 +60,7 @@ export const VerifySignupPage = () => {
 
         toast({
           title: "Verification Failed",
-          description: err.message,
+          description: err.message || err?.response?.data?.message,
           variant: "destructive",
         });
       }

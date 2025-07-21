@@ -44,21 +44,21 @@ const SelectGoalStep = ({
   } = useSelector((state: RootState) => state.onboarding);
 
   useEffect(() => {
-    console.log("loading goals on mount");
+    // console.log("loading goals on mount");
     dispatch(fetchGoals());
   }, []);
 
   /// Update selected goals when API data loads
   useEffect(() => {
     if (goalsData?.data && !hasInitialized) {
-      console.log("Goals data loaded:", goalsData);
+      // console.log("Goals data loaded:", goalsData);
 
       // Check if there are pre-selected goals from API activeList
       const activeList = (goalsData.data as any).activeList;
-      console.log("activegoals....", activeList);
+      // console.log("activegoals....", activeList);
       if (activeList && Array.isArray(activeList) && activeList.length > 0) {
         const preSelectedGoals = activeList.map((item: any) => item.toString());
-        console.log("Pre-selected goals from API:", preSelectedGoals);
+        // console.log("Pre-selected goals from API:", preSelectedGoals);
         setSelectedGoals(preSelectedGoals);
         updateFormData({ goals: preSelectedGoals });
       } else if (formData.goals && formData.goals.length > 0) {

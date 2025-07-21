@@ -22,9 +22,9 @@ export const ProtectedRoute = ({ children, redirectTo = "/login" }) => {
 
   // Show loading only when actively loading or refreshing
   if (isLoading || isRefreshing) {
-    console.log(
-      "ProtectedRoute - Showing loading (actively loading/refreshing)"
-    );
+    // console.log(
+    //   "ProtectedRoute - Showing loading (actively loading/refreshing)"
+    // );
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
@@ -52,6 +52,6 @@ export const ProtectedRoute = ({ children, redirectTo = "/login" }) => {
   }
 
   // User is not authenticated - redirect to login
-  console.log("ProtectedRoute - User not authenticated, redirecting to login");
+  // console.log("ProtectedRoute - User not authenticated, redirecting to login");
   return <Navigate to={redirectTo} replace />;
 };

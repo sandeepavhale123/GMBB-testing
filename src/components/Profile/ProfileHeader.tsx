@@ -24,7 +24,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   // Helper function to check if subscription info should be hidden
   const shouldHideSubscriptionInfo = () => {
     const userRole = profileData?.role?.toLowerCase();
-    return userRole === 'staff' || userRole === 'client';
+    return userRole === "staff" || userRole === "client";
   };
 
   const handleImageUpload = async (
@@ -80,7 +80,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       } catch (error) {
         toast({
           title: "Upload failed",
-          description: "Failed to update profile picture. Please try again.",
+          description:
+            error.message ||
+            error?.response?.data?.message ||
+            "Failed to update profile picture. Please try again.",
           variant: "destructive",
         });
       } finally {

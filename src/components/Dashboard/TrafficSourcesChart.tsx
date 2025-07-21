@@ -11,7 +11,7 @@ export const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
-  console.log("donut values", live, failed);
+  // console.log("donut values", live, failed);
   const donutChartData = [
     { name: "Live Posts", value: live, fill: "green" },
     { name: "Failed Posts", value: failed, fill: "red" },

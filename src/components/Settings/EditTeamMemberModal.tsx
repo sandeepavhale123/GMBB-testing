@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -80,8 +75,12 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
   const [profilePreview, setProfilePreview] = useState<string>("");
   const [allowListingAccess, setAllowListingAccess] = useState(true);
   const [selectedAccount, setSelectedAccount] = useState("all");
-  const [listingToggles, setListingToggles] = useState<Record<string, boolean>>({});
-  const [permissionSettings, setPermissionSettings] = useState<Record<string, string>>({});
+  const [listingToggles, setListingToggles] = useState<Record<string, boolean>>(
+    {}
+  );
+  const [permissionSettings, setPermissionSettings] = useState<
+    Record<string, string>
+  >({});
 
   useEffect(() => {
     if (member) {
@@ -94,17 +93,17 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
         profilePicture: member.profilePicture || "",
       });
       setProfilePreview(member.profilePicture || "");
-      
+
       // Initialize listing toggles
       const initialToggles: Record<string, boolean> = {};
-      mockListings.forEach(listing => {
+      mockListings.forEach((listing) => {
         initialToggles[listing.id] = listing.enabled;
       });
       setListingToggles(initialToggles);
 
       // Initialize permissions (default to "View")
       const initialPermissions: Record<string, string> = {};
-      permissions.forEach(permission => {
+      permissions.forEach((permission) => {
         initialPermissions[permission] = "View";
       });
       setPermissionSettings(initialPermissions);
@@ -112,7 +111,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
   }, [member]);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleProfileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,38 +121,39 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setProfilePreview(result);
-        setFormData(prev => ({ ...prev, profilePicture: result }));
+        setFormData((prev) => ({ ...prev, profilePicture: result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleListingToggle = (listingId: string) => {
-    setListingToggles(prev => ({
+    setListingToggles((prev) => ({
       ...prev,
-      [listingId]: !prev[listingId]
+      [listingId]: !prev[listingId],
     }));
   };
 
   const handlePermissionChange = (permission: string, level: string) => {
-    setPermissionSettings(prev => ({
+    setPermissionSettings((prev) => ({
       ...prev,
-      [permission]: level
+      [permission]: level,
     }));
   };
 
-  const filteredListings = selectedAccount === "all" 
-    ? mockListings 
-    : mockListings.filter(listing => listing.account === selectedAccount);
+  const filteredListings =
+    selectedAccount === "all"
+      ? mockListings
+      : mockListings.filter((listing) => listing.account === selectedAccount);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Updating team member:", {
-      ...formData,
-      allowListingAccess,
-      listingToggles,
-      permissionSettings
-    });
+    // console.log("Updating team member:", {
+    //   ...formData,
+    //   allowListingAccess,
+    //   listingToggles,
+    //   permissionSettings
+    // });
     onOpenChange(false);
   };
 
@@ -165,7 +165,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
         <DialogHeader>
           <DialogTitle>Edit Team Member</DialogTitle>
         </DialogHeader>
-        
+
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="profile">Edit Profile</TabsTrigger>
@@ -180,10 +180,11 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                 <Avatar className="h-20 w-20">
                   <AvatarImage src={profilePreview} />
                   <AvatarFallback className="bg-gray-100 text-gray-400">
-                    {formData.firstName && formData.lastName 
-                      ? `${formData.firstName[0]}${formData.lastName[0]}`
-                      : <Upload className="h-8 w-8" />
-                    }
+                    {formData.firstName && formData.lastName ? (
+                      `${formData.firstName[0]}${formData.lastName[0]}`
+                    ) : (
+                      <Upload className="h-8 w-8" />
+                    )}
                   </AvatarFallback>
                 </Avatar>
                 <Label htmlFor="profile-upload" className="cursor-pointer">
@@ -207,7 +208,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                   <Input
                     id="firstName"
                     value={formData.firstName}
-                    onChange={(e) => handleInputChange("firstName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("firstName", e.target.value)
+                    }
                     placeholder="Enter first name"
                     required
                   />
@@ -217,7 +220,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                   <Input
                     id="lastName"
                     value={formData.lastName}
-                    onChange={(e) => handleInputChange("lastName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("lastName", e.target.value)
+                    }
                     placeholder="Enter last name"
                     required
                   />
@@ -232,7 +237,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                     id="password"
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
-                    onChange={(e) => handleInputChange("password", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("password", e.target.value)
+                    }
                     placeholder="Enter new password"
                   />
                   <Button
@@ -254,7 +261,10 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
               {/* Role */}
               <div className="space-y-2">
                 <Label htmlFor="role">Role</Label>
-                <Select value={formData.role} onValueChange={(value) => handleInputChange("role", value)}>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) => handleInputChange("role", value)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
@@ -288,7 +298,9 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
                 <h3 className="font-medium">Allow Listing Access</h3>
-                <p className="text-sm text-gray-600">Enable or disable access to listings</p>
+                <p className="text-sm text-gray-600">
+                  Enable or disable access to listings
+                </p>
               </div>
               <Switch
                 checked={allowListingAccess}
@@ -301,7 +313,10 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                 {/* Account Filter */}
                 <div className="space-y-2">
                   <Label>Filter by Account</Label>
-                  <Select value={selectedAccount} onValueChange={setSelectedAccount}>
+                  <Select
+                    value={selectedAccount}
+                    onValueChange={setSelectedAccount}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -317,10 +332,15 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                 <div className="space-y-3">
                   <h3 className="font-medium">Listings</h3>
                   {filteredListings.map((listing) => (
-                    <div key={listing.id} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div
+                      key={listing.id}
+                      className="flex items-center justify-between p-3 border rounded-lg"
+                    >
                       <div>
                         <div className="font-medium">{listing.name}</div>
-                        <div className="text-sm text-gray-500">{listing.account}</div>
+                        <div className="text-sm text-gray-500">
+                          {listing.account}
+                        </div>
                       </div>
                       <Switch
                         checked={listingToggles[listing.id] || false}
@@ -339,14 +359,19 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
               <p className="text-sm text-gray-600">
                 Control access levels for each feature: View, Edit, or Hide
               </p>
-              
+
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {permissions.map((permission) => (
-                  <div key={permission} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={permission}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <span className="font-medium text-sm">{permission}</span>
                     <Select
                       value={permissionSettings[permission] || "View"}
-                      onValueChange={(value) => handlePermissionChange(permission, value)}
+                      onValueChange={(value) =>
+                        handlePermissionChange(permission, value)
+                      }
                     >
                       <SelectTrigger className="w-24">
                         <SelectValue />

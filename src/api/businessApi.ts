@@ -1,6 +1,10 @@
-
 import axiosInstance from "./axiosInstance";
-import type { BusinessInfoRequest, BusinessInfoResponse, RefreshBusinessInfoRequest, RefreshBusinessInfoResponse } from "../types/businessInfoTypes";
+import type {
+  BusinessInfoRequest,
+  BusinessInfoResponse,
+  RefreshBusinessInfoRequest,
+  RefreshBusinessInfoResponse,
+} from "../types/businessInfoTypes";
 
 export interface BusinessDetails {
   companyName: string;
@@ -27,7 +31,7 @@ export const getBusinessDetails = async (): Promise<BusinessDetails | null> => {
       method: "GET",
     });
 
-    console.log("Business API response:", result.data.data);
+    // console.log("Business API response:", result.data.data);
 
     if (result.data && result.data.data) {
       return result.data.data;
@@ -49,7 +53,7 @@ export const updateBusinessDetails = async (
       data: payload,
     });
 
-    console.log("Update business details response:", result.data.data);
+    // console.log("Update business details response:", result.data.data);
     return result.data.data;
   } catch (error) {
     console.error("Failed to update business details:", error);
@@ -57,7 +61,9 @@ export const updateBusinessDetails = async (
   }
 };
 
-export const getBusinessInfo = async (payload: BusinessInfoRequest): Promise<BusinessInfoResponse> => {
+export const getBusinessInfo = async (
+  payload: BusinessInfoRequest
+): Promise<BusinessInfoResponse> => {
   try {
     const result = await axiosInstance({
       url: "/get-business-info",
@@ -65,7 +71,7 @@ export const getBusinessInfo = async (payload: BusinessInfoRequest): Promise<Bus
       data: payload,
     });
 
-    console.log("Business info API response:", result.data);
+    // console.log("Business info API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to fetch business info:", error);
@@ -73,7 +79,9 @@ export const getBusinessInfo = async (payload: BusinessInfoRequest): Promise<Bus
   }
 };
 
-export const refreshBusinessInfo = async (payload: RefreshBusinessInfoRequest): Promise<RefreshBusinessInfoResponse> => {
+export const refreshBusinessInfo = async (
+  payload: RefreshBusinessInfoRequest
+): Promise<RefreshBusinessInfoResponse> => {
   try {
     const result = await axiosInstance({
       url: "/refresh-business-info",
@@ -81,7 +89,7 @@ export const refreshBusinessInfo = async (payload: RefreshBusinessInfoRequest): 
       data: payload,
     });
 
-    console.log("Refresh business info API response:", result.data);
+    // console.log("Refresh business info API response:", result.data);
     return result.data;
   } catch (error) {
     console.error("Failed to refresh business info:", error);

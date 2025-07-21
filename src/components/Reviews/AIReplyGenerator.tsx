@@ -1,19 +1,21 @@
-
-import React, { useState, useEffect } from 'react';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { Bot, RotateCcw, Loader2 } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { generateAIReply, clearAIGenerationError } from '../../store/slices/reviews';
-import { useListingContext } from '../../context/ListingContext';
-import { useToast } from '../../hooks/use-toast';
+import React, { useState, useEffect } from "react";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { Bot, RotateCcw, Loader2 } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import {
+  generateAIReply,
+  clearAIGenerationError,
+} from "../../store/slices/reviews";
+import { useListingContext } from "../../context/ListingContext";
+import { useToast } from "../../hooks/use-toast";
 
 interface AIReplyGeneratorProps {
   reviewId: string;
   customerName: string;
   rating: number;
   comment: string;
-  sentiment: 'positive' | 'neutral' | 'negative';
+  sentiment: "positive" | "neutral" | "negative";
   onSave: (reviewId: string, reply: string) => void;
   onCancel: () => void;
 }
@@ -25,14 +27,16 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
   comment,
   sentiment,
   onSave,
-  onCancel
+  onCancel,
 }) => {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
   const { selectedListing } = useListingContext();
-  const { aiGenerationLoading, aiGenerationError } = useAppSelector(state => state.reviews);
-  
-  const [aiReply, setAiReply] = useState('');
+  const { aiGenerationLoading, aiGenerationError } = useAppSelector(
+    (state) => state.reviews
+  );
+
+  const [aiReply, setAiReply] = useState("");
   const [hasGenerated, setHasGenerated] = useState(false);
 
   const generateReply = async () => {
@@ -41,27 +45,33 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
     try {
       setHasGenerated(false);
       dispatch(clearAIGenerationError());
-      
-      const result = await dispatch(generateAIReply({ 
-        reviewId: parseInt(reviewId), 
-        listingId: selectedListing.id 
-      }));
-      
+
+      const result = await dispatch(
+        generateAIReply({
+          reviewId: parseInt(reviewId),
+          listingId: selectedListing.id,
+        })
+      );
+
       if (generateAIReply.fulfilled.match(result)) {
         setAiReply(result.payload.replyText);
         setHasGenerated(true);
       } else {
         toast({
           title: "AI Generation Failed",
-          description: result.payload as string || "Failed to generate AI reply. Please try again.",
-          variant: "destructive"
+          description:
+            (result.payload as string) ||
+            "Failed to generate AI reply. Please try again.",
+          variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "An unexpected error occurred while generating the reply.",
-        variant: "destructive"
+        description:
+          error?.response?.data?.message ||
+          "An unexpected error occurred while generating the reply.",
+        variant: "destructive",
       });
     }
   };
@@ -85,9 +95,11 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
     <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
       <div className="flex items-center gap-2 mb-3">
         <Bot className="w-4 h-4 text-blue-600" />
-        <span className="text-sm font-medium text-blue-700">AI Reply Generator</span>
+        <span className="text-sm font-medium text-blue-700">
+          AI Reply Generator
+        </span>
       </div>
-      
+
       {aiGenerationLoading && (
         <div className="flex items-center gap-2 text-blue-600">
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -100,7 +112,7 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
           {aiGenerationError}
         </div>
       )}
-      
+
       {hasGenerated && !aiGenerationLoading && (
         <div className="space-y-3">
           <Textarea
@@ -113,7 +125,12 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
             <Button size="sm" onClick={handleSave} disabled={!aiReply.trim()}>
               Save Reply
             </Button>
-            <Button size="sm" variant="outline" onClick={handleRegenerate} disabled={aiGenerationLoading}>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleRegenerate}
+              disabled={aiGenerationLoading}
+            >
               <RotateCcw className="w-4 h-4 mr-1" />
               Regenerate
             </Button>

@@ -27,7 +27,7 @@ export const PublicMediaReport: React.FC = () => {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading report</p>;
 
-  console.log("Media Report:", mediaReport);
+  // console.log("Media Report:", mediaReport);
 
   // data from api
   const reportType = mediaReport?.data?.reportType.toLowerCase(); // 'individual' or 'compare'
@@ -41,10 +41,10 @@ export const PublicMediaReport: React.FC = () => {
     .map(([key]) => key);
 
   const renderChangeIndicator = (value: string) => {
-    console.log("change summary..", value);
+    // console.log("change summary..", value);
     const numericValue = Number(value);
     const isPositive = numericValue >= 0;
-    console.log("positive summary", isPositive);
+    // console.log("positive summary", isPositive);
     return (
       <div
         className={`flex items-center justify-center gap-1 text-xs ${
@@ -182,11 +182,7 @@ export const PublicMediaReport: React.FC = () => {
             <div className="h-80">
               {chartData.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
-                  <img
-                    src="../../../public/nodata.svg"
-                    alt="No Data"
-                    className="h-64"
-                  />
+                  <img src="/nodata.svg" alt="No Data" className="h-64" />
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
@@ -228,11 +224,7 @@ export const PublicMediaReport: React.FC = () => {
           <CardContent>
             {combinedMedia.length === 0 ? (
               <div className="text-sm text-muted-foreground text-center flex justify-center  py-10">
-                <img
-                  src="../../../public/nodata.svg"
-                  alt="No Data"
-                  className="h-64"
-                />
+                <img src="/nodata.svg" alt="No Data" className="h-64" />
               </div>
             ) : (
               <div className="space-y-4">

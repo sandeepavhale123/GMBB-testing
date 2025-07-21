@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { X } from 'lucide-react';
-import { MediaDropzone } from './MediaDropzone';
-import { MediaPreview } from './MediaPreview';
-import { MediaForm } from './MediaForm';
-import { AIMediaGenerationModal } from './AIMediaGenerationModal';
-import { useListingContext } from '../../context/ListingContext';
-import { uploadMedia } from '../../api/mediaApi';
-import { useToast } from '../../hooks/use-toast';
+import React, { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { X } from "lucide-react";
+import { MediaDropzone } from "./MediaDropzone";
+import { MediaPreview } from "./MediaPreview";
+import { MediaForm } from "./MediaForm";
+import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
+import { useListingContext } from "../../context/ListingContext";
+import { uploadMedia } from "../../api/mediaApi";
+import { useToast } from "../../hooks/use-toast";
 
 interface MediaFile {
   id: string;
   file?: File;
   url: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   title?: string;
   category?: string;
-  selectedImage: 'local' | 'ai';
+  selectedImage: "local" | "ai";
   aiImageUrl?: string;
 }
 interface MediaItem {
   id: string;
   name: string;
   views: string;
-  type: 'image' | 'video';
+  type: "image" | "video";
   url: string;
   uploadDate: string;
 }
@@ -36,35 +36,31 @@ interface MediaUploadModalProps {
 export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   isOpen,
   onClose,
-  onUpload
+  onUpload,
 }) => {
   const [file, setFile] = useState<MediaFile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    publishOption: 'now',
-    scheduleDate: ''
+    title: "",
+    category: "",
+    publishOption: "now",
+    scheduleDate: "",
   });
-  const {
-    selectedListing
-  } = useListingContext();
-  const {
-    toast
-  } = useToast();
+  const { selectedListing } = useListingContext();
+  const { toast } = useToast();
   const handleFilesAdded = (newFiles: File[]) => {
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
     if (firstFile) {
-      console.log('File added:', firstFile.name, firstFile.size, 'bytes', firstFile.type);
+      // console.log('File added:', firstFile.name, firstFile.size, 'bytes', firstFile.type);
       const mediaFile: MediaFile = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         file: firstFile,
         url: URL.createObjectURL(firstFile),
-        type: firstFile.type.startsWith('image/') ? 'image' : 'video',
-        selectedImage: 'local'
+        type: firstFile.type.startsWith("image/") ? "image" : "video",
+        selectedImage: "local",
       };
       setFile(mediaFile);
       setUploadComplete(false);
@@ -75,69 +71,75 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     setUploadComplete(false);
   };
   const handleFormDataChange = (data: Partial<typeof formData>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      ...data
+      ...data,
     }));
   };
   const handleUpload = async () => {
     if (!file || !selectedListing) {
       toast({
         title: "Upload Error",
-        description: "Please select a file and ensure a business listing is selected.",
-        variant: "destructive"
+        description:
+          "Please select a file and ensure a business listing is selected.",
+        variant: "destructive",
       });
       return;
     }
-    console.log('Starting upload process...');
-    console.log('File details:', {
-      selectedImage: file.selectedImage,
-      url: file.url,
-      aiImageUrl: file.aiImageUrl,
-      file: file.file ? {
-        name: file.file.name,
-        size: file.file.size,
-        type: file.file.type
-      } : null
-    });
+    // console.log("Starting upload process...");
+    // console.log("File details:", {
+    //   selectedImage: file.selectedImage,
+    //   url: file.url,
+    //   aiImageUrl: file.aiImageUrl,
+    //   file: file.file
+    //     ? {
+    //         name: file.file.name,
+    //         size: file.file.size,
+    //         type: file.file.type,
+    //       }
+    //     : null,
+    // });
     setIsUploading(true);
     try {
       const uploadData = {
         file: file.file,
-        title: formData.title || file.file?.name.replace(/\.[^/.]+$/, "") || 'AI Generated Image',
-        category: formData.category || 'additional',
+        title:
+          formData.title ||
+          file.file?.name.replace(/\.[^/.]+$/, "") ||
+          "AI Generated Image",
+        category: formData.category || "additional",
         publishOption: formData.publishOption,
         scheduleDate: formData.scheduleDate,
         listingId: selectedListing.id,
         selectedImage: file.selectedImage,
-        aiImageUrl: file.aiImageUrl
+        aiImageUrl: file.aiImageUrl,
       };
-      console.log('Upload data prepared:', {
-        fileName: uploadData.file?.name,
-        title: uploadData.title,
-        category: uploadData.category,
-        publishOption: uploadData.publishOption,
-        listingId: uploadData.listingId,
-        selectedImage: uploadData.selectedImage,
-        aiImageUrl: uploadData.aiImageUrl
-      });
+      // console.log("Upload data prepared:", {
+      //   fileName: uploadData.file?.name,
+      //   title: uploadData.title,
+      //   category: uploadData.category,
+      //   publishOption: uploadData.publishOption,
+      //   listingId: uploadData.listingId,
+      //   selectedImage: uploadData.selectedImage,
+      //   aiImageUrl: uploadData.aiImageUrl,
+      // });
       const response = await uploadMedia(uploadData);
-      console.log('Upload response:', response);
+      // console.log("Upload response:", response);
       if (response.code === 200) {
         // Create media item for local state update
         const mediaItem: MediaItem = {
           id: file.id,
           name: uploadData.title,
-          views: '0 views',
+          views: "0 views",
           type: file.type,
           url: file.url,
-          uploadDate: new Date().toISOString().split('T')[0]
+          uploadDate: new Date().toISOString().split("T")[0],
         };
         onUpload([mediaItem]);
         setUploadComplete(true);
         toast({
           title: "Upload Successful",
-          description: response.message
+          description: response.message,
         });
 
         // Close modal after showing success briefly
@@ -145,14 +147,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           handleClose();
         }, 1500);
       } else {
-        throw new Error(response.message || 'Upload failed');
+        throw new Error(response.message || "Upload failed");
       }
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       toast({
         title: "Upload Failed",
-        description: error instanceof Error ? error.message : "Failed to upload media. Please try again.",
-        variant: "destructive"
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to upload media. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsUploading(false);
@@ -162,10 +167,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     setFile(null);
     setUploadComplete(false);
     setFormData({
-      title: '',
-      category: '',
-      publishOption: 'now',
-      scheduleDate: ''
+      title: "",
+      category: "",
+      publishOption: "now",
+      scheduleDate: "",
     });
     onClose();
   };
@@ -175,41 +180,53 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     variants: number;
     style: string;
   }) => {
-    console.log('AI generated media received:', {
-      imageUrl: generatedMedia.imageUrl,
-      prompt: generatedMedia.prompt,
-      style: generatedMedia.style,
-      variants: generatedMedia.variants
-    });
+    // console.log("AI generated media received:", {
+    //   imageUrl: generatedMedia.imageUrl,
+    //   prompt: generatedMedia.prompt,
+    //   style: generatedMedia.style,
+    //   variants: generatedMedia.variants,
+    // });
 
     // Convert AI generated image to MediaFile
     const aiFile: MediaFile = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       url: generatedMedia.imageUrl,
-      type: 'image',
-      title: generatedMedia.prompt.slice(0, 50) + (generatedMedia.prompt.length > 50 ? '...' : ''),
-      selectedImage: 'ai',
-      aiImageUrl: generatedMedia.imageUrl
+      type: "image",
+      title:
+        generatedMedia.prompt.slice(0, 50) +
+        (generatedMedia.prompt.length > 50 ? "..." : ""),
+      selectedImage: "ai",
+      aiImageUrl: generatedMedia.imageUrl,
     };
     setFile(aiFile);
     setUploadComplete(false);
     setShowAIModal(false);
 
     // Pre-fill form data with AI image info
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      title: `AI: ${generatedMedia.prompt.slice(0, 30)}${generatedMedia.prompt.length > 30 ? '...' : ''}`,
-      category: prev.category || 'additional'
+      title: `AI: ${generatedMedia.prompt.slice(0, 30)}${
+        generatedMedia.prompt.length > 30 ? "..." : ""
+      }`,
+      category: prev.category || "additional",
     }));
   };
-  return <>
+  return (
+    <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
           <div className="sticky top-0 bg-white z-10 border-b border-gray-200">
             <DialogHeader className="p-6 pb-4">
               <div className="flex items-center justify-between">
-                <DialogTitle className="text-2xl font-bold text-gray-900">Upload Media </DialogTitle>
-                <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 w-8 p-0">
+                <DialogTitle className="text-2xl font-bold text-gray-900">
+                  Upload Media{" "}
+                </DialogTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClose}
+                  className="h-8 w-8 p-0"
+                >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
@@ -218,25 +235,48 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
           <div className="p-6 space-y-6">
             {/* Upload Complete State */}
-            {uploadComplete && file && <div className="text-center space-y-4 py-8">
+            {uploadComplete && file && (
+              <div className="text-center space-y-4 py-8">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-8 h-8 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Upload Complete!</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Upload Complete!
+                </h3>
                 <p className="text-gray-600">
-                  Your <span className="font-medium text-primary">{file.type}</span> has been uploaded successfully.
+                  Your{" "}
+                  <span className="font-medium text-primary">{file.type}</span>{" "}
+                  has been uploaded successfully.
                 </p>
-              </div>}
+              </div>
+            )}
 
             {/* Upload Interface */}
-            {!uploadComplete && <>
+            {!uploadComplete && (
+              <>
                 {/* Dropzone Area - Only show if no file selected */}
-                {!file && <MediaDropzone onFilesAdded={handleFilesAdded} onAIGenerate={() => setShowAIModal(true)} />}
+                {!file && (
+                  <MediaDropzone
+                    onFilesAdded={handleFilesAdded}
+                    onAIGenerate={() => setShowAIModal(true)}
+                  />
+                )}
 
                 {/* File Preview */}
-                {file && <div className="space-y-4">
+                {file && (
+                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-semibold text-gray-900">
                         Media Preview
@@ -244,32 +284,54 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Type:</span>
                         <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
-                          {file.selectedImage === 'ai' ? 'AI IMAGE' : file.type.toUpperCase()}
+                          {file.selectedImage === "ai"
+                            ? "AI IMAGE"
+                            : file.type.toUpperCase()}
                         </span>
                       </div>
                     </div>
                     <div className="max-w-xs mx-auto">
                       <MediaPreview file={file} onRemove={handleFileRemove} />
                     </div>
-                  </div>}
+                  </div>
+                )}
 
                 {/* Form Fields */}
-                <MediaForm formData={formData} onChange={handleFormDataChange} hasFiles={!!file} fileType={file?.type} />
+                <MediaForm
+                  formData={formData}
+                  onChange={handleFormDataChange}
+                  hasFiles={!!file}
+                  fileType={file?.type}
+                />
 
                 {/* Action Buttons */}
                 <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                  <Button variant="outline" onClick={handleClose} disabled={isUploading}>
+                  <Button
+                    variant="outline"
+                    onClick={handleClose}
+                    disabled={isUploading}
+                  >
                     Cancel
                   </Button>
-                  <Button onClick={handleUpload} disabled={!file || isUploading || !selectedListing} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                    {isUploading ? 'Uploading...' : 'Upload Media'}
+                  <Button
+                    onClick={handleUpload}
+                    disabled={!file || isUploading || !selectedListing}
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
+                  >
+                    {isUploading ? "Uploading..." : "Upload Media"}
                   </Button>
                 </div>
-              </>}
+              </>
+            )}
           </div>
         </DialogContent>
       </Dialog>
 
-      <AIMediaGenerationModal isOpen={showAIModal} onClose={() => setShowAIModal(false)} onGenerated={handleAIGenerated} />
-    </>;
+      <AIMediaGenerationModal
+        isOpen={showAIModal}
+        onClose={() => setShowAIModal(false)}
+        onGenerated={handleAIGenerated}
+      />
+    </>
+  );
 };

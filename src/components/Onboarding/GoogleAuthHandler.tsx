@@ -49,7 +49,7 @@ const GoogleAuthHandler = () => {
           }
         );
         const data = await response.json();
-        console.log("response from auth", data);
+        // console.log("response from auth", data);
 
         if (!response.ok) {
           toast({
@@ -78,7 +78,7 @@ const GoogleAuthHandler = () => {
 
         goToStep(4);
       } catch (error: any) {
-        console.log("data in error", error.json());
+        // console.log("data in error", error.json());
 
         clearOauthParameters();
         navigate("/login");

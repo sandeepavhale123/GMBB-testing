@@ -21,10 +21,10 @@ const Profile = () => {
 
   useEffect(() => {
     if (listingId && listings.length > 0 && !selectedListing) {
-      console.log(
-        "📍 SettingsPage: Triggering initializeSelectedListing for listingId:",
-        listingId
-      );
+      // console.log(
+      //   "📍 SettingsPage: Triggering initializeSelectedListing for listingId:",
+      //   listingId
+      // );
       initializeSelectedListing(listingId);
     }
   }, [listingId, listings, selectedListing, initializeSelectedListing]);

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -98,7 +97,7 @@ export const AITaskManagerPage: React.FC = () => {
       if (!response.ok) {
         toast({
           title: "Error",
-          description: response.message,
+          description: response.message || response.data.message,
           variant: "default",
         });
       }
@@ -125,7 +124,10 @@ export const AITaskManagerPage: React.FC = () => {
       if (!response.ok) {
         toast({
           title: "Error",
-          description: response.message || "Failed to revert task.",
+          description:
+            response.message ||
+            response.data.message ||
+            "Failed to revert task.",
           variant: "destructive",
         });
       }
@@ -134,7 +136,7 @@ export const AITaskManagerPage: React.FC = () => {
         description: response.message || "Task reverted to pending.",
       });
     } catch (error) {
-      console.log("Error occured", error);
+      // console.log("Error occured", error);
     }
   };
 
@@ -187,7 +189,7 @@ export const AITaskManagerPage: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-900 mb-1">
                 {task.task_name}
               </h3>
-              <SafeHtmlRenderer 
+              <SafeHtmlRenderer
                 html={task.task_description}
                 className="text-gray-600 text-sm leading-relaxed"
               />

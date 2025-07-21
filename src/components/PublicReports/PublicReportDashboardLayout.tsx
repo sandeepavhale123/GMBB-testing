@@ -377,37 +377,6 @@ export const PublicReportDashboardLayout: React.FC<
               <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
             </div>
           </section>
-
-          {/* Footer */}
-          <footer
-            className={`bg-white border-t border-gray-100 px-6 py-4 text-sm text-gray-500 ${
-              isMobile
-                ? "flex-col space-y-2"
-                : "flex items-center justify-between"
-            }`}
-          >
-            <div className={isMobile ? "text-center" : ""}>
-              Created by{" "}
-              <span className="font-medium text-gray-700">
-                {branding?.company_name}
-              </span>
-            </div>
-            <div
-              className={`flex items-center ${
-                isMobile ? "justify-center space-x-4" : "space-x-6"
-              }`}
-            >
-              <button className="hover:text-gray-700 transition-colors">
-                About
-              </button>
-              <button className="hover:text-gray-700 transition-colors">
-                Support
-              </button>
-              <button className="hover:text-gray-700 transition-colors">
-                Purchase
-              </button>
-            </div>
-          </footer>
         </div>
       </div>
     </TooltipProvider>

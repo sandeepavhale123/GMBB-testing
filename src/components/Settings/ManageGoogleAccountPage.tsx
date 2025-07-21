@@ -67,7 +67,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
   const code = urlParams.get("code");
   const hasProcessedCode = useRef(false);
 
-  console.log("Google OAuth code:", code);
+  // console.log("Google OAuth code:", code);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -120,7 +120,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
   const handleRefreshAccount = async (accountId: string) => {
     try {
       const response = await refreshAccount(accountId);
-      console.log("handle refresh response", response);
+      // console.log("handle refresh response", response);
 
       if (response.data && Array.isArray(response.data)) {
         // Transform the API response data format
@@ -160,7 +160,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
     try {
       const response = await updateAccount(currentAccountId, selectedGroups);
-      console.log("update response", response);
+      // console.log("update response", response);
       toast({
         title: "Listing Groups Updated",
         description: `${response.message}`,
@@ -171,14 +171,19 @@ export const ManageGoogleAccountPage: React.FC = () => {
       setCurrentAccountId("");
       refetch(); // Refresh the accounts list
     } catch (error: any) {
-      console.log("Error updating listing groups:", error);
+      // console.log("Error updating listing groups:", error);
       toast({
         title: "Update Failed",
         description:
-          error && typeof error === 'object' && 'response' in error && error.response && 
-          typeof error.response === 'object' && 'data' in error.response && 
-          error.response.data && typeof error.response.data === 'object' && 
-          'message' in error.response.data
+          error &&
+          typeof error === "object" &&
+          "response" in error &&
+          error.response &&
+          typeof error.response === "object" &&
+          "data" in error.response &&
+          error.response.data &&
+          typeof error.response.data === "object" &&
+          "message" in error.response.data
             ? error.response.data.message
             : error instanceof Error
             ? error.message
@@ -228,7 +233,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
   // If we have a code and haven't processed it yet, show the auth handler
   if (code && !hasProcessedCode.current) {
-    console.log("Rendering GoogleAuthHandler for code processing");
+    // console.log("Rendering GoogleAuthHandler for code processing");
     hasProcessedCode.current = true;
     return <GoogleAuthHandler />;
   }
