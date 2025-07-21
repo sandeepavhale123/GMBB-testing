@@ -143,9 +143,26 @@ export const getKeywordDetails = async (
   // Add dateId if provided
   if (dateId) {
     payload.dateId = dateId;
+    console.log('🗺️ getKeywordDetails - API call with dateId:', {
+      listingId,
+      keywordId,
+      dateId
+    });
+  } else {
+    console.log('🗺️ getKeywordDetails - API call without dateId:', {
+      listingId,
+      keywordId
+    });
   }
   
   const response = await axiosInstance.post("/get-keyword-details", payload);
+  
+  console.log('🗺️ getKeywordDetails - API response:', {
+    code: response.data.code,
+    rankDetailsCount: response.data.data?.rankDetails?.length || 0,
+    datesCount: response.data.data?.dates?.length || 0
+  });
+  
   return response.data;
 };
 

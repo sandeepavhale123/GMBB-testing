@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
@@ -14,12 +15,19 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
 
   // Add a ref to track if we should skip the next effect
   const skipNextEffect = useRef(false);
+  const isInitializedRef = useRef(false);
 
   // Function to manually fetch keyword details (used during refresh)
   const fetchKeywordDetailsManually = useCallback(async (keywordId: string, dateId?: string) => {
     if (!listingId || !keywordId) return;
     
     try {
+      console.log('🗺️ fetchKeywordDetailsManually - Called with:', {
+        listingId,
+        keywordId,
+        dateId
+      });
+      
       const response = await getKeywordDetails(listingId, keywordId, dateId);
       console.log('🗺️ fetchKeywordDetailsManually - API Response:', {
         code: response.code,
@@ -30,23 +38,13 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       
       if (response.code === 200) {
         setKeywordDetails(response.data);
-        // Set the most recent date as default only if no date was specified
-        if (!dateId && response.data.dates && response.data.dates.length > 0) {
-          const sortedDates = response.data.dates
-            .filter(d => d.date)
-            .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-          
-          if (sortedDates.length > 0) {
-            setSelectedDate(sortedDates[0].id);
-          }
-        }
       }
     } catch (err) {
       console.error('Error fetching keyword details manually:', err);
     }
   }, [listingId]);
 
-  // Fetch keyword details when selected keyword changes
+  // Fetch keyword details when selected keyword changes (initial load)
   useEffect(() => {
     // Skip the effect during refresh mode to prevent blinking
     if (refreshMode || skipNextEffect.current) {
@@ -57,33 +55,42 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     const fetchKeywordDetails = async () => {
       if (!listingId || !selectedKeyword) return;
       
+      console.log('🗺️ useKeywordDetails - Fetching for keyword change:', {
+        listingId,
+        selectedKeyword,
+        selectedDate,
+        isInitialized: isInitializedRef.current
+      });
+      
       setLoading(true);
       setError(null);
       
       try {
-        const response = await getKeywordDetails(listingId, selectedKeyword, selectedDate);
+        // For initial load, don't pass dateId to get all dates
+        const response = await getKeywordDetails(listingId, selectedKeyword);
         console.log('🗺️ useKeywordDetails - API Response:', {
           code: response.code,
           hasData: !!response.data,
           rankDetailsCount: response.data?.rankDetails?.length || 0,
-          rankDetails: response.data?.rankDetails,
-          projectDetails: response.data?.projectDetails,
-          selectedKeyword,
-          selectedDate
+          availableDates: response.data?.dates?.length || 0,
+          selectedKeyword
         });
         
         if (response.code === 200) {
           setKeywordDetails(response.data);
-          // Set the most recent date as default
-          if (response.data.dates && response.data.dates.length > 0) {
+          
+          // Set the most recent date as default ONLY if no date is selected and this is initial load
+          if (!selectedDate && response.data.dates && response.data.dates.length > 0 && !isInitializedRef.current) {
             const sortedDates = response.data.dates
               .filter(d => d.date)
               .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
             
             if (sortedDates.length > 0) {
+              console.log('🗺️ useKeywordDetails - Setting default date:', sortedDates[0]);
               setSelectedDate(sortedDates[0].id);
             }
           }
+          isInitializedRef.current = true;
         } else {
           throw new Error(response.message || 'Failed to fetch keyword details');
         }
@@ -98,19 +105,28 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       } finally {
         setLoading(false);
         setKeywordChanging(false);
-        setDateChanging(false);
       }
     };
 
     fetchKeywordDetails();
   }, [listingId, selectedKeyword, toast, refreshMode]);
 
-  // Fetch keyword details when selectedDate changes
+  // Fetch keyword details when selectedDate changes (user selection)
   useEffect(() => {
     const fetchKeywordDetailsByDate = async () => {
       if (!listingId || !selectedKeyword || !selectedDate || refreshMode) return;
       
-      setLoading(true);
+      // Skip if this is the initial date setting
+      if (!isInitializedRef.current) return;
+      
+      console.log('🗺️ useKeywordDetails - Fetching for date change:', {
+        listingId,
+        selectedKeyword,
+        selectedDate,
+        isInitialized: isInitializedRef.current
+      });
+      
+      setDateChanging(true);
       setError(null);
       
       try {
@@ -137,13 +153,12 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
           variant: "destructive"
         });
       } finally {
-        setLoading(false);
         setDateChanging(false);
       }
     };
 
     fetchKeywordDetailsByDate();
-  }, [listingId, selectedKeyword, selectedDate, toast, refreshMode]);
+  }, [selectedDate, listingId, selectedKeyword, toast, refreshMode]);
 
   const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
     if (!listingId) return null;
@@ -172,14 +187,21 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   };
 
   const handleKeywordChange = (keywordId: string, isRefresh = false) => {
+    console.log('🗺️ handleKeywordChange - Called with:', { keywordId, isRefresh });
+    
     // Only show changing state for user-initiated changes, not refresh
     if (!isRefresh) {
       setKeywordChanging(true);
     }
-    setSelectedDate(''); // Reset date when keyword changes
+    
+    // Reset date and initialization when keyword changes
+    setSelectedDate('');
+    isInitializedRef.current = false;
   };
 
   const handleDateChange = (dateId: string, isRefresh = false) => {
+    console.log('🗺️ handleDateChange - Called with:', { dateId, isRefresh });
+    
     // Only show changing state for user-initiated changes, not refresh
     if (!isRefresh) {
       setDateChanging(true);
