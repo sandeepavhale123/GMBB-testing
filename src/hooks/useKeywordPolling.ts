@@ -124,7 +124,7 @@ export const useKeywordPolling = (
       if (intervalRef.current) { // Only proceed if polling wasn't cancelled
         console.log(`⏰ [${new Date().toISOString()}] Starting initial check and setting up polling interval`);
         pollKeywordStatus();
-        intervalRef.current = setInterval(pollKeywordStatus, 8000);
+        intervalRef.current = setInterval(pollKeywordStatus, 5000);
       }
     }, 2000);
 
