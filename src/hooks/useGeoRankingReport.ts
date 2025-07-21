@@ -555,9 +555,7 @@ export const useGeoRankingReport = (listingId: number) => {
           setCurrentKeywordId(response.data.keywordId.toString());
           toast({
             title: "Processing Keyword",
-            description:
-              response.data?.message ||
-              "Please wait while we process your keyword ranking data...",
+            description: "Please wait while we process your keyword ranking data...",
             variant: "default",
           });
 
@@ -586,10 +584,7 @@ export const useGeoRankingReport = (listingId: number) => {
       } else {
         toast({
           title: "Error",
-          description:
-            response.message ||
-            response?.data?.message ||
-            "Failed to submit rank check",
+          description: response.message || "Failed to submit rank check",
           variant: "destructive",
         });
         return { success: false, shouldNavigate: false };

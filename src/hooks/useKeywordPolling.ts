@@ -53,19 +53,19 @@ export const useKeywordPolling = (
 
       console.log(`📊 [${new Date().toISOString()}] checkStatus - API Response:`, {
         code: response.code,
-        keywordCount: response.data?.length || 0,
-        keywords: response.data || []
+        keywordCount: response.data?.keywords?.length || 0,
+        keywords: response.data?.keywords || []
       });
 
       if (response.code === 200) {
-        const keywords = response.data || [];
+        const keywords = response.data?.keywords || [];
         
         if (keywords.length === 0) {
           console.log(`✅ [${new Date().toISOString()}] No processing keywords found - calling handleEmptyKeywords`);
           await handleEmptyKeywords();
         } else {
           console.log(`🔄 [${new Date().toISOString()}] Found ${keywords.length} processing keywords - updating state and continuing polling`);
-          setProcessingKeywords(keywords);
+          setProcessingKeywords(keywords.map(k => k.keyword));
           
           // Continue polling if we have processing keywords
           if (!isPolling) {
@@ -93,12 +93,12 @@ export const useKeywordPolling = (
 
       console.log(`📊 [${new Date().toISOString()}] checkInitialStatus - Initial API Response:`, {
         code: response.code,
-        keywordCount: response.data?.length || 0,
-        keywords: response.data || []
+        keywordCount: response.data?.keywords?.length || 0,
+        keywords: response.data?.keywords || []
       });
 
       if (response.code === 200) {
-        const keywords = response.data || [];
+        const keywords = response.data?.keywords || [];
         
         if (keywords.length === 0) {
           console.log(`✅ [${new Date().toISOString()}] Initial check: No processing keywords - progress bar will be hidden`);
@@ -106,7 +106,7 @@ export const useKeywordPolling = (
           setIsPolling(false);
         } else {
           console.log(`🔄 [${new Date().toISOString()}] Initial check: Found ${keywords.length} processing keywords - starting polling`);
-          setProcessingKeywords(keywords);
+          setProcessingKeywords(keywords.map(k => k.keyword));
           startPolling();
         }
       } else {
