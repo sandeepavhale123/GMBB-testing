@@ -1,4 +1,3 @@
-
 import React, { useMemo, memo } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankingMap } from "./RankingMap";
@@ -108,9 +107,6 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return `${gridNumber} * ${gridNumber}`;
   };
 
-  // Memoize the stable onMarkerClick callback to prevent map re-renders
-  const stableOnMarkerClick = useMemo(() => onMarkerClick, [onMarkerClick]);
-
   return (
     <div className="relative">
       <Card className="bg-white">
@@ -157,7 +153,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
               </div>
             ) : (
               <RankingMap
-                onMarkerClick={stableOnMarkerClick}
+                onMarkerClick={onMarkerClick}
                 rankDetails={rankDetails}
               />
             )}
@@ -255,17 +251,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
-  // Enhanced memo comparison to prevent re-renders during polling
-  const shouldNotRerender = prevProps.gridSize === nextProps.gridSize &&
+  // Prevent re-render during polling by comparing only essential props
+  return prevProps.gridSize === nextProps.gridSize &&
          JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
          JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats) &&
          JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails) &&
          prevProps.loading === nextProps.loading &&
          prevProps.onMarkerClick === nextProps.onMarkerClick;
-
-  if (shouldNotRerender) {
-    console.log(`🗺️ [${new Date().toISOString()}] Preventing GeoRankingMapSection re-render - no changes detected`);
-  }
-
-  return shouldNotRerender;
 });
