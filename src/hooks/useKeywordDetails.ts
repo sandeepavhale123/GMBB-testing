@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
@@ -14,9 +15,9 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Add a ref to track if we should skip the next effect
-  const skipNextEffect = useRef(false);
+  // Track initialization and previous keyword to prevent unnecessary effects
   const isInitializedRef = useRef(false);
+  const previousKeywordRef = useRef<string>('');
 
   // Enhanced setSelectedDate to update URL params (now using 'id' parameter)
   const setSelectedDateWithURL = (dateId: string) => {
@@ -60,27 +61,47 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     }
   }, [listingId]);
 
+  // Reset states when keyword changes
+  const resetKeywordStates = useCallback(() => {
+    console.log('🔄 resetKeywordStates - Resetting states for new keyword');
+    setSelectedDateWithURL('');
+    setError(null);
+    isInitializedRef.current = false;
+  }, []);
+
   // Fetch keyword details when selected keyword changes (initial load)
   useEffect(() => {
-    // Skip the effect during refresh mode to prevent blinking
-    if (refreshMode || skipNextEffect.current) {
-      skipNextEffect.current = false;
+    // Skip if in refresh mode
+    if (refreshMode) {
+      console.log('🗺️ useKeywordDetails - Skipping due to refresh mode');
       return;
     }
-    
+
+    // Skip if no keyword or same keyword as previous
+    if (!selectedKeyword || !listingId) {
+      console.log('🗺️ useKeywordDetails - Skipping due to missing keyword or listingId');
+      return;
+    }
+
+    // Check if this is the same keyword as before
+    if (previousKeywordRef.current === selectedKeyword) {
+      console.log('🗺️ useKeywordDetails - Skipping due to same keyword');
+      return;
+    }
+
+    console.log('🔄 useKeywordDetails - Keyword changed, starting fetch:', {
+      previousKeyword: previousKeywordRef.current,
+      newKeyword: selectedKeyword,
+      keywordChanging: keywordChanging
+    });
+
+    // Update previous keyword reference
+    previousKeywordRef.current = selectedKeyword;
+
     const fetchKeywordDetails = async () => {
-      if (!listingId || !selectedKeyword) return;
-      
-      console.log('🗺️ useKeywordDetails - Fetching for keyword change:', {
-        listingId,
-        selectedKeyword,
-        selectedDate,
-        isInitialized: isInitializedRef.current
-      });
-      
-      // Set loading states immediately for better UX
-      setLoading(true);
+      console.log('🗺️ useKeywordDetails - Setting keywordChanging to true');
       setKeywordChanging(true);
+      setLoading(true);
       setError(null);
       
       try {
@@ -130,15 +151,14 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
           variant: "destructive"
         });
       } finally {
-        setLoading(false);
-        // Reset keywordChanging after keyword loading completes
+        console.log('🗺️ useKeywordDetails - Setting keywordChanging to false');
         setKeywordChanging(false);
-        console.log('🗺️ useKeywordDetails - Keyword loading completed, keywordChanging reset');
+        setLoading(false);
       }
     };
 
     fetchKeywordDetails();
-  }, [listingId, selectedKeyword, toast, refreshMode]);
+  }, [listingId, selectedKeyword, toast, refreshMode, searchParams]);
 
   // Fetch keyword details when selectedDate changes (user selection)
   useEffect(() => {
@@ -183,13 +203,25 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
           variant: "destructive"
         });
       } finally {
-        setDateChanging(false);
         console.log('🗺️ useKeywordDetails - Date loading completed');
+        setDateChanging(false);
       }
     };
 
     fetchKeywordDetailsByDate();
   }, [selectedDate, listingId, selectedKeyword, toast, refreshMode]);
+
+  // Safety timeout to reset keywordChanging if it gets stuck
+  useEffect(() => {
+    if (keywordChanging) {
+      const timeout = setTimeout(() => {
+        console.log('⚠️ Safety timeout - Resetting keywordChanging state');
+        setKeywordChanging(false);
+      }, 10000); // 10 second safety timeout
+
+      return () => clearTimeout(timeout);
+    }
+  }, [keywordChanging]);
 
   const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
     if (!listingId) return null;
@@ -218,19 +250,18 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   };
 
   const handleKeywordChange = (keywordId: string, isRefresh = false) => {
-    console.log('🗺️ handleKeywordChange - Called with:', { keywordId, isRefresh });
+    console.log('🔄 handleKeywordChange - Called with:', { keywordId, isRefresh, currentKeywordChanging: keywordChanging });
+    
+    // Reset states for new keyword
+    resetKeywordStates();
     
     // Always set keywordChanging to true immediately for better UX
+    console.log('🔄 handleKeywordChange - Setting keywordChanging to true');
     setKeywordChanging(true);
-    console.log('🗺️ handleKeywordChange - keywordChanging set to true');
-    
-    // Reset date and initialization when keyword changes
-    setSelectedDateWithURL('');
-    isInitializedRef.current = false;
   };
 
   const handleDateChange = (dateId: string, isRefresh = false) => {
-    console.log('🗺️ handleDateChange - Called with:', { dateId, isRefresh });
+    console.log('🔄 handleDateChange - Called with:', { dateId, isRefresh });
     
     // Only show changing state for user-initiated changes, not refresh
     if (!isRefresh) {
