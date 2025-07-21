@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, memo } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankDetail } from "../../api/geoRankingApi";
@@ -15,10 +14,11 @@ L.Icon.Default.mergeOptions({
 interface RankingMapProps {
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
   rankDetails: RankDetail[];
+  centerCoordinates?: string;
 }
 
 export const RankingMap: React.FC<RankingMapProps> = memo(
-  ({ onMarkerClick, rankDetails }) => {
+  ({ onMarkerClick, rankDetails, centerCoordinates }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
     const markersRef = useRef<L.Marker[]>([]);
@@ -102,23 +102,43 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       });
     };
 
-    // Initialize map only once
-    useEffect(() => {
-      if (!mapRef.current || mapInstanceRef.current) return;
-
-      // Calculate optimal view based on rank details
-      let centerLat = 28.6139;
-      let centerLng = 77.209;
-
-      if (rankDetails.length > 0) {
-        const coords = rankDetails[0].coordinate.split(",");
+    // Get center coordinates from props or rank details
+    const getMapCenter = () => {
+      // First priority: centerCoordinates prop
+      if (centerCoordinates) {
+        const coords = centerCoordinates.split(",");
         if (coords.length === 2) {
-          centerLat = parseFloat(coords[0]);
-          centerLng = parseFloat(coords[1]);
+          return {
+            lat: parseFloat(coords[0]),
+            lng: parseFloat(coords[1])
+          };
         }
       }
 
-      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+      // Second priority: first rank detail coordinate
+      if (rankDetails.length > 0) {
+        const coords = rankDetails[0].coordinate.split(",");
+        if (coords.length === 2) {
+          return {
+            lat: parseFloat(coords[0]),
+            lng: parseFloat(coords[1])
+          };
+        }
+      }
+
+      // Fallback: Delhi coordinates
+      return {
+        lat: 28.6139,
+        lng: 77.209
+      };
+    };
+
+    // Initialize map
+    useEffect(() => {
+      if (!mapRef.current || mapInstanceRef.current) return;
+
+      const center = getMapCenter();
+      const map = L.map(mapRef.current).setView([center.lat, center.lng], 13);
       mapInstanceRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -134,6 +154,14 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         }
       };
     }, []); // Empty dependency array - map initializes only once
+
+    // Update map center when coordinates change
+    useEffect(() => {
+      if (!mapInstanceRef.current) return;
+
+      const center = getMapCenter();
+      mapInstanceRef.current.setView([center.lat, center.lng], 13);
+    }, [centerCoordinates, rankDetails.length > 0 ? rankDetails[0].coordinate : null]);
 
     // Update markers when rankDetails change
     useEffect(() => {
@@ -164,87 +192,19 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
               });
             }
           }, 100);
-        }
-      } else {
-        // Generate fallback grid if no API data
-        const generateGridData = () => {
-          const gridData = [];
-          const spacing = 0.005;
-          const centerLat = 28.6139;
-          const centerLng = 77.209;
-
-          for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-              const lat = centerLat + (i - 1.5) * spacing;
-              const lng = centerLng + (j - 1.5) * spacing;
-              const ranking = Math.floor(Math.random() * 25) + 1;
-              gridData.push({
-                lat,
-                lng,
-                ranking,
-                id: `${i}-${j}`,
+        } else if (allCoordinates.length === 1) {
+          // For single coordinate, center on it with appropriate zoom
+          setTimeout(() => {
+            if (mapInstanceRef.current) {
+              mapInstanceRef.current.setView(allCoordinates[0], 15, {
+                animate: true,
               });
             }
-          }
-          return gridData;
-        };
-
-        const gridData = generateGridData();
+          }, 100);
+        }
+      } else {
+        // Clear markers if no rank details
         clearMarkers();
-
-        gridData.forEach((point) => {
-          const color =
-            point.ranking <= 3
-              ? "#22c55e"
-              : point.ranking <= 10
-              ? "#f59e0b"
-              : point.ranking <= 15
-              ? "#f97316"
-              : "#ef4444";
-
-          const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
-          const fontSize = point.ranking >= 20 ? "12px" : "14px";
-
-          const rankingIcon = L.divIcon({
-            html: `<div style="
-              background: ${color};
-              color: white;
-              width: 50px;
-              height: 50px;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-weight: bold;
-              font-size: ${fontSize};
-              border: 2px solid white;
-              box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-              cursor: pointer;
-            ">${displayText}</div>`,
-            className: "custom-ranking-marker",
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-          });
-
-          const marker = L.marker([point.lat, point.lng], {
-            icon: rankingIcon,
-          }).addTo(mapInstanceRef.current!);
-
-          marker.on("click", () => {
-            const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
-            onMarkerClick(gpsCoordinates, point.id);
-          });
-
-          marker.bindPopup(`
-            <div class="text-sm">
-              <strong>Position: ${displayText}</strong><br>
-              Location: Grid ${point.id}<br>
-              <em>Click for detailed view</em>
-            </div>
-          `);
-
-          markersRef.current.push(marker);
-        });
       }
     }, [rankDetails, onMarkerClick]);
 
@@ -259,9 +219,10 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     );
   },
   (prevProps, nextProps) => {
-    // Only re-render if rankDetails actually change
+    // Only re-render if rankDetails or centerCoordinates actually change
     return (
       JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+      prevProps.centerCoordinates === nextProps.centerCoordinates &&
       prevProps.onMarkerClick === nextProps.onMarkerClick
     );
   }

@@ -1,4 +1,3 @@
-
 import React, { useMemo, memo } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankingMap } from "./RankingMap";
@@ -111,6 +110,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return formatGridSize(gridSize);
   }, [gridSize]);
 
+  // Extract center coordinates from project details
+  const centerCoordinates = useMemo(() => {
+    return projectDetails?.mappoint || (rankDetails.length > 0 ? rankDetails[0].coordinate : undefined);
+  }, [projectDetails?.mappoint, rankDetails]);
+
   // Memoize GPS coordinates
   const gpsCoordinates = useMemo(() => {
     return rankDetails.length > 0 ? rankDetails[0].coordinate : "28.6139, 77.2090";
@@ -156,6 +160,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
             <RankingMap
               onMarkerClick={onMarkerClick}
               rankDetails={rankDetails}
+              centerCoordinates={centerCoordinates}
             />
           </div>
         </CardContent>
