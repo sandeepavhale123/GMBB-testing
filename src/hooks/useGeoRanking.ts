@@ -77,11 +77,12 @@ export const useGeoRanking = (listingId: number) => {
     }
   }, [fetchKeywords]);
 
-  // Polling for keyword status - enable initial check
+  // Polling for keyword status - pass keywords array to prevent unnecessary API calls
   const { processingKeywords, isPolling, startPolling, stopPolling } = useKeywordPolling(
     listingId,
     stablePollingCallback,
-    true
+    true,
+    keywords // Pass keywords array to polling hook
   );
 
   // Use separate hook for progress tracking

@@ -1,10 +1,12 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { checkKeywordStatus } from '../api/geoRankingApi';
 
 export const useKeywordPolling = (
   listingId: number, 
   onKeywordsUpdate: () => Promise<void>,
-  enableInitialCheck: boolean = true
+  enableInitialCheck: boolean = true,
+  keywords: any[] = [] // Add keywords parameter
 ) => {
   const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
   const [isPolling, setIsPolling] = useState(false);
@@ -119,9 +121,15 @@ export const useKeywordPolling = (
 
   }, [listingId, onKeywordsUpdate, stopPolling, canMakeRequest]);
 
-  // Initial check function
+  // Initial check function - only run if keywords exist
   const checkInitialStatus = useCallback(async () => {
     if (!listingId || !enableInitialCheck || !canMakeRequest()) return;
+
+    // Skip initial check if no keywords exist
+    if (keywords.length === 0) {
+      console.log(`🚫 [${new Date().toISOString()}] Skipping initial check - no keywords available`);
+      return;
+    }
 
     isRequestingRef.current = true;
     lastRequestTimeRef.current = Date.now();
@@ -143,9 +151,9 @@ export const useKeywordPolling = (
     } finally {
       isRequestingRef.current = false;
     }
-  }, [listingId, enableInitialCheck, startPolling, canMakeRequest]);
+  }, [listingId, enableInitialCheck, startPolling, canMakeRequest, keywords.length]);
 
-  // Effect to perform initial check when component mounts
+  // Effect to perform initial check when component mounts or keywords change
   useEffect(() => {
     if (listingId && enableInitialCheck) {
       const timer = setTimeout(() => {
