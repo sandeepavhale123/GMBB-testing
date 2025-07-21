@@ -11,7 +11,16 @@ import { Button } from "../ui/button";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { useTeam } from "../../hooks/useTeam";
 import { useToast } from "../../hooks/use-toast";
-import { cleanupBodyStyles } from "../../utils/domUtils";
+import { 
+  forceBodyStylesReset, 
+  comprehensiveCleanup,
+  startGlobalCleanupMonitor,
+  stopGlobalCleanupMonitor,
+  startBodyStyleObserver,
+  stopBodyStyleObserver,
+  addWindowFocusCleanup,
+  removeWindowFocusCleanup
+} from "../../utils/domUtils";
 
 interface DeleteTeamMemberModalProps {
   open: boolean;
@@ -29,30 +38,42 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   const { deleteTeamMember, isDeleting, deleteError, clearTeamDeleteError } = useTeam();
   const { toast } = useToast();
 
-  // Enhanced onOpenChange handler with cleanup
-  const handleOpenChange = useCallback((newOpen: boolean) => {
-    if (!newOpen) {
-      // Add a small delay to ensure proper cleanup
-      setTimeout(() => {
-        cleanupBodyStyles();
-      }, 100);
-    }
-    onOpenChange(newOpen);
-  }, [onOpenChange]);
-
-  // Cleanup on component unmount
+  // Initialize global cleanup monitors when component mounts
   useEffect(() => {
+    startGlobalCleanupMonitor();
+    startBodyStyleObserver();
+    addWindowFocusCleanup();
+    
     return () => {
-      cleanupBodyStyles();
+      stopGlobalCleanupMonitor();
+      stopBodyStyleObserver();
+      removeWindowFocusCleanup();
+      // Final cleanup on unmount
+      comprehensiveCleanup();
     };
   }, []);
 
-  // Cleanup when modal closes
-  useEffect(() => {
-    if (!open) {
-      cleanupBodyStyles();
+  // Enhanced onOpenChange handler with aggressive cleanup
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    if (!newOpen) {
+      console.log('Modal closing, starting aggressive cleanup');
+      
+      // Immediate cleanup
+      forceBodyStylesReset();
+      
+      // Use requestAnimationFrame for reliable DOM update
+      requestAnimationFrame(() => {
+        forceBodyStylesReset();
+        
+        // Another frame to ensure it's applied
+        requestAnimationFrame(() => {
+          forceBodyStylesReset();
+        });
+      });
     }
-  }, [open]);
+    
+    onOpenChange(newOpen);
+  }, [onOpenChange]);
 
   const handleDelete = async () => {
     if (!member) return;
@@ -60,34 +81,59 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
     try {
       clearTeamDeleteError();
       
+      console.log('Starting delete operation');
       const result = await deleteTeamMember({
         id: parseInt(member.id),
         isDelete: "delete"
       });
 
       if (result.meta.requestStatus === 'fulfilled') {
-        toast({
-          title: "Success",
-          description: "Team member deleted successfully",
-        });
+        console.log('Delete successful, starting cleanup and close sequence');
         
-        // Add delay before closing modal to ensure async operations complete
-        setTimeout(() => {
-          handleOpenChange(false);
-          onSuccess?.();
-        }, 150);
+        // Immediate cleanup before any other operations
+        forceBodyStylesReset();
+        
+        // Close modal first
+        handleOpenChange(false);
+        
+        // Use requestAnimationFrame to ensure modal is closed before showing toast
+        requestAnimationFrame(() => {
+          forceBodyStylesReset();
+          
+          // Another frame for toast to ensure no interference
+          requestAnimationFrame(() => {
+            toast({
+              title: "Success",
+              description: "Team member deleted successfully",
+            });
+            
+            // Final cleanup after toast
+            setTimeout(() => {
+              forceBodyStylesReset();
+              onSuccess?.();
+            }, 100);
+          });
+        });
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: deleteError || "Failed to delete team member",
-        variant: "destructive",
-      });
+      console.error('Delete failed:', error);
       
-      // Even on error, ensure cleanup happens
-      setTimeout(() => {
-        cleanupBodyStyles();
-      }, 100);
+      // Ensure cleanup happens even on error
+      forceBodyStylesReset();
+      
+      // Show error toast with cleanup
+      requestAnimationFrame(() => {
+        toast({
+          title: "Error",
+          description: deleteError || "Failed to delete team member",
+          variant: "destructive",
+        });
+        
+        // Cleanup after error toast
+        setTimeout(() => {
+          forceBodyStylesReset();
+        }, 100);
+      });
     }
   };
 

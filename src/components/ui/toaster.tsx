@@ -28,7 +28,7 @@ export function Toaster() {
           </Toast>
         )
       })}
-      <ToastViewport className="z-[10000]" />
+      <ToastViewport className="z-[1000]" />
     </ToastProvider>
   )
 }
