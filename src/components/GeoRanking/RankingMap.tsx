@@ -1,7 +1,16 @@
+
 import React, { useEffect, useRef, memo } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankDetail } from "../../api/geoRankingApi";
 import L from "leaflet";
+
+// Fix for default markers in Leaflet with Webpack
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+});
 
 interface RankingMapProps {
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
@@ -12,71 +21,45 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
   ({ onMarkerClick, rankDetails }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
+    const markersRef = useRef<L.Marker[]>([]);
 
-    useEffect(() => {
-      if (!mapRef.current || mapInstanceRef.current) return;
-
-      // Load Leaflet CSS
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-      document.head.appendChild(link);
-
-      // Calculate optimal view based on rank details
-      let allCoordinates: [number, number][] = [];
-      let centerLat = 28.6139;
-      let centerLng = 77.209;
-
-      if (rankDetails.length > 0) {
-        // Collect all coordinates for bounds calculation
-        rankDetails.forEach((detail) => {
-          const coords = detail.coordinate.split(",");
-          if (coords.length === 2) {
-            const lat = parseFloat(coords[0]);
-            const lng = parseFloat(coords[1]);
-            allCoordinates.push([lat, lng]);
-          }
-        });
-
-        // Use first coordinate as center fallback
-        if (allCoordinates.length > 0) {
-          centerLat = allCoordinates[0][0];
-          centerLng = allCoordinates[0][1];
+    // Memoized function to clear existing markers
+    const clearMarkers = () => {
+      markersRef.current.forEach(marker => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.removeLayer(marker);
         }
-      }
+      });
+      markersRef.current = [];
+    };
 
-      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
-      mapInstanceRef.current = map;
+    // Memoized function to add markers
+    const addMarkers = (details: RankDetail[]) => {
+      if (!mapInstanceRef.current) return;
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
+      clearMarkers();
 
-      // Add markers and auto-fit bounds
-      if (rankDetails.length > 0) {
-        rankDetails.forEach((detail, index) => {
-          const coords = detail.coordinate.split(",");
-          if (coords.length === 2) {
-            const lat = parseFloat(coords[0]);
-            const lng = parseFloat(coords[1]);
-            const ranking = parseInt(detail.rank);
+      details.forEach((detail) => {
+        const coords = detail.coordinate.split(",");
+        if (coords.length === 2) {
+          const lat = parseFloat(coords[0]);
+          const lng = parseFloat(coords[1]);
+          const ranking = parseInt(detail.rank);
 
-            const color =
-              ranking <= 3
-                ? "#22c55e"
-                : ranking <= 10
-                ? "#f59e0b"
-                : ranking <= 15
-                ? "#f97316"
-                : "#ef4444";
+          const color =
+            ranking <= 3
+              ? "#22c55e"
+              : ranking <= 10
+              ? "#f59e0b"
+              : ranking <= 15
+              ? "#f97316"
+              : "#ef4444";
 
-            // Show 20+ for ranks 20 and above
-            const displayText = ranking >= 20 ? "20+" : ranking.toString();
-            const fontSize = ranking >= 20 ? "11px" : "13px";
+          const displayText = ranking >= 20 ? "20+" : ranking.toString();
+          const fontSize = ranking >= 20 ? "11px" : "13px";
 
-            const rankingIcon = L.divIcon({
-              html: `<div style="
+          const rankingIcon = L.divIcon({
+            html: `<div style="
               background: ${color};
               color: white;
               width: 40px;
@@ -91,22 +74,21 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
               box-shadow: 0 2px 4px rgba(0,0,0,0.2);
               cursor: pointer;
             ">${displayText}</div>`,
-              className: "custom-ranking-marker",
-              iconSize: [50, 50],
-              iconAnchor: [25, 25],
-            });
+            className: "custom-ranking-marker",
+            iconSize: [50, 50],
+            iconAnchor: [25, 25],
+          });
 
-            const marker = L.marker([lat, lng], {
-              icon: rankingIcon,
-            }).addTo(map);
+          const marker = L.marker([lat, lng], {
+            icon: rankingIcon,
+          }).addTo(mapInstanceRef.current);
 
-            // Add click handler for modal opening
-            marker.on("click", () => {
-              const gpsCoordinates = `${lat.toFixed(13)},${lng.toFixed(13)}`;
-              onMarkerClick(gpsCoordinates, detail.positionId);
-            });
+          marker.on("click", () => {
+            const gpsCoordinates = `${lat.toFixed(13)},${lng.toFixed(13)}`;
+            onMarkerClick(gpsCoordinates, detail.positionId);
+          });
 
-            marker.bindPopup(`
+          marker.bindPopup(`
             <div class="text-sm">
               <strong>Position: ${displayText}</strong><br>
               Location: ${detail.coordinate}<br>
@@ -114,39 +96,82 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
               <em>Click for detailed view</em>
             </div>
           `);
+
+          markersRef.current.push(marker);
+        }
+      });
+    };
+
+    // Initialize map only once
+    useEffect(() => {
+      if (!mapRef.current || mapInstanceRef.current) return;
+
+      // Calculate optimal view based on rank details
+      let centerLat = 28.6139;
+      let centerLng = 77.209;
+
+      if (rankDetails.length > 0) {
+        const coords = rankDetails[0].coordinate.split(",");
+        if (coords.length === 2) {
+          centerLat = parseFloat(coords[0]);
+          centerLng = parseFloat(coords[1]);
+        }
+      }
+
+      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+      mapInstanceRef.current = map;
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      return () => {
+        if (mapInstanceRef.current) {
+          clearMarkers();
+          mapInstanceRef.current.remove();
+          mapInstanceRef.current = null;
+        }
+      };
+    }, []); // Empty dependency array - map initializes only once
+
+    // Update markers when rankDetails change
+    useEffect(() => {
+      if (!mapInstanceRef.current) return;
+
+      if (rankDetails.length > 0) {
+        addMarkers(rankDetails);
+
+        // Auto-fit bounds to show all markers
+        const allCoordinates: [number, number][] = [];
+        rankDetails.forEach((detail) => {
+          const coords = detail.coordinate.split(",");
+          if (coords.length === 2) {
+            const lat = parseFloat(coords[0]);
+            const lng = parseFloat(coords[1]);
+            allCoordinates.push([lat, lng]);
           }
         });
 
-        // Auto-fit bounds to show all markers
         if (allCoordinates.length > 1) {
           const bounds = L.latLngBounds(allCoordinates);
-          map.whenReady(() => {
-            const container = map.getContainer();
-            const isVisible = container && container.offsetParent !== null; // ensures it's rendered
-
-            if (
-              isVisible &&
-              map &&
-              map.getSize().x > 0 &&
-              map.getSize().y > 0
-            ) {
-              map.fitBounds(bounds, {
+          setTimeout(() => {
+            if (mapInstanceRef.current) {
+              mapInstanceRef.current.fitBounds(bounds, {
                 padding: [20, 20],
                 maxZoom: 16,
                 animate: true,
               });
-            } else {
-              console.warn(
-                "🛑 Map container not visible or sized yet. Skipping fitBounds."
-              );
             }
-          });
+          }, 100);
         }
       } else {
-        // Fallback to generate dummy grid if no API data
+        // Generate fallback grid if no API data
         const generateGridData = () => {
           const gridData = [];
           const spacing = 0.005;
+          const centerLat = 28.6139;
+          const centerLng = 77.209;
 
           for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
@@ -165,6 +190,8 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
         };
 
         const gridData = generateGridData();
+        clearMarkers();
+
         gridData.forEach((point) => {
           const color =
             point.ranking <= 3
@@ -175,26 +202,25 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
               ? "#f97316"
               : "#ef4444";
 
-          const displayText =
-            point.ranking >= 20 ? "20+" : point.ranking.toString();
+          const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
           const fontSize = point.ranking >= 20 ? "12px" : "14px";
 
           const rankingIcon = L.divIcon({
             html: `<div style="
-            background: ${color};
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: ${fontSize};
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            cursor: pointer;
-          ">${displayText}</div>`,
+              background: ${color};
+              color: white;
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: ${fontSize};
+              border: 2px solid white;
+              box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+              cursor: pointer;
+            ">${displayText}</div>`,
             className: "custom-ranking-marker",
             iconSize: [50, 50],
             iconAnchor: [25, 25],
@@ -202,38 +228,25 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
           const marker = L.marker([point.lat, point.lng], {
             icon: rankingIcon,
-          }).addTo(map);
+          }).addTo(mapInstanceRef.current!);
 
           marker.on("click", () => {
-            const gpsCoordinates = `${point.lat.toFixed(
-              13
-            )},${point.lng.toFixed(13)}`;
+            const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
             onMarkerClick(gpsCoordinates, point.id);
           });
 
           marker.bindPopup(`
-          <div class="text-sm">
-            <strong>Position: ${displayText}</strong><br>
-            Location: Grid ${point.id}<br>
-            <em>Click for detailed view</em>
-          </div>
-        `);
+            <div class="text-sm">
+              <strong>Position: ${displayText}</strong><br>
+              Location: Grid ${point.id}<br>
+              <em>Click for detailed view</em>
+            </div>
+          `);
+
+          markersRef.current.push(marker);
         });
       }
-
-      return () => {
-        if (mapInstanceRef.current) {
-          mapInstanceRef.current.remove();
-          mapInstanceRef.current = null;
-        }
-        const existingLink = document.querySelector(
-          'link[href*="leaflet.css"]'
-        );
-        if (existingLink) {
-          existingLink.remove();
-        }
-      };
-    }, [onMarkerClick, rankDetails]);
+    }, [rankDetails, onMarkerClick]);
 
     return (
       <Card className="bg-white">
@@ -246,10 +259,9 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     );
   },
   (prevProps, nextProps) => {
-    // Only re-render if rankDetails actually change - prevent map re-rendering during polling
+    // Only re-render if rankDetails actually change
     return (
-      JSON.stringify(prevProps.rankDetails) ===
-        JSON.stringify(nextProps.rankDetails) &&
+      JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
       prevProps.onMarkerClick === nextProps.onMarkerClick
     );
   }
