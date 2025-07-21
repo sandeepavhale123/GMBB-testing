@@ -80,6 +80,9 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   const isKeywordCountValid = keywordCount > 0 && keywordCount <= 5;
   const isKeywordLimitReached = keywordCount >= 5;
 
+  // Check if reset button should be shown (only when user has entered keywords)
+  const shouldShowResetButton = formData.keywords.trim() !== "";
+
   const handleSearchDataEngineChange = (value: string) => {
     // If Map API is selected, check if API key exists
     if (value === "Map API") {
@@ -147,12 +150,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     // Always update the form data (even if invalid, to show the user's input)
     onInputChange("keywords", value);
   };
-
-  // Check if there's data to reset
-  const hasDataToReset = hasResults || 
-    formData.keywords.trim() !== "" || 
-    formData.searchBusiness.trim() !== "" ||
-    manualCoordinates.length > 0;
 
   return (
     <Card className="shadow-lg">
@@ -387,10 +384,11 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             </Select>
           </div>
 
-          <div className="space-y-3">
+          {/* Updated buttons section - single row layout */}
+          <div className="flex gap-3">
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
               disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
             >
               {pollingKeyword
@@ -400,13 +398,13 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 : "Check rank"}
             </Button>
 
-            {hasDataToReset && (
+            {shouldShowResetButton && (
               <Button
                 type="button"
                 variant="outline"
-                className="w-full"
                 onClick={onReset}
                 disabled={submittingRank || pollingKeyword}
+                className="flex-none"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset & New Search
