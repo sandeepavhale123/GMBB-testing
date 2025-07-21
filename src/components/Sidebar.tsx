@@ -24,15 +24,6 @@ import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { useAppSelector } from "../hooks/useRedux";
 
-// Extend Window interface for Crisp chat
-declare global {
-  interface Window {
-    $crisp?: any;
-    CRISP_WEBSITE_ID?: string;
-    CRISP_READY_TRIGGER?: () => void;
-  }
-}
-
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -226,22 +217,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
       script.src = "https://client.crisp.chat/l.js";
       document.head.appendChild(script);
 
-      window.$crisp = [];
-      window.CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
+      (window as any).$crisp = [];
+      (window as any).CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
 
-      window.CRISP_READY_TRIGGER = function () {
-        const visitorEmail = window.$crisp?.get("user:email");
+      (window as any).CRISP_READY_TRIGGER = function () {
+        const visitorEmail = (window as any).$crisp?.get("user:email");
         if (!visitorEmail) {
-          window.$crisp.push(["set", "user:email", profileData?.username]);
+          (window as any).$crisp.push(["set", "user:email", profileData?.username]);
         }
       };
 
       return () => {
         // Cleanup: Remove Crisp script and globals when component unmounts
         document.head.removeChild(script);
-        delete window.$crisp;
-        delete window.CRISP_WEBSITE_ID;
-        delete window.CRISP_READY_TRIGGER;
+        delete (window as any).$crisp;
+        delete (window as any).CRISP_WEBSITE_ID;
+        delete (window as any).CRISP_READY_TRIGGER;
       };
     }
   }, [isAdmin, profileData?.username]);
