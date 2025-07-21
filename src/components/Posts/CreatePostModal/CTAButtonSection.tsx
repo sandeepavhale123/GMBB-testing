@@ -13,6 +13,7 @@ interface CTAButtonSectionProps {
   onCTAButtonChange: (value: string) => void;
   ctaUrl: string;
   onCTAUrlChange: (value: string) => void;
+  urlError?: string;
 }
 
 const ctaOptions = [{
@@ -41,7 +42,8 @@ export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
   ctaButton,
   onCTAButtonChange,
   ctaUrl,
-  onCTAUrlChange
+  onCTAUrlChange,
+  urlError
 }) => {
   return (
     <div className="space-y-3">
@@ -85,9 +87,12 @@ export const CTAButtonSection: React.FC<CTAButtonSectionProps> = ({
                   value={ctaUrl} 
                   onChange={e => onCTAUrlChange(e.target.value)} 
                   placeholder="https://example.com" 
-                  className="pl-10" 
+                  className={`pl-10 ${urlError ? 'border-red-500 focus:border-red-500' : ''}`}
                 />
               </div>
+              {urlError && (
+                <p className="text-sm text-red-500 mt-1">{urlError}</p>
+              )}
             </div>
           )}
         </div>
