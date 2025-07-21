@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, memo, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { RankDetail } from "../../api/geoRankingApi";
@@ -105,155 +104,163 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       });
     };
 
-    // Load Leaflet CSS once globally
-    useEffect(() => {
-      const loadLeafletCSS = () => {
-        const existingLink = document.querySelector('link[href*="leaflet.css"]');
-        if (!existingLink) {
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-          document.head.appendChild(link);
-        }
-      };
-      loadLeafletCSS();
-    }, []); // Only run once
-
     // Initialize map only once
     useEffect(() => {
       if (!mapRef.current || isInitialized || !componentMountedRef.current) return;
 
       console.log(`🗺️ [RankingMap] Initializing map for the first time`);
 
-      // Calculate center coordinates
-      let centerLat = 28.6139;
-      let centerLng = 77.209;
-      let allCoordinates: [number, number][] = [];
+      // Wait for CSS to be loaded and container to be ready
+      const initializeMap = () => {
+        if (!mapRef.current) return;
 
-      if (rankDetails.length > 0) {
-        rankDetails.forEach((detail) => {
-          const coords = detail.coordinate.split(",");
-          if (coords.length === 2) {
-            const lat = parseFloat(coords[0]);
-            const lng = parseFloat(coords[1]);
-            allCoordinates.push([lat, lng]);
-          }
-        });
-
-        if (allCoordinates.length > 0) {
-          centerLat = allCoordinates[0][0];
-          centerLng = allCoordinates[0][1];
+        // Check if container has proper dimensions
+        const container = mapRef.current;
+        if (!container.offsetWidth || !container.offsetHeight) {
+          console.log('🗺️ [RankingMap] Container not ready, retrying...');
+          setTimeout(initializeMap, 100);
+          return;
         }
-      }
 
-      // Initialize map
-      const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
-      mapInstanceRef.current = map;
+        // Calculate center coordinates
+        let centerLat = 28.6139;
+        let centerLng = 77.209;
+        let allCoordinates: [number, number][] = [];
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
-      setIsInitialized(true);
-
-      // Add initial markers
-      if (rankDetails.length > 0) {
-        addMarkersToMap(rankDetails);
-        
-        // Auto-fit bounds if we have multiple coordinates
-        if (allCoordinates.length > 1) {
-          const bounds = L.latLngBounds(allCoordinates);
-          map.whenReady(() => {
-            const container = map.getContainer();
-            const isVisible = container && container.offsetParent !== null;
-
-            if (isVisible && map && map.getSize().x > 0 && map.getSize().y > 0) {
-              map.fitBounds(bounds, {
-                padding: [20, 20],
-                maxZoom: 16,
-                animate: true,
-              });
+        if (rankDetails.length > 0) {
+          rankDetails.forEach((detail) => {
+            const coords = detail.coordinate.split(",");
+            if (coords.length === 2) {
+              const lat = parseFloat(coords[0]);
+              const lng = parseFloat(coords[1]);
+              allCoordinates.push([lat, lng]);
             }
           });
-        }
-      } else {
-        // Generate fallback grid data
-        const generateGridData = () => {
-          const gridData = [];
-          const spacing = 0.005;
 
-          for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-              const lat = centerLat + (i - 1.5) * spacing;
-              const lng = centerLng + (j - 1.5) * spacing;
-              const ranking = Math.floor(Math.random() * 25) + 1;
-              gridData.push({
-                lat,
-                lng,
-                ranking,
-                id: `${i}-${j}`,
-              });
-            }
+          if (allCoordinates.length > 0) {
+            centerLat = allCoordinates[0][0];
+            centerLng = allCoordinates[0][1];
           }
-          return gridData;
-        };
+        }
 
-        const gridData = generateGridData();
-        gridData.forEach((point) => {
-          const color =
-            point.ranking <= 3
-              ? "#22c55e"
-              : point.ranking <= 10
-              ? "#f59e0b"
-              : point.ranking <= 15
-              ? "#f97316"
-              : "#ef4444";
+        try {
+          // Initialize map
+          const map = L.map(mapRef.current).setView([centerLat, centerLng], 13);
+          mapInstanceRef.current = map;
 
-          const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
-          const fontSize = point.ranking >= 20 ? "12px" : "14px";
-
-          const rankingIcon = L.divIcon({
-            html: `<div style="
-            background: ${color};
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: ${fontSize};
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            cursor: pointer;
-          ">${displayText}</div>`,
-            className: "custom-ranking-marker",
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-          });
-
-          const marker = L.marker([point.lat, point.lng], {
-            icon: rankingIcon,
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           }).addTo(map);
 
-          marker.on("click", () => {
-            const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
-            onMarkerClick(gpsCoordinates, point.id);
-          });
+          setIsInitialized(true);
 
-          marker.bindPopup(`
-          <div class="text-sm">
-            <strong>Position: ${displayText}</strong><br>
-            Location: Grid ${point.id}<br>
-            <em>Click for detailed view</em>
-          </div>
-        `);
+          // Add initial markers
+          if (rankDetails.length > 0) {
+            addMarkersToMap(rankDetails);
+            
+            // Auto-fit bounds if we have multiple coordinates
+            if (allCoordinates.length > 1) {
+              const bounds = L.latLngBounds(allCoordinates);
+              map.whenReady(() => {
+                const container = map.getContainer();
+                const isVisible = container && container.offsetParent !== null;
 
-          markersRef.current.push(marker);
-        });
-      }
+                if (isVisible && map && map.getSize().x > 0 && map.getSize().y > 0) {
+                  map.fitBounds(bounds, {
+                    padding: [20, 20],
+                    maxZoom: 16,
+                    animate: true,
+                  });
+                }
+              });
+            }
+          } else {
+            // Generate fallback grid data
+            const generateGridData = () => {
+              const gridData = [];
+              const spacing = 0.005;
+
+              for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                  const lat = centerLat + (i - 1.5) * spacing;
+                  const lng = centerLng + (j - 1.5) * spacing;
+                  const ranking = Math.floor(Math.random() * 25) + 1;
+                  gridData.push({
+                    lat,
+                    lng,
+                    ranking,
+                    id: `${i}-${j}`,
+                  });
+                }
+              }
+              return gridData;
+            };
+
+            const gridData = generateGridData();
+            gridData.forEach((point) => {
+              const color =
+                point.ranking <= 3
+                  ? "#22c55e"
+                  : point.ranking <= 10
+                  ? "#f59e0b"
+                  : point.ranking <= 15
+                  ? "#f97316"
+                  : "#ef4444";
+
+              const displayText = point.ranking >= 20 ? "20+" : point.ranking.toString();
+              const fontSize = point.ranking >= 20 ? "12px" : "14px";
+
+              const rankingIcon = L.divIcon({
+                html: `<div style="
+                background: ${color};
+                color: white;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: ${fontSize};
+                border: 2px solid white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                cursor: pointer;
+              ">${displayText}</div>`,
+                className: "custom-ranking-marker",
+                iconSize: [50, 50],
+                iconAnchor: [25, 25],
+              });
+
+              const marker = L.marker([point.lat, point.lng], {
+                icon: rankingIcon,
+              }).addTo(map);
+
+              marker.on("click", () => {
+                const gpsCoordinates = `${point.lat.toFixed(13)},${point.lng.toFixed(13)}`;
+                onMarkerClick(gpsCoordinates, point.id);
+              });
+
+              marker.bindPopup(`
+              <div class="text-sm">
+                <strong>Position: ${displayText}</strong><br>
+                Location: Grid ${point.id}<br>
+                <em>Click for detailed view</em>
+              </div>
+            `);
+
+              markersRef.current.push(marker);
+            });
+          }
+
+          console.log('🗺️ [RankingMap] Map initialized successfully');
+        } catch (error) {
+          console.error('🗺️ [RankingMap] Error initializing map:', error);
+        }
+      };
+
+      // Start initialization with a small delay to ensure CSS is loaded
+      setTimeout(initializeMap, 50);
 
       return () => {
         console.log('🗺️ [RankingMap] Cleaning up map');
@@ -263,7 +270,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
           mapInstanceRef.current = null;
         }
         setIsInitialized(false);
-        // Don't remove CSS as it might be used by other instances
       };
     }, [isInitialized]); // Only depend on isInitialized
 
