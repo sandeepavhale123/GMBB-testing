@@ -1,16 +1,19 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 
 export const usePollingProgress = (isActive: boolean, intervalMs = 3000) => {
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef(0);
+  // Initialize progress conditionally based on isActive to prevent flash of 0
+  const [progress, setProgress] = useState(() => isActive ? 10 : 0);
+  const progressRef = useRef(isActive ? 10 : 0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isActive) {
-      // Initialize progress to 10%
-      setProgress(10);
-      progressRef.current = 10;
+      // Immediately set progress to 10% if not already set
+      if (progressRef.current === 0) {
+        setProgress(10);
+        progressRef.current = 10;
+      }
       
       // Start progress increment interval
       intervalRef.current = setInterval(() => {
