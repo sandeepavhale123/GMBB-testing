@@ -131,7 +131,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         });
       } finally {
         setLoading(false);
-        // Keep keywordChanging true until all data is loaded
+        setKeywordChanging(false);
         console.log('🗺️ useKeywordDetails - Keyword loading completed');
       }
     };
@@ -183,9 +183,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         });
       } finally {
         setDateChanging(false);
-        // Reset keywordChanging after date change completes
-        setKeywordChanging(false);
-        console.log('🗺️ useKeywordDetails - Date loading completed, keywordChanging reset');
+        console.log('🗺️ useKeywordDetails - Date loading completed');
       }
     };
 

@@ -1,5 +1,6 @@
+
 import React, { useMemo, memo } from "react";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { RankingMap } from "./RankingMap";
 import { RankDetail, RankStats, ProjectDetails } from "../../api/geoRankingApi";
 import { Loader } from "../ui/loader";
@@ -153,14 +154,20 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
 
           <div className="bg-gray-50 rounded-lg overflow-hidden relative">
             {loading && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-                <div className="flex flex-col items-center justify-center">
-                  <Loader size="lg" />
-                  <div className="mt-4 text-center">
-                    <p className="text-lg font-semibold text-gray-900">Loading Map Data</p>
-                    <p className="text-sm text-gray-600 mt-1">Generating grid coordinates...</p>
-                  </div>
-                </div>
+              <div className="absolute inset-0 bg-black/20 z-50 flex items-center justify-center">
+                <Card className="bg-white shadow-lg">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-center">Loading Map Data</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex flex-col items-center justify-center">
+                      <Loader size="lg" />
+                      <p className="text-sm text-gray-600 mt-3 text-center">
+                        Generating grid coordinates...
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             )}
             <RankingMap
