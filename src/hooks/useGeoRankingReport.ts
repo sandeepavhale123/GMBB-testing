@@ -25,6 +25,19 @@ interface FormData {
   language: string;
 }
 
+const getInitialFormData = (): FormData => ({
+  searchBusinessType: "name",
+  searchBusiness: "",
+  searchDataEngine: "Briefcase API",
+  keywords: "",
+  mapPoint: "Automatic",
+  distanceUnit: "Meters",
+  distanceValue: "100",
+  gridSize: "3",
+  scheduleCheck: "onetime",
+  language: "en",
+});
+
 export const useGeoRankingReport = (listingId: number) => {
   const { toast } = useToast();
   const [defaultCoordinates, setDefaultCoordinates] = useState<{
@@ -45,18 +58,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [isCompleting, setIsCompleting] = useState(false);
   const [previousMapPoint, setPreviousMapPoint] = useState<string>("");
 
-  const [formData, setFormData] = useState<FormData>({
-    searchBusinessType: "name",
-    searchBusiness: "",
-    searchDataEngine: "Briefcase API",
-    keywords: "",
-    mapPoint: "Automatic",
-    distanceUnit: "Meters",
-    distanceValue: "100",
-    gridSize: "3",
-    scheduleCheck: "onetime",
-    language: "en",
-  });
+  const [formData, setFormData] = useState<FormData>(getInitialFormData());
 
   // Helper function to determine distance unit from distance value
   const determineDistanceUnit = (
@@ -362,6 +364,31 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  const handleReset = () => {
+    // Reset form data to initial state
+    setFormData(getInitialFormData());
+    
+    // Clear all state related to results and coordinates
+    setKeywordData(null);
+    setCurrentKeywordId(null);
+    setManualCoordinates([]);
+    setGridCoordinates([]);
+    setPollingKeyword(false);
+    setPollingProgress(0);
+    setIsCompleting(false);
+    
+    // Clear any existing markers
+    setCurrentMarkers([]);
+    
+    // Reset previous map point
+    setPreviousMapPoint("");
+    
+    toast({
+      title: "Form Reset",
+      description: "Ready for a new keyword search",
+    });
+  };
+
   // Manual coordinates management functions
   const addManualCoordinate = (coordinate: string) => {
     setManualCoordinates((prev) => [...prev, coordinate]);
@@ -623,6 +650,7 @@ export const useGeoRankingReport = (listingId: number) => {
     keywordData,
     currentKeywordId,
     handleInputChange,
+    handleReset,
     fetchGridCoordinates,
     submitCheckRank,
   };

@@ -53,6 +53,7 @@ export const GeoRankingReportPage: React.FC = () => {
     keywordData,
     currentKeywordId,
     handleInputChange,
+    handleReset,
     submitCheckRank,
   } = useGeoRankingReport(numericListingId);
 
@@ -132,6 +133,9 @@ export const GeoRankingReportPage: React.FC = () => {
     }
   };
 
+  // Check if there are results to determine if reset button should be shown
+  const hasResults = Boolean(keywordData?.rankDetails?.length);
+
   return (
     <div className="min-h-screen flex w-full">
       <Sidebar
@@ -177,6 +181,7 @@ export const GeoRankingReportPage: React.FC = () => {
                   formData={formData}
                   onInputChange={handleInputChange}
                   onSubmit={handleSubmit}
+                  onReset={handleReset}
                   getDistanceOptions={() =>
                     getDistanceOptions(formData.distanceUnit)
                   }
@@ -185,6 +190,7 @@ export const GeoRankingReportPage: React.FC = () => {
                   pollingKeyword={pollingKeyword}
                   manualCoordinates={manualCoordinates}
                   onClearManualCoordinates={clearManualCoordinates}
+                  hasResults={hasResults}
                 />
               </div>
 
