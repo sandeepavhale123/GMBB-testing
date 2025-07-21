@@ -11,6 +11,8 @@ interface GeoRankingMapSectionProps {
   rankStats?: RankStats;
   projectDetails?: ProjectDetails;
   loading: boolean;
+  keywordChanging?: boolean;
+  dateChanging?: boolean;
 }
 
 export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
@@ -20,6 +22,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
   rankStats,
   projectDetails,
   loading,
+  keywordChanging = false,
+  dateChanging = false,
 }) => {
   // Memoize position summary calculation
   const positionSummary = useMemo(() => {
@@ -120,6 +124,8 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return rankDetails.length > 0 ? rankDetails[0].coordinate : "28.6139, 77.2090";
   }, [rankDetails]);
 
+  const showLoader = loading || keywordChanging || dateChanging;
+
   return (
     <div className="relative">
       <Card className="bg-white">
@@ -152,9 +158,17 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
           </div>
 
           <div className="bg-gray-50 rounded-lg overflow-hidden relative">
-            {loading && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-                <Loader size="lg" text="Loading map data..." />
+            {showLoader && (
+              <div className="absolute inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center">
+                <div className="bg-white rounded-lg shadow-lg border p-8 flex flex-col items-center justify-center min-w-[300px]">
+                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+                  <div className="text-lg font-semibold text-gray-900 mb-2">
+                    {keywordChanging ? "Loading Map Data" : dateChanging ? "Loading Date Data" : "Loading map data..."}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {keywordChanging ? "Generating grid coordinates..." : dateChanging ? "Fetching date information..." : "Please wait..."}
+                  </div>
+                </div>
               </div>
             )}
             <RankingMap
@@ -265,5 +279,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
          JSON.stringify(prevProps.rankStats) === JSON.stringify(nextProps.rankStats) &&
          JSON.stringify(prevProps.projectDetails) === JSON.stringify(nextProps.projectDetails) &&
          prevProps.loading === nextProps.loading &&
+         prevProps.keywordChanging === nextProps.keywordChanging &&
+         prevProps.dateChanging === nextProps.dateChanging &&
          prevProps.onMarkerClick === nextProps.onMarkerClick;
 });
