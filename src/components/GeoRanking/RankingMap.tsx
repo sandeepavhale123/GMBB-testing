@@ -16,6 +16,7 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
     const markersRef = useRef<L.Marker[]>([]);
     const [isInitialized, setIsInitialized] = useState(false);
     const lastRankDetailsRef = useRef<string>('');
+    const componentMountedRef = useRef(true);
 
     console.log('🗺️ [RankingMap] Rendering with:', {
       rankDetailsLength: rankDetails.length,
@@ -104,17 +105,25 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
       });
     };
 
+    // Load Leaflet CSS once globally
+    useEffect(() => {
+      const loadLeafletCSS = () => {
+        const existingLink = document.querySelector('link[href*="leaflet.css"]');
+        if (!existingLink) {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+          document.head.appendChild(link);
+        }
+      };
+      loadLeafletCSS();
+    }, []); // Only run once
+
     // Initialize map only once
     useEffect(() => {
-      if (!mapRef.current || isInitialized) return;
+      if (!mapRef.current || isInitialized || !componentMountedRef.current) return;
 
       console.log(`🗺️ [RankingMap] Initializing map for the first time`);
-
-      // Load Leaflet CSS
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-      document.head.appendChild(link);
 
       // Calculate center coordinates
       let centerLat = 28.6139;
@@ -248,15 +257,13 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
 
       return () => {
         console.log('🗺️ [RankingMap] Cleaning up map');
+        componentMountedRef.current = false;
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
           mapInstanceRef.current = null;
         }
         setIsInitialized(false);
-        const existingLink = document.querySelector('link[href*="leaflet.css"]');
-        if (existingLink) {
-          existingLink.remove();
-        }
+        // Don't remove CSS as it might be used by other instances
       };
     }, [isInitialized]); // Only depend on isInitialized
 
