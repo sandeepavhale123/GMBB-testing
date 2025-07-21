@@ -154,7 +154,13 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
           <div className="bg-gray-50 rounded-lg overflow-hidden relative">
             {loading && (
               <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-                <Loader size="lg" text="Loading map data..." />
+                <div className="flex flex-col items-center justify-center">
+                  <Loader size="lg" />
+                  <div className="mt-4 text-center">
+                    <p className="text-lg font-semibold text-gray-900">Loading Map Data</p>
+                    <p className="text-sm text-gray-600 mt-1">Generating grid coordinates...</p>
+                  </div>
+                </div>
               </div>
             )}
             <RankingMap
