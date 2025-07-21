@@ -423,7 +423,10 @@ export const useGeoRankingReport = (listingId: number) => {
     maxAttempts: number = 60 // 5 minutes maximum
   ): Promise<boolean> => {
     setPollingKeyword(true);
-    setPollingProgress(0);
+    
+    // Initialize progress to 10% immediately
+    let currentProgress = 10;
+    setPollingProgress(currentProgress);
 
     try {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -431,11 +434,16 @@ export const useGeoRankingReport = (listingId: number) => {
         //   `Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`
         // );
 
-        // Update progress from 0 to 80% based on time elapsed, not attempts
-        const timeElapsed = (attempt - 1) * 5; // seconds
-        const maxTime = 240; // 4 minutes to reach 80%
-        const progress = Math.min((timeElapsed / maxTime) * 80, 80);
-        setPollingProgress(progress);
+        // Update progress using enhanced logic
+        if (attempt > 1) { // Don't increment on first attempt since we start at 10%
+          if (currentProgress < 85) {
+            currentProgress += 10;
+          } else if (currentProgress < 99) {
+            currentProgress += 2;
+          }
+          // Cap at 99% until data is ready
+          setPollingProgress(Math.min(currentProgress, 99));
+        }
 
         const response = await getKeywordDetailsWithStatus(
           listingId,
