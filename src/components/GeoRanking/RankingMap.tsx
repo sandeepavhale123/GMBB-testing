@@ -3,6 +3,14 @@ import { Card, CardContent } from "../ui/card";
 import { RankDetail } from "../../api/geoRankingApi";
 import L from "leaflet";
 
+// Fix for default markers in Leaflet with Webpack
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+});
+
 interface RankingMapProps {
   onMarkerClick: (gpsCoordinates: string, gridId: string) => void;
   rankDetails: RankDetail[];
