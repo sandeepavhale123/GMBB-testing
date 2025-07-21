@@ -21,7 +21,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
   projectDetails,
   loading,
 }) => {
-  // Memoize position summary calculation to prevent re-computation
+  // Memoize position summary calculation
   const positionSummary = useMemo(() => {
     const summary = {
       "1-3": 0,
@@ -46,12 +46,11 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return summary;
   }, [rankDetails]);
 
-  // Memoize distance formatting to prevent unnecessary recalculations
+  // Memoize distance formatting
   const distance = useMemo(() => {
     const formatDistanceLabel = (distance?: string) => {
       if (!distance) return "2km";
 
-      // Distance mapping for proper labels - value is the key, label is what we display
       const distanceMap = [
         { value: "100", label: "100 Meter" },
         { value: "200", label: "200 Meter" },
@@ -73,7 +72,6 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
         { value: "10mi", label: "10 Miles" },
       ];
 
-      // Direct match by value (distance should be the actual value like "1", "5mi", etc.)
       const matchedDistance = distanceMap.find(
         (item) => item.value === projectDetails?.distance
       );
@@ -85,27 +83,42 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
     return formatDistanceLabel(projectDetails?.distance);
   }, [projectDetails?.distance]);
 
-  // Get dynamic values from projectDetails - fix distance display
-  const getFrequency = (schedule?: string) => {
-    if (!schedule) return "Daily";
-    switch (schedule.toLowerCase()) {
-      case "daily":
-        return "Daily";
-      case "weekly":
-        return "Weekly";
-      case "monthly":
-        return "Monthly";
-      default:
-        return schedule;
-    }
-  };
-  const frequency = getFrequency(projectDetails?.schedule);
+  // Memoize frequency calculation
+  const frequency = useMemo(() => {
+    const getFrequency = (schedule?: string) => {
+      if (!schedule) return "Daily";
+      switch (schedule.toLowerCase()) {
+        case "daily":
+          return "Daily";
+        case "weekly":
+          return "Weekly";
+        case "monthly":
+          return "Monthly";
+        default:
+          return schedule;
+      }
+    };
+    return getFrequency(projectDetails?.schedule);
+  }, [projectDetails?.schedule]);
 
-  // Format grid size as "number * number"
-  const formatGridSize = (grid: string) => {
-    const gridNumber = grid.replace(/[^0-9]/g, ""); // Extract numbers only
-    return `${gridNumber} * ${gridNumber}`;
-  };
+  // Memoize grid size formatting
+  const formattedGridSize = useMemo(() => {
+    const formatGridSize = (grid: string) => {
+      const gridNumber = grid.replace(/[^0-9]/g, "");
+      return `${gridNumber} * ${gridNumber}`;
+    };
+    return formatGridSize(gridSize);
+  }, [gridSize]);
+
+  // Extract center coordinates from project details
+  const centerCoordinates = useMemo(() => {
+    return projectDetails?.mappoint || (rankDetails.length > 0 ? rankDetails[0].coordinate : undefined);
+  }, [projectDetails?.mappoint, rankDetails]);
+
+  // Memoize GPS coordinates
+  const gpsCoordinates = useMemo(() => {
+    return rankDetails.length > 0 ? rankDetails[0].coordinate : "28.6139, 77.2090";
+  }, [rankDetails]);
 
   return (
     <div className="relative">
@@ -121,13 +134,10 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
             {/* Info Badges */}
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                GPS:{" "}
-                {rankDetails.length > 0
-                  ? rankDetails[0].coordinate
-                  : "28.6139, 77.2090"}
+                GPS: {gpsCoordinates}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-                Grid: {formatGridSize(gridSize)}
+                Grid: {formattedGridSize}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
                 Distance: {distance}
@@ -147,23 +157,18 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
                 <Loader size="lg" text="Loading map data..." />
               </div>
             )}
-            {loading ? (
-              <div className="w-full h-[400px] sm:h-[500px] flex items-center justify-center">
-                <div className="text-gray-500">Loading map data...</div>
-              </div>
-            ) : (
-              <RankingMap
-                onMarkerClick={onMarkerClick}
-                rankDetails={rankDetails}
-              />
-            )}
+            <RankingMap
+              onMarkerClick={onMarkerClick}
+              rankDetails={rankDetails}
+              centerCoordinates={centerCoordinates}
+            />
           </div>
         </CardContent>
       </Card>
 
       {/* Key Metrics Overlay - Top Left */}
       <Card
-        className=" bg-white/95 backdrop-blur-sm shadow-lg z-55 mb-4 lg:absolute lg:mb-0 "
+        className="bg-white/95 backdrop-blur-sm shadow-lg z-55 mb-4 lg:absolute lg:mb-0"
         style={{
           top: "120px",
           left: "33px",
@@ -203,7 +208,10 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
       </Card>
 
       {/* Position Summary Overlay - Top Right */}
-      <Card className=" bg-white/95 backdrop-blur-sm shadow-lg z-55 right-[33px] z-[9999]  lg:absolute " style={{top:"120px"}}>
+      <Card 
+        className="bg-white/95 backdrop-blur-sm shadow-lg z-55 right-[33px] z-[9999] lg:absolute" 
+        style={{top:"120px"}}
+      >
         <CardContent className="p-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
             Position Summary

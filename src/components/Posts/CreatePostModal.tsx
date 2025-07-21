@@ -126,6 +126,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       errors.title = "Title is required for event and offer posts";
     }
 
+    // CTA URL validation when CTA button is enabled and not CALL type
+    if (showCTAButton && formData.ctaButton !== "CALL" && !formData.ctaUrl.trim()) {
+      errors.ctaUrl = "URL is required when CTA button is enabled";
+    }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -284,7 +289,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (Object.keys(validationErrors).length > 0) {
       validateForm();
     }
-  }, [formData.title, formData.postType]);
+  }, [formData.title, formData.postType, formData.ctaUrl, showCTAButton]);
 
   return (
     <>
@@ -333,6 +338,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   onCTAUrlChange={(value) =>
                     setFormData((prev) => ({ ...prev, ctaUrl: value }))
                   }
+                  urlError={validationErrors.ctaUrl}
                 />
 
                 {/* Advanced Post Options */}

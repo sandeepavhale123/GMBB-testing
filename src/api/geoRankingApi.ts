@@ -131,13 +131,29 @@ export const getKeywords = async (
 
 export const getKeywordDetails = async (
   listingId: number,
-  keywordId: string
+  keywordId: string,
+  dateId?: string
 ): Promise<KeywordDetailsResponse> => {
-  const response = await axiosInstance.post("/get-keyword-details", {
+  const payload: any = {
     listingId,
     keywordId,
     status: 0,
+  };
+  
+  console.log('🗺️ getKeywordDetails - API call:', {
+    listingId,
+    keywordId,
+    dateId
   });
+  
+  const response = await axiosInstance.post("/get-keyword-details", payload);
+  
+  console.log('🗺️ getKeywordDetails - API response:', {
+    code: response.data.code,
+    rankDetailsCount: response.data.data?.rankDetails?.length || 0,
+    datesCount: response.data.data?.dates?.length || 0
+  });
+  
   return response.data;
 };
 

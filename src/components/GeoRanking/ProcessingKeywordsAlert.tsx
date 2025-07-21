@@ -24,7 +24,8 @@ export const ProcessingKeywordsAlert: React.FC<ProcessingKeywordsAlertProps> = (
   // Combine all processing keywords
   const allProcessingKeywords = [...new Set([...submittedKeywords, ...keywords])];
   
-  if (allProcessingKeywords.length === 0) return null;
+  // Hide the entire component when keywords list is empty
+  if (keywords.length === 0 && submittedKeywords.length === 0) return null;
 
   // Determine if we have newly submitted keywords vs already processing ones
   const newlySubmittedCount = submittedKeywords.length;

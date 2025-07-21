@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,16 @@ import { Button } from "../ui/button";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { useTeam } from "../../hooks/useTeam";
 import { useToast } from "../../hooks/use-toast";
+import {
+  forceBodyStylesReset,
+  comprehensiveCleanup,
+  startGlobalCleanupMonitor,
+  stopGlobalCleanupMonitor,
+  startBodyStyleObserver,
+  stopBodyStyleObserver,
+  addWindowFocusCleanup,
+  removeWindowFocusCleanup,
+} from "../../utils/domUtils";
 
 interface DeleteTeamMemberModalProps {
   open: boolean;
@@ -28,34 +38,104 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
     useTeam();
   const { toast } = useToast();
 
+  // Initialize global cleanup monitors when component mounts
+  useEffect(() => {
+    startGlobalCleanupMonitor();
+    startBodyStyleObserver();
+    addWindowFocusCleanup();
+
+    return () => {
+      stopGlobalCleanupMonitor();
+      stopBodyStyleObserver();
+      removeWindowFocusCleanup();
+      // Final cleanup on unmount
+      comprehensiveCleanup();
+    };
+  }, []);
+
+  // Enhanced onOpenChange handler with aggressive cleanup
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      if (!newOpen) {
+        console.log("Modal closing, starting aggressive cleanup");
+
+        // Immediate cleanup
+        forceBodyStylesReset();
+
+        // Use requestAnimationFrame for reliable DOM update
+        requestAnimationFrame(() => {
+          forceBodyStylesReset();
+
+          // Another frame to ensure it's applied
+          requestAnimationFrame(() => {
+            forceBodyStylesReset();
+          });
+        });
+      }
+
+      onOpenChange(newOpen);
+    },
+    [onOpenChange]
+  );
+
   const handleDelete = async () => {
     if (!member) return;
 
     try {
       clearTeamDeleteError();
 
+      console.log("Starting delete operation");
       const result = await deleteTeamMember({
         id: parseInt(member.id),
         isDelete: "delete",
       });
 
       if (result.meta.requestStatus === "fulfilled") {
-        toast({
-          title: "Success",
-          description: "Team member deleted successfully",
+        console.log("Delete successful, starting cleanup and close sequence");
+
+        // Immediate cleanup before any other operations
+        forceBodyStylesReset();
+
+        // Close modal first
+        handleOpenChange(false);
+
+        // Use requestAnimationFrame to ensure modal is closed before showing toast
+        requestAnimationFrame(() => {
+          forceBodyStylesReset();
+
+          // Another frame for toast to ensure no interference
+          requestAnimationFrame(() => {
+            toast({
+              title: "Success",
+              description: "Team member deleted successfully",
+            });
+
+            // Final cleanup after toast
+            setTimeout(() => {
+              forceBodyStylesReset();
+              onSuccess?.();
+            }, 100);
+          });
         });
-        onOpenChange(false);
-        onSuccess?.();
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description:
-          deleteError ||
-          error?.response?.data?.message ||
-          error.message ||
-          "Failed to delete team member",
-        variant: "destructive",
+      console.error("Delete failed:", error);
+
+      // Ensure cleanup happens even on error
+      forceBodyStylesReset();
+
+      // Show error toast with cleanup
+      requestAnimationFrame(() => {
+        toast({
+          title: "Error",
+          description: deleteError || "Failed to delete team member",
+          variant: "destructive",
+        });
+
+        // Cleanup after error toast
+        setTimeout(() => {
+          forceBodyStylesReset();
+        }, 100);
       });
     }
   };
@@ -63,7 +143,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
   if (!member) return null;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-3">
@@ -104,7 +184,7 @@ export const DeleteTeamMemberModal: React.FC<DeleteTeamMemberModalProps> = ({
         <div className="flex space-x-2">
           <Button
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() => handleOpenChange(false)}
             className="flex-1"
           >
             Cancel

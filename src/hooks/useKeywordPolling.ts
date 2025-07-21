@@ -4,7 +4,8 @@ import { checkKeywordStatus } from "../api/geoRankingApi";
 export const useKeywordPolling = (
   listingId: number,
   onKeywordsUpdate: () => Promise<void>,
-  enableInitialCheck: boolean = true
+  enableInitialCheck: boolean = true,
+  keywords: any[] = []
 ) => {
   const [processingKeywords, setProcessingKeywords] = useState<string[]>([]);
   const [isPolling, setIsPolling] = useState(false);
@@ -13,27 +14,23 @@ export const useKeywordPolling = (
   const processingKeywordsRef = useRef<string[]>([]);
   const lastRequestTimeRef = useRef<number>(0);
   const isRequestingRef = useRef<boolean>(false);
-  const shouldStopPollingRef = useRef<boolean>(false);
-  const pollingCompletedTimeRef = useRef<number>(0);
+  const isUpdatingKeywordsRef = useRef<boolean>(false);
   const maxErrors = 3;
   const MIN_REQUEST_INTERVAL = 3000; // 3 seconds minimum between requests
-  const RESTART_COOLDOWN = 10000; // 10 seconds cooldown after completion
 
   // Keep ref in sync with state
   useEffect(() => {
     processingKeywordsRef.current = processingKeywords;
   }, [processingKeywords]);
 
-  // Stop polling function
+  // Stop polling function - simplified and more reliable
   const stopPolling = useCallback(() => {
-    // console.log(`🛑 [${new Date().toISOString()}] Stopping polling`);
+    console.log(`🛑 [${new Date().toISOString()}] Stopping polling`);
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
     setIsPolling(false);
-    shouldStopPollingRef.current = true;
-    pollingCompletedTimeRef.current = Date.now();
   }, []);
 
   // Check if we can make a request (prevent rapid successive calls)
@@ -45,25 +42,54 @@ export const useKeywordPolling = (
     );
   }, []);
 
+  // Handle empty keywords response - always call get-keywords
+  const handleEmptyKeywords = useCallback(async () => {
+    console.log(
+      `✅ [${new Date().toISOString()}] Empty keywords array received - processing complete`
+    );
+
+    // Update state and stop polling immediately
+    setProcessingKeywords([]);
+    processingKeywordsRef.current = [];
+    stopPolling();
+
+    // Always call get-keywords when we receive empty array, regardless of previous state
+    if (!isUpdatingKeywordsRef.current) {
+      isUpdatingKeywordsRef.current = true;
+      console.log(
+        `🔄 [${new Date().toISOString()}] Calling get-keywords after empty keywords response`
+      );
+
+      try {
+        await onKeywordsUpdate();
+        console.log(
+          `✅ [${new Date().toISOString()}] get-keywords API call completed successfully`
+        );
+      } catch (error) {
+        console.error(
+          `❌ [${new Date().toISOString()}] get-keywords API call failed:`,
+          error
+        );
+      } finally {
+        isUpdatingKeywordsRef.current = false;
+      }
+    }
+  }, [onKeywordsUpdate, stopPolling]);
+
   // Start polling function
   const startPolling = useCallback(() => {
     if (!listingId || intervalRef.current) return;
 
-    // console.log(
-    //   `🚀 [${new Date().toISOString()}] Starting polling - shouldStopPolling: ${
-    //     shouldStopPollingRef.current
-    //   }`
-    // );
+    console.log(`🚀 [${new Date().toISOString()}] Starting polling`);
     setIsPolling(true);
     errorCountRef.current = 0;
-    shouldStopPollingRef.current = false;
 
     const pollKeywordStatus = async () => {
       // Check if page is visible and we can make a request
       if (document.hidden || !canMakeRequest()) {
-        // console.log(
-        //   "🚫 Skipping request - page hidden or too soon since last request"
-        // );
+        console.log(
+          "🚫 Skipping request - page hidden or too soon since last request"
+        );
         return;
       }
 
@@ -71,54 +97,32 @@ export const useKeywordPolling = (
       lastRequestTimeRef.current = Date.now();
 
       try {
-        // console.log(
-        //   `🔄 [${new Date().toISOString()}] Checking keyword status for listing:`,
-        //   listingId
-        // );
+        console.log(
+          `🔄 [${new Date().toISOString()}] Checking keyword status for listing:`,
+          listingId
+        );
         const response = await checkKeywordStatus(listingId);
         errorCountRef.current = 0; // Reset error count on success
 
-        if (response.code === 200 && response.data.keywords.length > 0) {
+        if (response.code === 200) {
+          // Check if keywords array is empty - this means processing is complete
+          if (response.data.keywords.length === 0) {
+            await handleEmptyKeywords();
+            return; // Exit early to prevent further processing
+          }
+
+          // If we have keywords, update the processing list
           const keywordNames = response.data.keywords.map((k) => k.keyword);
-          // console.log(
-          //   `⏳ [${new Date().toISOString()}] Processing keywords found:`,
-          //   keywordNames
-          // );
+          console.log(
+            `⏳ [${new Date().toISOString()}] Processing keywords found:`,
+            keywordNames
+          );
           setProcessingKeywords(keywordNames);
         } else {
-          // No more processing keywords - check if we had processing keywords before
-          // console.log(
-          //   `✅ [${new Date().toISOString()}] No processing keywords found - checking if we should refresh data...`
-          // );
-          const hadProcessingKeywords =
-            processingKeywordsRef.current.length > 0;
-
-          // Update state synchronously before stopping polling
-          setProcessingKeywords([]);
-          processingKeywordsRef.current = [];
-          stopPolling();
-
-          // Only call the refresh callback if we previously had processing keywords
-          if (hadProcessingKeywords) {
-            // console.log(
-            //   `🔄 [${new Date().toISOString()}] Calling onKeywordsUpdate after processing completion - refreshing /get-keywords`
-            // );
-            try {
-              await onKeywordsUpdate();
-              // console.log(
-              //   `✅ [${new Date().toISOString()}] Keywords refreshed successfully via /get-keywords API`
-              // );
-            } catch (error) {
-              console.error(
-                `❌ [${new Date().toISOString()}] Error refreshing keywords after polling:`,
-                error
-              );
-            }
-          } else {
-            // console.log(
-            //   `ℹ️ [${new Date().toISOString()}] No previous processing keywords, skipping refresh`
-            // );
-          }
+          console.warn(
+            `⚠️ [${new Date().toISOString()}] Unexpected response code:`,
+            response.code
+          );
         }
       } catch (error) {
         console.error(
@@ -141,47 +145,57 @@ export const useKeywordPolling = (
       }
     };
 
-    // Add delay before starting initial check to prevent immediate rapid calls
-    // console.log(
-    //   `🚀 [${new Date().toISOString()}] Starting keyword polling with 2-second delay...`
-    // );
+    // Start polling with initial delay
     setTimeout(() => {
       if (intervalRef.current) {
         // Only proceed if polling wasn't cancelled
-        // console.log(
-        //   `⏰ [${new Date().toISOString()}] Starting initial check and setting up 8-second polling interval`
-        // );
+        console.log(
+          `⏰ [${new Date().toISOString()}] Starting initial check and setting up polling interval`
+        );
         pollKeywordStatus();
-        intervalRef.current = setInterval(pollKeywordStatus, 8000); // Increased to 8 seconds
+        intervalRef.current = setInterval(pollKeywordStatus, 5000);
       }
     }, 2000);
-  }, [listingId, onKeywordsUpdate, stopPolling, canMakeRequest]);
+  }, [listingId, canMakeRequest, handleEmptyKeywords]);
 
-  // Initial check function to see if there are processing keywords
+  // Initial check function - only run if keywords exist
   const checkInitialStatus = useCallback(async () => {
     if (!listingId || !enableInitialCheck || !canMakeRequest()) return;
+
+    // Skip initial check if no keywords exist
+    if (keywords.length === 0) {
+      console.log(
+        `🚫 [${new Date().toISOString()}] Skipping initial check - no keywords available`
+      );
+      return;
+    }
 
     isRequestingRef.current = true;
     lastRequestTimeRef.current = Date.now();
 
     try {
-      // console.log(
-      //   `🔍 [${new Date().toISOString()}] Initial check for processing keywords`
-      // );
+      console.log(
+        `🔍 [${new Date().toISOString()}] Initial check for processing keywords`
+      );
       const response = await checkKeywordStatus(listingId);
 
-      if (response.code === 200 && response.data.keywords.length > 0) {
-        const keywordNames = response.data.keywords.map((k) => k.keyword);
-        // console.log(
-        //   `⏳ [${new Date().toISOString()}] Initial processing keywords found, starting polling:`,
-        //   keywordNames
-        // );
-        setProcessingKeywords(keywordNames);
-        startPolling();
+      if (response.code === 200) {
+        if (response.data.keywords.length === 0) {
+          // Handle empty keywords on initial check too
+          await handleEmptyKeywords();
+        } else {
+          const keywordNames = response.data.keywords.map((k) => k.keyword);
+          console.log(
+            `⏳ [${new Date().toISOString()}] Initial processing keywords found, starting polling:`,
+            keywordNames
+          );
+          setProcessingKeywords(keywordNames);
+          startPolling();
+        }
       } else {
-        // console.log(
-        //   `ℹ️ [${new Date().toISOString()}] No initial processing keywords found`
-        // );
+        console.log(
+          `ℹ️ [${new Date().toISOString()}] No initial processing keywords found`
+        );
       }
     } catch (error) {
       console.error(
@@ -191,59 +205,38 @@ export const useKeywordPolling = (
     } finally {
       isRequestingRef.current = false;
     }
-  }, [listingId, enableInitialCheck, startPolling, canMakeRequest]);
+  }, [
+    listingId,
+    enableInitialCheck,
+    canMakeRequest,
+    keywords.length,
+    handleEmptyKeywords,
+    startPolling,
+  ]);
 
-  // Effect to perform initial check when component mounts with delay
+  // Effect to perform initial check when keywords are available
   useEffect(() => {
-    if (listingId && enableInitialCheck) {
-      // Add a small delay to prevent immediate check on mount
+    if (listingId && enableInitialCheck && keywords.length > 0) {
       const timer = setTimeout(() => {
         checkInitialStatus();
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [listingId, enableInitialCheck, checkInitialStatus]);
+  }, [listingId, enableInitialCheck, keywords.length]);
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // console.log(
-        //   `📱 [${new Date().toISOString()}] Page hidden, stopping polling`
-        // );
+        console.log(
+          `📱 [${new Date().toISOString()}] Page hidden, stopping polling`
+        );
         stopPolling();
-      } else {
-        const now = Date.now();
-        const timeSinceCompletion = now - pollingCompletedTimeRef.current;
-        const hasProcessingKeywords = processingKeywordsRef.current.length > 0;
-        const shouldRestart =
-          listingId &&
-          hasProcessingKeywords &&
-          !shouldStopPollingRef.current &&
-          timeSinceCompletion > RESTART_COOLDOWN;
-
-        // console.log(
-        //   `📱 [${new Date().toISOString()}] Page visible - shouldRestart: ${shouldRestart}, hasProcessingKeywords: ${hasProcessingKeywords}, shouldStopPolling: ${
-        //     shouldStopPollingRef.current
-        //   }, timeSinceCompletion: ${timeSinceCompletion}ms`
-        // );
-
-        if (shouldRestart) {
-          // console.log(
-          //   `📱 [${new Date().toISOString()}] Restarting polling with delay...`
-          // );
-          // Add delay when restarting after page becomes visible
-          setTimeout(() => {
-            if (!document.hidden && !shouldStopPollingRef.current) {
-              // Double check conditions
-              startPolling();
-            }
-          }, 2000);
-        } else {
-          // console.log(
-          //   `📱 [${new Date().toISOString()}] Not restarting polling - conditions not met`
-          // );
-        }
+      } else if (processingKeywordsRef.current.length > 0) {
+        console.log(
+          `📱 [${new Date().toISOString()}] Page visible with processing keywords, restarting polling`
+        );
+        startPolling();
       }
     };
 
@@ -253,7 +246,7 @@ export const useKeywordPolling = (
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       stopPolling();
     };
-  }, [listingId, startPolling, stopPolling]);
+  }, [startPolling, stopPolling]);
 
   return {
     processingKeywords,
