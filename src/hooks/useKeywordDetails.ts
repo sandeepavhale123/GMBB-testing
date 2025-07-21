@@ -16,15 +16,22 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   const skipNextEffect = useRef(false);
 
   // Function to manually fetch keyword details (used during refresh)
-  const fetchKeywordDetailsManually = useCallback(async (keywordId: string) => {
+  const fetchKeywordDetailsManually = useCallback(async (keywordId: string, dateId?: string) => {
     if (!listingId || !keywordId) return;
     
     try {
-      const response = await getKeywordDetails(listingId, keywordId);
+      const response = await getKeywordDetails(listingId, keywordId, dateId);
+      console.log('🗺️ fetchKeywordDetailsManually - API Response:', {
+        code: response.code,
+        rankDetailsCount: response.data?.rankDetails?.length || 0,
+        keywordId,
+        dateId
+      });
+      
       if (response.code === 200) {
         setKeywordDetails(response.data);
-        // Set the most recent date as default
-        if (response.data.dates && response.data.dates.length > 0) {
+        // Set the most recent date as default only if no date was specified
+        if (!dateId && response.data.dates && response.data.dates.length > 0) {
           const sortedDates = response.data.dates
             .filter(d => d.date)
             .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
@@ -54,7 +61,17 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       setError(null);
       
       try {
-        const response = await getKeywordDetails(listingId, selectedKeyword);
+        const response = await getKeywordDetails(listingId, selectedKeyword, selectedDate);
+        console.log('🗺️ useKeywordDetails - API Response:', {
+          code: response.code,
+          hasData: !!response.data,
+          rankDetailsCount: response.data?.rankDetails?.length || 0,
+          rankDetails: response.data?.rankDetails,
+          projectDetails: response.data?.projectDetails,
+          selectedKeyword,
+          selectedDate
+        });
+        
         if (response.code === 200) {
           setKeywordDetails(response.data);
           // Set the most recent date as default
@@ -87,6 +104,46 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
 
     fetchKeywordDetails();
   }, [listingId, selectedKeyword, toast, refreshMode]);
+
+  // Fetch keyword details when selectedDate changes
+  useEffect(() => {
+    const fetchKeywordDetailsByDate = async () => {
+      if (!listingId || !selectedKeyword || !selectedDate || refreshMode) return;
+      
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const response = await getKeywordDetails(listingId, selectedKeyword, selectedDate);
+        console.log('🗺️ useKeywordDetails - Date Change API Response:', {
+          code: response.code,
+          hasData: !!response.data,
+          rankDetailsCount: response.data?.rankDetails?.length || 0,
+          selectedDate,
+          selectedKeyword
+        });
+        
+        if (response.code === 200) {
+          setKeywordDetails(response.data);
+        } else {
+          throw new Error(response.message || 'Failed to fetch keyword details by date');
+        }
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch keyword details by date';
+        setError(errorMessage);
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+        setDateChanging(false);
+      }
+    };
+
+    fetchKeywordDetailsByDate();
+  }, [listingId, selectedKeyword, selectedDate, toast, refreshMode]);
 
   const fetchPositionDetails = async (keywordId: string, positionId: string): Promise<KeywordPositionResponse | null> => {
     if (!listingId) return null;
