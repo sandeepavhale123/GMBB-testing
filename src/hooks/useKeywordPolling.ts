@@ -153,20 +153,15 @@ export const useKeywordPolling = (
     }
   }, [listingId, enableInitialCheck, startPolling, canMakeRequest, keywords.length]);
 
-  // Effect to perform initial check - only depend on actual values that matter
+  // Effect to perform initial check when component mounts or keywords change
   useEffect(() => {
-    // Early return if no keywords exist
-    if (!listingId || !enableInitialCheck || keywords.length === 0) {
-      console.log(`🚫 [${new Date().toISOString()}] Skipping initial check - no keywords (${keywords.length}) or conditions not met`);
-      return;
+    if (listingId && enableInitialCheck) {
+      const timer = setTimeout(() => {
+        checkInitialStatus();
+      }, 1000);
+      return () => clearTimeout(timer);
     }
-
-    const timer = setTimeout(() => {
-      checkInitialStatus();
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, [listingId, enableInitialCheck, keywords.length]); // Only depend on the actual values, not the function
+  }, [listingId, enableInitialCheck, checkInitialStatus]);
 
   // Cleanup on unmount and handle page visibility
   useEffect(() => {
