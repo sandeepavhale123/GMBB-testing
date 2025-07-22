@@ -132,7 +132,7 @@ export const PostsContent: React.FC<PostsContentProps> = ({
         title: "Failed to Delete Posts",
         description:
           error instanceof Error
-            ? error?.response?.data?.message || error.message
+            ? (error as any)?.response?.data?.message || error.message
             : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });

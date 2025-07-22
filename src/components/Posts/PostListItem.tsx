@@ -122,7 +122,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
         title: "Failed to Delete Post",
         description:
           error instanceof Error
-            ? error?.response?.data?.message || error.message
+            ? (error as any)?.response?.data?.message || error.message
             : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });

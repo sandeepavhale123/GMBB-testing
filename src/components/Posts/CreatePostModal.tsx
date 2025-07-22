@@ -266,7 +266,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
         description:
           error instanceof Error
-            ? error?.response?.data?.message || error.message
+            ? (error as any)?.response?.data?.message || error.message
             : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });

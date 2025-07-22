@@ -39,7 +39,7 @@ export const useCreateReport = () => {
       toast({
         title: "Error",
         description:
-          error?.response?.data?.message ||
+          (error as any)?.response?.data?.message ||
           error.message ||
           "Failed to create report. Please try again.",
         variant: "destructive",

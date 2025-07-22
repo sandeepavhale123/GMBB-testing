@@ -155,7 +155,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         title: "Upload Failed",
         description:
           error instanceof Error
-            ? error?.response?.data?.message
+            ? (error as any)?.response?.data?.message || error.message
             : "Failed to upload media. Please try again.",
         variant: "destructive",
       });
