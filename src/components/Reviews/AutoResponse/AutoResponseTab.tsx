@@ -112,10 +112,6 @@ export const AutoResponseTab: React.FC = () => {
                 <TabsTrigger value="review">Reply for Review</TabsTrigger>
                 <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
               </TabsList>
-            <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              Create Template
-            </Button>
           </div>
 
           {/* Reply for Review Tab Content */}
