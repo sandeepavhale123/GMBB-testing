@@ -87,7 +87,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           <div className="space-y-2">
 
             <Card className="bg-gray-500">
-              <CardContent className="p-3">
+              <CardContent className="p-3 px-[20px] py-[20px]">
                 <p className="text-xs text-white" style={{
               fontSize: 18
             }}>
