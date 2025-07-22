@@ -50,6 +50,10 @@ export const AutoResponseTab: React.FC = () => {
     setEditingTemplate(null);
   };
   const getTemplateForRating = (rating: number): ReplyTemplate | undefined => {
+    if (rating === 0) {
+      // For rating-only template, use a special identifier
+      return autoResponse.templates.find(template => template.starRating === 0);
+    }
     return autoResponse.templates.find(template => template.starRating === rating);
   };
   return <div className="space-y-6">
@@ -78,6 +82,9 @@ export const AutoResponseTab: React.FC = () => {
             {[1, 2, 3, 4, 5].map(rating => <CarouselItem key={rating} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                 <TemplateCard starRating={rating} template={getTemplateForRating(rating)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} />
               </CarouselItem>)}
+            <CarouselItem key="rating-only" className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+              <TemplateCard starRating={0} template={getTemplateForRating(0)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} isRatingOnly={true} />
+            </CarouselItem>
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />

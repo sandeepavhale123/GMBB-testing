@@ -11,17 +11,25 @@ interface TemplateCardProps {
   onCreateTemplate: (starRating: number) => void;
   onEditTemplate?: (template: ReplyTemplate) => void;
   onDeleteTemplate?: (templateId: string) => void;
+  isRatingOnly?: boolean;
 }
 export const TemplateCard: React.FC<TemplateCardProps> = ({
   starRating,
   template,
   onCreateTemplate,
   onEditTemplate,
-  onDeleteTemplate
+  onDeleteTemplate,
+  isRatingOnly = false
 }) => {
   const [isManageOpen, setIsManageOpen] = useState(false);
   const [editContent, setEditContent] = useState('');
   const getDefaultContent = (rating: number): string => {
+    if (isRatingOnly) {
+      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your {star_rating}-star rating. Your feedback helps us continue to improve our service.
+
+~ {owner_name}`;
+    }
+    
     const templates = {
       5: `Thank you so much, {first_name}, for your amazing 5-star review! 🌟 It's truly wonderful to hear that you had a great experience with us. Your kind words mean the world to me and the team.
 
@@ -61,8 +69,14 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         <CardContent className="p-6">
           {/* Star Rating */}
           <div className="flex items-center gap-1 mb-4">
-            <span className="text-2xl font-bold text-gray-900 mr-2">{starRating}</span>
-            <div className="flex">{renderStars(starRating)}</div>
+            {isRatingOnly ? (
+              <span className="text-2xl font-bold text-gray-900">Rating Only</span>
+            ) : (
+              <>
+                <span className="text-2xl font-bold text-gray-900 mr-2">{starRating}</span>
+                <div className="flex">{renderStars(starRating)}</div>
+              </>
+            )}
           </div>
 
           {/* Template Content */}
@@ -88,8 +102,8 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span>Manage {starRating}-Star Template</span>
-              <div className="flex">{renderStars(starRating)}</div>
+              <span>Manage {isRatingOnly ? 'Rating Only' : `${starRating}-Star`} Template</span>
+              {!isRatingOnly && <div className="flex">{renderStars(starRating)}</div>}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
