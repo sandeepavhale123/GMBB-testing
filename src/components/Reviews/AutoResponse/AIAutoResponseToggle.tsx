@@ -144,42 +144,55 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             </p>
           </div>
 
-          {/* Test AI Response Section */}
+          {/* Latest Review Section */}
           <div className="w-full">
-            {/* Sample Review */}
             <Card>
               <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-4">
                   <Sparkles className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-600">Test AI Response</span>
+                  <span className="text-sm font-medium text-blue-600">Latest Review</span>
                 </div>
                 
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Sample Review</p>
-                    <div className="flex items-center gap-1 mb-2">
-                      {[1, 2, 3, 4, 5].map(star => <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                <div className="space-y-4">
+                  {/* User Profile Section */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                      <span className="text-lg font-medium text-gray-600">JD</span>
                     </div>
-                    <p className="text-sm text-gray-700">
-                      "Great food and excellent service! Sarah was our server and she was fantastic. The pizza was delicious and came out quickly. Will definitely be back!"
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">- John D.</p>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="text-sm font-medium text-gray-900">John Doe</h4>
+                        <span className="text-xs text-gray-500">2 hours ago</span>
+                      </div>
+                      
+                      {/* Rating */}
+                      <div className="flex items-center gap-1 mb-2">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        ))}
+                        <span className="text-sm text-gray-600 ml-1">5.0</span>
+                      </div>
+                      
+                      {/* Review Message */}
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        "Great food and excellent service! Sarah was our server and she was fantastic. The pizza was delicious and came out quickly. Will definitely be back!"
+                      </p>
+                    </div>
                   </div>
                   
                   <Button variant="outline" size="sm" className="w-full" onClick={handleGenerateAIResponse} disabled={isGenerating}>
-                    {isGenerating ? 'Generating...' : 'Generate AI Response'}
+                    {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
                   </Button>
                   
-                  {aiResponse && <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  {aiResponse && (
+                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                       <p className="text-xs text-green-600 font-medium mb-1">Generated AI Response:</p>
                       <p className="text-sm text-gray-700">{aiResponse}</p>
-                    </div>}
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
-
-            {/* AI Performance */}
-            
           </div>
 
           {/* Save Button */}
