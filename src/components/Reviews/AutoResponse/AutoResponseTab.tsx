@@ -76,7 +76,7 @@ export const AutoResponseTab: React.FC = () => {
         {/* Header with Title, Tabs, and Create Button in single row */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-6">
-            <div>
+            <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
               <p className="text-sm text-gray-600">
                 Create personalized templates for different star ratings
