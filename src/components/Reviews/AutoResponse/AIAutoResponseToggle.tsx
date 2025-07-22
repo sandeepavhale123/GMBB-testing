@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch } from '../../ui/switch';
-import { Label } from '../../ui/label';
-import { Sparkles } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
+import { Textarea } from '../../ui/textarea';
+import { Checkbox } from '../../ui/checkbox';
+import { Button } from '../../ui/button';
+import { Card, CardContent } from '../../ui/card';
+import { Badge } from '../../ui/badge';
+import { Sparkles, Star } from 'lucide-react';
 
 interface AIAutoResponseToggleProps {
   enabled: boolean;
@@ -10,20 +15,195 @@ interface AIAutoResponseToggleProps {
 
 export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   enabled,
-  onToggle
+  onToggle,
 }) => {
+  const [responseStyle, setResponseStyle] = useState('');
+  const [additionalInstructions, setAdditionalInstructions] = useState('');
+  const [settings, setSettings] = useState({
+    useReviewerName: true,
+    adaptTone: true,
+    referenceSpecificPoints: false,
+    requireApproval: true,
+  });
+
+  const handleSettingChange = (key: string, value: boolean) => {
+    setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
   return (
-    <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
-      <div className="flex items-center gap-3">
-        <div className="p-2 bg-purple-100 rounded-lg">
-          <Sparkles className="w-5 h-5 text-purple-600" />
+    <div className="space-y-4">
+      {/* Toggle Header */}
+      <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-medium text-gray-900">AI Auto Response</h3>
+              <Badge variant="secondary" className="bg-purple-600 text-white">
+                AI Powered
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-500">
+              Let AI generate personalized, contextual responses based on review content and sentiment.
+            </p>
+          </div>
         </div>
-        <div>
-          <Label className="text-base font-medium text-gray-900">AI Auto Response</Label>
-          <p className="text-sm text-gray-600">Let AI automatically generate and send personalized responses to reviews using advanced language models.</p>
-        </div>
+        <Switch
+          checked={enabled}
+          onCheckedChange={onToggle}
+          className="data-[state=checked]:bg-purple-600"
+        />
       </div>
-      <Switch checked={enabled} onCheckedChange={onToggle} className="data-[state=checked]:bg-purple-600" />
+
+      {/* Configuration Panel */}
+      {enabled && (
+        <div className="space-y-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          {/* AI Response Style */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-900">AI Response Style</label>
+            <Select value={responseStyle} onValueChange={setResponseStyle}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose your response style..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="professional">Professional</SelectItem>
+                <SelectItem value="friendly">Friendly</SelectItem>
+                <SelectItem value="casual">Casual</SelectItem>
+                <SelectItem value="formal">Formal</SelectItem>
+                <SelectItem value="empathetic">Empathetic</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-gray-500">
+              AI will adapt this style to each review's specific content and rating.
+            </p>
+          </div>
+
+          {/* Additional Instructions */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-900">Additional Instructions</label>
+            <Textarea
+              value={additionalInstructions}
+              onChange={(e) => setAdditionalInstructions(e.target.value)}
+              placeholder="Add specific instructions for AI responses (e.g., mention your business name, include contact info, etc.)"
+              className="min-h-[80px]"
+            />
+          </div>
+
+          {/* AI Response Settings */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-900">AI Response Settings</h4>
+            
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="use-reviewer-name"
+                  checked={settings.useReviewerName}
+                  onCheckedChange={(checked) => handleSettingChange('useReviewerName', checked === true)}
+                />
+                <label htmlFor="use-reviewer-name" className="text-sm text-gray-700">
+                  Use reviewer's name in response
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="adapt-tone"
+                  checked={settings.adaptTone}
+                  onCheckedChange={(checked) => handleSettingChange('adaptTone', checked === true)}
+                />
+                <label htmlFor="adapt-tone" className="text-sm text-gray-700">
+                  Adapt tone based on review sentiment
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="reference-points"
+                  checked={settings.referenceSpecificPoints}
+                  onCheckedChange={(checked) => handleSettingChange('referenceSpecificPoints', checked === true)}
+                />
+                <label htmlFor="reference-points" className="text-sm text-gray-700">
+                  Reference specific points from review
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="require-approval"
+                  checked={settings.requireApproval}
+                  onCheckedChange={(checked) => handleSettingChange('requireApproval', checked === true)}
+                />
+                <label htmlFor="require-approval" className="text-sm text-gray-700">
+                  Require approval before sending AI responses
+                </label>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-500">
+              When approval is enabled, AI-generated responses will be saved as drafts for your review before sending.
+            </p>
+          </div>
+
+          {/* Test AI Response Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Sample Review */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-600">Test AI Response</span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Sample Review</p>
+                    <div className="flex items-center gap-1 mb-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-700">
+                      "Great food and excellent service! Sarah was our server and she was fantastic. The pizza was delicious and came out quickly. Will definitely be back!"
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">- John D.</p>
+                  </div>
+                  
+                  <Button variant="outline" size="sm" className="w-full">
+                    Generate AI Response
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* AI Performance */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <span className="text-sm font-medium text-gray-900">AI Performance</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-xs text-gray-600">
+                    <span className="font-medium">95%</span> response approval rate
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    Avg <span className="font-medium">4.8/5</span> helpfulness score
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Save Button */}
+          <div className="flex justify-end">
+            <Button className="bg-blue-600 hover:bg-blue-700">
+              Save AI Setting
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
