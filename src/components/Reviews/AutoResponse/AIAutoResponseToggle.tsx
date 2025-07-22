@@ -3,6 +3,7 @@ import { Switch } from '../../ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Textarea } from '../../ui/textarea';
 import { Checkbox } from '../../ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 import { Button } from '../../ui/button';
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
@@ -19,6 +20,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   const [additionalInstructions, setAdditionalInstructions] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedStarRating, setSelectedStarRating] = useState('5');
   const [settings, setSettings] = useState({
     useReviewerName: true,
     adaptTone: true,
@@ -152,18 +154,22 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
             </div>
             
-            <div className="grid grid-cols-5 gap-3">
+            <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
               {[1, 2, 3, 4, 5].map(star => 
-                <Card key={star} className="p-3 hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105 border-border/60">
-                  <div className="flex flex-col items-center space-y-2">
-                    <Checkbox id={`star-${star}`} defaultChecked={true} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-                    <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
-                      {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <Card 
+                  key={star} 
+                  className={`p-3 hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105 border-border/60 ${selectedStarRating === star.toString() ? 'border-primary bg-primary/5' : ''}`}
+                  onClick={() => setSelectedStarRating(star.toString())}
+                >
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
+                      {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
                     </label>
+                    <RadioGroupItem value={star.toString()} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                   </div>
                 </Card>
               )}
-            </div>
+            </RadioGroup>
           </div>
 
           {/* AI Response Settings */}
