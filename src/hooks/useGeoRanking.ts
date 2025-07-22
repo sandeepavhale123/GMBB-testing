@@ -69,6 +69,12 @@ export const useGeoRanking = (listingId: number) => {
     handleDateChange: onDateChange,
   } = useKeywordDetails(listingId, selectedKeyword, false);
 
+  // Enhanced date change handler for refresh auto-selection
+  const handleDateSelectAfterRefresh = useCallback((dateId: string) => {
+    console.log('🗺️ handleDateSelectAfterRefresh - Selecting date after refresh:', dateId);
+    onDateChange(dateId, true); // Pass isRefresh = true to avoid loading states
+  }, [onDateChange]);
+
   const {
     refreshing,
     refreshError,
@@ -80,6 +86,7 @@ export const useGeoRanking = (listingId: number) => {
     selectedKeyword,
     onKeywordsUpdate: keywordsUpdateCallback,
     fetchKeywordDetailsManually,
+    onDateSelect: handleDateSelectAfterRefresh,
   });
 
   // Stable polling callback that doesn't cause re-renders

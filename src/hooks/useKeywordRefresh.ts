@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { getKeywordDetails, refreshKeyword } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
@@ -7,13 +8,15 @@ interface UseKeywordRefreshProps {
   selectedKeyword: string;
   onKeywordsUpdate: (selectKeywordId?: string) => Promise<void>;
   fetchKeywordDetailsManually?: (keywordId: string) => Promise<void>;
+  onDateSelect?: (dateId: string) => void;
 }
 
 export const useKeywordRefresh = ({
   listingId,
   selectedKeyword,
   onKeywordsUpdate,
-  fetchKeywordDetailsManually
+  fetchKeywordDetailsManually,
+  onDateSelect
 }: UseKeywordRefreshProps) => {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
@@ -26,8 +29,8 @@ export const useKeywordRefresh = ({
     
     setRefreshing(true);
     setRefreshError(null);
-    setRefreshProgress(0); // Reset progress
-    setIsPollingActive(true); // Start polling when refresh begins
+    setRefreshProgress(0);
+    setIsPollingActive(true);
     
     try {
       // Call refresh keyword API
@@ -46,26 +49,36 @@ export const useKeywordRefresh = ({
         
         // Poll for new keyword details with timeout
         let pollAttempts = 0;
-        const maxAttempts = 60; // 5 minutes max
+        const maxAttempts = 60;
         
         const pollForNewData = async () => {
           try {
-            // Update progress based on polling attempts (0-95% during polling, 100% on success)
             const currentProgress = Math.min(Math.floor((pollAttempts / maxAttempts) * 95), 95);
             setRefreshProgress(currentProgress);
             
             const detailsResponse = await getKeywordDetails(listingId, newKeywordId);
             if (detailsResponse.code === 200) {
-              // Stop polling first
               setIsPollingActive(false);
-              setRefreshProgress(100); // Complete progress
+              setRefreshProgress(100);
               
               // First, update keywords list to include new keyword
               await onKeywordsUpdate(newKeywordId);
               
-              // Then manually fetch and set keyword details without triggering the useEffect
+              // Then manually fetch and set keyword details
               if (fetchKeywordDetailsManually) {
                 await fetchKeywordDetailsManually(newKeywordId);
+              }
+
+              // Auto-select the latest date after refresh
+              if (onDateSelect && detailsResponse.data.dates && detailsResponse.data.dates.length > 0) {
+                const sortedDates = detailsResponse.data.dates
+                  .filter(d => d.date)
+                  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+                
+                if (sortedDates.length > 0) {
+                  console.log('🗺️ Auto-selecting latest date after refresh:', sortedDates[0]);
+                  onDateSelect(sortedDates[0].id);
+                }
               }
               
               toast({
@@ -73,7 +86,6 @@ export const useKeywordRefresh = ({
                 description: "Keyword data has been refreshed successfully"
               });
               
-              // Reset progress after a brief delay
               setTimeout(() => {
                 setRefreshProgress(0);
                 setRefreshing(false);
@@ -86,10 +98,10 @@ export const useKeywordRefresh = ({
           
           pollAttempts++;
           if (pollAttempts < maxAttempts) {
-            setTimeout(pollForNewData, 5000); // Poll every 5 seconds
+            setTimeout(pollForNewData, 5000);
           } else {
-            setIsPollingActive(false); // Stop polling on timeout
-            setRefreshProgress(0); // Reset progress on timeout
+            setIsPollingActive(false);
+            setRefreshProgress(0);
             setRefreshError('Refresh timeout - please try again');
             setRefreshing(false);
             toast({
@@ -100,8 +112,7 @@ export const useKeywordRefresh = ({
           }
         };
         
-        // Start polling
-        setTimeout(pollForNewData, 2000); // Wait 2 seconds before first poll
+        setTimeout(pollForNewData, 2000);
         
       } else {
         throw new Error(refreshResponse.message || 'Failed to refresh keyword');
@@ -110,7 +121,7 @@ export const useKeywordRefresh = ({
       const errorMessage = err instanceof Error ? err.message : 'Failed to refresh keyword';
       setRefreshError(errorMessage);
       setRefreshing(false);
-      setIsPollingActive(false); // Stop polling on error
+      setIsPollingActive(false);
       toast({
         title: "Refresh Failed",
         description: errorMessage,
