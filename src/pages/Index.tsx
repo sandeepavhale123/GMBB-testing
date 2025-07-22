@@ -73,7 +73,7 @@ const Index = () => {
       case "geo-ranking":
         return <GeoRankingPage />;
       case 'reviews':
-        return <ReviewsManagementPage activeTab="summary" />;
+        return <ReviewsManagementPage />;
       case 'qa':
         return <QAManagementPage />;
       default:
