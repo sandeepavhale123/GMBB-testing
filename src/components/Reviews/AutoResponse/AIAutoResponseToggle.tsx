@@ -124,19 +124,9 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                 </label>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <Checkbox id="adapt-tone" checked={settings.adaptTone} onCheckedChange={checked => handleSettingChange('adaptTone', checked === true)} />
-                <label htmlFor="adapt-tone" className="text-md text-gray-700">
-                 Enable Auto respond to Review
-                </label>
-              </div>
+              
 
-              <div className="flex items-center space-x-3">
-                <Checkbox id="reference-points" checked={settings.referenceSpecificPoints} onCheckedChange={checked => handleSettingChange('referenceSpecificPoints', checked === true)} />
-                <label htmlFor="reference-points" className="text-md text-gray-700">
-                  Disable Auto AI Reply
-                </label>
-              </div>
+              
             </div>
 
             <p className="text-md text-gray-500">
@@ -168,9 +158,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                         
                         {/* Rating */}
                         <div className="flex items-center gap-1">
-                          {[1, 2, 3, 4, 5].map(star => (
-                            <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          ))}
+                          {[1, 2, 3, 4, 5].map(star => <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                           <span className="text-sm text-gray-600 ml-1">5.0</span>
                         </div>
                       </div>
@@ -186,12 +174,10 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                     {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
                   </Button>
                   
-                  {aiResponse && (
-                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  {aiResponse && <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                       <p className="text-xs text-green-600 font-medium mb-1">Generated AI Response:</p>
                       <p className="text-sm text-gray-700">{aiResponse}</p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
