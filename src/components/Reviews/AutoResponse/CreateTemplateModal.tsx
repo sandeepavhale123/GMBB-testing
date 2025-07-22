@@ -45,7 +45,7 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <div className="flex">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Panel - Green Personalization Guide */}
           <div className="w-96 bg-emerald-500 text-white p-8 flex flex-col">
             <div className="flex-1">
@@ -85,7 +85,7 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
           </div>
           
           {/* Right Panel - Form */}
-          <div className="flex-1 p-8">
+          <div className=" p-8">
             <div className="space-y-6">
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
