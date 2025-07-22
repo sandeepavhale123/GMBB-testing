@@ -147,6 +147,19 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             </Card>
           </div>
 
+          {/* Reply Text Section */}
+          <div className="space-y-3 group">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <label className="text-sm font-semibold text-foreground">Reply Text</label>
+            </div>
+            <Textarea
+              placeholder="Hi {full_name}, this is ai response {responsetext} Thank You"
+              className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none"
+              rows={4}
+            />
+          </div>
+
           {/* Apply For Section */}
           <div className="space-y-4 group">
             <div className="flex items-center gap-2">
