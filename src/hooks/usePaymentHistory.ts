@@ -12,12 +12,25 @@ export const usePaymentHistory = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [perPage] = useState(10);
 
+  const transformPaymentData = (apiData: any[]): PaymentHistoryItem[] => {
+    return apiData.map((item, index) => ({
+      id: item.id || `payment-${index}`,
+      transaction_id: item.txn_id || item.transaction_id || '',
+      amount: typeof item.Total === 'string' ? parseInt(item.Total) * 100 : (item.Total || 0) * 100, // Convert to cents
+      currency: item.currancy || item.currency || 'usd',
+      date: item.CreateTime || item.date || new Date().toISOString(),
+      status: (item.Payment_state || item.status || 'pending').toLowerCase() as 'paid' | 'failed' | 'pending',
+      invoice_url: item.invoice_url,
+      plan_name: item.plan_name || item.PlanName || 'Unknown Plan'
+    }));
+  };
+
   const fetchPaymentHistory = async (page: number = 1) => {
     try {
       setIsLoading(true);
       console.log("Fetching payment history for page:", page);
       
-      const response: PaymentHistoryResponse = await getPaymentHistory(page, perPage);
+      const response = await getPaymentHistory(page, perPage);
       
       // Log the full response to debug API structure
       console.log("Payment history API response:", response);
@@ -27,27 +40,32 @@ export const usePaymentHistory = () => {
         throw new Error("No response received from payment history API");
       }
       
-      // Handle case where response.data might be undefined or not an array
-      const paymentData = Array.isArray(response.data) ? response.data : [];
-      setPaymentHistory(paymentData);
-      
-      // Safely handle pagination object with defaults
-      if (response.pagination) {
-        setCurrentPage(response.pagination.current_page || 1);
-        setTotalPages(response.pagination.total_pages || 1);
-        setTotalRecords(response.pagination.total_records || 0);
-      } else {
-        console.warn("Pagination object missing from API response");
-        setCurrentPage(1);
-        setTotalPages(1);
-        setTotalRecords(paymentData.length);
+      // Handle the actual API structure - data.history contains the payment array
+      let paymentData: any[] = [];
+      if (response.data && response.data.history && Array.isArray(response.data.history)) {
+        paymentData = response.data.history;
+      } else if (Array.isArray(response.data)) {
+        paymentData = response.data;
       }
       
+      // Transform the API data to match our interface
+      const transformedData = transformPaymentData(paymentData);
+      setPaymentHistory(transformedData);
+      
+      // Handle pagination - calculate from data since API doesn't provide pagination object
+      const totalItems = paymentData.length;
+      const calculatedTotalPages = Math.max(1, Math.ceil(totalItems / perPage));
+      
+      setCurrentPage(page);
+      setTotalPages(calculatedTotalPages);
+      setTotalRecords(totalItems);
+      
       console.log("Payment history loaded successfully:", {
-        dataCount: paymentData.length,
-        currentPage: response.pagination?.current_page || 1,
-        totalPages: response.pagination?.total_pages || 1,
-        totalRecords: response.pagination?.total_records || 0
+        originalDataCount: paymentData.length,
+        transformedDataCount: transformedData.length,
+        currentPage: page,
+        totalPages: calculatedTotalPages,
+        totalRecords: totalItems
       });
       
     } catch (error) {
