@@ -101,45 +101,35 @@ export const AutoResponseTab: React.FC = () => {
         <Tabs defaultValue="review" className="w-full">
           {/* Reply for Review Tab Content */}
           <TabsContent value="review" className="space-y-4">
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-2 md:-ml-4">
-                {[1, 2, 3, 4, 5].map(rating => (
-                  <CarouselItem key={rating} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                    <TemplateCard 
-                      starRating={rating} 
-                      template={getTemplateForRating(rating)} 
-                      onCreateTemplate={handleCreateTemplate} 
-                      onEditTemplate={handleEditTemplate} 
-                      onDeleteTemplate={handleDeleteTemplate} 
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3, 4, 5].map(rating => (
+                <TemplateCard 
+                  key={rating}
+                  starRating={rating} 
+                  template={getTemplateForRating(rating)} 
+                  onCreateTemplate={handleCreateTemplate} 
+                  onEditTemplate={handleEditTemplate} 
+                  onDeleteTemplate={handleDeleteTemplate} 
+                />
+              ))}
+            </div>
           </TabsContent>
 
           {/* Reply for Rating Only Tab Content */}
           <TabsContent value="rating-only" className="space-y-4">
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-2 md:-ml-4">
-                {[1, 2, 3, 4, 5].map(rating => (
-                  <CarouselItem key={`rating-only-${rating}`} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                    <TemplateCard 
-                      starRating={rating} 
-                      template={getTemplateForRating(rating)} 
-                      onCreateTemplate={handleCreateTemplate} 
-                      onEditTemplate={handleEditTemplate} 
-                      onDeleteTemplate={handleDeleteTemplate} 
-                      isRatingOnly={true} 
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3, 4, 5].map(rating => (
+                <TemplateCard 
+                  key={`rating-only-${rating}`}
+                  starRating={rating} 
+                  template={getTemplateForRating(rating)} 
+                  onCreateTemplate={handleCreateTemplate} 
+                  onEditTemplate={handleEditTemplate} 
+                  onDeleteTemplate={handleDeleteTemplate} 
+                  isRatingOnly={true} 
+                />
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
