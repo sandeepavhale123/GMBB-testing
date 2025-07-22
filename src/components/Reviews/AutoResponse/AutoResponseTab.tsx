@@ -57,7 +57,7 @@ export const AutoResponseTab: React.FC = () => {
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
    <div>
       {/* Header with Create Button */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4 ">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
           <p className="text-sm text-gray-600">
