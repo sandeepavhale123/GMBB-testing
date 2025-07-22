@@ -40,7 +40,6 @@ export const useCreateReport = () => {
         title: "Error",
         description:
           error.message ||
-          error?.response?.data?.message ||
           "Failed to create report. Please try again.",
         variant: "destructive",
       });

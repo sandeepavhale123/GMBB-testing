@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, RotateCcw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
@@ -40,29 +40,31 @@ interface GeoRankingReportFormProps {
   formData: FormData;
   onInputChange: (field: string, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  onReset: () => void;
   getDistanceOptions: () => Array<{ value: string; label: string }>;
   languageOptions: Array<{ value: string; label: string }>;
   submittingRank?: boolean;
   pollingKeyword?: boolean;
   manualCoordinates?: string[];
   onClearManualCoordinates?: () => void;
+  hasResults?: boolean;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   formData,
   onInputChange,
   onSubmit,
+  onReset,
   getDistanceOptions,
   languageOptions,
   submittingRank = false,
   pollingKeyword = false,
   manualCoordinates = [],
   onClearManualCoordinates,
+  hasResults = false,
 }) => {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
-
-  // console.log("📋 GeoRankingReportForm - Current formData:", formData);
 
   // Helper function to count keywords
   const countKeywords = (keywordsString: string): number => {
@@ -77,6 +79,9 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   const keywordCount = countKeywords(formData.keywords);
   const isKeywordCountValid = keywordCount > 0 && keywordCount <= 5;
   const isKeywordLimitReached = keywordCount >= 5;
+
+  // Check if reset button should be shown (only when user has entered keywords)
+  const shouldShowResetButton = formData.keywords.trim() !== "";
 
   const handleSearchDataEngineChange = (value: string) => {
     // If Map API is selected, check if API key exists
@@ -379,17 +384,33 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             </Select>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-6"
-            disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
-          >
-            {pollingKeyword
-              ? "Processing keyword..."
-              : submittingRank
-              ? "Checking rank..."
-              : "Check rank"}
-          </Button>
+          {/* Updated buttons section - single row layout */}
+          <div className="flex gap-3">
+            <Button
+              type="submit"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
+            >
+              {pollingKeyword
+                ? "Processing keyword..."
+                : submittingRank
+                ? "Checking rank..."
+                : "Check rank"}
+            </Button>
+
+            {shouldShowResetButton && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onReset}
+                disabled={submittingRank || pollingKeyword}
+                className="flex-none"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset & New Search
+              </Button>
+            )}
+          </div>
 
           {pollingKeyword && (
             <div className="text-center mt-2">

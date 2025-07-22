@@ -188,9 +188,6 @@ const TeamMembersPage: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Roles</SelectItem>
-                  <SelectItem value="Admin">Admin</SelectItem>
-                  <SelectItem value="Editor">Editor</SelectItem>
-                  <SelectItem value="Viewer">Viewer</SelectItem>
                   <SelectItem value="Staff">Staff</SelectItem>
                   <SelectItem value="Client">Client</SelectItem>
                   <SelectItem value="Moderator">Moderator</SelectItem>

@@ -1,9 +1,10 @@
-
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { getKeywordDetails, getKeywordPositionDetails, KeywordDetailsResponse, KeywordPositionResponse } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
 export const useKeywordDetails = (listingId: number, selectedKeyword: string, refreshMode = false) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [keywordDetails, setKeywordDetails] = useState<KeywordDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,21 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   // Add a ref to track if we should skip the next effect
   const skipNextEffect = useRef(false);
   const isInitializedRef = useRef(false);
+
+  // Enhanced setSelectedDate to update URL params (now using 'id' parameter)
+  const setSelectedDateWithURL = (dateId: string) => {
+    console.log('🔄 setSelectedDateWithURL - Setting date:', dateId);
+    setSelectedDate(dateId);
+    
+    // Update URL params - changed from 'date' to 'id'
+    const newParams = new URLSearchParams(searchParams);
+    if (dateId) {
+      newParams.set('id', dateId);
+    } else {
+      newParams.delete('id');
+    }
+    setSearchParams(newParams);
+  };
 
   // Function to manually fetch keyword details (used during refresh)
   const fetchKeywordDetailsManually = useCallback(async (keywordId: string, dateId?: string) => {
@@ -62,7 +78,9 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         isInitialized: isInitializedRef.current
       });
       
+      // Set loading states immediately for better UX
       setLoading(true);
+      setKeywordChanging(true);
       setError(null);
       
       try {
@@ -79,15 +97,24 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         if (response.code === 200) {
           setKeywordDetails(response.data);
           
-          // Set the most recent date as default ONLY if no date is selected and this is initial load
-          if (!selectedDate && response.data.dates && response.data.dates.length > 0 && !isInitializedRef.current) {
-            const sortedDates = response.data.dates
-              .filter(d => d.date)
-              .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+          // Handle date selection with URL persistence
+          if (response.data.dates && response.data.dates.length > 0 && !isInitializedRef.current) {
+            // Check URL params first - changed from 'date' to 'id'
+            const urlDate = searchParams.get('id');
             
-            if (sortedDates.length > 0) {
-              console.log('🗺️ useKeywordDetails - Setting default date:', sortedDates[0]);
-              setSelectedDate(sortedDates[0].id);
+            if (urlDate && response.data.dates.some(d => d.id === urlDate)) {
+              // Use date from URL if it exists in the list
+              setSelectedDate(urlDate);
+            } else {
+              // Fall back to most recent date
+              const sortedDates = response.data.dates
+                .filter(d => d.date)
+                .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+              
+              if (sortedDates.length > 0) {
+                console.log('🗺️ useKeywordDetails - Setting default date:', sortedDates[0]);
+                setSelectedDateWithURL(sortedDates[0].id);
+              }
             }
           }
           isInitializedRef.current = true;
@@ -105,6 +132,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
       } finally {
         setLoading(false);
         setKeywordChanging(false);
+        console.log('🗺️ useKeywordDetails - Keyword loading completed');
       }
     };
 
@@ -155,6 +183,7 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
         });
       } finally {
         setDateChanging(false);
+        console.log('🗺️ useKeywordDetails - Date loading completed');
       }
     };
 
@@ -190,13 +219,12 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
   const handleKeywordChange = (keywordId: string, isRefresh = false) => {
     console.log('🗺️ handleKeywordChange - Called with:', { keywordId, isRefresh });
     
-    // Only show changing state for user-initiated changes, not refresh
-    if (!isRefresh) {
-      setKeywordChanging(true);
-    }
+    // Always set keywordChanging to true immediately for better UX
+    setKeywordChanging(true);
+    console.log('🗺️ handleKeywordChange - keywordChanging set to true');
     
     // Reset date and initialization when keyword changes
-    setSelectedDate('');
+    setSelectedDateWithURL('');
     isInitializedRef.current = false;
   };
 
@@ -207,12 +235,12 @@ export const useKeywordDetails = (listingId: number, selectedKeyword: string, re
     if (!isRefresh) {
       setDateChanging(true);
     }
-    setSelectedDate(dateId);
+    setSelectedDateWithURL(dateId);
   };
 
   return {
     selectedDate,
-    setSelectedDate,
+    setSelectedDate: setSelectedDateWithURL,
     keywordDetails,
     setKeywordDetails,
     loading,

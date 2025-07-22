@@ -25,6 +25,19 @@ interface FormData {
   language: string;
 }
 
+const getInitialFormData = (): FormData => ({
+  searchBusinessType: "name",
+  searchBusiness: "",
+  searchDataEngine: "Briefcase API",
+  keywords: "",
+  mapPoint: "Automatic",
+  distanceUnit: "Meters",
+  distanceValue: "100",
+  gridSize: "3",
+  scheduleCheck: "onetime",
+  language: "en",
+});
+
 export const useGeoRankingReport = (listingId: number) => {
   const { toast } = useToast();
   const [defaultCoordinates, setDefaultCoordinates] = useState<{
@@ -45,18 +58,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const [isCompleting, setIsCompleting] = useState(false);
   const [previousMapPoint, setPreviousMapPoint] = useState<string>("");
 
-  const [formData, setFormData] = useState<FormData>({
-    searchBusinessType: "name",
-    searchBusiness: "",
-    searchDataEngine: "Briefcase API",
-    keywords: "",
-    mapPoint: "Automatic",
-    distanceUnit: "Meters",
-    distanceValue: "100",
-    gridSize: "3",
-    scheduleCheck: "onetime",
-    language: "en",
-  });
+  const [formData, setFormData] = useState<FormData>(getInitialFormData());
 
   // Helper function to determine distance unit from distance value
   const determineDistanceUnit = (
@@ -362,6 +364,31 @@ export const useGeoRankingReport = (listingId: number) => {
     }));
   };
 
+  const handleReset = () => {
+    // Reset form data to initial state
+    setFormData(getInitialFormData());
+    
+    // Clear all state related to results and coordinates
+    setKeywordData(null);
+    setCurrentKeywordId(null);
+    setManualCoordinates([]);
+    setGridCoordinates([]);
+    setPollingKeyword(false);
+    setPollingProgress(0);
+    setIsCompleting(false);
+    
+    // Clear any existing markers
+    setCurrentMarkers([]);
+    
+    // Reset previous map point
+    setPreviousMapPoint("");
+    
+    toast({
+      title: "Form Reset",
+      description: "Ready for a new keyword search",
+    });
+  };
+
   // Manual coordinates management functions
   const addManualCoordinate = (coordinate: string) => {
     setManualCoordinates((prev) => [...prev, coordinate]);
@@ -396,7 +423,10 @@ export const useGeoRankingReport = (listingId: number) => {
     maxAttempts: number = 60 // 5 minutes maximum
   ): Promise<boolean> => {
     setPollingKeyword(true);
-    setPollingProgress(0);
+    
+    // Initialize progress to 10% immediately
+    let currentProgress = 10;
+    setPollingProgress(currentProgress);
 
     try {
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -404,11 +434,16 @@ export const useGeoRankingReport = (listingId: number) => {
         //   `Polling attempt ${attempt}/${maxAttempts} for keywordId: ${keywordId}`
         // );
 
-        // Update progress from 0 to 80% based on time elapsed, not attempts
-        const timeElapsed = (attempt - 1) * 5; // seconds
-        const maxTime = 240; // 4 minutes to reach 80%
-        const progress = Math.min((timeElapsed / maxTime) * 80, 80);
-        setPollingProgress(progress);
+        // Update progress using enhanced logic
+        if (attempt > 1) { // Don't increment on first attempt since we start at 10%
+          if (currentProgress < 85) {
+            currentProgress += 10;
+          } else if (currentProgress < 99) {
+            currentProgress += 2;
+          }
+          // Cap at 99% until data is ready
+          setPollingProgress(Math.min(currentProgress, 99));
+        }
 
         const response = await getKeywordDetailsWithStatus(
           listingId,
@@ -555,9 +590,7 @@ export const useGeoRankingReport = (listingId: number) => {
           setCurrentKeywordId(response.data.keywordId.toString());
           toast({
             title: "Processing Keyword",
-            description:
-              response.data?.message ||
-              "Please wait while we process your keyword ranking data...",
+            description: "Please wait while we process your keyword ranking data...",
             variant: "default",
           });
 
@@ -586,10 +619,7 @@ export const useGeoRankingReport = (listingId: number) => {
       } else {
         toast({
           title: "Error",
-          description:
-            response.message ||
-            response?.data?.message ||
-            "Failed to submit rank check",
+          description: response.message || "Failed to submit rank check",
           variant: "destructive",
         });
         return { success: false, shouldNavigate: false };
@@ -628,6 +658,7 @@ export const useGeoRankingReport = (listingId: number) => {
     keywordData,
     currentKeywordId,
     handleInputChange,
+    handleReset,
     fetchGridCoordinates,
     submitCheckRank,
   };

@@ -218,8 +218,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         if (updateEditMember.fulfilled.match(result)) {
           toast({
             title: "Success",
-            description:
-              result.meta.message || "Team member profile updated successfully",
+            description: "Team member profile updated successfully",
           });
           navigate("/settings/team-members");
         }
