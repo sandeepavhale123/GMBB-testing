@@ -3,9 +3,10 @@ import { Download, Loader2, AlertCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { getInvoiceDetails, downloadInvoice } from "@/api/paymentHistoryApi";
+import { getInvoiceDetails } from "@/api/paymentHistoryApi";
 import { InvoiceDetails } from "@/types/paymentTypes";
 import { toast } from "@/hooks/use-toast";
+import html2canvas from "html2canvas";
 interface InvoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -65,56 +66,45 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
     try {
       setIsDownloading(true);
       
-      // Generate invoice content from current data
-      const invoiceContent = `
-INVOICE DETAILS
-===============
-
-Transaction ID: ${invoiceDetails.transaction_id}
-Date: ${formatDate(invoiceDetails.date)}
-Amount: ${formatAmount(invoiceDetails.amount, invoiceDetails.currency)}
-Plan: ${invoiceDetails.plan_name}
-
-BILLED FROM:
-GMB Briefcase
-sales@citationbuilderpro.com
-T-16 Software Technology Park India,
-Opp Garware Stadium, Cikalthana MIDC
-Aurangabad - 431005
-9822298988
-
-BILLED TO:
-${invoiceDetails.customer.name}
-${invoiceDetails.customer.email}
-${invoiceDetails.customer.address || ''}
-${invoiceDetails.customer.city ? `${invoiceDetails.customer.city}, ${invoiceDetails.customer.state}` : ''}
-
-PRODUCT DETAILS:
-S. No. | Product | Total
-1 | GMB Briefcase - ${invoiceDetails.plan_name} | ${formatAmount(invoiceDetails.amount, invoiceDetails.currency)}
-
-${isUsingMockData ? '\n[Note: This is mock data for testing purposes]' : ''}
-      `;
-
-      const blob = new Blob([invoiceContent], { type: "text/plain" });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `invoice-${invoiceDetails.transaction_id}.txt`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      // Find the invoice content element
+      const invoiceElement = document.querySelector('.bg-white.p-6.rounded-lg.border') as HTMLElement;
       
-      toast({
-        title: "Success",
-        description: "Invoice downloaded successfully."
+      if (!invoiceElement) {
+        throw new Error("Invoice content not found");
+      }
+
+      // Capture the invoice as an image using html2canvas
+      const canvas = await html2canvas(invoiceElement, {
+        backgroundColor: '#ffffff',
+        scale: 2, // Higher quality
+        useCORS: true,
+        allowTaint: true
       });
+
+      // Convert canvas to blob
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `invoice-${invoiceDetails.transaction_id}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          
+          toast({
+            title: "Success",
+            description: "Invoice image downloaded successfully."
+          });
+        }
+      }, 'image/png');
+      
     } catch (error) {
-      console.error("Failed to download invoice:", error);
+      console.error("Failed to capture invoice image:", error);
       toast({
         title: "Error",
-        description: "Failed to download invoice. Please try again.",
+        description: "Failed to capture invoice image. Please try again.",
         variant: "destructive"
       });
     } finally {
