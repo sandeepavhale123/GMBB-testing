@@ -19,6 +19,7 @@ export const AutoResponseTab: React.FC = () => {
   } = useAppSelector(state => state.reviews);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<ReplyTemplate | null>(null);
+  const [activeTab, setActiveTab] = useState("review");
 
   const handleToggleAutoResponse = () => {
     dispatch(toggleAutoResponse());
@@ -42,9 +43,11 @@ export const AutoResponseTab: React.FC = () => {
       }));
       setEditingTemplate(null);
     } else {
+      // Always create new template, don't update existing ones
       dispatch(addTemplate({
         starRating,
-        content
+        content,
+        isRatingOnly: activeTab === "rating-only"
       }));
     }
     setIsModalOpen(false);
@@ -59,12 +62,11 @@ export const AutoResponseTab: React.FC = () => {
     setEditingTemplate(null);
   };
 
-  const getTemplateForRating = (rating: number): ReplyTemplate | undefined => {
-    if (rating === 0) {
-      // For rating-only template, use a special identifier
-      return autoResponse.templates.find(template => template.starRating === 0);
-    }
-    return autoResponse.templates.find(template => template.starRating === rating);
+  const getTemplateForRating = (rating: number, isRatingOnly: boolean = false): ReplyTemplate | undefined => {
+    return autoResponse.templates.find(template => 
+      template.starRating === rating && 
+      (template.isRatingOnly || false) === isRatingOnly
+    );
   };
 
   return (
@@ -85,7 +87,7 @@ export const AutoResponseTab: React.FC = () => {
           </div>
 
            {/* Tabs Section */}
-            <Tabs defaultValue="review" className="w-auto mr-2" style={{marginRight:10}}>
+            <Tabs defaultValue="review" className="w-auto mr-2" style={{marginRight:10}} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="review">Reply for Review</TabsTrigger>
                 <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
@@ -98,7 +100,7 @@ export const AutoResponseTab: React.FC = () => {
         </div>
 
         {/* Tabs Content Section */}
-        <Tabs defaultValue="review" className="w-full">
+        <Tabs defaultValue="review" className="w-full" onValueChange={setActiveTab}>
           {/* Reply for Review Tab Content */}
           <TabsContent value="review" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -106,7 +108,7 @@ export const AutoResponseTab: React.FC = () => {
                 <TemplateCard 
                   key={rating}
                   starRating={rating} 
-                  template={getTemplateForRating(rating)} 
+                  template={getTemplateForRating(rating, false)}
                   onCreateTemplate={handleCreateTemplate} 
                   onEditTemplate={handleEditTemplate} 
                   onDeleteTemplate={handleDeleteTemplate} 
@@ -122,7 +124,7 @@ export const AutoResponseTab: React.FC = () => {
                 <TemplateCard 
                   key={`rating-only-${rating}`}
                   starRating={rating} 
-                  template={getTemplateForRating(rating)} 
+                  template={getTemplateForRating(rating, true)} 
                   onCreateTemplate={handleCreateTemplate} 
                   onEditTemplate={handleEditTemplate} 
                   onDeleteTemplate={handleDeleteTemplate} 

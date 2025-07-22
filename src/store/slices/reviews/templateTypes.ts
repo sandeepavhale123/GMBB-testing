@@ -4,6 +4,7 @@ export interface ReplyTemplate {
   starRating: number;
   content: string;
   enabled: boolean;
+  isRatingOnly?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -16,6 +17,7 @@ export interface AutoResponseSettings {
 export interface CreateTemplateRequest {
   starRating: number;
   content: string;
+  isRatingOnly?: boolean;
 }
 
 export interface UpdateTemplateRequest {
