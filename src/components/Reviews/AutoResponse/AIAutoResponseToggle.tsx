@@ -180,7 +180,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                     </div>
                   </div>
                   
-                  <Button variant="outline" size="sm" className="w-full" onClick={handleGenerateAIResponse} disabled={isGenerating}>
+                  <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={isGenerating}>
                     {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
                   </Button>
                   
