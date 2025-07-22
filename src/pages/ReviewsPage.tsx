@@ -16,7 +16,7 @@ const ReviewsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { selectedListing, isInitialLoading } = useListingContext();
-  const [activeTab, setActiveTab] = useState('summary');
+ 
   // Show no listing selected state
   if (!selectedListing && !isInitialLoading) {
     return (
@@ -116,7 +116,7 @@ const ReviewsPage = () => {
               showFilters={true}
             />
 
-           <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
+          
 
             {/* Page Content */}
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
