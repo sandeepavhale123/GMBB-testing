@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../ui/tabs';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
 import { Plus } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
+import { AIAutoResponseToggle } from './AIAutoResponseToggle';
 import { TemplateCard } from './TemplateCard';
 import { CreateTemplateModal } from './CreateTemplateModal';
 import { useAppSelector, useAppDispatch } from '../../../hooks/useRedux';
@@ -20,9 +21,14 @@ export const AutoResponseTab: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<ReplyTemplate | null>(null);
   const [activeTab, setActiveTab] = useState("review");
+  const [aiAutoResponseEnabled, setAiAutoResponseEnabled] = useState(false);
 
   const handleToggleAutoResponse = () => {
     dispatch(toggleAutoResponse());
+  };
+
+  const handleToggleAIAutoResponse = () => {
+    setAiAutoResponseEnabled(!aiAutoResponseEnabled);
   };
 
   const handleCreateTemplate = (starRating: number) => {
@@ -73,6 +79,9 @@ export const AutoResponseTab: React.FC = () => {
     <div className="space-y-6">
       {/* Auto Reply Toggle */}
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
+
+      {/* AI Auto Response Toggle */}
+      <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} />
 
       {autoResponse.enabled && (
       <div>
