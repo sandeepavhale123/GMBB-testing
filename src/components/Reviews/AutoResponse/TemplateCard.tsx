@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
@@ -25,7 +26,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [editContent, setEditContent] = useState('');
   const getDefaultContent = (rating: number): string => {
     if (isRatingOnly) {
-      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your {star_rating}-star rating. Your feedback helps us continue to improve our service.
+      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service.
 
 ~ {owner_name}`;
     }
@@ -69,14 +70,8 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         <CardContent className="p-6">
           {/* Star Rating */}
           <div className="flex items-center gap-1 mb-4">
-            {isRatingOnly ? (
-              <span className="text-2xl font-bold text-gray-900">Rating Only</span>
-            ) : (
-              <>
-                <span className="text-2xl font-bold text-gray-900 mr-2">{starRating}</span>
-                <div className="flex">{renderStars(starRating)}</div>
-              </>
-            )}
+            <span className="text-2xl font-bold text-gray-900 mr-2">{starRating}</span>
+            <div className="flex">{renderStars(starRating)}</div>
           </div>
 
           {/* Template Content */}
@@ -103,7 +98,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <span>Manage {isRatingOnly ? 'Rating Only' : `${starRating}-Star`} Template</span>
-              {!isRatingOnly && <div className="flex">{renderStars(starRating)}</div>}
+              <div className="flex">{renderStars(starRating)}</div>
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
