@@ -87,7 +87,7 @@ export const AutoResponseTab: React.FC = () => {
           </div>
 
            {/* Tabs Section */}
-            <Tabs defaultValue="review" className="w-auto mr-2" style={{marginRight:10}} onValueChange={setActiveTab}>
+            <Tabs defaultValue="review" value={activeTab} className="w-auto mr-2" style={{marginRight:10}} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="review">Reply for Review</TabsTrigger>
                 <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
@@ -100,7 +100,7 @@ export const AutoResponseTab: React.FC = () => {
         </div>
 
         {/* Tabs Content Section */}
-        <Tabs defaultValue="review" className="w-full" onValueChange={setActiveTab}>
+        <Tabs value={activeTab} className="w-full" onValueChange={setActiveTab}>
           {/* Reply for Review Tab Content */}
           <TabsContent value="review" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -108,7 +108,7 @@ export const AutoResponseTab: React.FC = () => {
                 <TemplateCard 
                   key={rating}
                   starRating={rating} 
-                  template={getTemplateForRating(rating, false)}
+                  template={getTemplateForRating(rating, false)} 
                   onCreateTemplate={handleCreateTemplate} 
                   onEditTemplate={handleEditTemplate} 
                   onDeleteTemplate={handleDeleteTemplate} 
