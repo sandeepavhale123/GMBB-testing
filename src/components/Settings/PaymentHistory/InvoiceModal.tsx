@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, AlertCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getInvoiceDetails, downloadInvoice } from "@/api/paymentHistoryApi";
 import { InvoiceDetails } from "@/types/paymentTypes";
 import { toast } from "@/hooks/use-toast";
@@ -26,6 +26,8 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   const [invoiceDetails, setInvoiceDetails] = useState<InvoiceDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isUsingMockData, setIsUsingMockData] = useState(false);
 
   React.useEffect(() => {
     if (isOpen && transactionId) {
@@ -36,10 +38,23 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   const fetchInvoiceDetails = async () => {
     try {
       setIsLoading(true);
+      setError(null);
+      setIsUsingMockData(false);
+      
+      console.log("Fetching invoice details for:", transactionId);
       const details = await getInvoiceDetails(transactionId);
+      console.log("Retrieved invoice details:", details);
+      
       setInvoiceDetails(details);
+      
+      // Check if we're using mock data
+      if (details.customer.name === "John Doe" && details.customer.email === "john.doe@example.com") {
+        setIsUsingMockData(true);
+      }
     } catch (error) {
       console.error("Failed to fetch invoice details:", error);
+      setError("Failed to load invoice details. Please try again.");
+      
       toast({
         title: "Error",
         description: "Failed to load invoice details.",
@@ -65,7 +80,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
       
       toast({
         title: "Success",
-        description: "Invoice downloaded successfully.",
+        description: isUsingMockData ? "Mock invoice downloaded for testing." : "Invoice downloaded successfully.",
       });
     } catch (error) {
       console.error("Failed to download invoice:", error);
@@ -101,7 +116,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
               variant="outline"
               size="sm"
               onClick={handleDownload}
-              disabled={isDownloading}
+              disabled={isDownloading || !invoiceDetails}
             >
               {isDownloading ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -113,10 +128,27 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
           </DialogTitle>
         </DialogHeader>
 
+        {isUsingMockData && (
+          <Alert className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              This is mock data for development purposes. The invoice API is not currently available.
+            </AlertDescription>
+          </Alert>
+        )}
+
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
             <Loader2 className="w-6 h-6 animate-spin" />
             <span className="ml-2">Loading invoice details...</span>
+          </div>
+        ) : error ? (
+          <div className="text-center py-8">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <p className="text-gray-600 mb-4">{error}</p>
+            <Button onClick={fetchInvoiceDetails} variant="outline">
+              Try Again
+            </Button>
           </div>
         ) : invoiceDetails ? (
           <div className="bg-white p-6 rounded-lg border">
