@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
 export const ReviewsManagementPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('summary');
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
@@ -90,6 +91,7 @@ export const ReviewsManagementPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-full">
+      <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="flex-1 p-6">
         {renderTabContent()}
       </div>
