@@ -1,19 +1,16 @@
 
-import React, { useEffect, useState } from 'react';
-import { ReviewSummary } from './ReviewSummary';
-import { ReviewsList } from './ReviewsList';
-import { AutoResponseTab } from './AutoResponse/AutoResponseTab';
+import React, { useEffect } from 'react';
 import { ReviewsSubHeader } from './ReviewsSubHeader';
+import { AutoResponseTemplatesSection } from './AutoResponse/AutoResponseTemplatesSection';
+import { AIAutoResponseSection } from './AutoResponse/AIAutoResponseSection';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
 export const ReviewsManagementPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('summary');
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
-  
 
   // Show toast for API errors
   useEffect(() => {
@@ -64,36 +61,12 @@ export const ReviewsManagementPage: React.FC = () => {
     }
   }, [replyError, toast, dispatch]);
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 'summary':
-        return (
-          <div className="space-y-6">
-            <ReviewSummary />
-            <ReviewsList />
-          </div>
-        );
-      case 'auto-response':
-        return (
-          <div className="space-y-6">
-            <AutoResponseTab />
-          </div>
-        );
-      default:
-        return (
-          <div className="space-y-6">
-            <ReviewSummary />
-            <ReviewsList />
-          </div>
-        );
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-full">
-      <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
-      <div className="flex-1 p-6">
-        {renderTabContent()}
+      <ReviewsSubHeader />
+      <div className="flex-1 p-6 space-y-6 bg-gray-50">
+        <AutoResponseTemplatesSection />
+        <AIAutoResponseSection />
       </div>
     </div>
   );
