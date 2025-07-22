@@ -47,7 +47,7 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
         
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Panel - Green Personalization Guide */}
-          <div className="w-96 bg-emerald-500 text-white p-8 flex flex-col">
+          <div className="bg-emerald-500 text-white p-8 flex flex-col">
             <div className="flex-1">
               <h2 className="text-2xl font-bold mb-2">Personalize</h2>
               <h3 className="text-xl font-semibold mb-6">Your Reply Templates</h3>
