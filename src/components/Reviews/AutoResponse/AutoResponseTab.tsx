@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '../../ui/button';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
 import { Plus } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
 import { TemplateCard } from './TemplateCard';
@@ -77,18 +78,26 @@ export const AutoResponseTab: React.FC = () => {
         </Button>
       </div>
 
-      {/* Template Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3, 4, 5].map((rating) => (
-          <TemplateCard
-            key={rating}
-            starRating={rating}
-            template={getTemplateForRating(rating)}
-            onCreateTemplate={handleCreateTemplate}
-            onEditTemplate={handleEditTemplate}
-            onDeleteTemplate={handleDeleteTemplate}
-          />
-        ))}
+      {/* Reply for Review Carousel */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-900">Reply for review</h3>
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <CarouselItem key={rating} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                <TemplateCard
+                  starRating={rating}
+                  template={getTemplateForRating(rating)}
+                  onCreateTemplate={handleCreateTemplate}
+                  onEditTemplate={handleEditTemplate}
+                  onDeleteTemplate={handleDeleteTemplate}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
 
       {/* Create/Edit Template Modal */}
