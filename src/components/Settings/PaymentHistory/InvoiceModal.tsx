@@ -92,13 +92,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle>Invoice Details</DialogTitle>
-            <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading || !invoiceDetails}>
-              {isDownloading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Download className="w-4 h-4 mr-2" />}
-              Download
-            </Button>
-          </div>
+          <DialogTitle>Invoice Details</DialogTitle>
         </DialogHeader>
 
         {isUsingMockData}
@@ -180,6 +174,14 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
           </div> : <div className="text-center py-8 text-gray-500">
             Failed to load invoice details.
           </div>}
-      </DialogContent>
+          
+          {/* Download Button */}
+          <div className="flex justify-end mt-6">
+            <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading || !invoiceDetails}>
+              {isDownloading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Download className="w-4 h-4 mr-2" />}
+              Download
+            </Button>
+          </div>
+        </DialogContent>
     </Dialog>;
 };
