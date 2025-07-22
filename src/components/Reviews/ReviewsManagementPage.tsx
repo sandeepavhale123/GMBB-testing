@@ -8,8 +8,11 @@ import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
-export const ReviewsManagementPage: React.FC = (activeTab) => {
-  const [activeTab, setActiveTab] = useState('summary');
+interface ReviewsManagementPageProps {
+  activeTab: string;
+}
+
+export const ReviewsManagementPage: React.FC<ReviewsManagementPageProps> = ({ activeTab }) => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
