@@ -59,7 +59,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
       {/* Configuration Panel */}
       {enabled && (
-        <div className="space-y-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+        <div className="space-y-6 p-4 bg-white border border-gray-200 rounded-lg">
           {/* AI Response Style */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-900">AI Response Style</label>
