@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
@@ -6,7 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialo
 import { Textarea } from '../../ui/textarea';
 import { Star } from 'lucide-react';
 import { ReplyTemplate } from '../../../store/slices/reviews/templateTypes';
-
 interface TemplateCardProps {
   starRating: number;
   template?: ReplyTemplate;
@@ -14,17 +12,15 @@ interface TemplateCardProps {
   onEditTemplate?: (template: ReplyTemplate) => void;
   onDeleteTemplate?: (templateId: string) => void;
 }
-
 export const TemplateCard: React.FC<TemplateCardProps> = ({
   starRating,
   template,
   onCreateTemplate,
   onEditTemplate,
-  onDeleteTemplate,
+  onDeleteTemplate
 }) => {
   const [isManageOpen, setIsManageOpen] = useState(false);
   const [editContent, setEditContent] = useState('');
-
   const getDefaultContent = (rating: number): string => {
     const templates = {
       5: `Thank you so much, {first_name}, for your amazing 5-star review! 🌟 It's truly wonderful to hear that you had a great experience with us. Your kind words mean the world to me and the team.
@@ -45,33 +41,22 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
     };
     return templates[rating as keyof typeof templates] || templates[5];
   };
-
   const handleManageClick = () => {
     setEditContent(template?.content || getDefaultContent(starRating));
     setIsManageOpen(true);
   };
-
   const handleSave = () => {
     // Here you would typically save the content
     console.log('Saving content:', editContent);
     setIsManageOpen(false);
   };
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star
-        key={index}
-        className={`w-5 h-5 ${
-          index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-        }`}
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, index) => <Star key={index} className={`w-5 h-5 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />);
   };
-
   const displayContent = template?.content || getDefaultContent(starRating);
-
-  return (
-    <>
+  return <>
       <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <CardContent className="p-6">
           {/* Star Rating */}
@@ -89,25 +74,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 
           {/* Action Button */}
           <div className="flex justify-end">
-            {template || starRating ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleManageClick}
-                className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900"
-              >
+            {template || starRating ? <Button variant="outline" size="sm" onClick={handleManageClick} className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 ">
                 Manage
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onCreateTemplate(starRating)}
-                className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900"
-              >
+              </Button> : <Button variant="outline" size="sm" onClick={() => onCreateTemplate(starRating)} className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900">
                 Create
-              </Button>
-            )}
+              </Button>}
           </div>
         </CardContent>
       </Card>
@@ -126,18 +97,10 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               <label className="text-sm font-medium text-gray-700 mb-2 block">
                 Template Content
               </label>
-              <Textarea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                className="min-h-[200px] resize-none"
-                placeholder="Enter your template response..."
-              />
+              <Textarea value={editContent} onChange={e => setEditContent(e.target.value)} className="min-h-[200px] resize-none" placeholder="Enter your template response..." />
             </div>
             <div className="flex justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setIsManageOpen(false)}
-              >
+              <Button variant="outline" onClick={() => setIsManageOpen(false)}>
                 Cancel
               </Button>
               <Button onClick={handleSave}>
@@ -147,6 +110,5 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           </div>
         </DialogContent>
       </Dialog>
-    </>
-  );
+    </>;
 };
