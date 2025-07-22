@@ -86,7 +86,11 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             <Textarea
               value={additionalInstructions}
               onChange={(e) => setAdditionalInstructions(e.target.value)}
-              placeholder="Add specific instructions for AI responses (e.g., mention your business name, include contact info, etc.)"
+              placeholder="Add specific instructions for AI responses (e.g., mention your business name, include contact info, etc.)
+
+NOTE: You can use the following variables in reply text:
+- {full_name}, {first_name}, {last_name} for reviewer information
+- {responsetext} for the reply text"
               className="min-h-[80px]"
             />
           </div>
