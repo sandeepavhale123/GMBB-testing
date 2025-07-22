@@ -82,16 +82,10 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
           {/* Additional Instructions */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-900">Additional Instructions</label>
-            <Textarea
-              value={additionalInstructions}
-              onChange={(e) => setAdditionalInstructions(e.target.value)}
-              placeholder="Add specific instructions for AI responses (e.g., mention your business name, include contact info, etc.)"
-              className="min-h-[80px]"
-            />
+
             <Card className="bg-gray-500">
               <CardContent className="p-3">
-                <p className="text-xs text-white">
+                <p className="text-xs text-white" style={{fontSise:18}}>
                   <strong>NOTE:</strong> You can use the following variables in reply text:
                   <br />• {"{full_name}"}, {"{first_name}"}, {"{last_name}"} for reviewer information
                   <br />• {"{responsetext}"} for the reply text
