@@ -145,7 +145,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           </div>
 
           {/* Test AI Response Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="w-full">
             {/* Sample Review */}
             <Card>
               <CardContent className="p-4">
