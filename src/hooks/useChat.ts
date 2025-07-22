@@ -100,8 +100,8 @@ export const useChat = (keywordId?: string) => {
         variant: "destructive",
         title: "Error",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to load chat history",
       });
     } finally {

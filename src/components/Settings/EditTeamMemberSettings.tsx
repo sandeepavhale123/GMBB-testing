@@ -235,8 +235,8 @@ export const EditTeamMemberSettings: React.FC = () => {
       toast({
         title: "Error",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           `Failed to update ${
             activeTab === "profile" ? "profile" : "listing assignments"
           }`,

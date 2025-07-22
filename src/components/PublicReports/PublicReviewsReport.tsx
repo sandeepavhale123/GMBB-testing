@@ -52,7 +52,19 @@ export const PublicReviewsReport: React.FC = () => {
 
   const reportType = reviewsData?.data?.reportType.toLowerCase();
 
-  if (isLoading) return <div>Loading...</div>;
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-muted-foreground">
+            Loading Review report...
+          </p>
+        </div>
+      </div>
+    );
+  }
   if (error) return <div>Error loading review report</div>;
 
   // console.log("Review Report:", reviewsData);
@@ -228,6 +240,7 @@ export const PublicReviewsReport: React.FC = () => {
       title="Reviews Report"
       listingName={reviewsData?.data.locationName}
       address={reviewsData?.data.address}
+      date={reviewsData?.data?.reportDate}
       logo={reviewsData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}

@@ -182,7 +182,7 @@ export const uploadMedia = async (
     // console.log("Upload API response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Upload API error:", error);
+    console.error("Upload API error:", error?.response?.data?.message);
     throw error;
   }
 };

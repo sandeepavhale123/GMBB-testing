@@ -29,8 +29,8 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
       toast({
         title: "Error saving changes",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Please try again later",
         variant: "destructive",
       });

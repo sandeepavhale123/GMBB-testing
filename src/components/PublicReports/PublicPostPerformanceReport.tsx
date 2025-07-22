@@ -47,7 +47,19 @@ export const PublicPostPerformanceReport: React.FC = () => {
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
 
-  if (isLoading) return <div>Loading...</div>;
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-muted-foreground">
+            Loading Post report...
+          </p>
+        </div>
+      </div>
+    );
+  }
   if (error) return <div>Error loading review report</div>;
 
   // console.log("post Report:", postData);
@@ -257,6 +269,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
       title="Post Performance Report"
       listingName={postData?.data.locationName}
       address={postData?.data.address}
+      date={postData?.data?.reportDate}
       logo={postData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}

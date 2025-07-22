@@ -60,6 +60,7 @@ export const PublicGMBHealthReport: React.FC = () => {
       toast({
         title: "Error Loading Report",
         description:
+          error?.response?.data?.message ||
           error.message ||
           "Failed to load the performance report. Please try again.",
         variant: "destructive",
@@ -67,19 +68,15 @@ export const PublicGMBHealthReport: React.FC = () => {
     }
   }, [error, toast]);
 
+  // Handle loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center py-12">
-            <div className="text-center">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
-              <h2 className="text-lg font-semibold mb-2">
-                Loading GMB Health Report
-              </h2>
-              <p className="text-muted-foreground">Fetching report data...</p>
-            </div>
-          </div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-muted-foreground">
+            Loading Health report...
+          </p>
         </div>
       </div>
     );
@@ -202,6 +199,7 @@ export const PublicGMBHealthReport: React.FC = () => {
       title="GMB Health Report"
       listingName={publichealthData?.data?.locationName}
       address={publichealthData?.data?.address}
+      date={publichealthData?.data?.reportDate}
       logo={publichealthData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}

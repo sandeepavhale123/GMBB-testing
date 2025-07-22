@@ -72,7 +72,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
         title: "Generation Failed",
         description:
           error instanceof Error
-            ? error.message
+            ? error?.response?.data?.message || error.message
             : "Failed to generate images. Please try again.",
         variant: "destructive",
       });

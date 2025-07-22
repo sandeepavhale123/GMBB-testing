@@ -127,7 +127,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
 
     // CTA URL validation when CTA button is enabled and not CALL type
-    if (showCTAButton && formData.ctaButton !== "CALL" && !formData.ctaUrl.trim()) {
+    if (
+      showCTAButton &&
+      formData.ctaButton !== "CALL" &&
+      !formData.ctaUrl.trim()
+    ) {
       errors.ctaUrl = "URL is required when CTA button is enabled";
     }
 
@@ -262,7 +266,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
         description:
           error instanceof Error
-            ? error.message
+            ? error?.response?.data?.message || error.message
             : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });

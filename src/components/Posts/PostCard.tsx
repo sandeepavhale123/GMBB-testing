@@ -181,7 +181,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         title: "Failed to Delete Post",
         description:
           error instanceof Error
-            ? error.message
+            ? error?.response?.data?.message || error.message
             : "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });

@@ -81,8 +81,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         toast({
           title: "Upload failed",
           description:
-            error.message ||
             error?.response?.data?.message ||
+            error.message ||
             "Failed to update profile picture. Please try again.",
           variant: "destructive",
         });

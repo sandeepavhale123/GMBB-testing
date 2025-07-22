@@ -39,6 +39,7 @@ interface PublicReportDashboardLayoutProps {
   onShare?: () => void;
   visibleSections?: string[];
   token: string;
+  date: string;
 }
 
 export const PublicReportDashboardLayout: React.FC<
@@ -53,6 +54,7 @@ export const PublicReportDashboardLayout: React.FC<
   onShare,
   visibleSections = [],
   token,
+  date,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -286,7 +288,7 @@ export const PublicReportDashboardLayout: React.FC<
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >
-                  {formatToDayMonthYear(new Date())}
+                  {date}
                 </p>
               </div>
             </div>

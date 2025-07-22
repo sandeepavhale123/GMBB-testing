@@ -80,6 +80,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   // Get rank color for map markers (hex colors)
   const getRankColorHex = (rank: string): string => {
     const rankNum = rank === "20+" ? 21 : parseInt(rank);
+    console.log("rank color selection", rank, rankNum);
     if (rankNum <= 3) return "#22c55e"; // Green
     if (rankNum <= 6) return "#f59e0b"; // Yellow
     return "#ef4444"; // Red
@@ -108,11 +109,13 @@ export const PublicGeoRankingReport: React.FC = () => {
     if (!mapInstance.current || !data) return;
 
     data.forEach((detail, index) => {
-      // console.log("rank maker", detail, index + 1);
+      console.log("rank maker", detail, index + 1);
       // const [lat, lng] = detail.coordinate.split(",").map(Number);
       const lat = detail?.lat;
       const lng = detail?.lng;
-      const rankColor = getRankColorHex(index + 1);
+      const rankColor = getRankColorHex(
+        detail.rank === 0 ? "20+" : detail.rank
+      );
 
       const rankIcon = L.divIcon({
         html: `<div style="
@@ -396,12 +399,27 @@ export const PublicGeoRankingReport: React.FC = () => {
     .filter(([_, value]) => value === "1")
     .map(([key]) => key);
 
+  // Handle loading state
+  if (isGeoLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg text-muted-foreground">
+            Loading Georanking report...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <PublicReportDashboardLayout
       title="GEO Ranking Report"
       listingName={geoRankingData?.data.locationName}
       logo={geoRankingData?.data.companyLogo}
       address={geoRankingData?.data.address}
+      date={geoRankingData?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
     >

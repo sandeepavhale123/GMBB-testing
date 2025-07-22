@@ -73,8 +73,8 @@ export const AIImageModal: React.FC<AIImageModalProps> = ({
       toast({
         title: "Error",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to generate images. Please try again.",
         variant: "destructive",
       });

@@ -300,8 +300,8 @@ export const useGeoRankingReport = (listingId: number) => {
       toast({
         title: "Error",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to fetch grid coordinates",
         variant: "destructive",
       });
@@ -367,7 +367,7 @@ export const useGeoRankingReport = (listingId: number) => {
   const handleReset = () => {
     // Reset form data to initial state
     setFormData(getInitialFormData());
-    
+
     // Clear all state related to results and coordinates
     setKeywordData(null);
     setCurrentKeywordId(null);
@@ -376,13 +376,13 @@ export const useGeoRankingReport = (listingId: number) => {
     setPollingKeyword(false);
     setPollingProgress(0);
     setIsCompleting(false);
-    
+
     // Clear any existing markers
     setCurrentMarkers([]);
-    
+
     // Reset previous map point
     setPreviousMapPoint("");
-    
+
     toast({
       title: "Form Reset",
       description: "Ready for a new keyword search",
@@ -423,7 +423,7 @@ export const useGeoRankingReport = (listingId: number) => {
     maxAttempts: number = 60 // 5 minutes maximum
   ): Promise<boolean> => {
     setPollingKeyword(true);
-    
+
     // Initialize progress to 10% immediately
     let currentProgress = 10;
     setPollingProgress(currentProgress);
@@ -435,7 +435,8 @@ export const useGeoRankingReport = (listingId: number) => {
         // );
 
         // Update progress using enhanced logic
-        if (attempt > 1) { // Don't increment on first attempt since we start at 10%
+        if (attempt > 1) {
+          // Don't increment on first attempt since we start at 10%
           if (currentProgress < 85) {
             currentProgress += 10;
           } else if (currentProgress < 99) {
@@ -495,8 +496,8 @@ export const useGeoRankingReport = (listingId: number) => {
       toast({
         title: "Processing Timeout",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Keyword processing is taking longer than expected. Please check back later.",
         variant: "destructive",
       });
@@ -590,7 +591,8 @@ export const useGeoRankingReport = (listingId: number) => {
           setCurrentKeywordId(response.data.keywordId.toString());
           toast({
             title: "Processing Keyword",
-            description: "Please wait while we process your keyword ranking data...",
+            description:
+              "Please wait while we process your keyword ranking data...",
             variant: "default",
           });
 
@@ -629,8 +631,8 @@ export const useGeoRankingReport = (listingId: number) => {
       toast({
         title: "Error",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to submit rank check",
         variant: "destructive",
       });

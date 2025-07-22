@@ -156,6 +156,7 @@ export const PublicInsightsReport: React.FC = () => {
       listingName={insightData?.data.locationName}
       logo={insightData?.data.companyLogo}
       address={insightData?.data.address}
+      date={insightData?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
     >

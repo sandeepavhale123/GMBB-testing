@@ -45,8 +45,8 @@ export const useInsightsExport = (selectedListing: any) => {
       toast({
         title: "Export Failed",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to export image. Please try again.",
         variant: "destructive",
       });

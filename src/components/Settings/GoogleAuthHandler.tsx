@@ -98,7 +98,7 @@ const GoogleAuthHandler = () => {
 
         const errorMessage =
           error instanceof Error
-            ? error.message
+            ? error?.response?.data?.message || error.message
             : "Failed to connect Google account. Please try again.";
         setError(errorMessage);
 

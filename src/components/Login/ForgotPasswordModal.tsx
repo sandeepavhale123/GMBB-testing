@@ -80,7 +80,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message || error?.response?.data?.message,
+        description: error?.response?.data?.message || error.message,
         variant: "destructive",
       });
     } finally {

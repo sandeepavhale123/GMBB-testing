@@ -207,8 +207,8 @@ export const BrandingPage: React.FC = () => {
       toast({
         title: "Error saving theme",
         description:
-          error.message ||
           error?.response?.data?.message ||
+          error.message ||
           "Please try again later",
         variant: "destructive",
       });
