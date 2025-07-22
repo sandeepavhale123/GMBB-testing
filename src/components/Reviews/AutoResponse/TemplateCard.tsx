@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
-import { Star, Plus, Edit, Trash2 } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { ReplyTemplate } from '../../../store/slices/reviews/templateTypes';
 
 interface TemplateCardProps {
@@ -24,76 +24,61 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
     return Array.from({ length: 5 }, (_, index) => (
       <Star
         key={index}
-        className={`w-4 h-4 ${
-          index < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+        className={`w-5 h-5 ${
+          index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
         }`}
       />
     ));
   };
 
   return (
-    <Card className="h-48 flex flex-col">
-      <CardContent className="p-4 flex flex-col h-full">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <div className="flex">{renderStars(starRating)}</div>
-            <span className="text-sm font-medium text-gray-700">
-              {starRating} Star{starRating !== 1 ? 's' : ''}
-            </span>
-          </div>
-          {template?.enabled && (
-            <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-              Active
-            </span>
-          )}
+    <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
+      <CardContent className="p-6">
+        {/* Star Rating */}
+        <div className="flex items-center gap-1 mb-4">
+          <span className="text-2xl font-bold text-gray-900 mr-2">{starRating}</span>
+          <div className="flex">{renderStars(starRating)}</div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col">
+        {/* Template Content */}
+        {template ? (
+          <div className="mb-6">
+            <p className="text-gray-600 text-sm leading-relaxed mb-4">
+              {template.content}
+            </p>
+          </div>
+        ) : (
+          <div className="mb-6">
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              Thank you so much, {"{first_name}"}, for your amazing{' '}
+              {starRating}-star review! 🌟 It's truly wonderful to hear that
+              you had a great experience with us. Your kind words mean the
+              world to me and the team.
+            </p>
+            <p className="text-gray-400 text-sm">~ {"{owner_name}"}</p>
+          </div>
+        )}
+
+        {/* Action Button */}
+        <div className="flex justify-end">
           {template ? (
-            <>
-              <div className="flex-1 mb-3">
-                <p className="text-sm text-gray-600 line-clamp-4">
-                  {template.content}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onEditTemplate?.(template)}
-                  className="flex-1 flex items-center gap-1"
-                >
-                  <Edit className="w-3 h-3" />
-                  Edit
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onDeleteTemplate?.(template.id)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  <Trash2 className="w-3 h-3" />
-                </Button>
-              </div>
-            </>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onEditTemplate?.(template)}
+              className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900"
+            >
+              Manage
+            </Button>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center">
-              <div className="text-center mb-4">
-                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2 mx-auto">
-                  <Plus className="w-6 h-6 text-gray-400" />
-                </div>
-                <p className="text-sm text-gray-500">No template set</p>
-              </div>
-              <Button
-                size="sm"
-                onClick={() => onCreateTemplate(starRating)}
-                className="w-full"
-              >
-                Create Template
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onCreateTemplate(starRating)}
+              className="bg-gray-900 text-white hover:bg-gray-800 border-gray-900"
+            >
+              Create
+            </Button>
           )}
         </div>
       </CardContent>
