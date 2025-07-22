@@ -106,7 +106,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               <label className="text-sm font-medium text-gray-700 mb-2 block">
                 Template Content
               </label>
-              <Textarea value={editContent} onChange={e => setEditContent(e.target.value)} className="min-h-[200px] resize-none" placeholder="Enter your template response..." />
+              <Textarea value={editContent} onChange={e => setEditContent(e.target.value)} className="min-h-[200px] resize-y" placeholder="Enter your template response..." />
             </div>
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => setIsManageOpen(false)}>
