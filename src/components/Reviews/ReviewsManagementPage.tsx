@@ -1,11 +1,12 @@
+
 import React, { useEffect, useState } from 'react';
 import { ReviewSummary } from './ReviewSummary';
 import { ReviewsList } from './ReviewsList';
 import { AutoResponseTab } from './AutoResponse/AutoResponseTab';
+import { ReviewsSubHeader } from './ReviewsSubHeader';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export const ReviewsManagementPage: React.FC = () => {
   const { toast } = useToast();
@@ -16,9 +17,10 @@ export const ReviewsManagementPage: React.FC = () => {
   // Show toast for API errors
   useEffect(() => {
     if (summaryError) {
-      toast.error({
+      toast({
         title: "Error Loading Review Summary",
         description: summaryError,
+        variant: "destructive",
       });
       
       const timer = setTimeout(() => {
@@ -31,9 +33,10 @@ export const ReviewsManagementPage: React.FC = () => {
 
   useEffect(() => {
     if (reviewsError) {
-      toast.error({
+      toast({
         title: "Error Loading Reviews",
         description: reviewsError,
+        variant: "destructive",
       });
       
       const timer = setTimeout(() => {
@@ -46,9 +49,10 @@ export const ReviewsManagementPage: React.FC = () => {
 
   useEffect(() => {
     if (replyError) {
-      toast.error({
+      toast({
         title: "Error Sending Reply",
         description: replyError,
+        variant: "destructive",
       });
       
       const timer = setTimeout(() => {
@@ -59,27 +63,37 @@ export const ReviewsManagementPage: React.FC = () => {
     }
   }, [replyError, toast, dispatch]);
 
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'summary':
+        return (
+          <div className="space-y-6">
+            <ReviewSummary />
+            <ReviewsList />
+          </div>
+        );
+      case 'auto-response':
+        return (
+          <div className="space-y-6">
+            <AutoResponseTab />
+          </div>
+        );
+      default:
+        return (
+          <div className="space-y-6">
+            <ReviewSummary />
+            <ReviewsList />
+          </div>
+        );
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 max-w-md">
-          <TabsTrigger value="summary" className="flex items-center gap-2">
-            Review Summary
-          </TabsTrigger>
-          <TabsTrigger value="auto-response" className="flex items-center gap-2">
-            Auto Response
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="summary" className="space-y-6">
-          <ReviewSummary />
-          <ReviewsList />
-        </TabsContent>
-
-        <TabsContent value="auto-response" className="space-y-6">
-          <AutoResponseTab />
-        </TabsContent>
-      </Tabs>
+    <div className="flex flex-col min-h-full">
+      <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
+      <div className="flex-1 p-6">
+        {renderTabContent()}
+      </div>
     </div>
   );
 };
