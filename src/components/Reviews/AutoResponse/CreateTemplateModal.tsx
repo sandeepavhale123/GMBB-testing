@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '../../ui/dialog';
 import { Button } from '../../ui/button';
 import { Textarea } from '../../ui/textarea';
@@ -141,26 +142,28 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
                 />
               </div>
             </div>
-            
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-3 mt-8">
-              <Button 
-                variant="outline" 
-                onClick={onClose}
-                disabled={isLoading}
-              >
-                Close
-              </Button>
-              <Button 
-                onClick={handleSave}
-                disabled={!isValid || isLoading}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                {isLoading ? 'Saving...' : 'Save changes'}
-              </Button>
-            </div>
           </div>
         </div>
+        
+        {/* Modal Footer */}
+        <DialogFooter className="px-8 py-6 border-t bg-gray-50">
+          <div className="flex justify-end gap-3 w-full">
+            <Button 
+              variant="outline" 
+              onClick={onClose}
+              disabled={isLoading}
+            >
+              Close
+            </Button>
+            <Button 
+              onClick={handleSave}
+              disabled={!isValid || isLoading}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {isLoading ? 'Saving...' : 'Save changes'}
+            </Button>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
