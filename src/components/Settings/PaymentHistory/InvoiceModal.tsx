@@ -53,20 +53,62 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
     }
   };
   const handleDownload = async () => {
+    if (!invoiceDetails) {
+      toast({
+        title: "Error",
+        description: "No invoice data available to download.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       setIsDownloading(true);
-      const blob = await downloadInvoice(transactionId);
+      
+      // Generate invoice content from current data
+      const invoiceContent = `
+INVOICE DETAILS
+===============
+
+Transaction ID: ${invoiceDetails.transaction_id}
+Date: ${formatDate(invoiceDetails.date)}
+Amount: ${formatAmount(invoiceDetails.amount, invoiceDetails.currency)}
+Plan: ${invoiceDetails.plan_name}
+
+BILLED FROM:
+GMB Briefcase
+sales@citationbuilderpro.com
+T-16 Software Technology Park India,
+Opp Garware Stadium, Cikalthana MIDC
+Aurangabad - 431005
+9822298988
+
+BILLED TO:
+${invoiceDetails.customer.name}
+${invoiceDetails.customer.email}
+${invoiceDetails.customer.address || ''}
+${invoiceDetails.customer.city ? `${invoiceDetails.customer.city}, ${invoiceDetails.customer.state}` : ''}
+
+PRODUCT DETAILS:
+S. No. | Product | Total
+1 | GMB Briefcase - ${invoiceDetails.plan_name} | ${formatAmount(invoiceDetails.amount, invoiceDetails.currency)}
+
+${isUsingMockData ? '\n[Note: This is mock data for testing purposes]' : ''}
+      `;
+
+      const blob = new Blob([invoiceContent], { type: "text/plain" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `invoice-${transactionId}.pdf`;
+      link.download = `invoice-${invoiceDetails.transaction_id}.txt`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      
       toast({
         title: "Success",
-        description: isUsingMockData ? "Mock invoice downloaded for testing." : "Invoice downloaded successfully."
+        description: "Invoice downloaded successfully."
       });
     } catch (error) {
       console.error("Failed to download invoice:", error);
