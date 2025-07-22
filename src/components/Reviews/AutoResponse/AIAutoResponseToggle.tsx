@@ -141,59 +141,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             />
           </div>
 
-          {/* Apply For Section */}
-          <div className="space-y-4 group">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-              <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
-            </div>
-            
-            <div className="grid grid-cols-5 gap-3">
-              {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={() => {
-            const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
-            if (checkbox) checkbox.click();
-          }}>
-                  <div className="flex items-center justify-between">
-                    <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
-                      {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
-                    </label>
-                    <Checkbox id={`star-${star}`} defaultChecked={true} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-                  </div>
-                </Card>)}
-            </div>
-          </div>
-
-          {/* AI Response Settings */}
-          {/* <div className="space-y-4 group rounded-none ">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <h4 className="text-sm font-semibold text-foreground">Response Settings</h4>
-            </div>
-            
-            <Card className="p-4 bg-muted/30 border-border/60">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-background/80 rounded-lg border border-border/40 hover:border-primary/30 transition-all duration-200">
-                  <div className="flex items-center space-x-3">
-                    <Checkbox id="use-reviewer-name" checked={settings.useReviewerName} onCheckedChange={checked => handleSettingChange('useReviewerName', checked === true)} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-                    <div>
-                      <label htmlFor="use-reviewer-name" className="text-sm font-medium text-foreground cursor-pointer">
-                        Reply to existing reviews
-                      </label>
-                      <p className="text-xs text-muted-foreground">Auto-respond to previous customer reviews</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/50 dark:border-blue-800/50 rounded-lg p-3">
-              <p className="text-sm text-blue-700 dark:text-blue-300">
-                💡 AI-generated responses will be saved as drafts for your review before sending when approval is enabled.
-              </p>
-            </div>
-          </div> */}
-
-          {/* Latest Review Section */}
+        {/* Latest Review Section */}
           <div className="space-y-4 group">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
@@ -254,6 +202,60 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               </CardContent>
             </Card>
           </div>
+
+          {/* Apply For Section */}
+          <div className="space-y-4 group">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+              <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
+            </div>
+            
+            <div className="grid grid-cols-5 gap-3">
+              {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={() => {
+            const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
+            if (checkbox) checkbox.click();
+          }}>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
+                      {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
+                    </label>
+                    <Checkbox id={`star-${star}`} defaultChecked={true} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                  </div>
+                </Card>)}
+            </div>
+          </div>
+
+          {/* AI Response Settings */}
+          {/* <div className="space-y-4 group rounded-none ">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <h4 className="text-sm font-semibold text-foreground">Response Settings</h4>
+            </div>
+            
+            <Card className="p-4 bg-muted/30 border-border/60">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-3 bg-background/80 rounded-lg border border-border/40 hover:border-primary/30 transition-all duration-200">
+                  <div className="flex items-center space-x-3">
+                    <Checkbox id="use-reviewer-name" checked={settings.useReviewerName} onCheckedChange={checked => handleSettingChange('useReviewerName', checked === true)} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                    <div>
+                      <label htmlFor="use-reviewer-name" className="text-sm font-medium text-foreground cursor-pointer">
+                        Reply to existing reviews
+                      </label>
+                      <p className="text-xs text-muted-foreground">Auto-respond to previous customer reviews</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/50 dark:border-blue-800/50 rounded-lg p-3">
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                💡 AI-generated responses will be saved as drafts for your review before sending when approval is enabled.
+              </p>
+            </div>
+          </div> */}
+
+          
 
           {/* Save Button */}
           <div className="flex justify-end pt-4 border-t border-border/30">
