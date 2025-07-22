@@ -155,28 +155,22 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             </div>
             
             <div className="grid grid-cols-5 gap-3">
-              {[1, 2, 3, 4, 5].map(star => 
-                <Card 
-                  key={star} 
-                  className="p-3 cursor-pointer border-border/60"
-                  onClick={() => {
-                    const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
-                    if (checkbox) checkbox.click();
-                  }}
-                >
+              {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={() => {
+            const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
+            if (checkbox) checkbox.click();
+          }}>
                   <div className="flex items-center justify-between">
                     <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
                       {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
                     </label>
                     <Checkbox id={`star-${star}`} defaultChecked={true} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                   </div>
-                </Card>
-              )}
+                </Card>)}
             </div>
           </div>
 
           {/* AI Response Settings */}
-          <div className="space-y-4 group">
+          {/* <div className="space-y-4 group rounded-none ">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <h4 className="text-sm font-semibold text-foreground">Response Settings</h4>
@@ -186,12 +180,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-background/80 rounded-lg border border-border/40 hover:border-primary/30 transition-all duration-200">
                   <div className="flex items-center space-x-3">
-                    <Checkbox 
-                      id="use-reviewer-name" 
-                      checked={settings.useReviewerName} 
-                      onCheckedChange={checked => handleSettingChange('useReviewerName', checked === true)}
-                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                    />
+                    <Checkbox id="use-reviewer-name" checked={settings.useReviewerName} onCheckedChange={checked => handleSettingChange('useReviewerName', checked === true)} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                     <div>
                       <label htmlFor="use-reviewer-name" className="text-sm font-medium text-foreground cursor-pointer">
                         Reply to existing reviews
@@ -208,7 +197,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                 💡 AI-generated responses will be saved as drafts for your review before sending when approval is enabled.
               </p>
             </div>
-          </div>
+          </div> */}
 
           {/* Latest Review Section */}
           <div className="space-y-4 group">
@@ -254,27 +243,19 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                   </div>
                   
                   <div className="flex gap-3">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={handleGenerateAIResponse} 
-                      disabled={isGenerating}
-                      className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
-                    >
+                    <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={isGenerating} className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
                       <Sparkles className="w-4 h-4 mr-2" />
                       {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
                     </Button>
                   </div>
                   
-                  {aiResponse && 
-                    <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
+                  {aiResponse && <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                         <p className="text-sm font-medium text-green-700 dark:text-green-300">Generated AI Response:</p>
                       </div>
                       <p className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">{aiResponse}</p>
-                    </div>
-                  }
+                    </div>}
                 </div>
               </CardContent>
             </Card>
