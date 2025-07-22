@@ -138,7 +138,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // console.log("plan exp or not .....", isPlanExpired);
   const trialPlan =
     profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
-    profileData?.planId?.toString() === "50";
+    profileData?.planName?.toLowerCase() === "trial";
   console.log("is  plan .....", trialPlan);
   // console.log(
   //   "result of condition",

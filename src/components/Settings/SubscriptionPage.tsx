@@ -13,6 +13,7 @@ import { UnsubscriptionModal } from "./UnsubscriptionModal";
 import { useProfile } from "@/hooks/useProfile";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchUserProfile } from "@/store/slices/profileSlice";
+import { PaymentHistoryTable } from "./PaymentHistory/PaymentHistoryTable";
 
 // ⚠️ Load Stripe publishable key from .env
 const stripePromise = loadStripe(
@@ -618,25 +619,7 @@ export const SubscriptionPage: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="payment-history" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Crown className="h-8 w-8 text-gray-400" />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No Payment History
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Your payment history will appear here once you make your first
-                  payment.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <PaymentHistoryTable />
         </TabsContent>
       </Tabs>
 
