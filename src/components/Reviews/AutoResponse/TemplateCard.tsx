@@ -76,7 +76,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 
           {/* Template Content */}
           <div className="mb-6">
-            <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-4">
+            <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
               {displayContent}
             </p>
           </div>
