@@ -85,7 +85,7 @@ export const AutoResponseTab: React.FC = () => {
           </div>
 
            {/* Tabs Section */}
-            <Tabs defaultValue="review" className="w-auto">
+            <Tabs defaultValue="review" className="w-auto mr-2" style={{marginRight:10}}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="review">Reply for Review</TabsTrigger>
                 <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
