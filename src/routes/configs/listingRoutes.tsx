@@ -1,3 +1,4 @@
+
 import { Navigate } from "react-router-dom";
 import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
@@ -8,6 +9,7 @@ import ReviewsPage from "@/pages/ReviewsPage";
 import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
 import ReportsPage from "@/pages/ReportsPage";
+import CitationPage from "@/pages/CitationPage";
 import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
@@ -90,6 +92,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <AIChatbotPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Citation routes
+  {
+    path: "/citation",
+    element: <Navigate to="/citation/default" replace />,
+  },
+  {
+    path: "/citation/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <CitationPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

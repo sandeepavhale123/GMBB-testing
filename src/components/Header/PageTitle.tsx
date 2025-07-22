@@ -16,6 +16,7 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/insights': { title: 'Insights', subtitle: 'Review performance insights to improve your local visibility' },
   '/geo-ranking': { title: 'GEO Ranking', subtitle: 'Track keyword ranking by geographic location' },
   '/geo-ranking-report': { title: 'GEO Ranking Report', subtitle: 'Detailed analysis of your local search performance' },
+  '/citation': { title: 'Citation Management', subtitle: 'Monitor and manage your business citations across directories' },
   '/analytics': { title: 'Analytics', subtitle: 'Comprehensive metrics and performance data for your business' },
   '/team': { title: 'Team', subtitle: 'Manage team members and their access permissions' },
   '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' },

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import { useAccountListings } from '../../hooks/useAccountListings';
@@ -79,6 +80,10 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'GEO Ranking', path: '/geo-ranking' },
     { title: 'Report', path: '/geo-ranking-report' }
+  ],
+  '/citation': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Citation Management', path: '/citation' }
   ],
   '/health': [
     { title: 'Dashboard', path: '/' },
