@@ -136,7 +136,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const isEnterprisePlan =
     profileData?.planName?.toLowerCase() === "enterprise";
   // console.log("plan exp or not .....", isPlanExpired);
-  // console.log("is enterprise plan .....", isEnterprisePlan);
+  const trialPlan =
+    profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
+    profileData?.planId?.toString() === "50";
+  console.log("is  plan .....", trialPlan);
   // console.log(
   //   "result of condition",
   //   !isPlanExpired && !collapsed && !isEnterprisePlan
@@ -223,7 +226,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       (window as any).CRISP_READY_TRIGGER = function () {
         const visitorEmail = (window as any).$crisp?.get("user:email");
         if (!visitorEmail) {
-          (window as any).$crisp.push(["set", "user:email", profileData?.username]);
+          (window as any).$crisp.push([
+            "set",
+            "user:email",
+            profileData?.username,
+          ]);
         }
       };
 
@@ -335,7 +342,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {!isPlanExpired &&
           !collapsed &&
           !isEnterprisePlan &&
-          !shouldHideForRole() && (
+          !shouldHideForRole() &&
+          trialPlan && (
             <div className="px-3 pb-4">
               <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
                 <CardContent className="p-4">
