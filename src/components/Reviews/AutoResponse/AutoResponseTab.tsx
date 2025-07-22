@@ -145,10 +145,9 @@ export const AutoResponseTab: React.FC = () => {
                 />
               ))}
             </div>
-          </TabsContent>
-        </Tabs>
-        
-        {/* Divider */}
+
+
+               {/* Divider */}
         <Separator className="my-6" />
         
         {/* Reply to Existing Reviews Option */}
@@ -165,6 +164,10 @@ export const AutoResponseTab: React.FC = () => {
             Reply to existing reviews (old review)
           </label>
         </div>
+          </TabsContent>
+        </Tabs>
+        
+     
       </div>
       )}
       
