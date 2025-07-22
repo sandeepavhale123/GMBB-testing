@@ -134,7 +134,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
               <label className="text-sm font-semibold text-foreground">Reply Text</label>
             </div>
-            <Textarea placeholder="Hi {full_name},  {responsetext} Thank You" className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none" rows={4} />
+            <Textarea placeholder="" className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none" rows={4} value="Hi {full_name},  {responsetext} Thank You" />
           </div>
 
         {/* Latest Review Section */}
