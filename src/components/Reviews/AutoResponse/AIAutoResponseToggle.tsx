@@ -105,7 +105,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                     id={`star-${star}`}
                     defaultChecked={true}
                   />
-                  <label htmlFor={`star-${star}`} className="text-sm text-gray-700 flex items-center gap-1">
+                  <label htmlFor={`star-${star}`} className="text-md text-gray-700 flex items-center gap-1">
                     {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </label>
                 </div>
@@ -116,7 +116,6 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           {/* AI Response Settings */}
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-gray-900">AI Response Settings</h4>
-            
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Checkbox
@@ -124,8 +123,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                   checked={settings.useReviewerName}
                   onCheckedChange={(checked) => handleSettingChange('useReviewerName', checked === true)}
                 />
-                <label htmlFor="use-reviewer-name" className="text-sm text-gray-700">
-                  Use reviewer's name in response
+                <label htmlFor="use-reviewer-name" className="text-md text-gray-700">
+                 Reply to existing reviews (old review)
                 </label>
               </div>
 
@@ -135,8 +134,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                   checked={settings.adaptTone}
                   onCheckedChange={(checked) => handleSettingChange('adaptTone', checked === true)}
                 />
-                <label htmlFor="adapt-tone" className="text-sm text-gray-700">
-                  Adapt tone based on review sentiment
+                <label htmlFor="adapt-tone" className="text-md text-gray-700">
+                 Enable Auto respond to Review
                 </label>
               </div>
 
@@ -146,24 +145,13 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                   checked={settings.referenceSpecificPoints}
                   onCheckedChange={(checked) => handleSettingChange('referenceSpecificPoints', checked === true)}
                 />
-                <label htmlFor="reference-points" className="text-sm text-gray-700">
-                  Reference specific points from review
-                </label>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="require-approval"
-                  checked={settings.requireApproval}
-                  onCheckedChange={(checked) => handleSettingChange('requireApproval', checked === true)}
-                />
-                <label htmlFor="require-approval" className="text-sm text-gray-700">
-                  Require approval before sending AI responses
+                <label htmlFor="reference-points" className="text-md text-gray-700">
+                  Disable Auto AI Reply
                 </label>
               </div>
             </div>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-md text-gray-500">
               When approval is enabled, AI-generated responses will be saved as drafts for your review before sending.
             </p>
           </div>
