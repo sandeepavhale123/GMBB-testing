@@ -93,9 +93,9 @@ export const AutoResponseTab: React.FC = () => {
         <h4 className="text-md font-medium text-gray-700">Reply for Rating Only</h4>
         <Carousel className="w-full">
           <CarouselContent className="-ml-2 md:-ml-4">
-            <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <TemplateCard starRating={0} template={getTemplateForRating(0)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} isRatingOnly={true} />
-            </CarouselItem>
+            {[1, 2, 3, 4, 5].map(rating => <CarouselItem key={`rating-only-${rating}`} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                <TemplateCard starRating={rating} template={getTemplateForRating(rating)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} isRatingOnly={true} />
+              </CarouselItem>)}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
