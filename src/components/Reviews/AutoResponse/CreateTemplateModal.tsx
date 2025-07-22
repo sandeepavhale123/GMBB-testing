@@ -39,20 +39,10 @@ export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-5xl max-h-[90vh] p-0 gap-0">
-        <DialogHeader className="p-6 pb-0">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-semibold text-gray-900">
-              Edit Template
-            </DialogTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-6 w-6 p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+        <DialogHeader className="px-6 py-4 border-b">
+          <DialogTitle className="text-xl font-semibold text-gray-900 text-center">
+            Edit Template
+          </DialogTitle>
         </DialogHeader>
         
         <div className="flex">
