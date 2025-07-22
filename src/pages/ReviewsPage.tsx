@@ -6,6 +6,7 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { ReviewsManagementPage } from '../components/Reviews/ReviewsManagementPage';
+import { ReviewsSubHeader } from '../components/Reviews/ReviewsSubHeader';
 import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { NoListingSelected } from '../components/ui/no-listing-selected';
@@ -115,8 +116,10 @@ const ReviewsPage = () => {
               showFilters={true}
             />
 
+          
+
             {/* Page Content */}
-            <main className="flex-1 overflow-auto">
+            <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
               <ReviewsManagementPage />
             </main>
           </div>
