@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Button } from '../../ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../ui/tabs';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
+import { Separator } from '../../ui/separator';
+import { Checkbox } from '../../ui/checkbox';
 import { Plus } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
 import { AIAutoResponseToggle } from './AIAutoResponseToggle';
@@ -22,6 +24,7 @@ export const AutoResponseTab: React.FC = () => {
   const [editingTemplate, setEditingTemplate] = useState<ReplyTemplate | null>(null);
   const [activeTab, setActiveTab] = useState("review");
   const [aiAutoResponseEnabled, setAiAutoResponseEnabled] = useState(false);
+  const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
 
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
@@ -148,6 +151,24 @@ export const AutoResponseTab: React.FC = () => {
             </div>
           </TabsContent>
         </Tabs>
+        
+        {/* Divider */}
+        <Separator className="my-6" />
+        
+        {/* Reply to Existing Reviews Option */}
+        <div className="flex items-center space-x-3">
+          <Checkbox 
+            id="reply-existing" 
+            checked={replyToExistingReviews}
+            onCheckedChange={(checked) => setReplyToExistingReviews(checked === true)}
+          />
+          <label 
+            htmlFor="reply-existing" 
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Reply to existing reviews (old review)
+          </label>
+        </div>
       </div>
       )}
       
