@@ -1,52 +1,41 @@
 import React, { useState } from "react";
 import { Download, Loader2, AlertCircle } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getInvoiceDetails, downloadInvoice } from "@/api/paymentHistoryApi";
 import { InvoiceDetails } from "@/types/paymentTypes";
 import { toast } from "@/hooks/use-toast";
-
 interface InvoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
   transactionId: string;
 }
-
 export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   isOpen,
   onClose,
-  transactionId,
+  transactionId
 }) => {
   const [invoiceDetails, setInvoiceDetails] = useState<InvoiceDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isUsingMockData, setIsUsingMockData] = useState(false);
-
   React.useEffect(() => {
     if (isOpen && transactionId) {
       fetchInvoiceDetails();
     }
   }, [isOpen, transactionId]);
-
   const fetchInvoiceDetails = async () => {
     try {
       setIsLoading(true);
       setError(null);
       setIsUsingMockData(false);
-      
       console.log("Fetching invoice details for:", transactionId);
       const details = await getInvoiceDetails(transactionId);
       console.log("Retrieved invoice details:", details);
-      
       setInvoiceDetails(details);
-      
+
       // Check if we're using mock data
       if (details.customer.name === "John Doe" && details.customer.email === "john.doe@example.com") {
         setIsUsingMockData(true);
@@ -54,17 +43,15 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
     } catch (error) {
       console.error("Failed to fetch invoice details:", error);
       setError("Failed to load invoice details. Please try again.");
-      
       toast({
         title: "Error",
         description: "Failed to load invoice details.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
@@ -77,81 +64,55 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
       toast({
         title: "Success",
-        description: isUsingMockData ? "Mock invoice downloaded for testing." : "Invoice downloaded successfully.",
+        description: isUsingMockData ? "Mock invoice downloaded for testing." : "Invoice downloaded successfully."
       });
     } catch (error) {
       console.error("Failed to download invoice:", error);
       toast({
         title: "Error",
         description: "Failed to download invoice. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsDownloading(false);
     }
   };
-
   const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric',
+      day: 'numeric'
     });
   };
-
   const formatAmount = (amount: number, currency: string): string => {
     return `$${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
   };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+  return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             Invoice Details
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDownload}
-              disabled={isDownloading || !invoiceDetails}
-            >
-              {isDownloading ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <Download className="w-4 h-4 mr-2" />
-              )}
+            <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading || !invoiceDetails}>
+              {isDownloading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Download className="w-4 h-4 mr-2" />}
               Download
             </Button>
           </DialogTitle>
         </DialogHeader>
 
-        {isUsingMockData && (
-          <Alert className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              This is mock data for development purposes. The invoice API is not currently available.
-            </AlertDescription>
-          </Alert>
-        )}
+        {isUsingMockData}
 
-        {isLoading ? (
-          <div className="flex items-center justify-center py-8">
+        {isLoading ? <div className="flex items-center justify-center py-8">
             <Loader2 className="w-6 h-6 animate-spin" />
             <span className="ml-2">Loading invoice details...</span>
-          </div>
-        ) : error ? (
-          <div className="text-center py-8">
+          </div> : error ? <div className="text-center py-8">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
             <p className="text-gray-600 mb-4">{error}</p>
             <Button onClick={fetchInvoiceDetails} variant="outline">
               Try Again
             </Button>
-          </div>
-        ) : invoiceDetails ? (
-          <div className="bg-white p-6 rounded-lg border">
+          </div> : invoiceDetails ? <div className="bg-white p-6 rounded-lg border">
             {/* Billed From Section */}
             <div className="mb-6">
               <div className="border-b-2 border-gray-300 pb-2 mb-4">
@@ -179,12 +140,8 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
               <div className="text-sm space-y-1">
                 <div className="font-semibold">{invoiceDetails.customer.name}</div>
                 <div>{invoiceDetails.customer.email}</div>
-                {invoiceDetails.customer.address && (
-                  <div>{invoiceDetails.customer.address}</div>
-                )}
-                {invoiceDetails.customer.city && invoiceDetails.customer.state && (
-                  <div>{invoiceDetails.customer.city}, {invoiceDetails.customer.state}</div>
-                )}
+                {invoiceDetails.customer.address && <div>{invoiceDetails.customer.address}</div>}
+                {invoiceDetails.customer.city && invoiceDetails.customer.state && <div>{invoiceDetails.customer.city}, {invoiceDetails.customer.state}</div>}
               </div>
             </div>
 
@@ -220,13 +177,9 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
               <div>Transaction ID: {invoiceDetails.transaction_id}</div>
               <div>Date: {formatDate(invoiceDetails.date)}</div>
             </div>
-          </div>
-        ) : (
-          <div className="text-center py-8 text-gray-500">
+          </div> : <div className="text-center py-8 text-gray-500">
             Failed to load invoice details.
-          </div>
-        )}
+          </div>}
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
