@@ -134,11 +134,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
               <label className="text-sm font-semibold text-foreground">Reply Text</label>
             </div>
-            <Textarea
-              placeholder="Hi {full_name}, this is ai response {responsetext} Thank You"
-              className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none"
-              rows={4}
-            />
+            <Textarea placeholder="Hi {full_name}, this is ai response {responsetext} Thank You" className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none" rows={4} />
           </div>
 
         {/* Latest Review Section */}
@@ -176,7 +172,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                       </div>
                       
                       {/* Review Message */}
-                      <div className="bg-muted/30 p-3 rounded-lg border-l-4 border-primary/50">
+                      <div className="bg-muted/30 p-3 rounded-lg">
                         <p className="text-sm text-foreground leading-relaxed italic">
                           "Great food and excellent service! Sarah was our server and she was fantastic. The pizza was delicious and came out quickly. Will definitely be back!"
                         </p>
@@ -247,13 +243,12 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                 </div>
               </div>
             </Card>
-
-            <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/50 dark:border-blue-800/50 rounded-lg p-3">
+             <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/50 dark:border-blue-800/50 rounded-lg p-3">
               <p className="text-sm text-blue-700 dark:text-blue-300">
                 💡 AI-generated responses will be saved as drafts for your review before sending when approval is enabled.
               </p>
             </div>
-          </div> */}
+           </div> */}
 
           
 
