@@ -19,6 +19,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 }) => {
   const [responseStyle, setResponseStyle] = useState('');
   const [additionalInstructions, setAdditionalInstructions] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
   const [settings, setSettings] = useState({
     useReviewerName: true,
     adaptTone: true,
@@ -28,6 +30,15 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
   const handleSettingChange = (key: string, value: boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleGenerateAIResponse = async () => {
+    setIsGenerating(true);
+    // Simulate AI response generation
+    setTimeout(() => {
+      setAiResponse("Thank you so much for your wonderful review, John! We're thrilled to hear that you enjoyed our pizza and that Sarah provided you with fantastic service. Your kind words mean the world to our team. We look forward to welcoming you back soon!");
+      setIsGenerating(false);
+    }, 2000);
   };
 
   return (
@@ -85,7 +96,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
             <Card className="bg-gray-500">
               <CardContent className="p-3">
-                <p className="text-xs text-white" style={{fontSise:18}}>
+                <p className="text-xs text-white" style={{fontSize:18}}>
                   <strong>NOTE:</strong> You can use the following variables in reply text:
                   <br />• {"{full_name}"}, {"{first_name}"}, {"{last_name}"} for reviewer information
                   <br />• {"{responsetext}"} for the reply text
@@ -180,9 +191,22 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                     <p className="text-xs text-gray-500 mt-1">- John D.</p>
                   </div>
                   
-                  <Button variant="outline" size="sm" className="w-full">
-                    Generate AI Response
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full" 
+                    onClick={handleGenerateAIResponse}
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? 'Generating...' : 'Generate AI Response'}
                   </Button>
+                  
+                  {aiResponse && (
+                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-xs text-green-600 font-medium mb-1">Generated AI Response:</p>
+                      <p className="text-sm text-gray-700">{aiResponse}</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
