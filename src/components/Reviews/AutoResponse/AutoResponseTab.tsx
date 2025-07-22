@@ -90,10 +90,7 @@ export const AutoResponseTab: React.FC = () => {
       {/* Auto Reply Toggle */}
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
 
-      {/* AI Auto Response Toggle */}
-      <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} />
-
-      {autoResponse.enabled && (
+       {autoResponse.enabled && (
       <div>
         {/* Header with Title, Tabs, and Create Button in single row */}
         <Tabs defaultValue="review" value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -153,6 +150,11 @@ export const AutoResponseTab: React.FC = () => {
         </Tabs>
       </div>
       )}
+      
+      {/* AI Auto Response Toggle */}
+      <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} />
+
+     
 
       {/* Create/Edit Template Modal */}
       <CreateTemplateModal 
