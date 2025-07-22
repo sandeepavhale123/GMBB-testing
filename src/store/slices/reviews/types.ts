@@ -8,6 +8,7 @@ import {
   GetReviewsRequest,
   SendReplyRequest 
 } from '../../../services/reviewService';
+import { AutoResponseSettings } from './templateTypes';
 
 export interface ReviewsState {
   // Summary state
@@ -36,6 +37,11 @@ export interface ReviewsState {
   // Refresh state
   refreshLoading: boolean;
   refreshError: string | null;
+  
+  // Auto Response state
+  autoResponse: AutoResponseSettings;
+  templateLoading: boolean;
+  templateError: string | null;
   
   // Filter state
   filter: string;

@@ -1,15 +1,17 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReviewSummary } from './ReviewSummary';
 import { ReviewsList } from './ReviewsList';
+import { AutoResponseTab } from './AutoResponse/AutoResponseTab';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 export const ReviewsManagementPage: React.FC = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
+  const [activeTab, setActiveTab] = useState('summary');
 
   // Show toast for API errors
   useEffect(() => {
@@ -19,7 +21,6 @@ export const ReviewsManagementPage: React.FC = () => {
         description: summaryError,
       });
       
-      // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearSummaryError());
       }, 5000);
@@ -35,7 +36,6 @@ export const ReviewsManagementPage: React.FC = () => {
         description: reviewsError,
       });
       
-      // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearReviewsError());
       }, 5000);
@@ -51,7 +51,6 @@ export const ReviewsManagementPage: React.FC = () => {
         description: replyError,
       });
       
-      // Clear error after showing toast
       const timer = setTimeout(() => {
         dispatch(clearReplyError());
       }, 5000);
@@ -62,8 +61,25 @@ export const ReviewsManagementPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <ReviewSummary />
-      <ReviewsList />
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsTrigger value="summary" className="flex items-center gap-2">
+            Review Summary
+          </TabsTrigger>
+          <TabsTrigger value="auto-response" className="flex items-center gap-2">
+            Auto Response
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="summary" className="space-y-6">
+          <ReviewSummary />
+          <ReviewsList />
+        </TabsContent>
+
+        <TabsContent value="auto-response" className="space-y-6">
+          <AutoResponseTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
