@@ -30,7 +30,7 @@ export const usePaymentHistory = () => {
       setIsLoading(true);
       console.log("Fetching payment history for page:", page);
       
-      const response = await getPaymentHistory(page, perPage);
+      const response: any = await getPaymentHistory(page, perPage);
       
       // Log the full response to debug API structure
       console.log("Payment history API response:", response);
