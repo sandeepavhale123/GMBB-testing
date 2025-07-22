@@ -7,15 +7,13 @@ import { Button } from '../../ui/button';
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Sparkles, Star } from 'lucide-react';
-
 interface AIAutoResponseToggleProps {
   enabled: boolean;
   onToggle: () => void;
 }
-
 export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   enabled,
-  onToggle,
+  onToggle
 }) => {
   const [responseStyle, setResponseStyle] = useState('');
   const [additionalInstructions, setAdditionalInstructions] = useState('');
@@ -25,13 +23,14 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
     useReviewerName: true,
     adaptTone: true,
     referenceSpecificPoints: false,
-    requireApproval: true,
+    requireApproval: true
   });
-
   const handleSettingChange = (key: string, value: boolean) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings(prev => ({
+      ...prev,
+      [key]: value
+    }));
   };
-
   const handleGenerateAIResponse = async () => {
     setIsGenerating(true);
     // Simulate AI response generation
@@ -40,9 +39,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
       setIsGenerating(false);
     }, 2000);
   };
-
-  return (
-    <div className="space-y-4">
+  return <div className="space-y-4">
       {/* Toggle Header */}
       <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
         <div className="flex items-center space-x-3">
@@ -61,16 +58,11 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             </p>
           </div>
         </div>
-        <Switch
-          checked={enabled}
-          onCheckedChange={onToggle}
-          className="data-[state=checked]:bg-purple-600"
-        />
+        <Switch checked={enabled} onCheckedChange={onToggle} className="data-[state=checked]:bg-purple-600" />
       </div>
 
       {/* Configuration Panel */}
-      {enabled && (
-        <div className="space-y-6 p-4 bg-white border border-gray-200 rounded-lg">
+      {enabled && <div className="space-y-6 p-4 bg-white border border-gray-200 rounded-lg">
           {/* AI Response Style */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-900">AI Response Style</label>
@@ -96,7 +88,9 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
             <Card className="bg-gray-500">
               <CardContent className="p-3">
-                <p className="text-xs text-white" style={{fontSize:18}}>
+                <p className="text-xs text-white" style={{
+              fontSize: 18
+            }}>
                   <strong>NOTE:</strong> You can use the following variables in reply text:
                   <br />• {"{full_name}"}, {"{first_name}"}, {"{last_name}"} for reviewer information
                   <br />• {"{responsetext}"} for the reply text
@@ -110,17 +104,12 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             <h4 className="text-sm font-medium text-gray-900">Apply For</h4>
             
             <div className="grid grid-cols-5 gap-3">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <div key={star} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`star-${star}`}
-                    defaultChecked={true}
-                  />
+              {[1, 2, 3, 4, 5].map(star => <div key={star} className="flex items-center space-x-2">
+                  <Checkbox id={`star-${star}`} defaultChecked={true} />
                   <label htmlFor={`star-${star}`} className="text-md text-gray-700 flex items-center gap-1">
                     {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                   </label>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
 
@@ -129,33 +118,21 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             <h4 className="text-sm font-medium text-gray-900">AI Response Settings</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="use-reviewer-name"
-                  checked={settings.useReviewerName}
-                  onCheckedChange={(checked) => handleSettingChange('useReviewerName', checked === true)}
-                />
+                <Checkbox id="use-reviewer-name" checked={settings.useReviewerName} onCheckedChange={checked => handleSettingChange('useReviewerName', checked === true)} />
                 <label htmlFor="use-reviewer-name" className="text-md text-gray-700">
                  Reply to existing reviews (old review)
                 </label>
               </div>
 
               <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="adapt-tone"
-                  checked={settings.adaptTone}
-                  onCheckedChange={(checked) => handleSettingChange('adaptTone', checked === true)}
-                />
+                <Checkbox id="adapt-tone" checked={settings.adaptTone} onCheckedChange={checked => handleSettingChange('adaptTone', checked === true)} />
                 <label htmlFor="adapt-tone" className="text-md text-gray-700">
                  Enable Auto respond to Review
                 </label>
               </div>
 
               <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="reference-points"
-                  checked={settings.referenceSpecificPoints}
-                  onCheckedChange={(checked) => handleSettingChange('referenceSpecificPoints', checked === true)}
-                />
+                <Checkbox id="reference-points" checked={settings.referenceSpecificPoints} onCheckedChange={checked => handleSettingChange('referenceSpecificPoints', checked === true)} />
                 <label htmlFor="reference-points" className="text-md text-gray-700">
                   Disable Auto AI Reply
                 </label>
@@ -181,9 +158,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Sample Review</p>
                     <div className="flex items-center gap-1 mb-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      ))}
+                      {[1, 2, 3, 4, 5].map(star => <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
                     </div>
                     <p className="text-sm text-gray-700">
                       "Great food and excellent service! Sarah was our server and she was fantastic. The pizza was delicious and came out quickly. Will definitely be back!"
@@ -191,43 +166,20 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                     <p className="text-xs text-gray-500 mt-1">- John D.</p>
                   </div>
                   
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full" 
-                    onClick={handleGenerateAIResponse}
-                    disabled={isGenerating}
-                  >
+                  <Button variant="outline" size="sm" className="w-full" onClick={handleGenerateAIResponse} disabled={isGenerating}>
                     {isGenerating ? 'Generating...' : 'Generate AI Response'}
                   </Button>
                   
-                  {aiResponse && (
-                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  {aiResponse && <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                       <p className="text-xs text-green-600 font-medium mb-1">Generated AI Response:</p>
                       <p className="text-sm text-gray-700">{aiResponse}</p>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
 
             {/* AI Performance */}
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <span className="text-sm font-medium text-gray-900">AI Performance</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-xs text-gray-600">
-                    <span className="font-medium">95%</span> response approval rate
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    Avg <span className="font-medium">4.8/5</span> helpfulness score
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            
           </div>
 
           {/* Save Button */}
@@ -236,8 +188,6 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               Save AI Setting
             </Button>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
