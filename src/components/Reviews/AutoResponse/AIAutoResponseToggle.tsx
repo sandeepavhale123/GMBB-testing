@@ -154,22 +154,25 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
               <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
             </div>
             
-            <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-5 gap-3">
               {[1, 2, 3, 4, 5].map(star => 
                 <Card 
                   key={star} 
-                  className={`p-3 hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105 border-border/60 ${selectedStarRating === star.toString() ? 'border-primary bg-primary/5' : ''}`}
-                  onClick={() => setSelectedStarRating(star.toString())}
+                  className="p-3 cursor-pointer border-border/60"
+                  onClick={() => {
+                    const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
+                    if (checkbox) checkbox.click();
+                  }}
                 >
                   <div className="flex items-center justify-between">
-                    <label className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
+                    <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
                       {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
                     </label>
-                    <RadioGroupItem value={star.toString()} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                    <Checkbox id={`star-${star}`} defaultChecked={true} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                   </div>
                 </Card>
               )}
-            </RadioGroup>
+            </div>
           </div>
 
           {/* AI Response Settings */}
