@@ -55,7 +55,7 @@ export const AutoResponseTab: React.FC = () => {
   return <div className="space-y-6">
       {/* Auto Reply Toggle */}
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
-
+   <div>
       {/* Header with Create Button */}
       <div className="flex items-center justify-between">
         <div>
@@ -83,6 +83,8 @@ export const AutoResponseTab: React.FC = () => {
           <CarouselNext />
         </Carousel>
       </div>
+
+    </div>
 
       {/* Create/Edit Template Modal */}
       <CreateTemplateModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveTemplate} isLoading={templateLoading} />
