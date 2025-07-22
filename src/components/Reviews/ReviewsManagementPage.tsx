@@ -8,7 +8,7 @@ import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
 
-export const ReviewsManagementPage: React.FC = () => {
+export const ReviewsManagementPage: React.FC = (activeTab) => {
   const [activeTab, setActiveTab] = useState('summary');
   const { toast } = useToast();
   const dispatch = useAppDispatch();
@@ -91,7 +91,7 @@ export const ReviewsManagementPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-full">
-      <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
+      {/* <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} /> */}
       <div className="flex-1 p-6">
         {renderTabContent()}
       </div>
