@@ -92,13 +92,13 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            Invoice Details
+          <div className="flex items-center justify-between">
+            <DialogTitle>Invoice Details</DialogTitle>
             <Button variant="outline" size="sm" onClick={handleDownload} disabled={isDownloading || !invoiceDetails}>
               {isDownloading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Download className="w-4 h-4 mr-2" />}
               Download
             </Button>
-          </DialogTitle>
+          </div>
         </DialogHeader>
 
         {isUsingMockData}
