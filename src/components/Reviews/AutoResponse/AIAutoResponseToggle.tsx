@@ -100,6 +100,25 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
             </Card>
           </div>
 
+          {/* Apply For Section */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-900">Apply For</h4>
+            
+            <div className="grid grid-cols-5 gap-3">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <div key={star} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`star-${star}`}
+                    defaultChecked={true}
+                  />
+                  <label htmlFor={`star-${star}`} className="text-sm text-gray-700 flex items-center gap-1">
+                    {star} <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* AI Response Settings */}
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-gray-900">AI Response Settings</h4>
