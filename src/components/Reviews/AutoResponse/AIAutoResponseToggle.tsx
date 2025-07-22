@@ -114,38 +114,19 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           </div>
 
           {/* Variables Info Card */}
-          <div className="space-y-3 group">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-              <label className="text-sm font-semibold text-foreground">Template Variables</label>
-            </div>
-            <Card className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20 hover:shadow-md transition-all duration-300">
-              <CardContent className="p-4">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-accent/20 rounded-lg">
-                    <Sparkles className="w-4 h-4 text-accent" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-foreground">Available Variables:</p>
-                    <div className="space-y-1 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <code className="px-2 py-1 bg-muted/50 rounded text-xs">{"{full_name}"}</code>
-                        <span>Complete reviewer name</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <code className="px-2 py-1 bg-muted/50 rounded text-xs">{"{first_name}"}</code>
-                        <span>First name only</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <code className="px-2 py-1 bg-muted/50 rounded text-xs">{"{last_name}"}</code>
-                        <span>Last name only</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <div className="rounded-2xl p-4 bg-blue-900 text-white">
+          <label className="block text-sm font-semibold text-gray-200 mb-1">Note:</label>
+          <p className="text-sm leading-relaxed">
+            You can use the following variables in your reply text to display the reviewer’s name:
+            <span className="font-medium text-white"> {"{full_name}"}, {"{first_name}"}, {"{last_name}"}</span>.
+            To insert the response content, use 
+            <span className="font-medium text-white"> {"{responcetext}"}</span>. 
+            Don’t forget to include it in your template.
+          </p>
+        </div>
+
+
+         
 
           {/* Reply Text Section */}
           <div className="space-y-3 group">
