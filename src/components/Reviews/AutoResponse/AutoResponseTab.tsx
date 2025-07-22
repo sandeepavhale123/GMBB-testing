@@ -75,23 +75,22 @@ export const AutoResponseTab: React.FC = () => {
       <div>
         {/* Header with Title, Tabs, and Create Button in single row */}
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-1">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
               <p className="text-sm text-gray-600">
                 Create personalized templates for different star ratings
               </p>
             </div>
-            
-            {/* Tabs Section */}
+          </div>
+
+           {/* Tabs Section */}
             <Tabs defaultValue="review" className="w-auto">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="review">Reply for Review</TabsTrigger>
                 <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
               </TabsList>
             </Tabs>
-          </div>
-          
           <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
             Create Template
