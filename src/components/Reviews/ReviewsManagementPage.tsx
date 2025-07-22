@@ -12,7 +12,7 @@ export const ReviewsManagementPage: React.FC = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
-  const [activeTab, setActiveTab] = useState('summary');
+  
 
   // Show toast for API errors
   useEffect(() => {
@@ -90,7 +90,7 @@ export const ReviewsManagementPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-full">
-      <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
+      
       <div className="flex-1 p-6">
         {renderTabContent()}
       </div>
