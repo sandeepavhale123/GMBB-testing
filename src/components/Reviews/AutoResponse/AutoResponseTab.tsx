@@ -152,18 +152,23 @@ export const AutoResponseTab: React.FC = () => {
         <Separator className="my-6" />
         
         {/* Reply to Existing Reviews Option */}
-        <div className="flex items-center space-x-3">
-          <Checkbox 
-            id="reply-existing" 
-            checked={replyToExistingReviews}
-            onCheckedChange={(checked) => setReplyToExistingReviews(checked === true)}
-          />
-          <label 
-            htmlFor="reply-existing" 
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Reply to existing reviews (old review)
-          </label>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Checkbox 
+              id="reply-existing" 
+              checked={replyToExistingReviews}
+              onCheckedChange={(checked) => setReplyToExistingReviews(checked === true)}
+            />
+            <label 
+              htmlFor="reply-existing" 
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Reply to existing reviews (old review)
+            </label>
+          </div>
+          <Button variant="default" size="sm">
+            Save Changes
+          </Button>
         </div>
       </div>
       )}
