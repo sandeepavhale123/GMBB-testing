@@ -160,17 +160,19 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
                       <span className="text-lg font-medium text-gray-600">JD</span>
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="text-sm font-medium text-gray-900">John Doe</h4>
-                        <span className="text-xs text-gray-500">2 hours ago</span>
-                      </div>
-                      
-                      {/* Rating */}
-                      <div className="flex items-center gap-1 mb-2">
-                        {[1, 2, 3, 4, 5].map(star => (
-                          <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        ))}
-                        <span className="text-sm text-gray-600 ml-1">5.0</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-medium text-gray-900">John Doe</h4>
+                          <span className="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        
+                        {/* Rating */}
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map(star => (
+                            <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <span className="text-sm text-gray-600 ml-1">5.0</span>
+                        </div>
                       </div>
                       
                       {/* Review Message */}
