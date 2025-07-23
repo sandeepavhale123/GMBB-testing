@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
@@ -26,7 +25,14 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [editContent, setEditContent] = useState('');
   const getDefaultContent = (rating: number): string => {
     if (isRatingOnly) {
-      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service. | Hi {first_name}, your ${rating}-star rating means a lot! Could you tell us more about your experience? | Hey {first_name}, thank you for the stars! A few words about your experience would really help us improve.`;
+      const ratingOnlyTemplates = {
+        5: `Hi {first_name}, thank you for taking the time to give us a 5-star rating! 🌟 We truly appreciate your support and are thrilled you chose us. | Hello {first_name}, your 5-star rating means the world to us! Thank you for being such an amazing customer. | Dear {first_name}, wow! A 5-star rating from you absolutely made our day! Thank you for your trust and support.`,
+        4: `Hi {first_name}, thank you for the 4-star rating! We're so glad you had a positive experience with us. Your feedback is valuable to us. | Hello {first_name}, we appreciate your 4-star rating! It's wonderful to know you had a great experience. Thank you for choosing us! | Dear {first_name}, your 4-star rating is greatly appreciated! We're happy we could provide you with a positive experience.`,
+        3: `Hi {first_name}, thank you for taking the time to give us a 3-star rating. We appreciate your feedback and are always working to improve. | Hello {first_name}, we're grateful for your 3-star rating. Your input helps us grow and serve you better. Thank you for your honesty! | Dear {first_name}, thank you for your 3-star rating. We value your feedback and are committed to continuous improvement.`,
+        2: `Hi {first_name}, thank you for your 2-star rating. We appreciate your feedback and would love to understand how we can better serve you. | Hello {first_name}, we're grateful you took the time to rate us, even with 2 stars. Your feedback helps us identify areas for improvement. | Dear {first_name}, thank you for your 2-star rating. We take all feedback seriously and are working to enhance our service.`,
+        1: `Hi {first_name}, thank you for taking the time to rate us. We sincerely apologize that your experience wasn't what you expected. We'd love to make it right. | Hello {first_name}, we appreciate your 1-star rating and want to address your concerns. Please give us a chance to improve your experience. | Dear {first_name}, your 1-star rating is concerning to us. We take full responsibility and would like to personally resolve any issues you encountered.`
+      };
+      return ratingOnlyTemplates[rating as keyof typeof ratingOnlyTemplates] || ratingOnlyTemplates[5];
     }
     
     const templates = {
