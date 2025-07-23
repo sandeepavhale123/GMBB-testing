@@ -250,7 +250,7 @@ const Onboarding = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col lg:ml-80 pt-20 sm:pt-24 lg:pt-0">
         {/* Back Button Header */}
-        {currentStep > 1 && currentStep < totalSteps && (
+        {currentStep > 1 && currentStep < 4 && (
           <div className="bg-white border-b px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4">
             <Button
               variant="outline"

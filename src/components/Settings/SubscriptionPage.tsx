@@ -397,36 +397,37 @@ export const SubscriptionPage: React.FC = () => {
       {/* Page Header */}
       <div className="mb-6 sm:mb-8 flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-            Subscription Plans
-          </h2>
+          <div className="flex gap-4 align-baseline mb-2">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+              Subscription Plans
+            </h2>
+            {/* Show expiration status if user has a plan */}
+            {activePlanId && planExpDate && (
+              <div
+                className={` p-3 rounded-lg ${
+                  isExpired
+                    ? "bg-red-50 border border-red-200"
+                    : "bg-green-50 border border-green-200"
+                }`}
+              >
+                <p
+                  className={`text-sm font-medium ${
+                    isExpired ? "text-red-800" : "text-green-800"
+                  }`}
+                >
+                  {isExpired
+                    ? `Your plan expired on ${formatDate(
+                        planExpDate
+                      )}. Please renew to continue accessing features.`
+                    : `Your plan is active until ${formatDate(planExpDate)}.`}
+                </p>
+              </div>
+            )}
+          </div>
           <p className="text-gray-600 text-sm sm:text-base">
             Choose the perfect plan for your business needs. Upgrade or
             downgrade at any time.
           </p>
-
-          {/* Show expiration status if user has a plan */}
-          {activePlanId && planExpDate && (
-            <div
-              className={`mt-4 p-3 rounded-lg ${
-                isExpired
-                  ? "bg-red-50 border border-red-200"
-                  : "bg-green-50 border border-green-200"
-              }`}
-            >
-              <p
-                className={`text-sm font-medium ${
-                  isExpired ? "text-red-800" : "text-green-800"
-                }`}
-              >
-                {isExpired
-                  ? `Your plan expired on ${formatDate(
-                      planExpDate
-                    )}. Please renew to continue accessing features.`
-                  : `Your plan is active until ${formatDate(planExpDate)}.`}
-              </p>
-            </div>
-          )}
         </div>
         {hasActivePlan() && !isExpired && (
           <Button

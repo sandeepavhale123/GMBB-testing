@@ -96,9 +96,25 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
   };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto p-0 px-6 py-2 pb-6">
+        <DialogHeader className="flex-row justify-between items-center">
           <DialogTitle>Invoice Details</DialogTitle>
+          {/* Download Button */}
+          <div className="flex justify-end me-5">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownload}
+              disabled={isDownloading || !paymentItem}
+            >
+              {isDownloading ? (
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              Download
+            </Button>
+          </div>
         </DialogHeader>
 
         {isLoading ? (
@@ -115,11 +131,9 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
           <div className="bg-white p-6 rounded-lg border">
             {/* Billed From Section */}
             <div className="mb-6">
-              <div className="border-b-2 border-gray-300 pb-2 mb-4">
-                <h3 className="text-center font-semibold text-gray-700">
-                  Billed From
-                </h3>
-              </div>
+              {/* <div className="border-b-2 border-gray-300 pb-2 mb-4"> */}
+              <h3 className="font-semibold text-gray-700">Billed From</h3>
+              {/* </div> */}
               <div className="text-sm space-y-1">
                 <div className="font-semibold">GMB Briefcase</div>
                 <div>sales@citationbuilderpro.com</div>
@@ -131,12 +145,12 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
             </div>
 
             {/* Billed To Section */}
-            <div className="mb-6">
-              <div className="border-b-2 border-gray-300 pb-2 mb-4">
-                <h3 className="text-center font-semibold text-gray-700">
-                  Billed To
-                </h3>
-              </div>
+            <div className="mb-6 text-right">
+              {/* <div className="border-b-2 border-gray-300 pb-2 mb-4"> */}
+              <h3 className="text-right font-semibold text-gray-700">
+                Billed To
+              </h3>
+              {/* </div> */}
               <div className="text-sm space-y-1">
                 <div className="font-semibold">{paymentItem.fullName}</div>
                 <div>{paymentItem.email}</div>
@@ -188,23 +202,6 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({
             Failed to load invoice details.
           </div>
         )}
-
-        {/* Download Button */}
-        <div className="flex justify-end mt-6">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownload}
-            disabled={isDownloading || !paymentItem}
-          >
-            {isDownloading ? (
-              <Loader2 className="w-4 h-4 animate-spin mr-2" />
-            ) : (
-              <Download className="w-4 h-4 mr-2" />
-            )}
-            Download
-          </Button>
-        </div>
       </DialogContent>
     </Dialog>
   );

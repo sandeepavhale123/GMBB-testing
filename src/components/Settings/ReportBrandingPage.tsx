@@ -27,6 +27,7 @@ import {
   type ReportBrandingFormData,
 } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
+import { formatToDayMonthYear } from "@/utils/dateUtils";
 
 export const ReportBrandingPage: React.FC = () => {
   const { toast } = useToast();
@@ -560,7 +561,7 @@ export const ReportBrandingPage: React.FC = () => {
                             Report Date
                           </p>
                           <p className="font-medium">
-                            {new Date().toLocaleDateString()}
+                            {formatToDayMonthYear(new Date())}
                           </p>
                         </div>
                       </div>
@@ -619,7 +620,7 @@ export const ReportBrandingPage: React.FC = () => {
                           </p>
                           <p className="flex items-center gap-1 justify-end mt-1">
                             <Calendar className="w-3 h-3" />
-                            Generated on {new Date().toLocaleDateString()}
+                            Generated on {formatToDayMonthYear(new Date())}
                           </p>
                         </div>
                       </div>
