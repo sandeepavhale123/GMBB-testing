@@ -21,6 +21,14 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   const [aiResponse, setAiResponse] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedStarRating, setSelectedStarRating] = useState('5');
+  const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
+
+{responsetext}
+
+Thank you for your valuable feedback!
+
+Best regards,
+[Your Business Name]`);
   const [settings, setSettings] = useState({
     useReviewerName: true,
     adaptTone: true,
@@ -136,9 +144,12 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
           <label className="text-sm font-semibold text-foreground">Reply Text</label>
         </div>
-        <Textarea placeholder=""
-          className="min-h-[100px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none"
-          rows={4} value="Hi {full_name},  {responsetext} Thank You" />
+        <Textarea 
+          placeholder="Enter your response template..."
+          className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none font-mono text-sm"
+          rows={6} 
+          value={replyTemplate}
+          onChange={(e) => setReplyTemplate(e.target.value)} />
       </div>
 
 
