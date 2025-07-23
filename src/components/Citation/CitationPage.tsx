@@ -1,28 +1,60 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Header } from "../Header";
+import { Sidebar } from "../Sidebar";
+import { Button } from "../ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Input } from "../ui/input";
+import { GooglePlacesInput } from "../ui/google-places-input";
+import { Label } from "../ui/label";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { PlaceOrderModal } from "./PlaceOrderModal";
+import {
+  useCreateCitationReport,
+  useGetCitationReport,
+  useRefreshCitationReport,
+} from "@/hooks/useCitation";
+import { useListingContext } from "@/context/ListingContext";
 
-import React, { useState } from 'react';
-import { Header } from '../Header';
-import { Sidebar } from '../Sidebar';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Input } from '../ui/input';
-import { GooglePlacesInput } from '../ui/google-places-input';
-import { Label } from '../ui/label';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
-import { PlaceOrderModal } from './PlaceOrderModal';
+type TrackerData = {
+  listed: number;
+  notListed: number;
+  listedPercent: number;
+  totalChecked: number;
+};
 
-const CitationTrackerCard = () => {
+const CitationTrackerCard = ({ trackerData }: { trackerData: TrackerData }) => {
+  const listed = trackerData?.listed || 0;
+  const notListed = trackerData?.notListed || 0;
+  const listedPercent = trackerData?.listedPercent || 0;
+
   const chartData = [
-    { name: 'Listed', value: 0, fill: 'hsl(var(--primary))' },
-    { name: 'Not Listed', value: 100, fill: 'hsl(var(--muted))' }
+    { name: "Listed", value: listed, fill: "hsl(var(--primary))" },
+    { name: "Not Listed", value: notListed, fill: "hsl(var(--muted))" },
   ];
 
   const CustomLegend = ({ payload }: any) => (
     <div className="flex flex-col gap-2 ml-4">
       {payload?.map((entry: any, index: number) => (
-        <div key={index} className="flex items-center gap-2 px-3 py-2 rounded text-sm" 
-             style={{ backgroundColor: entry.color + '20', color: entry.color }}>
+        <div
+          key={index}
+          className="flex items-center gap-2 px-3 py-2 rounded text-sm"
+          style={{ backgroundColor: entry.color + "20", color: entry.color }}
+        >
           <span>{entry.value}</span>
           <span className="font-semibold">{entry.payload.value}</span>
         </div>
@@ -56,19 +88,19 @@ const CitationTrackerCard = () => {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-sm text-muted-foreground">Not Listed</span>
-              <span className="text-lg font-semibold">100%</span>
+              <span className="text-sm text-muted-foreground">Listed</span>
+              <span className="text-lg font-semibold">{listedPercent}%</span>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-2 ml-4">
           <div className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded text-sm">
             <span>Listed</span>
-            <span className="font-semibold">0</span>
+            <span className="font-semibold">{listed}</span>
           </div>
           <div className="flex items-center gap-2 px-3 py-2 bg-muted text-muted-foreground rounded text-sm">
             <span>Not Listed</span>
-            <span className="font-semibold">100</span>
+            <span className="font-semibold">{notListed}</span>
           </div>
         </div>
       </CardContent>
@@ -84,16 +116,33 @@ const LocalPagesCard = () => (
       </div>
       <CardTitle className="text-lg">Local Pages & Directories</CardTitle>
       <CardDescription className="text-sm text-muted-foreground">
-        Your local page and directory score is based on the number of places in which your listing is present, divided by the number of local page and directories we've checked.
+        Your local page and directory score is based on the number of places in
+        which your listing is present, divided by the number of local page and
+        directories we've checked.
       </CardDescription>
     </CardHeader>
   </Card>
 );
 
 const existingCitationData = [
-  { website: "example1.com", businessName: "Business A", phone: "+1-234-567-8901", you: "Listed" },
-  { website: "example2.com", businessName: "Business B", phone: "+1-234-567-8902", you: "Listed" },
-  { website: "example3.com", businessName: "Business C", phone: "+1-234-567-8903", you: "Not Listed" },
+  {
+    website: "example1.com",
+    businessName: "Business A",
+    phone: "+1-234-567-8901",
+    you: "Listed",
+  },
+  {
+    website: "example2.com",
+    businessName: "Business B",
+    phone: "+1-234-567-8902",
+    you: "Listed",
+  },
+  {
+    website: "example3.com",
+    businessName: "Business C",
+    phone: "+1-234-567-8903",
+    you: "Not Listed",
+  },
 ];
 
 const possibleCitationData = [
@@ -109,10 +158,46 @@ export const CitationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [searchData, setSearchData] = useState({
-    businessName: '',
-    phone: '',
-    city: ''
+    businessName: "",
+    phone: "",
+    city: "",
   });
+  // Store the formatted address string instead of the complete place object
+  const selectedCityRef = useRef<string>("");
+  // const selectedPlaceRef = useRef<PlaceResult | null>(null);
+  const { selectedListing } = useListingContext();
+  const listingName = selectedListing?.name;
+  const { mutate: createCitationReport } = useCreateCitationReport();
+  const { data: citationReportData, refetch } = useGetCitationReport(
+    selectedListing?.id,
+    hasSearched
+  );
+  const { mutate: refreshReport, isLoading } = useRefreshCitationReport();
+  const citationData = citationReportData?.data;
+  const existingCitationData = citationData?.existingCitations || [];
+  const possibleCitationData = citationData?.possibleCitations || [];
+  const trackerData = citationData?.summary;
+
+  const handlePlaceSelect = (formattedAddress: string) => {
+    selectedCityRef.current = formattedAddress;
+    console.log("Selected city from Google:", formattedAddress);
+
+    // Update the city field in the form
+    setSearchData((prev) => ({
+      ...prev,
+      city: formattedAddress,
+    }));
+  };
+  useEffect(() => {
+    if (selectedListing?.name) {
+      setSearchData((prev) => ({
+        ...prev,
+        businessName: selectedListing.name,
+      }));
+      refetch();
+    }
+  }, [selectedListing]);
+  console.log("citation data", citationReportData);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -122,27 +207,55 @@ export const CitationPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const handleRefresh = () => {
+    refreshReport({ listingId: selectedListing?.id, isRefresh: "refresh" });
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setHasSearched(true);
+    const addressToUse = selectedCityRef.current || searchData.city;
+    console.log("Search payload:", {
+      businessName: searchData.businessName,
+      phone: searchData.phone,
+      city: addressToUse, // This is now the formatted_address string
+    });
+
+    const payload = {
+      listingId: selectedListing?.id || 0,
+      businessName: searchData.businessName,
+      phone: searchData.phone,
+      address: selectedCityRef.current,
+    };
+
+    createCitationReport(payload, {
+      onSuccess: () => {
+        setHasSearched(true);
+        refetch();
+        selectedCityRef.current = "";
+      },
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setSearchData(prev => ({ ...prev, [field]: value }));
+    setSearchData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <div className="min-h-screen flex w-full">
-      <Sidebar 
-        activeTab="citation" 
-        onTabChange={() => {}} 
-        collapsed={sidebarCollapsed} 
-        onToggleCollapse={toggleSidebar} 
+      <Sidebar
+        activeTab="citation"
+        onTabChange={() => {}}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={toggleSidebar}
       />
-      
-      <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          sidebarCollapsed ? "ml-16" : "ml-64"
+        }`}
+      >
         <Header onToggleSidebar={toggleSidebar} />
-        
+
         <div className="p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {!hasSearched ? (
@@ -150,13 +263,19 @@ export const CitationPage: React.FC = () => {
               <div className="flex items-center justify-center min-h-[60vh]">
                 <Card className="w-full max-w-md">
                   <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">Citation Audit Report</CardTitle>
+                    <CardTitle className="text-2xl">
+                      Citation Audit Report
+                    </CardTitle>
                     <CardDescription>
                       Enter your business details to start the citation audit
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleSearch} className="space-y-4">
+                    <form
+                      onSubmit={handleSearch}
+                      className="space-y-4"
+                      autoComplete="off"
+                    >
                       <div className="space-y-2">
                         <Label htmlFor="businessName">Business Name</Label>
                         <Input
@@ -164,11 +283,13 @@ export const CitationPage: React.FC = () => {
                           type="text"
                           placeholder="Enter business name"
                           value={searchData.businessName}
-                          onChange={(e) => handleInputChange('businessName', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("businessName", e.target.value)
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone</Label>
                         <Input
@@ -176,11 +297,14 @@ export const CitationPage: React.FC = () => {
                           type="tel"
                           placeholder="Enter phone number"
                           value={searchData.phone}
-                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("phone", e.target.value)
+                          }
+                          autoComplete="off"
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="city">City</Label>
                         <GooglePlacesInput
@@ -188,16 +312,15 @@ export const CitationPage: React.FC = () => {
                           type="text"
                           placeholder="Enter city name"
                           value={searchData.city}
-                          onChange={(e) => handleInputChange('city', e.target.value)}
-                          onPlaceSelect={(place) => {
-                            if (place.name) {
-                              handleInputChange('city', place.name);
-                            }
-                          }}
+                          onChange={(e) =>
+                            handleInputChange("city", e.target.value)
+                          }
+                          onPlaceSelect={handlePlaceSelect}
                           required
+                          autoComplete="off"
                         />
                       </div>
-                      
+
                       <Button type="submit" className="w-full" size="lg">
                         Search
                       </Button>
@@ -211,17 +334,25 @@ export const CitationPage: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <h1 className="text-2xl font-bold text-foreground">Citation Management</h1>
-                    <p className="text-muted-foreground">Monitor and manage your business citations across directories</p>
+                    <h1 className="text-2xl font-bold text-foreground">
+                      Citation Management
+                    </h1>
+                    <p className="text-muted-foreground">
+                      Monitor and manage your business citations across
+                      directories
+                    </p>
                   </div>
-                  <Button variant="outline" onClick={() => setHasSearched(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setHasSearched(false)}
+                  >
                     New Search
                   </Button>
                 </div>
 
                 {/* Two Cards Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <CitationTrackerCard />
+                  <CitationTrackerCard trackerData={trackerData} />
                   <LocalPagesCard />
                 </div>
 
@@ -238,10 +369,14 @@ export const CitationPage: React.FC = () => {
                   <CardContent>
                     <Tabs defaultValue="existing" className="w-full">
                       <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
-                        <TabsTrigger value="existing">Existing Citation (10)</TabsTrigger>
-                        <TabsTrigger value="possible">Possible Citation (50)</TabsTrigger>
+                        <TabsTrigger value="existing">
+                          Existing Citation ({citationData?.existingCitation})
+                        </TabsTrigger>
+                        <TabsTrigger value="possible">
+                          Possible Citation (50)
+                        </TabsTrigger>
                       </TabsList>
-                      
+
                       <TabsContent value="existing" className="mt-6">
                         <Table>
                           <TableHeader>
@@ -255,15 +390,19 @@ export const CitationPage: React.FC = () => {
                           <TableBody>
                             {existingCitationData.map((row, index) => (
                               <TableRow key={index}>
-                                <TableCell className="font-medium">{row.website}</TableCell>
+                                <TableCell className="font-medium">
+                                  {row.website}
+                                </TableCell>
                                 <TableCell>{row.businessName}</TableCell>
                                 <TableCell>{row.phone}</TableCell>
                                 <TableCell>
-                                  <span className={`px-2 py-1 rounded text-xs ${
-                                    row.you === 'Listed' 
-                                      ? 'bg-green-100 text-green-800' 
-                                      : 'bg-red-100 text-red-800'
-                                  }`}>
+                                  <span
+                                    className={`px-2 py-1 rounded text-xs ${
+                                      row.you === "Listed"
+                                        ? "bg-green-100 text-green-800"
+                                        : "bg-red-100 text-red-800"
+                                    }`}
+                                  >
                                     {row.you}
                                   </span>
                                 </TableCell>
@@ -272,7 +411,7 @@ export const CitationPage: React.FC = () => {
                           </TableBody>
                         </Table>
                       </TabsContent>
-                      
+
                       <TabsContent value="possible" className="mt-6">
                         <Table>
                           <TableHeader>
@@ -284,7 +423,9 @@ export const CitationPage: React.FC = () => {
                           <TableBody>
                             {possibleCitationData.map((row, index) => (
                               <TableRow key={index}>
-                                <TableCell className="font-medium">{row.siteName}</TableCell>
+                                <TableCell className="font-medium">
+                                  {row.siteName}
+                                </TableCell>
                                 <TableCell className="text-right">
                                   <Button variant="outline" size="sm">
                                     {row.action}
@@ -304,9 +445,9 @@ export const CitationPage: React.FC = () => {
         </div>
       </div>
 
-      <PlaceOrderModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <PlaceOrderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );
