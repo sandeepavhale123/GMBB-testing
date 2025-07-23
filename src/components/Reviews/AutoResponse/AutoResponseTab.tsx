@@ -5,7 +5,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../ui/tabs';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
 import { Separator } from '../../ui/separator';
 import { Checkbox } from '../../ui/checkbox';
-import { Plus } from 'lucide-react';
+import { Card } from '../../ui/card';
+import { Switch } from '../../ui/switch';
+import { Label } from '../../ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
+import { Plus, Info, Ban } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
 import { AIAutoResponseToggle } from './AIAutoResponseToggle';
 import { TemplateCard } from './TemplateCard';
@@ -25,23 +29,37 @@ export const AutoResponseTab: React.FC = () => {
   const [activeTab, setActiveTab] = useState("review");
   const [aiAutoResponseEnabled, setAiAutoResponseEnabled] = useState(false);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
+  const [noResponseMode, setNoResponseMode] = useState(false);
 
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
-      // Enabling auto response, disable AI auto response
+      // Enabling auto response, disable AI auto response and no response mode
       setAiAutoResponseEnabled(false);
+      setNoResponseMode(false);
     }
     dispatch(toggleAutoResponse());
   };
 
   const handleToggleAIAutoResponse = () => {
     if (!aiAutoResponseEnabled) {
-      // Enabling AI auto response, disable auto response if it's enabled
+      // Enabling AI auto response, disable auto response and no response mode
       if (autoResponse.enabled) {
         dispatch(toggleAutoResponse());
       }
+      setNoResponseMode(false);
     }
     setAiAutoResponseEnabled(!aiAutoResponseEnabled);
+  };
+
+  const handleToggleNoResponseMode = () => {
+    if (!noResponseMode) {
+      // Enabling no response mode, disable both auto response and AI auto response
+      if (autoResponse.enabled) {
+        dispatch(toggleAutoResponse());
+      }
+      setAiAutoResponseEnabled(false);
+    }
+    setNoResponseMode(!noResponseMode);
   };
 
   const handleCreateTemplate = (starRating: number) => {
@@ -94,25 +112,32 @@ export const AutoResponseTab: React.FC = () => {
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
 
        {autoResponse.enabled && (
-      <div>
+      <Card className="bg-white p-6">
         {/* Header with Title, Tabs, and Create Button in single row */}
         <Tabs defaultValue="review" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-6 flex-1">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
-                <p className="text-sm text-gray-600">
-                  Create personalized templates for different star ratings
-                </p>
-              </div>
-            </div>
-
-             {/* Tabs Section */}
-              <TabsList className="grid w-full grid-cols-2 w-auto mr-2" style={{marginRight:10}}>
-                <TabsTrigger value="review">Reply for Review</TabsTrigger>
-                <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
-              </TabsList>
+         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
+          {/* ✨ Changed to flex-col on small screens and row on lg+ */}
+        
+          {/* Left Section */}
+          <div className="flex-1">
+            {/* ✨ Removed unnecessary nested flex containers */}
+            <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
+            <p className="text-sm text-gray-600">
+              Create personalized templates for different star ratings
+            </p>
           </div>
+        
+          {/* Right Section */}
+          <div className="w-full sm:w-auto">
+            {/* ✨ Ensures full width on mobile, auto on sm and up */}
+            <TabsList className="grid grid-cols-2 gap-2 sm:gap-4">
+              {/* ✨ Removed conflicting w-full and w-auto, added gap for spacing */}
+              <TabsTrigger value="review">Reply for Review</TabsTrigger>
+              <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
+
 
           {/* Reply for Review Tab Content */}
           <TabsContent value="review" className="space-y-4">
@@ -170,13 +195,43 @@ export const AutoResponseTab: React.FC = () => {
             Save Changes
           </Button>
         </div>
-      </div>
+      </Card>
       )}
       
       {/* AI Auto Response Toggle */}
       <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} />
 
-     
+      {/* No Response Mode Toggle */}
+      <TooltipProvider>
+        <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Ban className="w-5 h-5 text-red-600" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Label className="text-base font-medium text-gray-900">
+                Do not respond to review in manual or automated way
+              </Label>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    Sometimes your clients don't allow marketing agencies to respond to reviews. 
+                    In that case this label helps you to identify such listings.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+          <Switch 
+            checked={noResponseMode} 
+            onCheckedChange={handleToggleNoResponseMode} 
+            className="data-[state=checked]:bg-red-600" 
+          />
+        </div>
+      </TooltipProvider>
 
       {/* Create/Edit Template Modal */}
       <CreateTemplateModal 

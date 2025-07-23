@@ -15,6 +15,7 @@ import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
 import { RouteConfig } from "../routeConfig";
 import HealthPage from "@/pages/HealthPage";
+import KeywordsPage from "@/pages/KeywordsPage";
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes
@@ -60,6 +61,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <InsightsPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Keywords routes
+  {
+    path: "/keywords",
+    element: <Navigate to="/keywords/default" replace />,
+  },
+  {
+    path: "/keywords/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <KeywordsPage />
         </ListingProvider>
       </ProtectedRoute>
     ),
