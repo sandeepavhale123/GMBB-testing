@@ -38,21 +38,6 @@ export const useGetCitationReport = (
     queryFn: () => getCitationReport({ listingId: listingId! }),
     enabled: enabled && !!listingId,
     staleTime: 1000 * 60 * 5,
-    onSuccess: (data) => {
-      console.log("data of api response", data);
-      if (data?.message) {
-        toast({
-          title: "Success",
-          description: data.message,
-        });
-      }
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to fetch citation report.",
-      });
-    },
   });
 };
 

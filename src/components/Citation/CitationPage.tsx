@@ -142,7 +142,7 @@ export const CitationPage: React.FC = () => {
     selectedListing?.id,
     hasSearched
   );
-  const { mutate: refreshReport, isLoading } = useRefreshCitationReport();
+  const { mutate: refreshReport, isPending } = useRefreshCitationReport();
   const citationData = citationReportData?.data;
   const existingCitationData = citationData?.existingCitations || [];
   const possibleCitationData = citationData?.possibleCitations || [];
