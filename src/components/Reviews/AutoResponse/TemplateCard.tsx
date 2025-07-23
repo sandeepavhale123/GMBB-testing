@@ -101,7 +101,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
               <div className="flex">{renderStars(starRating)}</div>
             </DialogTitle>
           </DialogHeader>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {/* Left Panel - Variables Info */}
             <div className="space-y-4">
               <div>
