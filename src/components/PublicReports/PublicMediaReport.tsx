@@ -121,6 +121,7 @@ export const PublicMediaReport: React.FC = () => {
       listingName={mediaReport?.data.locationName}
       logo={mediaReport?.data.companyLogo}
       address={mediaReport?.data.address}
+      date={new Date().toISOString()}
       visibleSections={visibleSections}
       token={reportId}
     >

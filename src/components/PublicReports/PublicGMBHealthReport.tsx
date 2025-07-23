@@ -60,7 +60,7 @@ export const PublicGMBHealthReport: React.FC = () => {
       toast({
         title: "Error Loading Report",
         description:
-          error?.response?.data?.message ||
+          (error as any)?.response?.data?.message ||
           error.message ||
           "Failed to load the performance report. Please try again.",
         variant: "destructive",

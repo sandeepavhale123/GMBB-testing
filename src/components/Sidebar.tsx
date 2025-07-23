@@ -19,6 +19,7 @@ import {
   MessageCircleQuestion,
   FileBarChart,
   Bot,
+  BookOpen,
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
@@ -79,6 +80,12 @@ const menuItems = [
     label: "GEO Ranking",
     icon: MapPin,
     path: "/geo-ranking",
+  },
+  {
+    id: "citation",
+    label: "Citation",
+    icon: BookOpen,
+    path: "/citation",
   },
   {
     id: "reports",
@@ -199,6 +206,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       "/qa",
       "/reports",
       "/business-info",
+      "/citation",
     ];
 
     if (listingRoutes.includes(basePath) && listingId) {
