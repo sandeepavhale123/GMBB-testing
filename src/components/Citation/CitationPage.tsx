@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Input } from "../ui/input";
-import { GooglePlacesInput } from "../ui/google-places-input";
+import { GooglePlacesInput, GooglePlacesInputRef } from "../ui/google-places-input";
 import { Label } from "../ui/label";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { PlaceOrderModal } from "./PlaceOrderModal";
@@ -135,6 +135,7 @@ export const CitationPage: React.FC = () => {
     city: "",
   });
   
+  const cityInputRef = useRef<GooglePlacesInputRef>(null);
   const { selectedListing } = useListingContext();
   const listingName = selectedListing?.name;
   const { mutate: createCitationReport } = useCreateCitationReport();
@@ -150,14 +151,10 @@ export const CitationPage: React.FC = () => {
 
   const handlePlaceSelect = (formattedAddress: string) => {
     console.log("handlePlaceSelect - Selected city from Google:", formattedAddress);
-    setSearchData((prev) => {
-      const newData = {
-        ...prev,
-        city: formattedAddress,
-      };
-      console.log("handlePlaceSelect - Updated searchData:", newData);
-      return newData;
-    });
+    setSearchData((prev) => ({
+      ...prev,
+      city: formattedAddress,
+    }));
   };
 
   useEffect(() => {
@@ -186,18 +183,18 @@ export const CitationPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Get the actual value from the city input ref
+    const cityValue = cityInputRef.current?.getValue() || searchData.city;
+    
     console.log("handleSearch - Current searchData state:", searchData);
-    console.log("handleSearch - Search payload before API call:", {
-      businessName: searchData.businessName,
-      phone: searchData.phone,
-      city: searchData.city,
-    });
+    console.log("handleSearch - City input value:", cityValue);
 
     const payload = {
       listingId: selectedListing?.id || 0,
       businessName: searchData.businessName,
       phone: searchData.phone,
-      address: searchData.city,
+      address: cityValue,
     };
 
     console.log("handleSearch - Final API payload:", payload);
@@ -212,11 +209,10 @@ export const CitationPage: React.FC = () => {
 
   const handleInputChange = (field: string, value: string) => {
     console.log(`handleInputChange - ${field}:`, value);
-    setSearchData((prev) => {
-      const newData = { ...prev, [field]: value };
-      console.log("handleInputChange - Updated searchData:", newData);
-      return newData;
-    });
+    setSearchData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -292,11 +288,12 @@ export const CitationPage: React.FC = () => {
                       <div className="space-y-2">
                         <Label htmlFor="city">City</Label>
                         <GooglePlacesInput
+                          ref={cityInputRef}
                           id="city"
                           name="city"
                           type="text"
                           placeholder="Enter city name"
-                          value={searchData.city}
+                          defaultValue={searchData.city}
                           onChange={handleCityInputChange}
                           onPlaceSelect={handlePlaceSelect}
                           required

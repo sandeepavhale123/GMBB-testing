@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle } from "react";
 import { Input } from "./input";
 import { cn } from "@/lib/utils";
 
@@ -9,21 +9,42 @@ interface PlaceResult {
   geometry?: any;
 }
 
-interface GooglePlacesInputProps extends React.ComponentProps<"input"> {
+interface GooglePlacesInputProps extends Omit<React.ComponentProps<"input">, 'value'> {
   onPlaceSelect?: (formattedAddress: string) => void;
+  defaultValue?: string;
+}
+
+export interface GooglePlacesInputRef {
+  getValue: () => string;
+  setValue: (value: string) => void;
+  focus: () => void;
 }
 
 export const GooglePlacesInput = React.forwardRef<
-  HTMLInputElement,
+  GooglePlacesInputRef,
   GooglePlacesInputProps
->(({ className, onPlaceSelect, onChange, ...props }, ref) => {
+>(({ className, onPlaceSelect, onChange, defaultValue, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
-  const [isSelectingPlace, setIsSelectingPlace] = useState(false);
+  const [isGooglePlacesActive, setIsGooglePlacesActive] = useState(false);
+  const lastSelectedValue = useRef<string>("");
+
+  useImperativeHandle(ref, () => ({
+    getValue: () => inputRef.current?.value || "",
+    setValue: (value: string) => {
+      if (inputRef.current) {
+        inputRef.current.value = value;
+        lastSelectedValue.current = value;
+      }
+    },
+    focus: () => inputRef.current?.focus(),
+  }));
 
   useEffect(() => {
     const initAutocomplete = () => {
       if (inputRef.current && (window as any).google?.maps?.places) {
+        setIsGooglePlacesActive(true);
+        
         autocompleteRef.current = new (
           window as any
         ).google.maps.places.Autocomplete(inputRef.current, {
@@ -38,25 +59,20 @@ export const GooglePlacesInput = React.forwardRef<
           if (place && place.formatted_address) {
             console.log("Google Places - formatted_address:", place.formatted_address);
             
-            // Set flag to prevent onChange conflicts
-            setIsSelectingPlace(true);
+            // Store the selected value
+            lastSelectedValue.current = place.formatted_address;
             
-            // Update the input value programmatically
+            // Update the input value directly
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
               console.log("Google Places - input value updated to:", inputRef.current.value);
             }
             
-            // Call the onPlaceSelect callback with the formatted address (primary update method)
+            // Call the onPlaceSelect callback
             if (onPlaceSelect) {
               console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
             }
-            
-            // Reset the flag after a short delay to allow the component to update
-            setTimeout(() => {
-              setIsSelectingPlace(false);
-            }, 100);
           } else {
             console.log("Google Places - no place or formatted_address found");
           }
@@ -87,28 +103,20 @@ export const GooglePlacesInput = React.forwardRef<
   }, [onPlaceSelect]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only call onChange if we're not in the middle of selecting a place
-    if (!isSelectingPlace && onChange) {
+    // Only call onChange if we're not dealing with a Google Places selection
+    if (onChange && e.target.value !== lastSelectedValue.current) {
       console.log("GooglePlacesInput - onChange called with:", e.target.value);
       onChange(e);
-    } else if (isSelectingPlace) {
-      console.log("GooglePlacesInput - onChange blocked during place selection");
     }
   };
 
   return (
     <Input
       {...props}
-      ref={(node) => {
-        inputRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      }}
+      ref={inputRef}
       className={cn(className)}
       onChange={handleChange}
+      defaultValue={defaultValue}
     />
   );
 });
