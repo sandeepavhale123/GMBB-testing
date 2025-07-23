@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
-import { Plus, X, Search, ChevronRight } from 'lucide-react';
+import { Plus, X, Search, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[]) => void;
@@ -69,10 +69,20 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   return <div className="bg-background p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-2 text-lg font-medium text-foreground mb-8">
-          <Search className="h-5 w-5 text-primary" />
-          Describe what your clients are searching for
-          <span className="ml-auto text-sm text-primary font-normal">Advanced</span>
+        <div className="flex items-center justify-between text-lg font-medium text-foreground mb-8">
+          <div className="flex items-center gap-2">
+            <Search className="h-5 w-5 text-primary" />
+            Add keyword
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
         </div>
 
         {/* Search Input */}

@@ -78,7 +78,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/keywords/:id/add': [
     { title: 'Keywords', path: '/keywords' },
-    { title: 'Add Keywords', path: '' }
+    { title: 'Add keyword', path: '' }
   ],
   '/geo-ranking': [
     { title: 'Dashboard', path: '/' },
@@ -144,6 +144,10 @@ export const PageBreadcrumb: React.FC = () => {
           return '/settings/team-members';
         }
         return `/settings/${segments[2]}`;
+      }
+      // Handle special case for keywords/add route
+      if (segments[1] === 'keywords' && segments[3] === 'add') {
+        return '/keywords/:id/add';
       }
       return `/${segments[1]}`;
     }

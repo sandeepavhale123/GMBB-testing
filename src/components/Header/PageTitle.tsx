@@ -14,6 +14,8 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/settings': { title: 'Settings', subtitle: 'Configure your account preferences and integrations' },
   '/settings/listings': { title: 'Manage Listings', subtitle: 'Monitor and manage your Google Business Profile listings' },
   '/insights': { title: 'Insights', subtitle: 'Review performance insights to improve your local visibility' },
+  '/keywords': { title: 'Keywords', subtitle: 'Track keyword ranking by geographic location' },
+  '/keywords/add': { title: 'Add keyword', subtitle: 'Keywords' },
   '/geo-ranking': { title: 'GEO Ranking', subtitle: 'Track keyword ranking by geographic location' },
   '/geo-ranking-report': { title: 'GEO Ranking Report', subtitle: 'Detailed analysis of your local search performance' },
   '/citation': { title: 'Citation Management', subtitle: 'Monitor and manage your business citations across directories' },
@@ -40,6 +42,10 @@ export const PageTitle: React.FC = () => {
       // Handle special case for settings/team-members/edit route
       if (segments[1] === 'settings' && segments[2] === 'team-members' && segments[3] === 'edit') {
         return '/settings/team-members/edit';
+      }
+      // Handle special case for keywords/add route
+      if (segments[1] === 'keywords' && segments[3] === 'add') {
+        return '/keywords/add';
       }
       return `/${segments[1]}`;
     }
