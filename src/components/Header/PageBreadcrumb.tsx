@@ -73,6 +73,7 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Insights', path: '/insights' }
   ],
   '/keywords/:id': [
+    { title: 'Dashboard', path: '/' },
     { title: 'Keywords', path: '/keywords' },
     { title: 'Keyword Tracking', path: '' }
   ],
@@ -149,6 +150,10 @@ export const PageBreadcrumb: React.FC = () => {
       // Handle special case for keywords/add route
       if (segments[1] === 'keywords' && segments[3] === 'add') {
         return '/keywords/:id/add';
+      }
+      // Handle special case for keywords/:id route
+      if (segments[1] === 'keywords' && segments[2] && !segments[3]) {
+        return '/keywords/:id';
       }
       return `/${segments[1]}`;
     }
