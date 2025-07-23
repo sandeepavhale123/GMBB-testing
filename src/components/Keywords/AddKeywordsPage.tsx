@@ -110,9 +110,18 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             </Badge>
           ))}
           {keywords.length > 0 && (
-            <span className="text-sm text-muted-foreground ml-auto">
-              {keywords.length}/5
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                {keywords.length}/5
+              </span>
+              <Button
+                onClick={handleCheckPosition}
+                size="sm"
+                className="h-8 px-4"
+              >
+                Check Current Rank
+              </Button>
+            </div>
           )}
         </div>
 
