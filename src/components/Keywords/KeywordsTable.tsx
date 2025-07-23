@@ -99,8 +99,8 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                         #{keyword.ranking}
                       </span>
                     ) : (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
-                        Not ranked
+                      <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                        20+
                       </span>
                     )}
                   </TableCell>
