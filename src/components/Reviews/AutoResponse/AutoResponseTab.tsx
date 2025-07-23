@@ -49,6 +49,17 @@ export const AutoResponseTab: React.FC = () => {
     setAiAutoResponseEnabled(!aiAutoResponseEnabled);
   };
 
+  const handleToggleNoResponseMode = () => {
+    if (!noResponseMode) {
+      // Enabling no response mode, disable both auto response and AI auto response
+      if (autoResponse.enabled) {
+        dispatch(toggleAutoResponse());
+      }
+      setAiAutoResponseEnabled(false);
+    }
+    setNoResponseMode(!noResponseMode);
+  };
+
   const handleCreateTemplate = (starRating: number) => {
     setIsModalOpen(true);
   };
@@ -214,7 +225,7 @@ export const AutoResponseTab: React.FC = () => {
           </div>
           <Switch 
             checked={noResponseMode} 
-            onCheckedChange={setNoResponseMode} 
+            onCheckedChange={handleToggleNoResponseMode} 
             className="data-[state=checked]:bg-red-600" 
           />
         </div>
