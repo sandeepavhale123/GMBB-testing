@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../ui/tabs';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
 import { Separator } from '../../ui/separator';
 import { Checkbox } from '../../ui/checkbox';
+import { Card } from '../../ui/card';
 import { Plus } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
 import { AIAutoResponseToggle } from './AIAutoResponseToggle';
@@ -94,7 +95,7 @@ export const AutoResponseTab: React.FC = () => {
       <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
 
        {autoResponse.enabled && (
-      <div>
+      <Card className="bg-white p-6">
         {/* Header with Title, Tabs, and Create Button in single row */}
         <Tabs defaultValue="review" value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex items-center justify-between mb-6">
@@ -170,7 +171,7 @@ export const AutoResponseTab: React.FC = () => {
             Save Changes
           </Button>
         </div>
-      </div>
+      </Card>
       )}
       
       {/* AI Auto Response Toggle */}
