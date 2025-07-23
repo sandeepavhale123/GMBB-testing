@@ -51,7 +51,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-medium text-gray-900">AI Auto Response</h3>
-              <Badge variant="secondary" className="bg-purple-600 text-white">
+              <Badge variant="secondary" className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black">
                 AI Powered
               </Badge>
             </div>
