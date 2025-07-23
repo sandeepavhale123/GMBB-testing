@@ -6,6 +6,8 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { PlaceOrderModal } from './PlaceOrderModal';
 
@@ -104,6 +106,12 @@ const possibleCitationData = [
 export const CitationPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [searchData, setSearchData] = useState({
+    businessName: '',
+    phone: '',
+    city: ''
+  });
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -111,6 +119,15 @@ export const CitationPage: React.FC = () => {
 
   const handlePlaceOrder = () => {
     setIsModalOpen(true);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setHasSearched(true);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setSearchData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -127,93 +144,156 @@ export const CitationPage: React.FC = () => {
         
         <div className="p-6">
           <div className="max-w-7xl mx-auto space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">Citation Management</h1>
-                <p className="text-muted-foreground">Monitor and manage your business citations across directories</p>
+            {!hasSearched ? (
+              // Search Form Screen
+              <div className="flex items-center justify-center min-h-[60vh]">
+                <Card className="w-full max-w-md">
+                  <CardHeader className="text-center">
+                    <CardTitle className="text-2xl">Citation Audit Report</CardTitle>
+                    <CardDescription>
+                      Enter your business details to start the citation audit
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSearch} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="businessName">Business Name</Label>
+                        <Input
+                          id="businessName"
+                          type="text"
+                          placeholder="Enter business name"
+                          value={searchData.businessName}
+                          onChange={(e) => handleInputChange('businessName', e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="Enter phone number"
+                          value={searchData.phone}
+                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="city">City</Label>
+                        <Input
+                          id="city"
+                          type="text"
+                          placeholder="Enter city name"
+                          value={searchData.city}
+                          onChange={(e) => handleInputChange('city', e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full" size="lg">
+                        Search
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
               </div>
-            </div>
-
-            {/* Two Cards Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <CitationTrackerCard />
-              <LocalPagesCard />
-            </div>
-
-            {/* Citation Audit Card */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>Citation Audit</CardTitle>
+            ) : (
+              // Citation Management Content
+              <>
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-2xl font-bold text-foreground">Citation Management</h1>
+                    <p className="text-muted-foreground">Monitor and manage your business citations across directories</p>
+                  </div>
+                  <Button variant="outline" onClick={() => setHasSearched(false)}>
+                    New Search
+                  </Button>
                 </div>
-                <Button variant="default" onClick={handlePlaceOrder}>
-                  Place Order
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="existing" className="w-full">
-                  <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
-                    <TabsTrigger value="existing">Existing Citation (10)</TabsTrigger>
-                    <TabsTrigger value="possible">Possible Citation (50)</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="existing" className="mt-6">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Website</TableHead>
-                          <TableHead>Business Name</TableHead>
-                          <TableHead>Phone</TableHead>
-                          <TableHead>You</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {existingCitationData.map((row, index) => (
-                          <TableRow key={index}>
-                            <TableCell className="font-medium">{row.website}</TableCell>
-                            <TableCell>{row.businessName}</TableCell>
-                            <TableCell>{row.phone}</TableCell>
-                            <TableCell>
-                              <span className={`px-2 py-1 rounded text-xs ${
-                                row.you === 'Listed' 
-                                  ? 'bg-green-100 text-green-800' 
-                                  : 'bg-red-100 text-red-800'
-                              }`}>
-                                {row.you}
-                              </span>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TabsContent>
-                  
-                  <TabsContent value="possible" className="mt-6">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Site Name</TableHead>
-                          <TableHead>Action</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {possibleCitationData.map((row, index) => (
-                          <TableRow key={index}>
-                            <TableCell className="font-medium">{row.siteName}</TableCell>
-                            <TableCell className="text-right">
-                              <Button variant="outline" size="sm">
-                                {row.action}
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
+
+                {/* Two Cards Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <CitationTrackerCard />
+                  <LocalPagesCard />
+                </div>
+
+                {/* Citation Audit Card */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                      <CardTitle>Citation Audit</CardTitle>
+                    </div>
+                    <Button variant="default" onClick={handlePlaceOrder}>
+                      Place Order
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <Tabs defaultValue="existing" className="w-full">
+                      <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+                        <TabsTrigger value="existing">Existing Citation (10)</TabsTrigger>
+                        <TabsTrigger value="possible">Possible Citation (50)</TabsTrigger>
+                      </TabsList>
+                      
+                      <TabsContent value="existing" className="mt-6">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Website</TableHead>
+                              <TableHead>Business Name</TableHead>
+                              <TableHead>Phone</TableHead>
+                              <TableHead>You</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {existingCitationData.map((row, index) => (
+                              <TableRow key={index}>
+                                <TableCell className="font-medium">{row.website}</TableCell>
+                                <TableCell>{row.businessName}</TableCell>
+                                <TableCell>{row.phone}</TableCell>
+                                <TableCell>
+                                  <span className={`px-2 py-1 rounded text-xs ${
+                                    row.you === 'Listed' 
+                                      ? 'bg-green-100 text-green-800' 
+                                      : 'bg-red-100 text-red-800'
+                                  }`}>
+                                    {row.you}
+                                  </span>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TabsContent>
+                      
+                      <TabsContent value="possible" className="mt-6">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Site Name</TableHead>
+                              <TableHead>Action</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {possibleCitationData.map((row, index) => (
+                              <TableRow key={index}>
+                                <TableCell className="font-medium">{row.siteName}</TableCell>
+                                <TableCell className="text-right">
+                                  <Button variant="outline" size="sm">
+                                    {row.action}
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              </>
+            )}
           </div>
         </div>
       </div>
