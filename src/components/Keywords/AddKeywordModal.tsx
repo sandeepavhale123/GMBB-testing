@@ -21,7 +21,7 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
 
   const handleAddKeyword = () => {
     const trimmedKeyword = keywordInput.trim();
-    if (trimmedKeyword && !keywords.includes(trimmedKeyword)) {
+    if (trimmedKeyword && !keywords.includes(trimmedKeyword) && keywords.length < 5) {
       setKeywords(prev => [...prev, trimmedKeyword]);
       setKeywordInput('');
     }
@@ -64,16 +64,17 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
           {/* Keyword Input Section */}
           <div className="flex gap-2">
             <Input
-              placeholder="Enter keyword"
+              placeholder={keywords.length >= 5 ? "Maximum 5 keywords allowed" : "Enter keyword"}
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
               onKeyPress={handleKeyPress}
               className="flex-1"
+              disabled={keywords.length >= 5}
             />
             <Button 
               onClick={handleAddKeyword}
               size="sm"
-              disabled={!keywordInput.trim()}
+              disabled={!keywordInput.trim() || keywords.length >= 5}
             >
               <Plus className="h-4 w-4 mr-1" />
               Add
