@@ -36,7 +36,15 @@ interface SidebarProps {
   onToggleCollapse: () => void;
 }
 
-const menuItems = [
+interface MenuItem {
+  id: string;
+  label: string;
+  icon: any;
+  path: string | null;
+  subItems?: MenuItem[];
+}
+
+const menuItems: MenuItem[] = [
   {
     id: "overview",
     label: "Overview",
@@ -184,8 +192,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     });
   };
 
-  // Determine active tab based on current path (no side effects)
-  const getActiveTab = () => {
+  // Memoized function to determine active tab based on current path
+  const activeTab = React.useMemo(() => {
     const currentPath = location.pathname;
     const pathParts = currentPath.split("/");
     const baseRoute = pathParts[1];
@@ -203,7 +211,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
     // Check sub-menu items
     for (const item of menuItems) {
-      if (item.subItems) {
+      if (item.subItems && Array.isArray(item.subItems)) {
         const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
         if (activeSubItem) {
           return activeSubItem.id;
@@ -212,9 +220,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
 
     return "overview";
-  };
-
-  const activeTab = getActiveTab();
+  }, [location.pathname]);
 
   // Effect to auto-expand parent menu when sub-item is active
   React.useEffect(() => {
@@ -405,7 +411,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           if (!collapsed) {
                             toggleSubMenu(item.id);
                           }
-                        } else {
+                        } else if (item.path) {
                           handleTabChange(item.id, item.path);
                         }
                       }}
