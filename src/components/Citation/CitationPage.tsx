@@ -94,11 +94,11 @@ const existingCitationData = [
 ];
 
 const possibleCitationData = [
-  { siteName: "Directory A", action: "Submit" },
-  { siteName: "Directory B", action: "Submit" },
-  { siteName: "Directory C", action: "Submit" },
-  { siteName: "Directory D", action: "Submit" },
-  { siteName: "Directory E", action: "Submit" },
+  { siteName: "Directory A", action: "Fix" },
+  { siteName: "Directory B", action: "Fix" },
+  { siteName: "Directory C", action: "Fix" },
+  { siteName: "Directory D", action: "Fix" },
+  { siteName: "Directory E", action: "Fix" },
 ];
 
 export const CitationPage: React.FC = () => {
@@ -201,7 +201,7 @@ export const CitationPage: React.FC = () => {
                         {possibleCitationData.map((row, index) => (
                           <TableRow key={index}>
                             <TableCell className="font-medium">{row.siteName}</TableCell>
-                            <TableCell>
+                            <TableCell className="text-right">
                               <Button variant="outline" size="sm">
                                 {row.action}
                               </Button>
