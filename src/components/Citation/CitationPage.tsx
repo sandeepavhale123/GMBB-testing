@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Header } from '../Header';
 import { Sidebar } from '../Sidebar';
@@ -5,56 +6,72 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { PlaceOrderModal } from './PlaceOrderModal';
 
-const CitationTrackerCard = () => (
-  <Card className="h-full">
-    <CardHeader>
-      <CardTitle className="text-lg">Citation Tracker</CardTitle>
-    </CardHeader>
-    <CardContent className="flex items-center justify-between">
-      <div className="flex-1">
-        <div className="relative w-32 h-32 mx-auto">
-          {/* Donut Chart */}
-          <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
-            <circle
-              cx="60"
-              cy="60"
-              r="40"
-              stroke="hsl(var(--primary))"
-              strokeWidth="16"
-              fill="none"
-              strokeDasharray="251.2"
-              strokeDashoffset="0"
-              className="opacity-90"
-            />
-            <circle
-              cx="60"
-              cy="60"
-              r="25"
-              fill="white"
-              stroke="hsl(var(--border))"
-              strokeWidth="1"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-sm text-muted-foreground">Not Listed</span>
-            <span className="text-lg font-semibold">100%</span>
+const CitationTrackerCard = () => {
+  const chartData = [
+    { name: 'Listed', value: 0, fill: 'hsl(var(--primary))' },
+    { name: 'Not Listed', value: 100, fill: 'hsl(var(--muted))' }
+  ];
+
+  const CustomLegend = ({ payload }: any) => (
+    <div className="flex flex-col gap-2 ml-4">
+      {payload?.map((entry: any, index: number) => (
+        <div key={index} className="flex items-center gap-2 px-3 py-2 rounded text-sm" 
+             style={{ backgroundColor: entry.color + '20', color: entry.color }}>
+          <span>{entry.value}</span>
+          <span className="font-semibold">{entry.payload.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle className="text-lg">Citation Tracker</CardTitle>
+      </CardHeader>
+      <CardContent className="flex items-center justify-between">
+        <div className="flex-1">
+          <div className="relative w-32 h-32 mx-auto">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={64}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-sm text-muted-foreground">Not Listed</span>
+              <span className="text-lg font-semibold">100%</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-2 ml-4">
-        <div className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded text-sm">
-          <span>Listed</span>
-          <span className="font-semibold">0</span>
+        <div className="flex flex-col gap-2 ml-4">
+          <div className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded text-sm">
+            <span>Listed</span>
+            <span className="font-semibold">0</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 bg-muted text-muted-foreground rounded text-sm">
+            <span>Not Listed</span>
+            <span className="font-semibold">100</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 px-3 py-2 bg-blue-200 text-blue-800 rounded text-sm">
-          <span>Not Listed</span>
-          <span className="font-semibold">100</span>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};
 
 const LocalPagesCard = () => (
   <Card className="h-full">
@@ -86,9 +103,14 @@ const possibleCitationData = [
 
 export const CitationPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
+  };
+
+  const handlePlaceOrder = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -125,11 +147,13 @@ export const CitationPage: React.FC = () => {
                 <div>
                   <CardTitle>Citation Audit</CardTitle>
                 </div>
-                <Button variant="default">Place Order</Button>
+                <Button variant="default" onClick={handlePlaceOrder}>
+                  Place Order
+                </Button>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="existing" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
+                  <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
                     <TabsTrigger value="existing">Existing Citation (10)</TabsTrigger>
                     <TabsTrigger value="possible">Possible Citation (50)</TabsTrigger>
                   </TabsList>
@@ -193,6 +217,11 @@ export const CitationPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <PlaceOrderModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 };
