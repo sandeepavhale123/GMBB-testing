@@ -110,7 +110,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             </Badge>
           ))}
           {keywords.length > 0 && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between gap-3">
               <span className="text-sm text-muted-foreground">
                 {keywords.length}/5
               </span>
