@@ -94,17 +94,6 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           </Button>
         </div>
 
-        {/* Submit Button */}
-        {keywords.length > 0 && (
-          <div className="mb-6">
-            <Button 
-              onClick={handleCheckPosition}
-              className="h-12 px-6"
-            >
-              Add Keywords
-            </Button>
-          </div>
-        )}
 
         {/* Added Keywords */}
         <div className="flex items-center gap-3 mb-6">
