@@ -95,10 +95,19 @@ export const usePaymentHistory = () => {
       }
 
       // Check if it's a network error or API not implemented
-      const errorMessage =
-        error instanceof Error
-          ? error?.response?.data?.message || error.message
-          : "Unknown error";
+      const errorMessage = (() => {
+        if (error instanceof Error) {
+          // Check if it's an Axios error with response property
+          if ('response' in error && error.response && typeof error.response === 'object' && error.response !== null) {
+            const response = error.response as any;
+            if (response.data?.message) {
+              return response.data.message;
+            }
+          }
+          return error.message;
+        }
+        return "Unknown error";
+      })();
 
       if (errorMessage.includes("404") || errorMessage.includes("Not Found")) {
         toast({
