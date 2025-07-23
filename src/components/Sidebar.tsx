@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  Sidebar,
+  Sidebar as SidebarPrimitive,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -46,6 +46,45 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
+// Legacy Sidebar props interface for backward compatibility
+interface LegacySidebarProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  collapsed: boolean;
+  onToggleCollapse: () => void;
+}
+
+// Legacy Sidebar component for backward compatibility
+export const Sidebar: React.FC<LegacySidebarProps> = ({ 
+  activeTab, 
+  onTabChange, 
+  collapsed, 
+  onToggleCollapse 
+}) => {
+  // Simple placeholder implementation
+  // This maintains backward compatibility while we transition to the new sidebar
+  return (
+    <div className={`${collapsed ? 'w-16' : 'w-64'} h-full bg-white shadow-sm border-r transition-all duration-300`}>
+      <div className="p-4">
+        <div className="text-sm font-medium text-gray-900">
+          LocalSync {collapsed ? '' : 'Legacy Sidebar'}
+        </div>
+        <div className="text-xs text-gray-500 mt-1">
+          Active: {activeTab}
+        </div>
+      </div>
+      <div className="px-4 py-2">
+        <button 
+          onClick={onToggleCollapse}
+          className="text-xs text-blue-600 hover:text-blue-800"
+        >
+          {collapsed ? 'Expand' : 'Collapse'}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export function AppSidebar() {
   const location = useLocation();
@@ -174,7 +213,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar variant="inset">
+    <SidebarPrimitive variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -307,6 +346,6 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-    </Sidebar>
+    </SidebarPrimitive>
   );
 }
