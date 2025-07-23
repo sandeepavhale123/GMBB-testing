@@ -240,7 +240,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
       </Card>
     </div>
   </div>
-  <!-- right panel  -->
+  {/* right panel */}
   {/* Save Button */}
   <div className="flex justify-end pt-4 border-t border-border/30">
     <Button
