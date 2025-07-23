@@ -6,7 +6,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Separator } from '../../ui/separator';
 import { Checkbox } from '../../ui/checkbox';
 import { Card } from '../../ui/card';
-import { Plus } from 'lucide-react';
+import { Switch } from '../../ui/switch';
+import { Label } from '../../ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
+import { Plus, Info, Ban } from 'lucide-react';
 import { AutoReplyToggle } from './AutoReplyToggle';
 import { AIAutoResponseToggle } from './AIAutoResponseToggle';
 import { TemplateCard } from './TemplateCard';
@@ -26,6 +29,7 @@ export const AutoResponseTab: React.FC = () => {
   const [activeTab, setActiveTab] = useState("review");
   const [aiAutoResponseEnabled, setAiAutoResponseEnabled] = useState(false);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
+  const [noResponseMode, setNoResponseMode] = useState(false);
 
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
@@ -184,7 +188,37 @@ export const AutoResponseTab: React.FC = () => {
       {/* AI Auto Response Toggle */}
       <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} />
 
-     
+      {/* No Response Mode Toggle */}
+      <TooltipProvider>
+        <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Ban className="w-5 h-5 text-red-600" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Label className="text-base font-medium text-gray-900">
+                Do not respond to review in manual or automated way
+              </Label>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    Sometimes your clients don't allow marketing agencies to respond to reviews. 
+                    In that case this label helps you to identify such listings.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+          <Switch 
+            checked={noResponseMode} 
+            onCheckedChange={setNoResponseMode} 
+            className="data-[state=checked]:bg-red-600" 
+          />
+        </div>
+      </TooltipProvider>
 
       {/* Create/Edit Template Modal */}
       <CreateTemplateModal 
