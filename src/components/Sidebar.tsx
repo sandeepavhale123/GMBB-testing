@@ -97,7 +97,7 @@ const menuItems: MenuItem[] = [
         id: "keywords",
         label: "Keywords",
         icon: Search,
-        path: "/geo-ranking",
+        path: "/keywords",
       },
       {
         id: "geo-ranking",
@@ -272,6 +272,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       "/posts",
       "/media",
       "/insights",
+      "/keywords",
       "/geo-ranking",
       "/ai-chatbot",
       "/reviews",
