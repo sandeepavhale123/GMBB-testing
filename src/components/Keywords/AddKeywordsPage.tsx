@@ -89,7 +89,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
         {/* Added Keywords */}
         <div className="flex items-center gap-3 mb-6 justify-between">
-          <div className="flex">
+          <div className="flex gap-2 ">
             {keywords.map((keyword, index) => <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1.5 text-sm">
               {keyword}
               <button onClick={() => handleRemoveKeyword(keyword)} className="hover:bg-muted rounded-full p-0.5 transition-colors" aria-label={`Remove ${keyword}`}>
