@@ -231,7 +231,7 @@ export const CitationPage: React.FC = () => {
                     <div>
                       <CardTitle>Citation Audit</CardTitle>
                     </div>
-                    <Button variant="default" onClick={handlePlaceOrder}> className="d-none"
+                    <Button variant="default" onClick={handlePlaceOrder}  className="d-none" >
                       Place Order
                     </Button>
                   </CardHeader>
