@@ -88,11 +88,25 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
                 {keywords.map((keyword, index) => (
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
                     {keyword}
+                    <button
+                      onClick={() => handleRemoveKeyword(keyword)}
+                      className="ml-1 hover:bg-gray-300 rounded-full p-0.5 transition-colors"
+                      aria-label={`Remove ${keyword}`}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
                   </Badge>
                 ))}
               </div>
             </div>
           )}
+
+          {/* Info Text */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-sm text-blue-800">
+              <span className="font-medium">What happens next:</span> We'll check the ranking position of these keywords across different geographic locations to show you where your business appears in local search results.
+            </p>
+          </div>
         </div>
 
         <DialogFooter className="flex justify-between sm:justify-between">
