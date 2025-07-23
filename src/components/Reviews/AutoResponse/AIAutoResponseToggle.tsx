@@ -79,7 +79,7 @@ Best regards,
   <div className="grid sm:grid-1 lg:grid-cols-2">
     <div className="p-4">
       {/* AI Response Style */}
-      <div className="space-y-3 group">
+      <div className="space-y-3 group mb-4">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
           <label className="text-sm font-semibold text-foreground">AI Response Style</label>
@@ -127,7 +127,7 @@ Best regards,
         </p>
       </div>
       {/* Variables Info Card */}
-      <div className="rounded-2xl p-4 bg-blue-900 text-white">
+      <div className="rounded-2xl p-4 bg-blue-900 text-white mb-4">
         <label className="block text-sm font-semibold text-gray-200 mb-1">Note:</label>
         <p className="text-sm leading-relaxed">
           You can use the following variables in your reply text to display the reviewer’s name:
@@ -139,7 +139,7 @@ Best regards,
       </div>
 
       {/* Reply Text Section */}
-      <div className="space-y-3 group">
+      <div className="space-y-3 group mb-4">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
           <label className="text-sm font-semibold text-foreground">Reply Text</label>
