@@ -33,18 +33,20 @@ export const AutoResponseTab: React.FC = () => {
 
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
-      // Enabling auto response, disable AI auto response
+      // Enabling auto response, disable AI auto response and no response mode
       setAiAutoResponseEnabled(false);
+      setNoResponseMode(false);
     }
     dispatch(toggleAutoResponse());
   };
 
   const handleToggleAIAutoResponse = () => {
     if (!aiAutoResponseEnabled) {
-      // Enabling AI auto response, disable auto response if it's enabled
+      // Enabling AI auto response, disable auto response and no response mode
       if (autoResponse.enabled) {
         dispatch(toggleAutoResponse());
       }
+      setNoResponseMode(false);
     }
     setAiAutoResponseEnabled(!aiAutoResponseEnabled);
   };
