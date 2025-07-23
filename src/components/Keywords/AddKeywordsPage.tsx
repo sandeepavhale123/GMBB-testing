@@ -63,7 +63,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="bg-background p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-2 text-lg font-medium text-foreground mb-8">
@@ -90,7 +90,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             disabled={keywords.length === 0}
             className="h-12 px-6"
           >
-            Check current position
+            Add Keywords
           </Button>
         </div>
 
@@ -115,16 +115,6 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           )}
         </div>
 
-        {/* Info Section */}
-        <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg mb-8 cursor-pointer hover:bg-muted/70 transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-              <span className="text-sm font-medium text-primary">i</span>
-            </div>
-            <span className="text-sm font-medium">How to add effective keywords</span>
-          </div>
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-        </div>
 
         {/* Recommended Keywords */}
         <div>
@@ -139,13 +129,15 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <span className="text-sm text-muted-foreground">~ {item.searches.toLocaleString()} searches</span>
-                    {item.localPack && (
-                      <div className="flex items-center gap-1 mt-1">
-                        <div className="w-2 h-2 rounded-full bg-primary"></div>
-                        <span className="text-xs text-primary">Local pack</span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                      <span>~ {item.searches.toLocaleString()} searches</span>
+                      {item.localPack && (
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 rounded-full bg-primary"></div>
+                          <span className="text-primary">Local pack</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <Button
                     onClick={() => handleAddRecommended(item.keyword)}

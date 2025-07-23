@@ -72,6 +72,14 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'Insights', path: '/insights' }
   ],
+  '/keywords/:id': [
+    { title: 'Keywords', path: '/keywords' },
+    { title: 'Keyword Tracking', path: '' }
+  ],
+  '/keywords/:id/add': [
+    { title: 'Keywords', path: '/keywords' },
+    { title: 'Add Keywords', path: '' }
+  ],
   '/geo-ranking': [
     { title: 'Dashboard', path: '/' },
     { title: 'GEO Ranking', path: '/geo-ranking' }

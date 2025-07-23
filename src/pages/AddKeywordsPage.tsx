@@ -101,7 +101,51 @@ const AddKeywordsPage = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <AddKeywords onAddKeywords={handleAddKeywords} />
+        <div className="min-h-screen bg-gray-50 flex w-full">
+          {/* Mobile Navigation Sheet */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetContent side="left" className="p-0 w-64">
+              <Sidebar
+                activeTab="keywords"
+                onTabChange={() => {}}
+                collapsed={false}
+                onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+              />
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Sidebar */}
+          <div className="hidden md:flex">
+            <Sidebar
+              activeTab="keywords"
+              onTabChange={() => {}}
+              collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
+          </div>
+
+          {/* Main Content */}
+          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+          }`}>
+            {/* Header */}
+            <Header
+              onToggleSidebar={() => {
+                if (window.innerWidth < 768) {
+                  setMobileMenuOpen(true);
+                } else {
+                  setSidebarCollapsed(!sidebarCollapsed);
+                }
+              }}
+              showFilters={false}
+            />
+
+            {/* Page Content */}
+            <main className="flex-1 overflow-auto">
+              <AddKeywords onAddKeywords={handleAddKeywords} />
+            </main>
+          </div>
+        </div>
         <Toaster />
       </ThemeProvider>
     </Provider>
