@@ -32,7 +32,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
   const handleAddKeyword = () => {
     const trimmedKeyword = keywordInput.trim();
-    if (trimmedKeyword && !keywords.includes(trimmedKeyword) && keywords.length < 7) {
+    if (trimmedKeyword && !keywords.includes(trimmedKeyword) && keywords.length < 5) {
       setKeywords(prev => [...prev, trimmedKeyword]);
       setKeywordInput('');
     }
@@ -50,7 +50,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
 
   const handleAddRecommended = (keyword: string) => {
-    if (!keywords.includes(keyword) && keywords.length < 7) {
+    if (!keywords.includes(keyword) && keywords.length < 5) {
       setKeywords(prev => [...prev, keyword]);
     }
   };
@@ -82,12 +82,12 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               onChange={(e) => setKeywordInput(e.target.value)}
               onKeyPress={handleKeyPress}
               className="pl-10 h-12"
-              disabled={keywords.length >= 7}
+              disabled={keywords.length >= 5}
             />
           </div>
           <Button 
             onClick={handleAddKeyword}
-            disabled={!keywordInput.trim() || keywords.length >= 7}
+            disabled={!keywordInput.trim() || keywords.length >= 5}
             className="h-12 px-6"
           >
             Add Keyword
@@ -111,7 +111,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           ))}
           {keywords.length > 0 && (
             <span className="text-sm text-muted-foreground ml-auto">
-              {keywords.length}/7
+              {keywords.length}/5
             </span>
           )}
         </div>
@@ -144,7 +144,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                     onClick={() => handleAddRecommended(item.keyword)}
                     size="sm"
                     variant="outline"
-                    disabled={keywords.includes(item.keyword) || keywords.length >= 7}
+                    disabled={keywords.includes(item.keyword) || keywords.length >= 5}
                     className="w-8 h-8 p-0"
                   >
                     <Plus className="h-4 w-4" />
