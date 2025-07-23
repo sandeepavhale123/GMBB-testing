@@ -151,10 +151,14 @@ export const CitationPage: React.FC = () => {
   const handlePlaceSelect = (formattedAddress: string) => {
     console.log("Selected city from Google:", formattedAddress);
     // Update the city field in the form state
-    setSearchData((prev) => ({
-      ...prev,
-      city: formattedAddress,
-    }));
+    setSearchData((prev) => {
+      const newData = {
+        ...prev,
+        city: formattedAddress,
+      };
+      console.log("Updated searchData:", newData);
+      return newData;
+    });
   };
 
   useEffect(() => {
@@ -183,7 +187,7 @@ export const CitationPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search payload:", {
+    console.log("Search payload before API call:", {
       businessName: searchData.businessName,
       phone: searchData.phone,
       city: searchData.city,
@@ -195,6 +199,8 @@ export const CitationPage: React.FC = () => {
       phone: searchData.phone,
       address: searchData.city,
     };
+
+    console.log("Final API payload:", payload);
 
     createCitationReport(payload, {
       onSuccess: () => {
