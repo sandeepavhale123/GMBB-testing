@@ -168,7 +168,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
       </div>
 
       {/* AI Response Settings */}
-    </div className="p-4">
+    </div>
+    <div className="p-4">
     {/* Latest Review Section */}
     <div className="space-y-4 group">
       <div className="flex items-center gap-2">
@@ -239,8 +240,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
         </CardContent>
       </Card>
     </div>
+    </div>
   </div>
-  {/* right panel */}
   {/* Save Button */}
   <div className="flex justify-end pt-4 border-t border-border/30">
     <Button
