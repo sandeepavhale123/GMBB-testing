@@ -10,6 +10,7 @@ import { Input } from '../ui/input';
 import { GooglePlacesInput } from '../ui/google-places-input';
 import { Label } from '../ui/label';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { FileSearch } from 'lucide-react';
 import { PlaceOrderModal } from './PlaceOrderModal';
 
 const CitationTrackerCard = () => {
@@ -80,7 +81,7 @@ const LocalPagesCard = () => (
   <Card className="h-full">
     <CardHeader className="text-center">
       <div className="mx-auto mb-4 w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-        <div className="w-8 h-8 bg-primary/20 rounded"></div>
+        <FileSearch className="w-8 h-8 text-primary" />
       </div>
       <CardTitle className="text-lg">Local Pages & Directories</CardTitle>
       <CardDescription className="text-sm text-muted-foreground">
