@@ -45,6 +45,10 @@ export const KeywordsPage: React.FC = () => {
     setKeywords(prev => [...prev, ...newKeywordObjects]);
   };
 
+  const handleDeleteKeyword = (keywordId: string) => {
+    setKeywords(prev => prev.filter(keyword => keyword.id !== keywordId));
+  };
+
   const handleExport = (format: 'csv' | 'json') => {
     if (format === 'csv') {
       const csvContent = [
@@ -97,6 +101,7 @@ export const KeywordsPage: React.FC = () => {
       <KeywordsTable 
         keywords={keywords}
         onExport={handleExport}
+        onDeleteKeyword={handleDeleteKeyword}
       />
 
       {/* Add Keyword Modal */}
