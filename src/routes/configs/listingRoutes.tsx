@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
@@ -10,6 +9,7 @@ import BusinessesPage from "@/pages/BusinessesPage";
 import QAPage from "@/pages/QAPage";
 import ReportsPage from "@/pages/ReportsPage";
 import CitationPage from "@/pages/CitationPage";
+import KeywordsPage from "@/pages/KeywordsPage";
 import { GeoRankingReportPage } from "@/components/GeoRanking/GeoRankingReportPage";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { ListingProvider } from "@/context/ListingContext";
@@ -76,6 +76,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <GeoRankingPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Keywords routes
+  {
+    path: "/keywords",
+    element: <Navigate to="/keywords/default" replace />,
+  },
+  {
+    path: "/keywords/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <KeywordsPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

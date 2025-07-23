@@ -1,569 +1,312 @@
-import React from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  MapPin,
   FileText,
   Image,
   BarChart3,
-  MapPin,
-  Star,
-  Building,
-  Settings,
-  Crown,
-  Sparkles,
-  MessageCircleQuestion,
-  FileBarChart,
-  Bot,
-  BookOpen,
-  ChevronDown,
-  ChevronRight,
-  Search,
   TrendingUp,
+  Bot,
+  MessageSquare,
+  Building2,
+  HelpCircle,
+  FileBarChart,
+  ExternalLink,
+  ChevronRight,
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
-import { useProfile } from "../hooks/useProfile";
-import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
-import { useAppSelector } from "../hooks/useRedux";
+import { useListingContext } from "@/context/ListingContext";
+import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-interface SidebarProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-  collapsed: boolean;
-  onToggleCollapse: () => void;
-}
-
-interface MenuItem {
-  id: string;
-  label: string;
-  icon: any;
-  path: string | null;
-  subItems?: MenuItem[];
-}
-
-const menuItems: MenuItem[] = [
-  {
-    id: "overview",
-    label: "Overview",
-    icon: LayoutDashboard,
-    path: "/location-dashboard",
-  },
-  {
-    id: "posts",
-    label: "Posts",
-    icon: FileText,
-    path: "/posts",
-  },
-  {
-    id: "media",
-    label: "Media",
-    icon: Image,
-    path: "/media",
-  },
-  {
-    id: "reviews",
-    label: "Reviews",
-    icon: Star,
-    path: "/reviews",
-  },
-  {
-    id: "insights",
-    label: "Insights",
-    icon: BarChart3,
-    path: "/insights",
-  },
-  {
-    id: "qa",
-    label: "Q&A",
-    icon: MessageCircleQuestion,
-    path: "/qa",
-  },
-  {
-    id: "businesses",
-    label: "Management",
-    icon: Building,
-    path: "/business-info",
-  },
-  {
-    id: "tracking",
-    label: "Tracking",
-    icon: TrendingUp,
-    path: null,
-    subItems: [
-      {
-        id: "keywords",
-        label: "Keywords",
-        icon: Search,
-        path: "/geo-ranking",
-      },
-      {
-        id: "geo-ranking",
-        label: "GEO Ranking",
-        icon: MapPin,
-        path: "/geo-ranking",
-      },
-    ],
-  },
-  {
-    id: "citation",
-    label: "Citation",
-    icon: BookOpen,
-    path: "/citation",
-  },
-  {
-    id: "reports",
-    label: "Reports",
-    icon: FileBarChart,
-    path: "/reports",
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    icon: Settings,
-    path: "/settings",
-  },
-];
-
-export const Sidebar: React.FC<SidebarProps> = ({
-  collapsed,
-  onToggleCollapse,
-}) => {
-  const navigate = useNavigate();
+export function AppSidebar() {
   const location = useLocation();
-  const { listingId } = useParams();
-  const { profileData } = useProfile();
-  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector(
-    (state) => state.theme
-  );
-  
-  // State for managing expanded sub-menus
-  const [expandedMenus, setExpandedMenus] = React.useState<Set<string>>(new Set());
+  const navigate = useNavigate();
+  const { selectedListing } = useListingContext();
+  const { user, logout } = useAuthRedux();
+  const { state } = useSidebar();
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  // console.log("user", profileData);
-  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  const menuItems = [
+    {
+      title: "Location Dashboard",
+      icon: MapPin,
+      url: "/location-dashboard",
+      isActive: location.pathname.startsWith("/location-dashboard"),
+    },
+    {
+      title: "Posts",
+      icon: FileText,
+      url: "/posts",
+      isActive: location.pathname.startsWith("/posts"),
+    },
+    {
+      title: "Media",
+      icon: Image,
+      url: "/media",
+      isActive: location.pathname.startsWith("/media"),
+    },
+    {
+      title: "Insights",
+      icon: BarChart3,
+      url: "/insights",
+      isActive: location.pathname.startsWith("/insights"),
+    },
+    {
+      title: "Tracking",
+      icon: TrendingUp,
+      hasSubmenu: true,
+      submenu: [
+        {
+          title: "Geo Ranking",
+          url: "/geo-ranking",
+          isActive: location.pathname.startsWith("/geo-ranking"),
+        },
+        {
+          title: "Keywords",
+          url: "/keywords",
+          isActive: location.pathname.startsWith("/keywords"),
+        },
+      ],
+    },
+    {
+      title: "AI Chatbot",
+      icon: Bot,
+      url: "/ai-chatbot",
+      isActive: location.pathname.startsWith("/ai-chatbot"),
+    },
+    {
+      title: "Reviews",
+      icon: MessageSquare,
+      url: "/reviews",
+      isActive: location.pathname.startsWith("/reviews"),
+    },
+    {
+      title: "Business Info",
+      icon: Building2,
+      url: "/business-info",
+      isActive: location.pathname.startsWith("/business-info"),
+    },
+    {
+      title: "Q&A",
+      icon: HelpCircle,
+      url: "/qa",
+      isActive: location.pathname.startsWith("/qa"),
+    },
+    {
+      title: "Reports",
+      icon: FileBarChart,
+      url: "/reports",
+      isActive: location.pathname.startsWith("/reports"),
+    },
+    {
+      title: "Citation",
+      icon: ExternalLink,
+      url: "/citation",
+      isActive: location.pathname.startsWith("/citation"),
+    },
+  ];
 
-  // Helper function to check if user role should be restricted
-  const shouldHideForRole = () => {
-    const userRole = profileData?.role?.toLowerCase();
-    return userRole === "staff" || userRole === "client";
-  };
-
-  // Get user info from profile data
-  const userName = profileData
-    ? `${profileData.first_name} ${profileData.last_name}`
-    : "User";
-  const userEmail = profileData?.username || "user@example.com";
-  const userInitials = profileData
-    ? `${profileData.first_name?.charAt(0) || ""}${
-        profileData.last_name?.charAt(0) || ""
-      }`
-    : "U";
-  const userProfilePic =
-    profileData?.profilePic ||
-    "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
-  const planExpDate = profileData?.planExpDate || null;
-
-  // Check if plan is expired using the subscription utility
-  const isPlanExpired = isSubscriptionExpired(planExpDate);
-  const isEnterprisePlan =
-    profileData?.planName?.toLowerCase() === "enterprise";
-  // console.log("plan exp or not .....", isPlanExpired);
-  const trialPlan =
-    profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
-    profileData?.planName?.toLowerCase() === "trial";
-  console.log("is  plan .....", trialPlan);
-  // console.log(
-  //   "result of condition",
-  //   !isPlanExpired && !collapsed && !isEnterprisePlan
-  // );
-  // Toggle sub-menu expansion
-  const toggleSubMenu = (menuId: string) => {
-    setExpandedMenus(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(menuId)) {
-        newSet.delete(menuId);
-      } else {
-        newSet.add(menuId);
-      }
-      return newSet;
-    });
-  };
-
-  // Memoized function to determine active tab based on current path
-  const activeTab = React.useMemo(() => {
-    const currentPath = location.pathname;
-    const pathParts = currentPath.split("/");
-    const baseRoute = pathParts[1];
-
-    // Handle business-info route mapping to businesses tab
-    if (baseRoute === "business-info") {
-      return "businesses";
-    }
-
-    // Check main menu items first
-    const activeItem = menuItems.find((item) => item.path === `/${baseRoute}`);
-    if (activeItem) {
-      return activeItem.id;
-    }
-
-    // Check sub-menu items
-    for (const item of menuItems) {
-      if (item.subItems && Array.isArray(item.subItems)) {
-        const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
-        if (activeSubItem) {
-          return activeSubItem.id;
-        }
-      }
-    }
-
-    return "overview";
-  }, [location.pathname]);
-
-  // Effect to auto-expand parent menu when sub-item is active
-  React.useEffect(() => {
-    const currentPath = location.pathname;
-    const pathParts = currentPath.split("/");
-    const baseRoute = pathParts[1];
-
-    // Find if current route is a sub-menu item and expand its parent
-    for (const item of menuItems) {
-      if (item.subItems) {
-        const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
-        if (activeSubItem) {
-          setExpandedMenus(prev => new Set(prev).add(item.id));
-          break;
-        }
+  // Auto-expand submenu if any of its items are active
+  useEffect(() => {
+    const trackingItem = menuItems.find(item => item.title === "Tracking");
+    if (trackingItem?.submenu) {
+      const hasActiveSubmenuItem = trackingItem.submenu.some(subItem => subItem.isActive);
+      if (hasActiveSubmenuItem) {
+        setOpenSubmenu("Tracking");
       }
     }
   }, [location.pathname]);
 
-  // Get logo URLs with fallbacks - prioritize uploaded files over API URLs
-  const getDarkLogoUrl = () => {
-    // If a new dark logo file has been uploaded, use it immediately
-    if (dark_logo) {
-      return URL.createObjectURL(dark_logo);
-    }
-    // Otherwise use the API URL or fallback
-    return (
-      dark_logo_url ||
-      "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png"
-    );
-  };
-
-  const getFaviconUrl = () => {
-    // If a new favicon file has been uploaded, use it immediately
-    if (favicon) {
-      return URL.createObjectURL(favicon);
-    }
-    // Otherwise use the API URL or fallback
-    return (
-      favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
-    );
-  };
-
-  const handleTabChange = (tab: string, basePath: string) => {
-    // For routes that need listing context, append the listing ID
-    const listingRoutes = [
-      "/location-dashboard",
-      "/ai-tasks",
-      "/posts",
-      "/media",
-      "/insights",
-      "/geo-ranking",
-      "/ai-chatbot",
-      "/reviews",
-      "/qa",
-      "/reports",
-      "/business-info",
-      "/citation",
-    ];
-
-    if (listingRoutes.includes(basePath) && listingId) {
-      navigate(`${basePath}/${listingId}`);
-    } else if (listingRoutes.includes(basePath)) {
-      // If no listing ID available, navigate to default
-      navigate(`${basePath}/default`);
+  const handleNavigation = (url: string) => {
+    if (selectedListing) {
+      navigate(`${url}/${selectedListing.id}`);
     } else {
-      // For non-listing routes (settings), navigate normally
-      navigate(basePath);
+      navigate(`${url}/default`);
     }
   };
 
-  React.useEffect(() => {
-    if (isAdmin) {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.async = true;
-      script.src = "https://client.crisp.chat/l.js";
-      document.head.appendChild(script);
+  const handleSubmenuToggle = (title: string) => {
+    setOpenSubmenu(openSubmenu === title ? null : title);
+  };
 
-      (window as any).$crisp = [];
-      (window as any).CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
-      (window as any).CRISP_READY_TRIGGER = function () {
-        const visitorEmail = (window as any).$crisp?.get("user:email");
-        if (!visitorEmail) {
-          (window as any).$crisp.push([
-            "set",
-            "user:email",
-            profileData?.username,
-          ]);
-        }
-      };
-
-      return () => {
-        // Cleanup: Remove Crisp script and globals when component unmounts
-        document.head.removeChild(script);
-        delete (window as any).$crisp;
-        delete (window as any).CRISP_WEBSITE_ID;
-        delete (window as any).CRISP_READY_TRIGGER;
-      };
-    }
-  }, [isAdmin, profileData?.username]);
+  const getUserInitials = (name?: string) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
-    <div
-      className={cn(
-        "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
-        collapsed ? "w-16" : "w-64"
-      )}
-      style={{
-        backgroundColor: "var(--sidebar-bg, #111827)",
-        borderColor: "var(--sidebar-border, #374151)",
-      }}
-    >
-      <div className="flex h-full flex-col">
-        {/* Logo Section */}
-        <div
-          className="flex h-20 items-center justify-between border-b px-4"
-          style={{
-            borderColor: "var(--sidebar-border, #374151)",
-            height: "107px",
-          }}
-        >
-          {!collapsed ? (
-            <div className="flex items-center space-x-2">
-              <img
-                src={getDarkLogoUrl()}
-                alt="GMB Genie Logo"
-                className=" w-auto object-contain"
-                style={{ height: "60px", maxWidth: "220px" }}
-              />
-            </div>
-          ) : (
-            <img
-              src={getFaviconUrl()}
-              alt="GMB Genie Logo"
-              className="w-8 h-8 object-contain"
-            />
-          )}
+    <Sidebar variant="inset">
+      <SidebarHeader>
+        <div className="flex items-center gap-2 px-4 py-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <MapPin className="h-4 w-4" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold">LocalSync</span>
+            <span className="truncate text-xs">Business Management</span>
+          </div>
         </div>
-
-        {/* Navigation Menu */}
-        <ScrollArea className="flex-1 px-3 py-4">
-          <nav className="space-y-2">
-            {menuItems
-              .filter(
-                (item) => !(item.id === "settings" && shouldHideForRole())
-              )
-              .map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                const hasSubItems = item.subItems && item.subItems.length > 0;
-                const isExpanded = expandedMenus.has(item.id);
-
-                return (
-                  <div key={item.id}>
-                    <Button
-                      variant={isActive ? "default" : "ghost"}
-                      className={cn(
-                        "w-full justify-start h-10",
-                        collapsed ? "px-2 justify-center" : "px-3"
-                      )}
-                      style={{
-                        backgroundColor: isActive
-                          ? "var(--sidebar-active-bg, #2563eb)"
-                          : "transparent",
-                        color: isActive
-                          ? "var(--sidebar-active-text, #ffffff)"
-                          : "var(--sidebar-text, #d1d5db)",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor =
-                            "var(--sidebar-hover-bg, #374151)";
-                          e.currentTarget.style.color =
-                            "var(--sidebar-hover-text, #ffffff)";
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = "transparent";
-                          e.currentTarget.style.color =
-                            "var(--sidebar-text, #d1d5db)";
-                        }
-                      }}
-                      onClick={() => {
-                        if (hasSubItems) {
-                          if (!collapsed) {
-                            toggleSubMenu(item.id);
-                          }
-                        } else if (item.path) {
-                          handleTabChange(item.id, item.path);
-                        }
-                      }}
-                      title={collapsed ? item.label : undefined}
+      </SidebarHeader>
+      
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  {item.hasSubmenu ? (
+                    <Collapsible
+                      open={openSubmenu === item.title}
+                      onOpenChange={() => handleSubmenuToggle(item.title)}
                     >
-                      <Icon
-                        className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")}
-                      />
-                      {!collapsed && (
-                        <>
-                          <span className="text-sm font-medium flex-1 text-left">{item.label}</span>
-                          {hasSubItems && (
-                            <div className="ml-2">
-                              {isExpanded ? (
-                                <ChevronDown className="h-4 w-4" />
-                              ) : (
-                                <ChevronRight className="h-4 w-4" />
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </Button>
-
-                    {/* Sub-menu items */}
-                    {hasSubItems && isExpanded && !collapsed && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {item.subItems?.map((subItem) => {
-                          const SubIcon = subItem.icon;
-                          const isSubActive = activeTab === subItem.id;
-                          return (
-                            <Button
-                              key={subItem.id}
-                              variant={isSubActive ? "default" : "ghost"}
-                              className="w-full justify-start h-8 text-xs pl-6"
-                              style={{
-                                backgroundColor: isSubActive
-                                  ? "var(--sidebar-active-bg, #2563eb)"
-                                  : "transparent",
-                                color: isSubActive
-                                  ? "var(--sidebar-active-text, #ffffff)"
-                                  : "var(--sidebar-text, #d1d5db)",
-                              }}
-                              onMouseEnter={(e) => {
-                                if (!isSubActive) {
-                                  e.currentTarget.style.backgroundColor =
-                                    "var(--sidebar-hover-bg, #374151)";
-                                  e.currentTarget.style.color =
-                                    "var(--sidebar-hover-text, #ffffff)";
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (!isSubActive) {
-                                  e.currentTarget.style.backgroundColor = "transparent";
-                                  e.currentTarget.style.color =
-                                    "var(--sidebar-text, #d1d5db)";
-                                }
-                              }}
-                              onClick={() => handleTabChange(subItem.id, subItem.path)}
-                            >
-                              <SubIcon className="h-4 w-4 mr-2" />
-                              <span className="text-xs font-medium">{subItem.label}</span>
-                            </Button>
-                          );
-                        })}
-                      </div>
-                    )}
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton
+                          tooltip={item.title}
+                          isActive={item.submenu?.some(subItem => subItem.isActive)}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.submenu?.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.title}>
+                              <SidebarMenuSubButton
+                                asChild
+                                isActive={subItem.isActive}
+                              >
+                                <button
+                                  onClick={() => handleNavigation(subItem.url)}
+                                  className="w-full"
+                                >
+                                  <span>{subItem.title}</span>
+                                </button>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ) : (
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      isActive={item.isActive}
+                      onClick={() => handleNavigation(item.url)}
+                    >
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                >
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="rounded-lg">
+                      {getUserInitials(user?.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">{user?.name}</span>
+                    <span className="truncate text-xs">{user?.email}</span>
                   </div>
-                );
-              })}
-          </nav>
-        </ScrollArea>
-
-        {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired &&
-          !collapsed &&
-          !isEnterprisePlan &&
-          !shouldHideForRole() &&
-          trialPlan && (
-            <div className="px-3 pb-4">
-              <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Crown className="h-5 w-5 text-yellow-400" />
-                    <span className="text-sm font-semibold text-white">
-                      {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
-                    </span>
+                  <ChevronRight className="ml-auto size-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                side={state === "collapsed" ? "right" : "bottom"}
+                align="end"
+                sideOffset={4}
+              >
+                <DropdownMenuLabel className="p-0 font-normal">
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage src={user?.avatar} alt={user?.name} />
+                      <AvatarFallback className="rounded-lg">
+                        {getUserInitials(user?.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-semibold">{user?.name}</span>
+                      <span className="truncate text-xs">{user?.email}</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-blue-100 mb-3">
-                    {isPlanExpired
-                      ? "Your plan has expired. Renew to continue accessing features"
-                      : "Unlock premium features and get unlimited access"}
-                  </p>
-                  <Button
-                    size="sm"
-                    className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
-                    onClick={() => navigate("/settings/subscription")}
-                  >
-                    <Sparkles className="h-3 w-3 mr-1" />
-                    {isPlanExpired ? "Renew Now" : "Upgrade Now"}
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-
-        {/* User Profile Section */}
-        <div
-          className="border-t p-4"
-          style={{ borderColor: "var(--sidebar-border, #374151)" }}
-        >
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start h-12",
-              collapsed ? "px-2 justify-center" : "px-3"
-            )}
-            style={{
-              color: "var(--sidebar-text, #d1d5db)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "var(--sidebar-hover-bg, #374151)";
-              e.currentTarget.style.color =
-                "var(--sidebar-hover-text, #ffffff)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
-            }}
-            onClick={() => navigate("/profile")}
-            title={collapsed ? userName : undefined}
-          >
-            <Avatar className={cn("w-8 h-8", collapsed ? "mx-auto" : "mr-3")}>
-              <AvatarImage src={userProfilePic} />
-              <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
-                {userInitials}
-              </AvatarFallback>
-            </Avatar>
-            {!collapsed && (
-              <div className="flex-1 text-left">
-                <p className="text-sm font-medium text-white">{userName}</p>
-                <p className="text-xs text-gray-400">
-                  {userEmail.length > 20
-                    ? userEmail.slice(0, 19) + "..."
-                    : userEmail}
-                </p>
-              </div>
-            )}
-          </Button>
-        </div>
-      </div>
-    </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <User />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/settings")}>
+                  <Settings />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
   );
-};
+}
