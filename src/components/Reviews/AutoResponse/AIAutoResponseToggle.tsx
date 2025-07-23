@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 import { Button } from '../../ui/button';
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
-import { Sparkles, Star } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 interface AIAutoResponseToggleProps {
   enabled: boolean;
   onToggle: () => void;
@@ -160,22 +160,17 @@ Best regards,
           <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
         </div>
 
-        <div className="grid grid-cols-5 gap-3">
-          {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={()=> {
-            const checkbox = document.getElementById(`star-${star}`) as HTMLInputElement;
-            if (checkbox) checkbox.click();
-            }}>
+        <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
+          {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={()=> setSelectedStarRating(star.toString())}>
             <div className="flex items-center justify-between">
               <label htmlFor={`star-${star}`}
                 className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
-                {star}
-                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" /> Star
+                {star} Star
               </label>
-              <Checkbox id={`star-${star}`} defaultChecked={true}
-                className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+              <RadioGroupItem value={star.toString()} id={`star-${star}`} />
             </div>
           </Card>)}
-        </div>
+        </RadioGroup>
       </div>
 
       {/* AI Response Settings */}
@@ -210,8 +205,8 @@ Best regards,
                   <div className="flex items-center gap-3">
                     <h4 className="text-sm font-semibold text-foreground">John Doe</h4>
                     <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map(star =>
-                      <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
+                     {[1, 2, 3, 4, 5].map(star =>
+                      <div key={star} className="w-4 h-4 bg-yellow-400 rounded-full" />)}
                       <span className="text-sm text-muted-foreground ml-1">5.0</span>
                     </div>
                   </div>
