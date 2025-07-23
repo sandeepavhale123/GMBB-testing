@@ -35,6 +35,8 @@ Best regards,
     referenceSpecificPoints: false,
     requireApproval: true
   });
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const handleSettingChange = (key: string, value: boolean) => {
     setSettings(prev => ({
       ...prev,
@@ -153,25 +155,38 @@ Best regards,
       </div>
 
 
-      {/* Apply For Section */}
-      <div className="space-y-4 group">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-          <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
+      {/* Advanced Options Toggle */}
+      <div className="space-y-3 group">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+            <label className="text-sm font-semibold text-foreground">Advanced Options</label>
+          </div>
+          <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} className="data-[state=checked]:bg-primary" />
         </div>
-
-        <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
-          {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={()=> setSelectedStarRating(star.toString())}>
-            <div className="flex items-center justify-between">
-              <label htmlFor={`star-${star}`}
-                className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
-                {star} Star
-              </label>
-              <RadioGroupItem value={star.toString()} id={`star-${star}`} />
-            </div>
-          </Card>)}
-        </RadioGroup>
       </div>
+
+      {/* Apply For Section - Advanced */}
+      {showAdvanced && (
+        <div className="space-y-4 group">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+            <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
+          </div>
+
+          <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
+            {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={()=> setSelectedStarRating(star.toString())}>
+              <div className="flex items-center justify-between">
+                <label htmlFor={`star-${star}`}
+                  className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
+                  {star} Star
+                </label>
+                <RadioGroupItem value={star.toString()} id={`star-${star}`} />
+              </div>
+            </Card>)}
+          </RadioGroup>
+        </div>
+      )}
 
       {/* AI Response Settings */}
     </div>
