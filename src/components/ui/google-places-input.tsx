@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 import { Input } from "./input";
 import { cn } from "@/lib/utils";
@@ -9,13 +10,13 @@ interface PlaceResult {
 }
 
 interface GooglePlacesInputProps extends React.ComponentProps<"input"> {
-  onPlaceSelect?: (place: PlaceResult) => void;
+  onPlaceSelect?: (formattedAddress: string) => void;
 }
 
 export const GooglePlacesInput = React.forwardRef<
   HTMLInputElement,
   GooglePlacesInputProps
->(({ className, onPlaceSelect, ...props }, ref) => {
+>(({ className, onPlaceSelect, onChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
 
@@ -31,8 +32,28 @@ export const GooglePlacesInput = React.forwardRef<
 
         autocompleteRef.current.addListener("place_changed", () => {
           const place = autocompleteRef.current?.getPlace();
-          if (place && onPlaceSelect) {
-            onPlaceSelect(place);
+          if (place && place.formatted_address) {
+            // Update the input value programmatically
+            if (inputRef.current) {
+              inputRef.current.value = place.formatted_address;
+              
+              // Create and dispatch a synthetic change event to trigger onChange
+              const event = new Event('input', { bubbles: true });
+              Object.defineProperty(event, 'target', {
+                writable: false,
+                value: inputRef.current
+              });
+              
+              // Trigger the onChange handler if it exists
+              if (onChange) {
+                onChange(event as any);
+              }
+            }
+            
+            // Call the onPlaceSelect callback with the formatted address
+            if (onPlaceSelect) {
+              onPlaceSelect(place.formatted_address);
+            }
           }
         });
       }
@@ -58,7 +79,7 @@ export const GooglePlacesInput = React.forwardRef<
         );
       }
     };
-  }, [onPlaceSelect]);
+  }, [onPlaceSelect, onChange]);
 
   return (
     <Input
@@ -72,6 +93,7 @@ export const GooglePlacesInput = React.forwardRef<
         }
       }}
       className={cn(className)}
+      onChange={onChange}
     />
   );
 });

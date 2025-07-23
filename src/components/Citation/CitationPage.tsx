@@ -29,6 +29,7 @@ import {
   useRefreshCitationReport,
 } from "@/hooks/useCitation";
 import { useListingContext } from "@/context/ListingContext";
+import { FileSearch } from "lucide-react";
 
 type TrackerData = {
   listed: number;
@@ -124,35 +125,6 @@ const LocalPagesCard = () => (
   </Card>
 );
 
-const existingCitationData = [
-  {
-    website: "example1.com",
-    businessName: "Business A",
-    phone: "+1-234-567-8901",
-    you: "Listed",
-  },
-  {
-    website: "example2.com",
-    businessName: "Business B",
-    phone: "+1-234-567-8902",
-    you: "Listed",
-  },
-  {
-    website: "example3.com",
-    businessName: "Business C",
-    phone: "+1-234-567-8903",
-    you: "Not Listed",
-  },
-];
-
-const possibleCitationData = [
-  { siteName: "Directory A", action: "Fix" },
-  { siteName: "Directory B", action: "Fix" },
-  { siteName: "Directory C", action: "Fix" },
-  { siteName: "Directory D", action: "Fix" },
-  { siteName: "Directory E", action: "Fix" },
-];
-
 export const CitationPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,9 +134,7 @@ export const CitationPage: React.FC = () => {
     phone: "",
     city: "",
   });
-  // Store the formatted address string instead of the complete place object
-  const selectedCityRef = useRef<string>("");
-  // const selectedPlaceRef = useRef<PlaceResult | null>(null);
+  
   const { selectedListing } = useListingContext();
   const listingName = selectedListing?.name;
   const { mutate: createCitationReport } = useCreateCitationReport();
@@ -179,15 +149,14 @@ export const CitationPage: React.FC = () => {
   const trackerData = citationData?.summary;
 
   const handlePlaceSelect = (formattedAddress: string) => {
-    selectedCityRef.current = formattedAddress;
     console.log("Selected city from Google:", formattedAddress);
-
-    // Update the city field in the form
+    // Update the city field in the form state
     setSearchData((prev) => ({
       ...prev,
       city: formattedAddress,
     }));
   };
+
   useEffect(() => {
     if (selectedListing?.name) {
       setSearchData((prev) => ({
@@ -197,6 +166,7 @@ export const CitationPage: React.FC = () => {
       refetch();
     }
   }, [selectedListing]);
+
   console.log("citation data", citationReportData);
 
   const toggleSidebar = () => {
@@ -213,25 +183,23 @@ export const CitationPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const addressToUse = selectedCityRef.current || searchData.city;
     console.log("Search payload:", {
       businessName: searchData.businessName,
       phone: searchData.phone,
-      city: addressToUse, // This is now the formatted_address string
+      city: searchData.city,
     });
 
     const payload = {
       listingId: selectedListing?.id || 0,
       businessName: searchData.businessName,
       phone: searchData.phone,
-      address: selectedCityRef.current,
+      address: searchData.city,
     };
 
     createCitationReport(payload, {
       onSuccess: () => {
         setHasSearched(true);
         refetch();
-        selectedCityRef.current = "";
       },
     });
   };
