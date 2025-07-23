@@ -63,7 +63,7 @@ const GoogleAuthHandler = () => {
           setGoogleBusinessListings(data.data);
         }
         toast({
-          title: "Google Auth Succed",
+          title: "Google Auth Succeeded",
           description: data.message,
         });
 

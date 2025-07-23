@@ -1,11 +1,14 @@
-
 export interface PaymentHistoryItem {
+  state: string;
+  city: string;
+  fullName: string;
+  email: string;
   id: string;
   transaction_id: string;
   amount: number;
   currency: string;
   date: string;
-  status: 'paid' | 'failed' | 'pending';
+  status: "paid" | "failed" | "pending";
   invoice_url?: string;
   plan_name?: string;
 }

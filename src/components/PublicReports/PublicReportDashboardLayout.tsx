@@ -153,7 +153,7 @@ export const PublicReportDashboardLayout: React.FC<
               />
             ) : (
               <div className="w-12 h-12 bg-white/20 rounded-xl shadow-lg flex items-center justify-center">
-                <span className="text-lg font-bold text-white">
+                <span className="text-lg font-bold text-black">
                   {branding?.company_name?.charAt(0) || "C"}
                 </span>
               </div>

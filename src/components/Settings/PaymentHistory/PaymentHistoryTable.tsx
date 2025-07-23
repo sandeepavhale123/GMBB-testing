@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Eye, Loader2 } from "lucide-react";
 import {
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/pagination";
 import { usePaymentHistory } from "@/hooks/usePaymentHistory";
 import { InvoiceModal } from "./InvoiceModal";
+import { PaymentHistoryItem } from "@/types/paymentTypes";
 
 export const PaymentHistoryTable: React.FC = () => {
   const {
@@ -33,12 +33,17 @@ export const PaymentHistoryTable: React.FC = () => {
     loadPage,
     refreshHistory,
   } = usePaymentHistory();
+  console.log("paymentHistory", paymentHistory);
 
-  const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(null);
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    string | null
+  >(null);
+  const [selectedPayment, setSelectedPayment] =
+    useState<PaymentHistoryItem | null>(null);
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
 
-  const handleViewInvoice = (transactionId: string) => {
-    setSelectedTransactionId(transactionId);
+  const handleViewInvoice = (payment: PaymentHistoryItem) => {
+    setSelectedPayment(payment);
     setIsInvoiceModalOpen(true);
   };
 
@@ -47,12 +52,30 @@ export const PaymentHistoryTable: React.FC = () => {
     setSelectedTransactionId(null);
   };
 
-  const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+  const formatDateTime = (
+    dateString: string
+  ): { date: string; time: string } => {
+    // Fix AM/PM spacing if necessary
+    const normalized = dateString.replace(/(am|pm)$/i, " $1");
+
+    const parsedDate = new Date(normalized);
+    if (isNaN(parsedDate.getTime())) {
+      return { date: "Invalid Date", time: "" };
+    }
+
+    const date = parsedDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
+
+    const time = parsedDate.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return { date, time };
   };
 
   const formatAmount = (amount: number, currency: string): string => {
@@ -65,9 +88,14 @@ export const PaymentHistoryTable: React.FC = () => {
       failed: "bg-red-100 text-red-800",
       pending: "bg-yellow-100 text-yellow-800",
     };
-    
+
     return (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status as keyof typeof statusClasses] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-medium ${
+          statusClasses[status as keyof typeof statusClasses] ||
+          "bg-gray-100 text-gray-800"
+        }`}
+      >
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
@@ -76,13 +104,17 @@ export const PaymentHistoryTable: React.FC = () => {
   const renderPaginationItems = () => {
     const items = [];
     const maxVisiblePages = 5;
-    
+
     // Previous button
     items.push(
       <PaginationItem key="prev">
-        <PaginationPrevious 
+        <PaginationPrevious
           onClick={() => loadPage(currentPage - 1)}
-          className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+          className={
+            currentPage === 1
+              ? "pointer-events-none opacity-50"
+              : "cursor-pointer"
+          }
         />
       </PaginationItem>
     );
@@ -90,7 +122,7 @@ export const PaymentHistoryTable: React.FC = () => {
     // Page numbers
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
+
     if (endPage - startPage + 1 < maxVisiblePages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
@@ -98,7 +130,10 @@ export const PaymentHistoryTable: React.FC = () => {
     if (startPage > 1) {
       items.push(
         <PaginationItem key={1}>
-          <PaginationLink onClick={() => loadPage(1)} className="cursor-pointer">
+          <PaginationLink
+            onClick={() => loadPage(1)}
+            className="cursor-pointer"
+          >
             1
           </PaginationLink>
         </PaginationItem>
@@ -136,7 +171,10 @@ export const PaymentHistoryTable: React.FC = () => {
       }
       items.push(
         <PaginationItem key={totalPages}>
-          <PaginationLink onClick={() => loadPage(totalPages)} className="cursor-pointer">
+          <PaginationLink
+            onClick={() => loadPage(totalPages)}
+            className="cursor-pointer"
+          >
             {totalPages}
           </PaginationLink>
         </PaginationItem>
@@ -146,9 +184,13 @@ export const PaymentHistoryTable: React.FC = () => {
     // Next button
     items.push(
       <PaginationItem key="next">
-        <PaginationNext 
+        <PaginationNext
           onClick={() => loadPage(currentPage + 1)}
-          className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+          className={
+            currentPage === totalPages
+              ? "pointer-events-none opacity-50"
+              : "cursor-pointer"
+          }
         />
       </PaginationItem>
     );
@@ -187,7 +229,8 @@ export const PaymentHistoryTable: React.FC = () => {
               No Payment History
             </h3>
             <p className="text-gray-600 text-sm">
-              Your payment history will appear here once you make your first payment.
+              Your payment history will appear here once you make your first
+              payment.
             </p>
           </div>
         </CardContent>
@@ -210,8 +253,10 @@ export const PaymentHistoryTable: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Transaction ID</TableHead>
+                  <TableHead>Plan Name</TableHead>
                   <TableHead>Amount</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>Date & Time</TableHead>
+                  <TableHead>email</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Invoice</TableHead>
                 </TableRow>
@@ -223,15 +268,25 @@ export const PaymentHistoryTable: React.FC = () => {
                       {payment.transaction_id.slice(-8)}
                     </TableCell>
                     <TableCell className="font-medium">
+                      {payment.plan_name}
+                    </TableCell>
+                    <TableCell className="font-medium">
                       {formatAmount(payment.amount, payment.currency)}
                     </TableCell>
-                    <TableCell>{formatDate(payment.date)}</TableCell>
+                    <TableCell>
+                      {" "}
+                      <div>{formatDateTime(payment.date).date}</div>
+                      <div className="text-xs text-gray-500">
+                        {formatDateTime(payment.date).time}
+                      </div>
+                    </TableCell>
+                    <TableCell>{payment.email}</TableCell>
                     <TableCell>{getStatusBadge(payment.status)}</TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleViewInvoice(payment.transaction_id)}
+                        onClick={() => handleViewInvoice(payment)}
                       >
                         <Eye className="w-4 h-4 mr-1" />
                         View
@@ -247,24 +302,24 @@ export const PaymentHistoryTable: React.FC = () => {
             <div className="mt-6">
               <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                 <div>
-                  Showing {((currentPage - 1) * 10) + 1} to {Math.min(currentPage * 10, totalRecords)} of {totalRecords} results
+                  Showing {(currentPage - 1) * 10 + 1} to{" "}
+                  {Math.min(currentPage * 10, totalRecords)} of {totalRecords}{" "}
+                  results
                 </div>
               </div>
               <Pagination>
-                <PaginationContent>
-                  {renderPaginationItems()}
-                </PaginationContent>
+                <PaginationContent>{renderPaginationItems()}</PaginationContent>
               </Pagination>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {selectedTransactionId && (
+      {selectedPayment && (
         <InvoiceModal
           isOpen={isInvoiceModalOpen}
           onClose={handleCloseInvoiceModal}
-          transactionId={selectedTransactionId}
+          paymentItem={selectedPayment}
         />
       )}
     </>
