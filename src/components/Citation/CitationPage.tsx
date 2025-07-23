@@ -149,14 +149,13 @@ export const CitationPage: React.FC = () => {
   const trackerData = citationData?.summary;
 
   const handlePlaceSelect = (formattedAddress: string) => {
-    console.log("Selected city from Google:", formattedAddress);
-    // Update the city field in the form state
+    console.log("handlePlaceSelect - Selected city from Google:", formattedAddress);
     setSearchData((prev) => {
       const newData = {
         ...prev,
         city: formattedAddress,
       };
-      console.log("Updated searchData:", newData);
+      console.log("handlePlaceSelect - Updated searchData:", newData);
       return newData;
     });
   };
@@ -171,7 +170,7 @@ export const CitationPage: React.FC = () => {
     }
   }, [selectedListing]);
 
-  console.log("citation data", citationReportData);
+  console.log("Current searchData state:", searchData);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -187,7 +186,8 @@ export const CitationPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search payload before API call:", {
+    console.log("handleSearch - Current searchData state:", searchData);
+    console.log("handleSearch - Search payload before API call:", {
       businessName: searchData.businessName,
       phone: searchData.phone,
       city: searchData.city,
@@ -200,7 +200,7 @@ export const CitationPage: React.FC = () => {
       address: searchData.city,
     };
 
-    console.log("Final API payload:", payload);
+    console.log("handleSearch - Final API payload:", payload);
 
     createCitationReport(payload, {
       onSuccess: () => {
@@ -211,7 +211,12 @@ export const CitationPage: React.FC = () => {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setSearchData((prev) => ({ ...prev, [field]: value }));
+    console.log(`handleInputChange - ${field}:`, value);
+    setSearchData((prev) => {
+      const newData = { ...prev, [field]: value };
+      console.log("handleInputChange - Updated searchData:", newData);
+      return newData;
+    });
   };
 
   return (
@@ -283,12 +288,14 @@ export const CitationPage: React.FC = () => {
                         <Label htmlFor="city">City</Label>
                         <GooglePlacesInput
                           id="city"
+                          name="city"
                           type="text"
                           placeholder="Enter city name"
                           value={searchData.city}
-                          onChange={(e) =>
-                            handleInputChange("city", e.target.value)
-                          }
+                          onChange={(e) => {
+                            console.log("GooglePlacesInput onChange event:", e.target.value);
+                            handleInputChange("city", e.target.value);
+                          }}
                           onPlaceSelect={handlePlaceSelect}
                           required
                           autoComplete="off"

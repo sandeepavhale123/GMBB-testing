@@ -42,21 +42,29 @@ export const GooglePlacesInput = React.forwardRef<
               inputRef.current.value = place.formatted_address;
               console.log("Google Places - input value updated to:", inputRef.current.value);
               
-              // Create and dispatch a synthetic change event to trigger onChange
-              const event = new Event('input', { bubbles: true });
-              Object.defineProperty(event, 'target', {
-                writable: false,
-                value: inputRef.current
-              });
+              // Create a properly structured synthetic event
+              const syntheticEvent = {
+                target: {
+                  value: place.formatted_address,
+                  name: inputRef.current.name,
+                  id: inputRef.current.id,
+                },
+                currentTarget: inputRef.current,
+                type: 'change',
+                bubbles: true,
+                cancelable: true,
+                preventDefault: () => {},
+                stopPropagation: () => {},
+              };
               
               // Trigger the onChange handler if it exists
               if (onChange) {
-                console.log("Google Places - calling onChange with synthetic event");
-                onChange(event as any);
+                console.log("Google Places - calling onChange with synthetic event, value:", place.formatted_address);
+                onChange(syntheticEvent as any);
               }
             }
             
-            // Call the onPlaceSelect callback with the formatted address
+            // Call the onPlaceSelect callback with the formatted address (primary update method)
             if (onPlaceSelect) {
               console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
