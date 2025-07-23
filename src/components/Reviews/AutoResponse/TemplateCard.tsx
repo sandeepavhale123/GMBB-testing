@@ -26,7 +26,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [editContent, setEditContent] = useState('');
   const getDefaultContent = (rating: number): string => {
     if (isRatingOnly) {
-      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service.`;
+      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service. | Hi {first_name}, your ${rating}-star rating means a lot! Could you tell us more about your experience? | Hey {first_name}, thank you for the stars! A few words about your experience would really help us improve.`;
     }
     
     const templates = {
