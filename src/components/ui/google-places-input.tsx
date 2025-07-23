@@ -27,22 +27,8 @@ export const GooglePlacesInput = React.forwardRef<HTMLInputElement, GooglePlaces
 
           autocompleteRef.current.addListener('place_changed', () => {
             const place = autocompleteRef.current?.getPlace();
-            if (place && inputRef.current) {
-              // Update the input value to sync with React's controlled component
-              const selectedValue = place.name || place.formatted_address || '';
-              inputRef.current.value = selectedValue;
-              
-              // Trigger onChange event to update parent state
-              const event = new Event('input', { bubbles: true });
-              Object.defineProperty(event, 'target', {
-                writable: false,
-                value: inputRef.current
-              });
-              inputRef.current.dispatchEvent(event);
-              
-              if (onPlaceSelect) {
-                onPlaceSelect(place);
-              }
+            if (place && onPlaceSelect) {
+              onPlaceSelect(place);
             }
           });
         }
