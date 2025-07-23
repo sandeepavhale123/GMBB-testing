@@ -91,7 +91,11 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                   </TableCell>
                   <TableCell>
                     {keyword.ranking ? (
-                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      <span className={`px-2 py-1 rounded-full text-sm ${
+                        keyword.ranking >= 20 
+                          ? 'bg-red-100 text-red-800' 
+                          : 'bg-green-100 text-green-800'
+                      }`}>
                         #{keyword.ranking}
                       </span>
                     ) : (
