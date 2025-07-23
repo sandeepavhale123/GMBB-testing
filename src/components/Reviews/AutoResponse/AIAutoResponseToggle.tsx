@@ -35,7 +35,6 @@ Best regards,
     referenceSpecificPoints: false,
     requireApproval: true
   });
-
   const [showAdvanced, setShowAdvanced] = useState(false);
   const handleSettingChange = (key: string, value: boolean) => {
     setSettings(prev => ({
@@ -74,8 +73,7 @@ Best regards,
       </div>
 
       {/* Configuration Panel */}
-      {enabled && <div
-  className="space-y-8 p-6 bg-gradient-to-br from-background to-muted/20 border border-border/50 rounded-xl shadow-sm animate-fade-in">
+      {enabled && <div className="space-y-8 p-6 bg-gradient-to-br from-background to-muted/20 border border-border/50 rounded-xl shadow-sm animate-fade-in">
 
 
   <div className="grid sm:grid-1 lg:grid-cols-2">
@@ -87,8 +85,7 @@ Best regards,
           <label className="text-sm font-semibold text-foreground">AI Response Style</label>
         </div>
         <Select value={responseStyle} onValueChange={setResponseStyle}>
-          <SelectTrigger
-            className="bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20">
+          <SelectTrigger className="bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20">
             <SelectValue placeholder="Choose your response style..." />
           </SelectTrigger>
           <SelectContent className="bg-background border-border/60 shadow-lg">
@@ -146,12 +143,7 @@ Best regards,
           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
           <label className="text-sm font-semibold text-foreground">Reply Text</label>
         </div>
-        <Textarea 
-          placeholder="Enter your response template..."
-          className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
-          rows={6} 
-          value={replyTemplate}
-          onChange={(e) => setReplyTemplate(e.target.value)} />
+        <Textarea placeholder="Enter your response template..." className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm" rows={6} value={replyTemplate} onChange={e => setReplyTemplate(e.target.value)} />
       </div>
 
 
@@ -167,26 +159,23 @@ Best regards,
       </div>
 
       {/* Apply For Section - Advanced */}
-      {showAdvanced && (
-        <div className="space-y-4 group">
+      {showAdvanced && <div className="space-y-4 group">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
             <h4 className="text-sm font-semibold text-foreground">Apply For Star Ratings</h4>
           </div>
 
           <RadioGroup value={selectedStarRating} onValueChange={setSelectedStarRating} className="grid grid-cols-5 gap-3">
-            {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={()=> setSelectedStarRating(star.toString())}>
+            {[1, 2, 3, 4, 5].map(star => <Card key={star} className="p-3 cursor-pointer border-border/60" onClick={() => setSelectedStarRating(star.toString())}>
               <div className="flex items-center justify-between">
-                <label htmlFor={`star-${star}`}
-                  className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
+                <label htmlFor={`star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
                   {star} Star
                 </label>
                 <RadioGroupItem value={star.toString()} id={`star-${star}`} />
               </div>
             </Card>)}
           </RadioGroup>
-        </div>
-      )}
+        </div>}
 
       {/* AI Response Settings */}
     </div>
@@ -195,11 +184,10 @@ Best regards,
     <div className="space-y-4 group">
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-        <h4 className="text-sm font-semibold text-foreground">AI Response Preview</h4>
+        <h4 className="text-sm font-semibold text-foreground">Generate a sample AI response </h4>
       </div>
 
-      <Card
-        className="bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border-blue-200/60 dark:border-blue-800/60 hover:shadow-lg transition-all duration-300">
+      <Card className="bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border-blue-200/60 dark:border-blue-800/60 hover:shadow-lg transition-all duration-300">
         <CardContent className="p-5">
           <div className="flex items-center gap-2 mb-4">
             <div className="p-2 bg-blue-500/10 rounded-lg">
@@ -211,8 +199,7 @@ Best regards,
           <div className="space-y-4">
             {/* User Profile Section */}
             <div className="flex items-start gap-4 p-4 bg-background/60 rounded-lg border border-border/40">
-              <div
-                className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-md">
                 <span className="text-lg font-bold text-white">JD</span>
               </div>
               <div className="flex-1">
@@ -220,8 +207,7 @@ Best regards,
                   <div className="flex items-center gap-3">
                     <h4 className="text-sm font-semibold text-foreground">John Doe</h4>
                     <div className="flex items-center gap-1">
-                     {[1, 2, 3, 4, 5].map(star =>
-                      <div key={star} className="w-4 h-4 bg-yellow-400 rounded-full" />)}
+                     {[1, 2, 3, 4, 5].map(star => <div key={star} className="w-4 h-4 bg-yellow-400 rounded-full" />)}
                       <span className="text-sm text-muted-foreground ml-1">5.0</span>
                     </div>
                   </div>
@@ -240,21 +226,18 @@ Best regards,
             </div>
 
             <div className="flex gap-3">
-              <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={isGenerating}
-                className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
+              <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={isGenerating} className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
                 <Sparkles className="w-4 h-4 mr-2" />
                 {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
               </Button>
             </div>
 
-            {aiResponse && <div
-              className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
+            {aiResponse && <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <p className="text-sm font-medium text-green-700 dark:text-green-300">Generated AI Response:</p>
               </div>
-              <p
-                className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">
+              <p className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">
                 {aiResponse}</p>
             </div>}
           </div>
@@ -265,12 +248,11 @@ Best regards,
   </div>
   {/* Save Button */}
   <div className="flex justify-end pt-4 border-t border-border/30">
-    <Button
-      className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8">
+    <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8">
       <Sparkles className="w-4 h-4 mr-2" />
       Save AI Settings
     </Button>
   </div>
-</div>}
+    </div>}
     </div>;
 };
