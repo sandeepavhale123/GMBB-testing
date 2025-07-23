@@ -184,7 +184,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     });
   };
 
-  // Determine active tab based on current path
+  // Determine active tab based on current path (no side effects)
   const getActiveTab = () => {
     const currentPath = location.pathname;
     const pathParts = currentPath.split("/");
@@ -206,8 +206,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       if (item.subItems) {
         const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
         if (activeSubItem) {
-          // Expand parent menu if sub-item is active
-          setExpandedMenus(prev => new Set(prev).add(item.id));
           return activeSubItem.id;
         }
       }
@@ -217,6 +215,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const activeTab = getActiveTab();
+
+  // Effect to auto-expand parent menu when sub-item is active
+  React.useEffect(() => {
+    const currentPath = location.pathname;
+    const pathParts = currentPath.split("/");
+    const baseRoute = pathParts[1];
+
+    // Find if current route is a sub-menu item and expand its parent
+    for (const item of menuItems) {
+      if (item.subItems) {
+        const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
+        if (activeSubItem) {
+          setExpandedMenus(prev => new Set(prev).add(item.id));
+          break;
+        }
+      }
+    }
+  }, [location.pathname]);
 
   // Get logo URLs with fallbacks - prioritize uploaded files over API URLs
   const getDarkLogoUrl = () => {
