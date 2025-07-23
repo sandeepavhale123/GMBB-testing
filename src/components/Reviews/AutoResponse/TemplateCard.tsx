@@ -94,28 +94,57 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 
       {/* Manage Modal */}
       <Dialog open={isManageOpen} onOpenChange={setIsManageOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <span>Manage {isRatingOnly ? 'Rating Only' : `${starRating}-Star`} Template</span>
               <div className="flex">{renderStars(starRating)}</div>
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
-                Template Content
-              </label>
-              <Textarea value={editContent} onChange={e => setEditContent(e.target.value)} className="min-h-[200px] resize-y" placeholder="Enter your template response..." />
+          <div className="grid grid-cols-2 gap-6">
+            {/* Left Panel - Variables Info */}
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Available Variables</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="bg-gray-50 p-2 rounded font-mono">{'{full_name}'}</div>
+                  <div className="bg-gray-50 p-2 rounded font-mono">{'{first_name}'}</div>
+                  <div className="bg-gray-50 p-2 rounded font-mono">{'{last_name}'}</div>
+                </div>
+              </div>
+              <div className="border-t pt-4">
+                <h4 className="font-medium mb-2">Multiple Responses</h4>
+                <p className="text-sm text-gray-600 mb-2">
+                  Note: If you want to use multiple responses, use a pipe symbol after each response.
+                </p>
+                <div className="bg-gray-50 p-2 rounded text-sm font-mono">
+                  {'{response 1 | response 2}'}
+                </div>
+              </div>
             </div>
-            <div className="flex justify-end gap-3">
-              <Button variant="outline" onClick={() => setIsManageOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleSave}>
-                Save Template
-              </Button>
+
+            {/* Right Panel - Template Content */}
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  Template Content
+                </label>
+                <Textarea 
+                  value={editContent} 
+                  onChange={e => setEditContent(e.target.value)} 
+                  className="min-h-[300px] resize-y" 
+                  placeholder="Enter your template response..." 
+                />
+              </div>
             </div>
+          </div>
+          <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <Button variant="outline" onClick={() => setIsManageOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSave}>
+              Save Template
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
