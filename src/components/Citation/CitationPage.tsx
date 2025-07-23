@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Input } from '../ui/input';
+import { GooglePlacesInput } from '../ui/google-places-input';
 import { Label } from '../ui/label';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { PlaceOrderModal } from './PlaceOrderModal';
@@ -182,12 +183,17 @@ export const CitationPage: React.FC = () => {
                       
                       <div className="space-y-2">
                         <Label htmlFor="city">City</Label>
-                        <Input
+                        <GooglePlacesInput
                           id="city"
                           type="text"
                           placeholder="Enter city name"
                           value={searchData.city}
                           onChange={(e) => handleInputChange('city', e.target.value)}
+                          onPlaceSelect={(place) => {
+                            if (place.name) {
+                              handleInputChange('city', place.name);
+                            }
+                          }}
                           required
                         />
                       </div>
