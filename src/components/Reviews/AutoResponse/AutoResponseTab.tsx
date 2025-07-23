@@ -98,22 +98,29 @@ export const AutoResponseTab: React.FC = () => {
       <Card className="bg-white p-6">
         {/* Header with Title, Tabs, and Create Button in single row */}
         <Tabs defaultValue="review" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-6 flex-1">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
-                <p className="text-sm text-gray-600">
-                  Create personalized templates for different star ratings
-                </p>
-              </div>
-            </div>
-
-             {/* Tabs Section */}
-              <TabsList className="grid w-full grid-cols-2 w-auto mr-2" style={{marginRight:10}}>
-                <TabsTrigger value="review">Reply for Review</TabsTrigger>
-                <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
-              </TabsList>
+         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
+          {/* ✨ Changed to flex-col on small screens and row on lg+ */}
+        
+          {/* Left Section */}
+          <div className="flex-1">
+            {/* ✨ Removed unnecessary nested flex containers */}
+            <h3 className="text-lg font-semibold text-gray-900">Reply Templates</h3>
+            <p className="text-sm text-gray-600">
+              Create personalized templates for different star ratings
+            </p>
           </div>
+        
+          {/* Right Section */}
+          <div className="w-full sm:w-auto">
+            {/* ✨ Ensures full width on mobile, auto on sm and up */}
+            <TabsList className="grid grid-cols-2 gap-2 sm:gap-4">
+              {/* ✨ Removed conflicting w-full and w-auto, added gap for spacing */}
+              <TabsTrigger value="review">Reply for Review</TabsTrigger>
+              <TabsTrigger value="rating-only">Reply for Rating Only</TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
+
 
           {/* Reply for Review Tab Content */}
           <TabsContent value="review" className="space-y-4">
