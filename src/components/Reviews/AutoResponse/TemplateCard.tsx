@@ -121,10 +121,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                   value={editContent} 
                   onChange={e => setEditContent(e.target.value)} 
                   className="min-h-[300px] resize-y" 
-                  placeholder="Enter your template response...
-
-Example with multiple responses:
-Thank you {first_name} for your review! | Hi {first_name}, we appreciate your feedback! | Thanks {first_name} for taking the time to review us!" 
+                  placeholder="Enter your template response..." 
                 />
               </div>
             </div>
