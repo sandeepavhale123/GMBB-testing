@@ -43,14 +43,9 @@ Thank you`);
     setTimeout(() => {
       // Generate AI response content based on the review
       const generatedResponse = "Thank you so much for your wonderful review! We're thrilled to hear that you enjoyed our pizza and that Sarah provided you with fantastic service. Your kind words mean the world to our team. We look forward to welcoming you back soon!";
-      
+
       // Apply the reply template with variables replaced
-      const finalResponse = replyTemplate
-        .replace(/{full_name}/g, "John Doe")
-        .replace(/{first_name}/g, "John")
-        .replace(/{last_name}/g, "Doe")
-        .replace(/{responsetext}/g, generatedResponse);
-      
+      const finalResponse = replyTemplate.replace(/{full_name}/g, "John Doe").replace(/{first_name}/g, "John").replace(/{last_name}/g, "Doe").replace(/{responsetext}/g, generatedResponse);
       setAiResponse(finalResponse);
       setIsGenerating(false);
     }, 2000);
@@ -78,7 +73,7 @@ Thank you`);
       </div>
 
       {/* Configuration Panel */}
-      {enabled && <div className="space-y-8 p-6 bg-gradient-to-br from-background to-muted/20 border border-border/50 rounded-xl shadow-sm animate-fade-in">
+      {enabled && <div className="space-y-8 p-6 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in">
 
 
   <div className="grid sm:grid-1 lg:grid-cols-2">
@@ -235,12 +230,10 @@ Thank you`);
                 <Sparkles className="w-4 h-4 mr-2" />
                 {isGenerating ? 'Generating AI Response...' : 'Generate AI Response'}
               </Button>
-              {aiResponse && !isGenerating && (
-                <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
+              {aiResponse && !isGenerating && <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Regenerate
-                </Button>
-              )}
+                </Button>}
             </div>
 
             {aiResponse && <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
