@@ -26,33 +26,15 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [editContent, setEditContent] = useState('');
   const getDefaultContent = (rating: number): string => {
     if (isRatingOnly) {
-      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service.
-
-Example with multiple responses:
-Thank you {first_name} for your review! | Hi {first_name}, we appreciate your feedback! | Thanks {first_name} for taking the time to review us!`;
+      return `Hi {first_name}, thank you for taking the time to rate us! We truly appreciate your ${rating}-star rating. Your feedback helps us continue to improve our service.`;
     }
     
     const templates = {
-      5: `Thank you so much, {first_name}, for your amazing 5-star review! 🌟 It's truly wonderful to hear that you had a great experience with us. Your kind words mean the world to me and the team.
-
-Example with multiple responses:
-Thank you {first_name} for your amazing review! | Hi {first_name}, we're thrilled by your 5-star review! | Thanks {first_name} for this wonderful feedback!`,
-      4: `Hi {first_name}, thank you for the 4-star review! We're thrilled you had a positive experience with us. We'd love to know how we can make it a 5-star experience next time!
-
-Example with multiple responses:
-Thank you {first_name} for your 4-star review! | Hi {first_name}, we appreciate your positive feedback! | Thanks {first_name} for taking the time to review us!`,
-      3: `Hello {first_name}, thank you for taking the time to leave a 3-star review. We appreciate your feedback and would love to understand how we can improve your experience.
-
-Example with multiple responses:
-Thank you {first_name} for your honest feedback! | Hi {first_name}, we appreciate your review and feedback! | Thanks {first_name} for helping us improve!`,
-      2: `Hi {first_name}, thank you for your 2-star review. We're sorry to hear that your experience wasn't up to our standards. We'd appreciate the opportunity to make this right.
-
-Example with multiple responses:
-Thank you {first_name} for your feedback! | Hi {first_name}, we appreciate you taking the time to review us! | Thanks {first_name} for helping us improve our service!`,
-      1: `Hello {first_name}, we're very sorry to see your 1-star review. This is clearly not the experience we want for our customers. Please reach out to us directly so we can resolve this immediately.
-
-Example with multiple responses:
-We're sorry {first_name} for this experience! | Hi {first_name}, we sincerely apologize for falling short! | Thank you {first_name} for bringing this to our attention!`
+      5: `Thank you so much, {first_name}, for your amazing 5-star review! 🌟 It's truly wonderful to hear that you had a great experience with us. Your kind words mean the world to me and the team.`,
+      4: `Hi {first_name}, thank you for the 4-star review! We're thrilled you had a positive experience with us. We'd love to know how we can make it a 5-star experience next time!`,
+      3: `Hello {first_name}, thank you for taking the time to leave a 3-star review. We appreciate your feedback and would love to understand how we can improve your experience.`,
+      2: `Hi {first_name}, thank you for your 2-star review. We're sorry to hear that your experience wasn't up to our standards. We'd appreciate the opportunity to make this right.`,
+      1: `Hello {first_name}, we're very sorry to see your 1-star review. This is clearly not the experience we want for our customers. Please reach out to us directly so we can resolve this immediately. `
     };
     return templates[rating as keyof typeof templates] || templates[5];
   };
@@ -139,7 +121,10 @@ We're sorry {first_name} for this experience! | Hi {first_name}, we sincerely ap
                   value={editContent} 
                   onChange={e => setEditContent(e.target.value)} 
                   className="min-h-[300px] resize-y" 
-                  placeholder="Enter your template response..." 
+                  placeholder="Enter your template response...
+
+Example with multiple responses:
+Thank you {first_name} for your review! | Hi {first_name}, we appreciate your feedback! | Thanks {first_name} for taking the time to review us!" 
                 />
               </div>
             </div>
