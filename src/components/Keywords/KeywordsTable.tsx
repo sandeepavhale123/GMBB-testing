@@ -68,7 +68,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             <TableRow>
               <TableHead className="w-16">Sr. No</TableHead>
               <TableHead>Keyword</TableHead>
-              <TableHead className="w-24">Rank</TableHead>
+              <TableHead className="w-24">Avg.rank</TableHead>
               <TableHead className="w-32">Added On</TableHead>
               <TableHead className="w-24 text-right">Action</TableHead>
             </TableRow>
