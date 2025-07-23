@@ -69,7 +69,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
 
 
   <div className="grid sm:grid-1 lg:grid-cols-2">
-    <div>
+    <div className="p-4">
       {/* AI Response Style */}
       <div className="space-y-3 group">
         <div className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
       </div>
 
       {/* AI Response Settings */}
-    </div>
+    </div className="p-4">
     {/* Latest Review Section */}
     <div className="space-y-4 group">
       <div className="flex items-center gap-2">
