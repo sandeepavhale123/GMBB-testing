@@ -137,9 +137,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         </div>
 
         {/* Bottom Note */}
-        <div className="mt-8 text-sm text-muted-foreground text-center">
-          To continue, add at least one keyword. Don't worry - you can add or modify keywords anytime.
-        </div>
+        
       </div>
     </div>;
 };
