@@ -32,10 +32,15 @@ export const GooglePlacesInput = React.forwardRef<
 
         autocompleteRef.current.addListener("place_changed", () => {
           const place = autocompleteRef.current?.getPlace();
+          console.log("Google Places - place_changed triggered:", place);
+          
           if (place && place.formatted_address) {
+            console.log("Google Places - formatted_address:", place.formatted_address);
+            
             // Update the input value programmatically
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
+              console.log("Google Places - input value updated to:", inputRef.current.value);
               
               // Create and dispatch a synthetic change event to trigger onChange
               const event = new Event('input', { bubbles: true });
@@ -46,14 +51,18 @@ export const GooglePlacesInput = React.forwardRef<
               
               // Trigger the onChange handler if it exists
               if (onChange) {
+                console.log("Google Places - calling onChange with synthetic event");
                 onChange(event as any);
               }
             }
             
             // Call the onPlaceSelect callback with the formatted address
             if (onPlaceSelect) {
+              console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
             }
+          } else {
+            console.log("Google Places - no place or formatted_address found");
           }
         });
       }
