@@ -219,6 +219,11 @@ export const CitationPage: React.FC = () => {
     });
   };
 
+  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("handleCityInputChange - Manual typing detected:", e.target.value);
+    handleInputChange("city", e.target.value);
+  };
+
   return (
     <div className="min-h-screen flex w-full">
       <Sidebar
@@ -292,10 +297,7 @@ export const CitationPage: React.FC = () => {
                           type="text"
                           placeholder="Enter city name"
                           value={searchData.city}
-                          onChange={(e) => {
-                            console.log("GooglePlacesInput onChange event:", e.target.value);
-                            handleInputChange("city", e.target.value);
-                          }}
+                          onChange={handleCityInputChange}
                           onPlaceSelect={handlePlaceSelect}
                           required
                           autoComplete="off"

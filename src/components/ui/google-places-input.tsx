@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "./input";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +19,7 @@ export const GooglePlacesInput = React.forwardRef<
 >(({ className, onPlaceSelect, onChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<any>(null);
+  const [isSelectingPlace, setIsSelectingPlace] = useState(false);
 
   useEffect(() => {
     const initAutocomplete = () => {
@@ -37,31 +38,13 @@ export const GooglePlacesInput = React.forwardRef<
           if (place && place.formatted_address) {
             console.log("Google Places - formatted_address:", place.formatted_address);
             
+            // Set flag to prevent onChange conflicts
+            setIsSelectingPlace(true);
+            
             // Update the input value programmatically
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
               console.log("Google Places - input value updated to:", inputRef.current.value);
-              
-              // Create a properly structured synthetic event
-              const syntheticEvent = {
-                target: {
-                  value: place.formatted_address,
-                  name: inputRef.current.name,
-                  id: inputRef.current.id,
-                },
-                currentTarget: inputRef.current,
-                type: 'change',
-                bubbles: true,
-                cancelable: true,
-                preventDefault: () => {},
-                stopPropagation: () => {},
-              };
-              
-              // Trigger the onChange handler if it exists
-              if (onChange) {
-                console.log("Google Places - calling onChange with synthetic event, value:", place.formatted_address);
-                onChange(syntheticEvent as any);
-              }
             }
             
             // Call the onPlaceSelect callback with the formatted address (primary update method)
@@ -69,6 +52,11 @@ export const GooglePlacesInput = React.forwardRef<
               console.log("Google Places - calling onPlaceSelect with:", place.formatted_address);
               onPlaceSelect(place.formatted_address);
             }
+            
+            // Reset the flag after a short delay to allow the component to update
+            setTimeout(() => {
+              setIsSelectingPlace(false);
+            }, 100);
           } else {
             console.log("Google Places - no place or formatted_address found");
           }
@@ -96,7 +84,17 @@ export const GooglePlacesInput = React.forwardRef<
         );
       }
     };
-  }, [onPlaceSelect, onChange]);
+  }, [onPlaceSelect]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only call onChange if we're not in the middle of selecting a place
+    if (!isSelectingPlace && onChange) {
+      console.log("GooglePlacesInput - onChange called with:", e.target.value);
+      onChange(e);
+    } else if (isSelectingPlace) {
+      console.log("GooglePlacesInput - onChange blocked during place selection");
+    }
+  };
 
   return (
     <Input
@@ -110,7 +108,7 @@ export const GooglePlacesInput = React.forwardRef<
         }
       }}
       className={cn(className)}
-      onChange={onChange}
+      onChange={handleChange}
     />
   );
 });
