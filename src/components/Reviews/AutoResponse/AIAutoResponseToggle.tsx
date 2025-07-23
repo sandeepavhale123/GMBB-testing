@@ -22,13 +22,8 @@ export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedStarRating, setSelectedStarRating] = useState('5');
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
-
 {responsetext}
-
-Thank you for your valuable feedback!
-
-Best regards,
-[Your Business Name]`);
+Thank you`);
   const [settings, setSettings] = useState({
     useReviewerName: true,
     adaptTone: true,
