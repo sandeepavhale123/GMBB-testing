@@ -146,7 +146,7 @@ Best regards,
         </div>
         <Textarea 
           placeholder="Enter your response template..."
-          className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-none font-mono text-sm"
+          className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
           rows={6} 
           value={replyTemplate}
           onChange={(e) => setReplyTemplate(e.target.value)} />
