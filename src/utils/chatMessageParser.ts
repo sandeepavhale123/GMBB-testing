@@ -37,38 +37,83 @@ export const hasMarkdownTable = (content: string): boolean => {
   return lines.some(line => line.includes('|') && line.split('|').length >= 3);
 };
 
-// Convert markdown table to HTML table data
-export const parseMarkdownTable = (content: string): { beforeTable: string; tableData: string[][]; afterTable: string } => {
+// Parse content into sections with multiple tables
+export interface ContentSection {
+  type: 'text' | 'table';
+  content: string;
+  tableData?: string[][];
+}
+
+export const parseMarkdownTable = (content: string): ContentSection[] => {
   const lines = content.split('\n');
-  const tableStartIndex = lines.findIndex(line => line.includes('|') && line.split('|').length >= 3);
+  const sections: ContentSection[] = [];
+  let currentTextLines: string[] = [];
+  let i = 0;
   
-  if (tableStartIndex === -1) {
-    return { beforeTable: content, tableData: [], afterTable: '' };
-  }
-  
-  // Find table end (first non-table line after table starts)
-  let tableEndIndex = tableStartIndex;
-  for (let i = tableStartIndex; i < lines.length; i++) {
-    if (!lines[i].includes('|') || lines[i].split('|').length < 3) {
-      tableEndIndex = i;
-      break;
+  while (i < lines.length) {
+    const line = lines[i];
+    
+    // Check if this line starts a table
+    if (line.includes('|') && line.split('|').length >= 3) {
+      // Save any accumulated text content
+      if (currentTextLines.length > 0) {
+        const textContent = currentTextLines.join('\n').trim();
+        if (textContent) {
+          sections.push({
+            type: 'text',
+            content: textContent
+          });
+        }
+        currentTextLines = [];
+      }
+      
+      // Find the end of this table
+      let tableEndIndex = i;
+      for (let j = i; j < lines.length; j++) {
+        if (!lines[j].includes('|') || lines[j].split('|').length < 3) {
+          tableEndIndex = j;
+          break;
+        }
+        tableEndIndex = j + 1;
+      }
+      
+      const tableLines = lines.slice(i, tableEndIndex);
+      
+      // Parse table data, filtering out separator lines
+      const tableData = tableLines
+        .filter(line => !line.includes('---') && !line.includes('==='))
+        .map(line => 
+          line.split('|')
+            .map(cell => cell.trim())
+            .filter(cell => cell !== '') // Remove empty cells from start/end
+        )
+        .filter(row => row.length > 0);
+      
+      if (tableData.length > 0) {
+        sections.push({
+          type: 'table',
+          content: tableLines.join('\n'),
+          tableData
+        });
+      }
+      
+      i = tableEndIndex;
+    } else {
+      currentTextLines.push(line);
+      i++;
     }
-    tableEndIndex = i + 1;
   }
   
-  const beforeTable = lines.slice(0, tableStartIndex).join('\n');
-  const afterTable = lines.slice(tableEndIndex).join('\n');
-  const tableLines = lines.slice(tableStartIndex, tableEndIndex);
+  // Add any remaining text content
+  if (currentTextLines.length > 0) {
+    const textContent = currentTextLines.join('\n').trim();
+    if (textContent) {
+      sections.push({
+        type: 'text',
+        content: textContent
+      });
+    }
+  }
   
-  // Parse table data, filtering out separator lines
-  const tableData = tableLines
-    .filter(line => !line.includes('---') && !line.includes('==='))
-    .map(line => 
-      line.split('|')
-        .map(cell => cell.trim())
-        .filter(cell => cell !== '') // Remove empty cells from start/end
-    )
-    .filter(row => row.length > 0);
-  
-  return { beforeTable, tableData, afterTable };
+  return sections;
 };

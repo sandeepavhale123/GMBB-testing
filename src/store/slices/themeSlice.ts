@@ -16,6 +16,7 @@ interface ThemeState {
   light_logo_url?: string;
   dark_logo_url?: string;
   favicon_url?: string;
+  companyName?: string;
   isLoading: boolean;
 }
 
@@ -56,6 +57,7 @@ const getInitialState = (): ThemeState => {
         light_logo_url: themeData.light_logo,
         dark_logo_url: themeData.dark_logo,
         favicon_url: themeData.favicon,
+        companyName: themeData.companyName,
         isLoading: false,
       };
     } catch (error) {
@@ -78,6 +80,7 @@ const getInitialState = (): ThemeState => {
     light_logo_url: undefined,
     dark_logo_url: undefined,
     favicon_url: undefined,
+    companyName: undefined,
     isLoading: false,
   };
 };
@@ -138,6 +141,7 @@ const themeSlice = createSlice({
       light_logo: string;
       dark_logo: string;
       favicon: string;
+      companyName?: string;
     }>) => {
       const themeData = action.payload;
       const accentColorHex = themeData.accent_color.trim();
@@ -152,6 +156,7 @@ const themeSlice = createSlice({
       state.light_logo_url = themeData.light_logo;
       state.dark_logo_url = themeData.dark_logo;
       state.favicon_url = themeData.favicon;
+      state.companyName = themeData.companyName;
       
       // Store in localStorage
       localStorage.setItem('theme_customization', JSON.stringify(themeData));

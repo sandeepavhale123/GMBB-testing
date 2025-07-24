@@ -37,6 +37,14 @@ export const applyStoredTheme = () => {
       "#ffffff"
     );
 
+    // Apply accent color for public reports
+    if (themeData.accent_color) {
+      document.documentElement.style.setProperty(
+        "--accent-color",
+        themeData.accent_color
+      );
+    }
+
     // Update favicon if provided
     if (themeData.favicon) {
       const faviconLink = document.querySelector(

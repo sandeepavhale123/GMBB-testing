@@ -69,7 +69,7 @@ export const Health: React.FC = () => {
     // header area
     <div className={`flex-1 flex flex-col transition-all duration-300 `}>
       {/* Dark Header */}
-      <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[250px] z-10 relative">
+      <header className="bg-gradient-to-br from-primary via-primary/80 to-primary/60 text-white h-[250px] z-10 relative">
         <h2
           className="text-3xl font-bold text-white"
           style={{
@@ -122,7 +122,7 @@ export const Health: React.FC = () => {
                 {healthData?.locationName}
               </h1>
               <p
-                className={`text-gray-300 ${
+                className={`text-white ${
                   isMobile ? "text-xs leading-tight max-w-[280px]" : "text-lg"
                 }`}
               >
@@ -132,17 +132,10 @@ export const Health: React.FC = () => {
           </div>
 
           {/* Center: Report Title - Hidden on mobile as it's already in the header */}
-          {!isMobile && <div className="flex-1 text-center"></div>}
-          <Button
-            onClick={refreshHealthReport}
-            className="bg-blue-600 hover:bg-blue-700 text-white absolute right-0 top-0"
-          >
-            <RefreshCcw className="w-4 h-4 mr-2" />
-            Refresh Health Report
-          </Button>
+          
           {/* Right: Report Date */}
           <div className={`${isMobile ? "text-center" : "text-right"}`}>
-            <p className="text-sm text-gray-400">Report Date</p>
+            <p className="text-sm text-white">Report Date</p>
             <p className={`text-white ${isMobile ? "text-base" : "text-lg"}`}>
               {formatToDayMonthYear(new Date())}
             </p>
@@ -156,6 +149,15 @@ export const Health: React.FC = () => {
           marginTop: "-100px",
         }}
       >
+
+        {!isMobile && <div className="flex-1 text-center"></div>}
+          <Button
+            onClick={refreshHealthReport}
+            className="bg-white hover:bg-black hover:text-white text-black fixed right-0 top-1/2 -translate-y-1/2 shadow-lg shadow-grey-500/50 flex-col p-2 z-[9999] rounded-l-md rounded-r-none hidden sm:flex"
+           style={{height:70,width:120}}>
+            <RefreshCcw className="w-5 h-5 mb-1" />
+            <span className="text-xs leading-tight">Refresh Report</span>
+          </Button>
         <div className={`container mx-auto ${isMobile ? "p-4" : "p-8"}`}>
           <div className="space-y-6">
             {/* Summary Cards */}
@@ -265,17 +267,18 @@ export const Health: React.FC = () => {
             {/* GMB Report at a Glance */}
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-8">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    Your GMB Report at a Glance
-                  </h2>
-                </div>
+                
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   {/* Left side - Test Results Cards */}
                   <div className="space-y-4">
+                    <div className="mb-8">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        Your GMB Report at a Glance
+                      </h2>
+                    </div>
                     {/* Failed Tests Card */}
-                    <div className="bg-red-100 border border-red-200 rounded-lg p-6">
+                    <div className="bg-red-100 border border-red-200 rounded-lg px-6 py-3">
                       <div className="text-red-800 text-sm font-medium mb-1">
                         Failed Tests
                       </div>
@@ -285,7 +288,7 @@ export const Health: React.FC = () => {
                     </div>
 
                     {/* Passed Tests Card */}
-                    <div className="bg-green-100 border border-green-200 rounded-lg p-6">
+                    <div className="bg-green-100 border border-green-200 rounded-lg px-6 py-3">
                       <div className="text-green-800 text-sm font-medium mb-1">
                         Passed Tests
                       </div>
@@ -297,7 +300,7 @@ export const Health: React.FC = () => {
 
                   {/* Right side - Pie Chart */}
                   <div className="flex justify-center">
-                    <div className="w-48 h-48">
+                    <div className="w-[250px] h-[250px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
@@ -379,7 +382,7 @@ export const Health: React.FC = () => {
                             "Additional Categories Not Present or Less Than 5",
                           why: "Additional categories help Google understand your services and display your listing for relevant searches.",
                           recommendation:
-                            "Add categories that reflect all your services like 'Emergency Plumbing' or 'Installation'.",
+                            "Add categories that reflect all your services, like 'Emergency Plumbing' or 'Installation'.",
                         },
                         photo: {
                           title: "Less Than 5 Photos",
@@ -458,7 +461,7 @@ export const Health: React.FC = () => {
                           </h3>
                           <div className="mb-4">
                             <h4 className="font-medium mb-2">
-                              • Why it Matters:
+                              • Why It Matters:
                             </h4>
                             <p className="text-sm text-muted-foreground ml-4">
                               {item.why}

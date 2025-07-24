@@ -260,7 +260,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
         {/* Chat Messages Area */}
         <div className="flex-1 min-h-0">
           <ScrollArea className="h-full">
-            <div className="max-w-4xl mx-auto p-3 sm:p-4 overflow-auto h-[50vh] lg:p-6 space-y-4 lg:space-y-6">
+            <div className="max-w-4xl mx-auto p-3 sm:p-4 overflow-auto h-[70vh] lg:p-6 space-y-4 lg:space-y-6">
               {isLoadingMessages ? (
                 <div className="flex flex-col items-center justify-center h-full min-h-[300px] sm:min-h-[400px] text-center">
                   <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 animate-spin text-blue-500" />
@@ -335,12 +335,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                         )}
                       </div>
 
-                      {/* Action Buttons for AI messages - only show for messages with valid database IDs */}
+                      {/* Action Buttons for AI messages */}
                       {message.type === "ai" &&
                         !message.isLoading &&
-                        message.id &&
-                        !message.id.includes("_") &&
-                        !isNaN(Number(message.id)) && (
+                        message.id && (
                           <div className="flex items-center gap-2 mt-2">
                             <Button
                               variant="ghost"

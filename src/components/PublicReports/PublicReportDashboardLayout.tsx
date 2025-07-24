@@ -28,6 +28,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useAppSelector } from "@/hooks/useRedux";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -61,6 +62,12 @@ export const PublicReportDashboardLayout: React.FC<
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
+
+  // Get theme colors from Redux store
+  const themeState = useAppSelector((state) => state.theme);
+  const accentColor = themeState.accent_color || "#10B981"; // Default emerald color
+  const activeBgColor = themeState.active_menu_bg_color || accentColor;
+  const activeLabelColor = themeState.active_menu_label_color || "#ffffff";
 
   const allSidebarItems = [
     {
@@ -176,9 +183,17 @@ export const PublicReportDashboardLayout: React.FC<
                       }}
                       className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isActive
-                          ? "bg-primary text-white shadow-md"
+                          ? "shadow-md"
                           : "bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md"
                       }`}
+                      style={
+                        isActive
+                          ? {
+                              backgroundColor: activeBgColor,
+                              color: activeLabelColor,
+                            }
+                          : {}
+                      }
                     >
                       <IconComponent className="h-10 w-10" />
                     </button>
@@ -199,7 +214,12 @@ export const PublicReportDashboardLayout: React.FC<
           }`}
         >
           {/* Dark Header */}
-          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[350px] z-10 relative sm:h-[250px]">
+          <header
+            className="text-white h-[350px] z-10 relative sm:h-[250px]"
+            style={{
+              background: `linear-gradient(135deg, ${accentColor} 0%, ${accentColor}dd 50%, ${accentColor}aa 100%)`,
+            }}
+          >
             {/* Mobile Menu Button */}
             {isMobile && (
               <button
@@ -249,7 +269,7 @@ export const PublicReportDashboardLayout: React.FC<
                     }`}
                   >
                     <span
-                      className={`font-bold text-gray-900 ${
+                      className={`font-bold text-black ${
                         isMobile ? "text-lg" : "text-2xl"
                       }`}
                     >
@@ -268,7 +288,7 @@ export const PublicReportDashboardLayout: React.FC<
                     {listingName}
                   </h1>
                   <p
-                    className={`text-gray-300  ${
+                    className={`text-white ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
                         : "text-lg"
@@ -284,7 +304,7 @@ export const PublicReportDashboardLayout: React.FC<
 
               {/* Right: Report Date */}
               <div className={`${isMobile ? "text-center" : "text-right"}`}>
-                <p className="text-sm text-gray-400">Report Date</p>
+                <p className="text-sm text-white">Report Date</p>
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >

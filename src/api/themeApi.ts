@@ -32,6 +32,7 @@ export interface GetThemeResponse {
     light_logo: string;
     dark_logo: string;
     favicon: string;
+    companyName?: string;
   };
 }
 
