@@ -10,6 +10,8 @@ import {
 import { clearUserListings } from "../businessListingsSlice";
 import { LoginCredentials, LoginResponse } from "./authTypes";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
+import { getTheme } from "@/api/themeApi";
+import { loadThemeFromAPI } from "../themeSlice";
 
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,6 +65,18 @@ export const useLogin = () => {
       // Store current user session for tracking user changes
       localStorage.setItem("current_user_session", data.data.profile.userId);
       // console.log("💾 Stored user session ID:", data.data.profile.userId);
+
+      // Load theme after successful login
+      try {
+        const themeResponse = await getTheme();
+        if (themeResponse.code === 200) {
+          dispatch(loadThemeFromAPI(themeResponse.data));
+          // console.log("🎨 Theme loaded successfully after login");
+        }
+      } catch (error) {
+        console.warn("Failed to load theme after login:", error);
+        // Graceful fallback - continue without custom theme
+      }
 
       // Return the response with our added subscriptionExpired flag
       return { ...data, subscriptionExpired };
