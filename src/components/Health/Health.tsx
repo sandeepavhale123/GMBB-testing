@@ -135,10 +135,10 @@ export const Health: React.FC = () => {
           {!isMobile && <div className="flex-1 text-center"></div>}
           <Button
             onClick={refreshHealthReport}
-            className="bg-blue-600 hover:bg-blue-700 text-white absolute right-0 top-0"
+            className="bg-blue-600 hover:bg-blue-700 text-white absolute right-4 top-1/2 -translate-y-1/2 w-16 h-16 flex-col p-2"
           >
-            <RefreshCcw className="w-4 h-4 mr-2" />
-            Refresh Health Report
+            <RefreshCcw className="w-5 h-5 mb-1" />
+            <span className="text-xs leading-tight">Refresh Report</span>
           </Button>
           {/* Right: Report Date */}
           <div className={`${isMobile ? "text-center" : "text-right"}`}>
