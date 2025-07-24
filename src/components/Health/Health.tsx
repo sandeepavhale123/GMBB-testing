@@ -382,7 +382,7 @@ export const Health: React.FC = () => {
                             "Additional Categories Not Present or Less Than 5",
                           why: "Additional categories help Google understand your services and display your listing for relevant searches.",
                           recommendation:
-                            "Add categories that reflect all your services like 'Emergency Plumbing' or 'Installation'.",
+                            "Add categories that reflect all your services, like 'Emergency Plumbing' or 'Installation'.",
                         },
                         photo: {
                           title: "Less Than 5 Photos",
