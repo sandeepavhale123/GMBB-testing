@@ -132,14 +132,7 @@ export const Health: React.FC = () => {
           </div>
 
           {/* Center: Report Title - Hidden on mobile as it's already in the header */}
-          {!isMobile && <div className="flex-1 text-center"></div>}
-          <Button
-            onClick={refreshHealthReport}
-            className="bg-white text-black fixed right-0 top-1/2 -translate-y-1/2 w-16 h-16 flex-col p-2 z-[9999] rounded-l-md rounded-r-none hidden sm:flex"
-          >
-            <RefreshCcw className="w-5 h-5 mb-1" />
-            <span className="text-xs leading-tight">Refresh Report</span>
-          </Button>
+          
           {/* Right: Report Date */}
           <div className={`${isMobile ? "text-center" : "text-right"}`}>
             <p className="text-sm text-white">Report Date</p>
@@ -156,6 +149,15 @@ export const Health: React.FC = () => {
           marginTop: "-100px",
         }}
       >
+
+        {!isMobile && <div className="flex-1 text-center"></div>}
+          <Button
+            onClick={refreshHealthReport}
+            className="bg-white text-black fixed right-0 top-1/2 -translate-y-1/2 w-16 h-16 flex-col p-2 z-[9999] rounded-l-md rounded-r-none hidden sm:flex"
+          >
+            <RefreshCcw className="w-5 h-5 mb-1" />
+            <span className="text-xs leading-tight">Refresh Report</span>
+          </Button>
         <div className={`container mx-auto ${isMobile ? "p-4" : "p-8"}`}>
           <div className="space-y-6">
             {/* Summary Cards */}
