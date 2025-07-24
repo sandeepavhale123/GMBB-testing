@@ -249,7 +249,7 @@ export const PublicReportDashboardLayout: React.FC<
                     }`}
                   >
                     <span
-                      className={`font-bold text-gray-900 ${
+                      className={`font-bold text-white ${
                         isMobile ? "text-lg" : "text-2xl"
                       }`}
                     >
@@ -284,7 +284,7 @@ export const PublicReportDashboardLayout: React.FC<
 
               {/* Right: Report Date */}
               <div className={`${isMobile ? "text-center" : "text-right"}`}>
-                <p className="text-sm text-gray-400">Report Date</p>
+                <p className="text-sm text-white">Report Date</p>
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >
