@@ -461,7 +461,7 @@ export const Health: React.FC = () => {
                           </h3>
                           <div className="mb-4">
                             <h4 className="font-medium mb-2">
-                              • Why it Matters:
+                              • Why It Matters:
                             </h4>
                             <p className="text-sm text-muted-foreground ml-4">
                               {item.why}
