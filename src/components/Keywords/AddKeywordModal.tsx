@@ -21,7 +21,7 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
 
   const handleAddKeyword = () => {
     const trimmedKeyword = keywordInput.trim();
-    if (trimmedKeyword && !keywords.includes(trimmedKeyword)) {
+    if (trimmedKeyword && !keywords.includes(trimmedKeyword) && keywords.length < 5) {
       setKeywords(prev => [...prev, trimmedKeyword]);
       setKeywordInput('');
     }
@@ -64,16 +64,17 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
           {/* Keyword Input Section */}
           <div className="flex gap-2">
             <Input
-              placeholder="Enter keyword"
+              placeholder={keywords.length >= 5 ? "Maximum 5 keywords allowed" : "Enter keyword"}
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
               onKeyPress={handleKeyPress}
               className="flex-1"
+              disabled={keywords.length >= 5}
             />
             <Button 
               onClick={handleAddKeyword}
               size="sm"
-              disabled={!keywordInput.trim()}
+              disabled={!keywordInput.trim() || keywords.length >= 5}
             >
               <Plus className="h-4 w-4 mr-1" />
               Add
@@ -88,11 +89,25 @@ export const AddKeywordModal: React.FC<AddKeywordModalProps> = ({
                 {keywords.map((keyword, index) => (
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
                     {keyword}
+                    <button
+                      onClick={() => handleRemoveKeyword(keyword)}
+                      className="ml-1 hover:bg-gray-300 rounded-full p-0.5 transition-colors"
+                      aria-label={`Remove ${keyword}`}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
                   </Badge>
                 ))}
               </div>
             </div>
           )}
+
+          {/* Info Text */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-sm text-blue-800">
+              <span className="font-medium">What happens next:</span> We'll check the ranking position of these keywords across different geographic locations to show you where your business appears in local search results.
+            </p>
+          </div>
         </div>
 
         <DialogFooter className="flex justify-between sm:justify-between">

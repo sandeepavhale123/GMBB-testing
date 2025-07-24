@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Plus } from 'lucide-react';
-import { AddKeywordModal } from './AddKeywordModal';
 import { KeywordsTable } from './KeywordsTable';
+import { useNavigate } from 'react-router-dom';
+import { useListingContext } from '../../context/ListingContext';
 
 export interface Keyword {
   id: string;
@@ -12,7 +13,8 @@ export interface Keyword {
 }
 
 export const KeywordsPage: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { selectedListing } = useListingContext();
   const [keywords, setKeywords] = useState<Keyword[]>([
     {
       id: '1',
@@ -43,6 +45,10 @@ export const KeywordsPage: React.FC = () => {
     }));
     
     setKeywords(prev => [...prev, ...newKeywordObjects]);
+  };
+
+  const handleDeleteKeyword = (keywordId: string) => {
+    setKeywords(prev => prev.filter(keyword => keyword.id !== keywordId));
   };
 
   const handleExport = (format: 'csv' | 'json') => {
@@ -85,7 +91,7 @@ export const KeywordsPage: React.FC = () => {
           <p className="text-gray-600 mt-1">Manage and track keyword rankings for your business</p>
         </div>
         <Button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)}
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
@@ -97,14 +103,9 @@ export const KeywordsPage: React.FC = () => {
       <KeywordsTable 
         keywords={keywords}
         onExport={handleExport}
+        onDeleteKeyword={handleDeleteKeyword}
       />
 
-      {/* Add Keyword Modal */}
-      <AddKeywordModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onAddKeywords={handleAddKeywords}
-      />
     </div>
   );
 };
