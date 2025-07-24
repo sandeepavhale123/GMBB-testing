@@ -19,10 +19,10 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
       id: "summary",
       label: "Review Summary",
     },
-    {
-      id: "auto-response",
-      label: "Auto Response",
-    },
+    // {
+    //   id: "auto-response",
+    //   label: "Auto Response",
+    // },
   ];
 
   const isActiveTab = (tabId: string) => {
