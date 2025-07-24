@@ -9,21 +9,22 @@ import {
   RefreshCitationReportPayload,
 } from "@/api/citationApi";
 import { toast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export const useCreateCitationReport = () => {
   return useMutation({
     mutationFn: (payload: CreateCitationReportPayload) =>
       createCitationReport(payload),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Citation report created successfully.",
+        description: data?.message || "Citation report created successfully.",
       });
     },
-    onError: () => {
+    onError: (data) => {
       toast({
         title: "Error",
-        description: "Failed to create citation report.",
+        description: data?.message || "Failed to create citation report.",
       });
     },
   });
@@ -33,12 +34,33 @@ export const useGetCitationReport = (
   listingId?: string | number,
   enabled = true
 ) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ["citation-report", listingId],
     queryFn: () => getCitationReport({ listingId: listingId! }),
     enabled: enabled && !!listingId,
     staleTime: 1000 * 60 * 5,
   });
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      toast({
+        title: "Success",
+        description: query.data?.message || "Citation audit data fetched",
+      });
+    }
+  }, [query.isSuccess]);
+
+  useEffect(() => {
+    if (query.isError) {
+      toast({
+        title: "Error",
+        description:
+          (query.error as any)?.message || "Failed to fetch Citation audit",
+      });
+    }
+  }, [query.isError]);
+
+  return query;
 };
 
 export const useRefreshCitationReport = () => {
@@ -46,15 +68,16 @@ export const useRefreshCitationReport = () => {
     mutationFn: (payload: RefreshCitationReportPayload) =>
       refreshCitationReport(payload),
     onSuccess: (data) => {
+      console.log("Citation refresh data", data);
       toast({
         title: "Success",
         description: data?.message || "Citation report refreshed successfully.",
       });
     },
-    onError: () => {
+    onError: (data) => {
       toast({
         title: "Error",
-        description: "Failed to refresh citation report.",
+        description: data?.message || "Failed to refresh citation report.",
       });
     },
   });

@@ -19,7 +19,10 @@ import {
   TableRow,
 } from "../ui/table";
 import { Input } from "../ui/input";
-import { GooglePlacesInput, GooglePlacesInputRef } from "../ui/google-places-input";
+import {
+  GooglePlacesInput,
+  GooglePlacesInputRef,
+} from "../ui/google-places-input";
 import { Label } from "../ui/label";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { PlaceOrderModal } from "./PlaceOrderModal";
@@ -134,23 +137,30 @@ export const CitationPage: React.FC = () => {
     phone: "",
     city: "",
   });
-  
+
   const cityInputRef = useRef<GooglePlacesInputRef>(null);
   const { selectedListing } = useListingContext();
-  const listingName = selectedListing?.name;
-  const { mutate: createCitationReport } = useCreateCitationReport();
+  const { mutate: createCitationReport, isPending: isCreating } =
+    useCreateCitationReport();
   const { data: citationReportData, refetch } = useGetCitationReport(
     selectedListing?.id,
     hasSearched
   );
   const { mutate: refreshReport, isPending } = useRefreshCitationReport();
   const citationData = citationReportData?.data;
+  const hasCitation = Boolean(citationData?.report_id);
   const existingCitationData = citationData?.existingCitations || [];
   const possibleCitationData = citationData?.possibleCitations || [];
   const trackerData = citationData?.summary;
 
+  console.log("possible citation data", possibleCitationData);
+
+  console.log("citation data", citationData);
   const handlePlaceSelect = (formattedAddress: string) => {
-    console.log("handlePlaceSelect - Selected city from Google:", formattedAddress);
+    console.log(
+      "handlePlaceSelect - Selected city from Google:",
+      formattedAddress
+    );
     setSearchData((prev) => ({
       ...prev,
       city: formattedAddress,
@@ -183,10 +193,10 @@ export const CitationPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Get the actual value from the city input ref
     const cityValue = cityInputRef.current?.getValue() || searchData.city;
-    
+
     console.log("handleSearch - Current searchData state:", searchData);
     console.log("handleSearch - City input value:", cityValue);
 
@@ -216,7 +226,10 @@ export const CitationPage: React.FC = () => {
   };
 
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleCityInputChange - Manual typing detected:", e.target.value);
+    console.log(
+      "handleCityInputChange - Manual typing detected:",
+      e.target.value
+    );
     handleInputChange("city", e.target.value);
   };
 
@@ -238,7 +251,7 @@ export const CitationPage: React.FC = () => {
 
         <div className="p-6">
           <div className="max-w-7xl mx-auto space-y-6">
-            {!hasSearched ? (
+            {!hasSearched && !hasCitation ? (
               // Search Form Screen
               <div className="flex items-center justify-center min-h-[60vh]">
                 <Card className="w-full max-w-md">
@@ -301,8 +314,13 @@ export const CitationPage: React.FC = () => {
                         />
                       </div>
 
-                      <Button type="submit" className="w-full" size="lg">
-                        Search
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        size="lg"
+                        disabled={isCreating}
+                      >
+                        {isCreating ? "Searching..." : "Search"}
                       </Button>
                     </form>
                   </CardContent>
@@ -322,12 +340,22 @@ export const CitationPage: React.FC = () => {
                       directories
                     </p>
                   </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => setHasSearched(false)}
-                  >
-                    New Search
-                  </Button>
+                  <div>
+                    <Button
+                      variant="outline"
+                      onClick={handleRefresh}
+                      className="me-4"
+                      disabled={isPending}
+                    >
+                      {isPending ? "Refreshing..." : "Refresh Citation"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setHasSearched(false)}
+                    >
+                      New Search
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Two Cards Row */}
@@ -353,7 +381,7 @@ export const CitationPage: React.FC = () => {
                           Existing Citation ({citationData?.existingCitation})
                         </TabsTrigger>
                         <TabsTrigger value="possible">
-                          Possible Citation (50)
+                          Possible Citation ({trackerData?.totalChecked})
                         </TabsTrigger>
                       </TabsList>
 
@@ -370,7 +398,16 @@ export const CitationPage: React.FC = () => {
                           <TableBody>
                             {existingCitationData.map((row, index) => (
                               <TableRow key={index}>
-                                <TableCell className="font-medium">
+                                <TableCell className="font-medium flex items-center gap-4">
+                                  <img
+                                    src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`}
+                                    alt="favicon"
+                                    className="w-5 h-5"
+                                    onError={(e) =>
+                                      (e.currentTarget.src =
+                                        "/default-icon.png")
+                                    }
+                                  />
                                   {row.website}
                                 </TableCell>
                                 <TableCell>{row.businessName}</TableCell>
@@ -378,12 +415,12 @@ export const CitationPage: React.FC = () => {
                                 <TableCell>
                                   <span
                                     className={`px-2 py-1 rounded text-xs ${
-                                      row.you === "Listed"
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-red-100 text-red-800"
+                                      row.you
+                                        ? "bg-green-100 text-white"
+                                        : "bg-red-100 text-white"
                                     }`}
                                   >
-                                    {row.you}
+                                    {row.you ? <>✅</> : <>❌</>}
                                   </span>
                                 </TableCell>
                               </TableRow>
@@ -403,12 +440,38 @@ export const CitationPage: React.FC = () => {
                           <TableBody>
                             {possibleCitationData.map((row, index) => (
                               <TableRow key={index}>
-                                <TableCell className="font-medium">
-                                  {row.siteName}
+                                <TableCell className="font-medium flex items-center gap-4">
+                                  <img
+                                    src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`}
+                                    alt="favicon"
+                                    className="w-5 h-5"
+                                    onError={(e) =>
+                                      (e.currentTarget.src =
+                                        "/default-icon.png")
+                                    }
+                                  />
+                                  {row.site}
                                 </TableCell>
                                 <TableCell className="text-right">
-                                  <Button variant="outline" size="sm">
-                                    {row.action}
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      if (row.website) {
+                                        const url =
+                                          row.website.startsWith("http://") ||
+                                          row.website.startsWith("https://")
+                                            ? row.website
+                                            : `https://${row.website}`;
+                                        window.open(
+                                          url,
+                                          "_blank",
+                                          "noopener,noreferrer"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    Fix Now
                                   </Button>
                                 </TableCell>
                               </TableRow>
