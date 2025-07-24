@@ -335,12 +335,10 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                         )}
                       </div>
 
-                      {/* Action Buttons for AI messages - only show for messages with valid database IDs */}
+                      {/* Action Buttons for AI messages */}
                       {message.type === "ai" &&
                         !message.isLoading &&
-                        message.id &&
-                        !message.id.includes("_") &&
-                        !isNaN(Number(message.id)) && (
+                        message.id && (
                           <div className="flex items-center gap-2 mt-2">
                             <Button
                               variant="ghost"
