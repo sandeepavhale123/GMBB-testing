@@ -300,7 +300,7 @@ export const Health: React.FC = () => {
 
                   {/* Right side - Pie Chart */}
                   <div className="flex justify-center">
-                    <div className="w-[300px] h-[300px]">
+                    <div className="w-[200px] h-[200px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
