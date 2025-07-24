@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { usePerformanceHealthReport } from "@/hooks/useReports";
 import { toast } from "@/hooks/use-toast";
+import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 
 export const PublicGMBHealthReport: React.FC = () => {
   const { token } = useParams();
@@ -36,6 +37,10 @@ export const PublicGMBHealthReport: React.FC = () => {
   const params = useParams();
   const isPublicLayout = location.pathname.startsWith("/gmb-health");
   const reportId = isPublicLayout ? params.reportId : undefined;
+  
+  // Load theme for public report
+  usePublicReportTheme();
+  
   const {
     data: publichealthData,
     isLoading,

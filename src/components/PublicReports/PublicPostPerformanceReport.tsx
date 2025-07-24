@@ -27,11 +27,15 @@ import {
 } from "recharts";
 import { usePerformancePostsReport } from "@/hooks/useReports";
 import { PostImage } from "./PostImage";
+import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 
 export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
+
+  // Load theme for public report
+  usePublicReportTheme();
 
   // Fetch review report
   const {
