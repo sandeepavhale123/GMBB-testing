@@ -16,8 +16,8 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
   const navigate = useNavigate();
   const { selectedListing } = useListingContext();
   const { profileData } = useProfile();
-  const listingName = selectedListing?.name || "KSoft Solution";
-  const listingAddress = selectedListing?.address || "New York, NY";
+  const listingName = selectedListing?.name || "";
+  const listingAddress = selectedListing?.address || "";
 
   // console.log("selected listing data", selectedListing);
 
