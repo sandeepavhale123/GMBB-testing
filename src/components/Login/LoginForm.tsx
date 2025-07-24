@@ -13,6 +13,7 @@ import { ForgotPasswordModal } from "./ForgotPasswordModal";
 import { loginSchema, LoginFormData } from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { useCompanyName } from "@/hooks/useCompanyName";
 
 export const LoginForm = () => {
   const [credentials, setCredentials] = useState({
@@ -27,6 +28,7 @@ export const LoginForm = () => {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuthRedux();
   const { lightLogo } = useThemeLogo();
+  const companyName = useCompanyName();
   const {
     validate,
     getFieldError,
@@ -105,7 +107,7 @@ export const LoginForm = () => {
       <div className="flex justify-center lg:hidden mb-8">
         <img
           src={lightLogo}
-          alt="GMB Briefcase Logo"
+          alt={`${companyName} Logo`}
           style={{
             maxHeight: "60px",
             height: "auto",
@@ -116,7 +118,7 @@ export const LoginForm = () => {
       </div>
 
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-900">GMB Briefcase</h2>
+        <h2 className="text-3xl font-bold text-gray-900">{companyName}</h2>
         <p className="mt-2 text-gray-600">Sign in to your account</p>
       </div>
 
