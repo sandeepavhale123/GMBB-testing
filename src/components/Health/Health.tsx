@@ -267,17 +267,18 @@ export const Health: React.FC = () => {
             {/* GMB Report at a Glance */}
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-8">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    Your GMB Report at a Glance
-                  </h2>
-                </div>
+                
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   {/* Left side - Test Results Cards */}
                   <div className="space-y-4">
+                    <div className="mb-8">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        Your GMB Report at a Glance
+                      </h2>
+                    </div>
                     {/* Failed Tests Card */}
-                    <div className="bg-red-100 border border-red-200 rounded-lg p-6">
+                    <div className="bg-red-100 border border-red-200 rounded-lg px-6 py-3">
                       <div className="text-red-800 text-sm font-medium mb-1">
                         Failed Tests
                       </div>
@@ -287,7 +288,7 @@ export const Health: React.FC = () => {
                     </div>
 
                     {/* Passed Tests Card */}
-                    <div className="bg-green-100 border border-green-200 rounded-lg p-6">
+                    <div className="bg-green-100 border border-green-200 rounded-lg px-6 py-3">
                       <div className="text-green-800 text-sm font-medium mb-1">
                         Passed Tests
                       </div>
