@@ -33,6 +33,7 @@ import {
 } from "@/hooks/useCitation";
 import { useListingContext } from "@/context/ListingContext";
 import { FileSearch } from "lucide-react";
+import { Loader } from "../ui/loader";
 
 type TrackerData = {
   listed: number;
@@ -132,6 +133,7 @@ export const CitationPage: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [searchData, setSearchData] = useState({
     businessName: "",
     phone: "",
@@ -166,6 +168,14 @@ export const CitationPage: React.FC = () => {
       city: formattedAddress,
     }));
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (selectedListing?.name) {
@@ -232,6 +242,29 @@ export const CitationPage: React.FC = () => {
     );
     handleInputChange("city", e.target.value);
   };
+
+  if (isPageLoading) {
+    return (
+      <div className="min-h-screen flex w-full">
+        <Sidebar
+          activeTab="citation"
+          onTabChange={() => {}}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={toggleSidebar}
+        />
+        <div
+          className={`flex-1 transition-all duration-300 ${
+            sidebarCollapsed ? "ml-16" : "ml-64"
+          }`}
+        >
+          <Header onToggleSidebar={toggleSidebar} />
+          <div className="flex items-center justify-center min-h-[80vh]">
+            <Loader size="lg" text="Loading citation page..." />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex w-full">
