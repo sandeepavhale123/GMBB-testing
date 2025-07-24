@@ -224,7 +224,7 @@ export const Dashboard: React.FC = () => {
                 className="w-full font-medium text-sm sm:text-base"
                 onClick={handleOptimize}
               >
-                View health report 
+                View GMB health report 
               </Button>
             </CardContent>
           </Card>
