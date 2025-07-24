@@ -249,7 +249,7 @@ export const PublicReportDashboardLayout: React.FC<
                     }`}
                   >
                     <span
-                      className={`font-bold text-white ${
+                      className={`font-bold text-black ${
                         isMobile ? "text-lg" : "text-2xl"
                       }`}
                     >
@@ -268,7 +268,7 @@ export const PublicReportDashboardLayout: React.FC<
                     {listingName}
                   </h1>
                   <p
-                    className={`text-gray-300 ${
+                    className={`text-white ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
                         : "text-lg"
