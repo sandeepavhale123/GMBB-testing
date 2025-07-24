@@ -85,3 +85,21 @@ export const formatToDayMonthYear = (dateInput: string | Date): string => {
     return "";
   }
 };
+
+// Format to "dd/MM/yy" safely
+export const formatToDDMMYY = (dateInput: string | Date): string => {
+  try {
+    const date =
+      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+
+    if (isNaN(date.getTime())) {
+      console.error("Invalid date passed to formatToDDMMYY:", dateInput);
+      return "";
+    }
+
+    return format(date, "dd/MM/yy"); // Example: 24/07/25
+  } catch (error) {
+    console.error("Error formatting date in formatToDDMMYY:", dateInput, error);
+    return "";
+  }
+};

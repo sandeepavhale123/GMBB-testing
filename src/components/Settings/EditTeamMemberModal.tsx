@@ -14,6 +14,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Switch } from "../ui/switch";
 import { Upload, Eye, EyeOff } from "lucide-react";
+import { addTeamMemberSchema } from "@/schemas/authSchemas"; // adjust path as needed
+import { useFormValidation } from "@/hooks/useFormValidation"; // adjust path as needed
 
 interface EditTeamMemberModalProps {
   open: boolean;
@@ -81,6 +83,8 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
   const [permissionSettings, setPermissionSettings] = useState<
     Record<string, string>
   >({});
+  const { validate, getFieldError, hasFieldError, errors, clearFieldError } =
+    useFormValidation(addTeamMemberSchema);
 
   useEffect(() => {
     if (member) {
@@ -112,6 +116,7 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (hasFieldError(field)) clearFieldError(field);
   };
 
   const handleProfileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,13 +153,10 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log("Updating team member:", {
-    //   ...formData,
-    //   allowListingAccess,
-    //   listingToggles,
-    //   permissionSettings
-    // });
-    onOpenChange(false);
+    const validationResult = validate(formData);
+    if (!validationResult.isValid) return;
+
+    onOpenChange(false); // Proceed if valid
   };
 
   if (!member) return null;
@@ -169,7 +171,10 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="profile">Edit Profile</TabsTrigger>
-            <TabsTrigger value="listings">Listings</TabsTrigger>
+            {formData.role !== "Moderator" && (
+              <TabsTrigger value="listings">Listings</TabsTrigger>
+            )}
+
             <TabsTrigger value="permissions">Permissions</TabsTrigger>
           </TabsList>
 
@@ -212,8 +217,12 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                       handleInputChange("firstName", e.target.value)
                     }
                     placeholder="Enter first name"
-                    required
                   />
+                  {getFieldError("firstName") && (
+                    <p className="text-sm text-red-500">
+                      {getFieldError("firstName")}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
@@ -224,8 +233,12 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                       handleInputChange("lastName", e.target.value)
                     }
                     placeholder="Enter last name"
-                    required
                   />
+                  {hasFieldError("lastName") && (
+                    <p className="text-sm text-red-500">
+                      {getFieldError("lastName")}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -256,6 +269,11 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
                     )}
                   </Button>
                 </div>
+                {hasFieldError("password") && (
+                  <p className="text-sm text-red-500">
+                    {getFieldError("password")}
+                  </p>
+                )}
               </div>
 
               {/* Role */}
@@ -293,65 +311,69 @@ export const EditTeamMemberModal: React.FC<EditTeamMemberModalProps> = ({
             </form>
           </TabsContent>
 
-          <TabsContent value="listings" className="space-y-4">
-            {/* Allow Listing Access Toggle */}
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div>
-                <h3 className="font-medium">Allow Listing Access</h3>
-                <p className="text-sm text-gray-600">
-                  Enable or disable access to listings
-                </p>
+          {formData.role !== "Moderator" && (
+            <TabsContent value="listings" className="space-y-4">
+              {/* Allow Listing Access Toggle */}
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <h3 className="font-medium">Allow Listing Access</h3>
+                  <p className="text-sm text-gray-600">
+                    Enable or disable access to listings
+                  </p>
+                </div>
+                <Switch
+                  checked={allowListingAccess}
+                  onCheckedChange={setAllowListingAccess}
+                />
               </div>
-              <Switch
-                checked={allowListingAccess}
-                onCheckedChange={setAllowListingAccess}
-              />
-            </div>
 
-            {allowListingAccess && (
-              <>
-                {/* Account Filter */}
-                <div className="space-y-2">
-                  <Label>Filter by Account</Label>
-                  <Select
-                    value={selectedAccount}
-                    onValueChange={setSelectedAccount}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Accounts</SelectItem>
-                      <SelectItem value="Account 1">Account 1</SelectItem>
-                      <SelectItem value="Account 2">Account 2</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Listings List */}
-                <div className="space-y-3">
-                  <h3 className="font-medium">Listings</h3>
-                  {filteredListings.map((listing) => (
-                    <div
-                      key={listing.id}
-                      className="flex items-center justify-between p-3 border rounded-lg"
+              {allowListingAccess && (
+                <>
+                  {/* Account Filter */}
+                  <div className="space-y-2">
+                    <Label>Filter by Account</Label>
+                    <Select
+                      value={selectedAccount}
+                      onValueChange={setSelectedAccount}
                     >
-                      <div>
-                        <div className="font-medium">{listing.name}</div>
-                        <div className="text-sm text-gray-500">
-                          {listing.account}
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Accounts</SelectItem>
+                        <SelectItem value="Account 1">Account 1</SelectItem>
+                        <SelectItem value="Account 2">Account 2</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Listings List */}
+                  <div className="space-y-3">
+                    <h3 className="font-medium">Listings</h3>
+                    {filteredListings.map((listing) => (
+                      <div
+                        key={listing.id}
+                        className="flex items-center justify-between p-3 border rounded-lg"
+                      >
+                        <div>
+                          <div className="font-medium">{listing.name}</div>
+                          <div className="text-sm text-gray-500">
+                            {listing.account}
+                          </div>
                         </div>
+                        <Switch
+                          checked={listingToggles[listing.id] || false}
+                          onCheckedChange={() =>
+                            handleListingToggle(listing.id)
+                          }
+                        />
                       </div>
-                      <Switch
-                        checked={listingToggles[listing.id] || false}
-                        onCheckedChange={() => handleListingToggle(listing.id)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </TabsContent>
+                    ))}
+                  </div>
+                </>
+              )}
+            </TabsContent>
+          )}
 
           <TabsContent value="permissions" className="space-y-4">
             <div className="space-y-3">

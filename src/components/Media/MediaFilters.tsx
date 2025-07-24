@@ -58,8 +58,6 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
     { value: "failed", label: "Failed" },
   ];
 
-  const sortOptions = [{ value: "postdate", label: "Upload Date" }];
-
   const sortOrderOptions = [
     { value: "desc", label: "Descending" },
     { value: "asc", label: "Ascending" },
@@ -99,19 +97,6 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             {statuses.map((stat) => (
               <SelectItem key={stat.value} value={stat.value}>
                 {stat.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Select value={sortBy} onValueChange={onSortByChange}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            {sortOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
               </SelectItem>
             ))}
           </SelectContent>

@@ -268,7 +268,7 @@ export const PublicReportDashboardLayout: React.FC<
                     {listingName}
                   </h1>
                   <p
-                    className={`text-gray-300 ${
+                    className={`text-gray-300  ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
                         : "text-lg"
@@ -320,7 +320,7 @@ export const PublicReportDashboardLayout: React.FC<
                 {/* Left Content */}
                 <div className="text-white">
                   {/* Company Branding Card */}
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-0">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-6">
                     <div
                       className={`flex items-center ${
                         isMobile ? "space-x-4" : "space-x-4"
@@ -363,7 +363,7 @@ export const PublicReportDashboardLayout: React.FC<
                         {branding?.company_phone}
                       </div>
 
-                      <div className="text-white/90">
+                      <div className="text-white/90 break-all">
                         <span className="text-white/70">Address: </span>
                         {branding?.company_address}
                       </div>

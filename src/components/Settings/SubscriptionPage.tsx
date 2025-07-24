@@ -32,7 +32,7 @@ interface PlanFeature {
 }
 const planFeatures: PlanFeature[] = [
   {
-    name: "No.GMB Listings Allowed",
+    name: "No. of GMB Listings Allowed",
     business: 40,
     pro: 100,
     agency: 200,

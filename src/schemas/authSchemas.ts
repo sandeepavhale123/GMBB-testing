@@ -150,6 +150,8 @@ export const keywordsSchema = z.object({
       return keywordArray.length > 0;
     }, "At least one keyword is required."),
 });
+
+// report branding schema
 export const reportBrandingSchema = z.object({
   companyName: z
     .string()
@@ -192,6 +194,16 @@ export const reportBrandingSchema = z.object({
     ),
 });
 
+//add team member schema
+export const addTeamMemberSchema = z.object({
+  firstName: nameSchema,
+  lastName: nameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+  role: z.string().min(1, "Role is required"),
+  profilePicture: z.string().optional(),
+});
+
 // Types derived from schemas
 export type SignupFormData = z.infer<typeof signupSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -206,3 +218,4 @@ export type DisconnectConfirmationFormData = z.infer<
 export type SmtpFormData = z.infer<typeof smtpSchema>;
 export type KeywordsFormData = z.infer<typeof keywordsSchema>;
 export type ReportBrandingFormData = z.infer<typeof reportBrandingSchema>;
+export type AddTeamMemberFormData = z.infer<typeof addTeamMemberSchema>;

@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
@@ -15,9 +14,9 @@ export const dashboardRoutes: RouteConfig[] = [
           <Index />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+
   // AI Tasks route
   {
     path: "/ai-tasks/:listingId",
@@ -27,18 +26,27 @@ export const dashboardRoutes: RouteConfig[] = [
           <Index />
         </ListingProvider>
       </ProtectedRoute>
-    )
+    ),
   },
-  
+  {
+    path: "/plan-expired",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
   // Redirect /location-dashboard to default
   {
     path: "/location-dashboard",
-    element: <Navigate to="/location-dashboard/default" replace />
+    element: <Navigate to="/location-dashboard/default" replace />,
   },
-  
+
   // Redirect /ai-tasks to default
   {
     path: "/ai-tasks",
-    element: <Navigate to="/ai-tasks/default" replace />
-  }
+    element: <Navigate to="/ai-tasks/default" replace />,
+  },
 ];

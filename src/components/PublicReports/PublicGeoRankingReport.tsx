@@ -131,7 +131,8 @@ export const PublicGeoRankingReport: React.FC = () => {
           font-size: 13px;
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        ">${detail.rank === 0 ? "20+" : detail.rank}</div>`,
+        ">${detail.rank === 0 ? "20+" : detail.rank ?? 0}
+</div>`,
         className: "ranking-marker",
         iconSize: [40, 40],
         iconAnchor: [20, 20],

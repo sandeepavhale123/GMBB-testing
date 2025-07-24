@@ -746,8 +746,8 @@ export const IntegrationsPage: React.FC = () => {
                     <div className="flex items-start gap-2">
                       <span className="font-medium min-w-[20px]">7.</span>
                       <span>
-                        This creates dialog displays, "your newly created API
-                        key" - Copy the key.
+                        A dialog will appear showing your newly created API key
+                        — copy the key.
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
@@ -763,7 +763,7 @@ export const IntegrationsPage: React.FC = () => {
                       <span>
                         Once you have added a key it will be used for all of
                         your listings and no more need to generate a separate
-                        key for every GMB listing.
+                        key for each GMB listing.
                       </span>
                     </div>
                   </div>

@@ -18,6 +18,8 @@ import { ReportBrandingPage } from "../components/Settings/ReportBrandingPage";
 import TeamMembersPage from "../components/Settings/TeamMembersPage";
 import { EditTeamMemberSettings } from "../components/Settings/EditTeamMemberSettings";
 import { useListingContext } from "@/context/ListingContext";
+import { useProfile } from "@/hooks/useProfile";
+import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 
 const SettingsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -27,6 +29,10 @@ const SettingsPage = () => {
   const { listingId } = useParams();
   const { listings, selectedListing, initializeSelectedListing } =
     useListingContext();
+  const { profileData } = useProfile();
+  const isPlanExpired = isSubscriptionExpired(profileData?.planExpDate);
+  const role = profileData?.role?.toLowerCase();
+  const isStaffOrClient = role === "staff" || role === "client";
 
   // Initialize selected listing if route has listingId
   useEffect(() => {
@@ -86,6 +92,25 @@ const SettingsPage = () => {
   const activeTab = getActiveTab();
 
   const renderTabContent = () => {
+    if (isPlanExpired && isStaffOrClient) {
+      return (
+        <div className="p-8 text-center">
+          <h2 className="text-lg font-semibold text-red-600">
+            The application plan has expired.
+          </h2>
+          <p className="text-sm mt-2 text-gray-600">
+            Please contact your Admin for access.
+          </p>
+        </div>
+      );
+    }
+
+    if (isPlanExpired && activeTab !== "subscription") {
+      // Force only subscription tab to show
+      return <Navigate to="/settings/subscription" replace />;
+    }
+
+    // If not expired or allowed, show normal tab
     if (currentView === "listings" && accountId) {
       return <ListingManagementPage accountId={accountId} />;
     }

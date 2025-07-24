@@ -106,8 +106,8 @@ export const usePerformancePostsReport = (reportId: string) => {
         toast({
           title: "Error Loading Post Report",
           description:
-            error?.message ||
             error?.response?.data?.message ||
+            error?.message ||
             "Failed to fetch performance post report.",
           variant: "destructive",
         });
@@ -138,8 +138,8 @@ export const usePerformanceBrandingReport = (reportId: string) => {
         toast({
           title: "Error Loading Branding Report",
           description:
-            error?.message ||
             error?.response?.data?.message ||
+            error?.message ||
             "Failed to fetch performance branding report.",
           variant: "destructive",
         });
@@ -169,8 +169,8 @@ export const usePerformanceMediaReport = (reportId: string) => {
         toast({
           title: "Error Loading Media Report",
           description:
-            error?.message ||
             error?.response?.data?.message ||
+            error?.message ||
             "Failed to fetch performance media report.",
           variant: "destructive",
         });
@@ -200,8 +200,8 @@ export const usePerformanceGeoKeywords = (reportId: string) => {
         toast({
           title: "Error Loading Keyword List",
           description:
-            error?.message ||
             error?.response?.data?.message ||
+            error?.message ||
             "Failed to fetch geo keyword data.",
           variant: "destructive",
         });

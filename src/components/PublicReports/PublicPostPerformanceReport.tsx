@@ -27,6 +27,7 @@ import {
 } from "recharts";
 import { usePerformancePostsReport } from "@/hooks/useReports";
 import { PostImage } from "./PostImage";
+import { formatToDDMMYY } from "@/utils/dateUtils";
 
 export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
@@ -239,7 +240,7 @@ export const PublicPostPerformanceReport: React.FC = () => {
           <div className="flex justify-between items-center mb-1">
             <h3 className="text-md font-bold">{post.status_label}</h3>
             <span className="text-xs text-muted-foreground">
-              {post.postdate} {post.posttime}
+              {formatToDDMMYY(post.postdate)} {post.posttime}
             </span>
           </div>
           <p className="text-sm text-gray-700">

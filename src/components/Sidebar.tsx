@@ -138,9 +138,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector(
     (state) => state.theme
   );
-  
+
   // State for managing expanded sub-menus
-  const [expandedMenus, setExpandedMenus] = React.useState<Set<string>>(new Set());
+  const [expandedMenus, setExpandedMenus] = React.useState<Set<string>>(
+    new Set()
+  );
 
   // console.log("user", profileData);
   const isAdmin = profileData?.role?.toLowerCase() === "admin";
@@ -181,7 +183,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // );
   // Toggle sub-menu expansion
   const toggleSubMenu = (menuId: string) => {
-    setExpandedMenus(prev => {
+    setExpandedMenus((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(menuId)) {
         newSet.delete(menuId);
@@ -212,7 +214,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Check sub-menu items
     for (const item of menuItems) {
       if (item.subItems && Array.isArray(item.subItems)) {
-        const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
+        const activeSubItem = item.subItems.find(
+          (subItem) => subItem.path === `/${baseRoute}`
+        );
         if (activeSubItem) {
           return activeSubItem.id;
         }
@@ -231,9 +235,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Find if current route is a sub-menu item and expand its parent
     for (const item of menuItems) {
       if (item.subItems) {
-        const activeSubItem = item.subItems.find((subItem) => subItem.path === `/${baseRoute}`);
+        const activeSubItem = item.subItems.find(
+          (subItem) => subItem.path === `/${baseRoute}`
+        );
         if (activeSubItem) {
-          setExpandedMenus(prev => new Set(prev).add(item.id));
+          setExpandedMenus((prev) => new Set(prev).add(item.id));
           break;
         }
       }
@@ -265,6 +271,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleTabChange = (tab: string, basePath: string) => {
+    if (isPlanExpired) {
+      if (shouldHideForRole()) {
+        navigate("/plan-expired");
+        return;
+      } else {
+        navigate("/settings/subscription");
+        return;
+      }
+    }
     // For routes that need listing context, append the listing ID
     const listingRoutes = [
       "/location-dashboard",
@@ -419,11 +434,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       title={collapsed ? item.label : undefined}
                     >
                       <Icon
-                        className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")}
+                        className={cn(
+                          "h-5 w-5",
+                          collapsed ? "mx-auto" : "mr-3"
+                        )}
                       />
                       {!collapsed && (
                         <>
-                          <span className="text-sm font-medium flex-1 text-left">{item.label}</span>
+                          <span className="text-sm font-medium flex-1 text-left">
+                            {item.label}
+                          </span>
                           {hasSubItems && (
                             <div className="ml-2">
                               {isExpanded ? (
@@ -466,15 +486,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               }}
                               onMouseLeave={(e) => {
                                 if (!isSubActive) {
-                                  e.currentTarget.style.backgroundColor = "transparent";
+                                  e.currentTarget.style.backgroundColor =
+                                    "transparent";
                                   e.currentTarget.style.color =
                                     "var(--sidebar-text, #d1d5db)";
                                 }
                               }}
-                              onClick={() => handleTabChange(subItem.id, subItem.path)}
+                              onClick={() =>
+                                handleTabChange(subItem.id, subItem.path)
+                              }
                             >
                               <SubIcon className="h-4 w-4 mr-2" />
-                              <span className="text-xs font-medium">{subItem.label}</span>
+                              <span className="text-xs font-medium">
+                                {subItem.label}
+                              </span>
                             </Button>
                           );
                         })}

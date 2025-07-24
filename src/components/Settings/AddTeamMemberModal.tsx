@@ -14,7 +14,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTeam } from "../../hooks/useTeam";
 import { toast } from "../../hooks/use-toast";
-
+import {
+  addTeamMemberSchema,
+  AddTeamMemberFormData,
+} from "../../schemas/authSchemas"; // <-- adjust path
+import { useFormValidation } from "../../hooks/useFormValidation";
 interface AddTeamMemberModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -27,7 +31,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   onSuccess,
 }) => {
   const { addTeamMember, isAdding, addError, clearTeamAddError } = useTeam();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AddTeamMemberFormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -35,11 +39,24 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     role: "",
     profilePicture: "",
   });
+
+  const {
+    validate,
+    getFieldError,
+    hasFieldError,
+    clearErrors,
+    clearFieldError,
+  } = useFormValidation(addTeamMemberSchema);
+
   const [showPassword, setShowPassword] = useState(false);
   const [profilePreview, setProfilePreview] = useState<string>("");
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (
+    field: keyof AddTeamMemberFormData,
+    value: string
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (hasFieldError(field)) clearFieldError(field);
   };
 
   const handleProfileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,33 +83,43 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
     });
     setProfilePreview("");
     setShowPassword(false);
+    clearErrors();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
-    if (
-      !formData.firstName.trim() ||
-      !formData.lastName.trim() ||
-      !formData.email.trim() ||
-      !formData.password.trim() ||
-      !formData.role
-    ) {
+    // // Basic validation
+    // if (
+    //   !formData.firstName.trim() ||
+    //   !formData.lastName.trim() ||
+    //   !formData.email.trim() ||
+    //   !formData.password.trim() ||
+    //   !formData.role
+    // ) {
+    //   toast({
+    //     title: "Validation Error",
+    //     description: "Please fill in all required fields.",
+    //     variant: "error",
+    //   });
+    //   return;
+    // }
+
+    // // Email validation
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(formData.email)) {
+    //   toast({
+    //     title: "Invalid Email",
+    //     description: "Please enter a valid email address.",
+    //     variant: "error",
+    //   });
+    //   return;
+    // }
+    const result = validate(formData);
+    if (!result.isValid) {
       toast({
         title: "Validation Error",
-        description: "Please fill in all required fields.",
-        variant: "error",
-      });
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
+        description: "Please fix the highlighted fields.",
         variant: "error",
       });
       return;
@@ -109,7 +136,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       };
 
       const result = await addTeamMember(requestData);
-
+      console.log("result of add team member", result);
       if (result.meta.requestStatus === "fulfilled") {
         toast({
           title: "Team Member Added",
@@ -126,10 +153,10 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
       toast({
         title: "Error",
         description:
-          addError ||
           error?.response?.data?.message ||
+          error.message ||
           "Failed to add team member. Please try again.",
-        variant: "error",
+        variant: "destructive",
       });
     }
   };
@@ -182,8 +209,12 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 placeholder="Enter first name"
-                required
               />
+              {hasFieldError("firstName") && (
+                <p className="text-sm text-red-500">
+                  {getFieldError("firstName")}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name</Label>
@@ -192,8 +223,12 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 placeholder="Enter last name"
-                required
               />
+              {hasFieldError("lastName") && (
+                <p className="text-sm text-red-500">
+                  {getFieldError("lastName")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -206,8 +241,10 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               placeholder="Enter email address"
-              required
             />
+            {hasFieldError("email") && (
+              <p className="text-sm text-red-500">{getFieldError("email")}</p>
+            )}
           </div>
 
           {/* Password */}
@@ -220,7 +257,6 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 value={formData.password}
                 onChange={(e) => handleInputChange("password", e.target.value)}
                 placeholder="Enter password"
-                required
               />
               <Button
                 type="button"
@@ -236,6 +272,11 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 )}
               </Button>
             </div>
+            {hasFieldError("password") && (
+              <p className="text-sm text-red-500">
+                {getFieldError("password")}
+              </p>
+            )}
           </div>
 
           {/* Role */}
@@ -254,6 +295,9 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
                 <SelectItem value="Client">Client</SelectItem>
               </SelectContent>
             </Select>
+            {hasFieldError("role") && (
+              <p className="text-sm text-red-500">{getFieldError("role")}</p>
+            )}
           </div>
 
           {/* Action Buttons */}

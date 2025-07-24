@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import axiosInstance from "./axiosInstance";
 
 export interface TeamMember {
@@ -104,6 +105,14 @@ export const addTeamMember = async (
     return result.data;
   } catch (error) {
     console.error("Failed to add team member:", error);
+    toast({
+      title: "Error",
+      description:
+        error?.response?.data?.message ||
+        error.message ||
+        "Failed to add team member. Please try again.",
+      variant: "destructive",
+    });
     throw error;
   }
 };
