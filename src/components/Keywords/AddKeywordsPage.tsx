@@ -72,7 +72,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         <div className="flex items-center justify-between text-lg font-medium text-foreground mb-8">
           <div className="flex items-center gap-2">
             <Search className="h-5 w-5 text-primary" />
-            Add keyword
+            Search keyword
           </div>
           <Button 
             variant="ghost" 
