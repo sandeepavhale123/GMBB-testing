@@ -348,3 +348,39 @@ export const addSearchKeyword = async (
   const response = await axiosInstance.post("/add-search-keyword", requestData);
   return response.data;
 };
+
+// Get Search Keywords API
+export interface SearchKeywordRequest {
+  listingId: number;
+  page: number;
+  limit: number;
+}
+
+export interface SearchKeywordData {
+  id: string;
+  keyword: string;
+  date: string;
+  solv: string;
+  atrp: string;
+  atr: string;
+  status: string;
+}
+
+export interface SearchKeywordResponse {
+  code: number;
+  message: string;
+  data: {
+    keywords: SearchKeywordData[];
+    noOfKeyword: number;
+    page: number;
+    perPage: number;
+    totalPages: number;
+  };
+}
+
+export const getSearchKeywords = async (
+  requestData: SearchKeywordRequest
+): Promise<SearchKeywordResponse> => {
+  const response = await axiosInstance.post("/get-search-keyword", requestData);
+  return response.data;
+};
