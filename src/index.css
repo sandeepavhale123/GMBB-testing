@@ -49,6 +49,16 @@
     /* Custom properties for accent colors */
     --accent-primary: 217 91% 60%;
     --accent-secondary: 217 91% 95%;
+
+    /* Default sidebar theme colors (will be overridden by theme API) */
+    --sidebar-bg: 30 40% 96%;
+    --sidebar-text: 222.2 84% 4.9%;
+    --sidebar-active-bg: 217 91% 60%;
+    --sidebar-active-text: 0 0% 100%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-hover-bg: 217 91% 95%;
+    --sidebar-hover-text: 217 91% 20%;
+    --accent-color: 217 91% 60%;
   }
 
   .dark {

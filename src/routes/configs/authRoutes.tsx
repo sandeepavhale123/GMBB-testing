@@ -8,13 +8,16 @@ import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { PublicRoute } from "@/routes/PublicRoute";
 import { RouteConfig } from "../routeConfig";
 import { VerifySignupPage } from "@/pages/VerifySignUp";
+import { ThemePreloader } from "@/components/ThemePreloader";
 
 export const authRoutes: RouteConfig[] = [
   {
     path: "/login",
     element: (
       <PublicRoute>
-        <Login />
+        <ThemePreloader loadFromAPI={true}>
+          <Login />
+        </ThemePreloader>
       </PublicRoute>
     ),
   },
