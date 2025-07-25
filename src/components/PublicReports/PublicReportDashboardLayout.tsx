@@ -204,7 +204,11 @@ export const PublicReportDashboardLayout: React.FC<
           <header 
             className="text-white h-[350px] z-10 relative sm:h-[250px]"
             style={{
-              background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`
+              background: `linear-gradient(135deg, 
+                hsl(var(--primary-gradient-from)), 
+                hsl(var(--primary-gradient-via)), 
+                hsl(var(--primary-gradient-from) / 0.9),
+                hsl(var(--primary-gradient-from) / 0.7))`
             }}
           >
             {/* Mobile Menu Button */}
