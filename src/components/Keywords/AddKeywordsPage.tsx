@@ -16,27 +16,7 @@ interface RecommendedKeyword {
   localPack?: boolean;
   competition?: string;
 }
-const recommendedKeywords: RecommendedKeyword[] = [{
-  keyword: "Restaurants",
-  searches: 61000,
-  localPack: false
-}, {
-  keyword: "Auto repair shop",
-  searches: 1900,
-  localPack: true
-}, {
-  keyword: "Cafe nearby",
-  searches: 13000,
-  localPack: true
-}, {
-  keyword: "Cafe in lucknow",
-  searches: 3400,
-  localPack: true
-}, {
-  keyword: "Bar & grill",
-  searches: 400,
-  localPack: true
-}];
+const recommendedKeywords: RecommendedKeyword[] = [{}];
 export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   onAddKeywords
 }) => {
