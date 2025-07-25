@@ -118,10 +118,10 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
       navigate(-1); // Go back to previous page
     }
   };
-  return <div className="bg-background p-6">
+  return <div className="bg-background p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between text-lg font-medium text-foreground mb-8">
+        <div className="flex items-center justify-between text-base sm:text-lg font-medium text-foreground mb-6 sm:mb-8">
           <div className="flex items-center gap-2">
             <Search className="h-5 w-5 text-primary" />
             Search keyword
@@ -138,7 +138,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         </div>
 
         {/* Search Input */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search keyword" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
@@ -146,7 +146,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           <Button 
             onClick={handleSearchKeyword} 
             disabled={!keywordInput.trim() || keywords.length >= 5 || isSearching} 
-            className="h-12 px-6"
+            className="h-12 px-6 w-full sm:w-auto"
           >
             {isSearching ? 'Searching...' : 'Search Keyword'}
           </Button>
@@ -154,8 +154,8 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
 
         {/* Added Keywords */}
-        <div className="flex items-center gap-3 mb-6 justify-between">
-          <div className="flex gap-2 ">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6 sm:justify-between">
+          <div className="flex flex-wrap gap-2">
             {keywords.map((keyword, index) => <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1.5 text-sm">
               {keyword}
               <button onClick={() => handleRemoveKeyword(keyword)} className="hover:bg-muted rounded-full p-0.5 transition-colors" aria-label={`Remove ${keyword}`}>
@@ -163,11 +163,11 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               </button>
             </Badge>)}
           </div>
-          {keywords.length > 0 && <div className="flex items-center justify-between gap-3">
+          {keywords.length > 0 && <div className="flex items-center justify-between sm:justify-end gap-3">
               <span className="text-sm text-muted-foreground">
                 {keywords.length}/5
               </span>
-              <Button onClick={handleCheckPosition} size="sm" className="h-8 px-4">
+              <Button onClick={handleCheckPosition} size="sm" className="h-8 px-4 whitespace-nowrap">
                 Check Current Rank
               </Button>
             </div>}
@@ -198,14 +198,14 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             ) : (
               // Display combined results: search results first, then recommended
               [...searchResults, ...recommendedKeywords].map((item, index) => (
-                <div key={`keyword-${index}`} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors">
+                <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
                   <div className="flex-1">
                     <span className="font-medium text-foreground">{item.keyword}</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                        <span>~ {item.searches.toLocaleString()} searches</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                    <div className="flex flex-col sm:text-right gap-2">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
+                        <span className="whitespace-nowrap">~ {item.searches.toLocaleString()} searches</span>
                         {item.competition && (
                           <div className="flex items-center gap-1">
                             <span className="text-xs text-muted-foreground">Competition:</span>
@@ -232,7 +232,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                       size="sm" 
                       variant="outline" 
                       disabled={keywords.includes(item.keyword) || keywords.length >= 5} 
-                      className="w-8 h-8 p-0"
+                      className="w-8 h-8 p-0 self-end sm:self-center"
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
