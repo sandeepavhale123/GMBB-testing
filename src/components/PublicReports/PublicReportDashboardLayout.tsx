@@ -189,8 +189,8 @@ export const PublicReportDashboardLayout: React.FC<
                       style={
                         isActive
                           ? {
-                              backgroundColor: activeBgColor,
-                              color: activeLabelColor,
+                              backgroundColor: `${activeBgColor} !important`,
+                              color: `${activeLabelColor} !important`,
                             }
                           : {}
                       }
