@@ -98,7 +98,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
   return <div className="bg-background p-4 sm:p-6 h-[90vh]">
       <div className="max-w-4xl mx-auto">
-          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
@@ -106,7 +106,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         <div className="p-[20px] border border-border rounded-lg bg-white ">
         {/* Header */}
         <div className="flex items-center justify-between text-base sm:text-lg font-medium text-foreground mb-6 sm:mb-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center mb-0">
             <Search className="h-5 w-5 text-primary" />
             Search keyword
           </div>
