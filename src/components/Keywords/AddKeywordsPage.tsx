@@ -19,7 +19,8 @@ interface RecommendedKeyword {
 }
 const recommendedKeywords: RecommendedKeyword[] = [];
 export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
-  onAddKeywords
+  onAddKeywords,
+  isLoading = false
 }) => {
   const [keywordInput, setKeywordInput] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
