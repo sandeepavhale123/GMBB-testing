@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
+import { Skeleton } from '../ui/skeleton';
 import { Plus, X, Search, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingApi';
+import { useToast } from '../../hooks/use-toast';
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[]) => void;
 }
 interface RecommendedKeyword {
   keyword: string;
   searches: number;
-  localPack: boolean;
+  localPack?: boolean;
+  competition?: string;
 }
 const recommendedKeywords: RecommendedKeyword[] = [{
   keyword: "Restaurants",
@@ -38,12 +42,60 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 }) => {
   const [keywordInput, setKeywordInput] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<RecommendedKeyword[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
   const handleAddKeyword = () => {
     const trimmedKeyword = keywordInput.trim();
     if (trimmedKeyword && !keywords.includes(trimmedKeyword) && keywords.length < 5) {
       setKeywords(prev => [...prev, trimmedKeyword]);
       setKeywordInput('');
+    }
+  };
+
+  const handleSearchKeyword = async () => {
+    const trimmedKeyword = keywordInput.trim();
+    if (!trimmedKeyword) return;
+
+    setIsSearching(true);
+    try {
+      const response = await getKeywordSearchVolume({ keywords: [trimmedKeyword] });
+      
+      if (response.code === 200) {
+        const newResults: RecommendedKeyword[] = response.data.map((item: KeywordSearchData) => ({
+          keyword: item.keyword,
+          searches: item.search_volume,
+          competition: item.competition,
+          localPack: false
+        }));
+        
+        setSearchResults(prev => [...prev, ...newResults]);
+        setKeywordInput('');
+        
+        toast({
+          title: "Keywords Found",
+          description: `Found ${newResults.length} keyword(s) with search data.`,
+        });
+      }
+    } catch (error: any) {
+      console.error('Keyword search error:', error);
+      
+      if (error.response?.status === 401) {
+        toast({
+          title: "Authentication Error",
+          description: "Please check your credentials and try again.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Search Failed",
+          description: "Unable to fetch keyword data. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsSearching(false);
     }
   };
   const handleRemoveKeyword = (keywordToRemove: string) => {
@@ -91,8 +143,12 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search keyword" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
           </div>
-          <Button onClick={handleAddKeyword} disabled={!keywordInput.trim() || keywords.length >= 5} className="h-12 px-6">
-            Search Keyword
+          <Button 
+            onClick={handleSearchKeyword} 
+            disabled={!keywordInput.trim() || keywords.length >= 5 || isSearching} 
+            className="h-12 px-6"
+          >
+            {isSearching ? 'Searching...' : 'Search Keyword'}
           </Button>
         </div>
 
@@ -124,25 +180,58 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             Recommended keywords
           </h3>
           <div className="space-y-3">
-            {recommendedKeywords.map((item, index) => <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors">
-                <div className="flex-1">
-                  <span className="font-medium text-foreground">{item.keyword}</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <span>~ {item.searches.toLocaleString()} searches</span>
-                      {item.localPack && <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-primary"></div>
-                          <span className="text-primary">Local pack</span>
-                        </div>}
-                    </div>
+            {isSearching ? (
+              // Skeleton loaders during API call
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                  <div className="flex-1">
+                    <Skeleton className="h-5 w-32 mb-2" />
                   </div>
-                  <Button onClick={() => handleAddRecommended(item.keyword)} size="sm" variant="outline" disabled={keywords.includes(item.keyword) || keywords.length >= 5} className="w-8 h-8 p-0">
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <Skeleton className="h-4 w-24" />
+                    </div>
+                    <Skeleton className="w-8 h-8 rounded" />
+                  </div>
                 </div>
-              </div>)}
+              ))
+            ) : (
+              // Display combined results: search results first, then recommended
+              [...searchResults, ...recommendedKeywords].map((item, index) => (
+                <div key={`keyword-${index}`} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="flex-1">
+                    <span className="font-medium text-foreground">{item.keyword}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span>~ {item.searches.toLocaleString()} searches</span>
+                        {item.competition && (
+                          <span className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
+                            {item.competition}
+                          </span>
+                        )}
+                        {item.localPack && (
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 rounded-full bg-primary"></div>
+                            <span className="text-primary">Local pack</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <Button 
+                      onClick={() => handleAddRecommended(item.keyword)} 
+                      size="sm" 
+                      variant="outline" 
+                      disabled={keywords.includes(item.keyword) || keywords.length >= 5} 
+                      className="w-8 h-8 p-0"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

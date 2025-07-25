@@ -300,3 +300,32 @@ export const refreshKeyword = async (
   const response = await axiosInstance.post("/refresh-keyword", requestData);
   return response.data;
 };
+
+// Keyword Search Volume API
+export interface KeywordSearchRequest {
+  keywords: string[];
+}
+
+export interface KeywordSearchData {
+  keyword: string;
+  competition: string;
+  competition_index: number;
+  search_volume: number;
+  low_top_of_page_bid: number;
+  high_top_of_page_bid: number;
+  cpc: number;
+  last_month_searches: number;
+}
+
+export interface KeywordSearchResponse {
+  code: number;
+  message: string;
+  data: KeywordSearchData[];
+}
+
+export const getKeywordSearchVolume = async (
+  requestData: KeywordSearchRequest
+): Promise<KeywordSearchResponse> => {
+  const response = await axiosInstance.post("/get-keyword-search-volume", requestData);
+  return response.data;
+};
