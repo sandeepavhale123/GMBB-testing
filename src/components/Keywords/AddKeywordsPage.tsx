@@ -176,7 +176,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         ) : (
         <div>
           <h3 className="text-lg font-semibold text-foreground mb-4">
-            Recommended keywords
+            {  searchResults ? 'Recommended keywords' : ''} 
           </h3>
           <div className="space-y-3">
             {/* Display combined results: search results first, then recommended */}
