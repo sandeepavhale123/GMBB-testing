@@ -5,6 +5,9 @@ import { loadThemeFromAPI } from "@/store/slices/themeSlice";
 
 export const getThemeUnauthenticated = async () => {
   const domain = window.location.hostname;
+  
+  console.log("🎨 Requesting theme for domain:", domain);
+  console.log("🔗 API URL:", `${import.meta.env.VITE_BASE_URL}/get-theme`);
 
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/get-theme`, {
     method: "POST",
@@ -14,11 +17,15 @@ export const getThemeUnauthenticated = async () => {
     body: JSON.stringify({ domain }),
   });
 
+  const result = await response.json();
+  console.log("🎨 Theme API response:", { status: response.status, result });
+
   if (!response.ok) {
-    throw new Error("Failed to fetch theme");
+    // Return the parsed result so we can check the code in the calling function
+    return result;
   }
 
-  return response.json();
+  return result;
 };
 
 export const useThemeLoader = () => {
