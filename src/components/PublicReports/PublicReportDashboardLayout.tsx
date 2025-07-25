@@ -360,7 +360,7 @@ export const PublicReportDashboardLayout: React.FC<
                       </div>
                     </div>
 
-                    <div className={`grid gap-2 text-sm  grid-cols-1`}>
+                    <div className={`grid gap-2 text-sm  grid-cols-1`} style={{maxWidth:600}}>
                       <div className="text-white/90">
                         <span className="text-white/70">Email: </span>
                         {branding?.company_email}
