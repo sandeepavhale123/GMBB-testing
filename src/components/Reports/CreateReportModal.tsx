@@ -190,8 +190,8 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
               />
               <Label>
                 {reportType === "Individual"
-                  ? "Compare Report"
-                  : "Compare Report"}
+                  ? "Comparision Report"
+                  : "Comparision Report"}
               </Label>
             </div>
           </div>

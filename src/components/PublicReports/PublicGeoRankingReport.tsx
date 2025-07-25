@@ -44,10 +44,10 @@ export const PublicGeoRankingReport: React.FC = () => {
 
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  
+
   // Load theme for public report
   usePublicReportTheme();
-  
+
   const { data: keywordData, isLoading: isKeywordLoading } =
     usePerformanceGeoKeywords(reportId);
   // console.log("georanking keywords data....", keywordData);
@@ -566,8 +566,9 @@ export const PublicGeoRankingReport: React.FC = () => {
               {/* Map Display */}
               <div>
                 {geoData?.length === 0 ? (
-                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -630,8 +631,9 @@ export const PublicGeoRankingReport: React.FC = () => {
                   </p>
                 </div>
                 {geoData?.length === 0 ? (
-                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 ) : (
                   <div className="relative">
@@ -691,8 +693,9 @@ export const PublicGeoRankingReport: React.FC = () => {
                   </p>
                 </div>
                 {comparisonData?.length === 0 ? (
-                  <div className="w-full flex items-center justify-center h-[400px] border rounded-lg bg-gray-50">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 ) : (
                   <div className="relative">

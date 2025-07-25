@@ -37,10 +37,10 @@ export const PublicGMBHealthReport: React.FC = () => {
   const params = useParams();
   const isPublicLayout = location.pathname.startsWith("/gmb-health");
   const reportId = isPublicLayout ? params.reportId : undefined;
-  
+
   // Load theme for public report
   usePublicReportTheme();
-  
+
   const {
     data: publichealthData,
     isLoading,
@@ -430,7 +430,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                       title: "Additional Categories Not Present or Less Than 5",
                       why: "Additional categories help Google understand your services and display your listing for relevant searches.",
                       recommendation:
-                        "Add categories that reflect all your services like 'Emergency Plumbing' or 'Installation'.",
+                        "Add categories that reflect all your services, like 'Emergency Plumbing' or 'Installation'.",
                     },
                     photo: {
                       title: "Less Than 5 Photos",
@@ -508,7 +508,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                         {index + 1}. {item.title}
                       </h3>
                       <div className="mb-4">
-                        <h4 className="font-medium mb-2">• Why it Matters:</h4>
+                        <h4 className="font-medium mb-2">• Why It Matters:</h4>
                         <p className="text-sm text-muted-foreground ml-4">
                           {item.why}
                         </p>
@@ -540,21 +540,21 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </Badge>
               </div>
               <h3 className="font-semibold text-lg mb-3">
-                The listing outperforms or matches its competitors in key areas
+                The listing outperforms or matches its competitors in key areas.
               </h3>
 
               <div className="mb-4">
                 <h4 className="font-medium mb-2">• Why It Matters:</h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  Standing out among competitors increase the chance of
-                  attraction more customer
+                  Standing out among competitors increases the chance of
+                  attracting more customers
                 </p>
               </div>
 
               <div>
                 <h4 className="font-medium mb-2">• Recommendation:</h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  analyze competitor profile and focus on areas where they excel
+                  Analyze competitor profile and focus on areas where they excel
                   such as better rating or more details description
                 </p>
               </div>
@@ -726,23 +726,23 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </Badge>
               </div>
               <h3 className="font-semibold text-lg mb-3">
-                The Listing has fewer citation then competitors.
+                'The Listing Has Fewer Citations Than Competitors.'
               </h3>
 
               <div className="mb-4">
                 <h4 className="font-medium mb-2">• Why It Matters:</h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  citation improve local SEO ranking and signal credibility to
-                  search engines and customer.
+                  Citations improve local SEO ranking and signal credibility to
+                  search engines and customers.
                 </p>
               </div>
 
               <div>
                 <h4 className="font-medium mb-2">• Recommendation:</h4>
                 <p className="text-sm text-muted-foreground ml-4">
-                  identify citation gaps by auditing competitor profile submit
-                  your business to directories like Yelp,Yellow page and other
-                  niche-specific site.
+                  Identify citation gaps by auditing competitor profiles Submit
+                  your business to directories like Yelp,Yellow pages and other
+                  niche-specific sites.
                 </p>
               </div>
             </div>
@@ -903,7 +903,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>
-                  <span>Average Rating is below 4 star</span>
+                  <span>Average Rating is below 4 stars.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-gray-600 mt-1">•</span>

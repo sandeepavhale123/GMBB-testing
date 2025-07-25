@@ -437,7 +437,14 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">
-                    Sentiment Analysis - Period 1
+                    Sentiment Analysis -{" "}
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodOne.date.to_date
+                    )}
                   </CardTitle>
                 </CardHeader>
 
@@ -445,12 +452,13 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="flex justify-center ">
+                        <div className="flex justify-center flex-col gap-4">
                           <img
                             src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
+                          <p className="text-center">No data available</p>
                         </div>
                       ) : (
                         <PieChart>
@@ -526,7 +534,14 @@ export const PublicReviewsReport: React.FC = () => {
               <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white h-full flex flex-col">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-white text-lg">
-                    Sentiment Analysis - Period 2
+                    Sentiment Analysis -{" "}
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodTwo.date.from_date
+                    )}{" "}
+                    -
+                    {formatToDayMonthYear(
+                      reviewsData?.data.periodTwo.date.to_date
+                    )}
                   </CardTitle>
                 </CardHeader>
 
@@ -534,12 +549,13 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty2 ? (
-                        <div className="flex justify-center">
+                        <div className="flex justify-center flex-col gap-4">
                           <img
                             src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
+                          <p className="text-center">No data available</p>
                         </div>
                       ) : (
                         <PieChart>
@@ -673,12 +689,13 @@ export const PublicReviewsReport: React.FC = () => {
                   <div className="h-52 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       {isSentimentEmpty1 ? (
-                        <div className="flex justify-center">
+                        <div className="flex justify-center flex-col gap-4">
                           <img
                             src="/nodata.svg"
                             alt="No Data"
                             className="h-64"
                           />
+                          <p className="text-center">No data available</p>
                         </div>
                       ) : (
                         <PieChart>
@@ -796,8 +813,9 @@ export const PublicReviewsReport: React.FC = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     {trend1.length === 0 ? (
-                      <div className="flex justify-center">
+                      <div className="flex justify-center flex-col gap-4">
                         <img src="/nodata.svg" alt="No Data" className="h-64" />
+                        <p className="text-center">No data available</p>
                       </div>
                     ) : (
                       <LineChart
@@ -876,8 +894,9 @@ export const PublicReviewsReport: React.FC = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     {trend2.length === 0 ? (
-                      <div className="flex justify-center">
+                      <div className="flex justify-center flex-col gap-4">
                         <img src="/nodata.svg" alt="No Data" className="h-64" />
+                        <p className="text-center">No data available</p>
                       </div>
                     ) : (
                       <LineChart
@@ -1021,8 +1040,9 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {trend1.length === 0 ? (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 ) : (
                   <Table>
@@ -1067,8 +1087,9 @@ export const PublicReviewsReport: React.FC = () => {
               </CardHeader>
               <CardContent>
                 {trend2.length === 0 ? (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 ) : (
                   <Table>
@@ -1113,8 +1134,9 @@ export const PublicReviewsReport: React.FC = () => {
             </CardHeader>
             <CardContent>
               {trend1.length === 0 ? (
-                <div className="flex justify-center">
+                <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
+                  <p className="text-center">No data available</p>
                 </div>
               ) : (
                 <Table>
@@ -1153,150 +1175,135 @@ export const PublicReviewsReport: React.FC = () => {
 
         {/* Recent Reviews */}
         {reportType === "compare" ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {/* Period 1 Review */}
             <Card>
               <CardHeader>
-                <CardTitle>Recent Reviews</CardTitle>
+                <CardTitle> Reviews</CardTitle>
               </CardHeader>
               <CardContent>
-                {recentReviews1.length === 0 ? (
-                  <div className="flex justify-center">
+                {recentReviews1.length === 0 && recentReviews2.length === 0 && (
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {reviewsData?.data?.periodOne?.recent_reviews?.map(
-                      (review, index) => {
-                        const numericRating = mapStarTextToNumber(
-                          review.star_rating
-                        );
-                        const reviewDate = new Date(
-                          review.review_cdate
-                        ).toLocaleDateString("en-IN", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        });
-
-                        return (
-                          <div
-                            key={index}
-                            className="flex items-start space-x-4 p-4 border border-border rounded-lg"
-                          >
-                            <Avatar>
-                              <AvatarFallback>
-                                {review.display_name?.[0] || "R"}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 space-y-2">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                  <span className="font-medium text-sm">
-                                    {review.display_name}
-                                  </span>
-                                  <div className="flex">
-                                    {renderStars(numericRating)}
-                                  </div>
-                                </div>
-                                <span className="text-xs text-muted-foreground">
-                                  {reviewDate}
-                                </span>
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                {review.comment}
-                              </p>
-                              <div className="flex items-center space-x-2">
-                                <Badge
-                                  variant={
-                                    review.responce_status === "1"
-                                      ? "default"
-                                      : "secondary"
-                                  }
-                                >
-                                  {review.response_status_label}
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                    )}
+                    <p className="text-center">No data available</p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+                <div className="space-y-6">
+                  {reviewsData?.data?.periodOne?.recent_reviews?.map(
+                    (review, index) => {
+                      const numericRating = mapStarTextToNumber(
+                        review.star_rating
+                      );
+                      const reviewDate = new Date(
+                        review.review_cdate
+                      ).toLocaleDateString("en-IN", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      });
 
-            {/* Period 2 Review */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Reviews</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {recentReviews2.length === 0 ? (
-                  <div className="flex justify-center">
-                    <img src="/nodata.svg" alt="No Data" className="h-64" />
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {reviewsData?.data?.periodTwo?.recent_reviews?.map(
-                      (review, index) => {
-                        const numericRating = mapStarTextToNumber(
-                          review.star_rating
-                        );
-                        const reviewDate = new Date(
-                          review.review_cdate
-                        ).toLocaleDateString("en-IN", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        });
-
-                        return (
-                          <div
-                            key={index}
-                            className="flex items-start space-x-4 p-4 border border-border rounded-lg"
-                          >
-                            <Avatar>
-                              <AvatarFallback>
-                                {review.display_name?.[0] || "R"}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 space-y-2">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                  <span className="font-medium text-sm">
-                                    {review.display_name}
-                                  </span>
-                                  <div className="flex">
-                                    {renderStars(numericRating)}
-                                  </div>
-                                </div>
-                                <span className="text-xs text-muted-foreground">
-                                  {reviewDate}
-                                </span>
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                {review.comment}
-                              </p>
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start space-x-4 p-4 border border-border rounded-lg"
+                        >
+                          <Avatar>
+                            <AvatarFallback>
+                              {review.display_name?.[0] || "R"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 space-y-2">
+                            <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-2">
-                                <Badge
-                                  variant={
-                                    review.responce_status === "1"
-                                      ? "default"
-                                      : "secondary"
-                                  }
-                                >
-                                  {review.response_status_label}
-                                </Badge>
+                                <span className="font-medium text-sm">
+                                  {review.display_name}
+                                </span>
+                                <div className="flex">
+                                  {renderStars(numericRating)}
+                                </div>
                               </div>
+                              <span className="text-xs text-muted-foreground">
+                                {reviewDate}
+                              </span>
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              {review.comment}
+                            </p>
+                            <div className="flex items-center space-x-2">
+                              <Badge
+                                variant={
+                                  review.responce_status === "1"
+                                    ? "default"
+                                    : "secondary"
+                                }
+                              >
+                                {review.response_status_label}
+                              </Badge>
                             </div>
                           </div>
-                        );
-                      }
-                    )}
-                  </div>
-                )}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+                <div className="space-y-6">
+                  {reviewsData?.data?.periodTwo?.recent_reviews?.map(
+                    (review, index) => {
+                      const numericRating = mapStarTextToNumber(
+                        review.star_rating
+                      );
+                      const reviewDate = new Date(
+                        review.review_cdate
+                      ).toLocaleDateString("en-IN", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      });
+
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start space-x-4 p-4 border border-border rounded-lg"
+                        >
+                          <Avatar>
+                            <AvatarFallback>
+                              {review.display_name?.[0] || "R"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                <span className="font-medium text-sm">
+                                  {review.display_name}
+                                </span>
+                                <div className="flex">
+                                  {renderStars(numericRating)}
+                                </div>
+                              </div>
+                              <span className="text-xs text-muted-foreground">
+                                {reviewDate}
+                              </span>
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              {review.comment}
+                            </p>
+                            <div className="flex items-center space-x-2">
+                              <Badge
+                                variant={
+                                  review.responce_status === "1"
+                                    ? "default"
+                                    : "secondary"
+                                }
+                              >
+                                {review.response_status_label}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -1307,8 +1314,9 @@ export const PublicReviewsReport: React.FC = () => {
             </CardHeader>
             <CardContent>
               {recentReviews1.length === 0 ? (
-                <div className="flex justify-center">
+                <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
+                  <p className="text-center">No data available</p>
                 </div>
               ) : (
                 <div className="space-y-6">

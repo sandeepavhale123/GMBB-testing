@@ -263,7 +263,6 @@ export const PublicInsightsReport: React.FC = () => {
                     How Customers Search For Your Business
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 1:{" "}
                     {formatToDayMonthYear(
                       insightData?.data?.periodOne?.date?.from_date
                     )}{" "}
@@ -346,7 +345,6 @@ export const PublicInsightsReport: React.FC = () => {
                     How Customers Search For Your Business
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 2:{" "}
                     {formatToDayMonthYear(
                       insightData?.data?.periodTwo?.date?.from_date
                     )}{" "}
@@ -507,7 +505,6 @@ export const PublicInsightsReport: React.FC = () => {
                     Listing Views & Clicks
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 1:{" "}
                     {formatToDayMonthYear(
                       insightData?.data?.periodOne?.date?.from_date
                     )}{" "}
@@ -562,7 +559,6 @@ export const PublicInsightsReport: React.FC = () => {
                     Listing Views & Clicks
                   </CardTitle>
                   <p className="text-sm text-muted-foreground text-center">
-                    Period 2:{" "}
                     {formatToDayMonthYear(
                       insightData?.data?.periodTwo?.date?.from_date
                     )}{" "}

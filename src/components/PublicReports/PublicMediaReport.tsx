@@ -19,7 +19,7 @@ import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 export const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
-  
+
   // Load theme for public report
   usePublicReportTheme();
 
@@ -198,8 +198,9 @@ export const PublicMediaReport: React.FC = () => {
           <CardContent>
             <div className="h-80">
               {chartData.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
+                  <p className="text-center">No data available</p>
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
@@ -236,12 +237,13 @@ export const PublicMediaReport: React.FC = () => {
         {/* Recent Media */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Media</CardTitle>
+            <CardTitle>Media</CardTitle>
           </CardHeader>
           <CardContent>
             {combinedMedia.length === 0 ? (
-              <div className="text-sm text-muted-foreground text-center flex justify-center  py-10">
+              <div className="flex justify-center flex-col gap-4">
                 <img src="/nodata.svg" alt="No Data" className="h-64" />
+                <p className="text-center">No data available</p>
               </div>
             ) : (
               <div className="space-y-4">

@@ -440,8 +440,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
                   </LineChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="flex justify-center text-sm">
+                <div className="flex justify-center flex-col gap-4">
                   <img src="/nodata.svg" alt="No Data" className="h-64" />
+                  <p className="text-center">No data available</p>
                 </div>
               )
             ) : trendDataOne.length > 0 ? (
@@ -461,8 +462,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex justify-center text-sm">
+              <div className="flex justify-center flex-col gap-4">
                 <img src="/nodata.svg" alt="No Data" className="h-64" />
+                <p className="text-center">No data available</p>
               </div>
             )}
           </CardContent>
@@ -504,36 +506,32 @@ export const PublicPostPerformanceReport: React.FC = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Recent Posts</CardTitle>
+            <CardTitle className="text-lg">Posts</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="">
             {reportType === "compare" ? (
               <>
                 <div>
-                  <h3 className="font-semibold text-md mb-2 text-blue-600">
-                    Period One
-                  </h3>
                   {recentPostsOne.length > 0 ? (
                     recentPostsOne.map((post, index) =>
                       renderPostCard(post, index)
                     )
                   ) : (
-                    <div className="flex justify-center text-sm">
+                    <div className="flex justify-center flex-col gap-4">
                       <img src="/nodata.svg" alt="No Data" className="h-64" />
+                      <p className="text-center">No data available</p>
                     </div>
                   )}
                 </div>
-                <div className="pt-6 border-t mt-6">
-                  <h3 className="font-semibold text-md mb-2 text-orange-600">
-                    Period Two
-                  </h3>
+                <div>
                   {recentPostsTwo.length > 0 ? (
                     recentPostsTwo.map((post, index) =>
                       renderPostCard(post, index)
                     )
                   ) : (
-                    <div className="flex justify-center text-sm">
+                    <div className="flex justify-center flex-col gap-4">
                       <img src="/nodata.svg" alt="No Data" className="h-64" />
+                      <p className="text-center">No data available</p>
                     </div>
                   )}
                 </div>
@@ -545,8 +543,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
                     renderPostCard(post, index)
                   )
                 ) : (
-                  <div className="flex justify-center text-sm">
+                  <div className="flex justify-center flex-col gap-4">
                     <img src="/nodata.svg" alt="No Data" className="h-64" />
+                    <p className="text-center">No data available</p>
                   </div>
                 )}
               </>
