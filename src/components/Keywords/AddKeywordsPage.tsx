@@ -16,7 +16,7 @@ interface RecommendedKeyword {
   localPack?: boolean;
   competition?: string;
 }
-const recommendedKeywords: RecommendedKeyword[] = [{}];
+const recommendedKeywords: RecommendedKeyword[] = [];
 export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   onAddKeywords
 }) => {
