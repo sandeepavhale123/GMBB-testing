@@ -103,7 +103,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             Back
           </Button>
 
-        <div className="p-[20px] border border-border rounded-lg bg-white ">
+        <div className="py-[20px] px-[30px] border border-border rounded-lg bg-white  mb-4">
         {/* Header */}
         <div className="flex items-center justify-between text-base sm:text-lg font-medium text-foreground mb-6 sm:mb-8">
           <div className="flex items-center mb-0">
