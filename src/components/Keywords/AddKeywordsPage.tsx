@@ -9,6 +9,7 @@ import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingA
 import { useToast } from '../../hooks/use-toast';
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[]) => void;
+  isLoading?: boolean;
 }
 interface RecommendedKeyword {
   keyword: string;
@@ -139,8 +140,8 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
               <span className="text-sm text-muted-foreground">
                 {keywords.length}/5
               </span>
-              <Button onClick={handleCheckPosition} size="sm" className="h-8 px-4 whitespace-nowrap">
-                Check Current Rank
+              <Button onClick={handleCheckPosition} size="sm" className="h-8 px-4 whitespace-nowrap" disabled={isLoading}>
+                {isLoading ? "Adding Keywords..." : "Check Current Rank"}
               </Button>
             </div>}
         </div>

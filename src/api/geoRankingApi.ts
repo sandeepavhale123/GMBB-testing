@@ -329,3 +329,22 @@ export const getKeywordSearchVolume = async (
   const response = await axiosInstance.post("/get-keyword-search-volume", requestData);
   return response.data;
 };
+
+// Add Search Keyword API
+export interface AddSearchKeywordRequest {
+  listingId: number;
+  keywords: string[];
+}
+
+export interface AddSearchKeywordResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const addSearchKeyword = async (
+  requestData: AddSearchKeywordRequest
+): Promise<AddSearchKeywordResponse> => {
+  const response = await axiosInstance.post("/add-search-keyword", requestData);
+  return response.data;
+};
