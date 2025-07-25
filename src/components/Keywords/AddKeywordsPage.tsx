@@ -142,19 +142,20 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                 {keywords.length}/5
               </span>
               <Button onClick={handleCheckPosition} size="sm" className="h-8 px-4 whitespace-nowrap" disabled={isLoading}>
-                {isLoading ? "Adding Keywords..." : "Check Current Rank"}
+                {isLoading ? "Adding Keywords..." : "Check Rank"}
               </Button>
             </div>}
         </div>
 
 
         {/* Recommended Keywords */}
+         {isSearching ?
         <div>
           <h3 className="text-lg font-semibold text-foreground mb-4">
             Recommended keywords
           </h3>
           <div className="space-y-3">
-            {isSearching ?
+           
           // Skeleton loaders during API call
           Array.from({
             length: 3
@@ -194,9 +195,10 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                       <Plus className="h-4 w-4" />
                     </Button>
                   </div>
-                </div>)}
+                </div>
           </div>
         </div>
+           )}
 
         {/* Bottom Note */}
         
