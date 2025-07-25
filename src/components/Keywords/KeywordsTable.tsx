@@ -9,7 +9,6 @@ import { Keyword } from './KeywordsPage';
 
 interface KeywordsTableProps {
   keywords: Keyword[];
-  onExport: (format: 'csv' | 'json') => void;
   onDeleteKeyword: (keywordId: string) => void;
   currentPage: number;
   totalPages: number;
@@ -22,7 +21,6 @@ interface KeywordsTableProps {
 
 export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   keywords,
-  onExport,
   onDeleteKeyword,
   currentPage,
   totalPages,
@@ -62,7 +60,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   return (
     <TooltipProvider>
       <div className="bg-white rounded-lg shadow">
-        {/* Table Header with Export Options */}
+        {/* Table Header with Total Count */}
         <div className="flex justify-between items-center p-4 border-b">
           <div className="flex items-center gap-4">
             <h2 className="text-lg font-semibold text-gray-900">Keywords List</h2>
@@ -78,22 +76,9 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               </Button>
             )}
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" disabled={loading || keywords.length === 0}>
-                <Download className="h-4 w-4 mr-2" />
-                Export
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onExport('csv')}>
-                Export as CSV
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onExport('json')}>
-                Export as JSON
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {totalKeywords > 0 && (
+            <p className="text-sm text-gray-500">Total: {totalKeywords} keywords</p>
+          )}
         </div>
 
         {/* Error State */}

@@ -82,40 +82,6 @@ export const KeywordsPage: React.FC = () => {
     });
   };
 
-  const handleExport = (format: 'csv' | 'json') => {
-    if (format === 'csv') {
-      const csvContent = [
-        ['Sr. No', 'Keyword', 'ATR', 'ATRP', 'SOLV', 'Date', 'Status'],
-        ...keywords.map((keyword, index) => [
-          (index + 1).toString(),
-          keyword.keyword,
-          keyword.atr,
-          keyword.atrp,
-          keyword.solv,
-          keyword.date,
-          keyword.status
-        ])
-      ].map(row => row.join(',')).join('\n');
-
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'keywords.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    } else if (format === 'json') {
-      const jsonContent = JSON.stringify(keywords, null, 2);
-      const blob = new Blob([jsonContent], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'keywords.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-  };
-
   if (loading) {
     return (
       <div className="space-y-6">
@@ -143,9 +109,6 @@ export const KeywordsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Keywords</h1>
           <p className="text-gray-600 mt-1">Manage and track keyword rankings for your business</p>
-          {totalKeywords > 0 && (
-            <p className="text-sm text-gray-500 mt-1">Total: {totalKeywords} keywords</p>
-          )}
         </div>
         <Button 
           onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)}
@@ -159,7 +122,6 @@ export const KeywordsPage: React.FC = () => {
       {/* Keywords Table */}
       <KeywordsTable 
         keywords={keywords}
-        onExport={handleExport}
         onDeleteKeyword={handleDeleteKeyword}
         currentPage={currentPage}
         totalPages={totalPages}
