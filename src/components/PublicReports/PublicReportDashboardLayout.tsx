@@ -28,7 +28,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
-import { useAppSelector } from "@/hooks/useRedux";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -62,12 +62,7 @@ export const PublicReportDashboardLayout: React.FC<
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
-  
-  // Get theme colors from Redux store
-  const themeState = useAppSelector((state) => state.theme);
-  const accentColor = themeState.accent_color || "#10B981"; // Default emerald color
-  const activeBgColor = themeState.active_menu_bg_color || accentColor;
-  const activeLabelColor = themeState.active_menu_label_color || "#ffffff";
+  const { lightLogo } = useThemeLogo();
 
   const allSidebarItems = [
     {
@@ -159,11 +154,11 @@ export const PublicReportDashboardLayout: React.FC<
                 className="w-12 h-12 rounded-xl shadow-lg object-cover"
               />
             ) : (
-              <div className="w-12 h-12 bg-white/20 rounded-xl shadow-lg flex items-center justify-center">
-                <span className="text-lg font-bold text-black">
-                  {branding?.company_name?.charAt(0) || "C"}
-                </span>
-              </div>
+              <img
+                src={lightLogo}
+                alt="Default Logo"
+                className="w-12 h-12 rounded-xl shadow-lg object-cover"
+              />
             )}
           </div>
 
@@ -183,17 +178,9 @@ export const PublicReportDashboardLayout: React.FC<
                       }}
                       className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isActive
-                          ? "shadow-md"
+                          ? "bg-primary text-white shadow-md"
                           : "bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md"
                       }`}
-                      style={
-                        isActive
-                          ? {
-                              backgroundColor: `${activeBgColor} !important`,
-                              color: `${activeLabelColor} !important`,
-                            }
-                          : {}
-                      }
                     >
                       <IconComponent className="h-10 w-10" />
                     </button>
@@ -217,7 +204,7 @@ export const PublicReportDashboardLayout: React.FC<
           <header 
             className="text-white h-[350px] z-10 relative sm:h-[250px]"
             style={{
-              background: `linear-gradient(135deg, ${accentColor} 0%, ${accentColor}dd 50%, ${accentColor}aa 100%)`,
+              background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`
             }}
           >
             {/* Mobile Menu Button */}
@@ -269,7 +256,7 @@ export const PublicReportDashboardLayout: React.FC<
                     }`}
                   >
                     <span
-                      className={`font-bold text-black ${
+                      className={`font-bold text-gray-900 ${
                         isMobile ? "text-lg" : "text-2xl"
                       }`}
                     >
@@ -288,7 +275,7 @@ export const PublicReportDashboardLayout: React.FC<
                     {listingName}
                   </h1>
                   <p
-                    className={`text-white ${
+                    className={`text-gray-300  ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
                         : "text-lg"
@@ -304,7 +291,7 @@ export const PublicReportDashboardLayout: React.FC<
 
               {/* Right: Report Date */}
               <div className={`${isMobile ? "text-center" : "text-right"}`}>
-                <p className="text-sm text-white">Report Date</p>
+                <p className="text-sm text-gray-400">Report Date</p>
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >
@@ -340,7 +327,7 @@ export const PublicReportDashboardLayout: React.FC<
                 {/* Left Content */}
                 <div className="text-white">
                   {/* Company Branding Card */}
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-0">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-6">
                     <div
                       className={`flex items-center ${
                         isMobile ? "space-x-4" : "space-x-4"
@@ -360,7 +347,7 @@ export const PublicReportDashboardLayout: React.FC<
                         </div>
                       )}
                       <div className={isMobile ? "text-center" : ""}>
-                        <h3 className="text-3xl font-semibold text-white mb-2">
+                        <h3 className="text-1xl font-semibold text-white mb-2">
                           {branding?.company_name}
                         </h3>
                         {/* <p className="text-white/80 text-sm">
@@ -383,7 +370,7 @@ export const PublicReportDashboardLayout: React.FC<
                         {branding?.company_phone}
                       </div>
 
-                      <div className="text-white/90">
+                      <div className="text-white/90 break-all">
                         <span className="text-white/70">Address: </span>
                         {branding?.company_address}
                       </div>
