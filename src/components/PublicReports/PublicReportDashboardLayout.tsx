@@ -28,6 +28,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useThemeLogo } from "@/hooks/useThemeLogo";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -61,6 +62,7 @@ export const PublicReportDashboardLayout: React.FC<
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
+  const { lightLogo } = useThemeLogo();
 
   const allSidebarItems = [
     {
@@ -152,11 +154,11 @@ export const PublicReportDashboardLayout: React.FC<
                 className="w-12 h-12 rounded-xl shadow-lg object-cover"
               />
             ) : (
-              <div className="w-12 h-12 bg-white/20 rounded-xl shadow-lg flex items-center justify-center">
-                <span className="text-lg font-bold text-black">
-                  {branding?.company_name?.charAt(0) || "C"}
-                </span>
-              </div>
+              <img
+                src={lightLogo}
+                alt="Default Logo"
+                className="w-12 h-12 rounded-xl shadow-lg object-cover"
+              />
             )}
           </div>
 
