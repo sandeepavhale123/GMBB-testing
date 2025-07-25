@@ -275,7 +275,7 @@ export const PublicReportDashboardLayout: React.FC<
                     {listingName}
                   </h1>
                   <p
-                    className={`text-gray-300  ${
+                    className={`text-white  ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
                         : "text-lg"
@@ -291,7 +291,7 @@ export const PublicReportDashboardLayout: React.FC<
 
               {/* Right: Report Date */}
               <div className={`${isMobile ? "text-center" : "text-right"}`}>
-                <p className="text-sm text-gray-400">Report Date</p>
+                <p className="text-sm text-white">Report Date</p>
                 <p
                   className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
                 >
