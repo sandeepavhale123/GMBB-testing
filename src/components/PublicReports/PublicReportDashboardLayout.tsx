@@ -201,7 +201,12 @@ export const PublicReportDashboardLayout: React.FC<
           }`}
         >
           {/* Dark Header */}
-          <header className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white h-[350px] z-10 relative sm:h-[250px]">
+          <header 
+            className="text-white h-[350px] z-10 relative sm:h-[250px]"
+            style={{
+              background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`
+            }}
+          >
             {/* Mobile Menu Button */}
             {isMobile && (
               <button
