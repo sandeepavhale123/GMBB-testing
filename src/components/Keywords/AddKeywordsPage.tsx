@@ -109,7 +109,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between text-base sm:text-lg font-medium text-foreground mb-6 sm:mb-8">
           <div className="flex items-center mb-0">
-            <Search className="h-5 w-5 text-primary" />
+            <Search className="h-5 w-5 text-primary mr-2" />
             Search keyword
           </div>
         </div>
