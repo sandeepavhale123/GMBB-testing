@@ -93,12 +93,12 @@ const menuItems: MenuItem[] = [
     icon: TrendingUp,
     path: null,
     subItems: [
-      // {
-      //   id: "keywords",
-      //   label: "Keywords",
-      //   icon: Search,
-      //   path: "/keywords",
-      // },
+      {
+        id: "keywords",
+        label: "Keywords",
+        icon: Search,
+        path: "/keywords",
+      },
       {
         id: "geo-ranking",
         label: "GEO Ranking",
