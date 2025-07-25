@@ -92,7 +92,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             <Input placeholder="Add keyword" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
           </div>
           <Button onClick={handleAddKeyword} disabled={!keywordInput.trim() || keywords.length >= 5} className="h-12 px-6">
-            Add Keyword
+            Search Keyword
           </Button>
         </div>
 
