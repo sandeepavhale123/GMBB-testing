@@ -70,7 +70,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           localPack: false
         }));
         
-        setSearchResults(prev => [...prev, ...newResults]);
+        setSearchResults(newResults);
         setKeywordInput('');
         
         toast({
