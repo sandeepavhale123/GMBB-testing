@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Switch } from "../../ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select";
 import { Textarea } from "../../ui/textarea";
 import { Checkbox } from "../../ui/checkbox";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Sparkles, Star, Calendar, User, Loader2 } from "lucide-react";
-import {
-  AutoAiSettings,
-  LatestReview,
-} from "../../../store/slices/reviews/templateTypes";
+import { AutoAiSettings, LatestReview } from "../../../store/slices/reviews/templateTypes";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { useListingContext } from "@/context/ListingContext";
-import {
-  generateAIAutoReply,
-  saveAIAutoReply,
-} from "@/store/slices/reviews/thunks";
+import { generateAIAutoReply, saveAIAutoReply } from "@/store/slices/reviews/thunks";
 import { toast } from "@/hooks/use-toast";
 interface AIAutoResponseToggleProps {
   enabled: boolean;
@@ -31,12 +19,11 @@ interface AIAutoResponseToggleProps {
   autoAiSettings?: AutoAiSettings;
   review?: LatestReview;
 }
-
 export const AIAutoResponseToggle: React.FC<AIAutoResponseToggleProps> = ({
   enabled,
   onToggle,
   autoAiSettings,
-  review,
+  review
 }) => {
   const [responseStyle, setResponseStyle] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
@@ -50,12 +37,13 @@ Thank you`);
     useReviewerName: true,
     adaptTone: true,
     referenceSpecificPoints: false,
-    requireApproval: true,
+    requireApproval: true
   });
   const [showAdvanced, setShowAdvanced] = useState(false);
   const dispatch = useAppDispatch();
-  const { selectedListing } = useListingContext();
-
+  const {
+    selectedListing
+  } = useListingContext();
   console.log("auto ai response", autoAiSettings);
 
   // Update state when autoAiSettings data is loaded
@@ -75,80 +63,60 @@ Thank you`);
       }
     }
   }, [autoAiSettings]);
-
   const handleSettingChange = (key: string, value: boolean) => {
-    setSettings((prev) => ({
+    setSettings(prev => ({
       ...prev,
-      [key]: value,
+      [key]: value
     }));
   };
-
   const handleSaveSettings = () => {
     if (!selectedListing?.id) return;
-
     const payload = {
       listingId: Number(selectedListing.id),
       tone: responseStyle,
       reply_text: replyTemplate,
       specific_star: selectedStarRatings,
       newStatus: 1,
-      oldStatus: 1,
+      oldStatus: 1
     };
-
-    dispatch(saveAIAutoReply(payload))
-      .unwrap()
-      .then((res) => {
-        toast({
-          title: "Success",
-          description: res.message || "AI Auto Reply saved successfully!",
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "Error",
-          description: err || "Failed to save AI auto reply settings",
-          variant: "destructive",
-        });
+    dispatch(saveAIAutoReply(payload)).unwrap().then(res => {
+      toast({
+        title: "Success",
+        description: res.message || "AI Auto Reply saved successfully!"
       });
+    }).catch(err => {
+      toast({
+        title: "Error",
+        description: err || "Failed to save AI auto reply settings",
+        variant: "destructive"
+      });
+    });
   };
-
   const handleGenerateAIResponse = () => {
     if (!selectedListing?.id || !review?.id) return;
-
     setIsGenerating(true);
-
     const payload = {
       reviewId: Number(review.id),
       tone: responseStyle,
-      reviewReplyFormat: replyTemplate,
+      reviewReplyFormat: replyTemplate
     };
-
-    dispatch(generateAIAutoReply(payload))
-      .unwrap()
-      .then((generatedText) => {
-        console.log("response of ai", generatedText);
-        setAiResponse(generatedText);
-        setReplyTemplate(generatedText);
-        toast({
-          title: "Success",
-          description: "AI Response generated successfully!",
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "Error",
-          description:
-            typeof err === "string"
-              ? err
-              : err?.message || "Failed to generate response",
-          variant: "destructive",
-        });
-      })
-      .finally(() => setIsGenerating(false));
+    dispatch(generateAIAutoReply(payload)).unwrap().then(generatedText => {
+      console.log("response of ai", generatedText);
+      setAiResponse(generatedText);
+      setReplyTemplate(generatedText);
+      toast({
+        title: "Success",
+        description: "AI Response generated successfully!"
+      });
+    }).catch(err => {
+      toast({
+        title: "Error",
+        description: typeof err === "string" ? err : err?.message || "Failed to generate response",
+        variant: "destructive"
+      });
+    }).finally(() => setIsGenerating(false));
   };
-
-  return (
-    <div className="space-y-4">
+  return <div className="space-y-4">
       {/* Toggle Header */}
       <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
         <div className="flex items-center space-x-3">
@@ -157,13 +125,10 @@ Thank you`);
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-gray-900">
+              <h3 className="text-base font-medium text-gray-900">
                 AI Auto Response
               </h3>
-              <Badge
-                variant="secondary"
-                className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
-              >
+              <Badge variant="secondary" className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black">
                 AI Powered
               </Badge>
             </div>
@@ -173,16 +138,11 @@ Thank you`);
             </p>
           </div>
         </div>
-        <Switch
-          checked={enabled}
-          onCheckedChange={onToggle}
-          className="data-[state=checked]:bg-purple-600"
-        />
+        <Switch checked={enabled} onCheckedChange={onToggle} className="data-[state=checked]:bg-purple-600" />
       </div>
 
       {/* Configuration Panel */}
-      {enabled && (
-        <div className="space-y-8 p-6 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in">
+      {enabled && <div className="space-y-8 p-6 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in">
           <div className="grid sm:grid-1 lg:grid-cols-2">
             <div className="p-4">
               {/* AI Response Style */}
@@ -198,10 +158,7 @@ Thank you`);
                     <SelectValue placeholder="Choose your response style..." />
                   </SelectTrigger>
                   <SelectContent className="bg-background border-border/60 shadow-lg">
-                    <SelectItem
-                      value="professional"
-                      className="hover:bg-muted/80"
-                    >
+                    <SelectItem value="professional" className="hover:bg-muted/80">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                         Professional
@@ -225,10 +182,7 @@ Thank you`);
                         Formal
                       </div>
                     </SelectItem>
-                    <SelectItem
-                      value="empathetic"
-                      className="hover:bg-muted/80"
-                    >
+                    <SelectItem value="empathetic" className="hover:bg-muted/80">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                         Empathetic
@@ -247,17 +201,12 @@ Thank you`);
                       Advanced Options
                     </label>
                   </div>
-                  <Switch
-                    checked={showAdvanced}
-                    onCheckedChange={setShowAdvanced}
-                    className="data-[state=checked]:bg-primary"
-                  />
+                  <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} className="data-[state=checked]:bg-primary" />
                 </div>
               </div>
 
               {/* Apply For Section - Advanced */}
-              {showAdvanced && (
-                <div className="space-y-4 group">
+              {showAdvanced && <div className="space-y-4 group">
                   <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded-md">
                     💡 AI will adapt this style to each review's specific
                     content and rating.
@@ -292,13 +241,7 @@ Thank you`);
                         Reply Text
                       </label>
                     </div>
-                    <Textarea
-                      placeholder="Enter your response template..."
-                      className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
-                      rows={6}
-                      value={replyTemplate}
-                      onChange={(e) => setReplyTemplate(e.target.value)}
-                    />
+                    <Textarea placeholder="Enter your response template..." className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm" rows={6} value={replyTemplate} onChange={e => setReplyTemplate(e.target.value)} />
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
@@ -307,47 +250,26 @@ Thank you`);
                     </h4>
                   </div>
                   <div className="grid grid-cols-5 gap-3">
-                    {[1, 2, 3, 4, 5].map((star) => {
-                      const starKey = `${star}_star`;
-                      const isChecked = selectedStarRatings.includes(starKey);
-
-                      return (
-                        <Card
-                          key={star}
-                          className={`p-3 cursor-pointer border-border/60 ${
-                            isChecked ? "border-primary bg-primary/10" : ""
-                          }`}
-                        >
+                    {[1, 2, 3, 4, 5].map(star => {
+                const starKey = `${star}_star`;
+                const isChecked = selectedStarRatings.includes(starKey);
+                return <Card key={star} className={`p-3 cursor-pointer border-border/60 ${isChecked ? "border-primary bg-primary/10" : ""}`}>
                           <div className="flex items-center justify-between">
-                            <label
-                              htmlFor={`checkbox-star-${star}`}
-                              className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
-                            >
+                            <label htmlFor={`checkbox-star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
                               {star} Star
                             </label>
-                            <Checkbox
-                              id={`checkbox-star-${star}`}
-                              checked={isChecked}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setSelectedStarRatings((prev) => [
-                                    ...prev,
-                                    starKey,
-                                  ]);
-                                } else {
-                                  setSelectedStarRatings((prev) =>
-                                    prev.filter((s) => s !== starKey)
-                                  );
-                                }
-                              }}
-                            />
+                            <Checkbox id={`checkbox-star-${star}`} checked={isChecked} onCheckedChange={checked => {
+                      if (checked) {
+                        setSelectedStarRatings(prev => [...prev, starKey]);
+                      } else {
+                        setSelectedStarRatings(prev => prev.filter(s => s !== starKey));
+                      }
+                    }} />
                           </div>
-                        </Card>
-                      );
-                    })}
+                        </Card>;
+              })}
                   </div>
-                </div>
-              )}
+                </div>}
 
               {/* AI Response Settings */}
             </div>
@@ -385,17 +307,7 @@ Thank you`);
                                 {review?.display_name}
                               </h4>
                               <div className="flex items-center gap-1">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <div
-                                    key={star}
-                                    className={`w-4 h-4 rounded-full ${
-                                      star <=
-                                      parseInt(review?.star_rating || "0")
-                                        ? "bg-yellow-400"
-                                        : "bg-gray-300"
-                                    }`}
-                                  />
-                                ))}
+                                {[1, 2, 3, 4, 5].map(star => <div key={star} className={`w-4 h-4 rounded-full ${star <= parseInt(review?.star_rating || "0") ? "bg-yellow-400" : "bg-gray-300"}`} />)}
 
                                 <span className="text-sm text-muted-foreground ml-1">
                                   {review?.star_rating}
@@ -416,31 +328,15 @@ Thank you`);
                         </div>
                       </div>
 
-                      {aiResponse && (
-                        <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
+                      {aiResponse && <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
                           <p className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">
-                            {isGenerating ? (
-                              <Loader2 className=" h-4 w-4 mx-auto animate-spin text-green-400" />
-                            ) : (
-                              aiResponse
-                            )}
+                            {isGenerating ? <Loader2 className=" h-4 w-4 mx-auto animate-spin text-green-400" /> : aiResponse}
                           </p>
-                        </div>
-                      )}
+                        </div>}
                       <div className="flex gap-3">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleGenerateAIResponse}
-                          disabled={isGenerating}
-                          className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
-                        >
+                        <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={isGenerating} className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200">
                           <Sparkles className="w-4 h-4 mr-2" />
-                          {isGenerating
-                            ? "Generating AI Response..."
-                            : aiResponse
-                            ? "Regenerate"
-                            : "Generate AI Response"}
+                          {isGenerating ? "Generating AI Response..." : aiResponse ? "Regenerate" : "Generate AI Response"}
                         </Button>
                       </div>
                     </div>
@@ -451,17 +347,11 @@ Thank you`);
           </div>
           {/* Save Button */}
           <div className="flex justify-end pt-4 border-t border-border/30">
-            <Button
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8"
-              onClick={handleSaveSettings}
-              disabled={isGenerating}
-            >
+            <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8" onClick={handleSaveSettings} disabled={isGenerating}>
               <Sparkles className="w-4 h-4 mr-2" />
               Save AI Settings
             </Button>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
