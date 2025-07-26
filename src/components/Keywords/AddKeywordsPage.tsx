@@ -99,7 +99,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
     }
   };
   return <div className="bg-background p-4 sm:p-6 h-[90vh]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
             Back
@@ -149,17 +149,15 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
 
         {/* Recommended Keywords */}
-         {isSearching ? (
-        <div>
+         {isSearching ? <div>
           <h3 className="text-lg font-semibold text-foreground mb-4">
             Recommended keywords
           </h3>
           <div className="space-y-3">
             {/* Skeleton loaders during API call */}
             {Array.from({
-              length: 3
-            }).map((_, index) => (
-              <div key={`skeleton-${index}`} className="flex items-center justify-between p-4 border border-border rounded-lg">
+            length: 3
+          }).map((_, index) => <div key={`skeleton-${index}`} className="flex items-center justify-between p-4 border border-border rounded-lg">
                 <div className="flex-1">
                   <Skeleton className="h-5 w-32 mb-2" />
                 </div>
@@ -169,19 +167,15 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                   </div>
                   <Skeleton className="w-8 h-8 rounded" />
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
-        </div>
-        ) : (
-        <div>
+        </div> : <div>
           <h3 className="text-lg font-semibold text-foreground mb-4">
-            {  isSearching ? 'Recommended keywords' : ''} 
+            {isSearching ? 'Recommended keywords' : ''} 
           </h3>
           <div className="space-y-3">
             {/* Display combined results: search results first, then recommended */}
-            {[...searchResults, ...recommendedKeywords].map((item, index) => (
-              <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
+            {[...searchResults, ...recommendedKeywords].map((item, index) => <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
                 <div className="flex-1">
                   <span className="font-medium text-foreground">{item.keyword}</span>
                 </div>
@@ -189,31 +183,25 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                   <div className="flex flex-col sm:text-right gap-2">
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
                       <span className="whitespace-nowrap">~ {item.searches.toLocaleString()} searches</span>
-                      {item.competition && (
-                        <div className="flex items-center gap-1">
+                      {item.competition && <div className="flex items-center gap-1">
                           <span className="text-xs text-muted-foreground">Competition:</span>
                           <span className={`text-xs px-2 py-1 rounded font-medium ${item.competition === 'LOW' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : item.competition === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : item.competition === 'HIGH' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-muted text-muted-foreground'}`}>
                             {item.competition}
                           </span>
-                        </div>
-                      )}
-                      {item.localPack && (
-                        <div className="flex items-center gap-1">
+                        </div>}
+                      {item.localPack && <div className="flex items-center gap-1">
                           <div className="w-2 h-2 rounded-full bg-primary"></div>
                           <span className="text-primary">Local pack</span>
-                        </div>
-                      )}
+                        </div>}
                     </div>
                   </div>
                   <Button onClick={() => handleAddRecommended(item.keyword)} size="sm" variant="outline" disabled={keywords.includes(item.keyword) || keywords.length >= 5} className="w-8 h-8 p-0 self-end sm:self-center">
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
-        </div>
-        )}
+        </div>}
 
         {/* Bottom Note */}
         
