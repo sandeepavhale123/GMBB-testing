@@ -24,6 +24,7 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/notifications': { title: 'Notifications', subtitle: 'Stay updated with important alerts and updates' },
   '/location-dashboard': { title: 'Dashboard', subtitle: 'Monitor your business performance across all platforms' },
   '/reports': { title: 'Reports', subtitle: 'View and generate performance reports' },
+  '/ai-chatbot': { title: 'AI Genie Assistance', subtitle: 'Get AI-powered assistance for your GEO ranking optimization' },
   '/settings/team-members/edit': { title: 'Edit Team Member', subtitle: 'Manage team member profile, listing access, and feature permissions' }
 };
 

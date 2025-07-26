@@ -114,6 +114,11 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Dashboard', path: '/' },
     { title: 'Reports', path: '/reports' }
   ],
+  '/ai-chatbot': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'GEO Ranking', path: '/geo-ranking' },
+    { title: 'AI Genie Assistance', path: '/ai-chatbot' }
+  ],
   '/settings/team-members': [
     { title: 'Dashboard', path: '/' },
     { title: 'Settings', path: '/settings' },
