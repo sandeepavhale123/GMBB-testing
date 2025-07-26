@@ -72,7 +72,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
               </SelectContent>
             </Select>}
         </div>
-        <p className="text-sm text-gray-600">Most popular search terms that led customers to your business</p>
+        <p className="text-sm text-gray-600">Most popular search terms that led customers to your business.</p>
       </CardHeader>
       <CardContent>
         {isLoadingTopKeywordQuery ? <div className="space-y-4">
@@ -82,7 +82,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
             <p className="text-sm text-gray-500">{topKeywordQueryError}</p>
           </div> : topKeywordQuery?.Monthdata && topKeywordQuery.Monthdata.length > 0 ? <ScrollArea className="h-[400px]">
             <div className="space-y-4 pr-4">
-              {topKeywordQuery.Monthdata.map((query) => <div key={query.id} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+              {topKeywordQuery.Monthdata.map(query => <div key={query.id} className="flex items-center justify-between p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                   <span className="text-sm font-medium text-gray-900">{query.keyword}</span>
                   <span className="text-sm text-gray-600">
                     {parseInt(query.impressions) > 15 ? query.impressions : '< 15'}
