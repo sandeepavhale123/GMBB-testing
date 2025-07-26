@@ -92,8 +92,25 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   };
 
   const formatDate = (dateString: string) => {
-    // Simple date formatting - you can enhance this
-    return new Date(dateString).toLocaleDateString();
+    if (!dateString) return 'N/A';
+    
+    // Handle DD-MM-YYYY format from backend
+    if (dateString.includes('-')) {
+      const [day, month, year] = dateString.split('-');
+      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
+    }
+    
+    // Fallback for other formats
+    const date = new Date(dateString);
+    return !isNaN(date.getTime()) ? date.toLocaleDateString() : 'Invalid Date';
   };
 
   const getStatusBadge = (status: string) => {
