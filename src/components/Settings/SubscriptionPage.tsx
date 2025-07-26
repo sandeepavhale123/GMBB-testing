@@ -360,7 +360,7 @@ export const SubscriptionPage: React.FC = () => {
               Subscription Plans
             </h2>
             {/* Show expiration status if user has a plan */}
-            {activePlanId && planExpDate && <div className={` p-3 rounded-lg ${isExpired ? "bg-red-50 border border-red-200" : "bg-green-50 border border-green-200"}`}>
+            {activePlanId && planExpDate && <div className={` p-1 rounded-lg ${isExpired ? "bg-red-50 border border-red-200" : "bg-green-50 border border-green-200"}`}>
                 <p className={`text-sm font-medium ${isExpired ? "text-red-800" : "text-green-800"}`}>
                   {isExpired ? `Your plan expired on ${formatDate(planExpDate)}. Please renew to continue accessing features.` : `Your plan is active until ${formatDate(planExpDate)}.`}
                 </p>
