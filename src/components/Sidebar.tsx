@@ -5,37 +5,18 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  LayoutDashboard,
-  FileText,
-  Image,
-  BarChart3,
-  MapPin,
-  Star,
-  Building,
-  Settings,
-  Crown,
-  Sparkles,
-  MessageCircleQuestion,
-  FileBarChart,
-  Bot,
-  BookOpen,
-  ChevronDown,
-  ChevronRight,
-  Search,
-  TrendingUp,
-} from "lucide-react";
+import { LayoutDashboard, FileText, Image, BarChart3, MapPin, Star, Building, Settings, Crown, Sparkles, MessageCircleQuestion, FileBarChart, Bot, BookOpen, ChevronDown, ChevronRight, Search, TrendingUp } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { useAppSelector } from "../hooks/useRedux";
-
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  isMobile?: boolean;
+  sidebarOpen?: boolean;
 }
-
 interface MenuItem {
   id: string;
   label: string;
@@ -43,106 +24,96 @@ interface MenuItem {
   path: string | null;
   subItems?: MenuItem[];
 }
-
-const menuItems: MenuItem[] = [
-  {
-    id: "overview",
-    label: "Overview",
-    icon: LayoutDashboard,
-    path: "/location-dashboard",
-  },
-  {
-    id: "posts",
-    label: "Posts",
-    icon: FileText,
-    path: "/posts",
-  },
-  {
-    id: "media",
-    label: "Media",
-    icon: Image,
-    path: "/media",
-  },
-  {
-    id: "reviews",
-    label: "Reviews",
-    icon: Star,
-    path: "/reviews",
-  },
-  {
-    id: "insights",
-    label: "Insights",
-    icon: BarChart3,
-    path: "/insights",
-  },
-  {
-    id: "qa",
-    label: "Q&A",
-    icon: MessageCircleQuestion,
-    path: "/qa",
-  },
-  {
-    id: "businesses",
-    label: "Management",
-    icon: Building,
-    path: "/business-info",
-  },
-  {
-    id: "tracking",
-    label: "Tracking",
-    icon: TrendingUp,
-    path: null,
-    subItems: [
-      {
-        id: "keywords",
-        label: "Keywords",
-        icon: Search,
-        path: "/keywords",
-      },
-      {
-        id: "geo-ranking",
-        label: "GEO Ranking",
-        icon: MapPin,
-        path: "/geo-ranking",
-      },
-    ],
-  },
-  {
-    id: "citation",
-    label: "Citation",
-    icon: BookOpen,
-    path: "/citation",
-  },
-  {
-    id: "reports",
-    label: "Reports",
-    icon: FileBarChart,
-    path: "/reports",
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    icon: Settings,
-    path: "/settings",
-  },
-];
-
+const menuItems: MenuItem[] = [{
+  id: "overview",
+  label: "Dashboard",
+  icon: LayoutDashboard,
+  path: "/location-dashboard"
+}, {
+  id: "posts",
+  label: "Posts",
+  icon: FileText,
+  path: "/posts"
+}, {
+  id: "media",
+  label: "Media",
+  icon: Image,
+  path: "/media"
+}, {
+  id: "reviews",
+  label: "Reviews",
+  icon: Star,
+  path: "/reviews"
+}, {
+  id: "insights",
+  label: "Insights",
+  icon: BarChart3,
+  path: "/insights"
+}, {
+  id: "qa",
+  label: "Q&A",
+  icon: MessageCircleQuestion,
+  path: "/qa"
+}, {
+  id: "businesses",
+  label: "Management",
+  icon: Building,
+  path: "/business-info"
+}, {
+  id: "tracking",
+  label: "Tracking",
+  icon: TrendingUp,
+  path: null,
+  subItems: [{
+    id: "keywords",
+    label: "Keywords",
+    icon: Search,
+    path: "/keywords"
+  }, {
+    id: "geo-ranking",
+    label: "GEO Ranking",
+    icon: MapPin,
+    path: "/geo-ranking"
+  }]
+}, {
+  id: "citation",
+  label: "Citation",
+  icon: BookOpen,
+  path: "/citation"
+}, {
+  id: "reports",
+  label: "Reports",
+  icon: FileBarChart,
+  path: "/reports"
+}, {
+  id: "settings",
+  label: "Settings",
+  icon: Settings,
+  path: "/settings"
+}];
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   onToggleCollapse,
+  isMobile = false,
+  sidebarOpen = false
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { listingId } = useParams();
-  const { profileData } = useProfile();
-  const { dark_logo_url, favicon_url, dark_logo, favicon } = useAppSelector(
-    (state) => state.theme
-  );
+  const {
+    listingId
+  } = useParams();
+  const {
+    profileData
+  } = useProfile();
+  const {
+    dark_logo_url,
+    favicon_url,
+    dark_logo,
+    favicon
+  } = useAppSelector(state => state.theme);
 
   // State for managing expanded sub-menus
-  const [expandedMenus, setExpandedMenus] = React.useState<Set<string>>(
-    new Set()
-  );
+  const [expandedMenus, setExpandedMenus] = React.useState<Set<string>>(new Set());
 
   // console.log("user", profileData);
   const isAdmin = profileData?.role?.toLowerCase() === "admin";
@@ -154,28 +125,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   // Get user info from profile data
-  const userName = profileData
-    ? `${profileData.first_name} ${profileData.last_name}`
-    : "User";
+  const userName = profileData ? `${profileData.first_name} ${profileData.last_name}` : "User";
   const userEmail = profileData?.username || "user@example.com";
-  const userInitials = profileData
-    ? `${profileData.first_name?.charAt(0) || ""}${
-        profileData.last_name?.charAt(0) || ""
-      }`
-    : "U";
-  const userProfilePic =
-    profileData?.profilePic ||
-    "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
+  const userInitials = profileData ? `${profileData.first_name?.charAt(0) || ""}${profileData.last_name?.charAt(0) || ""}` : "U";
+  const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
   const planExpDate = profileData?.planExpDate || null;
 
   // Check if plan is expired using the subscription utility
   const isPlanExpired = isSubscriptionExpired(planExpDate);
-  const isEnterprisePlan =
-    profileData?.planName?.toLowerCase() === "enterprise";
+  const isEnterprisePlan = profileData?.planName?.toLowerCase() === "enterprise";
   // console.log("plan exp or not .....", isPlanExpired);
-  const trialPlan =
-    profileData?.planName?.toLowerCase() === "7$ for 7-day trial" ||
-    profileData?.planName?.toLowerCase() === "trial";
+  const trialPlan = profileData?.planName?.toLowerCase() === "7$ for 7-day trial" || profileData?.planName?.toLowerCase() === "trial";
   console.log("is  plan .....", trialPlan);
   // console.log(
   //   "result of condition",
@@ -183,7 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // );
   // Toggle sub-menu expansion
   const toggleSubMenu = (menuId: string) => {
-    setExpandedMenus((prev) => {
+    setExpandedMenus(prev => {
       const newSet = new Set(prev);
       if (newSet.has(menuId)) {
         newSet.delete(menuId);
@@ -206,7 +166,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
 
     // Check main menu items first
-    const activeItem = menuItems.find((item) => item.path === `/${baseRoute}`);
+    const activeItem = menuItems.find(item => item.path === `/${baseRoute}`);
     if (activeItem) {
       return activeItem.id;
     }
@@ -214,15 +174,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Check sub-menu items
     for (const item of menuItems) {
       if (item.subItems && Array.isArray(item.subItems)) {
-        const activeSubItem = item.subItems.find(
-          (subItem) => subItem.path === `/${baseRoute}`
-        );
+        const activeSubItem = item.subItems.find(subItem => subItem.path === `/${baseRoute}`);
         if (activeSubItem) {
           return activeSubItem.id;
         }
       }
     }
-
     return "overview";
   }, [location.pathname]);
 
@@ -235,11 +192,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Find if current route is a sub-menu item and expand its parent
     for (const item of menuItems) {
       if (item.subItems) {
-        const activeSubItem = item.subItems.find(
-          (subItem) => subItem.path === `/${baseRoute}`
-        );
+        const activeSubItem = item.subItems.find(subItem => subItem.path === `/${baseRoute}`);
         if (activeSubItem) {
-          setExpandedMenus((prev) => new Set(prev).add(item.id));
+          setExpandedMenus(prev => new Set(prev).add(item.id));
           break;
         }
       }
@@ -253,23 +208,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return URL.createObjectURL(dark_logo);
     }
     // Otherwise use the API URL or fallback
-    return (
-      dark_logo_url ||
-      "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png"
-    );
+    return dark_logo_url || "/lovable-uploads/1dbac215-c555-4005-aa94-73183e291d0e.png";
   };
-
   const getFaviconUrl = () => {
     // If a new favicon file has been uploaded, use it immediately
     if (favicon) {
       return URL.createObjectURL(favicon);
     }
     // Otherwise use the API URL or fallback
-    return (
-      favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
-    );
+    return favicon_url || "/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png";
   };
-
   const handleTabChange = (tab: string, basePath: string) => {
     if (isPlanExpired) {
       if (shouldHideForRole()) {
@@ -281,22 +229,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }
     }
     // For routes that need listing context, append the listing ID
-    const listingRoutes = [
-      "/location-dashboard",
-      "/ai-tasks",
-      "/posts",
-      "/media",
-      "/insights",
-      "/keywords",
-      "/geo-ranking",
-      "/ai-chatbot",
-      "/reviews",
-      "/qa",
-      "/reports",
-      "/business-info",
-      "/citation",
-    ];
-
+    const listingRoutes = ["/location-dashboard", "/ai-tasks", "/posts", "/media", "/insights", "/keywords", "/geo-ranking", "/ai-chatbot", "/reviews", "/qa", "/reports", "/business-info", "/citation"];
     if (listingRoutes.includes(basePath) && listingId) {
       navigate(`${basePath}/${listingId}`);
     } else if (listingRoutes.includes(basePath)) {
@@ -307,7 +240,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       navigate(basePath);
     }
   };
-
   React.useEffect(() => {
     if (isAdmin) {
       const script = document.createElement("script");
@@ -315,21 +247,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       script.async = true;
       script.src = "https://client.crisp.chat/l.js";
       document.head.appendChild(script);
-
       (window as any).$crisp = [];
       (window as any).CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
-
       (window as any).CRISP_READY_TRIGGER = function () {
         const visitorEmail = (window as any).$crisp?.get("user:email");
         if (!visitorEmail) {
-          (window as any).$crisp.push([
-            "set",
-            "user:email",
-            profileData?.username,
-          ]);
+          (window as any).$crisp.push(["set", "user:email", profileData?.username]);
         }
       };
-
       return () => {
         // Cleanup: Remove Crisp script and globals when component unmounts
         document.head.removeChild(script);
@@ -339,185 +264,105 @@ export const Sidebar: React.FC<SidebarProps> = ({
       };
     }
   }, [isAdmin, profileData?.username]);
-
-  return (
-    <div
-      className={cn(
-        "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
-        collapsed ? "w-16" : "w-64"
-      )}
-      style={{
-        backgroundColor: "var(--sidebar-bg, #111827)",
-        borderColor: "var(--sidebar-border, #374151)",
-      }}
-    >
+  return <div className={cn("fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
+  // Desktop behavior
+  !isMobile && (collapsed ? "w-16" : "w-64"),
+  // Mobile behavior - overlay from left
+  isMobile && (sidebarOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"),
+  // Higher z-index for mobile overlay
+  isMobile && "z-50")} style={{
+    backgroundColor: "var(--sidebar-bg, #111827)",
+    borderColor: "var(--sidebar-border, #374151)"
+  }}>
       <div className="flex h-full flex-col">
         {/* Logo Section */}
-        <div
-          className="flex h-20 items-center justify-between border-b px-4"
-          style={{
-            borderColor: "var(--sidebar-border, #374151)",
-            height: "107px",
-          }}
-        >
-          {!collapsed ? (
-            <div className="flex items-center space-x-2">
-              <img
-                src={getDarkLogoUrl()}
-                alt="GMB Genie Logo"
-                className=" w-auto object-contain"
-                style={{ height: "60px", maxWidth: "220px" }}
-              />
-            </div>
-          ) : (
-            <img
-              src={getFaviconUrl()}
-              alt="GMB Genie Logo"
-              className="w-8 h-8 object-contain"
-            />
-          )}
+        <div className="flex h-20 items-center justify-between border-b px-4" style={{
+        borderColor: "var(--sidebar-border, #374151)",
+        height: "107px"
+      }}>
+          {!(collapsed && !isMobile) ? <div className="flex items-center space-x-2">
+              <img src={getDarkLogoUrl()} alt="GMB Genie Logo" className=" w-auto object-contain" style={{
+            height: "60px",
+            maxWidth: "220px"
+          }} />
+            </div> : <img src={getFaviconUrl()} alt="GMB Genie Logo" className="w-8 h-8 object-contain" />}
         </div>
 
         {/* Navigation Menu */}
         <ScrollArea className="flex-1 px-3 py-4">
           <nav className="space-y-2">
-            {menuItems
-              .filter(
-                (item) => !(item.id === "settings" && shouldHideForRole())
-              )
-              .map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                const hasSubItems = item.subItems && item.subItems.length > 0;
-                const isExpanded = expandedMenus.has(item.id);
-
-                return (
-                  <div key={item.id}>
-                    <Button
-                      variant={isActive ? "default" : "ghost"}
-                      className={cn(
-                        "w-full justify-start h-10",
-                        collapsed ? "px-2 justify-center" : "px-3"
-                      )}
-                      style={{
-                        backgroundColor: isActive
-                          ? "var(--sidebar-active-bg, #2563eb)"
-                          : "transparent",
-                        color: isActive
-                          ? "var(--sidebar-active-text, #ffffff)"
-                          : "var(--sidebar-text, #d1d5db)",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor =
-                            "var(--sidebar-hover-bg, #374151)";
-                          e.currentTarget.style.color =
-                            "var(--sidebar-hover-text, #ffffff)";
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = "transparent";
-                          e.currentTarget.style.color =
-                            "var(--sidebar-text, #d1d5db)";
-                        }
-                      }}
-                      onClick={() => {
-                        if (hasSubItems) {
-                          if (!collapsed) {
-                            toggleSubMenu(item.id);
-                          }
-                        } else if (item.path) {
-                          handleTabChange(item.id, item.path);
-                        }
-                      }}
-                      title={collapsed ? item.label : undefined}
-                    >
-                      <Icon
-                        className={cn(
-                          "h-5 w-5",
-                          collapsed ? "mx-auto" : "mr-3"
-                        )}
-                      />
-                      {!collapsed && (
-                        <>
+            {menuItems.filter(item => !(item.id === "settings" && shouldHideForRole())).map(item => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            const hasSubItems = item.subItems && item.subItems.length > 0;
+            const isExpanded = expandedMenus.has(item.id);
+            return <div key={item.id}>
+                    <Button variant={isActive ? "default" : "ghost"} className={cn("w-full justify-start h-10", collapsed && !isMobile ? "px-2 justify-center" : "px-3")} style={{
+                backgroundColor: isActive ? "var(--sidebar-active-bg, #2563eb)" : "transparent",
+                color: isActive ? "var(--sidebar-active-text, #ffffff)" : "var(--sidebar-text, #d1d5db)"
+              }} onMouseEnter={e => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = "var(--sidebar-hover-bg, #374151)";
+                  e.currentTarget.style.color = "var(--sidebar-hover-text, #ffffff)";
+                }
+              }} onMouseLeave={e => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
+                }
+              }} onClick={() => {
+                if (hasSubItems) {
+                  if (!(collapsed && !isMobile)) {
+                    toggleSubMenu(item.id);
+                  }
+                } else if (item.path) {
+                  handleTabChange(item.id, item.path);
+                }
+              }} title={collapsed && !isMobile ? item.label : undefined}>
+                      <Icon className={cn("h-5 w-5", collapsed && !isMobile ? "mx-auto" : "mr-3")} />
+                      {!(collapsed && !isMobile) && <>
                           <span className="text-sm font-medium flex-1 text-left">
                             {item.label}
                           </span>
-                          {hasSubItems && (
-                            <div className="ml-2">
-                              {isExpanded ? (
-                                <ChevronDown className="h-4 w-4" />
-                              ) : (
-                                <ChevronRight className="h-4 w-4" />
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )}
+                          {hasSubItems && <div className="ml-2">
+                              {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                            </div>}
+                        </>}
                     </Button>
 
                     {/* Sub-menu items */}
-                    {hasSubItems && isExpanded && !collapsed && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {item.subItems?.map((subItem) => {
-                          const SubIcon = subItem.icon;
-                          const isSubActive = activeTab === subItem.id;
-                          return (
-                            <Button
-                              key={subItem.id}
-                              variant={isSubActive ? "default" : "ghost"}
-                              className="w-full justify-start h-8 text-xs pl-6"
-                              style={{
-                                backgroundColor: isSubActive
-                                  ? "var(--sidebar-active-bg, #2563eb)"
-                                  : "transparent",
-                                color: isSubActive
-                                  ? "var(--sidebar-active-text, #ffffff)"
-                                  : "var(--sidebar-text, #d1d5db)",
-                              }}
-                              onMouseEnter={(e) => {
-                                if (!isSubActive) {
-                                  e.currentTarget.style.backgroundColor =
-                                    "var(--sidebar-hover-bg, #374151)";
-                                  e.currentTarget.style.color =
-                                    "var(--sidebar-hover-text, #ffffff)";
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (!isSubActive) {
-                                  e.currentTarget.style.backgroundColor =
-                                    "transparent";
-                                  e.currentTarget.style.color =
-                                    "var(--sidebar-text, #d1d5db)";
-                                }
-                              }}
-                              onClick={() =>
-                                handleTabChange(subItem.id, subItem.path)
-                              }
-                            >
+                    {hasSubItems && isExpanded && !(collapsed && !isMobile) && <div className="ml-4 mt-1 space-y-1">
+                        {item.subItems?.map(subItem => {
+                  const SubIcon = subItem.icon;
+                  const isSubActive = activeTab === subItem.id;
+                  return <Button key={subItem.id} variant={isSubActive ? "default" : "ghost"} className="w-full justify-start h-8 text-xs pl-6" style={{
+                    backgroundColor: isSubActive ? "var(--sidebar-active-bg, #2563eb)" : "transparent",
+                    color: isSubActive ? "var(--sidebar-active-text, #ffffff)" : "var(--sidebar-text, #d1d5db)"
+                  }} onMouseEnter={e => {
+                    if (!isSubActive) {
+                      e.currentTarget.style.backgroundColor = "var(--sidebar-hover-bg, #374151)";
+                      e.currentTarget.style.color = "var(--sidebar-hover-text, #ffffff)";
+                    }
+                  }} onMouseLeave={e => {
+                    if (!isSubActive) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                      e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
+                    }
+                  }} onClick={() => handleTabChange(subItem.id, subItem.path)}>
                               <SubIcon className="h-4 w-4 mr-2" />
                               <span className="text-xs font-medium">
                                 {subItem.label}
                               </span>
-                            </Button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+                            </Button>;
+                })}
+                      </div>}
+                  </div>;
+          })}
           </nav>
         </ScrollArea>
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired &&
-          !collapsed &&
-          !isEnterprisePlan &&
-          !shouldHideForRole() &&
-          trialPlan && (
-            <div className="px-3 pb-4">
+        {!isPlanExpired && !(collapsed && !isMobile) && !isEnterprisePlan && !shouldHideForRole() && trialPlan && <div className="px-3 pb-4">
               <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-2 mb-2">
@@ -527,69 +372,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </span>
                   </div>
                   <p className="text-xs text-blue-100 mb-3">
-                    {isPlanExpired
-                      ? "Your plan has expired. Renew to continue accessing features"
-                      : "Unlock premium features and get unlimited access"}
+                    {isPlanExpired ? "Your plan has expired. Renew to continue accessing features" : "Unlock premium features and get unlimited access"}
                   </p>
-                  <Button
-                    size="sm"
-                    className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
-                    onClick={() => navigate("/settings/subscription")}
-                  >
+                  <Button size="sm" className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium" onClick={() => navigate("/settings/subscription")}>
                     <Sparkles className="h-3 w-3 mr-1" />
                     {isPlanExpired ? "Renew Now" : "Upgrade Now"}
                   </Button>
                 </CardContent>
               </Card>
-            </div>
-          )}
+            </div>}
 
         {/* User Profile Section */}
-        <div
-          className="border-t p-4"
-          style={{ borderColor: "var(--sidebar-border, #374151)" }}
-        >
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start h-12",
-              collapsed ? "px-2 justify-center" : "px-3"
-            )}
-            style={{
-              color: "var(--sidebar-text, #d1d5db)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "var(--sidebar-hover-bg, #374151)";
-              e.currentTarget.style.color =
-                "var(--sidebar-hover-text, #ffffff)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
-            }}
-            onClick={() => navigate("/profile")}
-            title={collapsed ? userName : undefined}
-          >
-            <Avatar className={cn("w-8 h-8", collapsed ? "mx-auto" : "mr-3")}>
+        <div className="border-t p-4" style={{
+        borderColor: "var(--sidebar-border, #374151)"
+      }}>
+          <Button variant="ghost" className={cn("w-full justify-start h-12", collapsed && !isMobile ? "px-2 justify-center" : "px-3")} style={{
+          color: "var(--sidebar-text, #d1d5db)"
+        }} onMouseEnter={e => {
+          e.currentTarget.style.backgroundColor = "var(--sidebar-hover-bg, #374151)";
+          e.currentTarget.style.color = "var(--sidebar-hover-text, #ffffff)";
+        }} onMouseLeave={e => {
+          e.currentTarget.style.backgroundColor = "transparent";
+          e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
+        }} onClick={() => navigate("/profile")} title={collapsed ? userName : undefined}>
+            <Avatar className={cn("w-8 h-8", collapsed && !isMobile ? "mx-auto" : "mr-3")}>
               <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
                 {userInitials}
               </AvatarFallback>
             </Avatar>
-            {!collapsed && (
-              <div className="flex-1 text-left">
+            {!(collapsed && !isMobile) && <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-white">{userName}</p>
-                <p className="text-xs text-gray-400">
-                  {userEmail.length > 20
-                    ? userEmail.slice(0, 19) + "..."
-                    : userEmail}
+                <p className="text-xs text-white">
+                  {userEmail.length > 20 ? userEmail.slice(0, 19) + "..." : userEmail}
                 </p>
-              </div>
-            )}
+              </div>}
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };

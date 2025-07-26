@@ -49,19 +49,33 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/settings/google-account': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/google-account' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Manage Google Account', path: '/settings/google-account' }
   ],
   '/settings/subscription': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/subscription' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Subscription', path: '/settings/subscription' }
   ],
   '/settings/branding': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/branding' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Branding', path: '/settings/branding' }
+  ],
+  '/settings/theme-customization': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings' },
+    { title: 'Theme Customization', path: '/settings/theme-customization' }
+  ],
+  '/settings/report-branding': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings' },
+    { title: 'Report Branding', path: '/settings/report-branding' }
   ],
   '/settings/integrations': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/integrations' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Integrations', path: '/settings/integrations' }
   ],
   '/settings/listings': [
     { title: 'Dashboard', path: '/' },
@@ -113,6 +127,11 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   '/reports': [
     { title: 'Dashboard', path: '/' },
     { title: 'Reports', path: '/reports' }
+  ],
+  '/ai-chatbot': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'GEO Ranking', path: '/geo-ranking' },
+    { title: 'AI Genie Assistance', path: '/ai-chatbot' }
   ],
   '/settings/team-members': [
     { title: 'Dashboard', path: '/' },
@@ -166,7 +185,7 @@ export const PageBreadcrumb: React.FC = () => {
   if (baseRoute === '/settings/listings' && accountId && profileEmail) {
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
-      { title: 'Settings', path: '/settings/google-account' },
+      { title: 'Settings', path: '/settings' },
       { title: 'Manage Google Account', path: '/settings/google-account' },
       { title: profileEmail, path: `/settings/listings/${accountId}` }
     ];

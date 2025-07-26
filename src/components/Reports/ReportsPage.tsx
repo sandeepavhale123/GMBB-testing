@@ -5,7 +5,6 @@ import { useListingContext } from "@/context/ListingContext";
 import { useReports } from "@/hooks/useReports";
 import { ReportsTable } from "./ReportsTable";
 import { CreateReportModal } from "./CreateReportModal";
-
 export const ReportsPage: React.FC = () => {
   const { selectedListing } = useListingContext();
 
@@ -15,7 +14,6 @@ export const ReportsPage: React.FC = () => {
     error,
   } = useReports(selectedListing?.id || "");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
   if (isLoading) {
     return (
       <div className="text-center py-12">
@@ -24,7 +22,6 @@ export const ReportsPage: React.FC = () => {
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="p-6">

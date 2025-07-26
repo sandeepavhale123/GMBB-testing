@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { ReviewSummary } from './ReviewSummary';
 import { ReviewsList } from './ReviewsList';
@@ -7,13 +6,17 @@ import { ReviewsSubHeader } from './ReviewsSubHeader';
 import { useToast } from '../../hooks/use-toast';
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
 import { clearSummaryError, clearReviewsError, clearReplyError } from '../../store/slices/reviews';
-
 export const ReviewsManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('summary');
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const dispatch = useAppDispatch();
-  const { summaryError, reviewsError, replyError } = useAppSelector(state => state.reviews);
-  
+  const {
+    summaryError,
+    reviewsError,
+    replyError
+  } = useAppSelector(state => state.reviews);
 
   // Show toast for API errors
   useEffect(() => {
@@ -21,80 +24,62 @@ export const ReviewsManagementPage: React.FC = () => {
       toast({
         title: "Error Loading Review Summary",
         description: summaryError,
-        variant: "destructive",
+        variant: "destructive"
       });
-      
       const timer = setTimeout(() => {
         dispatch(clearSummaryError());
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [summaryError, toast, dispatch]);
-
   useEffect(() => {
     if (reviewsError) {
       toast({
         title: "Error Loading Reviews",
         description: reviewsError,
-        variant: "destructive",
+        variant: "destructive"
       });
-      
       const timer = setTimeout(() => {
         dispatch(clearReviewsError());
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [reviewsError, toast, dispatch]);
-
   useEffect(() => {
     if (replyError) {
       toast({
         title: "Error Sending Reply",
         description: replyError,
-        variant: "destructive",
+        variant: "destructive"
       });
-      
       const timer = setTimeout(() => {
         dispatch(clearReplyError());
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [replyError, toast, dispatch]);
-
   const renderTabContent = () => {
     switch (activeTab) {
       case 'summary':
-        return (
-          <div className="space-y-6">
+        return <div className="space-y-6">
             <ReviewSummary />
             <ReviewsList />
-          </div>
-        );
+          </div>;
       case 'auto-response':
-        return (
-          <div className="space-y-6">
+        return <div className="space-y-6">
             <AutoResponseTab />
-          </div>
-        );
+          </div>;
       default:
-        return (
-          <div className="space-y-6">
+        return <div className="space-y-6">
             <ReviewSummary />
             <ReviewsList />
-          </div>
-        );
+          </div>;
     }
   };
-
-  return (
-    <div className="flex flex-col min-h-full">
+  return <div className="flex flex-col min-h-full">
       <ReviewsSubHeader activeTab={activeTab} onTabChange={setActiveTab} />
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-0\n">
         {renderTabContent()}
       </div>
-    </div>
-  );
+    </div>;
 };

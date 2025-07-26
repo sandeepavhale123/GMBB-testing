@@ -255,13 +255,11 @@ export const PublicReportDashboardLayout: React.FC<
                       isMobile ? "w-12 h-12" : "w-16 h-16"
                     }`}
                   >
-                    <span
-                      className={`font-bold text-gray-900 ${
-                        isMobile ? "text-lg" : "text-2xl"
+                    <MapPin
+                      className={`text-gray-900 ${
+                        isMobile ? "w-6 h-6" : "w-8 h-8"
                       }`}
-                    >
-                      {listingName?.charAt(0) || "B"}
-                    </span>
+                    />
                   </div>
                 )}
                 <div
@@ -278,7 +276,7 @@ export const PublicReportDashboardLayout: React.FC<
                     className={`text-white  ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
-                        : "text-lg"
+                        : "text-sm"
                     }`}
                   >
                     {address}

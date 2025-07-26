@@ -194,6 +194,8 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
         </div>
       )}
 
+      <div className="bg-white rounded-lg">
+        
       <Table>
         <TableHeader>
           <TableRow>
@@ -322,6 +324,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </div>
         </div>
       )}
+        </div>
     </div>
   );
 };

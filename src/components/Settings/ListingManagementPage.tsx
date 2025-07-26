@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ListingStatisticsCards } from './ListingStatisticsCards';
 import { ListingSearchFilters } from './ListingSearchFilters';
@@ -9,11 +8,9 @@ import { ListingManagementLoading } from './ListingManagementLoading';
 import { ListingManagementError } from './ListingManagementError';
 import { ListingManagementSummary } from './ListingManagementSummary';
 import { useListingManagement } from '../../hooks/useListingManagement';
-
 interface ListingManagementPageProps {
   accountId: string;
 }
-
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   accountId
 }) => {
@@ -37,8 +34,10 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     handleViewListing,
     handleToggleListing,
     refetch,
-    isLoading,
-  } = useListingManagement({ accountId });
+    isLoading
+  } = useListingManagement({
+    accountId
+  });
 
   // Create loading states object for the table
   const loadingStates = React.useMemo(() => {
@@ -58,82 +57,40 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   if (summaryDataLoading && summaryTotalListings === 0) {
     return <ListingManagementLoading />;
   }
-
   const handleClearSearch = () => {
     handleSearchChange('');
   };
-
   if (error) {
     return <ListingManagementError error={error} onRetry={refetch} onClearSearch={handleClearSearch} />;
   }
-
-  return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+  return <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl  font-bold text-gray-900 mb-2">
           Manage Listings
         </h2>
       </div>
 
       {/* Statistics Cards - Never show loading after initial load */}
-      <ListingStatisticsCards 
-        totalListings={summaryTotalListings} 
-        activeListings={summaryActiveListings} 
-        inactiveListings={summaryInactiveListings} 
-      />
+      <ListingStatisticsCards totalListings={summaryTotalListings} activeListings={summaryActiveListings} inactiveListings={summaryInactiveListings} />
 
       {/* Search and Filters */}
-      <ListingSearchFilters 
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        filterStatus={filterStatus}
-        onFilterChange={handleFilterChange}
-      />
+      <ListingSearchFilters searchTerm={searchTerm} onSearchChange={handleSearchChange} filterStatus={filterStatus} onFilterChange={handleFilterChange} />
 
       {/* Search Error Message - appears below search box */}
-      {showSearchError && (
-        <ListingManagementSearchError 
-          hasSearchTerm={hasSearchTerm}
-          searchTerm={debouncedSearchTerm}
-          hasFilters={hasFilters}
-        />
-      )}
+      {showSearchError && <ListingManagementSearchError hasSearchTerm={hasSearchTerm} searchTerm={debouncedSearchTerm} hasFilters={hasFilters} />}
 
       {/* Listings Table - show loading state for table data only */}
-      {filteredDataLoading ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+      {filteredDataLoading ? <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
           <p className="text-gray-600">Loading listings...</p>
-        </div>
-      ) : !showSearchError && (
-        <ListingsTable 
-          listings={listings}
-          onViewListing={handleViewListing}
-          onToggleListing={handleToggleListing}
-          loadingStates={loadingStates}
-        />
-      )}
+        </div> : !showSearchError && <ListingsTable listings={listings} onViewListing={handleViewListing} onToggleListing={handleToggleListing} loadingStates={loadingStates} />}
 
       {/* Pagination */}
-      {pagination && pagination.total_pages && pagination.total_pages > 1 && !showSearchError && (
-        <div className="mt-6">
-          <AccountListingPagination
-            currentPage={currentPage}
-            totalPages={pagination.total_pages}
-            hasNext={pagination.has_next || false}
-            hasPrev={pagination.has_prev || false}
-            onPageChange={handlePageChange}
-          />
-        </div>
-      )}
+      {pagination && pagination.total_pages && pagination.total_pages > 1 && !showSearchError && <div className="mt-6">
+          <AccountListingPagination currentPage={currentPage} totalPages={pagination.total_pages} hasNext={pagination.has_next || false} hasPrev={pagination.has_prev || false} onPageChange={handlePageChange} />
+        </div>}
 
       {/* Results count - Show filtered results count */}
-      {!showSearchError && (searchTerm || filterStatus !== 'all') && (
-        <ListingManagementSummary 
-          listingsCount={listings.length}
-          totalListings={filteredTotalListings}
-        />
-      )}
-    </div>
-  );
+      {!showSearchError && (searchTerm || filterStatus !== 'all') && <ListingManagementSummary listingsCount={listings.length} totalListings={filteredTotalListings} />}
+    </div>;
 };
