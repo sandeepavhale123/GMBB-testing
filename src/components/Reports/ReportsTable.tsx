@@ -165,7 +165,10 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="font-medium">{report.type} Report</span>
+                  <span className="font-medium">
+                    {report.type === "Compare" ? "Comparision" : report.type}{" "}
+                    Report
+                  </span>
                 </TableCell>
                 <TableCell className="min-w-[200px]">
                   {formatDateRange(report.date_range, report.type)}

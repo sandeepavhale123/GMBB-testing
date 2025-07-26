@@ -20,12 +20,6 @@ export const useCreateReport = () => {
         queryKey: ["reports", variables.listingId],
       });
 
-      toast({
-        title: "Report Created",
-        description:
-          message ||
-          `Your ${variables.type.toLowerCase()} report is being generated.`,
-      });
       // console.log(reportId, domain, "usereport");
       // Open new tab with performance report
       if (reportId) {
@@ -96,11 +90,6 @@ export const usePerformancePostsReport = (reportId: string) => {
     queryFn: async () => {
       try {
         const data = await reportsApi.getPerformancePostsReport(reportId);
-        toast({
-          title: "Post Report Loaded",
-          description:
-            data?.message || "Performance post report fetched successfully.",
-        });
         return data;
       } catch (error: any) {
         toast({
@@ -127,12 +116,6 @@ export const usePerformanceBrandingReport = (reportId: string) => {
     queryFn: async () => {
       try {
         const data = await reportsApi.getPerformanceBrandingReport(reportId);
-        toast({
-          title: "Branding Report Loaded",
-          description:
-            data?.message ||
-            "Performance branding report fetched successfully.",
-        });
         return data;
       } catch (error: any) {
         toast({
@@ -159,11 +142,6 @@ export const usePerformanceMediaReport = (reportId: string) => {
     queryFn: async () => {
       try {
         const data = await reportsApi.getPerformanceMediaReport(reportId);
-        toast({
-          title: "Media Report Loaded",
-          description:
-            data?.message || "Performance media report fetched successfully.",
-        });
         return data;
       } catch (error: any) {
         toast({
@@ -190,11 +168,6 @@ export const usePerformanceGeoKeywords = (reportId: string) => {
     queryFn: async () => {
       try {
         const data = await reportsApi.getPerformanceGeoKeywords(reportId);
-        toast({
-          title: "Keyword List Loaded",
-          description:
-            data?.message || "Successfully fetched geo keyword data.",
-        });
         return data;
       } catch (error: any) {
         toast({
@@ -226,11 +199,6 @@ export const usePerformanceGeoRankingReport = (
           reportId,
           keywordId
         );
-        toast({
-          title: "GEO Ranking Report Loaded",
-          description:
-            data?.message || "Successfully fetched GEO ranking report.",
-        });
         return data;
       } catch (error: any) {
         toast({

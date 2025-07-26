@@ -1,5 +1,4 @@
-
-import axiosInstance from '../api/axiosInstance';
+import axiosInstance from "../api/axiosInstance";
 
 export interface ReviewSummaryRequest {
   listingId: string;
@@ -69,7 +68,7 @@ export interface FilterParams {
 
 export interface SortingParams {
   sortBy: string;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
 }
 
 export interface GetReviewsRequest {
@@ -116,7 +115,7 @@ export interface GetReviewsResponse {
 export interface SendReplyRequest {
   reviewId: number;
   replyText: string;
-  replyType: 'manual' | 'AI';
+  replyType: "manual" | "AI";
 }
 
 export interface SendReplyResponse {
@@ -147,44 +146,120 @@ export interface RefreshReviewsResponse {
   data: any[];
 }
 
+// --- Auto review reply ---
+export interface AutoReviewReplySettingsResponse {
+  code: number;
+  message: string;
+  data: {
+    DNR: boolean;
+    autoSettings: {
+      id: string;
+      listingId: number;
+      starone_reply: string;
+      startwo_reply: string;
+      starthree_reply: string;
+      starfour_reply: string;
+      starfive_reply: string;
+      starone_wreply: string;
+      startwo_wreply: string;
+      starthree_wreply: string;
+      starfour_wreply: string;
+      starfive_wreply: string;
+    };
+    autoAiSettings: {
+      id: string;
+      listingId: number;
+      text_reply: string;
+      prompt: string;
+      tone: string;
+      specific_star: string[];
+    };
+    review: {
+      id: string;
+      pro_photo: string;
+      display_name: string;
+      star_rating: string;
+      review_cdate: string;
+      comment: string;
+    };
+  };
+}
+
+export interface UpdateDNRSettingRequest {
+  listingId: number;
+  dnrStatus: number;
+}
+
+export interface UpdateDNRSettingResponse {
+  code: number;
+  message: string;
+  data?: any;
+}
+
 export const reviewService = {
-  getReviewSummary: async (listingId: string): Promise<ReviewSummaryResponse> => {
-    const response = await axiosInstance.post('/get-review-summary', {
-      listingId
+  getReviewSummary: async (
+    listingId: string
+  ): Promise<ReviewSummaryResponse> => {
+    const response = await axiosInstance.post("/get-review-summary", {
+      listingId,
     });
     return response.data;
   },
 
-  getReviews: async (params: GetReviewsRequest): Promise<GetReviewsResponse> => {
-    const response = await axiosInstance.post('/get-reviews', params);
+  getReviews: async (
+    params: GetReviewsRequest
+  ): Promise<GetReviewsResponse> => {
+    const response = await axiosInstance.post("/get-reviews", params);
     return response.data;
   },
 
-  sendReviewReply: async (params: SendReplyRequest): Promise<SendReplyResponse> => {
-    const response = await axiosInstance.post('/sent-review-reply', params);
+  sendReviewReply: async (
+    params: SendReplyRequest
+  ): Promise<SendReplyResponse> => {
+    const response = await axiosInstance.post("/sent-review-reply", params);
     return response.data;
   },
 
   deleteReviewReply: async (reviewId: string): Promise<SendReplyResponse> => {
-    const response = await axiosInstance.post('/delete-review-reply', {
-      reviewId
+    const response = await axiosInstance.post("/delete-review-reply", {
+      reviewId,
     });
     return response.data;
   },
 
-  generateAIReply: async (reviewId: number): Promise<GenerateAIReplyResponse> => {
-    const response = await axiosInstance.post('/generate-ai-responce', {
-      reviewId
+  generateAIReply: async (
+    reviewId: number
+  ): Promise<GenerateAIReplyResponse> => {
+    const response = await axiosInstance.post("/generate-ai-responce", {
+      reviewId,
     });
     return response.data;
   },
 
-  refreshReviews: async (locationId: string): Promise<RefreshReviewsResponse> => {
-    const response = await axiosInstance.post('/refresh-review', {
-      locationId: parseInt(locationId)
+  refreshReviews: async (
+    locationId: string
+  ): Promise<RefreshReviewsResponse> => {
+    const response = await axiosInstance.post("/refresh-review", {
+      locationId: parseInt(locationId),
     });
     return response.data;
-  }
+  },
+
+  getAutoReviewReplySettings: async (
+    listingId: number
+  ): Promise<AutoReviewReplySettingsResponse> => {
+    const response = await axiosInstance.post("/get-reply-setting", {
+      listingId,
+    });
+    return response.data;
+  },
+
+  updateDNRSetting: async (
+    params: UpdateDNRSettingRequest
+  ): Promise<UpdateDNRSettingResponse> => {
+    const response = await axiosInstance.post("/update-dnr-setting", params);
+    return response.data;
+  },
 };
 
 // Create a named export for backwards compatibility with the thunks file

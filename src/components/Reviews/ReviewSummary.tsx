@@ -1,24 +1,34 @@
-
-import React, { useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Star, AlertCircle, RefreshCw, MessageSquare, Clock, Bot, User } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Progress } from '../ui/progress';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { useAppSelector, useAppDispatch } from '../../hooks/useRedux';
-import { useListingContext } from '../../context/ListingContext';
-import { fetchReviewSummary, clearSummaryError } from '../../store/slices/reviews';
+import React, { useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Star,
+  AlertCircle,
+  RefreshCw,
+  MessageSquare,
+  Clock,
+  Bot,
+  User,
+} from "lucide-react";
+import { Button } from "../ui/button";
+import { Progress } from "../ui/progress";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
+import {
+  fetchReviewSummary,
+  clearSummaryError,
+} from "../../store/slices/reviews";
 
 export const ReviewSummary: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
-  const { 
-    summaryCards, 
-    starDistribution, 
-    sentimentAnalysis, 
-    summaryLoading, 
-    summaryError 
-  } = useAppSelector(state => state.reviews);
+  const {
+    summaryCards,
+    starDistribution,
+    sentimentAnalysis,
+    summaryLoading,
+    summaryError,
+  } = useAppSelector((state) => state.reviews);
 
   // Fetch review summary when component mounts or listing changes
   useEffect(() => {
@@ -40,10 +50,10 @@ export const ReviewSummary: React.FC = () => {
         key={index}
         className={`w-4 h-4 ${
           index < Math.floor(rating)
-            ? 'text-yellow-400 fill-current'
+            ? "text-yellow-400 fill-current"
             : index < rating
-            ? 'text-yellow-400 fill-current opacity-50'
-            : 'text-gray-300'
+            ? "text-yellow-400 fill-current opacity-50"
+            : "text-gray-300"
         }`}
       />
     ));
@@ -55,7 +65,9 @@ export const ReviewSummary: React.FC = () => {
       <Card className="bg-white border border-red-200">
         <CardContent className="p-6 text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Failed to Load Review Summary</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Failed to Load Review Summary
+          </h3>
           <p className="text-gray-600 mb-4">{summaryError}</p>
           <Button onClick={handleRetry} variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -67,7 +79,12 @@ export const ReviewSummary: React.FC = () => {
   }
 
   // Loading state
-  if (summaryLoading || !summaryCards || !starDistribution || !sentimentAnalysis) {
+  if (
+    summaryLoading ||
+    !summaryCards ||
+    !starDistribution ||
+    !sentimentAnalysis
+  ) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Loading skeleton for 3 sections */}
@@ -103,62 +120,62 @@ export const ReviewSummary: React.FC = () => {
     .map(([stars, data]) => ({
       stars: parseInt(stars),
       count: data.count,
-      percentage: data.percentage
+      percentage: data.percentage,
     }))
     .sort((a, b) => b.stars - a.stars);
 
   // Convert sentiment analysis to chart data
   const sentimentData = [
-    { 
-      name: 'Positive', 
-      value: sentimentAnalysis.positive.percentage, 
-      color: '#10B981',
-      count: sentimentAnalysis.positive.count
+    {
+      name: "Positive",
+      value: sentimentAnalysis.positive.percentage,
+      color: "#10B981",
+      count: sentimentAnalysis.positive.count,
     },
-    { 
-      name: 'Neutral', 
-      value: sentimentAnalysis.neutral.percentage, 
-      color: '#F59E0B',
-      count: sentimentAnalysis.neutral.count
+    {
+      name: "Neutral",
+      value: sentimentAnalysis.neutral.percentage,
+      color: "#F59E0B",
+      count: sentimentAnalysis.neutral.count,
     },
-    { 
-      name: 'Negative', 
-      value: sentimentAnalysis.negative.percentage, 
-      color: '#EF4444',
-      count: sentimentAnalysis.negative.count
-    }
+    {
+      name: "Negative",
+      value: sentimentAnalysis.negative.percentage,
+      color: "#EF4444",
+      count: sentimentAnalysis.negative.count,
+    },
   ];
 
   // Stats data for the first 4 cards
   const stats = [
     {
-      title: 'Total Reviews',
+      title: "Total Reviews",
       value: summaryCards.total_reviews.toString(),
       icon: MessageSquare,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
     },
     {
-      title: 'Pending Replies',
+      title: "Pending Replies",
       value: summaryCards.pending_replies.toString(),
       icon: Clock,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100'
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
     },
     {
-      title: 'AI Replies',
+      title: "AI Replies",
       value: summaryCards.ai_replies.toString(),
       icon: Bot,
-      color: 'text-green-600',
-      bgColor: 'bg-green-100'
+      color: "text-green-600",
+      bgColor: "bg-green-100",
     },
     {
-      title: 'Manual Replies',
+      title: "Manual Replies",
       value: summaryCards.manual_replies.toString(),
       icon: User,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
-    }
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+    },
   ];
 
   return (
@@ -171,11 +188,17 @@ export const ReviewSummary: React.FC = () => {
             <Card key={stat.title} className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="text-center">
-                  <div className={`p-3 rounded-lg ${stat.bgColor} inline-flex mb-3`}>
+                  <div
+                    className={`p-3 rounded-lg ${stat.bgColor} inline-flex mb-3`}
+                  >
                     <Icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
-                  <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                  <p className="text-xs font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs font-medium text-gray-600">
+                    {stat.title}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -192,7 +215,7 @@ export const ReviewSummary: React.FC = () => {
               <Star className="w-5 h-5 text-yellow-600" />
             </div>
           </div>
-          
+
           {/* Overall Rating Display */}
           <div className="text-center mb-6">
             <div className="text-4xl font-bold text-gray-900 mb-3">
@@ -201,7 +224,9 @@ export const ReviewSummary: React.FC = () => {
             <div className="flex justify-center mb-3">
               {renderStars(summaryCards.overall_rating)}
             </div>
-            <p className="text-sm text-gray-600">{summaryCards.total_reviews} reviews</p>
+            <p className="text-sm text-gray-600">
+              {summaryCards.total_reviews} reviews
+            </p>
           </div>
 
           {/* Star Distribution with Progress Bars */}
@@ -215,7 +240,9 @@ export const ReviewSummary: React.FC = () => {
                 <div className="flex-1">
                   <Progress value={item.percentage} className="h-2" />
                 </div>
-                <span className="text-xs text-gray-500 w-8 text-right">{item.count}</span>
+                <span className="text-xs text-gray-500 w-8 text-right">
+                  {item.count}
+                </span>
               </div>
             ))}
           </div>
@@ -226,7 +253,9 @@ export const ReviewSummary: React.FC = () => {
       <Card className="bg-white border border-gray-200">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-medium text-gray-600">Sentiment Analysis</p>
+            <p className="text-sm font-medium text-gray-600">
+              Sentiment Analysis
+            </p>
             <div className="p-2 rounded-lg bg-green-100 flex-shrink-0">
               <MessageSquare className="w-5 h-5 text-green-600" />
             </div>
@@ -247,18 +276,21 @@ export const ReviewSummary: React.FC = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip 
+                <Tooltip
                   formatter={(value, name, props) => [
-                    `${value}% (${props.payload.count})`, 
-                    name
-                  ]} 
+                    `${value}% (${props.payload.count})`,
+                    name,
+                  ]}
                 />
               </PieChart>
             </ResponsiveContainer>
           </div>
           <div className="space-y-2">
             {sentimentData.map((item) => (
-              <div key={item.name} className="flex items-center justify-between">
+              <div
+                key={item.name}
+                className="flex items-center justify-between"
+              >
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"

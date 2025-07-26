@@ -88,7 +88,7 @@ export interface PerformanceHealthReportData {
 }
 
 export const REPORT_SECTIONS = [
-  { id: "gmb-health", name: "GMB Healt Report" },
+  { id: "gmb-health", name: "GMB Health Report" },
   { id: "insights", name: "Insight Report" },
   { id: "reviews", name: "Review Report" },
   { id: "posts", name: "Post Report" },

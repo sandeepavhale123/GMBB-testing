@@ -1,7 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ReviewsState } from './types';
-import { ReplyTemplate, CreateTemplateRequest } from './templateTypes';
-import { fetchReviewSummary, fetchReviews, sendReviewReply, deleteReviewReply, generateAIReply, refreshReviewData } from './thunks';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ReviewsState } from "./types";
+import { ReplyTemplate, CreateTemplateRequest } from "./templateTypes";
+import {
+  fetchReviewSummary,
+  fetchReviews,
+  sendReviewReply,
+  deleteReviewReply,
+  generateAIReply,
+  refreshReviewData,
+  fetchAutoReviewReplySettings,
+  updateDNRSetting,
+} from "./thunks";
 
 const initialState: ReviewsState = {
   // Summary state
@@ -10,48 +19,54 @@ const initialState: ReviewsState = {
   sentimentAnalysis: null,
   summaryLoading: false,
   summaryError: null,
-  
+
   // Reviews state
   reviews: [],
   pagination: null,
   reviewsLoading: false,
   reviewsError: null,
-  
+
   // Reply state
   replyLoading: false,
   replyError: null,
   deleteReplyLoading: false,
   deleteReplyError: null,
-  
+
   // AI Generation state
   aiGenerationLoading: false,
   aiGenerationError: null,
-  
+
   // Refresh state
   refreshLoading: false,
   refreshError: null,
-  
+
   // Auto Response state
   autoResponse: {
     enabled: false,
-    templates: []
+    DNR: false,
+    autoSettings: undefined,
+    autoAiSettings: undefined,
+    review: undefined,
   },
   templateLoading: false,
   templateError: null,
-  
+
   // Filter state
-  filter: 'all',
-  searchQuery: '',
-  sortBy: 'newest',
-  sortOrder: 'desc',
-  sentimentFilter: 'all',
+  filter: "all",
+  searchQuery: "",
+  sortBy: "newest",
+  sortOrder: "desc",
+  sentimentFilter: "all",
   dateRange: {},
   currentPage: 1,
   pageSize: 10,
+
+  dnrUpdating: false,
+  dnrUpdateError: null,
 };
 
 const reviewsSlice = createSlice({
-  name: 'reviews',
+  name: "reviews",
   initialState,
   reducers: {
     setFilter: (state, action) => {
@@ -85,7 +100,9 @@ const reviewsSlice = createSlice({
       state.currentPage = action.payload;
     },
     replyToReview: (state, action) => {
-      const review = state.reviews.find(r => r.id === action.payload.reviewId);
+      const review = state.reviews.find(
+        (r) => r.id === action.payload.reviewId
+      );
       if (review) {
         review.replied = true;
         review.reply_text = action.payload.replyText;
@@ -110,7 +127,7 @@ const reviewsSlice = createSlice({
     clearRefreshError: (state) => {
       state.refreshError = null;
     },
-    
+
     // Auto Response reducers
     toggleAutoResponse: (state) => {
       state.autoResponse.enabled = !state.autoResponse.enabled;
@@ -124,16 +141,21 @@ const reviewsSlice = createSlice({
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
-      
+
       // Remove existing template for this star rating if it exists
       state.autoResponse.templates = state.autoResponse.templates.filter(
-        t => t.starRating !== action.payload.starRating
+        (t) => t.starRating !== action.payload.starRating
       );
-      
+
       state.autoResponse.templates.push(newTemplate);
     },
-    updateTemplate: (state, action: PayloadAction<{ id: string; content: string; enabled: boolean }>) => {
-      const template = state.autoResponse.templates.find(t => t.id === action.payload.id);
+    updateTemplate: (
+      state,
+      action: PayloadAction<{ id: string; content: string; enabled: boolean }>
+    ) => {
+      const template = state.autoResponse.templates.find(
+        (t) => t.id === action.payload.id
+      );
       if (template) {
         template.content = action.payload.content;
         template.enabled = action.payload.enabled;
@@ -142,7 +164,7 @@ const reviewsSlice = createSlice({
     },
     deleteTemplate: (state, action: PayloadAction<string>) => {
       state.autoResponse.templates = state.autoResponse.templates.filter(
-        t => t.id !== action.payload
+        (t) => t.id !== action.payload
       );
     },
     clearTemplateError: (state) => {
@@ -184,12 +206,14 @@ const reviewsSlice = createSlice({
       })
       .addCase(sendReviewReply.fulfilled, (state, action) => {
         state.replyLoading = false;
-        const review = state.reviews.find(r => r.id === action.payload.reviewId.toString());
+        const review = state.reviews.find(
+          (r) => r.id === action.payload.reviewId.toString()
+        );
         if (review) {
           review.replied = true;
           review.reply_text = action.payload.replyText;
           review.reply_date = new Date().toISOString();
-          review.reply_type = 'manual';
+          review.reply_type = "manual";
         }
       })
       .addCase(sendReviewReply.rejected, (state, action) => {
@@ -202,12 +226,14 @@ const reviewsSlice = createSlice({
       })
       .addCase(deleteReviewReply.fulfilled, (state, action) => {
         state.deleteReplyLoading = false;
-        const review = state.reviews.find(r => r.id === action.payload.reviewId);
+        const review = state.reviews.find(
+          (r) => r.id === action.payload.reviewId
+        );
         if (review) {
           review.replied = false;
-          review.reply_text = '';
-          review.reply_date = '';
-          review.reply_type = '';
+          review.reply_text = "";
+          review.reply_date = "";
+          review.reply_type = "";
         }
       })
       .addCase(deleteReviewReply.rejected, (state, action) => {
@@ -235,20 +261,47 @@ const reviewsSlice = createSlice({
       .addCase(refreshReviewData.rejected, (state, action) => {
         state.refreshLoading = false;
         state.refreshError = action.payload as string;
+      })
+      .addCase(fetchAutoReviewReplySettings.pending, (state) => {
+        state.templateLoading = true;
+        state.templateError = null;
+      })
+      .addCase(fetchAutoReviewReplySettings.fulfilled, (state, action) => {
+        state.templateLoading = false;
+        const { DNR, autoSettings, autoAiSettings, review } = action.payload;
+        state.autoResponse.DNR = DNR;
+        state.autoResponse.autoSettings = autoSettings;
+        state.autoResponse.autoAiSettings = autoAiSettings;
+        state.autoResponse.review = review;
+      })
+      .addCase(fetchAutoReviewReplySettings.rejected, (state, action) => {
+        state.templateLoading = false;
+        state.templateError = action.payload as string;
+      })
+      .addCase(updateDNRSetting.pending, (state) => {
+        state.dnrUpdating = true;
+        state.dnrUpdateError = null;
+      })
+      .addCase(updateDNRSetting.fulfilled, (state) => {
+        state.dnrUpdating = false;
+      })
+      .addCase(updateDNRSetting.rejected, (state, action) => {
+        state.dnrUpdating = false;
+        state.dnrUpdateError = action.payload as string;
       });
   },
 });
 
-export const { 
-  setFilter, 
+export const {
+  setFilter,
   setSearchQuery,
   setSortBy,
   setSortOrder,
   setSentimentFilter,
-  setDateRange, 
-  clearDateRange, 
+  setDateRange,
+  clearDateRange,
   setCurrentPage,
-  replyToReview, 
+  replyToReview,
   clearSummaryError,
   clearReviewsError,
   clearReplyError,
@@ -259,7 +312,7 @@ export const {
   addTemplate,
   updateTemplate,
   deleteTemplate,
-  clearTemplateError
+  clearTemplateError,
 } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

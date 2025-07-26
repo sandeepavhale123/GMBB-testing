@@ -28,7 +28,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { usePerformanceHealthReport } from "@/hooks/useReports";
-import { toast } from "@/hooks/use-toast";
 import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 
 export const PublicGMBHealthReport: React.FC = () => {
@@ -59,19 +58,6 @@ export const PublicGMBHealthReport: React.FC = () => {
     .map(([key]) => key);
   // console.log("Health data from API call...", publichealthData);
 
-  // Show toast on error
-  React.useEffect(() => {
-    if (error) {
-      toast({
-        title: "Error Loading Report",
-        description:
-          (error as any)?.response?.data?.message ||
-          error.message ||
-          "Failed to load the performance report. Please try again.",
-        variant: "destructive",
-      });
-    }
-  }, [error, toast]);
 
   // Handle loading state
   if (isLoading) {
