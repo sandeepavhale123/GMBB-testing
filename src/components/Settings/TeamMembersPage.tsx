@@ -105,9 +105,7 @@ const TeamMembersPage: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Team Members
             </h2>
-            <p className="text-gray-600 text-sm sm:text-base">
-              Manage your team members and their access permissions
-            </p>
+            <p className="text-gray-600 text-sm sm:text-base">Manage your team members and their access permissions.</p>
           </div>
           <Button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 w-fit">
             <Plus className="h-4 w-4" />
