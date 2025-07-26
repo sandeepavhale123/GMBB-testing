@@ -54,7 +54,7 @@ const CitationTrackerCard = ({
       <CardHeader>
         <CardTitle className="text-lg">Citation Tracker</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
             <ResponsiveContainer width="100%" height="100%">
@@ -101,7 +101,11 @@ const LocalPagesCard = () => <Card className="h-full">
   </Card>;
 export const CitationPage: React.FC = () => {
   const location = useLocation();
-  const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
+  const {
+    isMobile,
+    isTablet,
+    isDesktop
+  } = useDeviceBreakpoints();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -240,13 +244,7 @@ export const CitationPage: React.FC = () => {
         
         <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
         
-        <div className={`flex-1 transition-all duration-300 ${
-          isMobile 
-            ? "ml-0" 
-            : isTablet 
-              ? (sidebarCollapsed ? "ml-16" : "ml-64")
-              : (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64")
-        }`}>
+        <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : isTablet ? sidebarCollapsed ? "ml-16" : "ml-64" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
@@ -260,13 +258,7 @@ export const CitationPage: React.FC = () => {
       
       <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
 
-      <div className={`flex-1 transition-all duration-300 ${
-        isMobile 
-          ? "ml-0" 
-          : isTablet 
-            ? (sidebarCollapsed ? "ml-16" : "ml-64")
-            : (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64")
-      }`}>
+      <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : isTablet ? sidebarCollapsed ? "ml-16" : "ml-64" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
