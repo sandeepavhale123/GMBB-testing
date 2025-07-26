@@ -1,6 +1,16 @@
 import axiosInstance from "./axiosInstance";
 
 // Types for API requests and responses
+export interface DeleteKeywordRequest {
+  listingId: number;
+  keywordIds: number[];
+  isDelete: string;
+}
+
+export interface DeleteKeywordResponse {
+  code: number;
+  message: string;
+}
 export interface KeywordData {
   id: string;
   keyword: string;
@@ -383,4 +393,19 @@ export const getSearchKeywords = async (
 ): Promise<SearchKeywordResponse> => {
   const response = await axiosInstance.post("/get-search-keyword", requestData);
   return response.data;
+};
+
+export const deleteKeywords = async (
+  requestData: DeleteKeywordRequest
+): Promise<DeleteKeywordResponse> => {
+  try {
+    const response = await axiosInstance.post(
+      "/delete-keyword",
+      requestData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting keywords:", error);
+    throw error;
+  }
 };

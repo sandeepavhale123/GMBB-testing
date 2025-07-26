@@ -4,7 +4,7 @@ import { Plus, Loader2 } from 'lucide-react';
 import { KeywordsTable } from './KeywordsTable';
 import { useNavigate } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
-import { getSearchKeywords, SearchKeywordData } from '../../api/geoRankingApi';
+import { getSearchKeywords, SearchKeywordData, deleteKeywords } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
 
 export interface Keyword {
@@ -29,6 +29,7 @@ export const KeywordsPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalKeywords, setTotalKeywords] = useState(0);
   const [perPage, setPerPage] = useState(10);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchKeywords = async (page = 1) => {
     if (!selectedListing?.id) return;
@@ -73,13 +74,52 @@ export const KeywordsPage: React.FC = () => {
     fetchKeywords(page);
   };
 
-  const handleDeleteKeyword = (keywordId: string) => {
-    // TODO: Implement API call to delete keyword
-    setKeywords(prev => prev.filter(keyword => keyword.id !== keywordId));
-    toast({
-      title: "Success",
-      description: "Keyword deleted successfully",
-    });
+  const handleDeleteKeyword = async (ids: string[]) => {
+    if (!selectedListing?.id) {
+      toast({
+        title: "Error",
+        description: "No listing selected.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setDeleteLoading(true);
+    try {
+      const keywordIds = ids.map(id => parseInt(id, 10));
+      await deleteKeywords({
+        listingId: parseInt(selectedListing.id, 10),
+        keywordIds,
+        isDelete: "delete"
+      });
+
+      // Remove deleted keywords from local state
+      setKeywords(prev => prev.filter(keyword => !ids.includes(keyword.id)));
+      
+      // Update pagination if current page becomes empty
+      const remainingKeywords = keywords.filter(keyword => !ids.includes(keyword.id));
+      if (remainingKeywords.length === 0 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+        fetchKeywords(currentPage - 1);
+      } else {
+        // Refresh current page data
+        fetchKeywords(currentPage);
+      }
+
+      toast({
+        title: "Keywords deleted",
+        description: `${ids.length} keyword${ids.length !== 1 ? 's' : ''} deleted successfully.`,
+      });
+    } catch (error) {
+      console.error('Error deleting keywords:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete keywords. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   if (loading) {
@@ -129,8 +169,10 @@ export const KeywordsPage: React.FC = () => {
         onPageChange={handlePageChange}
         loading={loading}
         error={error}
+        perPage={perPage}
         onRefresh={() => fetchKeywords(currentPage)}
         listingId={selectedListing?.id || ''}
+        deleteLoading={deleteLoading}
       />
 
     </div>
