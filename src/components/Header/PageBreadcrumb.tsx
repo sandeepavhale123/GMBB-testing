@@ -185,7 +185,7 @@ export const PageBreadcrumb: React.FC = () => {
   if (baseRoute === '/settings/listings' && accountId && profileEmail) {
     breadcrumbItems = [
       { title: 'Dashboard', path: '/' },
-      { title: 'Settings', path: '/settings/google-account' },
+      { title: 'Settings', path: '/settings' },
       { title: 'Manage Google Account', path: '/settings/google-account' },
       { title: profileEmail, path: `/settings/listings/${accountId}` }
     ];
