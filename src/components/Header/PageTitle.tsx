@@ -15,7 +15,7 @@ const routeToTitle: Record<string, { title: string; subtitle?: string }> = {
   '/settings/listings': { title: 'Manage Listings', subtitle: 'Monitor and manage your Google Business Profile listings' },
   '/insights': { title: 'Insights', subtitle: 'Review performance insights to improve your local visibility' },
   '/keywords': { title: 'Keywords', subtitle: 'Track keyword ranking by geographic location' },
-  '/keywords/add': { title: 'Add keyword', subtitle: 'Keywords' },
+  '/keywords/add': { title: 'Search Keyword', subtitle: 'Keywords' },
   '/geo-ranking': { title: 'GEO Ranking', subtitle: 'Track keyword ranking by geographic location' },
   '/geo-ranking-report': { title: 'GEO Ranking Report', subtitle: 'Detailed analysis of your local search performance' },
   '/citation': { title: 'Citation Management', subtitle: 'Monitor and manage your business citations across directories' },

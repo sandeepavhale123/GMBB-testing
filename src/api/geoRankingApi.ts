@@ -1,6 +1,16 @@
 import axiosInstance from "./axiosInstance";
 
 // Types for API requests and responses
+export interface DeleteKeywordRequest {
+  listingId: number;
+  keywordIds: number[];
+  isDelete: string;
+}
+
+export interface DeleteKeywordResponse {
+  code: number;
+  message: string;
+}
 export interface KeywordData {
   id: string;
   keyword: string;
@@ -299,4 +309,103 @@ export const refreshKeyword = async (
 ): Promise<RefreshKeywordResponse> => {
   const response = await axiosInstance.post("/refresh-keyword", requestData);
   return response.data;
+};
+
+// Keyword Search Volume API
+export interface KeywordSearchRequest {
+  keywords: string[];
+}
+
+export interface KeywordSearchData {
+  keyword: string;
+  competition: string;
+  competition_index: number;
+  search_volume: number;
+  low_top_of_page_bid: number;
+  high_top_of_page_bid: number;
+  cpc: number;
+  last_month_searches: number;
+}
+
+export interface KeywordSearchResponse {
+  code: number;
+  message: string;
+  data: KeywordSearchData[];
+}
+
+export const getKeywordSearchVolume = async (
+  requestData: KeywordSearchRequest
+): Promise<KeywordSearchResponse> => {
+  const response = await axiosInstance.post("/get-keyword-search-volume", requestData);
+  return response.data;
+};
+
+// Add Search Keyword API
+export interface AddSearchKeywordRequest {
+  listingId: number;
+  keywords: string[];
+}
+
+export interface AddSearchKeywordResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const addSearchKeyword = async (
+  requestData: AddSearchKeywordRequest
+): Promise<AddSearchKeywordResponse> => {
+  const response = await axiosInstance.post("/add-search-keyword", requestData);
+  return response.data;
+};
+
+// Get Search Keywords API
+export interface SearchKeywordRequest {
+  listingId: number;
+  page: number;
+  limit: number;
+}
+
+export interface SearchKeywordData {
+  id: string;
+  keyword: string;
+  date: string;
+  solv: string;
+  atrp: string;
+  atr: string;
+  status: string;
+}
+
+export interface SearchKeywordResponse {
+  code: number;
+  message: string;
+  data: {
+    keywords: SearchKeywordData[];
+    noOfKeyword: number;
+    page: number;
+    perPage: number;
+    totalPages: number;
+  };
+}
+
+export const getSearchKeywords = async (
+  requestData: SearchKeywordRequest
+): Promise<SearchKeywordResponse> => {
+  const response = await axiosInstance.post("/get-search-keyword", requestData);
+  return response.data;
+};
+
+export const deleteKeywords = async (
+  requestData: DeleteKeywordRequest
+): Promise<DeleteKeywordResponse> => {
+  try {
+    const response = await axiosInstance.post(
+      "/delete-keyword",
+      requestData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting keywords:", error);
+    throw error;
+  }
 };

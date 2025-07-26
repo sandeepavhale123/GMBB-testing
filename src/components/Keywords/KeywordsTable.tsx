@@ -1,162 +1,321 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { Download, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
-import { Keyword } from './KeywordsPage';
+import { Badge } from '../ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
+import { Checkbox } from '../ui/checkbox';
+import { MoreVertical, Eye, Trash, RefreshCw } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+
+interface Keyword {
+  id: string;
+  keyword: string;
+  date: string;
+  solv: string;
+  atrp: string;
+  atr: string;
+  status: string;
+}
 
 interface KeywordsTableProps {
   keywords: Keyword[];
-  onExport: (format: 'csv' | 'json') => void;
-  onDeleteKeyword: (keywordId: string) => void;
+  currentPage: number;
+  totalPages: number;
+  totalKeywords: number;
+  perPage: number;
+  onDeleteKeyword: (ids: string[]) => void;
+  onPageChange: (page: number) => void;
+  loading: boolean;
+  error: string | null;
+  onRefresh: () => void;
+  listingId: string;
+  deleteLoading?: boolean;
 }
 
 export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   keywords,
-  onExport,
-  onDeleteKeyword
+  currentPage,
+  totalPages,
+  totalKeywords,
+  perPage,
+  onDeleteKeyword,
+  onPageChange,
+  loading,
+  error,
+  onRefresh,
+  listingId,
+  deleteLoading = false
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const navigate = useNavigate();
+  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
+  const startIndex = (currentPage - 1) * 10;
+  const endIndex = Math.min(startIndex + 10, totalKeywords);
 
-  // Pagination logic
-  const totalPages = Math.ceil(keywords.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentKeywords = keywords.slice(startIndex, endIndex);
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedKeywords(keywords.map(k => k.id));
+    } else {
+      setSelectedKeywords([]);
+    }
+  };
+
+  const handleSelectKeyword = (keywordId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedKeywords(prev => [...prev, keywordId]);
+    } else {
+      setSelectedKeywords(prev => prev.filter(id => id !== keywordId));
+    }
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedKeywords.length > 0) {
+      setIsDeleteDialogOpen(true);
+    }
+  };
+
+  const confirmDelete = () => {
+    onDeleteKeyword(selectedKeywords);
+    setSelectedKeywords([]);
+    setIsDeleteDialogOpen(false);
+  };
+
+  const isAllSelected = keywords.length > 0 && selectedKeywords.length === keywords.length;
+  const isPartiallySelected = selectedKeywords.length > 0 && selectedKeywords.length < keywords.length;
 
   const handleViewRank = (keyword: Keyword) => {
-    // This would typically navigate to a detailed view or open a modal
-    console.log('View rank for:', keyword.keyword);
+    navigate(`/geo-ranking/${listingId}?keyword=${keyword.id}`);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    // Simple date formatting - you can enhance this
+    return new Date(dateString).toLocaleDateString();
   };
 
-  return (
-    <div className="bg-white rounded-lg shadow">
-      {/* Table Header with Export Options */}
-      <div className="flex justify-between items-center p-4 border-b">
-        <h2 className="text-lg font-semibold text-gray-900">Keywords List</h2>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => onExport('csv')}>
-              Export as CSV
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onExport('json')}>
-              Export as JSON
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+  const getStatusBadge = (status: string) => {
+    const statusLower = status.toLowerCase();
+    if (statusLower === 'active' || statusLower === 'completed') {
+      return <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>;
+    } else if (statusLower === 'pending') {
+      return <Badge variant="secondary">Pending</Badge>;
+    } else if (statusLower === 'failed') {
+      return <Badge variant="destructive">Failed</Badge>;
+    }
+    return <Badge variant="outline">{status}</Badge>;
+  };
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-16">Sr. No</TableHead>
-              <TableHead>Keyword</TableHead>
-              <TableHead className="w-24">Avg.rank</TableHead>
-              <TableHead className="w-32">Added On</TableHead>
-              <TableHead className="w-24 text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentKeywords.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                  No keywords found. Add some keywords to get started.
-                </TableCell>
-              </TableRow>
-            ) : (
-              currentKeywords.map((keyword, index) => (
-                <TableRow key={keyword.id}>
-                  <TableCell className="font-medium">
-                    {startIndex + index + 1}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {keyword.keyword}
-                  </TableCell>
-                  <TableCell>
-                    {keyword.ranking ? (
-                      <span className={`px-2 py-1 rounded-full text-sm ${
-                        keyword.ranking >= 20 
-                          ? 'bg-red-100 text-red-800' 
-                          : 'bg-green-100 text-green-800'
-                      }`}>
-                        #{keyword.ranking}
-                      </span>
-                    ) : (
-                      <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                        20+
-                      </span>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-gray-600">
-                    {formatDate(keyword.createdAt)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex gap-1 justify-end">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleViewRank(keyword)}
-                        className="text-blue-600 hover:text-blue-800"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => onDeleteKeyword(keyword.id)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-red-600 mb-4">{error}</div>
+        <Button onClick={onRefresh} variant="outline">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Try Again
+        </Button>
+      </div>
+    );
+  }
+
+  if (keywords.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500 mb-4">No keywords found</p>
+        <Button onClick={onRefresh} variant="outline">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Refresh
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {selectedKeywords.length > 0 && (
+        <div className="mb-4 flex items-center gap-4 p-4 bg-muted rounded-lg">
+          <span className="text-sm text-muted-foreground">
+            {selectedKeywords.length} keyword{selectedKeywords.length !== 1 ? 's' : ''} selected
+          </span>
+          <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <AlertDialogTrigger asChild>
+              <Button 
+                variant="destructive" 
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash className="w-4 h-4 mr-2" />
+                    Delete Selected
+                  </>
+                )}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete {selectedKeywords.length} keyword{selectedKeywords.length !== 1 ? 's' : ''}? 
+                  This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={confirmDelete} className="bg-destructive hover:bg-destructive/90">
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setSelectedKeywords([])}
+          >
+            Clear Selection
+          </Button>
+        </div>
+      )}
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-12">
+              <Checkbox
+                checked={isAllSelected}
+                onCheckedChange={handleSelectAll}
+                aria-label="Select all keywords"
+                className={isPartiallySelected ? "data-[state=checked]:bg-primary" : ""}
+              />
+            </TableHead>
+            <TableHead className="w-16">Sr. No</TableHead>
+            <TableHead>Keyword</TableHead>
+            <TableHead className="text-center">ATR</TableHead>
+            <TableHead className="text-center">ATRP</TableHead>
+            <TableHead className="text-center">SOLV</TableHead>
+            <TableHead className="text-center">Added On</TableHead>
+            <TableHead className="text-center">Status</TableHead>
+            <TableHead className="text-center w-24">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {keywords.map((keyword, index) => (
+            <TableRow key={keyword.id}>
+              <TableCell>
+                <Checkbox
+                  checked={selectedKeywords.includes(keyword.id)}
+                  onCheckedChange={(checked) => handleSelectKeyword(keyword.id, checked as boolean)}
+                  aria-label={`Select keyword ${keyword.keyword}`}
+                />
+              </TableCell>
+              <TableCell className="font-medium">
+                {startIndex + index + 1}
+              </TableCell>
+              <TableCell className="font-medium">{keyword.keyword}</TableCell>
+              <TableCell className="text-center">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span className="cursor-help">{keyword.atr || 'N/A'}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Average True Range</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+              <TableCell className="text-center">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span className="cursor-help">{keyword.atrp || 'N/A'}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Average True Range Percentage</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+              <TableCell className="text-center">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span className="cursor-help">{keyword.solv || 'N/A'}</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Solvability Score</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+              <TableCell className="text-center">{formatDate(keyword.date)}</TableCell>
+              <TableCell className="text-center">
+                {getStatusBadge(keyword.status)}
+              </TableCell>
+              <TableCell className="text-center">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleViewRank(keyword)}>
+                      <Eye className="mr-2 h-4 w-4" />
+                      View Rank
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleSelectKeyword(keyword.id, true)}>
+                      <Trash className="mr-2 h-4 w-4" />
+                      Select for Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-4 py-3 border-t">
+        <div className="flex items-center justify-between px-2">
           <div className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(endIndex, keywords.length)} of {keywords.length} entries
+            Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of {totalKeywords} results
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
             >
               Previous
             </Button>
-            <span className="flex items-center px-3 text-sm text-gray-700">
+            <span className="text-sm">
               Page {currentPage} of {totalPages}
             </span>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
             >
               Next
             </Button>

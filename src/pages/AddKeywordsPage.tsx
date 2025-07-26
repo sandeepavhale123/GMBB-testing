@@ -12,32 +12,53 @@ import { useListingContext } from '../context/ListingContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../hooks/use-toast';
+import { addSearchKeyword } from '../api/geoRankingApi';
 
 const AddKeywordsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAddingKeywords, setIsAddingKeywords] = useState(false);
   const { selectedListing, isInitialLoading } = useListingContext();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleAddKeywords = async (keywords: string[]) => {
-    try {
-      // TODO: Implement API call to add keywords
-      console.log('Adding keywords:', keywords);
-      
+    if (!selectedListing?.id) {
       toast({
-        title: "Keywords Added",
-        description: `Successfully added ${keywords.length} keyword(s) for ranking check.`,
+        title: "Error",
+        description: "No listing selected. Please select a listing first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsAddingKeywords(true);
+    try {
+      const response = await addSearchKeyword({
+        listingId: Number(selectedListing.id),
+        keywords
       });
 
-      // Navigate back to keywords page
-      navigate(`/keywords/${selectedListing?.id}`);
+      if (response.code === 200) {
+        toast({
+          title: "Keywords Added",
+          description: response.message || `Successfully added ${keywords.length} keyword(s) to queue.`,
+        });
+
+        // Navigate to geo-ranking page
+        navigate(`/geo-ranking/${selectedListing.id}`);
+      } else {
+        throw new Error(response.message || 'Failed to add keywords');
+      }
     } catch (error) {
+      console.error('Error adding keywords:', error);
       toast({
         title: "Error",
         description: "Failed to add keywords. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsAddingKeywords(false);
     }
   };
 
@@ -142,7 +163,7 @@ const AddKeywordsPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 overflow-auto">
-              <AddKeywords onAddKeywords={handleAddKeywords} />
+              <AddKeywords onAddKeywords={handleAddKeywords} isLoading={isAddingKeywords} />
             </main>
           </div>
         </div>
