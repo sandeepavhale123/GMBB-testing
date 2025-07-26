@@ -258,7 +258,7 @@ export const CitationPage: React.FC = () => {
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
-          <div className="max-w-7xl mx-auto space-y-6">
+          <div className="max-w-6xl mx-auto space-y-6">
             {!hasSearched && !hasCitation ?
           // Search Form Screen
           <div className="flex items-center justify-center min-h-[60vh]">
