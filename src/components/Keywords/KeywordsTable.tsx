@@ -194,7 +194,8 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
         </div>
       )}
 
-      <div className="bg-white p-4 rounded-lg">
+      <div className="bg-white rounded-lg">
+        
       <Table>
         <TableHeader>
           <TableRow>
@@ -293,7 +294,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           ))}
         </TableBody>
       </Table>
-</div>
+
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-2">
@@ -323,6 +324,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </div>
         </div>
       )}
+        </div>
     </div>
   );
 };
