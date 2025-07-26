@@ -22,7 +22,7 @@ export const VisibilitySummaryCard: React.FC<VisibilitySummaryCardProps> = ({
     <Card className="h-full">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Visibility Summary</CardTitle>
-        <p className="text-sm text-gray-600">Total views from Google Search and Maps</p>
+        <p className="text-sm text-gray-600">Total views from Google Search and Maps.</p>
       </CardHeader>
       <CardContent>
         {isLoadingSummary ? (
