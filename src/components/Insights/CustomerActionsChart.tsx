@@ -24,7 +24,7 @@ export const CustomerActionsChart: React.FC<CustomerActionsChartProps> = ({
     <Card>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Customer Actions</CardTitle>
-        <p className="text-sm text-gray-600">Actions taken by customers on your profile</p>
+        <p className="text-sm text-gray-600">Actions taken by customers on your profile.</p>
       </CardHeader>
       <CardContent>
         {isLoadingSummary || isLoadingCustomerActions ? (
