@@ -25,7 +25,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useAllReports(listingId);
 
-  const reports = Array.isArray(data?.data) ? data.data : [];
+  const reports = data?.data;
   // console.log("report data", reports);
   if (isLoading) {
     return (
