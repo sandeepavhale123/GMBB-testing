@@ -346,8 +346,8 @@ export const CitationPage: React.FC = () => {
                       </TabsList>
 
                       <TabsContent value="existing" className="mt-6">
-                        <div className="overflow-x-auto">
-                          <Table>
+                        <div className="overflow-x-auto rounded-md border">
+                          <Table className="min-w-full">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">Website</TableHead>
@@ -381,8 +381,8 @@ export const CitationPage: React.FC = () => {
                       </TabsContent>
 
                       <TabsContent value="possible" className="mt-6">
-                        <div className="overflow-x-auto">
-                          <Table>
+                        <div className="overflow-x-auto rounded-md border">
+                          <Table className="min-w-full">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">Site Name</TableHead>
