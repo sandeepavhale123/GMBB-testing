@@ -187,7 +187,6 @@ export const CitationPage: React.FC = () => {
         setSidebarOpen(false);
       }
     };
-
     document.addEventListener('keydown', handleEscapeKey);
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);
@@ -235,66 +234,27 @@ export const CitationPage: React.FC = () => {
     handleInputChange("city", e.target.value);
   };
   if (isPageLoading) {
-    return (
-      <div className="min-h-screen flex w-full">
+    return <div className="min-h-screen flex w-full">
         {/* Mobile Backdrop */}
-        {isMobile && sidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
-            onClick={handleBackdropClick}
-          />
-        )}
+        {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
         
-        <Sidebar 
-          activeTab="citation" 
-          onTabChange={() => {}} 
-          collapsed={sidebarCollapsed} 
-          onToggleCollapse={toggleSidebar}
-          isMobile={isMobile}
-          sidebarOpen={sidebarOpen}
-        />
+        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
         
-        <div className={`flex-1 transition-all duration-300 ${
-          isMobile 
-            ? "ml-0" 
-            : sidebarCollapsed 
-              ? "lg:ml-16" 
-              : "lg:ml-64"
-        }`}>
+        <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-  return (
-    <div className="min-h-screen flex w-full">
+  return <div className="min-h-screen flex w-full">
       {/* Mobile Backdrop */}
-      {isMobile && sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
-          onClick={handleBackdropClick}
-        />
-      )}
+      {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
       
-      <Sidebar 
-        activeTab="citation" 
-        onTabChange={() => {}} 
-        collapsed={sidebarCollapsed} 
-        onToggleCollapse={toggleSidebar}
-        isMobile={isMobile}
-        sidebarOpen={sidebarOpen}
-      />
+      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
 
-      <div className={`flex-1 transition-all duration-300 ${
-        isMobile 
-          ? "ml-0" 
-          : sidebarCollapsed 
-            ? "lg:ml-16" 
-            : "lg:ml-64"
-      }`}>
+      <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
@@ -370,7 +330,7 @@ export const CitationPage: React.FC = () => {
                     <div>
                       <CardTitle className="text-lg sm:text-xl">Citation Audit</CardTitle>
                     </div>
-                    <Button variant="default" onClick={handlePlaceOrder} className="w-full sm:w-auto text-sm">
+                    <Button variant="default" onClick={handlePlaceOrder} className="w-full sm:w-auto text-sm hidden">
                       Place Order
                     </Button>
                   </CardHeader>
@@ -461,6 +421,5 @@ export const CitationPage: React.FC = () => {
       </div>
 
       <PlaceOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </div>
-  );
+    </div>;
 };
