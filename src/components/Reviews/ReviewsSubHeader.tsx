@@ -20,7 +20,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   const isActiveTab = (tabId: string) => {
     return activeTab === tabId;
   };
-  return <div className="px-0  sm:px-6 py-4">
+  return <div className="px-0   py-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           {/* Desktop Tabs - Button Style */}
           <div className="hidden sm:flex">
