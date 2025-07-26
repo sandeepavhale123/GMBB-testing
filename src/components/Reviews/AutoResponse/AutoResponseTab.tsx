@@ -244,7 +244,9 @@ export const AutoResponseTab: React.FC = () => {
       id: `${fieldPrefix}${fieldSuffix}`,
       starRating: rating,
       content: displayContent,
-      variations: Array.isArray(contentVariations) ? contentVariations : [contentVariations],
+      variations: Array.isArray(contentVariations)
+        ? contentVariations
+        : [contentVariations],
       isSystem: true, // Flag to disable edit/delete for API-sourced templates
       enabled: true,
       createdAt: "",

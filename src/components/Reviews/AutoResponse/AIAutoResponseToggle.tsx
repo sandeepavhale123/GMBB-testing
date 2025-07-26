@@ -12,9 +12,19 @@ import { Checkbox } from "../../ui/checkbox";
 import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-import { Sparkles, Star, Calendar, User } from "lucide-react";
-import { AutoAiSettings, LatestReview } from "../../../store/slices/reviews/templateTypes";
+import { Sparkles, Star, Calendar, User, Loader2 } from "lucide-react";
+import {
+  AutoAiSettings,
+  LatestReview,
+} from "../../../store/slices/reviews/templateTypes";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { useListingContext } from "@/context/ListingContext";
+import {
+  generateAIAutoReply,
+  saveAIAutoReply,
+} from "@/store/slices/reviews/thunks";
+import { toast } from "@/hooks/use-toast";
 interface AIAutoResponseToggleProps {
   enabled: boolean;
   onToggle: () => void;
@@ -43,6 +53,8 @@ Thank you`);
     requireApproval: true,
   });
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const dispatch = useAppDispatch();
+  const { selectedListing } = useListingContext();
 
   console.log("auto ai response", autoAiSettings);
 
@@ -70,24 +82,71 @@ Thank you`);
       [key]: value,
     }));
   };
-  const handleGenerateAIResponse = async () => {
-    setIsGenerating(true);
-    // Simulate AI response generation
-    setTimeout(() => {
-      // Generate AI response content based on the review
-      const generatedResponse =
-        "Thank you so much for your wonderful review! We're thrilled to hear that you enjoyed our pizza and that Sarah provided you with fantastic service. Your kind words mean the world to our team. We look forward to welcoming you back soon!";
 
-      // Apply the reply template with variables replaced
-      const finalResponse = replyTemplate
-        .replace(/{full_name}/g, "John Doe")
-        .replace(/{first_name}/g, "John")
-        .replace(/{last_name}/g, "Doe")
-        .replace(/{responsetext}/g, generatedResponse);
-      setAiResponse(finalResponse);
-      setIsGenerating(false);
-    }, 2000);
+  const handleSaveSettings = () => {
+    if (!selectedListing?.id) return;
+
+    const payload = {
+      listingId: Number(selectedListing.id),
+      tone: responseStyle,
+      reply_text: replyTemplate,
+      specific_star: selectedStarRatings,
+      newStatus: 1,
+      oldStatus: 1,
+    };
+
+    dispatch(saveAIAutoReply(payload))
+      .unwrap()
+      .then((res) => {
+        toast({
+          title: "Success",
+          description: res.message || "AI Auto Reply saved successfully!",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description: err || "Failed to save AI auto reply settings",
+          variant: "destructive",
+        });
+      });
   };
+
+  const handleGenerateAIResponse = () => {
+    if (!selectedListing?.id || !review?.id) return;
+
+    setIsGenerating(true);
+
+    const payload = {
+      reviewId: Number(review.id),
+      tone: responseStyle,
+      reviewReplyFormat: replyTemplate,
+    };
+
+    dispatch(generateAIAutoReply(payload))
+      .unwrap()
+      .then((generatedText) => {
+        console.log("response of ai", generatedText);
+        setAiResponse(generatedText);
+        setReplyTemplate(generatedText);
+        toast({
+          title: "Success",
+          description: "AI Response generated successfully!",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description:
+            typeof err === "string"
+              ? err
+              : err?.message || "Failed to generate response",
+          variant: "destructive",
+        });
+      })
+      .finally(() => setIsGenerating(false));
+  };
+
   return (
     <div className="space-y-4">
       {/* Toggle Header */}
@@ -330,7 +389,8 @@ Thank you`);
                                   <div
                                     key={star}
                                     className={`w-4 h-4 rounded-full ${
-                                      star <= parseInt(review?.star_rating || "0")
+                                      star <=
+                                      parseInt(review?.star_rating || "0")
                                         ? "bg-yellow-400"
                                         : "bg-gray-300"
                                     }`}
@@ -356,6 +416,17 @@ Thank you`);
                         </div>
                       </div>
 
+                      {aiResponse && (
+                        <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
+                          <p className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">
+                            {isGenerating ? (
+                              <Loader2 className=" h-4 w-4 mx-auto animate-spin text-green-400" />
+                            ) : (
+                              aiResponse
+                            )}
+                          </p>
+                        </div>
+                      )}
                       <div className="flex gap-3">
                         <Button
                           variant="outline"
@@ -367,34 +438,11 @@ Thank you`);
                           <Sparkles className="w-4 h-4 mr-2" />
                           {isGenerating
                             ? "Generating AI Response..."
+                            : aiResponse
+                            ? "Regenerate"
                             : "Generate AI Response"}
                         </Button>
-                        {aiResponse && !isGenerating && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={handleGenerateAIResponse}
-                            className="hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
-                          >
-                            <Sparkles className="w-4 h-4 mr-2" />
-                            Regenerate
-                          </Button>
-                        )}
                       </div>
-
-                      {aiResponse && (
-                        <div className="mt-4 p-4 bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/60 dark:border-green-800/60 rounded-lg animate-fade-in">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <p className="text-sm font-medium text-green-700 dark:text-green-300">
-                              Generated AI Response:
-                            </p>
-                          </div>
-                          <p className="text-sm text-foreground leading-relaxed bg-background/40 p-3 rounded border border-border/40">
-                            {aiResponse}
-                          </p>
-                        </div>
-                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -403,7 +451,11 @@ Thank you`);
           </div>
           {/* Save Button */}
           <div className="flex justify-end pt-4 border-t border-border/30">
-            <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8">
+            <Button
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8"
+              onClick={handleSaveSettings}
+              disabled={isGenerating}
+            >
               <Sparkles className="w-4 h-4 mr-2" />
               Save AI Settings
             </Button>

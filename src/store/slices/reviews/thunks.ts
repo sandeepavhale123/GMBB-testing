@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { review as reviewService } from "../../../services/reviewService";
+import {
+  GenerateAIAutoReplyRequest,
+  review as reviewService,
+  SaveAIAutoReplyRequest,
+} from "../../../services/reviewService";
 import { GetReviewsRequest, SendReplyRequest } from "./types";
 
 // Async thunk for fetching review summary
@@ -175,6 +179,38 @@ export const updateDNRSetting = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to update DNR setting"
+      );
+    }
+  }
+);
+
+// save the auo ai response
+export const saveAIAutoReply = createAsyncThunk(
+  "reviews/saveAIAutoReply",
+  async (payload: SaveAIAutoReplyRequest, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await reviewService.saveAIAutoReply(payload);
+      // Optionally: refetch settings after saving
+      dispatch(fetchAutoReviewReplySettings(payload.listingId));
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to save AI auto reply settings"
+      );
+    }
+  }
+);
+
+export const generateAIAutoReply = createAsyncThunk(
+  "reviews/generateAIAutoReply",
+  async (payload: GenerateAIAutoReplyRequest, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.generateAIAutoReply(payload);
+      console.log("✅ Returned from service:", response);
+      return response.data.replyText;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to generate AI auto reply"
       );
     }
   }

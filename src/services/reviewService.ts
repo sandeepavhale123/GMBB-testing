@@ -146,6 +146,20 @@ export interface RefreshReviewsResponse {
   data: any[];
 }
 
+export interface SaveAIAutoReplyRequest {
+  listingId: number;
+  tone: string;
+  reply_text: string;
+  specific_star: string[];
+  newStatus: number;
+  oldStatus: number;
+}
+
+export interface SaveAIAutoReplyResponse {
+  code: number;
+  message: string;
+  data?: any;
+}
 // --- Auto review reply ---
 export interface AutoReviewReplySettingsResponse {
   code: number;
@@ -196,6 +210,21 @@ export interface UpdateDNRSettingResponse {
   data?: any;
 }
 
+export interface GenerateAIAutoReplyRequest {
+  reviewId: string | number;
+  tone: string;
+  reviewReplyFormat: string;
+}
+
+export interface GenerateAIAutoReplyResponse {
+  code: number;
+  message: string;
+  data: {
+    replyText: any;
+    reply_text: string;
+  };
+}
+
 export const reviewService = {
   getReviewSummary: async (
     listingId: string
@@ -230,7 +259,7 @@ export const reviewService = {
   generateAIReply: async (
     reviewId: number
   ): Promise<GenerateAIReplyResponse> => {
-    const response = await axiosInstance.post("/generate-ai-responce", {
+    const response = await axiosInstance.post("/generate-ai-reply", {
       reviewId,
     });
     return response.data;
@@ -258,6 +287,20 @@ export const reviewService = {
     params: UpdateDNRSettingRequest
   ): Promise<UpdateDNRSettingResponse> => {
     const response = await axiosInstance.post("/update-dnr-setting", params);
+    return response.data;
+  },
+
+  saveAIAutoReply: async (
+    payload: SaveAIAutoReplyRequest
+  ): Promise<SaveAIAutoReplyResponse> => {
+    const response = await axiosInstance.post("/save-ai-autoreply", payload);
+    return response.data;
+  },
+  generateAIAutoReply: async (
+    payload: GenerateAIAutoReplyRequest
+  ): Promise<GenerateAIAutoReplyResponse> => {
+    const response = await axiosInstance.post("/generate-ai-reply", payload);
+    console.log("🔍 Full raw Axios response:", response);
     return response.data;
   },
 };
