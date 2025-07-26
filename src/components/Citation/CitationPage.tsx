@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -98,7 +100,10 @@ const LocalPagesCard = () => <Card className="h-full">
     </CardHeader>
   </Card>;
 export const CitationPage: React.FC = () => {
+  const location = useLocation();
+  const isMobile = useIsMobile();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
@@ -154,8 +159,40 @@ export const CitationPage: React.FC = () => {
   }, [selectedListing]);
   console.log("Current searchData state:", searchData);
   const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    if (isMobile) {
+      setSidebarOpen(!sidebarOpen);
+    } else {
+      setSidebarCollapsed(!sidebarCollapsed);
+    }
   };
+
+  // Close sidebar when clicking outside on mobile
+  const handleBackdropClick = () => {
+    if (isMobile && sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+
+  // Close sidebar on navigation change (mobile)
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  }, [location.pathname, isMobile]);
+
+  // Handle escape key to close sidebar on mobile
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMobile && sidebarOpen) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isMobile, sidebarOpen]);
   const handlePlaceOrder = () => {
     setIsModalOpen(true);
   };
@@ -198,20 +235,66 @@ export const CitationPage: React.FC = () => {
     handleInputChange("city", e.target.value);
   };
   if (isPageLoading) {
-    return <div className="min-h-screen flex w-full">
-        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
-        <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+    return (
+      <div className="min-h-screen flex w-full">
+        {/* Mobile Backdrop */}
+        {isMobile && sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
+            onClick={handleBackdropClick}
+          />
+        )}
+        
+        <Sidebar 
+          activeTab="citation" 
+          onTabChange={() => {}} 
+          collapsed={sidebarCollapsed} 
+          onToggleCollapse={toggleSidebar}
+          isMobile={isMobile}
+          sidebarOpen={sidebarOpen}
+        />
+        
+        <div className={`flex-1 transition-all duration-300 ${
+          isMobile 
+            ? "ml-0" 
+            : sidebarCollapsed 
+              ? "lg:ml-16" 
+              : "lg:ml-64"
+        }`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
-  return <div className="min-h-screen flex w-full">
-      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
+  return (
+    <div className="min-h-screen flex w-full">
+      {/* Mobile Backdrop */}
+      {isMobile && sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
+          onClick={handleBackdropClick}
+        />
+      )}
+      
+      <Sidebar 
+        activeTab="citation" 
+        onTabChange={() => {}} 
+        collapsed={sidebarCollapsed} 
+        onToggleCollapse={toggleSidebar}
+        isMobile={isMobile}
+        sidebarOpen={sidebarOpen}
+      />
 
-      <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+      <div className={`flex-1 transition-all duration-300 ${
+        isMobile 
+          ? "ml-0" 
+          : sidebarCollapsed 
+            ? "lg:ml-16" 
+            : "lg:ml-64"
+      }`}>
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
@@ -378,5 +461,6 @@ export const CitationPage: React.FC = () => {
       </div>
 
       <PlaceOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </div>;
+    </div>
+  );
 };

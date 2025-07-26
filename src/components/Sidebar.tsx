@@ -34,6 +34,8 @@ interface SidebarProps {
   onTabChange: (tab: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  isMobile?: boolean;
+  sidebarOpen?: boolean;
 }
 
 interface MenuItem {
@@ -130,6 +132,8 @@ const menuItems: MenuItem[] = [
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   onToggleCollapse,
+  isMobile = false,
+  sidebarOpen = false,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -344,7 +348,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <div
       className={cn(
         "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
-        collapsed ? "w-16" : "w-64"
+        // Desktop behavior
+        !isMobile && (collapsed ? "w-16" : "w-64"),
+        // Mobile behavior - overlay from left
+        isMobile && (sidebarOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"),
+        // Higher z-index for mobile overlay
+        isMobile && "z-50"
       )}
       style={{
         backgroundColor: "var(--sidebar-bg, #111827)",
@@ -360,7 +369,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             height: "107px",
           }}
         >
-          {!collapsed ? (
+          {!(collapsed && !isMobile) ? (
             <div className="flex items-center space-x-2">
               <img
                 src={getDarkLogoUrl()}
@@ -397,7 +406,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       variant={isActive ? "default" : "ghost"}
                       className={cn(
                         "w-full justify-start h-10",
-                        collapsed ? "px-2 justify-center" : "px-3"
+                        (collapsed && !isMobile) ? "px-2 justify-center" : "px-3"
                       )}
                       style={{
                         backgroundColor: isActive
@@ -424,22 +433,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       }}
                       onClick={() => {
                         if (hasSubItems) {
-                          if (!collapsed) {
+                          if (!(collapsed && !isMobile)) {
                             toggleSubMenu(item.id);
                           }
                         } else if (item.path) {
                           handleTabChange(item.id, item.path);
                         }
                       }}
-                      title={collapsed ? item.label : undefined}
+                      title={(collapsed && !isMobile) ? item.label : undefined}
                     >
                       <Icon
                         className={cn(
                           "h-5 w-5",
-                          collapsed ? "mx-auto" : "mr-3"
+                          (collapsed && !isMobile) ? "mx-auto" : "mr-3"
                         )}
                       />
-                      {!collapsed && (
+                      {!(collapsed && !isMobile) && (
                         <>
                           <span className="text-sm font-medium flex-1 text-left">
                             {item.label}
@@ -458,7 +467,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </Button>
 
                     {/* Sub-menu items */}
-                    {hasSubItems && isExpanded && !collapsed && (
+                    {hasSubItems && isExpanded && !(collapsed && !isMobile) && (
                       <div className="ml-4 mt-1 space-y-1">
                         {item.subItems?.map((subItem) => {
                           const SubIcon = subItem.icon;
@@ -513,7 +522,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
         {!isPlanExpired &&
-          !collapsed &&
+          !(collapsed && !isMobile) &&
           !isEnterprisePlan &&
           !shouldHideForRole() &&
           trialPlan && (
@@ -553,7 +562,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             variant="ghost"
             className={cn(
               "w-full justify-start h-12",
-              collapsed ? "px-2 justify-center" : "px-3"
+              (collapsed && !isMobile) ? "px-2 justify-center" : "px-3"
             )}
             style={{
               color: "var(--sidebar-text, #d1d5db)",
@@ -571,13 +580,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => navigate("/profile")}
             title={collapsed ? userName : undefined}
           >
-            <Avatar className={cn("w-8 h-8", collapsed ? "mx-auto" : "mr-3")}>
+            <Avatar className={cn("w-8 h-8", (collapsed && !isMobile) ? "mx-auto" : "mr-3")}>
               <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
                 {userInitials}
               </AvatarFallback>
             </Avatar>
-            {!collapsed && (
+            {!(collapsed && !isMobile) && (
               <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-white">{userName}</p>
                 <p className="text-xs text-gray-400">
