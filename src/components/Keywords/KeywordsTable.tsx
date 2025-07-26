@@ -172,38 +172,38 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </Button>
         </div>}
 
-      <div className="bg-white rounded-lg">
+      <div className="bg-white rounded-lg border border-gray-200">
         
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-gray-50">
             <TableHead className="w-12">
               <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label="Select all keywords" className={isPartiallySelected ? "data-[state=checked]:bg-primary" : ""} />
             </TableHead>
-            <TableHead className="w-16">Sr. No</TableHead>
-            <TableHead>Keyword</TableHead>
-            <TableHead className="text-center">ATR</TableHead>
-            <TableHead className="text-center">ATRP</TableHead>
-            <TableHead className="text-center">SOLV</TableHead>
-            <TableHead className="text-center">Added On</TableHead>
-            <TableHead className="text-center">Status</TableHead>
-            <TableHead className="text-center w-24">Actions</TableHead>
+            <TableHead className="w-16 font-semibold text-gray-900">Sr. No</TableHead>
+            <TableHead className="font-semibold text-gray-900">Keyword</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">ATR</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">ATRP</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">SOLV</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">Added On</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">Status</TableHead>
+            <TableHead className="text-center w-24 font-semibold text-gray-900">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {keywords.map((keyword, index) => <TableRow key={keyword.id}>
+          {keywords.map((keyword, index) => <TableRow key={keyword.id} className="hover:bg-gray-50">
               <TableCell>
                 <Checkbox checked={selectedKeywords.includes(keyword.id)} onCheckedChange={checked => handleSelectKeyword(keyword.id, checked as boolean)} aria-label={`Select keyword ${keyword.keyword}`} />
               </TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="font-medium text-gray-900">
                 {startIndex + index + 1}
               </TableCell>
-              <TableCell className="font-medium">{keyword.keyword}</TableCell>
+              <TableCell className="font-medium text-gray-900">{keyword.keyword}</TableCell>
               <TableCell className="text-center">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <span className="cursor-help">{keyword.atr || 'N/A'}</span>
+                      <span className="cursor-help font-medium text-gray-900">{keyword.atr || 'N/A'}</span>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Average True Range</p>
@@ -215,7 +215,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <span className="cursor-help">{keyword.atrp || 'N/A'}</span>
+                      <span className="cursor-help font-medium text-gray-900">{keyword.atrp || 'N/A'}</span>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Average True Range Percentage</p>
@@ -227,7 +227,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <span className="cursor-help">{keyword.solv || 'N/A'}</span>
+                      <span className="cursor-help font-medium text-gray-900">{keyword.solv || 'N/A'}</span>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Solvability Score</p>
@@ -235,14 +235,14 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                   </Tooltip>
                 </TooltipProvider>
               </TableCell>
-              <TableCell className="text-center">{formatDate(keyword.date)}</TableCell>
+              <TableCell className="text-center text-gray-600">{formatDate(keyword.date)}</TableCell>
               <TableCell className="text-center">
                 {getStatusBadge(keyword.status)}
               </TableCell>
               <TableCell className="text-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
