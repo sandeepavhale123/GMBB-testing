@@ -67,9 +67,14 @@ export const PublicReportDashboardLayout: React.FC<
   const dispatch: AppDispatch = useDispatch();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [themeLoaded, setThemeLoaded] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // All hooks must be called before any conditional logic
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
-  const branding = brandingData?.data || null;
   const { lightLogo } = useThemeLogo();
+  const isMobile = useIsMobile();
+  
+  const branding = brandingData?.data || null;
 
   // Load theme once for all public reports
   useEffect(() => {
@@ -159,8 +164,6 @@ export const PublicReportDashboardLayout: React.FC<
     (visibleSections || []).includes(item.name)
   );
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const isMobile = useIsMobile();
   const getCurrentReportName = () => {
     const path = location.pathname;
     return sidebarItems.find((item) => path.includes(item.name))?.name || "";
