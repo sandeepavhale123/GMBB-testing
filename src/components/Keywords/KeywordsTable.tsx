@@ -7,7 +7,7 @@ import { Badge } from '../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Checkbox } from '../ui/checkbox';
-import { MoreVertical, Eye, Trash, RefreshCw } from 'lucide-react';
+import { MoreVertical, Eye, Trash, RefreshCw, Info } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 
 interface Keyword {
@@ -209,9 +209,51 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             </TableHead>
             <TableHead className="w-16">Sr. No</TableHead>
             <TableHead>Keyword</TableHead>
-            <TableHead className="text-center">ARP</TableHead>
-            <TableHead className="text-center">ATRP</TableHead>
-            <TableHead className="text-center">SoLV</TableHead>
+            <TableHead className="text-center">
+              <div className="flex items-center justify-center gap-1">
+                <span>ARP</span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info className="h-3 w-3 text-gray-400" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Average Ranking Position</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </TableHead>
+            <TableHead className="text-center">
+              <div className="flex items-center justify-center gap-1">
+                <span>ATRP</span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info className="h-3 w-3 text-gray-400" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Average Total Ranking Points</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </TableHead>
+            <TableHead className="text-center">
+              <div className="flex items-center justify-center gap-1">
+                <span>SoLV</span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info className="h-3 w-3 text-gray-400" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Share of Local Voice</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </TableHead>
             <TableHead className="text-center">Added On</TableHead>
             <TableHead className="text-center">Status</TableHead>
             <TableHead className="text-center w-24">Actions</TableHead>
