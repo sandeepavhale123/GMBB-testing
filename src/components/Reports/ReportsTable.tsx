@@ -138,23 +138,23 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
 
   return (
     <>
-      <Card>
-        <CardContent className="p-0">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Report Name</TableHead>
-                <TableHead>Reports</TableHead>
-                <TableHead>Report Type</TableHead>
-                <TableHead>Report Date</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+              <TableRow className="bg-gray-50">
+                <TableHead className="font-semibold text-gray-900">Report Name</TableHead>
+                <TableHead className="font-semibold text-gray-900">Reports</TableHead>
+                <TableHead className="font-semibold text-gray-900">Report Type</TableHead>
+                <TableHead className="font-semibold text-gray-900">Report Date</TableHead>
+                <TableHead className="text-right font-semibold text-gray-900">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {reports.map((report) => (
-                <TableRow key={report.report_id}>
+                <TableRow key={report.report_id} className="hover:bg-gray-50">
                   <TableCell>
-                    <div className="font-medium">{report.title}</div>
+                    <div className="font-medium text-gray-900">{report.title}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
@@ -172,19 +172,21 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium">
+                    <span className="font-medium text-gray-600">
                       {report.type === "Compare" ? "Comparision" : report.type}{" "}
                       Report
                     </span>
                   </TableCell>
                   <TableCell className="min-w-[200px]">
-                    {formatDateRange(report.date_range, report.type)}
+                    <div className="text-gray-600">
+                      {formatDateRange(report.date_range, report.type)}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center justify-center w-10 h-10 p-0"
+                      className="flex items-center justify-center w-10 h-10 p-0 text-gray-400 hover:text-gray-600"
                       onClick={() =>
                         handleViewReport(
                           report.report_id,
@@ -199,8 +201,8 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
               ))}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Pagination */}
       {pagination.total_pages > 1 && (

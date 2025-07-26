@@ -16,6 +16,7 @@ interface SidebarProps {
   onToggleCollapse: () => void;
   isMobile?: boolean;
   sidebarOpen?: boolean;
+  isTablet?: boolean;
 }
 interface MenuItem {
   id: string;
@@ -95,7 +96,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   onToggleCollapse,
   isMobile = false,
-  sidebarOpen = false
+  sidebarOpen = false,
+  isTablet = false
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -265,11 +267,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [isAdmin, profileData?.username]);
   return <div className={cn("fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
-  // Desktop behavior
-  !isMobile && (collapsed ? "w-16" : "w-64"),
-  // Mobile behavior - overlay from left
+  // Mobile behavior (phones) - overlay from left
   isMobile && (sidebarOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"),
-  // Higher z-index for mobile overlay
+  // Tablet behavior - persistent like desktop but responsive
+  isTablet && (collapsed ? "w-16" : "w-64"),
+  // Desktop behavior
+  !isMobile && !isTablet && (collapsed ? "w-16" : "w-64"),
+  // Higher z-index for mobile overlay only
   isMobile && "z-50")} style={{
     backgroundColor: "var(--sidebar-bg, #111827)",
     borderColor: "var(--sidebar-border, #374151)"
@@ -280,7 +284,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         borderColor: "var(--sidebar-border, #374151)",
         height: "107px"
       }}>
-          {!(collapsed && !isMobile) ? <div className="flex items-center space-x-2">
+          {!(collapsed && !isMobile && !isTablet) ? <div className="flex items-center space-x-2">
               <img src={getDarkLogoUrl()} alt="GMB Genie Logo" className=" w-auto object-contain" style={{
             height: "60px",
             maxWidth: "220px"
@@ -297,7 +301,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             const hasSubItems = item.subItems && item.subItems.length > 0;
             const isExpanded = expandedMenus.has(item.id);
             return <div key={item.id}>
-                    <Button variant={isActive ? "default" : "ghost"} className={cn("w-full justify-start h-10", collapsed && !isMobile ? "px-2 justify-center" : "px-3")} style={{
+                    <Button variant={isActive ? "default" : "ghost"} className={cn("w-full justify-start h-10", collapsed && !isMobile && !isTablet ? "px-2 justify-center" : "px-3")} style={{
                 backgroundColor: isActive ? "var(--sidebar-active-bg, #2563eb)" : "transparent",
                 color: isActive ? "var(--sidebar-active-text, #ffffff)" : "var(--sidebar-text, #d1d5db)"
               }} onMouseEnter={e => {
@@ -312,15 +316,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }
               }} onClick={() => {
                 if (hasSubItems) {
-                  if (!(collapsed && !isMobile)) {
+                  if (!(collapsed && !isMobile && !isTablet)) {
                     toggleSubMenu(item.id);
                   }
                 } else if (item.path) {
                   handleTabChange(item.id, item.path);
                 }
-              }} title={collapsed && !isMobile ? item.label : undefined}>
-                      <Icon className={cn("h-5 w-5", collapsed && !isMobile ? "mx-auto" : "mr-3")} />
-                      {!(collapsed && !isMobile) && <>
+              }} title={collapsed && !isMobile && !isTablet ? item.label : undefined}>
+                      <Icon className={cn("h-5 w-5", collapsed && !isMobile && !isTablet ? "mx-auto" : "mr-3")} />
+                      {!(collapsed && !isMobile && !isTablet) && <>
                           <span className="text-sm font-medium flex-1 text-left">
                             {item.label}
                           </span>
@@ -331,7 +335,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </Button>
 
                     {/* Sub-menu items */}
-                    {hasSubItems && isExpanded && !(collapsed && !isMobile) && <div className="ml-4 mt-1 space-y-1">
+                    {hasSubItems && isExpanded && !(collapsed && !isMobile && !isTablet) && <div className="ml-4 mt-1 space-y-1">
                         {item.subItems?.map(subItem => {
                   const SubIcon = subItem.icon;
                   const isSubActive = activeTab === subItem.id;
@@ -362,7 +366,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </ScrollArea>
 
         {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired && !(collapsed && !isMobile) && !isEnterprisePlan && !shouldHideForRole() && trialPlan && <div className="px-3 pb-4">
+        {!isPlanExpired && !(collapsed && !isMobile && !isTablet) && !isEnterprisePlan && !shouldHideForRole() && trialPlan && <div className="px-3 pb-4">
               <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-2 mb-2">
@@ -386,7 +390,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="border-t p-4" style={{
         borderColor: "var(--sidebar-border, #374151)"
       }}>
-          <Button variant="ghost" className={cn("w-full justify-start h-12", collapsed && !isMobile ? "px-2 justify-center" : "px-3")} style={{
+          <Button variant="ghost" className={cn("w-full justify-start h-12", collapsed && !isMobile && !isTablet ? "px-2 justify-center" : "px-3")} style={{
           color: "var(--sidebar-text, #d1d5db)"
         }} onMouseEnter={e => {
           e.currentTarget.style.backgroundColor = "var(--sidebar-hover-bg, #374151)";
@@ -394,14 +398,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         }} onMouseLeave={e => {
           e.currentTarget.style.backgroundColor = "transparent";
           e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
-        }} onClick={() => navigate("/profile")} title={collapsed ? userName : undefined}>
-            <Avatar className={cn("w-8 h-8", collapsed && !isMobile ? "mx-auto" : "mr-3")}>
+        }} onClick={() => navigate("/profile")} title={collapsed && !isMobile && !isTablet ? userName : undefined}>
+            <Avatar className={cn("w-8 h-8", collapsed && !isMobile && !isTablet ? "mx-auto" : "mr-3")}>
               <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
                 {userInitials}
               </AvatarFallback>
             </Avatar>
-            {!(collapsed && !isMobile) && <div className="flex-1 text-left">
+            {!(collapsed && !isMobile && !isTablet) && <div className="flex-1 text-left">
                 <p className="text-sm font-medium text-white">{userName}</p>
                 <p className="text-xs text-white">
                   {userEmail.length > 20 ? userEmail.slice(0, 19) + "..." : userEmail}

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useDeviceBreakpoints } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -54,7 +54,7 @@ const CitationTrackerCard = ({
       <CardHeader>
         <CardTitle className="text-lg">Citation Tracker</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <CardContent className="flex flex-col lg:flex-row items-center justify-between gap-4">
         <div className="flex-1">
           <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
             <ResponsiveContainer width="100%" height="100%">
@@ -101,7 +101,11 @@ const LocalPagesCard = () => <Card className="h-full">
   </Card>;
 export const CitationPage: React.FC = () => {
   const location = useLocation();
-  const isMobile = useIsMobile();
+  const {
+    isMobile,
+    isTablet,
+    isDesktop
+  } = useDeviceBreakpoints();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -235,12 +239,12 @@ export const CitationPage: React.FC = () => {
   };
   if (isPageLoading) {
     return <div className="min-h-screen flex w-full">
-        {/* Mobile Backdrop */}
-        {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
+        {/* Mobile Backdrop - Only for phones, not tablets */}
+        {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30" onClick={handleBackdropClick} />}
         
-        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
+        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
         
-        <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+        <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : isTablet ? sidebarCollapsed ? "ml-16" : "ml-64" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
@@ -249,12 +253,12 @@ export const CitationPage: React.FC = () => {
       </div>;
   }
   return <div className="min-h-screen flex w-full">
-      {/* Mobile Backdrop */}
-      {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
+      {/* Mobile Backdrop - Only for phones, not tablets */}
+      {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30" onClick={handleBackdropClick} />}
       
-      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
+      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
 
-      <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+      <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : isTablet ? sidebarCollapsed ? "ml-16" : "ml-64" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
@@ -346,14 +350,14 @@ export const CitationPage: React.FC = () => {
                       </TabsList>
 
                       <TabsContent value="existing" className="mt-6">
-                        <div className="overflow-x-auto">
-                          <Table>
+                        <div className="overflow-x-auto rounded-md border">
+                          <Table className="min-w-full">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">Website</TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Business Name</TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden md:table-cell">Phone</TableHead>
-                                <TableHead className="text-xs sm:text-sm">You</TableHead>
+                                <TableHead className="text-xs sm:text-sm">Action</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -370,9 +374,14 @@ export const CitationPage: React.FC = () => {
                                   <TableCell className="hidden sm:table-cell text-xs sm:text-sm">{row.businessName}</TableCell>
                                   <TableCell className="hidden md:table-cell text-xs sm:text-sm">{row.phone}</TableCell>
                                   <TableCell>
-                                    <span className={`px-1 py-0.5 sm:px-2 sm:py-1 rounded text-xs ${row.you ? "bg-green-100 text-white" : "bg-red-100 text-white"}`}>
-                                      {row.you ? <>✅</> : <>❌</>}
-                                    </span>
+                                    <a 
+                                      href={row.website?.startsWith("http://") || row.website?.startsWith("https://") ? row.website : `https://${row.website}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors"
+                                    >
+                                      View
+                                    </a>
                                   </TableCell>
                                 </TableRow>)}
                             </TableBody>
@@ -381,8 +390,8 @@ export const CitationPage: React.FC = () => {
                       </TabsContent>
 
                       <TabsContent value="possible" className="mt-6">
-                        <div className="overflow-x-auto">
-                          <Table>
+                        <div className="overflow-x-auto rounded-md border">
+                          <Table className="min-w-full">
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="text-xs sm:text-sm">Site Name</TableHead>
