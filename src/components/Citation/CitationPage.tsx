@@ -334,9 +334,11 @@ export const CitationPage: React.FC = () => {
                     <div>
                       <CardTitle className="text-lg sm:text-xl">Citation Audit</CardTitle>
                     </div>
-                    <a variant="default" href="https://orders.citationbuilderpro.com/store/43/local-citation-service" className="w-full sm:w-auto text-sm">
-                      Place Order
-                    </a>
+                    <Button asChild variant="default" className="w-full sm:w-auto text-sm">
+                      <a href="https://orders.citationbuilderpro.com/store/43/local-citation-service" target="_blank" rel="noopener noreferrer">
+                        Place Order
+                      </a>
+                    </Button>
                   </CardHeader>
                   <CardContent>
                     <Tabs defaultValue="existing" className="w-full">
