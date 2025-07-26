@@ -49,7 +49,8 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
   ],
   '/settings/google-account': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/google-account' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Manage Google Account', path: '/settings/google-account' }
   ],
   '/settings/subscription': [
     { title: 'Dashboard', path: '/' },
