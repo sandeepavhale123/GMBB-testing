@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useDeviceBreakpoints } from "@/hooks/use-mobile";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -101,7 +101,7 @@ const LocalPagesCard = () => <Card className="h-full">
   </Card>;
 export const CitationPage: React.FC = () => {
   const location = useLocation();
-  const isMobile = useIsMobile();
+  const { isMobile, isTablet, isDesktop } = useDeviceBreakpoints();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -235,12 +235,18 @@ export const CitationPage: React.FC = () => {
   };
   if (isPageLoading) {
     return <div className="min-h-screen flex w-full">
-        {/* Mobile Backdrop */}
-        {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
+        {/* Mobile Backdrop - Only for phones, not tablets */}
+        {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30" onClick={handleBackdropClick} />}
         
-        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
+        <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
         
-        <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+        <div className={`flex-1 transition-all duration-300 ${
+          isMobile 
+            ? "ml-0" 
+            : isTablet 
+              ? (sidebarCollapsed ? "ml-16" : "ml-64")
+              : (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64")
+        }`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
@@ -249,12 +255,18 @@ export const CitationPage: React.FC = () => {
       </div>;
   }
   return <div className="min-h-screen flex w-full">
-      {/* Mobile Backdrop */}
-      {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={handleBackdropClick} />}
+      {/* Mobile Backdrop - Only for phones, not tablets */}
+      {isMobile && sidebarOpen && <div className="fixed inset-0 bg-black/50 z-30" onClick={handleBackdropClick} />}
       
-      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} />
+      <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} isMobile={isMobile} sidebarOpen={sidebarOpen} isTablet={isTablet} />
 
-      <div className={`flex-1 transition-all duration-300 ${isMobile ? "ml-0" : sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
+      <div className={`flex-1 transition-all duration-300 ${
+        isMobile 
+          ? "ml-0" 
+          : isTablet 
+            ? (sidebarCollapsed ? "ml-16" : "ml-64")
+            : (sidebarCollapsed ? "lg:ml-16" : "lg:ml-64")
+      }`}>
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="p-4 sm:p-6">
