@@ -276,7 +276,7 @@ export const PublicReportDashboardLayout: React.FC<
                     className={`text-white  ${
                       isMobile
                         ? "text-xs leading-tight max-w-[280px]"
-                        : "text-lg"
+                        : "text-sm"
                     }`}
                   >
                     {address}
