@@ -168,9 +168,7 @@ export const ReportBrandingPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">
             Report Branding
           </h1>
-          <p className="text-muted-foreground">
-            Customize your company branding for generated reports
-          </p>
+          <p className="text-muted-foreground">Customize your company branding for the generated reports.</p>
         </div>
         <div className="flex items-center gap-2">
           {brandingData?.data && Object.keys(brandingData.data).length > 0 && <Button variant="outline" size="sm" onClick={() => setShowDeleteDialog(true)} className="text-destructive hover:text-destructive hover:bg-destructive/5" disabled={deleteBrandingMutation.isPending}>
