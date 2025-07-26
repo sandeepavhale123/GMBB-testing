@@ -30,7 +30,7 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   };
 
   return (
-    <div className="border-b border-border sticky top-0 z-10 bg-background/80 backdrop-blur-sm">
+    
       <div className="px-4 sm:px-6 py-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           {/* Desktop Tabs - Button Style */}
@@ -92,7 +92,6 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 };
