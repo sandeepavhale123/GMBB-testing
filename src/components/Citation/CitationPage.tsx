@@ -52,28 +52,31 @@ const CitationTrackerCard = ({
       <CardHeader>
         <CardTitle className="text-lg">Citation Tracker</CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center justify-between">
+      <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex-1">
-          <div className="relative w-32 h-32 mx-auto">
+          <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={chartData} cx="50%" cy="50%" innerRadius={40} outerRadius={64} paddingAngle={2} dataKey="value">
+                <Pie data={chartData} cx="50%" cy="50%" innerRadius={30} outerRadius={48} paddingAngle={2} dataKey="value" className="sm:!hidden">
+                  {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
+                </Pie>
+                <Pie data={chartData} cx="50%" cy="50%" innerRadius={40} outerRadius={64} paddingAngle={2} dataKey="value" className="hidden sm:!block">
                   {chartData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-sm text-muted-foreground">Listed</span>
-              <span className="text-lg font-semibold">{listedPercent}%</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">Listed</span>
+              <span className="text-sm sm:text-lg font-semibold">{listedPercent}%</span>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 ml-4">
-          <div className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded text-sm">
+        <div className="flex flex-col gap-2 sm:ml-4">
+          <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm">
             <span>Listed</span>
             <span className="font-semibold">{listed}</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-2 bg-muted text-muted-foreground rounded text-sm">
+          <div className="flex items-center gap-2 px-2 py-1 sm:px-3 sm:py-2 bg-muted text-muted-foreground rounded text-xs sm:text-sm">
             <span>Not Listed</span>
             <span className="font-semibold">{notListed}</span>
           </div>
@@ -83,11 +86,11 @@ const CitationTrackerCard = ({
 };
 const LocalPagesCard = () => <Card className="h-full">
     <CardHeader className="text-center">
-      <div className="mx-auto mb-4 w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-        <FileSearch className="w-8 h-8 text-primary" />
+      <div className="mx-auto mb-4 w-12 h-12 sm:w-16 sm:h-16 bg-muted rounded-full flex items-center justify-center">
+        <FileSearch className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
       </div>
-      <CardTitle className="text-lg">Local Pages & Directories</CardTitle>
-      <CardDescription className="text-sm text-muted-foreground">
+      <CardTitle className="text-base sm:text-lg">Local Pages & Directories</CardTitle>
+      <CardDescription className="text-xs sm:text-sm text-muted-foreground px-2">
         Your local page and directory score is based on the number of places in
         which your listing is present, divided by the number of local page and
         directories we've checked.
@@ -197,7 +200,7 @@ export const CitationPage: React.FC = () => {
   if (isPageLoading) {
     return <div className="min-h-screen flex w-full">
         <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
-        <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "ml-16" : "ml-64"}`}>
+        <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
           <Header onToggleSidebar={toggleSidebar} />
           <div className="flex items-center justify-center min-h-[80vh]">
             <Loader size="lg" text="Loading citation page..." />
@@ -208,10 +211,10 @@ export const CitationPage: React.FC = () => {
   return <div className="min-h-screen flex w-full">
       <Sidebar activeTab="citation" onTabChange={() => {}} collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
 
-      <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "ml-16" : "ml-64"}`}>
+      <div className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? "lg:ml-16" : "lg:ml-64"}`}>
         <Header onToggleSidebar={toggleSidebar} />
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {!hasSearched && !hasCitation ?
           // Search Form Screen
@@ -280,80 +283,91 @@ export const CitationPage: React.FC = () => {
 
                 {/* Citation Audit Card */}
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between">
+                  <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle>Citation Audit</CardTitle>
+                      <CardTitle className="text-lg sm:text-xl">Citation Audit</CardTitle>
                     </div>
-                    <Button variant="default" onClick={handlePlaceOrder}>
+                    <Button variant="default" onClick={handlePlaceOrder} className="w-full sm:w-auto text-sm">
                       Place Order
                     </Button>
                   </CardHeader>
                   <CardContent>
                     <Tabs defaultValue="existing" className="w-full">
-                      <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
-                        <TabsTrigger value="existing">
+                      <TabsList className="grid w-full grid-cols-2 sm:inline-flex sm:h-10 sm:items-center sm:justify-center sm:rounded-md bg-muted p-1 text-muted-foreground">
+                        <TabsTrigger value="existing" className="text-xs sm:text-sm">
                           Existing Citation ({citationData?.existingCitation})
                         </TabsTrigger>
-                        <TabsTrigger value="possible">
+                        <TabsTrigger value="possible" className="text-xs sm:text-sm">
                           Possible Citation ({trackerData?.totalChecked})
                         </TabsTrigger>
                       </TabsList>
 
                       <TabsContent value="existing" className="mt-6">
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Website</TableHead>
-                              <TableHead>Business Name</TableHead>
-                              <TableHead>Phone</TableHead>
-                              <TableHead>You</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {existingCitationData.map((row, index) => <TableRow key={index}>
-                                <TableCell className="font-medium flex items-center gap-4">
-                                  <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`} alt="favicon" className="w-5 h-5" onError={e => e.currentTarget.src = "/default-icon.png"} />
-                                  {row.website}
-                                </TableCell>
-                                <TableCell>{row.businessName}</TableCell>
-                                <TableCell>{row.phone}</TableCell>
-                                <TableCell>
-                                  <span className={`px-2 py-1 rounded text-xs ${row.you ? "bg-green-100 text-white" : "bg-red-100 text-white"}`}>
-                                    {row.you ? <>✅</> : <>❌</>}
-                                  </span>
-                                </TableCell>
-                              </TableRow>)}
-                          </TableBody>
-                        </Table>
+                        <div className="overflow-x-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="text-xs sm:text-sm">Website</TableHead>
+                                <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Business Name</TableHead>
+                                <TableHead className="text-xs sm:text-sm hidden md:table-cell">Phone</TableHead>
+                                <TableHead className="text-xs sm:text-sm">You</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {existingCitationData.map((row, index) => <TableRow key={index}>
+                                  <TableCell className="font-medium">
+                                    <div className="flex items-center gap-2 sm:gap-4">
+                                      <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`} alt="favicon" className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" onError={e => e.currentTarget.src = "/default-icon.png"} />
+                                      <span className="text-xs sm:text-sm truncate">{row.website}</span>
+                                    </div>
+                                    <div className="sm:hidden text-xs text-muted-foreground mt-1">
+                                      {row.businessName} • {row.phone}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="hidden sm:table-cell text-xs sm:text-sm">{row.businessName}</TableCell>
+                                  <TableCell className="hidden md:table-cell text-xs sm:text-sm">{row.phone}</TableCell>
+                                  <TableCell>
+                                    <span className={`px-1 py-0.5 sm:px-2 sm:py-1 rounded text-xs ${row.you ? "bg-green-100 text-white" : "bg-red-100 text-white"}`}>
+                                      {row.you ? <>✅</> : <>❌</>}
+                                    </span>
+                                  </TableCell>
+                                </TableRow>)}
+                            </TableBody>
+                          </Table>
+                        </div>
                       </TabsContent>
 
                       <TabsContent value="possible" className="mt-6">
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Site Name</TableHead>
-                              <TableHead>Action</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {possibleCitationData.map((row, index) => <TableRow key={index}>
-                                <TableCell className="font-medium flex items-center gap-4">
-                                  <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`} alt="favicon" className="w-5 h-5" onError={e => e.currentTarget.src = "/default-icon.png"} />
-                                  {row.site}
-                                </TableCell>
-                                <TableCell className="text-right">
-                                  <Button variant="outline" size="sm" onClick={() => {
-                              if (row.website) {
-                                const url = row.website.startsWith("http://") || row.website.startsWith("https://") ? row.website : `https://${row.website}`;
-                                window.open(url, "_blank", "noopener,noreferrer");
-                              }
-                            }}>
-                                    Fix Now
-                                  </Button>
-                                </TableCell>
-                              </TableRow>)}
-                          </TableBody>
-                        </Table>
+                        <div className="overflow-x-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="text-xs sm:text-sm">Site Name</TableHead>
+                                <TableHead className="text-xs sm:text-sm text-right">Action</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {possibleCitationData.map((row, index) => <TableRow key={index}>
+                                  <TableCell className="font-medium">
+                                    <div className="flex items-center gap-2 sm:gap-4">
+                                      <img src={`https://www.google.com/s2/favicons?sz=16&domain_url=${row.website}`} alt="favicon" className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" onError={e => e.currentTarget.src = "/default-icon.png"} />
+                                      <span className="text-xs sm:text-sm">{row.site}</span>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="text-right">
+                                    <Button variant="outline" size="sm" className="text-xs" onClick={() => {
+                                if (row.website) {
+                                  const url = row.website.startsWith("http://") || row.website.startsWith("https://") ? row.website : `https://${row.website}`;
+                                  window.open(url, "_blank", "noopener,noreferrer");
+                                }
+                              }}>
+                                      Fix Now
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>)}
+                            </TableBody>
+                          </Table>
+                        </div>
                       </TabsContent>
                     </Tabs>
                   </CardContent>
