@@ -1,6 +1,5 @@
 import { Navigate } from "react-router-dom";
 import { RouteConfig } from "../routeConfig";
-import { ThemePreloader } from "@/components/ThemePreloader";
 import { PublicGMBHealthReport } from "@/components/PublicReports/PublicGMBHealthReport";
 import { PublicGeoRankingReport } from "@/components/PublicReports/PublicGeoRankingReport";
 import { PublicReviewsReport } from "@/components/PublicReports/PublicReviewsReport";
@@ -11,50 +10,26 @@ import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPo
 export const publicReportRoutes: RouteConfig[] = [
   {
     path: "/gmb-health/:reportId",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicGMBHealthReport />
-      </ThemePreloader>
-    ),
+    element: <PublicGMBHealthReport />,
   },
   {
     path: "/gmb-ranking/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicGeoRankingReport />
-      </ThemePreloader>
-    ),
+    element: <PublicGeoRankingReport />,
   },
   {
     path: "/gmb-review/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicReviewsReport />
-      </ThemePreloader>
-    ),
+    element: <PublicReviewsReport />,
   },
   {
     path: "/gmb-insight/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicInsightsReport />
-      </ThemePreloader>
-    ),
+    element: <PublicInsightsReport />,
   },
   {
     path: "/gmb-media/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicMediaReport />
-      </ThemePreloader>
-    ),
+    element: <PublicMediaReport />,
   },
   {
     path: "/gmb-post/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicPostPerformanceReport />
-      </ThemePreloader>
-    ),
+    element: <PublicPostPerformanceReport />,
   },
 ];

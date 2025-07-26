@@ -9,15 +9,12 @@ import { FileText, Calendar, CheckCircle, XCircle, TrendingUp, ArrowUp, ArrowDow
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { usePerformancePostsReport } from "@/hooks/useReports";
 import { PostImage } from "./PostImage";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 import { formatToDDMMYY } from "@/utils/dateUtils";
 export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
 
-  // Load theme for public report
-  usePublicReportTheme();
 
   // Fetch review report
   const {
