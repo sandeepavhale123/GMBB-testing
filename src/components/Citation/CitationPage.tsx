@@ -357,7 +357,7 @@ export const CitationPage: React.FC = () => {
                                 <TableHead className="text-xs sm:text-sm">Website</TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Business Name</TableHead>
                                 <TableHead className="text-xs sm:text-sm hidden md:table-cell">Phone</TableHead>
-                                <TableHead className="text-xs sm:text-sm">You</TableHead>
+                                <TableHead className="text-xs sm:text-sm">Action</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -374,9 +374,14 @@ export const CitationPage: React.FC = () => {
                                   <TableCell className="hidden sm:table-cell text-xs sm:text-sm">{row.businessName}</TableCell>
                                   <TableCell className="hidden md:table-cell text-xs sm:text-sm">{row.phone}</TableCell>
                                   <TableCell>
-                                    <span className={`px-1 py-0.5 sm:px-2 sm:py-1 rounded text-xs ${row.you ? "bg-green-100 text-white" : "bg-red-100 text-white"}`}>
-                                      {row.you ? <>✅</> : <>❌</>}
-                                    </span>
+                                    <a 
+                                      href={row.website?.startsWith("http://") || row.website?.startsWith("https://") ? row.website : `https://${row.website}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 bg-primary text-primary-foreground rounded text-xs sm:text-sm hover:bg-primary/80 transition-colors"
+                                    >
+                                      View
+                                    </a>
                                   </TableCell>
                                 </TableRow>)}
                             </TableBody>
