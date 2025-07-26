@@ -336,7 +336,7 @@ export const CitationPage: React.FC = () => {
                   </CardHeader>
                   <CardContent>
                     <Tabs defaultValue="existing" className="w-full">
-                      <TabsList className="grid w-full grid-cols-2 sm:inline-flex sm:h-10 sm:items-center sm:justify-center sm:rounded-md bg-muted p-1 text-muted-foreground">
+                      <TabsList className="grid grid-cols-2 sm:inline-flex sm:h-10 sm:items-center sm:justify-center sm:rounded-md bg-muted p-1 text-muted-foreground">
                         <TabsTrigger value="existing" className="text-xs sm:text-sm">
                           Existing Citation ({citationData?.existingCitation})
                         </TabsTrigger>
