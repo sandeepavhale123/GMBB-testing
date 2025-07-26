@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
@@ -17,6 +18,7 @@ interface KeywordsTableProps {
   loading: boolean;
   error: string | null;
   onRefresh: () => void;
+  listingId: string;
 }
 
 export const KeywordsTable: React.FC<KeywordsTableProps> = ({
@@ -28,14 +30,15 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   onPageChange,
   loading,
   error,
-  onRefresh
+  onRefresh,
+  listingId
 }) => {
+  const navigate = useNavigate();
   const startIndex = (currentPage - 1) * 10;
   const endIndex = Math.min(startIndex + 10, totalKeywords);
 
   const handleViewRank = (keyword: Keyword) => {
-    // This would typically navigate to a detailed view or open a modal
-    console.log('View rank for:', keyword.keyword);
+    navigate(`/geo-ranking/${listingId}?keyword=${keyword.id}`);
   };
 
   const formatDate = (dateString: string) => {

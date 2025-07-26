@@ -130,6 +130,7 @@ export const KeywordsPage: React.FC = () => {
         loading={loading}
         error={error}
         onRefresh={() => fetchKeywords(currentPage)}
+        listingId={selectedListing?.id || ''}
       />
 
     </div>
