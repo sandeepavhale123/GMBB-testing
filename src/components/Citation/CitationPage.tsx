@@ -334,9 +334,9 @@ export const CitationPage: React.FC = () => {
                     <div>
                       <CardTitle className="text-lg sm:text-xl">Citation Audit</CardTitle>
                     </div>
-                    <Button variant="default" onClick={handlePlaceOrder} className="w-full sm:w-auto text-sm hidden">
+                    <a variant="default" href="https://orders.citationbuilderpro.com/store/43/local-citation-service" className="w-full sm:w-auto text-sm">
                       Place Order
-                    </Button>
+                    </a>
                   </CardHeader>
                   <CardContent>
                     <Tabs defaultValue="existing" className="w-full">
