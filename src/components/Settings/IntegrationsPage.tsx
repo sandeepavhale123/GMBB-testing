@@ -95,21 +95,21 @@ export const IntegrationsPage: React.FC = () => {
   const [integrations, setIntegrations] = useState<Integration[]>([{
     id: "map-api",
     name: "Google Map Api Key",
-    description: "Configure map services for location-based features",
+    description: "Configure map services for location-based features.",
     icon: Map,
     status: connectedApiKey ? "active" : "inactive",
     configurable: true
   }, {
     id: "smtp-details",
     name: "SMTP Details",
-    description: "Configure email server settings for notifications",
+    description: "Configure email server settings for notifications.",
     icon: Mail,
     status: connectedSmtp ? "active" : "inactive",
     configurable: true
   }, {
     id: "subdomain-config",
     name: "Sub domain configuration",
-    description: "Configure white label subdomain for your reports",
+    description: "Configure white label subdomain for your reports.",
     icon: Globe,
     status: connectedSubdomain ? "active" : "inactive",
     configurable: true
