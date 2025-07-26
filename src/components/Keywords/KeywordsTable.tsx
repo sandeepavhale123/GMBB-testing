@@ -7,8 +7,9 @@ import { Badge } from '../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Checkbox } from '../ui/checkbox';
-import { MoreVertical, Eye, Trash, RefreshCw } from 'lucide-react';
+import { MoreVertical, Eye, Trash, RefreshCw, Plus } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+
 interface Keyword {
   id: string;
   keyword: string;
@@ -18,6 +19,7 @@ interface Keyword {
   atr: string;
   status: string;
 }
+
 interface KeywordsTableProps {
   keywords: Keyword[];
   currentPage: number;
@@ -32,6 +34,7 @@ interface KeywordsTableProps {
   listingId: string;
   deleteLoading?: boolean;
 }
+
 export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   keywords,
   currentPage,
@@ -49,8 +52,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   const navigate = useNavigate();
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
   const startIndex = (currentPage - 1) * 10;
   const endIndex = Math.min(startIndex + 10, totalKeywords);
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedKeywords(keywords.map(k => k.id));
@@ -58,6 +63,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
       setSelectedKeywords([]);
     }
   };
+
   const handleSelectKeyword = (keywordId: string, checked: boolean) => {
     if (checked) {
       setSelectedKeywords(prev => [...prev, keywordId]);
@@ -65,28 +71,34 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
       setSelectedKeywords(prev => prev.filter(id => id !== keywordId));
     }
   };
+
   const handleBulkDelete = () => {
     if (selectedKeywords.length > 0) {
       setIsDeleteDialogOpen(true);
     }
   };
+
   const confirmDelete = () => {
     onDeleteKeyword(selectedKeywords);
     setSelectedKeywords([]);
     setIsDeleteDialogOpen(false);
   };
+
   const isAllSelected = keywords.length > 0 && selectedKeywords.length === keywords.length;
   const isPartiallySelected = selectedKeywords.length > 0 && selectedKeywords.length < keywords.length;
+
   const handleViewRank = (keyword: Keyword) => {
     navigate(`/geo-ranking/${listingId}?keyword=${keyword.id}`);
   };
+
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A';
-
+    
     // Handle DD-MM-YYYY format from backend
     if (dateString.includes('-')) {
       const [day, month, year] = dateString.split('-');
       const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      
       if (!isNaN(date.getTime())) {
         return date.toLocaleDateString('en-GB', {
           day: 'numeric',
@@ -95,11 +107,12 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
         });
       }
     }
-
+    
     // Fallback for other formats
     const date = new Date(dateString);
     return !isNaN(date.getTime()) ? date.toLocaleDateString() : 'Invalid Date';
   };
+
   const getStatusBadge = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower === 'active' || statusLower === 'completed') {
@@ -111,44 +124,65 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
     }
     return <Badge variant="outline">{status}</Badge>;
   };
+
   if (loading) {
-    return <div className="flex items-center justify-center py-12">
+    return (
+      <div className="flex items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-      </div>;
+      </div>
+    );
   }
+
   if (error) {
-    return <div className="text-center py-12">
+    return (
+      <div className="text-center py-12">
         <div className="text-red-600 mb-4">{error}</div>
         <Button onClick={onRefresh} variant="outline">
           <RefreshCw className="w-4 h-4 mr-2" />
           Try Again
         </Button>
-      </div>;
+      </div>
+    );
   }
+
   if (keywords.length === 0) {
-    return <div className="text-center py-12 bg-white border-gray-100  border rouded-md ">
-        <p className="text-gray-500 mb-4">No keywords found</p>
-        <Button onClick={onRefresh} variant="outline">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500 mb-4">Start tracking your keyword rankings</p>
+        <Button onClick={() => navigate(`/keywords/${listingId}/add`)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Search Keyword
         </Button>
-      </div>;
+      </div>
+    );
   }
-  return <div className="space-y-4">
-      {selectedKeywords.length > 0 && <div className="mb-4 flex items-center gap-4 p-4 bg-muted rounded-lg">
+
+  return (
+    <div className="space-y-4">
+      {selectedKeywords.length > 0 && (
+        <div className="mb-4 flex items-center gap-4 p-4 bg-muted rounded-lg">
           <span className="text-sm text-muted-foreground">
             {selectedKeywords.length} keyword{selectedKeywords.length !== 1 ? 's' : ''} selected
           </span>
           <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm" onClick={handleBulkDelete} disabled={deleteLoading}>
-                {deleteLoading ? <>
+              <Button 
+                variant="destructive" 
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? (
+                  <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Deleting...
-                  </> : <>
+                  </>
+                ) : (
+                  <>
                     <Trash className="w-4 h-4 mr-2" />
                     Delete Selected
-                  </>}
+                  </>
+                )}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -167,10 +201,15 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <Button variant="outline" size="sm" onClick={() => setSelectedKeywords([])}>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setSelectedKeywords([])}
+          >
             Clear Selection
           </Button>
-        </div>}
+        </div>
+      )}
 
       <div className="bg-white rounded-lg">
         
@@ -178,7 +217,12 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
         <TableHeader>
           <TableRow>
             <TableHead className="w-12">
-              <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label="Select all keywords" className={isPartiallySelected ? "data-[state=checked]:bg-primary" : ""} />
+              <Checkbox
+                checked={isAllSelected}
+                onCheckedChange={handleSelectAll}
+                aria-label="Select all keywords"
+                className={isPartiallySelected ? "data-[state=checked]:bg-primary" : ""}
+              />
             </TableHead>
             <TableHead className="w-16">Sr. No</TableHead>
             <TableHead>Keyword</TableHead>
@@ -191,9 +235,14 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {keywords.map((keyword, index) => <TableRow key={keyword.id}>
+          {keywords.map((keyword, index) => (
+            <TableRow key={keyword.id}>
               <TableCell>
-                <Checkbox checked={selectedKeywords.includes(keyword.id)} onCheckedChange={checked => handleSelectKeyword(keyword.id, checked as boolean)} aria-label={`Select keyword ${keyword.keyword}`} />
+                <Checkbox
+                  checked={selectedKeywords.includes(keyword.id)}
+                  onCheckedChange={(checked) => handleSelectKeyword(keyword.id, checked as boolean)}
+                  aria-label={`Select keyword ${keyword.keyword}`}
+                />
               </TableCell>
               <TableCell className="font-medium">
                 {startIndex + index + 1}
@@ -258,27 +307,41 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
-            </TableRow>)}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
 
       {/* Pagination */}
-      {totalPages > 1 && <div className="flex items-center justify-between px-2">
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between px-2">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of {totalKeywords} results
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+            >
               Previous
             </Button>
             <span className="text-sm">
               Page {currentPage} of {totalPages}
             </span>
-            <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage >= totalPages}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+            >
               Next
             </Button>
           </div>
-        </div>}
         </div>
-    </div>;
+      )}
+        </div>
+    </div>
+  );
 };
