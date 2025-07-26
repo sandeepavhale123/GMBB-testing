@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useListingContext } from '../../context/ListingContext';
 import { getSearchKeywords, SearchKeywordData, deleteKeywords } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
-
 export interface Keyword {
   id: string;
   keyword: string;
@@ -16,12 +15,14 @@ export interface Keyword {
   atr: string;
   status: string;
 }
-
 export const KeywordsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { selectedListing } = useListingContext();
-  const { toast } = useToast();
-  
+  const {
+    selectedListing
+  } = useListingContext();
+  const {
+    toast
+  } = useToast();
   const [keywords, setKeywords] = useState<Keyword[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,20 +31,16 @@ export const KeywordsPage: React.FC = () => {
   const [totalKeywords, setTotalKeywords] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [deleteLoading, setDeleteLoading] = useState(false);
-
   const fetchKeywords = async (page = 1) => {
     if (!selectedListing?.id) return;
-    
     setLoading(true);
     setError(null);
-    
     try {
       const response = await getSearchKeywords({
         listingId: Number(selectedListing.id),
         page,
         limit: perPage
       });
-      
       if (response.code === 200) {
         setKeywords(response.data.keywords);
         setTotalPages(response.data.totalPages);
@@ -65,15 +62,12 @@ export const KeywordsPage: React.FC = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchKeywords();
   }, [selectedListing?.id]);
-
   const handlePageChange = (page: number) => {
     fetchKeywords(page);
   };
-
   const handleDeleteKeyword = async (ids: string[]) => {
     if (!selectedListing?.id) {
       toast({
@@ -83,7 +77,6 @@ export const KeywordsPage: React.FC = () => {
       });
       return;
     }
-
     setDeleteLoading(true);
     try {
       const keywordIds = ids.map(id => parseInt(id, 10));
@@ -95,7 +88,7 @@ export const KeywordsPage: React.FC = () => {
 
       // Remove deleted keywords from local state
       setKeywords(prev => prev.filter(keyword => !ids.includes(keyword.id)));
-      
+
       // Update pagination if current page becomes empty
       const remainingKeywords = keywords.filter(keyword => !ids.includes(keyword.id));
       if (remainingKeywords.length === 0 && currentPage > 1) {
@@ -105,10 +98,9 @@ export const KeywordsPage: React.FC = () => {
         // Refresh current page data
         fetchKeywords(currentPage);
       }
-
       toast({
         title: "Keywords deleted",
-        description: `${ids.length} keyword${ids.length !== 1 ? 's' : ''} deleted successfully.`,
+        description: `${ids.length} keyword${ids.length !== 1 ? 's' : ''} deleted successfully.`
       });
     } catch (error) {
       console.error('Error deleting keywords:', error);
@@ -121,10 +113,8 @@ export const KeywordsPage: React.FC = () => {
       setDeleteLoading(false);
     }
   };
-
   if (loading) {
-    return (
-      <div className="max-w-6xl mx-auto space-y-6">
+    return <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Keywords</h1>
@@ -138,42 +128,22 @@ export const KeywordsPage: React.FC = () => {
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-6">
+  return <div className="max-w-6xl mx-auto space-y-6">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Keywords</h1>
-          <p className="text-gray-600 mt-1">Manage and track keyword rankings for your business</p>
+          <p className="text-gray-600 mt-1">Manage and track keyword rankings for your business.</p>
         </div>
-        <Button 
-          onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)}
-          className="flex items-center gap-2"
-        >
+        <Button onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)} className="flex items-center gap-2">
           Search Keyword
         </Button>
       </div>
 
       {/* Keywords Table */}
-      <KeywordsTable 
-        keywords={keywords}
-        onDeleteKeyword={handleDeleteKeyword}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalKeywords={totalKeywords}
-        onPageChange={handlePageChange}
-        loading={loading}
-        error={error}
-        perPage={perPage}
-        onRefresh={() => fetchKeywords(currentPage)}
-        listingId={selectedListing?.id || ''}
-        deleteLoading={deleteLoading}
-      />
+      <KeywordsTable keywords={keywords} onDeleteKeyword={handleDeleteKeyword} currentPage={currentPage} totalPages={totalPages} totalKeywords={totalKeywords} onPageChange={handlePageChange} loading={loading} error={error} perPage={perPage} onRefresh={() => fetchKeywords(currentPage)} listingId={selectedListing?.id || ''} deleteLoading={deleteLoading} />
 
-    </div>
-  );
+    </div>;
 };
