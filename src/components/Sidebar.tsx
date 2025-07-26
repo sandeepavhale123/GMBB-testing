@@ -49,7 +49,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     id: "overview",
-    label: "Overview",
+    label: "Dashboard",
     icon: LayoutDashboard,
     path: "/location-dashboard",
   },
