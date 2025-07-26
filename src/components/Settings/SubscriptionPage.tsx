@@ -356,7 +356,7 @@ export const SubscriptionPage: React.FC = () => {
       <div className="mb-6 sm:mb-8 flex items-center justify-between flex-wrap gap-2">
         <div>
           <div className="flex gap-4 align-baseline mb-2">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl l font-bold text-gray-900 mb-2">
               Subscription Plans
             </h2>
             {/* Show expiration status if user has a plan */}
