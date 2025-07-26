@@ -130,7 +130,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col h-screen lg:h-auto bg-background dark:bg-[#212121]">
         {/* Header Section */}
-        <div className="flex-shrink-0 p-4 sm:p-6 border-b">
+        <div className="flex-shrink-0 px-4 py-[11px] border-b">
           <div className="flex items-center space-x-2 sm:space-x-3">
             <Button variant="ghost" size="sm" onClick={toggleSidebar} className="h-8 w-8 p-0 mr-1 sm:mr-2" title={showHistory ? "Hide History" : "Show History"}>
               <Menu className="h-4 w-4" />
