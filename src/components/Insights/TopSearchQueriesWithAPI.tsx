@@ -91,7 +91,7 @@ export const TopSearchQueriesWithAPI: React.FC = () => {
             </div>
           </ScrollArea> : <div className="text-center py-8">
             <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500">No search keyword available</p>
+            <p className="text-gray-500">No search keyword available.</p>
           </div>}
       </CardContent>
     </Card>;
