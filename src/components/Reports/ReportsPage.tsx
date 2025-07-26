@@ -8,6 +8,7 @@ import { CreateReportModal } from "./CreateReportModal";
 
 export const ReportsPage: React.FC = () => {
   const { selectedListing } = useListingContext();
+
   const {
     data: reports,
     isLoading,

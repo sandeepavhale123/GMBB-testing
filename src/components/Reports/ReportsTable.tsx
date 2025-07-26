@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -23,10 +23,16 @@ interface ReportsTableProps {
 
 export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useAllReports(listingId);
-
-  const reports = data?.data;
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading, isError } = useAllReports(
+    listingId,
+    currentPage,
+    10
+  );
+  const reports = data?.data?.reports;
+  const pagination = data?.data?.pagination;
   // console.log("report data", reports);
+  // console.log("pagination", pagination);
   if (isLoading) {
     return (
       <div className="text-center py-12">
@@ -131,68 +137,101 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
   }
 
   return (
-    <Card>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Report Name</TableHead>
-              <TableHead>Reports</TableHead>
-              <TableHead>Report Type</TableHead>
-              <TableHead>Report Date</TableHead>
-              <TableHead className="text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {reports.map((report) => (
-              <TableRow key={report.report_id}>
-                <TableCell>
-                  <div className="font-medium">{report.title}</div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-wrap gap-1">
-                    {report.sections_visible.map((sectionId) => (
-                      <Badge
-                        key={sectionId}
-                        variant={getReportTypeBadgeVariant(sectionId)}
-                        className={`"text-xs" ${getBadgeColor(sectionId)}`}
-                      >
-                        {sectionId
-                          .replace("-", " ")
-                          .replace(/\b\w/g, (c) => c.toUpperCase())}
-                      </Badge>
-                    ))}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="font-medium">
-                    {report.type === "Compare" ? "Comparision" : report.type}{" "}
-                    Report
-                  </span>
-                </TableCell>
-                <TableCell className="min-w-[200px]">
-                  {formatDateRange(report.date_range, report.type)}
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center justify-center w-10 h-10 p-0"
-                    onClick={() =>
-                      handleViewReport(
-                        report.report_id,
-                        report.sections_visible
-                      )
-                    }
-                  >
-                    <Eye className="w-4 h-4" />
-                  </Button>
-                </TableCell>
+    <>
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Report Name</TableHead>
+                <TableHead>Reports</TableHead>
+                <TableHead>Report Type</TableHead>
+                <TableHead>Report Date</TableHead>
+                <TableHead className="text-right">Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+            </TableHeader>
+            <TableBody>
+              {reports.map((report) => (
+                <TableRow key={report.report_id}>
+                  <TableCell>
+                    <div className="font-medium">{report.title}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">
+                      {report.sections_visible.map((sectionId) => (
+                        <Badge
+                          key={sectionId}
+                          variant={getReportTypeBadgeVariant(sectionId)}
+                          className={`"text-xs" ${getBadgeColor(sectionId)}`}
+                        >
+                          {sectionId
+                            .replace("-", " ")
+                            .replace(/\b\w/g, (c) => c.toUpperCase())}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-medium">
+                      {report.type === "Compare" ? "Comparision" : report.type}{" "}
+                      Report
+                    </span>
+                  </TableCell>
+                  <TableCell className="min-w-[200px]">
+                    {formatDateRange(report.date_range, report.type)}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center justify-center w-10 h-10 p-0"
+                      onClick={() =>
+                        handleViewReport(
+                          report.report_id,
+                          report.sections_visible
+                        )
+                      }
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      {/* Pagination */}
+      {pagination.total_pages > 1 && (
+        <div className="flex items-center justify-center space-x-2 mt-8">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={!pagination.has_prev}
+          >
+            Previous
+          </Button>
+
+          <span className="text-sm text-gray-600">
+            Page {pagination.page} of {pagination.total_pages}
+          </span>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(prev + 1, pagination.total_pages)
+              )
+            }
+            disabled={!pagination.has_next}
+          >
+            Next
+          </Button>
+        </div>
+      )}
+    </>
   );
 };

@@ -218,10 +218,14 @@ export const usePerformanceGeoRankingReport = (
   });
 };
 
-export const useAllReports = (listingId: number | string) => {
+export const useAllReports = (
+  listingId: number | string,
+  page: number,
+  limit: number = 10
+) => {
   return useQuery({
-    queryKey: ["all-reports", listingId],
-    queryFn: () => reportsApi.getAllReports(listingId),
+    queryKey: ["all-reports", listingId, page],
+    queryFn: () => reportsApi.getAllReports(listingId, page, limit),
     enabled: !!listingId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

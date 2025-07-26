@@ -271,10 +271,16 @@ export const reportsApi = {
   },
 
   // get data for report tabel
-  getAllReports: async (listingId: number | string): Promise<any> => {
+  getAllReports: async (
+    listingId: number | string,
+    page: number,
+    limit: number = 10
+  ): Promise<any> => {
     try {
       const response = await axiosInstance.post("/get-all-reports", {
         listingId,
+        page,
+        limit,
       });
 
       if (response.data?.code === 200) {
