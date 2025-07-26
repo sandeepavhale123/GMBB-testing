@@ -182,9 +182,9 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             </TableHead>
             <TableHead className="w-16 font-semibold text-gray-900">Sr. No</TableHead>
             <TableHead className="font-semibold text-gray-900">Keyword</TableHead>
-            <TableHead className="text-center font-semibold text-gray-900">ATR</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">ARP</TableHead>
             <TableHead className="text-center font-semibold text-gray-900">ATRP</TableHead>
-            <TableHead className="text-center font-semibold text-gray-900">SOLV</TableHead>
+            <TableHead className="text-center font-semibold text-gray-900">SoLV</TableHead>
             <TableHead className="text-center font-semibold text-gray-900">Added On</TableHead>
             <TableHead className="text-center font-semibold text-gray-900">Status</TableHead>
             <TableHead className="text-center w-24 font-semibold text-gray-900">Actions</TableHead>
