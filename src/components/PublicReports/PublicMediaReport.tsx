@@ -14,11 +14,14 @@ import {
   Legend,
 } from "recharts";
 import { usePerformanceMediaReport } from "@/hooks/useReports";
+import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 
 export const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
 
+  // Load theme for public report
+  usePublicReportTheme();
 
   const {
     data: mediaReport,

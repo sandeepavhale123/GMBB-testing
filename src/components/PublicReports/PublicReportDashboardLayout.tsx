@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,8 +19,6 @@ import {
   Menu,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
 import {
   Tooltip,
   TooltipContent,
@@ -31,9 +29,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
-import { getThemeUnauthenticated } from "@/hooks/useThemeLoader";
-import { loadThemeFromAPI } from "@/store/slices/themeSlice";
-import { applyStoredTheme } from "@/utils/themeUtils";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -64,56 +59,10 @@ export const PublicReportDashboardLayout: React.FC<
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch: AppDispatch = useDispatch();
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [themeLoaded, setThemeLoaded] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  // All hooks must be called before any conditional logic
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
-  const { lightLogo } = useThemeLogo();
-  const isMobile = useIsMobile();
-  
   const branding = brandingData?.data || null;
-
-  // Load theme once for all public reports
-  useEffect(() => {
-    const loadTheme = async () => {
-      try {
-        // First, apply any stored theme immediately for instant styling
-        applyStoredTheme();
-        
-        // Then load fresh theme from API
-        const themeResponse = await getThemeUnauthenticated();
-        
-        if (themeResponse.code === 200) {
-          dispatch(loadThemeFromAPI(themeResponse.data));
-        } else if (themeResponse.code === 401) {
-          console.warn("Theme API requires authentication, using stored theme");
-        }
-      } catch (error) {
-        console.warn("Failed to load theme:", error);
-        // Fallback to stored theme is already applied above
-      } finally {
-        // Allow rendering after theme application
-        setThemeLoaded(true);
-      }
-    };
-
-    loadTheme();
-  }, [dispatch]);
-
-  // Show loading state while theme is being applied
-  if (!themeLoaded) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const { lightLogo } = useThemeLogo();
 
   const allSidebarItems = [
     {
@@ -164,6 +113,8 @@ export const PublicReportDashboardLayout: React.FC<
     (visibleSections || []).includes(item.name)
   );
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useIsMobile();
   const getCurrentReportName = () => {
     const path = location.pathname;
     return sidebarItems.find((item) => path.includes(item.name))?.name || "";

@@ -34,12 +34,15 @@ import {
 import { usePerformanceInsightsReport } from "@/hooks/useReports";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
+import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 
 export const PublicInsightsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
   const isMobile = useIsMobile(1281);
 
+  // Load theme for public report
+  usePublicReportTheme();
 
   // Fetch performance insights data using the hook
   const {
