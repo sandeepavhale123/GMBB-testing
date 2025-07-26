@@ -355,7 +355,7 @@ export const SubscriptionPage: React.FC = () => {
       {/* Page Header */}
       <div className="mb-6 sm:mb-8 flex items-center justify-between flex-wrap gap-2">
         <div>
-          <div className="flex gap-4 align-baseline mb-2">
+          <div className="flex gap-4  mb-2">
             <h2 className="text-2xl l font-bold text-gray-900 mb-2">
               Subscription Plans
             </h2>
