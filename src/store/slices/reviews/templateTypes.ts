@@ -27,18 +27,12 @@ export interface UpdateTemplateRequest {
   enabled: boolean;
 }
 export interface AutoReviewReplies {
-  id: string;
-  listingId: number;
-  starone_reply: string;
-  startwo_reply: string;
-  starthree_reply: string;
-  starfour_reply: string;
-  starfive_reply: string;
-  starone_wreply: string;
-  startwo_wreply: string;
-  starthree_wreply: string;
-  starfour_wreply: string;
-  starfive_wreply: string;
+  enabled: boolean;
+  templates: ReplyTemplate[];
+  DNR?: boolean;
+  autoSettings?: ReplyTemplate;
+  autoAiSettings?: AutoAiSettings;
+  review?: LatestReview;
 }
 
 export interface AutoAiSettings {
@@ -59,6 +53,8 @@ export interface LatestReview {
   comment: string;
 }
 export interface AutoResponseSettings {
+  enabled: boolean;
+  templates: ReplyTemplate[];
   // New fields from API
   DNR?: boolean;
   autoSettings?: AutoReviewReplies;

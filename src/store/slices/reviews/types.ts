@@ -7,7 +7,7 @@ import {
   GetReviewsRequest,
   SendReplyRequest,
 } from "../../../services/reviewService";
-import { AutoResponseSettings, LatestReview } from "./templateTypes";
+import { AutoResponseSettings, LatestReview, AutoReviewReplies } from "./templateTypes";
 
 export interface ReviewsState {
   // Summary state
@@ -62,29 +62,5 @@ export interface ReviewsState {
 // Re-export types from service for convenience
 export type { GetReviewsRequest, SendReplyRequest };
 
-export interface ReplyTemplate {
-  id: string;
-  starRating: number;
-  content: string;
-  enabled: boolean;
-  createdAt: string;
-  updatedAt: string;
-  isRatingOnly?: boolean;
-}
-
-export interface AutoAiSettings {
-  id: string;
-  listingId: number;
-  text_reply: string;
-  prompt: string;
-  tone: string;
-}
-
-export interface AutoReviewReplies {
-  // enabled: boolean;
-  // templates: ReplyTemplate[];
-  DNR?: boolean;
-  autoSettings?: ReplyTemplate;
-  autoAiSettings?: AutoAiSettings;
-  review?: LatestReview;
-}
+// Re-export from templateTypes to avoid duplication
+export type { ReplyTemplate, AutoAiSettings, AutoReviewReplies, LatestReview } from './templateTypes';

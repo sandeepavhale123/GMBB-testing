@@ -13,7 +13,7 @@ import { Button } from "../../ui/button";
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Sparkles, Star, Calendar, User } from "lucide-react";
-import { AutoAiSettings } from "../../../store/slices/reviews/types";
+import { AutoAiSettings, LatestReview } from "../../../store/slices/reviews/templateTypes";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 interface AIAutoResponseToggleProps {
   enabled: boolean;
@@ -330,7 +330,7 @@ Thank you`);
                                   <div
                                     key={star}
                                     className={`w-4 h-4 rounded-full ${
-                                      star <= review?.star_rating
+                                      star <= parseInt(review?.star_rating || "0")
                                         ? "bg-yellow-400"
                                         : "bg-gray-300"
                                     }`}
