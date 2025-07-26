@@ -171,9 +171,7 @@ export const BrandingPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900">
             Theme Customization
           </h1>
-          <p className="text-gray-600">
-            Customize your application's visual identity
-          </p>
+          <p className="text-gray-600">Customize your application's visual identity.</p>
         </div>
         <Badge variant="outline" className="text-blue-600 border-blue-200">
           White Label
