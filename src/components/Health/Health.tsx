@@ -10,6 +10,7 @@ import {
   MessageSquare,
   RefreshCcw,
   Star,
+  MapPin,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -122,10 +123,11 @@ export const Health: React.FC = () => {
                 {healthData?.locationName}
               </h1>
               <p
-                className={`text-white ${
+                className={`text-white flex items-center gap-2 ${
                   isMobile ? "text-xs leading-tight max-w-[280px]" : "text-lg"
                 }`}
               >
+                <MapPin className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} text-white/80 shrink-0`} />
                 {healthData?.address}
               </p>
             </div>
