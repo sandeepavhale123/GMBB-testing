@@ -262,7 +262,9 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
         </TableBody>
       </Table>
 
-      {/* Pagination */}
+      
+        </div>
+    {/* Pagination */}
       {totalPages > 1 && <div className="flex items-center justify-between px-2">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(endIndex, totalKeywords)} of {totalKeywords} results
@@ -279,6 +281,5 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
             </Button>
           </div>
         </div>}
-        </div>
     </div>;
 };
