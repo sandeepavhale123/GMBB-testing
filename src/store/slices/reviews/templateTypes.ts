@@ -1,5 +1,5 @@
 export interface ReplyTemplate {
-  variations: boolean;
+  variations: string[];
   isSystem: boolean;
   id: string;
   starRating: number;
@@ -30,7 +30,7 @@ export interface AutoReviewReplies {
   enabled: boolean;
   templates: ReplyTemplate[];
   DNR?: boolean;
-  autoSettings?: ReplyTemplate;
+  autoSettings?: any; // API response type, not ReplyTemplate
   autoAiSettings?: AutoAiSettings;
   review?: LatestReview;
 }

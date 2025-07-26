@@ -17,6 +17,7 @@ interface CreateTemplateModalProps {
   onClose: () => void;
   onSave: (starRating: number, content: string) => void;
   isLoading?: boolean;
+  template?: any; // For editing existing templates
 }
 
 export const CreateTemplateModal: React.FC<CreateTemplateModalProps> = ({

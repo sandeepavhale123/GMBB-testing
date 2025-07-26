@@ -49,7 +49,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
     if (template && onEditTemplate) {
       const updatedTemplate = {
         ...template,
-        content: editContent.map((str) => str.trim()),
+        content: Array.isArray(editContent) ? editContent.map((str) => str.trim()).join(' | ') : editContent,
       };
       onEditTemplate(updatedTemplate);
     }

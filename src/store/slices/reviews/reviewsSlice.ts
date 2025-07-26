@@ -43,6 +43,7 @@ const initialState: ReviewsState = {
   // Auto Response state
   autoResponse: {
     enabled: false,
+    templates: [],
     DNR: false,
     autoSettings: undefined,
     autoAiSettings: undefined,
@@ -137,6 +138,8 @@ const reviewsSlice = createSlice({
         id: Date.now().toString(),
         starRating: action.payload.starRating,
         content: action.payload.content,
+        variations: Array.isArray(action.payload.content) ? action.payload.content : [action.payload.content],
+        isSystem: false,
         enabled: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
