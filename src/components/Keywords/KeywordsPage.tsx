@@ -154,8 +154,7 @@ export const KeywordsPage: React.FC = () => {
           onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)}
           className="flex items-center gap-2"
         >
-          <Plus className="h-4 w-4" />
-          Add Keyword
+          Search Keyword
         </Button>
       </div>
 
