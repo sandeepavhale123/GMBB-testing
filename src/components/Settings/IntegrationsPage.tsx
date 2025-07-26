@@ -348,9 +348,7 @@ export const IntegrationsPage: React.FC = () => {
         <h2 className="text-2xl font-bold text-foreground mb-2">
           Integrations
         </h2>
-        <p className="text-muted-foreground">
-          Manage your third-party integrations and API connections
-        </p>
+        <p className="text-muted-foreground">Manage your third-party integrations and API connections.</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
