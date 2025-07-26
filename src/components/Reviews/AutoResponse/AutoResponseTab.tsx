@@ -1,66 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../ui/tabs";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../../ui/carousel";
 import { Separator } from "../../ui/separator";
 import { Checkbox } from "../../ui/checkbox";
 import { Card } from "../../ui/card";
 import { Switch } from "../../ui/switch";
 import { Label } from "../../ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
 import { Plus, Info, Ban } from "lucide-react";
 import { AutoReplyToggle } from "./AutoReplyToggle";
 import { AIAutoResponseToggle } from "./AIAutoResponseToggle";
 import { TemplateCard } from "./TemplateCard";
 import { CreateTemplateModal } from "./CreateTemplateModal";
 import { useAppSelector, useAppDispatch } from "../../../hooks/useRedux";
-import {
-  toggleAutoResponse,
-  addTemplate,
-  updateTemplate,
-  deleteTemplate,
-  fetchAutoReviewReplySettings,
-  updateDNRSetting,
-} from "../../../store/slices/reviews";
+import { toggleAutoResponse, addTemplate, updateTemplate, deleteTemplate, fetchAutoReviewReplySettings, updateDNRSetting } from "../../../store/slices/reviews";
 import { ReplyTemplate } from "../../../store/slices/reviews/templateTypes";
 import { useListingContext } from "@/context/ListingContext";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
-
 export const AutoResponseTab: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { selectedListing } = useListingContext();
-  const { autoResponse, templateLoading, dnrUpdating } = useAppSelector(
-    (state) => state.reviews
-  );
+  const {
+    selectedListing
+  } = useListingContext();
+  const {
+    autoResponse,
+    templateLoading,
+    dnrUpdating
+  } = useAppSelector(state => state.reviews);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTemplate, setEditingTemplate] = useState<ReplyTemplate | null>(
-    null
-  );
+  const [editingTemplate, setEditingTemplate] = useState<ReplyTemplate | null>(null);
   const [activeTab, setActiveTab] = useState("review");
   const [aiAutoResponseEnabled, setAiAutoResponseEnabled] = useState(false);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
-
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -71,29 +44,24 @@ export const AutoResponseTab: React.FC = () => {
       setNoResponseMode(autoResponse.DNR);
     }
   }, [autoResponse.DNR]);
-
   useEffect(() => {
     if (selectedListing?.id) {
       dispatch(fetchAutoReviewReplySettings(Number(selectedListing?.id)));
     }
   }, [dispatch, selectedListing?.id]);
-
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
       // Enabling auto response, disable AI auto response and no response mode
       setAiAutoResponseEnabled(false);
       if (noResponseMode && selectedListing?.id) {
-        dispatch(
-          updateDNRSetting({
-            listingId: Number(selectedListing.id),
-            dnrStatus: 0,
-          })
-        );
+        dispatch(updateDNRSetting({
+          listingId: Number(selectedListing.id),
+          dnrStatus: 0
+        }));
       }
     }
     dispatch(toggleAutoResponse());
   };
-
   const handleToggleAIAutoResponse = () => {
     if (!aiAutoResponseEnabled) {
       // Enabling AI auto response, disable auto response and no response mode
@@ -101,17 +69,14 @@ export const AutoResponseTab: React.FC = () => {
         dispatch(toggleAutoResponse());
       }
       if (noResponseMode && selectedListing?.id) {
-        dispatch(
-          updateDNRSetting({
-            listingId: Number(selectedListing.id),
-            dnrStatus: 0,
-          })
-        );
+        dispatch(updateDNRSetting({
+          listingId: Number(selectedListing.id),
+          dnrStatus: 0
+        }));
       }
     }
     setAiAutoResponseEnabled(!aiAutoResponseEnabled);
   };
-
   const handleToggleNoResponseMode = () => {
     if (!noResponseMode) {
       // Trying to enable → show modal
@@ -131,72 +96,56 @@ export const AutoResponseTab: React.FC = () => {
       dispatch(toggleAutoResponse());
     }
     setAiAutoResponseEnabled(false);
-
-    dispatch(
-      updateDNRSetting({
-        listingId: Number(selectedListing.id),
-        dnrStatus: 3, // Enabling
-      })
-    )
-      .unwrap()
-      .then((res) => {
-        toast({
-          title: "Success",
-          description: res?.message,
-          variant: "default",
-        });
-        setNoResponseMode(true);
-        setShowConfirmationModal(false);
-      })
-      .catch((err) => {
-        toast({
-          title: "Success",
-          description: err?.response?.data?.message || err?.message,
-          variant: "default",
-        });
+    dispatch(updateDNRSetting({
+      listingId: Number(selectedListing.id),
+      dnrStatus: 3 // Enabling
+    })).unwrap().then(res => {
+      toast({
+        title: "Success",
+        description: res?.message,
+        variant: "default"
       });
+      setNoResponseMode(true);
+      setShowConfirmationModal(false);
+    }).catch(err => {
+      toast({
+        title: "Success",
+        description: err?.response?.data?.message || err?.message,
+        variant: "default"
+      });
+    });
   };
-
   const handleCancelNoResponseMode = () => {
     setShowConfirmationModal(false);
   };
-
   const handleCreateTemplate = (starRating: number) => {
     setIsModalOpen(true);
   };
-
   const handleEditTemplate = (template: ReplyTemplate) => {
     setEditingTemplate(template);
     setIsModalOpen(true);
   };
-
   const handleSaveTemplate = (starRating: number, content: string) => {
     if (editingTemplate) {
-      dispatch(
-        updateTemplate({
-          id: editingTemplate.id,
-          content,
-          enabled: true,
-        })
-      );
+      dispatch(updateTemplate({
+        id: editingTemplate.id,
+        content,
+        enabled: true
+      }));
       setEditingTemplate(null);
     } else {
       // Always create new template, don't update existing ones
-      dispatch(
-        addTemplate({
-          starRating,
-          content,
-          isRatingOnly: activeTab === "rating-only",
-        })
-      );
+      dispatch(addTemplate({
+        starRating,
+        content,
+        isRatingOnly: activeTab === "rating-only"
+      }));
     }
     setIsModalOpen(false);
   };
-
   const handleDeleteTemplate = (templateId: string) => {
     dispatch(deleteTemplate(templateId));
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingTemplate(null);
@@ -212,10 +161,7 @@ export const AutoResponseTab: React.FC = () => {
   //   );
   // };
 
-  const getTemplateForRating = (
-    rating: number,
-    isRatingOnly = false
-  ): ReplyTemplate | null => {
+  const getTemplateForRating = (rating: number, isRatingOnly = false): ReplyTemplate | null => {
     const settings = autoResponse.autoSettings;
     if (!settings) return null;
 
@@ -224,54 +170,34 @@ export const AutoResponseTab: React.FC = () => {
     const fieldPrefix = `star${ratingWords[rating - 1]}`;
     const fieldSuffix = isRatingOnly ? "_wreply" : "_reply";
     const key = `${fieldPrefix}${fieldSuffix}` as keyof typeof settings;
-
     const rawValue = settings[key];
     if (!rawValue || typeof rawValue !== "string") return null;
 
     // Split the content by " | " to get multiple variations
-    const contentVariations = rawValue
-      .split(" | ")
-      .map((c) => c.trim())
-      .filter((c) => c.length > 0);
+    const contentVariations = rawValue.split(" | ").map(c => c.trim()).filter(c => c.length > 0);
 
     // For display purposes, show the first variation with a note about multiple variations
-    const displayContent =
-      contentVariations.length > 1
-        ? contentVariations[0] + ` (${contentVariations.length} variations)`
-        : contentVariations[0] || "";
-
+    const displayContent = contentVariations.length > 1 ? contentVariations[0] + ` (${contentVariations.length} variations)` : contentVariations[0] || "";
     return {
       id: `${fieldPrefix}${fieldSuffix}`,
       starRating: rating,
       content: displayContent,
-      variations: Array.isArray(contentVariations)
-        ? contentVariations
-        : [contentVariations],
-      isSystem: true, // Flag to disable edit/delete for API-sourced templates
+      variations: Array.isArray(contentVariations) ? contentVariations : [contentVariations],
+      isSystem: true,
+      // Flag to disable edit/delete for API-sourced templates
       enabled: true,
       createdAt: "",
       updatedAt: "",
-      isRatingOnly,
+      isRatingOnly
     };
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Auto Reply Toggle */}
-      <AutoReplyToggle
-        enabled={autoResponse.enabled}
-        onToggle={handleToggleAutoResponse}
-      />
+      <AutoReplyToggle enabled={autoResponse.enabled} onToggle={handleToggleAutoResponse} />
 
-      {autoResponse.enabled && (
-        <Card className="bg-white p-6">
+      {autoResponse.enabled && <Card className="bg-white p-6">
           {/* Header with Title, Tabs, and Create Button in single row */}
-          <Tabs
-            defaultValue="review"
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
-          >
+          <Tabs defaultValue="review" value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
               {/* ✨ Changed to flex-col on small screens and row on lg+ */}
 
@@ -281,9 +207,7 @@ export const AutoResponseTab: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-900">
                   Reply Templates
                 </h3>
-                <p className="text-sm text-gray-600">
-                  Create personalized templates for different star ratings
-                </p>
+                <p className="text-sm text-gray-600">Create personalized templates for different star ratings.</p>
               </div>
 
               {/* Right Section */}
@@ -302,33 +226,14 @@ export const AutoResponseTab: React.FC = () => {
             {/* Reply for Review Tab Content */}
             <TabsContent value="review" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <TemplateCard
-                    key={rating}
-                    starRating={rating}
-                    template={getTemplateForRating(rating, false)}
-                    onCreateTemplate={handleCreateTemplate}
-                    onEditTemplate={handleEditTemplate}
-                    onDeleteTemplate={handleDeleteTemplate}
-                  />
-                ))}
+                {[1, 2, 3, 4, 5].map(rating => <TemplateCard key={rating} starRating={rating} template={getTemplateForRating(rating, false)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} />)}
               </div>
             </TabsContent>
 
             {/* Reply for Rating Only Tab Content */}
             <TabsContent value="rating-only" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <TemplateCard
-                    key={`rating-only-${rating}`}
-                    starRating={rating}
-                    template={getTemplateForRating(rating, true)}
-                    onCreateTemplate={handleCreateTemplate}
-                    onEditTemplate={handleEditTemplate}
-                    onDeleteTemplate={handleDeleteTemplate}
-                    isRatingOnly={true}
-                  />
-                ))}
+                {[1, 2, 3, 4, 5].map(rating => <TemplateCard key={`rating-only-${rating}`} starRating={rating} template={getTemplateForRating(rating, true)} onCreateTemplate={handleCreateTemplate} onEditTemplate={handleEditTemplate} onDeleteTemplate={handleDeleteTemplate} isRatingOnly={true} />)}
               </div>
             </TabsContent>
           </Tabs>
@@ -339,17 +244,8 @@ export const AutoResponseTab: React.FC = () => {
           {/* Reply to Existing Reviews Option */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Checkbox
-                id="reply-existing"
-                checked={replyToExistingReviews}
-                onCheckedChange={(checked) =>
-                  setReplyToExistingReviews(checked === true)
-                }
-              />
-              <label
-                htmlFor="reply-existing"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
+              <Checkbox id="reply-existing" checked={replyToExistingReviews} onCheckedChange={checked => setReplyToExistingReviews(checked === true)} />
+              <label htmlFor="reply-existing" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Reply to existing reviews (old review)
               </label>
             </div>
@@ -357,16 +253,10 @@ export const AutoResponseTab: React.FC = () => {
               Save Changes
             </Button>
           </div>
-        </Card>
-      )}
+        </Card>}
 
       {/* AI Auto Response Toggle */}
-      <AIAutoResponseToggle
-        enabled={aiAutoResponseEnabled}
-        onToggle={handleToggleAIAutoResponse}
-        autoAiSettings={autoResponse.autoAiSettings}
-        review={autoResponse.review}
-      />
+      <AIAutoResponseToggle enabled={aiAutoResponseEnabled} onToggle={handleToggleAIAutoResponse} autoAiSettings={autoResponse.autoAiSettings} review={autoResponse.review} />
 
       {/* No Response Mode Toggle */}
       <TooltipProvider>
@@ -393,29 +283,15 @@ export const AutoResponseTab: React.FC = () => {
               </Tooltip>
             </div>
           </div>
-          <Switch
-            checked={noResponseMode}
-            onCheckedChange={handleToggleNoResponseMode}
-            disabled={dnrUpdating}
-            className="data-[state=checked]:bg-red-600"
-          />
+          <Switch checked={noResponseMode} onCheckedChange={handleToggleNoResponseMode} disabled={dnrUpdating} className="data-[state=checked]:bg-red-600" />
         </div>
       </TooltipProvider>
 
       {/* Create/Edit Template Modal */}
-      <CreateTemplateModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSave={handleSaveTemplate}
-        isLoading={templateLoading}
-        template={editingTemplate}
-      />
+      <CreateTemplateModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveTemplate} isLoading={templateLoading} template={editingTemplate} />
 
       {/* Confirmation Modal */}
-      <AlertDialog
-        open={showConfirmationModal}
-        onOpenChange={setShowConfirmationModal}
-      >
+      <AlertDialog open={showConfirmationModal} onOpenChange={setShowConfirmationModal}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Enable No Response Mode?</AlertDialogTitle>
@@ -429,16 +305,11 @@ export const AutoResponseTab: React.FC = () => {
             <AlertDialogCancel onClick={handleCancelNoResponseMode}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmNoResponseMode}
-              className="bg-red-600 hover:bg-red-700"
-              disabled={isUpdating}
-            >
+            <AlertDialogAction onClick={handleConfirmNoResponseMode} className="bg-red-600 hover:bg-red-700" disabled={isUpdating}>
               {isUpdating ? "Processing..." : "Yes, Delete and Enable"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
+    </div>;
 };
