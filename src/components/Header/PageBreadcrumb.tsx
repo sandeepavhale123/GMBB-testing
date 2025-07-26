@@ -67,9 +67,15 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: 'Settings', path: '/settings' },
     { title: 'Theme Customization', path: '/settings/theme-customization' }
   ],
+  '/settings/report-branding': [
+    { title: 'Dashboard', path: '/' },
+    { title: 'Settings', path: '/settings' },
+    { title: 'Report Branding', path: '/settings/report-branding' }
+  ],
   '/settings/integrations': [
     { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings/integrations' }
+    { title: 'Settings', path: '/settings' },
+    { title: 'Integrations', path: '/settings/integrations' }
   ],
   '/settings/listings': [
     { title: 'Dashboard', path: '/' },
