@@ -7,7 +7,7 @@ import { Badge } from '../ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { Checkbox } from '../ui/checkbox';
-import { MoreVertical, Eye, Trash, RefreshCw } from 'lucide-react';
+import { MoreVertical, Eye, Trash, RefreshCw, Plus } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 
 interface Keyword {
@@ -148,10 +148,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   if (keywords.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 mb-4">No keywords found</p>
-        <Button onClick={onRefresh} variant="outline">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
+        <p className="text-gray-500 mb-4">Start tracking your keyword rankings</p>
+        <Button onClick={() => navigate(`/keywords/${listingId}/add`)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Search Keyword
         </Button>
       </div>
     );
