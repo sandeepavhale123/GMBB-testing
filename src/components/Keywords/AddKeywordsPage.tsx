@@ -269,7 +269,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           </h3>
           <div className="space-y-3">
             {/* Display combined results: search results first, then recommended */}
-            {[...searchResults, ...recommendedKeywords].slice(0, displayedKeywordsCount).map((item, index) => <div key={`keyword-${index}`} className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3 ${keywords.includes(item.keyword) ? 'bg-primary/10 border-primary/30' : ''}`}>
+            {[...searchResults, ...recommendedKeywords].slice(0, displayedKeywordsCount).map((item, index) => <div key={`keyword-${index}`} className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg transition-colors gap-3 ${keywords.includes(item.keyword) ? 'bg-primary/10 border-primary/30' : 'hover:bg-muted/30'}`}>
                 <div className="flex-1">
                   <span className="font-medium text-foreground">{item.keyword}</span>
                 </div>
