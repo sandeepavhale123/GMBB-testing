@@ -176,7 +176,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
     navigate(-1);
   };
   return <TooltipProvider>
-    <div className="bg-background p-4 sm:p-6 h-[90vh]">
+    <div className="bg-background p-4 sm:p-6 min-h-[90vh]">
       <div className="max-w-6xl mx-auto">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
@@ -308,7 +308,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                 <Button 
                   variant="outline" 
                   onClick={() => setDisplayedKeywordsCount(prev => prev + 5)}
-                  className="px-6"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 mb-10"
                 >
                   Load More Keywords
                 </Button>
