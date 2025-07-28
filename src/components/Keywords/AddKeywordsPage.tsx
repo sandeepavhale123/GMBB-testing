@@ -32,7 +32,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isGeoSettingsModalOpen, setIsGeoSettingsModalOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState('US');
+  const [selectedCountry, setSelectedCountry] = useState('2840');
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
   const navigate = useNavigate();
@@ -97,31 +97,31 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
   const getCountryLabel = (code: string) => {
     const countryOptions = [
-      { value: 'US', label: 'United States' },
-      { value: 'UK', label: 'United Kingdom' },
-      { value: 'CA', label: 'Canada' },
-      { value: 'AU', label: 'Australia' },
-      { value: 'DE', label: 'Germany' },
-      { value: 'FR', label: 'France' },
-      { value: 'ES', label: 'Spain' },
-      { value: 'IT', label: 'Italy' },
-      { value: 'NL', label: 'Netherlands' },
-      { value: 'BE', label: 'Belgium' },
-      { value: 'SE', label: 'Sweden' },
-      { value: 'NO', label: 'Norway' },
-      { value: 'DK', label: 'Denmark' },
-      { value: 'FI', label: 'Finland' },
-      { value: 'PL', label: 'Poland' },
-      { value: 'CZ', label: 'Czech Republic' },
-      { value: 'AT', label: 'Austria' },
-      { value: 'CH', label: 'Switzerland' },
-      { value: 'JP', label: 'Japan' },
-      { value: 'KR', label: 'South Korea' },
-      { value: 'CN', label: 'China' },
-      { value: 'IN', label: 'India' },
-      { value: 'BR', label: 'Brazil' },
-      { value: 'MX', label: 'Mexico' },
-      { value: 'AR', label: 'Argentina' },
+      { value: '2840', label: 'United States' },
+      { value: '2826', label: 'United Kingdom' },
+      { value: '2124', label: 'Canada' },
+      { value: '2036', label: 'Australia' },
+      { value: '2276', label: 'Germany' },
+      { value: '2250', label: 'France' },
+      { value: '2724', label: 'Spain' },
+      { value: '2380', label: 'Italy' },
+      { value: '2528', label: 'Netherlands' },
+      { value: '2056', label: 'Belgium' },
+      { value: '2752', label: 'Sweden' },
+      { value: '2578', label: 'Norway' },
+      { value: '2208', label: 'Denmark' },
+      { value: '2246', label: 'Finland' },
+      { value: '2616', label: 'Poland' },
+      { value: '2203', label: 'Czech Republic' },
+      { value: '2040', label: 'Austria' },
+      { value: '2756', label: 'Switzerland' },
+      { value: '2392', label: 'Japan' },
+      { value: '2410', label: 'South Korea' },
+      { value: '2156', label: 'China' },
+      { value: '2356', label: 'India' },
+      { value: '2076', label: 'Brazil' },
+      { value: '2484', label: 'Mexico' },
+      { value: '2032', label: 'Argentina' },
     ];
     return countryOptions.find(c => c.value === code)?.label || code;
   };
