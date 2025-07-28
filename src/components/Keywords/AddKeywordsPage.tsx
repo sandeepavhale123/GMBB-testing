@@ -3,11 +3,13 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
-import { Plus, X, Search, ArrowLeft } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Plus, X, Search, ArrowLeft, Filter } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { useNavigate } from 'react-router-dom';
 import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
+import { KeywordFilterModal } from './KeywordFilterModal';
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[]) => void;
   isLoading?: boolean;
@@ -27,6 +29,9 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [keywords, setKeywords] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<RecommendedKeyword[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('US');
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
   const navigate = useNavigate();
   const {
     toast
@@ -44,7 +49,9 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
     setIsSearching(true);
     try {
       const response = await getKeywordSearchVolume({
-        keywords: [trimmedKeyword]
+        keywords: [trimmedKeyword],
+        country: selectedCountry,
+        language: selectedLanguage
       });
       if (response.code === 200) {
         const newResults: RecommendedKeyword[] = response.data.map((item: KeywordSearchData) => ({
@@ -78,6 +85,67 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const handleFilterApply = (country: string, language: string) => {
+    setSelectedCountry(country);
+    setSelectedLanguage(language);
+  };
+
+  const getCountryLabel = (code: string) => {
+    const countryOptions = [
+      { value: 'US', label: 'United States' },
+      { value: 'UK', label: 'United Kingdom' },
+      { value: 'CA', label: 'Canada' },
+      { value: 'AU', label: 'Australia' },
+      { value: 'DE', label: 'Germany' },
+      { value: 'FR', label: 'France' },
+      { value: 'ES', label: 'Spain' },
+      { value: 'IT', label: 'Italy' },
+      { value: 'NL', label: 'Netherlands' },
+      { value: 'BE', label: 'Belgium' },
+      { value: 'SE', label: 'Sweden' },
+      { value: 'NO', label: 'Norway' },
+      { value: 'DK', label: 'Denmark' },
+      { value: 'FI', label: 'Finland' },
+      { value: 'PL', label: 'Poland' },
+      { value: 'CZ', label: 'Czech Republic' },
+      { value: 'AT', label: 'Austria' },
+      { value: 'CH', label: 'Switzerland' },
+      { value: 'JP', label: 'Japan' },
+      { value: 'KR', label: 'South Korea' },
+      { value: 'CN', label: 'China' },
+      { value: 'IN', label: 'India' },
+      { value: 'BR', label: 'Brazil' },
+      { value: 'MX', label: 'Mexico' },
+      { value: 'AR', label: 'Argentina' },
+    ];
+    return countryOptions.find(c => c.value === code)?.label || code;
+  };
+
+  const getLanguageLabel = (code: string) => {
+    const languageOptions = [
+      { value: 'en', label: 'English' },
+      { value: 'es', label: 'Spanish' },
+      { value: 'fr', label: 'French' },
+      { value: 'de', label: 'German' },
+      { value: 'it', label: 'Italian' },
+      { value: 'pt', label: 'Portuguese' },
+      { value: 'nl', label: 'Dutch' },
+      { value: 'sv', label: 'Swedish' },
+      { value: 'no', label: 'Norwegian' },
+      { value: 'da', label: 'Danish' },
+      { value: 'fi', label: 'Finnish' },
+      { value: 'pl', label: 'Polish' },
+      { value: 'cs', label: 'Czech' },
+      { value: 'ja', label: 'Japanese' },
+      { value: 'ko', label: 'Korean' },
+      { value: 'zh', label: 'Chinese' },
+      { value: 'hi', label: 'Hindi' },
+      { value: 'ar', label: 'Arabic' },
+      { value: 'ru', label: 'Russian' },
+    ];
+    return languageOptions.find(l => l.value === code)?.label || code;
   };
   const handleRemoveKeyword = (keywordToRemove: string) => {
     setKeywords(prev => prev.filter(keyword => keyword !== keywordToRemove));
@@ -122,9 +190,25 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Enter primary keyword or category" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
           </div>
+          <Button 
+            variant="outline" 
+            onClick={() => setIsFilterModalOpen(true)} 
+            className="h-12 px-4 w-full sm:w-auto"
+          >
+            <Filter className="h-4 w-4" />
+          </Button>
           <Button onClick={handleSearchKeyword} disabled={!keywordInput.trim() || keywords.length >= 5 || isSearching} className="h-12 px-6 w-full sm:w-auto">
             {isSearching ? 'Searching...' : 'Search Keyword'}
           </Button>
+        </div>
+
+        {/* Selected Filters */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Country: {getCountryLabel(selectedCountry)}</span>
+            <span>|</span>
+            <span>Language: {getLanguageLabel(selectedLanguage)}</span>
+          </div>
         </div>
           </div>
 
@@ -212,6 +296,15 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           </div>
         </div>}
 
+        {/* Filter Modal */}
+        <KeywordFilterModal
+          open={isFilterModalOpen}
+          onOpenChange={setIsFilterModalOpen}
+          onApply={handleFilterApply}
+          currentCountry={selectedCountry}
+          currentLanguage={selectedLanguage}
+        />
+        
         {/* Bottom Note */}
         
       </div>
