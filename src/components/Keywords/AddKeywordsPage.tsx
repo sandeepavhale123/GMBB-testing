@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
 import { Plus, X, Search, ArrowLeft } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { useNavigate } from 'react-router-dom';
 import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
@@ -98,7 +99,8 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
       navigate(-1); // Go back to previous page
     }
   };
-  return <div className="bg-background p-4 sm:p-6 h-[90vh]">
+  return <TooltipProvider>
+    <div className="bg-background p-4 sm:p-6 h-[90vh]">
       <div className="max-w-6xl mx-auto">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
@@ -195,9 +197,16 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                         </div>}
                     </div>
                   </div>
-                  <Button onClick={() => handleAddRecommended(item.keyword)} size="sm" variant="outline" disabled={keywords.includes(item.keyword) || keywords.length >= 5} className="w-8 h-8 p-0 self-end sm:self-center">
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={() => handleAddRecommended(item.keyword)} size="sm" variant="outline" disabled={keywords.includes(item.keyword) || keywords.length >= 5} className="w-8 h-8 p-0 self-end sm:self-center">
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add keyword</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>)}
           </div>
@@ -206,5 +215,6 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         {/* Bottom Note */}
         
       </div>
-    </div>;
+    </div>
+  </TooltipProvider>;
 };
