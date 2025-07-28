@@ -67,7 +67,7 @@ const menuItems: MenuItem[] = [{
   path: null,
   subItems: [{
     id: "keywords",
-    label: "Keywords",
+    label: "keyword Research",
     icon: Search,
     path: "/keywords"
   }, {
