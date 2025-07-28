@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
 import { KeywordFilterModal } from './KeywordFilterModal';
+import { GeoRankingSettingsModal, GeoRankingSettings } from './GeoRankingSettingsModal';
 interface AddKeywordsPageProps {
   onAddKeywords: (keywords: string[]) => void;
   isLoading?: boolean;
@@ -30,6 +31,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [searchResults, setSearchResults] = useState<RecommendedKeyword[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isGeoSettingsModalOpen, setIsGeoSettingsModalOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('US');
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
@@ -164,9 +166,14 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
   const handleCheckPosition = () => {
     if (keywords.length > 0) {
-      onAddKeywords(keywords);
-      navigate(-1); // Go back to previous page
+      setIsGeoSettingsModalOpen(true);
     }
+  };
+
+  const handleGeoSettingsSubmit = (settings: GeoRankingSettings) => {
+    // Pass keywords to parent and navigate to GEO ranking report
+    onAddKeywords(keywords);
+    navigate(-1);
   };
   return <TooltipProvider>
     <div className="bg-background p-4 sm:p-6 h-[90vh]">
@@ -317,6 +324,14 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           onApply={handleFilterApply}
           currentCountry={selectedCountry}
           currentLanguage={selectedLanguage}
+        />
+
+        {/* GEO Ranking Settings Modal */}
+        <GeoRankingSettingsModal
+          open={isGeoSettingsModalOpen}
+          onOpenChange={setIsGeoSettingsModalOpen}
+          onSubmit={handleGeoSettingsSubmit}
+          keywords={keywords}
         />
         
         {/* Bottom Note */}
