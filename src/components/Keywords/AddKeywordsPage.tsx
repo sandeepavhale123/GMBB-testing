@@ -215,7 +215,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
 
 
         {/* Added Keywords */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6 sm:justify-between">
+        <div className="sticky top-0 bg-background z-10 flex flex-col sm:flex-row sm:items-center gap-3 mb-6 sm:justify-between py-4">
           <div className="flex flex-wrap gap-2">
             {keywords.map((keyword, index) => <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1.5 text-sm">
               {keyword}
