@@ -81,8 +81,8 @@ export const KeywordFilterModal: React.FC<KeywordFilterModalProps> = ({
   currentCountry,
   currentLanguage
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState(currentCountry);
-  const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
+  const [selectedCountry, setSelectedCountry] = useState(2840);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
 
   const handleApply = () => {
     onApply(selectedCountry, selectedLanguage);
