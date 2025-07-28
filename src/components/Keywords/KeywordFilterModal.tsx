@@ -106,7 +106,7 @@ export const KeywordFilterModal: React.FC<KeywordFilterModalProps> = ({
               </SelectTrigger>
               <SelectContent>
                 {countryOptions.map((country) => (
-                  <SelectItem key={country.value} value={country.value}>
+                  <SelectItem key={country.value} value={country.value.toString()}>
                     {country.label}
                   </SelectItem>
                 ))}
