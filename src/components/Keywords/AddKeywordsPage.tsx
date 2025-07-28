@@ -32,6 +32,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('US');
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
   const navigate = useNavigate();
   const {
     toast
@@ -261,7 +262,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           </h3>
           <div className="space-y-3">
             {/* Display combined results: search results first, then recommended */}
-            {[...searchResults, ...recommendedKeywords].map((item, index) => <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
+            {[...searchResults, ...recommendedKeywords].slice(0, displayedKeywordsCount).map((item, index) => <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
                 <div className="flex-1">
                   <span className="font-medium text-foreground">{item.keyword}</span>
                 </div>
@@ -293,6 +294,19 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                   </Tooltip>
                 </div>
               </div>)}
+            
+            {/* Load More Button */}
+            {[...searchResults, ...recommendedKeywords].length > displayedKeywordsCount && (
+              <div className="flex justify-center pt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setDisplayedKeywordsCount(prev => prev + 5)}
+                  className="px-6"
+                >
+                  Load More Keywords
+                </Button>
+              </div>
+            )}
           </div>
         </div>}
 
