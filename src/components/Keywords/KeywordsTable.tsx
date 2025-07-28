@@ -122,6 +122,13 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
       return <Badge variant="secondary">Pending</Badge>;
     } else if (statusLower === 'failed') {
       return <Badge variant="destructive">Failed</Badge>;
+    } else if (statusLower === 'running' || statusLower === 'processing' || statusLower === 'in progress') {
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <Loader2 className="h-3 w-3 animate-spin" />
+          Running
+        </Badge>
+      );
     }
     return <Badge variant="outline">{status}</Badge>;
   };
