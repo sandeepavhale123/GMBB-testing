@@ -22,7 +22,7 @@ const AddKeywordsPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleAddKeywords = async (keywords: string[]) => {
+  const handleAddKeywords = async (keywords: string[], settings: any) => {
     if (!selectedListing?.id) {
       toast({
         title: "Error",
@@ -36,7 +36,10 @@ const AddKeywordsPage = () => {
     try {
       const response = await addSearchKeyword({
         listingId: Number(selectedListing.id),
-        keywords
+        keywords,
+        language: settings.language,
+        distanceValue: settings.distanceValue,
+        gridSize: settings.gridSize
       });
 
       if (response.code === 200) {
@@ -45,8 +48,8 @@ const AddKeywordsPage = () => {
           description: response.message || `Successfully added ${keywords.length} keyword(s) to queue.`,
         });
 
-        // Navigate to geo-ranking page
-        navigate(`/geo-ranking/${selectedListing.id}`);
+        // Navigate to keywords page
+        navigate(`/keywords/${selectedListing.id}`);
       } else {
         throw new Error(response.message || 'Failed to add keywords');
       }

@@ -346,6 +346,9 @@ export const getKeywordSearchVolume = async (
 export interface AddSearchKeywordRequest {
   listingId: number;
   keywords: string[];
+  language: string;
+  distanceValue: number;
+  gridSize: number;
 }
 
 export interface AddSearchKeywordResponse {

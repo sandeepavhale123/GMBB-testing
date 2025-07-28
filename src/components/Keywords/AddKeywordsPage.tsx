@@ -12,7 +12,7 @@ import { useToast } from '../../hooks/use-toast';
 import { KeywordFilterModal } from './KeywordFilterModal';
 import { GeoRankingSettingsModal, GeoRankingSettings } from './GeoRankingSettingsModal';
 interface AddKeywordsPageProps {
-  onAddKeywords: (keywords: string[]) => void;
+  onAddKeywords: (keywords: string[], settings: GeoRankingSettings) => void;
   isLoading?: boolean;
 }
 interface RecommendedKeyword {
@@ -171,8 +171,8 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
 
   const handleGeoSettingsSubmit = (settings: GeoRankingSettings) => {
-    // Pass keywords to parent and navigate to GEO ranking report
-    onAddKeywords(keywords);
+    // Pass keywords and settings to parent
+    onAddKeywords(keywords, settings);
     navigate(-1);
   };
   return <TooltipProvider>
