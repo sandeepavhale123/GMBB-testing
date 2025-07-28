@@ -110,7 +110,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         <div className="flex items-center justify-between text-base sm:text-lg font-medium text-foreground mb-6 sm:mb-8">
           <div className="flex items-center mb-0">
             <Search className="h-5 w-5 text-primary mr-2" />
-            Search keyword
+            Easily find the high search volume keywords
           </div>
         </div>
 
@@ -118,7 +118,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search keyword" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
+            <Input placeholder="Enter primary keyword or category" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
           </div>
           <Button onClick={handleSearchKeyword} disabled={!keywordInput.trim() || keywords.length >= 5 || isSearching} className="h-12 px-6 w-full sm:w-auto">
             {isSearching ? 'Searching...' : 'Search Keyword'}
