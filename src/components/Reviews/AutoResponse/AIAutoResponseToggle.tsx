@@ -54,6 +54,8 @@ Thank you`);
   });
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
   console.log("auto ai response", typeof autoAiSettings?.oldStatus);
@@ -86,6 +88,9 @@ Thank you`);
   };
   const handleSaveSettings = () => {
     if (!selectedListing?.id) return;
+
+    setIsSaving(true); // start loader
+
     const payload = {
       listingId: Number(selectedListing.id),
       tone: responseStyle,
@@ -94,6 +99,7 @@ Thank you`);
       newStatus: 1,
       oldStatus: replyToExistingReviews ? 1 : 0,
     };
+
     dispatch(saveAIAutoReply(payload))
       .unwrap()
       .then((res) => {
@@ -108,8 +114,12 @@ Thank you`);
           description: err || "Failed to save AI auto reply settings",
           variant: "destructive",
         });
+      })
+      .finally(() => {
+        setIsSaving(false); // end loader
       });
   };
+
   const handleGenerateAIResponse = () => {
     if (!selectedListing?.id || !review?.id) return;
     setIsGenerating(true);
@@ -150,7 +160,7 @@ Thank you`);
             <Sparkles className="w-5 h-5 text-purple-600" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4 sm:gap-2">
               <h3 className="text-base font-medium text-gray-900">
                 AI Auto Response
               </h3>
@@ -176,8 +186,8 @@ Thank you`);
 
       {/* Configuration Panel */}
       {enabled && (
-        <div className="space-y-8 p-6 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in">
-          <div className="grid sm:grid-1 lg:grid-cols-2">
+        <div className="space-y-8 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in sm:p-6">
+          <div className="grid sm:grid-1 2xl:grid-cols-2">
             <div className="p-4">
               {/* AI Response Style */}
               <div className="space-y-3 group mb-4">
@@ -300,7 +310,7 @@ Thank you`);
                       Apply For Star Ratings
                     </h4>
                   </div>
-                  <div className="grid grid-cols-5 gap-3">
+                  <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
                     {[1, 2, 3, 4, 5].map((star) => {
                       const starKey = `${star}_star`;
                       const isChecked = selectedStarRatings.includes(starKey);
@@ -459,10 +469,19 @@ Thank you`);
             <Button
               className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8"
               onClick={handleSaveSettings}
-              disabled={isGenerating}
+              disabled={isSaving}
             >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Save AI Settings
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Save AI Settings
+                </>
+              )}
             </Button>
           </div>
         </div>

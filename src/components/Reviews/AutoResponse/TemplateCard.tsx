@@ -48,6 +48,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   const [editContent, setEditContent] = useState("");
   const dispatch = useDispatch();
   const [showDisableConfirm, setShowDisableConfirm] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   console.log("starRating", starRating);
 
@@ -66,8 +67,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
     }
   };
   const handleEnable = async (status: number) => {
+    setIsSaving(true); // Start loading
     try {
-      const type = isRatingOnly ? "star" : "text"; // 👈 determine type based on tab
+      const type = isRatingOnly ? "star" : "text";
 
       const response = await reviewService.updateAutoReplySetting({
         listingId,
@@ -75,14 +77,6 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         status,
         text: editContent || displayContent || "",
         rating: starRating,
-      });
-
-      toast({
-        title: "Success",
-        description:
-          status === 1
-            ? "Auto-reply enabled successfully!"
-            : "Auto-reply disabled successfully!",
       });
 
       dispatch(fetchAutoReviewReplySettings(listingId));
@@ -96,6 +90,8 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         } auto-reply setting.`,
         variant: "destructive",
       });
+    } finally {
+      setIsSaving(false); // Stop loading
     }
   };
 
@@ -184,14 +180,16 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             {template ? (
               <>
                 {template?.status === 0 ? (
-                  <Button onClick={() => handleEnable(1)}>Enable</Button>
+                  <Button onClick={() => handleEnable(1)} disabled={isSaving}>
+                    {isSaving ? "Enabling..." : "Enable"}
+                  </Button>
                 ) : (
                   <div className="flex gap-2 mt-8">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleManageClick}
-                      className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 me-2"
+                      className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 me-2 h-10"
                     >
                       Manage
                     </Button>
@@ -306,7 +304,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <Button variant="outline" onClick={() => setIsManageOpen(false)}>
               {template?.isSystem ? "Close" : "Cancel"}
             </Button>
-            <Button onClick={handleSave}>Save Template</Button>
+            <Button onClick={handleSave} disabled={isSaving}>
+              {isSaving ? "Saving..." : "Save Template"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -328,9 +328,10 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
                 handleEnable(0);
                 setShowDisableConfirm(false);
               }}
+              disabled={isSaving}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              Yes, Remove
+              {isSaving ? "Disabling..." : "Yes, Remove"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
