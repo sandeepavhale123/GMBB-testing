@@ -87,11 +87,26 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     setIsDragging(false);
   }, []);
 
-  const handleGalleryImageSelect = (imageUrl: string) => {
-    // Convert URL to File object (this is a simplified approach)
-    // In a real implementation, you might want to fetch the image and create a proper File object
-    console.log("Selected image from gallery:", imageUrl);
-    setIsGalleryModalOpen(false);
+  const handleGalleryImageSelect = async (imageUrl: string) => {
+    try {
+      // Fetch the image and convert to File object
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      
+      // Create a file name from the URL
+      const urlParts = imageUrl.split('/');
+      const fileName = urlParts[urlParts.length - 1] || 'selected-image.jpg';
+      
+      // Create File object
+      const file = new File([blob], fileName, { type: blob.type });
+      
+      // Pass the file to the parent component
+      onFilesAdded([file]);
+      setIsGalleryModalOpen(false);
+    } catch (error) {
+      console.error("Error loading selected image:", error);
+      setError("Failed to load selected image");
+    }
   };
 
   return (
