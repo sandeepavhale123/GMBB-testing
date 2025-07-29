@@ -1,8 +1,9 @@
 
 import React, { useCallback } from 'react';
-import { Upload, Wand2 } from 'lucide-react';
+import { Upload, Wand2, FolderOpen } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
+import { GalleryModal } from './GalleryModal';
 
 interface PostImageSectionProps {
   image: File | string | null;
@@ -16,6 +17,7 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
   onOpenAIImage
 }) => {
   const [dragActive, setDragActive] = React.useState(false);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = React.useState(false);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -70,20 +72,36 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
 
   const imageDisplay = getImageDisplay();
 
+  const handleGalleryImageSelect = (imageUrl: string) => {
+    onImageChange(imageUrl);
+  };
+
   return (
     <div className="space-y-3">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <Label className="text-sm font-medium">Post Image</Label>
-        <Button 
-          type="button" 
-          variant="outline" 
-          size="sm" 
-          onClick={onOpenAIImage} 
-          className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 w-full sm:w-auto"
-        >
-          <Wand2 className="w-3 h-3 mr-1" />
-          Use GMB Genie to Generate
-        </Button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button 
+            type="button" 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setIsGalleryModalOpen(true)}
+            className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 flex-1 sm:flex-none"
+          >
+            <FolderOpen className="w-3 h-3 mr-1" />
+            Load from Gallery
+          </Button>
+          <Button 
+            type="button" 
+            variant="outline" 
+            size="sm" 
+            onClick={onOpenAIImage} 
+            className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 flex-1 sm:flex-none"
+          >
+            <Wand2 className="w-3 h-3 mr-1" />
+            Use GMB Genie to Generate
+          </Button>
+        </div>
       </div>
 
       <div 
@@ -138,6 +156,12 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
           </div>
         )}
       </div>
+
+      <GalleryModal
+        isOpen={isGalleryModalOpen}
+        onClose={() => setIsGalleryModalOpen(false)}
+        onSelectImage={handleGalleryImageSelect}
+      />
     </div>
   );
 };
