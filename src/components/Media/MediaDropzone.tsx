@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from "react";
 import {
   Upload,
@@ -5,8 +6,11 @@ import {
   FileVideo,
   AlertCircle,
   Sparkles,
+  FolderOpen,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
+import { Gallery } from "./Gallery";
 
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
@@ -19,6 +23,7 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -83,6 +88,13 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     setIsDragging(false);
   }, []);
 
+  const handleGalleryImageSelect = (imageUrl: string) => {
+    // Convert URL to File object (this is a simplified approach)
+    // In a real implementation, you might want to fetch the image and create a proper File object
+    console.log("Selected image from gallery:", imageUrl);
+    setIsGalleryModalOpen(false);
+  };
+
   return (
     <div className="space-y-2">
       <div
@@ -144,12 +156,13 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
             </h3>
             <p className="text-gray-600 mb-4">
               or{" "}
-              <label
-                htmlFor="media-upload"
+              <button
+                type="button"
+                onClick={() => setIsGalleryModalOpen(true)}
                 className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer underline"
               >
-                browse to choose a file
-              </label>
+                choose from gallery
+              </button>
             </p>
             <p className="text-sm text-gray-500">Upload one file at a time</p>
           </div>
@@ -174,6 +187,32 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
           <span>{error}</span>
         </div>
       )}
+
+      {/* Gallery Modal */}
+      <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
+        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-auto p-6">
+            <Gallery
+              showHeader={true}
+              showUpload={true}
+              showDeleteButton={false}
+              showSelectButton={true}
+              onSelectImage={(imageUrl) => {
+                handleGalleryImageSelect(imageUrl);
+              }}
+              className="h-full"
+            />
+          </div>
+          <DialogFooter className="p-6 pt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsGalleryModalOpen(false)}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
