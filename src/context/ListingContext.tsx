@@ -272,11 +272,11 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
 
       // Handle navigation based on current route
       if (baseRoute === null) {
-        // For settings and other excluded routes, stay on current page structure
+        // For settings, profile, and other excluded routes, stay on current page structure
         const pathParts = location.pathname.split("/");
-        if (pathParts[1] === "settings") {
-          // Stay on settings, just update the listing context
-          // No navigation needed as settings don't use listing IDs in URL
+        if (pathParts[1] === "settings" || pathParts[1] === "profile") {
+          // Stay on settings or profile, just update the listing context
+          // No navigation needed as these pages don't use listing IDs in URL
         } else {
           // For other excluded routes, navigate to location dashboard
           navigate(`/location-dashboard/${listing.id}`);
