@@ -3,13 +3,16 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
-import { Plus, X, Search, ArrowLeft } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Plus, X, Search, ArrowLeft, Filter } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { useNavigate } from 'react-router-dom';
 import { getKeywordSearchVolume, KeywordSearchData } from '../../api/geoRankingApi';
 import { useToast } from '../../hooks/use-toast';
+import { KeywordFilterModal } from './KeywordFilterModal';
+import { GeoRankingSettingsModal, GeoRankingSettings } from './GeoRankingSettingsModal';
 interface AddKeywordsPageProps {
-  onAddKeywords: (keywords: string[]) => void;
+  onAddKeywords: (keywords: string[], settings: GeoRankingSettings) => void;
   isLoading?: boolean;
 }
 interface RecommendedKeyword {
@@ -27,6 +30,11 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   const [keywords, setKeywords] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<RecommendedKeyword[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isGeoSettingsModalOpen, setIsGeoSettingsModalOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('2840');
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [displayedKeywordsCount, setDisplayedKeywordsCount] = useState(5);
   const navigate = useNavigate();
   const {
     toast
@@ -44,7 +52,9 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
     setIsSearching(true);
     try {
       const response = await getKeywordSearchVolume({
-        keywords: [trimmedKeyword]
+        keywords: [trimmedKeyword],
+        country: selectedCountry,
+        language: selectedLanguage
       });
       if (response.code === 200) {
         const newResults: RecommendedKeyword[] = response.data.map((item: KeywordSearchData) => ({
@@ -79,6 +89,67 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
       setIsSearching(false);
     }
   };
+
+  const handleFilterApply = (country: string, language: string) => {
+    setSelectedCountry(country);
+    setSelectedLanguage(language);
+  };
+
+  const getCountryLabel = (code: string) => {
+    const countryOptions = [
+      { value: '2840', label: 'United States' },
+      { value: '2826', label: 'United Kingdom' },
+      { value: '2124', label: 'Canada' },
+      { value: '2036', label: 'Australia' },
+      { value: '2276', label: 'Germany' },
+      { value: '2250', label: 'France' },
+      { value: '2724', label: 'Spain' },
+      { value: '2380', label: 'Italy' },
+      { value: '2528', label: 'Netherlands' },
+      { value: '2056', label: 'Belgium' },
+      { value: '2752', label: 'Sweden' },
+      { value: '2578', label: 'Norway' },
+      { value: '2208', label: 'Denmark' },
+      { value: '2246', label: 'Finland' },
+      { value: '2616', label: 'Poland' },
+      { value: '2203', label: 'Czech Republic' },
+      { value: '2040', label: 'Austria' },
+      { value: '2756', label: 'Switzerland' },
+      { value: '2392', label: 'Japan' },
+      { value: '2410', label: 'South Korea' },
+      { value: '2156', label: 'China' },
+      { value: '2356', label: 'India' },
+      { value: '2076', label: 'Brazil' },
+      { value: '2484', label: 'Mexico' },
+      { value: '2032', label: 'Argentina' },
+    ];
+    return countryOptions.find(c => c.value === code)?.label || code;
+  };
+
+  const getLanguageLabel = (code: string) => {
+    const languageOptions = [
+      { value: 'en', label: 'English' },
+      { value: 'es', label: 'Spanish' },
+      { value: 'fr', label: 'French' },
+      { value: 'de', label: 'German' },
+      { value: 'it', label: 'Italian' },
+      { value: 'pt', label: 'Portuguese' },
+      { value: 'nl', label: 'Dutch' },
+      { value: 'sv', label: 'Swedish' },
+      { value: 'no', label: 'Norwegian' },
+      { value: 'da', label: 'Danish' },
+      { value: 'fi', label: 'Finnish' },
+      { value: 'pl', label: 'Polish' },
+      { value: 'cs', label: 'Czech' },
+      { value: 'ja', label: 'Japanese' },
+      { value: 'ko', label: 'Korean' },
+      { value: 'zh', label: 'Chinese' },
+      { value: 'hi', label: 'Hindi' },
+      { value: 'ar', label: 'Arabic' },
+      { value: 'ru', label: 'Russian' },
+    ];
+    return languageOptions.find(l => l.value === code)?.label || code;
+  };
   const handleRemoveKeyword = (keywordToRemove: string) => {
     setKeywords(prev => prev.filter(keyword => keyword !== keywordToRemove));
   };
@@ -95,12 +166,17 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
   };
   const handleCheckPosition = () => {
     if (keywords.length > 0) {
-      onAddKeywords(keywords);
-      navigate(-1); // Go back to previous page
+      setIsGeoSettingsModalOpen(true);
     }
   };
+
+  const handleGeoSettingsSubmit = (settings: GeoRankingSettings) => {
+    // Pass keywords and settings to parent
+    onAddKeywords(keywords, settings);
+    navigate(-1);
+  };
   return <TooltipProvider>
-    <div className="bg-background p-4 sm:p-6 h-[90vh]">
+    <div className="bg-background p-4 sm:p-6 min-h-[90vh]">
       <div className="max-w-6xl mx-auto">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="h-4 w-4" />
@@ -122,15 +198,31 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Enter primary keyword or category" value={keywordInput} onChange={e => setKeywordInput(e.target.value)} onKeyPress={handleKeyPress} className="pl-10 h-12" disabled={keywords.length >= 5} />
           </div>
+          <Button 
+            variant="outline" 
+            onClick={() => setIsFilterModalOpen(true)} 
+            className="h-12 px-4 w-full sm:w-auto"
+          >
+            <Filter className="h-4 w-4" />
+          </Button>
           <Button onClick={handleSearchKeyword} disabled={!keywordInput.trim() || keywords.length >= 5 || isSearching} className="h-12 px-6 w-full sm:w-auto">
             {isSearching ? 'Searching...' : 'Search Keyword'}
           </Button>
+        </div>
+
+        {/* Selected Filters */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Country: {getCountryLabel(selectedCountry)}</span>
+            <span>|</span>
+            <span>Language: {getLanguageLabel(selectedLanguage)}</span>
+          </div>
         </div>
           </div>
 
 
         {/* Added Keywords */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6 sm:justify-between">
+        <div className="sticky top-0 bg-background z-10 flex flex-col sm:flex-row sm:items-center gap-3 mb-6 sm:justify-between py-4">
           <div className="flex flex-wrap gap-2">
             {keywords.map((keyword, index) => <Badge key={index} variant="secondary" className="flex items-center gap-2 px-3 py-1.5 text-sm">
               {keyword}
@@ -177,7 +269,7 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
           </h3>
           <div className="space-y-3">
             {/* Display combined results: search results first, then recommended */}
-            {[...searchResults, ...recommendedKeywords].map((item, index) => <div key={`keyword-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors gap-3">
+            {[...searchResults, ...recommendedKeywords].slice(0, displayedKeywordsCount).map((item, index) => <div key={`keyword-${index}`} className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-border rounded-lg transition-colors gap-3 ${keywords.includes(item.keyword) ? 'bg-primary/10 border-primary/30' : 'hover:bg-muted/30'}`}>
                 <div className="flex-1">
                   <span className="font-medium text-foreground">{item.keyword}</span>
                 </div>
@@ -209,9 +301,39 @@ export const AddKeywordsPage: React.FC<AddKeywordsPageProps> = ({
                   </Tooltip>
                 </div>
               </div>)}
+            
+            {/* Load More Button */}
+            {[...searchResults, ...recommendedKeywords].length > displayedKeywordsCount && (
+              <div className="flex justify-center pt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setDisplayedKeywordsCount(prev => prev + 5)}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 mb-10"
+                >
+                  Load More Keywords
+                </Button>
+              </div>
+            )}
           </div>
         </div>}
 
+        {/* Filter Modal */}
+        <KeywordFilterModal
+          open={isFilterModalOpen}
+          onOpenChange={setIsFilterModalOpen}
+          onApply={handleFilterApply}
+          currentCountry={selectedCountry}
+          currentLanguage={selectedLanguage}
+        />
+
+        {/* GEO Ranking Settings Modal */}
+        <GeoRankingSettingsModal
+          open={isGeoSettingsModalOpen}
+          onOpenChange={setIsGeoSettingsModalOpen}
+          onSubmit={handleGeoSettingsSubmit}
+          keywords={keywords}
+        />
+        
         {/* Bottom Note */}
         
       </div>

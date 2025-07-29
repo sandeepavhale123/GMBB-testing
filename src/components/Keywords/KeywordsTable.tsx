@@ -117,11 +117,18 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   const getStatusBadge = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower === 'active' || statusLower === 'completed') {
-      return <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>;
+      return <Badge variant="default" className="bg-green-100 text-green-800">Completed</Badge>;
     } else if (statusLower === 'pending') {
       return <Badge variant="secondary">Pending</Badge>;
     } else if (statusLower === 'failed') {
       return <Badge variant="destructive">Failed</Badge>;
+    } else if (statusLower === 'running' || statusLower === 'processing' || statusLower === 'in progress') {
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <Loader2 className="h-3 w-3 animate-spin" />
+          Running
+        </Badge>
+      );
     }
     return <Badge variant="outline">{status}</Badge>;
   };

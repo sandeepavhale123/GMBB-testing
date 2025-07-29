@@ -314,6 +314,8 @@ export const refreshKeyword = async (
 // Keyword Search Volume API
 export interface KeywordSearchRequest {
   keywords: string[];
+  country?: string;
+  language?: string;
 }
 
 export interface KeywordSearchData {
@@ -344,6 +346,9 @@ export const getKeywordSearchVolume = async (
 export interface AddSearchKeywordRequest {
   listingId: number;
   keywords: string[];
+  language: string;
+  distanceValue: number;
+  gridSize: number;
 }
 
 export interface AddSearchKeywordResponse {
