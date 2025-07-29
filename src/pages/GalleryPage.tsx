@@ -487,7 +487,7 @@ const GalleryPage: React.FC = () => {
                   disabled={!aiPrompt.trim() || isGenerating}
                   className="h-10 px-6 bg-primary hover:bg-primary/90 whitespace-nowrap"
                 >
-                  {isGenerating ? 'Generating...' : 'Generate Only'}
+                  {isGenerating ? 'Generating...' : 'Generate'}
                 </Button>
               </div>
 
