@@ -353,9 +353,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   const { toast } = useToast();
 
   // Pagination state - Load More functionality
-  const [localItemsToShow, setLocalItemsToShow] = useState(8);
-  const [aiItemsToShow, setAiItemsToShow] = useState(8);
-  const itemsPerLoad = 8;
+  const [localItemsToShow, setLocalItemsToShow] = useState(16);
+  const [aiItemsToShow, setAiItemsToShow] = useState(16);
+  const itemsPerLoad = 14; // Remaining images after initial 16
 
   // AI Generation state
   const [aiPrompt, setAiPrompt] = useState('');
@@ -559,7 +559,7 @@ export const Gallery: React.FC<GalleryProps> = ({
             </div>
 
             {/* Media Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
               {visibleMedia.map((item) => (
                 <div
                   key={item.id}
@@ -739,7 +739,7 @@ export const Gallery: React.FC<GalleryProps> = ({
             )}
 
             {/* AI Generated Media Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
               {visibleMedia.map((item) => (
                 <div
                   key={item.id}

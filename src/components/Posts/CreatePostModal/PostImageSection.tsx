@@ -132,11 +132,11 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
       </div>
 
       <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
-        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col">
+        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col overflow-hidden">
           <DialogHeader className="p-6 pb-0">
             <DialogTitle>Select Image from Gallery</DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-hidden p-6 pt-0 pb-0">
+          <div className="flex-1 overflow-auto p-6 pt-0 pb-0">
             <Gallery
               showHeader={true}
               showUpload={true}
