@@ -442,7 +442,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   return <div className={`space-y-6 ${className}`}>
       {/* Header with tabs */}
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <h1 className="font-bold text-foreground text-2xl">Media Gallery</h1>
+          <h1 className="font-bold text-foreground text-2xl">Gallery</h1>
           
           {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
               <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
