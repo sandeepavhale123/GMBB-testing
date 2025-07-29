@@ -399,7 +399,7 @@ const GalleryPage: React.FC = () => {
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 <div className="space-y-4">
                   <AIPromptInput
                     prompt={aiPrompt}
