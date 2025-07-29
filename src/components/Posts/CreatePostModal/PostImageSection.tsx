@@ -79,34 +79,10 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <Label className="text-sm font-medium">Post Image</Label>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            onClick={() => setIsGalleryModalOpen(true)}
-            className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 flex-1 sm:flex-none"
-          >
-            <FolderOpen className="w-3 h-3 mr-1" />
-            Load from Gallery
-          </Button>
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            onClick={onOpenAIImage} 
-            className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 flex-1 sm:flex-none"
-          >
-            <Wand2 className="w-3 h-3 mr-1" />
-            Use GMB Genie to Generate
-          </Button>
-        </div>
-      </div>
+      <Label className="text-sm font-medium">Post Image</Label>
 
       <div 
-        className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all ${
+        className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all cursor-pointer ${
           dragActive 
             ? 'border-blue-400 bg-blue-50' 
             : image 
@@ -117,14 +93,8 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
+        onClick={() => setIsGalleryModalOpen(true)}
       >
-        <input 
-          type="file" 
-          accept="image/*" 
-          onChange={handleFileChange} 
-          className="hidden" 
-          id="image-upload" 
-        />
         {imageDisplay ? (
           <div className="space-y-2">
             <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
@@ -136,7 +106,10 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
               type="button" 
               variant="outline" 
               size="sm" 
-              onClick={() => onImageChange(null)} 
+              onClick={(e) => {
+                e.stopPropagation();
+                onImageChange(null);
+              }} 
               className="text-xs"
             >
               Remove
