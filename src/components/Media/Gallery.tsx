@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { MediaPagination } from '@/components/Media/MediaPagination';
 import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
 import { generateAIImage } from '@/api/mediaApi';
+
 export interface MediaItem {
   id: string;
   url: string;
@@ -292,6 +293,7 @@ const sampleMediaData: MediaItem[] = [{
   width: 400,
   height: 400
 }];
+
 interface GalleryProps {
   showTabs?: boolean;
   showHeader?: boolean;
@@ -302,6 +304,7 @@ interface GalleryProps {
   onSelectImage?: (imageUrl: string) => void;
   className?: string;
 }
+
 export const Gallery: React.FC<GalleryProps> = ({
   showTabs = true,
   showHeader = true,
@@ -435,6 +438,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleSelectImageFromGenerated = (index: number) => {
     setSelectedImageIndex(index);
   };
+
   return <div className={`space-y-6 ${className}`}>
       {/* Header with tabs */}
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -496,7 +500,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                     {/* Action Buttons Overlay */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                       <div className="flex items-center gap-2">
-                        {showSelectButton && <Button size="sm" variant="secondary" onClick={() => handleSelectMedia(item)} className="h-8 px-3 bg-primary hover:bg-primary/90 text-white">
+                        {showSelectButton && <Button 
+                            size="sm" 
+                            variant="secondary" 
+                            onClick={() => handleSelectMedia(item)} 
+                            className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
+                          >
                             Select
                           </Button>}
                         
@@ -604,7 +613,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                   {/* Action Buttons Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                     <div className="flex items-center gap-2">
-                      {showSelectButton && <Button size="sm" variant="secondary" onClick={() => handleSelectMedia(item)} className="h-8 px-3 bg-primary hover:bg-primary/90 text-white">
+                      {showSelectButton && <Button 
+                          size="sm" 
+                          variant="secondary" 
+                          onClick={() => handleSelectMedia(item)} 
+                          className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
+                        >
                           Select
                         </Button>}
                       
