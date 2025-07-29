@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Upload, Eye, Trash2 } from 'lucide-react';
+import { Search, Upload, Eye, Trash2, Download, FileImage, Film } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
@@ -499,19 +499,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                     
                     {/* Action Buttons Overlay */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <div className="flex items-center gap-2">
-                        {showSelectButton && <Button 
-                            size="sm" 
-                            variant="secondary" 
-                            onClick={() => handleSelectMedia(item)} 
-                            className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
-                          >
-                            Select
-                          </Button>}
-                        
+                      <div className="flex flex-wrap items-center justify-center gap-2 p-4">
+                        {/* View Image */}
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white">
+                            <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="View Image">
                               <Eye className="h-4 w-4 text-gray-700" />
                             </Button>
                           </DialogTrigger>
@@ -525,10 +517,74 @@ export const Gallery: React.FC<GalleryProps> = ({
                             </div>
                           </DialogContent>
                         </Dialog>
+
+                        {/* Download Image */}
+                        <Button 
+                          size="sm" 
+                          variant="secondary" 
+                          onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = item.url;
+                            link.download = item.title || 'image';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                          }}
+                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          title="Download Image"
+                        >
+                          <Download className="h-4 w-4 text-gray-700" />
+                        </Button>
+
+                        {/* Use for Post */}
+                        <Button 
+                          size="sm" 
+                          variant="secondary" 
+                          onClick={() => {
+                            console.log('Use for post:', item.id);
+                            toast({
+                              title: "Image Selected",
+                              description: "Image ready to use for post creation",
+                            });
+                          }}
+                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          title="Use for Post"
+                        >
+                          <FileImage className="h-4 w-4 text-gray-700" />
+                        </Button>
+
+                        {/* Use for Media */}
+                        <Button 
+                          size="sm" 
+                          variant="secondary" 
+                          onClick={() => {
+                            console.log('Use for media:', item.id);
+                            toast({
+                              title: "Image Selected",
+                              description: "Image ready to use for media",
+                            });
+                          }}
+                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          title="Use for Media"
+                        >
+                          <Film className="h-4 w-4 text-gray-700" />
+                        </Button>
+
+                        {/* Select Button (if enabled) */}
+                        {showSelectButton && <Button 
+                            size="sm" 
+                            variant="secondary" 
+                            onClick={() => handleSelectMedia(item)} 
+                            className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
+                            title="Select"
+                          >
+                            Select
+                          </Button>}
                         
+                        {/* Delete */}
                         {showDeleteButton && <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white">
+                              <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Delete">
                                 <Trash2 className="h-4 w-4 text-red-600" />
                               </Button>
                             </AlertDialogTrigger>
@@ -612,19 +668,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                   
                   {/* Action Buttons Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <div className="flex items-center gap-2">
-                      {showSelectButton && <Button 
-                          size="sm" 
-                          variant="secondary" 
-                          onClick={() => handleSelectMedia(item)} 
-                          className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
-                        >
-                          Select
-                        </Button>}
-                      
+                    <div className="flex flex-wrap items-center justify-center gap-2 p-4">
+                      {/* View Image */}
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white">
+                          <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="View Image">
                             <Eye className="h-4 w-4 text-gray-700" />
                           </Button>
                         </DialogTrigger>
@@ -638,10 +686,74 @@ export const Gallery: React.FC<GalleryProps> = ({
                           </div>
                         </DialogContent>
                       </Dialog>
+
+                      {/* Download Image */}
+                      <Button 
+                        size="sm" 
+                        variant="secondary" 
+                        onClick={() => {
+                          const link = document.createElement('a');
+                          link.href = item.url;
+                          link.download = item.title || 'image';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                        }}
+                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                        title="Download Image"
+                      >
+                        <Download className="h-4 w-4 text-gray-700" />
+                      </Button>
+
+                      {/* Use for Post */}
+                      <Button 
+                        size="sm" 
+                        variant="secondary" 
+                        onClick={() => {
+                          console.log('Use for post:', item.id);
+                          toast({
+                            title: "Image Selected",
+                            description: "Image ready to use for post creation",
+                          });
+                        }}
+                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                        title="Use for Post"
+                      >
+                        <FileImage className="h-4 w-4 text-gray-700" />
+                      </Button>
+
+                      {/* Use for Media */}
+                      <Button 
+                        size="sm" 
+                        variant="secondary" 
+                        onClick={() => {
+                          console.log('Use for media:', item.id);
+                          toast({
+                            title: "Image Selected",
+                            description: "Image ready to use for media",
+                          });
+                        }}
+                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                        title="Use for Media"
+                      >
+                        <Film className="h-4 w-4 text-gray-700" />
+                      </Button>
+
+                      {/* Select Button (if enabled) */}
+                      {showSelectButton && <Button 
+                          size="sm" 
+                          variant="secondary" 
+                          onClick={() => handleSelectMedia(item)} 
+                          className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
+                          title="Select"
+                        >
+                          Select
+                        </Button>}
                       
+                      {/* Delete */}
                       {showDeleteButton && <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white">
+                            <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Delete">
                               <Trash2 className="h-4 w-4 text-red-600" />
                             </Button>
                           </AlertDialogTrigger>
