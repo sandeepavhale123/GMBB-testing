@@ -88,12 +88,14 @@ const menuItems: MenuItem[] = [{
   label: "Citation",
   icon: BookOpen,
   path: "/citation"
-}, {
-  id: "ai-chatbot",
-  label: "AI Genie",
-  icon: Bot,
-  path: "/ai-chatbot"
-}, {
+}, 
+//  {
+//   id: "ai-chatbot",
+//   label: "AI Genie",
+//   icon: Bot,
+//   path: "/ai-chatbot"
+// }, 
+ {
   id: "reports",
   label: "Reports",
   icon: FileBarChart,
