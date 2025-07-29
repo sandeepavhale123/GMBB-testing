@@ -89,6 +89,11 @@ const menuItems: MenuItem[] = [{
   icon: BookOpen,
   path: "/citation"
 }, {
+  id: "ai-chatbot",
+  label: "AI Genie",
+  icon: Bot,
+  path: "/ai-chatbot"
+}, {
   id: "reports",
   label: "Reports",
   icon: FileBarChart,
@@ -174,6 +179,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return "businesses";
     }
 
+    // Handle location-dashboard route mapping to overview tab
+    if (baseRoute === "location-dashboard") {
+      return "overview";
+    }
+
     // Check main menu items first
     const activeItem = menuItems.find(item => item.path === `/${baseRoute}`);
     if (activeItem) {
@@ -189,7 +199,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         }
       }
     }
-    return "overview";
+    
+    // Don't return any active tab if no match is found
+    // This prevents Dashboard from being highlighted on unrelated pages
+    return "";
   }, [location.pathname]);
 
   // Effect to auto-expand parent menu when sub-item is active
