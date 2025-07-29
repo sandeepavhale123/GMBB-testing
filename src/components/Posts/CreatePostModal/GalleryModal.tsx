@@ -119,48 +119,59 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
         </DialogHeader>
 
         <div className="flex-1 flex flex-col space-y-4 overflow-hidden">
-          {/* Search and Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search media"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+          {/* Search Section */}
+          <div className="bg-card border border-border rounded-lg p-6 space-y-6">
+            <h2 className="text-xl font-semibold text-foreground">Media Library</h2>
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search media"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-background border-border"
+                />
+              </div>
             </div>
-            
-            {/* Tab filters */}
+          </div>
+
+          {/* Media Filter Tabs */}
+          <div className="flex justify-between items-center">
             <div className="flex gap-2">
               <Button
-                variant={selectedTab === 'all' ? 'default' : 'outline'}
+                variant={selectedTab === 'all' ? 'secondary' : 'ghost'}
                 size="sm"
+                className="h-8"
                 onClick={() => setSelectedTab('all')}
               >
                 All
               </Button>
               <Button
-                variant={selectedTab === 'local' ? 'default' : 'outline'}
+                variant={selectedTab === 'local' ? 'secondary' : 'ghost'}
                 size="sm"
+                className="h-8"
                 onClick={() => setSelectedTab('local')}
               >
-                Local
+                Images
               </Button>
               <Button
-                variant={selectedTab === 'ai-generated' ? 'default' : 'outline'}
+                variant={selectedTab === 'ai-generated' ? 'secondary' : 'ghost'}
                 size="sm"
+                className="h-8"
                 onClick={() => setSelectedTab('ai-generated')}
               >
-                AI Generated
+                Videos
               </Button>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {filteredMedia.length} items
             </div>
           </div>
 
           {/* Media Grid */}
           <div className="flex-1 overflow-y-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
               {filteredMedia.map((item) => (
                 <div
                   key={item.id}
@@ -199,7 +210,6 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
                   {/* Media Info */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <p className="font-medium text-xs text-white truncate">{item.title}</p>
-                    <p className="text-xs text-white/70">{item.category}</p>
                   </div>
                 </div>
               ))}
