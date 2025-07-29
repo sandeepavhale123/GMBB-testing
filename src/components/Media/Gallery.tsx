@@ -559,113 +559,115 @@ export const Gallery: React.FC<GalleryProps> = ({
             </div>
 
             {/* Media Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-              {visibleMedia.map((item) => (
-                <div
-                  key={item.id}
-                  className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
-                >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={item.url}
-                      alt={item.title}
-                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                    />
-                  </div>
-                  
-                  {/* Action Buttons Overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <div className="flex items-center gap-2">
-                      {showSelectButton && (
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => handleSelectMedia(item)}
-                          className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
-                        >
-                          Select
-                        </Button>
-                      )}
-                      
-                      <Dialog>
-                        <DialogTrigger asChild>
+            <div className="flex gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
+                {visibleMedia.map((item) => (
+                  <div
+                    key={item.id}
+                    className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
+                  >
+                    <div className="aspect-square overflow-hidden">
+                      <img
+                        src={item.url}
+                        alt={item.title}
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                      />
+                    </div>
+                    
+                    {/* Action Buttons Overlay */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                      <div className="flex items-center gap-2">
+                        {showSelectButton && (
                           <Button
                             size="sm"
                             variant="secondary"
-                            onClick={() => handleViewMedia(item)}
-                            className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                            onClick={() => handleSelectMedia(item)}
+                            className="h-8 px-3 bg-primary hover:bg-primary/90 text-white"
                           >
-                            <Eye className="h-4 w-4 text-gray-700" />
+                            Select
                           </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-4xl">
-                          <div className="flex flex-col items-center space-y-4">
-                            <img
-                              src={selectedMedia?.url}
-                              alt={selectedMedia?.title}
-                              className="max-w-full max-h-[70vh] object-contain rounded-lg"
-                            />
-                            <div className="text-center">
-                              <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
-                              <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                      
-                      {showDeleteButton && (
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
+                        )}
+                        
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               size="sm"
                               variant="secondary"
+                              onClick={() => handleViewMedia(item)}
                               className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
                             >
-                              <Trash2 className="h-4 w-4 text-red-600" />
+                              <Eye className="h-4 w-4 text-gray-700" />
                             </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Delete Media</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Are you sure you want to delete "{item.title}"? This action cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleDeleteMedia(item.id)}
-                                className="bg-red-600 hover:bg-red-700"
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl">
+                            <div className="flex flex-col items-center space-y-4">
+                              <img
+                                src={selectedMedia?.url}
+                                alt={selectedMedia?.title}
+                                className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                              />
+                              <div className="text-center">
+                                <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                                <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        
+                        {showDeleteButton && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                size="sm"
+                                variant="secondary"
+                                className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
                               >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      )}
+                                <Trash2 className="h-4 w-4 text-red-600" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDeleteMedia(item.id)}
+                                  className="bg-red-600 hover:bg-red-700"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Media Info */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <p className="font-medium text-xs text-white truncate">{item.title}</p>
                     </div>
                   </div>
-
-                  {/* Media Info */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <p className="font-medium text-xs text-white truncate">{item.title}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Load More Button */}
-            {hasMoreItems && (
-              <div className="flex justify-center pt-6">
-                <Button 
-                  onClick={handleLoadMore}
-                  variant="outline"
-                  className="px-8"
-                >
-                  Load More ({filteredMedia.length - itemsToShow} remaining)
-                </Button>
+                ))}
               </div>
-            )}
+              
+              {/* Load More Button - Right Side */}
+              {hasMoreItems && (
+                <div className="flex items-start pt-2">
+                  <Button 
+                    onClick={handleLoadMore}
+                    variant="outline"
+                    className="px-6 whitespace-nowrap"
+                  >
+                    Load More ({filteredMedia.length - itemsToShow})
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -834,18 +836,6 @@ export const Gallery: React.FC<GalleryProps> = ({
               ))}
             </div>
 
-            {/* Load More Button */}
-            {hasMoreItems && (
-              <div className="flex justify-center pt-6">
-                <Button 
-                  onClick={handleLoadMore}
-                  variant="outline"
-                  className="px-8"
-                >
-                  Load More ({filteredMedia.length - itemsToShow} remaining)
-                </Button>
-              </div>
-            )}
           </div>
         )}
 
