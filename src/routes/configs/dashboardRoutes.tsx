@@ -28,6 +28,91 @@ export const dashboardRoutes: RouteConfig[] = [
       </ProtectedRoute>
     ),
   },
+
+  // Gallery route
+  {
+    path: "/gallery/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Posts route
+  {
+    path: "/posts/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Media route
+  {
+    path: "/media/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Insights route
+  {
+    path: "/insights/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Geo Ranking route
+  {
+    path: "/geo-ranking/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Reviews route
+  {
+    path: "/reviews/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // QA route
+  {
+    path: "/qa/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
   {
     path: "/plan-expired",
     element: (
