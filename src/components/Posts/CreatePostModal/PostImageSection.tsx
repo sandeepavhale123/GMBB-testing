@@ -3,7 +3,8 @@ import React, { useCallback } from 'react';
 import { Upload, Wand2, FolderOpen } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
-import { GalleryModal } from './GalleryModal';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../ui/dialog';
+import { Gallery } from '../../Media/Gallery';
 
 interface PostImageSectionProps {
   image: File | string | null;
@@ -157,11 +158,26 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
         )}
       </div>
 
-      <GalleryModal
-        isOpen={isGalleryModalOpen}
-        onClose={() => setIsGalleryModalOpen(false)}
-        onSelectImage={handleGalleryImageSelect}
-      />
+      <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
+        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0">
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle>Select Image from Gallery</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-hidden p-6 pt-0">
+            <Gallery
+              showHeader={false}
+              showUpload={false}
+              showDeleteButton={false}
+              showSelectButton={true}
+              onSelectImage={(imageUrl) => {
+                handleGalleryImageSelect(imageUrl);
+                setIsGalleryModalOpen(false);
+              }}
+              className="h-full"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
