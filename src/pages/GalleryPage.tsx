@@ -572,7 +572,7 @@ const GalleryPage: React.FC = () => {
                             <img
                               src={selectedMedia?.url}
                               alt={selectedMedia?.title}
-                              className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                              className="max-w-full  object-contain rounded-lg"
                             />
                             <div className="text-center">
                               <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
