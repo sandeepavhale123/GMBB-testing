@@ -9,6 +9,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { MediaPagination } from '@/components/Media/MediaPagination';
+import { AIPromptInput } from '@/components/Media/AIGeneration/AIPromptInput';
+import { AIParameters } from '@/components/Media/AIGeneration/AIParameters';
+import { AIActionButtons } from '@/components/Media/AIGeneration/AIActionButtons';
+import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
+import { generateAIImage } from '@/api/mediaApi';
 
 interface MediaItem {
   id: string;
@@ -148,211 +154,387 @@ const sampleMediaData: MediaItem[] = [
 const GalleryPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('local');
-  const [selectedFilter, setSelectedFilter] = useState('image');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [deleteMediaId, setDeleteMediaId] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Pagination state
+  const [localCurrentPage, setLocalCurrentPage] = useState(1);
+  const [aiCurrentPage, setAiCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  // AI Generation state
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiVariants, setAiVariants] = useState(1);
+  const [aiStyle, setAiStyle] = useState('photographic');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Filter media by tab and search
   const filteredMedia = sampleMediaData.filter(item => {
-    const matchesTab = selectedTab === 'all' || item.category === selectedTab;
+    const matchesTab = item.category === selectedTab;
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = selectedFilter === 'all' || item.type === selectedFilter;
-    
-    return matchesTab && matchesSearch && matchesFilter;
+    return matchesTab && matchesSearch;
   });
+
+  // Pagination calculations
+  const currentPage = selectedTab === 'local' ? localCurrentPage : aiCurrentPage;
+  const totalPages = Math.ceil(filteredMedia.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedMedia = filteredMedia.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    if (selectedTab === 'local') {
+      setLocalCurrentPage(page);
+    } else {
+      setAiCurrentPage(page);
+    }
+  };
 
   const handleViewMedia = (media: MediaItem) => {
     setSelectedMedia(media);
-    // Open media in a modal or new tab
     window.open(media.url, '_blank');
   };
 
   const handleDeleteMedia = (mediaId: string) => {
-    // Here you would typically call an API to delete the media
     console.log('Deleting media:', mediaId);
     toast({
       title: "Media Deleted",
       description: "The media item has been successfully deleted.",
     });
-    setDeleteMediaId(null);
+  };
+
+  // AI Generation handlers
+  const handleGenerate = async () => {
+    if (!aiPrompt.trim()) return;
+    
+    setIsGenerating(true);
+    try {
+      const response = await generateAIImage({
+        prompt: aiPrompt,
+        variants: aiVariants,
+        style: aiStyle
+      });
+
+      if (response.code === 200 && response.data?.results) {
+        const imageUrls = response.data.results.map(result => result.url);
+        setGeneratedImages(imageUrls);
+        setSelectedImageIndex(0);
+        toast({
+          title: "Images Generated",
+          description: `Successfully generated ${imageUrls.length} image(s).`,
+        });
+      }
+    } catch (error) {
+      console.error('AI generation error:', error);
+      toast({
+        title: "Generation Failed",
+        description: "Failed to generate images. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleRegenerate = () => {
+    setGeneratedImages([]);
+    setSelectedImageIndex(0);
+    handleGenerate();
+  };
+
+  const handleUseMedia = () => {
+    if (generatedImages.length > 0) {
+      const selectedImage = generatedImages[selectedImageIndex];
+      toast({
+        title: "Image Added",
+        description: "AI-generated image has been added to your media library.",
+      });
+      setGeneratedImages([]);
+      setSelectedImageIndex(0);
+    }
+  };
+
+  const handlePreviousImage = () => {
+    setSelectedImageIndex(prev => 
+      prev > 0 ? prev - 1 : generatedImages.length - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex(prev => 
+      prev < generatedImages.length - 1 ? prev + 1 : 0
+    );
+  };
+
+  const handleSelectImage = (index: number) => {
+    setSelectedImageIndex(index);
   };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header with tabs moved to right */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <h1 className="text-3xl font-bold text-foreground">Media Gallery</h1>
-        <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+        
+        {/* Tabs moved to top right */}
+        <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
+          <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
+            <TabsTrigger value="local" className="data-[state=active]:bg-background">
+              Local
+            </TabsTrigger>
+            <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
+              AI Generated
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      {/* Search and Upload in single line */}
+      <div className="flex flex-col sm:flex-row gap-4 items-center">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search media"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 bg-background border-border"
+          />
+        </div>
+        <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap">
           <Upload className="h-4 w-4" />
           Upload Media
         </Button>
       </div>
 
-      {/* Tabs */}
-      <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-        <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
-          <TabsTrigger value="local" className="data-[state=active]:bg-background">
-            Local
-          </TabsTrigger>
-          <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
-            AI Generated
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value={selectedTab} className="space-y-6 mt-6">
-          {/* Search Bar */}
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search media"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background border-border"
-            />
-          </div>
-
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={selectedFilter === 'image' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedFilter('image')}
-              className="h-8"
-            >
-              Image
-            </Button>
-            <Button
-              variant={selectedFilter === 'video' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedFilter('video')}
-              className="h-8"
-            >
-              Video
-            </Button>
-            <Button
-              variant={selectedFilter === 'all' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedFilter('all')}
-              className="h-8"
-            >
-              Date
-            </Button>
-          </div>
-
-          {/* Media Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-max">
-            {filteredMedia.map((item) => (
-              <div
-                key={item.id}
-                className={cn(
-                  "group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer",
-                  // Masonry-style heights
-                  item.id === '1' && "row-span-1",
-                  item.id === '3' && "row-span-2",
-                  item.id === '5' && "row-span-1", 
-                  item.id === '6' && "row-span-2",
-                  item.id === '10' && "row-span-2"
-                )}
-              >
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={item.url}
-                    alt={item.title}
-                    className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                  />
-                </div>
-                
-                {/* Action Buttons Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => handleViewMedia(item)}
-                      className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                    >
-                      <Eye className="h-4 w-4 text-gray-700" />
-                    </Button>
-                    
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                        >
-                          <Trash2 className="h-4 w-4 text-red-600" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Media</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete "{item.title}"? This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => handleDeleteMedia(item.id)}
-                            className="bg-red-600 hover:bg-red-700"
+      {/* Tab Content */}
+      <div className="space-y-6">
+        {selectedTab === 'local' && (
+          <div className="space-y-6">
+            {/* Local Media Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+              {paginatedMedia.map((item) => (
+                <div
+                  key={item.id}
+                  className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
+                >
+                  <div className="aspect-square overflow-hidden">
+                    <img
+                      src={item.url}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                    />
+                  </div>
+                  
+                  {/* Action Buttons Overlay */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleViewMedia(item)}
+                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                      >
+                        <Eye className="h-4 w-4 text-gray-700" />
+                      </Button>
+                      
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
                           >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeleteMedia(item.id)}
+                              className="bg-red-600 hover:bg-red-700"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
 
-                    {/* More Actions Dropdown */}
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                        >
-                          <MoreVertical className="h-4 w-4 text-gray-700" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleViewMedia(item)}>
-                          <Eye className="h-4 w-4 mr-2" />
-                          View
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setDeleteMediaId(item.id)} className="text-red-600">
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  {/* Media Info */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <p className="font-medium text-xs text-white truncate">{item.title}</p>
                   </div>
                 </div>
-
-                {/* Media Info */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <p className="font-medium text-sm text-white">{item.title}</p>
-                  <p className="text-xs text-white/80 mt-1">{new Date(item.date).toLocaleDateString()}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {filteredMedia.length === 0 && (
-            <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
-                <Search className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium text-foreground mb-2">No media found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your search or filter criteria.
-              </p>
+              ))}
             </div>
-          )}
-        </TabsContent>
-      </Tabs>
+
+            {/* Local Tab Pagination */}
+            {totalPages > 1 && (
+              <MediaPagination
+                currentPage={localCurrentPage}
+                totalPages={totalPages}
+                hasNext={localCurrentPage < totalPages}
+                hasPrev={localCurrentPage > 1}
+                onPageChange={handlePageChange}
+                totalItems={filteredMedia.length}
+                itemsPerPage={itemsPerPage}
+              />
+            )}
+          </div>
+        )}
+
+        {selectedTab === 'ai-generated' && (
+          <div className="space-y-6">
+            {/* AI Generation Section */}
+            <div className="bg-card border border-border rounded-lg p-6 space-y-6">
+              <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <AIPromptInput
+                    prompt={aiPrompt}
+                    onPromptChange={setAiPrompt}
+                    maxLength={200}
+                  />
+                  
+                  <AIParameters
+                    variants={aiVariants}
+                    style={aiStyle}
+                    onVariantsChange={setAiVariants}
+                    onStyleChange={setAiStyle}
+                  />
+                  
+                  <AIActionButtons
+                    isGenerating={isGenerating}
+                    hasGenerated={generatedImages.length > 0}
+                    prompt={aiPrompt}
+                    onGenerate={handleGenerate}
+                    isDownloading={false}
+                    onRegenerate={handleRegenerate}
+                    onUseMedia={handleUseMedia}
+                  />
+                </div>
+
+                {generatedImages.length > 0 && (
+                  <div className="space-y-4">
+                    <AIImagePreview
+                      images={generatedImages}
+                      selectedIndex={selectedImageIndex}
+                      prompt={aiPrompt}
+                      style={aiStyle}
+                      onPreviousImage={handlePreviousImage}
+                      onNextImage={handleNextImage}
+                      onSelectImage={handleSelectImage}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* AI Generated Media Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+              {paginatedMedia.map((item) => (
+                <div
+                  key={item.id}
+                  className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
+                >
+                  <div className="aspect-square overflow-hidden">
+                    <img
+                      src={item.url}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                    />
+                  </div>
+                  
+                  {/* Action Buttons Overlay */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleViewMedia(item)}
+                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                      >
+                        <Eye className="h-4 w-4 text-gray-700" />
+                      </Button>
+                      
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          >
+                            <Trash2 className="h-4 w-4 text-red-600" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeleteMedia(item.id)}
+                              className="bg-red-600 hover:bg-red-700"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+
+                  {/* Media Info */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <p className="font-medium text-xs text-white truncate">{item.title}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* AI Tab Pagination */}
+            {totalPages > 1 && (
+              <MediaPagination
+                currentPage={aiCurrentPage}
+                totalPages={totalPages}
+                hasNext={aiCurrentPage < totalPages}
+                hasPrev={aiCurrentPage > 1}
+                onPageChange={handlePageChange}
+                totalItems={filteredMedia.length}
+                itemsPerPage={itemsPerPage}
+              />
+            )}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {paginatedMedia.length === 0 && (
+          <div className="text-center py-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
+              <Search className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-medium text-foreground mb-2">No media found</h3>
+            <p className="text-muted-foreground">
+              Try adjusting your search criteria or generate new AI images.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
