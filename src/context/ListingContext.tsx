@@ -270,7 +270,21 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       setSelectedListing(listing);
       dispatch(setSelectedBusiness(listing.id));
 
-      navigate(`/${baseRoute}/${listing.id}`);
+      // Handle navigation based on current route
+      if (baseRoute === null) {
+        // For settings and other excluded routes, stay on current page structure
+        const pathParts = location.pathname.split("/");
+        if (pathParts[1] === "settings") {
+          // Stay on settings, just update the listing context
+          // No navigation needed as settings don't use listing IDs in URL
+        } else {
+          // For other excluded routes, navigate to location dashboard
+          navigate(`/location-dashboard/${listing.id}`);
+        }
+      } else {
+        // For regular routes, use the existing baseRoute logic
+        navigate(`/${baseRoute}/${listing.id}`);
+      }
 
       setTimeout(() => {
         setIsLoading(false);
@@ -283,6 +297,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       dispatch,
       baseRoute,
       navigate,
+      location,
     ]
   );
 
