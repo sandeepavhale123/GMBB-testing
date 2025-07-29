@@ -400,29 +400,35 @@ const GalleryPage: React.FC = () => {
               <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
               
               <div className="grid grid-cols-1 gap-6">
-                <div className="space-y-4">
-                  <AIPromptInput
-                    prompt={aiPrompt}
-                    onPromptChange={setAiPrompt}
-                    maxLength={200}
-                  />
+                <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
+                  <div className="flex-1">
+                    <AIPromptInput
+                      prompt={aiPrompt}
+                      onPromptChange={setAiPrompt}
+                      maxLength={200}
+                    />
+                  </div>
                   
-                  <AIParameters
-                    variants={aiVariants}
-                    style={aiStyle}
-                    onVariantsChange={setAiVariants}
-                    onStyleChange={setAiStyle}
-                  />
+                  <div className="flex-shrink-0">
+                    <AIParameters
+                      variants={aiVariants}
+                      style={aiStyle}
+                      onVariantsChange={setAiVariants}
+                      onStyleChange={setAiStyle}
+                    />
+                  </div>
                   
-                  <AIActionButtons
-                    isGenerating={isGenerating}
-                    hasGenerated={generatedImages.length > 0}
-                    prompt={aiPrompt}
-                    onGenerate={handleGenerate}
-                    isDownloading={false}
-                    onRegenerate={handleRegenerate}
-                    onUseMedia={handleUseMedia}
-                  />
+                  <div className="flex-shrink-0">
+                    <AIActionButtons
+                      isGenerating={isGenerating}
+                      hasGenerated={generatedImages.length > 0}
+                      prompt={aiPrompt}
+                      onGenerate={handleGenerate}
+                      isDownloading={false}
+                      onRegenerate={handleRegenerate}
+                      onUseMedia={handleUseMedia}
+                    />
+                  </div>
                 </div>
 
                 {generatedImages.length > 0 && (
