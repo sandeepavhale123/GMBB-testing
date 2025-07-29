@@ -155,6 +155,7 @@ const GalleryPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('local');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [mediaData, setMediaData] = useState<MediaItem[]>(sampleMediaData);
   const { toast } = useToast();
 
   // Pagination state
@@ -170,8 +171,40 @@ const GalleryPage: React.FC = () => {
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
+  // File upload handler
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+        const url = URL.createObjectURL(file);
+        const newMedia: MediaItem = {
+          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+          url,
+          type: file.type.startsWith('image/') ? 'image' : 'video',
+          title: file.name.split('.')[0],
+          category: 'local',
+          date: new Date().toISOString().split('T')[0],
+          width: 400,
+          height: 400,
+        };
+        
+        setMediaData(prev => [newMedia, ...prev]);
+      }
+    });
+
+    toast({
+      title: "Media Uploaded",
+      description: `Successfully uploaded ${files.length} file(s).`,
+    });
+
+    // Reset input
+    event.target.value = '';
+  };
+
   // Filter media by tab and search
-  const filteredMedia = sampleMediaData.filter(item => {
+  const filteredMedia = mediaData.filter(item => {
     const matchesTab = item.category === selectedTab;
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesTab && matchesSearch;
@@ -309,7 +342,18 @@ const GalleryPage: React.FC = () => {
                     className="pl-10 bg-background border-border"
                   />
                 </div>
-                <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  id="file-upload"
+                />
+                <Button 
+                  className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap"
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
                   <Upload className="h-4 w-4" />
                   Upload Media
                 </Button>
