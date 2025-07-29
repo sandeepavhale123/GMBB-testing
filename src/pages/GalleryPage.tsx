@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Search, Upload, Filter, Grid, List, Eye, Trash2, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -226,7 +227,6 @@ const GalleryPage: React.FC = () => {
 
   const handleViewMedia = (media: MediaItem) => {
     setSelectedMedia(media);
-    window.open(media.url, '_blank');
   };
 
   const handleDeleteMedia = (mediaId: string) => {
@@ -391,14 +391,31 @@ const GalleryPage: React.FC = () => {
                   {/* Action Buttons Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                     <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => handleViewMedia(item)}
-                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                      >
-                        <Eye className="h-4 w-4 text-gray-700" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => handleViewMedia(item)}
+                            className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          >
+                            <Eye className="h-4 w-4 text-gray-700" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-4xl">
+                          <div className="flex flex-col items-center space-y-4">
+                            <img
+                              src={selectedMedia?.url}
+                              alt={selectedMedia?.title}
+                              className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                            />
+                            <div className="text-center">
+                              <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                              <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                       
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -540,14 +557,31 @@ const GalleryPage: React.FC = () => {
                   {/* Action Buttons Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                     <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => handleViewMedia(item)}
-                        className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                      >
-                        <Eye className="h-4 w-4 text-gray-700" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => handleViewMedia(item)}
+                            className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                          >
+                            <Eye className="h-4 w-4 text-gray-700" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-4xl">
+                          <div className="flex flex-col items-center space-y-4">
+                            <img
+                              src={selectedMedia?.url}
+                              alt={selectedMedia?.title}
+                              className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                            />
+                            <div className="text-center">
+                              <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                              <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                       
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
