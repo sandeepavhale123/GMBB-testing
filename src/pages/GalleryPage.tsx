@@ -401,7 +401,7 @@ const GalleryPage: React.FC = () => {
               <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
               
               <div className="grid grid-cols-1 gap-6">
-                <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
+               
                   <div className="flex-1">
                     <AIPromptInput
                       prompt={aiPrompt}
@@ -409,7 +409,7 @@ const GalleryPage: React.FC = () => {
                       maxLength={200}
                     />
                   </div>
-                  
+                   <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
                   <div className="flex-shrink-0">
                     <AIParameters
                       variants={aiVariants}
