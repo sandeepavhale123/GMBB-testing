@@ -444,60 +444,52 @@ const GalleryPage: React.FC = () => {
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
               
-              <div className="grid grid-cols-1 gap-6">
-               
-                  <div className="flex-1">
-                    <AIPromptInput
-                      prompt={aiPrompt}
-                      onPromptChange={setAiPrompt}
-                      maxLength={200}
-                    />
-                  </div>
-                   <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Style</label>
-                    <select 
-                      value={aiStyle} 
-                      onChange={(e) => setAiStyle(e.target.value)}
-                      className="w-full h-10 px-3 bg-background border border-border rounded-md text-sm"
-                    >
-                      <option value="realistic">Realistic</option>
-                      <option value="artistic">Artistic</option>
-                      <option value="cartoon">Cartoon</option>
-                      <option value="abstract">Abstract</option>
-                      <option value="minimalist">Minimalist</option>
-                      <option value="vintage">Vintage</option>
-                      <option value="modern">Modern</option>
-                      <option value="file-1">File-1</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Number of Variants</label>
-                    <select 
-                      value={aiVariants.toString()} 
-                      onChange={(e) => setAiVariants(parseInt(e.target.value))}
-                      className="w-full h-10 px-3 bg-background border border-border rounded-md text-sm"
-                    >
-                      <option value="1">1 variant</option>
-                      <option value="2">2 variants</option>
-                      <option value="3">3 variants</option>
-                      <option value="4">4 variants</option>
-                    </select>
-                  </div>
-                  
-                  <div className="flex-shrink-0">
-                    <AIActionButtons
-                      isGenerating={isGenerating}
-                      hasGenerated={generatedImages.length > 0}
-                      prompt={aiPrompt}
-                      onGenerate={handleGenerate}
-                      isDownloading={false}
-                      onRegenerate={handleRegenerate}
-                      onUseMedia={handleUseMedia}
-                    />
-                  </div>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
+                <Input
+                  type="text"
+                  placeholder="Describe the image you want to generate..."
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  maxLength={200}
+                  className="flex-1 h-10 bg-background border-border"
+                />
+                
+                <select 
+                  value={aiStyle} 
+                  onChange={(e) => setAiStyle(e.target.value)}
+                  className="h-10 px-3 bg-background border border-border rounded-md text-sm min-w-[120px]"
+                >
+                  <option value="" disabled>Select Style</option>
+                  <option value="realistic">Realistic</option>
+                  <option value="artistic">Artistic</option>
+                  <option value="cartoon">Cartoon</option>
+                  <option value="abstract">Abstract</option>
+                  <option value="minimalist">Minimalist</option>
+                  <option value="vintage">Vintage</option>
+                  <option value="modern">Modern</option>
+                  <option value="file-1">File-1</option>
+                </select>
+                
+                <select 
+                  value={aiVariants.toString()} 
+                  onChange={(e) => setAiVariants(parseInt(e.target.value))}
+                  className="h-10 px-3 bg-background border border-border rounded-md text-sm min-w-[140px]"
+                >
+                  <option value="" disabled>No. of Variants</option>
+                  <option value="1">1 variant</option>
+                  <option value="2">2 variants</option>
+                  <option value="3">3 variants</option>
+                  <option value="4">4 variants</option>
+                </select>
+                
+                <Button
+                  onClick={handleGenerate}
+                  disabled={!aiPrompt.trim() || isGenerating}
+                  className="h-10 px-6 bg-primary hover:bg-primary/90 whitespace-nowrap"
+                >
+                  {isGenerating ? 'Generating...' : 'Generate Only'}
+                </Button>
+              </div>
 
                 {generatedImages.length > 0 && (
                   <div className="space-y-4">
@@ -512,7 +504,6 @@ const GalleryPage: React.FC = () => {
                     />
                   </div>
                 )}
-              </div>
             </div>
 
             {/* AI Generated Media Grid */}
