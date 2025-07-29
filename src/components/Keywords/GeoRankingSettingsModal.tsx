@@ -46,10 +46,19 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
   const { validate, getFieldError, hasFieldError } = useFormValidation(geoRankingSchema);
 
   const handleInputChange = (field: keyof GeoRankingSettings, value: string) => {
-    setSettings(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setSettings(prev => {
+      const newSettings = {
+        ...prev,
+        [field]: value
+      };
+      
+      // Auto-set distance value when unit changes to Miles
+      if (field === 'distanceUnit' && value === 'Miles') {
+        newSettings.distanceValue = '1';
+      }
+      
+      return newSettings;
+    });
   };
 
   const handleSubmit = async () => {
