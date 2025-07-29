@@ -156,118 +156,116 @@ const GalleryPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h1 className="text-3xl font-bold text-foreground">Media Gallery</h1>
-          <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90">
-            <Upload className="h-4 w-4" />
-            Upload Media
-          </Button>
-        </div>
-
-        {/* Tabs */}
-        <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
-            <TabsTrigger value="local" className="data-[state=active]:bg-background">
-              Local
-            </TabsTrigger>
-            <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
-              AI Generated
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value={selectedTab} className="space-y-6 mt-6">
-            {/* Search Bar */}
-            <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search media"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-background border-border"
-              />
-            </div>
-
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant={selectedFilter === 'image' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedFilter('image')}
-                className="h-8"
-              >
-                Image
-              </Button>
-              <Button
-                variant={selectedFilter === 'video' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedFilter('video')}
-                className="h-8"
-              >
-                Video
-              </Button>
-              <Button
-                variant={selectedFilter === 'all' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedFilter('all')}
-                className="h-8"
-              >
-                Date
-              </Button>
-            </div>
-
-            {/* Media Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-max">
-              {filteredMedia.map((item) => (
-                <div
-                  key={item.id}
-                  className={cn(
-                    "group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer",
-                    // Masonry-style heights
-                    item.id === '1' && "row-span-1",
-                    item.id === '3' && "row-span-2",
-                    item.id === '5' && "row-span-1", 
-                    item.id === '6' && "row-span-2",
-                    item.id === '10' && "row-span-2"
-                  )}
-                >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={item.url}
-                      alt={item.title}
-                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                    />
-                  </div>
-                  
-                  {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <p className="font-medium text-sm">{item.title}</p>
-                      <p className="text-xs text-white/80 mt-1">{new Date(item.date).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Empty State */}
-            {filteredMedia.length === 0 && (
-              <div className="text-center py-12">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
-                  <Search className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-medium text-foreground mb-2">No media found</h3>
-                <p className="text-muted-foreground">
-                  Try adjusting your search or filter criteria.
-                </p>
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-3xl font-bold text-foreground">Media Gallery</h1>
+        <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+          <Upload className="h-4 w-4" />
+          Upload Media
+        </Button>
       </div>
+
+      {/* Tabs */}
+      <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
+        <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
+          <TabsTrigger value="local" className="data-[state=active]:bg-background">
+            Local
+          </TabsTrigger>
+          <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
+            AI Generated
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={selectedTab} className="space-y-6 mt-6">
+          {/* Search Bar */}
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search media"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-background border-border"
+            />
+          </div>
+
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={selectedFilter === 'image' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedFilter('image')}
+              className="h-8"
+            >
+              Image
+            </Button>
+            <Button
+              variant={selectedFilter === 'video' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedFilter('video')}
+              className="h-8"
+            >
+              Video
+            </Button>
+            <Button
+              variant={selectedFilter === 'all' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedFilter('all')}
+              className="h-8"
+            >
+              Date
+            </Button>
+          </div>
+
+          {/* Media Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-max">
+            {filteredMedia.map((item) => (
+              <div
+                key={item.id}
+                className={cn(
+                  "group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer",
+                  // Masonry-style heights
+                  item.id === '1' && "row-span-1",
+                  item.id === '3' && "row-span-2",
+                  item.id === '5' && "row-span-1", 
+                  item.id === '6' && "row-span-2",
+                  item.id === '10' && "row-span-2"
+                )}
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={item.url}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                  />
+                </div>
+                
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <p className="font-medium text-sm">{item.title}</p>
+                    <p className="text-xs text-white/80 mt-1">{new Date(item.date).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {filteredMedia.length === 0 && (
+            <div className="text-center py-12">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
+                <Search className="h-8 w-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-medium text-foreground mb-2">No media found</h3>
+              <p className="text-muted-foreground">
+                Try adjusting your search or filter criteria.
+              </p>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
