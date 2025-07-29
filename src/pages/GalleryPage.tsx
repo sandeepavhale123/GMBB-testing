@@ -361,6 +361,19 @@ const GalleryPage: React.FC = () => {
                 </Button>
               </div>
              </div>
+
+            {/* Media Filter Tabs */}
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <Button variant="secondary" size="sm" className="h-8">All</Button>
+                <Button variant="ghost" size="sm" className="h-8">Images</Button>
+                <Button variant="ghost" size="sm" className="h-8">Videos</Button>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {filteredMedia.length} items
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
               {paginatedMedia.map((item) => (
                 <div
