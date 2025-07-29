@@ -5,6 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { getDistanceOptions, languageOptions } from '../../utils/geoRankingUtils';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { z } from 'zod';
 
 interface GeoRankingSettingsModalProps {
   open: boolean;
@@ -15,10 +17,17 @@ interface GeoRankingSettingsModalProps {
 
 export interface GeoRankingSettings {
   gridSize: string;
-  distanceUnit: string;
+  distanceUnit: "Meters" | "Miles";
   distanceValue: string;
   language: string;
 }
+
+const geoRankingSchema = z.object({
+  gridSize: z.string().min(1, "Grid size is required"),
+  distanceUnit: z.enum(["Meters", "Miles"], { required_error: "Distance unit is required" }),
+  distanceValue: z.string().min(1, "Distance value is required"),
+  language: z.string().min(1, "Language is required")
+});
 
 export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = ({
   open,
@@ -28,10 +37,13 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
 }) => {
   const [settings, setSettings] = useState<GeoRankingSettings>({
     gridSize: '5',
-    distanceUnit: 'Miles',
+    distanceUnit: 'Meters',
     distanceValue: '1',
     language: 'en'
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { validate, getFieldError, hasFieldError } = useFormValidation(geoRankingSchema);
 
   const handleInputChange = (field: keyof GeoRankingSettings, value: string) => {
     setSettings(prev => ({
@@ -40,9 +52,21 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
     }));
   };
 
-  const handleSubmit = () => {
-    onSubmit(settings);
-    onOpenChange(false);
+  const handleSubmit = async () => {
+    const validation = validate(settings);
+    
+    if (!validation.isValid || keywords.length === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    // 3-second delay before redirect
+    setTimeout(() => {
+      onSubmit(settings);
+      onOpenChange(false);
+      setIsSubmitting(false);
+    }, 3000);
   };
 
   return (
@@ -72,7 +96,7 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
               value={settings.gridSize}
               onValueChange={(value) => handleInputChange("gridSize", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className={hasFieldError("gridSize") ? "border-destructive" : ""}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -84,6 +108,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
                 <SelectItem value="13">13x13</SelectItem>
               </SelectContent>
             </Select>
+            {hasFieldError("gridSize") && (
+              <p className="text-sm text-destructive">{getFieldError("gridSize")}</p>
+            )}
           </div>
 
           {/* Distance Settings */}
@@ -95,9 +122,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
             {/* Distance Unit */}
             <div className="space-y-2">
               <Label className="text-xs text-gray-600">Unit</Label>
-              <RadioGroup
+               <RadioGroup
                 value={settings.distanceUnit}
-                onValueChange={(value) => handleInputChange("distanceUnit", value)}
+                onValueChange={(value) => handleInputChange("distanceUnit", value as "Meters" | "Miles")}
                 className="flex gap-6"
               >
                 <div className="flex items-center space-x-2">
@@ -113,6 +140,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
                   </Label>
                 </div>
               </RadioGroup>
+              {hasFieldError("distanceUnit") && (
+                <p className="text-sm text-destructive">{getFieldError("distanceUnit")}</p>
+              )}
             </div>
 
             {/* Distance Value */}
@@ -122,7 +152,7 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
                 value={settings.distanceValue}
                 onValueChange={(val) => handleInputChange("distanceValue", val)}
               >
-                <SelectTrigger>
+                <SelectTrigger className={hasFieldError("distanceValue") ? "border-destructive" : ""}>
                   <SelectValue placeholder="Choose…" />
                 </SelectTrigger>
                 <SelectContent>
@@ -133,6 +163,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
                   ))}
                 </SelectContent>
               </Select>
+              {hasFieldError("distanceValue") && (
+                <p className="text-sm text-destructive">{getFieldError("distanceValue")}</p>
+              )}
             </div>
           </div>
 
@@ -145,7 +178,7 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
               value={settings.language}
               onValueChange={(value) => handleInputChange("language", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className={hasFieldError("language") ? "border-destructive" : ""}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="max-h-60">
@@ -156,6 +189,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
                 ))}
               </SelectContent>
             </Select>
+            {hasFieldError("language") && (
+              <p className="text-sm text-destructive">{getFieldError("language")}</p>
+            )}
           </div>
         </div>
 
@@ -171,9 +207,9 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
           <Button
             onClick={handleSubmit}
             className="flex-1"
-            disabled={keywords.length === 0}
+            disabled={keywords.length === 0 || isSubmitting}
           >
-            Check Rank
+            {isSubmitting ? "Processing..." : "Check Rank"}
           </Button>
         </div>
       </DialogContent>
