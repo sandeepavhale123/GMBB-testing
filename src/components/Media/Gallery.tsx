@@ -307,7 +307,25 @@ export const Gallery: React.FC<GalleryProps> = ({
 
   return (
     <div className={`space-y-6 ${className}`}>
-      {/* Tab Content */}
+      {/* Header with tabs */}
+      {showHeader && (
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <h1 className="text-3xl font-bold text-foreground">Media Gallery</h1>
+          
+          {showTabs && (
+            <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
+              <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
+                <TabsTrigger value="local" className="data-[state=active]:bg-background">
+                  Uploaded
+                </TabsTrigger>
+                <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
+                  AI Generated
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          )}
+        </div>
+      )}
 
       {/* Tab Content */}
       <div className="space-y-6">
