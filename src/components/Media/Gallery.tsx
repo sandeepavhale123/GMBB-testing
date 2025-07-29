@@ -143,6 +143,186 @@ const sampleMediaData: MediaItem[] = [
     width: 400,
     height: 300,
   },
+  {
+    id: '13',
+    url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Laptop Setup',
+    category: 'local',
+    date: '2024-01-03',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '14',
+    url: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=400&h=300&fit=crop',
+    type: 'image',
+    title: 'Office Space',
+    category: 'ai-generated',
+    date: '2024-01-02',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: '15',
+    url: 'https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=400&h=500&fit=crop',
+    type: 'image',
+    title: 'Business Meeting',
+    category: 'local',
+    date: '2024-01-01',
+    width: 400,
+    height: 500,
+  },
+  {
+    id: '16',
+    url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Team Work',
+    category: 'ai-generated',
+    date: '2023-12-31',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '17',
+    url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+    type: 'image',
+    title: 'Analytics',
+    category: 'local',
+    date: '2023-12-30',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: '18',
+    url: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Food Photography',
+    category: 'ai-generated',
+    date: '2023-12-29',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '19',
+    url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&h=500&fit=crop',
+    type: 'image',
+    title: 'Abstract Art',
+    category: 'local',
+    date: '2023-12-28',
+    width: 400,
+    height: 500,
+  },
+  {
+    id: '20',
+    url: 'https://images.unsplash.com/photo-1464822759844-d150baec0151?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Workout',
+    category: 'ai-generated',
+    date: '2023-12-27',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '21',
+    url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=300&fit=crop',
+    type: 'image',
+    title: 'Healthy Food',
+    category: 'local',
+    date: '2023-12-26',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: '22',
+    url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Programming',
+    category: 'ai-generated',
+    date: '2023-12-25',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '23',
+    url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=500&fit=crop',
+    type: 'image',
+    title: 'Web Development',
+    category: 'local',
+    date: '2023-12-24',
+    width: 400,
+    height: 500,
+  },
+  {
+    id: '24',
+    url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Creative Design',
+    category: 'ai-generated',
+    date: '2023-12-23',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '25',
+    url: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=300&fit=crop',
+    type: 'image',
+    title: 'Music Studio',
+    category: 'local',
+    date: '2023-12-22',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: '26',
+    url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Audio Equipment',
+    category: 'ai-generated',
+    date: '2023-12-21',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '27',
+    url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=500&fit=crop',
+    type: 'image',
+    title: 'Headphones',
+    category: 'local',
+    date: '2023-12-20',
+    width: 400,
+    height: 500,
+  },
+  {
+    id: '28',
+    url: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Digital Art',
+    category: 'ai-generated',
+    date: '2023-12-19',
+    width: 400,
+    height: 400,
+  },
+  {
+    id: '29',
+    url: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop',
+    type: 'image',
+    title: 'Smartphone',
+    category: 'local',
+    date: '2023-12-18',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: '30',
+    url: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop',
+    type: 'image',
+    title: 'Tech Gadgets',
+    category: 'ai-generated',
+    date: '2023-12-17',
+    width: 400,
+    height: 400,
+  },
 ];
 
 interface GalleryProps {
@@ -172,10 +352,10 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [mediaData, setMediaData] = useState<MediaItem[]>(sampleMediaData);
   const { toast } = useToast();
 
-  // Pagination state
-  const [localCurrentPage, setLocalCurrentPage] = useState(1);
-  const [aiCurrentPage, setAiCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  // Pagination state - Load More functionality
+  const [localItemsToShow, setLocalItemsToShow] = useState(8);
+  const [aiItemsToShow, setAiItemsToShow] = useState(8);
+  const itemsPerLoad = 8;
 
   // AI Generation state
   const [aiPrompt, setAiPrompt] = useState('');
@@ -224,17 +404,16 @@ export const Gallery: React.FC<GalleryProps> = ({
     return matchesTab && matchesSearch;
   });
 
-  // Pagination calculations
-  const currentPage = selectedTab === 'local' ? localCurrentPage : aiCurrentPage;
-  const totalPages = Math.ceil(filteredMedia.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedMedia = filteredMedia.slice(startIndex, startIndex + itemsPerPage);
+  // Load More calculations
+  const itemsToShow = selectedTab === 'local' ? localItemsToShow : aiItemsToShow;
+  const visibleMedia = filteredMedia.slice(0, itemsToShow);
+  const hasMoreItems = filteredMedia.length > itemsToShow;
 
-  const handlePageChange = (page: number) => {
+  const handleLoadMore = () => {
     if (selectedTab === 'local') {
-      setLocalCurrentPage(page);
+      setLocalItemsToShow(prev => Math.min(prev + itemsPerLoad, filteredMedia.length));
     } else {
-      setAiCurrentPage(page);
+      setAiItemsToShow(prev => Math.min(prev + itemsPerLoad, filteredMedia.length));
     }
   };
 
@@ -380,8 +559,8 @@ export const Gallery: React.FC<GalleryProps> = ({
             </div>
 
             {/* Media Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-              {paginatedMedia.map((item) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {visibleMedia.map((item) => (
                 <div
                   key={item.id}
                   className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
@@ -475,17 +654,17 @@ export const Gallery: React.FC<GalleryProps> = ({
               ))}
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <MediaPagination
-                currentPage={localCurrentPage}
-                totalPages={totalPages}
-                hasNext={localCurrentPage < totalPages}
-                hasPrev={localCurrentPage > 1}
-                onPageChange={handlePageChange}
-                totalItems={filteredMedia.length}
-                itemsPerPage={itemsPerPage}
-              />
+            {/* Load More Button */}
+            {hasMoreItems && (
+              <div className="flex justify-center pt-6">
+                <Button 
+                  onClick={handleLoadMore}
+                  variant="outline"
+                  className="px-8"
+                >
+                  Load More ({filteredMedia.length - itemsToShow} remaining)
+                </Button>
+              </div>
             )}
           </div>
         )}
@@ -560,8 +739,8 @@ export const Gallery: React.FC<GalleryProps> = ({
             )}
 
             {/* AI Generated Media Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-              {paginatedMedia.map((item) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {visibleMedia.map((item) => (
                 <div
                   key={item.id}
                   className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer"
@@ -655,23 +834,23 @@ export const Gallery: React.FC<GalleryProps> = ({
               ))}
             </div>
 
-            {/* AI Tab Pagination */}
-            {totalPages > 1 && (
-              <MediaPagination
-                currentPage={aiCurrentPage}
-                totalPages={totalPages}
-                hasNext={aiCurrentPage < totalPages}
-                hasPrev={aiCurrentPage > 1}
-                onPageChange={handlePageChange}
-                totalItems={filteredMedia.length}
-                itemsPerPage={itemsPerPage}
-              />
+            {/* Load More Button */}
+            {hasMoreItems && (
+              <div className="flex justify-center pt-6">
+                <Button 
+                  onClick={handleLoadMore}
+                  variant="outline"
+                  className="px-8"
+                >
+                  Load More ({filteredMedia.length - itemsToShow} remaining)
+                </Button>
+              </div>
             )}
           </div>
         )}
 
         {/* Empty State */}
-        {paginatedMedia.length === 0 && (
+        {visibleMedia.length === 0 && (
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
               <Search className="h-8 w-8 text-muted-foreground" />
