@@ -40,12 +40,14 @@ const menuItems: MenuItem[] = [{
   label: "Media",
   icon: Image,
   path: "/media"
-}, {
-  id: "gallery",
-  label: "Gallery",
-  icon: Images,
-  path: "/gallery"
-}, {
+}
+//   , {
+//   id: "gallery",
+//   label: "Gallery",
+//   icon: Images,
+//   path: "/gallery"
+// }
+ , {
   id: "reviews",
   label: "Reviews",
   icon: Star,
