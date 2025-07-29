@@ -454,13 +454,36 @@ const GalleryPage: React.FC = () => {
                     />
                   </div>
                    <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
-                  <div className="flex-shrink-0">
-                    <AIParameters
-                      variants={aiVariants}
-                      style={aiStyle}
-                      onVariantsChange={setAiVariants}
-                      onStyleChange={setAiStyle}
-                    />
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Style</label>
+                    <select 
+                      value={aiStyle} 
+                      onChange={(e) => setAiStyle(e.target.value)}
+                      className="w-full h-10 px-3 bg-background border border-border rounded-md text-sm"
+                    >
+                      <option value="realistic">Realistic</option>
+                      <option value="artistic">Artistic</option>
+                      <option value="cartoon">Cartoon</option>
+                      <option value="abstract">Abstract</option>
+                      <option value="minimalist">Minimalist</option>
+                      <option value="vintage">Vintage</option>
+                      <option value="modern">Modern</option>
+                      <option value="file-1">File-1</option>
+                    </select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Number of Variants</label>
+                    <select 
+                      value={aiVariants.toString()} 
+                      onChange={(e) => setAiVariants(parseInt(e.target.value))}
+                      className="w-full h-10 px-3 bg-background border border-border rounded-md text-sm"
+                    >
+                      <option value="1">1 variant</option>
+                      <option value="2">2 variants</option>
+                      <option value="3">3 variants</option>
+                      <option value="4">4 variants</option>
+                    </select>
                   </div>
                   
                   <div className="flex-shrink-0">

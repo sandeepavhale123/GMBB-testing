@@ -24,7 +24,7 @@ export const AIParameters: React.FC<AIParametersProps> = ({
           Number of Variants
         </Label>
         <Select value={variants.toString()} onValueChange={(value) => onVariantsChange(parseInt(value))}>
-          <SelectTrigger className="w-full bg-white">
+          <SelectTrigger className="w-full bg-white h-10">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
@@ -42,7 +42,7 @@ export const AIParameters: React.FC<AIParametersProps> = ({
           Style
         </Label>
         <Select value={style} onValueChange={onStyleChange}>
-          <SelectTrigger className="w-full bg-white">
+          <SelectTrigger className="w-full bg-white h-10">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
@@ -53,6 +53,7 @@ export const AIParameters: React.FC<AIParametersProps> = ({
             <SelectItem value="minimalist">Minimalist</SelectItem>
             <SelectItem value="vintage">Vintage</SelectItem>
             <SelectItem value="modern">Modern</SelectItem>
+            <SelectItem value="file-1">File-1</SelectItem>
           </SelectContent>
         </Select>
       </div>
