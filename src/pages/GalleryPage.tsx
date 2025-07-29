@@ -290,29 +290,30 @@ const GalleryPage: React.FC = () => {
         </Tabs>
       </div>
 
-      {/* Search and Upload in single line */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center">
-        <div className="relative flex-1 ">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search media"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-background border-border"
-          />
-        </div>
-        <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap">
-          <Upload className="h-4 w-4" />
-          Upload Media
-        </Button>
-      </div>
+      
 
       {/* Tab Content */}
       <div className="space-y-6">
         {selectedTab === 'local' && (
           <div className="space-y-6">
             {/* Local Media Grid */}
+            {/* Search and Upload in single line */}
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
+                <div className="relative flex-1 ">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search media"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-background border-border"
+                  />
+                </div>
+                <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap">
+                  <Upload className="h-4 w-4" />
+                  Upload Media
+                </Button>
+              </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
               {paginatedMedia.map((item) => (
                 <div
