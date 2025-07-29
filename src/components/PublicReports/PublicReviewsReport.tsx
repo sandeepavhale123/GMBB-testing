@@ -456,9 +456,11 @@ export const PublicReviewsReport: React.FC = () => {
                           <img
                             src="/nodata.svg"
                             alt="No Data"
-                            className="h-64"
+                            className="h-48"
                           />
-                          <p className="text-center">No data available</p>
+                          <p className="text-center text-black">
+                            No data available
+                          </p>
                         </div>
                       ) : (
                         <PieChart>
@@ -553,9 +555,11 @@ export const PublicReviewsReport: React.FC = () => {
                           <img
                             src="/nodata.svg"
                             alt="No Data"
-                            className="h-64"
+                            className="h-48"
                           />
-                          <p className="text-center">No data available</p>
+                          <p className="text-center text-black">
+                            No data available
+                          </p>
                         </div>
                       ) : (
                         <PieChart>

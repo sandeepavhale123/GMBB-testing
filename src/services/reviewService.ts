@@ -170,20 +170,32 @@ export interface AutoReviewReplySettingsResponse {
       id: string;
       listingId: number;
       starone_reply: string;
+      oneTextStatus: number;
       startwo_reply: string;
+      twoTextStatus: number;
       starthree_reply: string;
+      threeTextStatus: number;
       starfour_reply: string;
+      fourTextStatus: number;
       starfive_reply: string;
+      fiveTextStatus: number;
       starone_wreply: string;
+      oneStarStatus: number;
       startwo_wreply: string;
+      twoStarStatus: number;
       starthree_wreply: string;
+      threeStarStatus: number;
       starfour_wreply: string;
+      fourStarStatus: number;
       starfive_wreply: string;
+      fiveStarStatus: number;
     };
     autoAiSettings: {
       id: string;
       listingId: number;
       text_reply: string;
+      newStatus: string | number;
+      oldStatus: string | number;
       prompt: string;
       tone: string;
       specific_star: string[];
@@ -223,6 +235,32 @@ export interface GenerateAIAutoReplyResponse {
     replyText: any;
     reply_text: string;
   };
+}
+
+export interface UpdateAutoReplySettingRequest {
+  listingId: number;
+  type: string;
+  status: number;
+  text: string;
+  rating: number;
+}
+
+export interface UpdateAutoReplySettingResponse {
+  code: number;
+  message: string;
+  data: {
+    id: string;
+  };
+}
+export interface UpdateOldAutoReplySettingRequest {
+  listingId: number;
+  oldStatus: 0 | 1;
+}
+
+export interface UpdateOldAutoReplySettingResponse {
+  code: number;
+  message: string;
+  data?: any;
 }
 
 export const reviewService = {
@@ -301,6 +339,29 @@ export const reviewService = {
   ): Promise<GenerateAIAutoReplyResponse> => {
     const response = await axiosInstance.post("/generate-ai-reply", payload);
     console.log("🔍 Full raw Axios response:", response);
+    return response.data;
+  },
+
+  updateAutoReplySetting: async (
+    params: UpdateAutoReplySettingRequest
+  ): Promise<UpdateAutoReplySettingResponse> => {
+    const response = await axiosInstance.post(
+      "/update-autoreply-setting",
+      params
+    );
+    return response.data;
+  },
+
+  // reviewService.ts
+
+  updateOldAutoReplySetting: async ({
+    listingId,
+    oldStatus,
+  }: UpdateOldAutoReplySettingRequest): Promise<UpdateOldAutoReplySettingResponse> => {
+    const response = await axiosInstance.post("/update-oldauto-reply", {
+      listingId,
+      oldStatus,
+    });
     return response.data;
   },
 };

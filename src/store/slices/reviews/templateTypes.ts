@@ -1,4 +1,5 @@
 export interface ReplyTemplate {
+  status: number;
   variations: string[];
   isSystem: boolean;
   id: string;
@@ -40,6 +41,8 @@ export interface AutoAiSettings {
   listingId: number;
   text_reply: string;
   prompt: string;
+  newStatus: number | string;
+  oldStatus: number | string;
   specific_star: string[];
   tone: string;
 }

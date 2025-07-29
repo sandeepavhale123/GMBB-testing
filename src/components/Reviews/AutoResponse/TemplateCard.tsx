@@ -7,12 +7,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
 import { Textarea } from "../../ui/textarea";
 import { Star } from "lucide-react";
 import { ReplyTemplate } from "../../../store/slices/reviews/templateTypes";
+import { reviewService } from "@/services/reviewService";
+import { toast } from "@/hooks/use-toast";
+import { useDispatch } from "react-redux";
+import { fetchAutoReviewReplySettings } from "@/store/slices/reviews/thunks";
+
 interface TemplateCardProps {
   starRating: number;
   template?: ReplyTemplate;
+  listingId: number;
   onCreateTemplate: (starRating: number) => void;
   onEditTemplate?: (template: ReplyTemplate) => void;
   onDeleteTemplate?: (templateId: string) => void;
@@ -21,6 +38,7 @@ interface TemplateCardProps {
 export const TemplateCard: React.FC<TemplateCardProps> = ({
   starRating,
   template,
+  listingId,
   onCreateTemplate,
   onEditTemplate,
   onDeleteTemplate,
@@ -28,6 +46,10 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   const [isManageOpen, setIsManageOpen] = useState(false);
   const [editContent, setEditContent] = useState("");
+  const dispatch = useDispatch();
+  const [showDisableConfirm, setShowDisableConfirm] = useState(false);
+
+  console.log("starRating", starRating);
 
   const handleManageClick = () => {
     if (template) {
@@ -43,17 +65,51 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
       setIsManageOpen(true);
     }
   };
-  const handleSave = () => {
-    // Here you would typically save the content
-    console.log("Saving content:", editContent);
+  const handleEnable = async (status: number) => {
+    try {
+      const type = isRatingOnly ? "star" : "text"; // 👈 determine type based on tab
+
+      const response = await reviewService.updateAutoReplySetting({
+        listingId,
+        type,
+        status,
+        text: editContent || displayContent || "",
+        rating: starRating,
+      });
+
+      toast({
+        title: "Success",
+        description:
+          status === 1
+            ? "Auto-reply enabled successfully!"
+            : "Auto-reply disabled successfully!",
+      });
+
+      dispatch(fetchAutoReviewReplySettings(listingId));
+      setIsManageOpen(false);
+    } catch (error) {
+      console.error("❌ Failed to update auto-reply:", error);
+      toast({
+        title: "Error",
+        description: `Failed to ${
+          status === 1 ? "enable" : "disable"
+        } auto-reply setting.`,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSave = async () => {
     if (template && onEditTemplate) {
       const updatedTemplate = {
         ...template,
-        content: Array.isArray(editContent) ? editContent.map((str) => str.trim()).join(' | ') : editContent,
+        content: Array.isArray(editContent)
+          ? editContent.map((str) => str.trim()).join(" | ")
+          : editContent,
       };
-      onEditTemplate(updatedTemplate);
     }
-    setIsManageOpen(false);
+
+    await handleEnable(1); // save + enable
   };
 
   const handleDelete = () => {
@@ -126,14 +182,28 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           {/* Action Button */}
           <div className="flex justify-end">
             {template ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleManageClick}
-                className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 "
-              >
-                Manage
-              </Button>
+              <>
+                {template?.status === 0 ? (
+                  <Button onClick={() => handleEnable(1)}>Enable</Button>
+                ) : (
+                  <div className="flex gap-2 mt-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleManageClick}
+                      className="bg-gray-900 text-white hover:bg-gray-800 hover:text-white border-gray-900 me-2"
+                    >
+                      Manage
+                    </Button>
+                    <Button
+                      onClick={() => setShowDisableConfirm(true)}
+                      variant="destructive"
+                    >
+                      Disable
+                    </Button>
+                  </div>
+                )}
+              </>
             ) : (
               <Button
                 variant="outline"
@@ -236,12 +306,35 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             <Button variant="outline" onClick={() => setIsManageOpen(false)}>
               {template?.isSystem ? "Close" : "Cancel"}
             </Button>
-            {!template?.isSystem && (
-              <Button onClick={handleSave}>Save Template</Button>
-            )}
+            <Button onClick={handleSave}>Save Template</Button>
           </div>
         </DialogContent>
       </Dialog>
+      {/* modal for confirmation disable */}
+      <AlertDialog
+        open={showDisableConfirm}
+        onOpenChange={setShowDisableConfirm}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to remove this rating?
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                handleEnable(0);
+                setShowDisableConfirm(false);
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Yes, Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
