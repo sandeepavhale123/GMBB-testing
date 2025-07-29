@@ -1,10 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Search, Upload, Filter, Grid, List } from 'lucide-react';
+import { Search, Upload, Filter, Grid, List, Eye, Trash2, MoreVertical } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface MediaItem {
   id: string;
@@ -146,6 +150,9 @@ const GalleryPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('local');
   const [selectedFilter, setSelectedFilter] = useState('image');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [deleteMediaId, setDeleteMediaId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const filteredMedia = sampleMediaData.filter(item => {
     const matchesTab = selectedTab === 'all' || item.category === selectedTab;
@@ -154,6 +161,22 @@ const GalleryPage: React.FC = () => {
     
     return matchesTab && matchesSearch && matchesFilter;
   });
+
+  const handleViewMedia = (media: MediaItem) => {
+    setSelectedMedia(media);
+    // Open media in a modal or new tab
+    window.open(media.url, '_blank');
+  };
+
+  const handleDeleteMedia = (mediaId: string) => {
+    // Here you would typically call an API to delete the media
+    console.log('Deleting media:', mediaId);
+    toast({
+      title: "Media Deleted",
+      description: "The media item has been successfully deleted.",
+    });
+    setDeleteMediaId(null);
+  };
 
   return (
     <div className="space-y-6">
@@ -241,12 +264,76 @@ const GalleryPage: React.FC = () => {
                   />
                 </div>
                 
-                {/* Overlay on hover */}
+                {/* Action Buttons Overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <p className="font-medium text-sm">{item.title}</p>
-                    <p className="text-xs text-white/80 mt-1">{new Date(item.date).toLocaleDateString()}</p>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => handleViewMedia(item)}
+                      className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                    >
+                      <Eye className="h-4 w-4 text-gray-700" />
+                    </Button>
+                    
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                        >
+                          <Trash2 className="h-4 w-4 text-red-600" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDeleteMedia(item.id)}
+                            className="bg-red-600 hover:bg-red-700"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+
+                    {/* More Actions Dropdown */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
+                        >
+                          <MoreVertical className="h-4 w-4 text-gray-700" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleViewMedia(item)}>
+                          <Eye className="h-4 w-4 mr-2" />
+                          View
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setDeleteMediaId(item.id)} className="text-red-600">
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
+                </div>
+
+                {/* Media Info */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <p className="font-medium text-sm text-white">{item.title}</p>
+                  <p className="text-xs text-white/80 mt-1">{new Date(item.date).toLocaleDateString()}</p>
                 </div>
               </div>
             ))}
