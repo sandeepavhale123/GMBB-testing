@@ -52,9 +52,13 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
         [field]: value
       };
       
-      // Auto-set distance value when unit changes to Miles
-      if (field === 'distanceUnit' && value === 'Miles') {
-        newSettings.distanceValue = '1';
+      // Auto-set distance value when unit changes
+      if (field === 'distanceUnit') {
+        if (value === 'Miles') {
+          newSettings.distanceValue = '1'; // 1 Miles
+        } else if (value === 'Meters') {
+          newSettings.distanceValue = '1'; // 1 KM (1000 meters)
+        }
       }
       
       return newSettings;
