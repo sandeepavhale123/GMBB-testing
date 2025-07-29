@@ -314,7 +314,7 @@ const GalleryPage: React.FC = () => {
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
           <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
             <TabsTrigger value="local" className="data-[state=active]:bg-background">
-              Local
+              Uploaded
             </TabsTrigger>
             <TabsTrigger value="ai-generated" className="data-[state=active]:bg-background">
               AI Generated
@@ -332,7 +332,7 @@ const GalleryPage: React.FC = () => {
             {/* Local Media Grid */}
             {/* Search and Upload in single line */}
              <div className="bg-card border border-border rounded-lg p-6 space-y-6">
-              <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
+              <h2 className="text-xl font-semibold text-foreground">Uploaded Images</h2>
               <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div className="relative flex-1 ">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
