@@ -36,7 +36,7 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
   keywords
 }) => {
   const [settings, setSettings] = useState<GeoRankingSettings>({
-    gridSize: '5',
+    gridSize: '3',
     distanceUnit: 'Meters',
     distanceValue: '1',
     language: 'en'
