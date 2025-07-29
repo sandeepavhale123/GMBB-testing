@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LayoutDashboard, FileText, Image, BarChart3, MapPin, Star, Building, Settings, Crown, Sparkles, MessageCircleQuestion, FileBarChart, Bot, BookOpen, ChevronDown, ChevronRight, Search, TrendingUp } from "lucide-react";
+import { LayoutDashboard, FileText, Image, Images, BarChart3, MapPin, Star, Building, Settings, Crown, Sparkles, MessageCircleQuestion, FileBarChart, Bot, BookOpen, ChevronDown, ChevronRight, Search, TrendingUp } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { useAppSelector } from "../hooks/useRedux";
@@ -40,6 +40,11 @@ const menuItems: MenuItem[] = [{
   label: "Media",
   icon: Image,
   path: "/media"
+}, {
+  id: "gallery",
+  label: "Gallery",
+  icon: Images,
+  path: "/gallery"
 }, {
   id: "reviews",
   label: "Reviews",
@@ -231,7 +236,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }
     }
     // For routes that need listing context, append the listing ID
-    const listingRoutes = ["/location-dashboard", "/ai-tasks", "/posts", "/media", "/insights", "/keywords", "/geo-ranking", "/ai-chatbot", "/reviews", "/qa", "/reports", "/business-info", "/citation"];
+    const listingRoutes = ["/location-dashboard", "/ai-tasks", "/posts", "/media", "/gallery", "/insights", "/keywords", "/geo-ranking", "/ai-chatbot", "/reviews", "/qa", "/reports", "/business-info", "/citation"];
     if (listingRoutes.includes(basePath) && listingId) {
       navigate(`${basePath}/${listingId}`);
     } else if (listingRoutes.includes(basePath)) {

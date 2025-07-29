@@ -2,6 +2,7 @@
 import { Navigate } from "react-router-dom";
 import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
+import GalleryPage from "@/pages/GalleryPage";
 import InsightsPage from "@/pages/InsightsPage";
 import GeoRankingPage from "@/pages/GeoRankingPage";
 import AIChatbotPage from "@/pages/AIChatbotPage";
@@ -46,6 +47,22 @@ export const listingRoutes: RouteConfig[] = [
       <ProtectedRoute>
         <ListingProvider>
           <MediaPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // Gallery routes
+  {
+    path: "/gallery",
+    element: <Navigate to="/gallery/default" replace />,
+  },
+  {
+    path: "/gallery/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <GalleryPage />
         </ListingProvider>
       </ProtectedRoute>
     ),

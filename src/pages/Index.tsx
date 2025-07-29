@@ -5,6 +5,7 @@ import { Header } from "../components/Header/Header";
 import { Dashboard } from "../components/Dashboard/Dashboard";
 import { PostsPage } from "../components/Posts/PostsPage";
 import { MediaPage } from "../components/Media/MediaPage";
+import GalleryPage from "./GalleryPage";
 import { InsightsPage } from "../components/Insights/InsightsPage";
 import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
@@ -53,6 +54,8 @@ const Index = () => {
         return "posts";
       case "media":
         return "media";
+      case "gallery":
+        return "gallery";
       case "insights":
         return "insights";
       case "geo-ranking":
@@ -86,6 +89,8 @@ const Index = () => {
         return <PostsPage />;
       case "media":
         return <MediaPage />;
+      case "gallery":
+        return <GalleryPage />;
       case "insights":
         return <InsightsPage />;
       case "geo-ranking":
