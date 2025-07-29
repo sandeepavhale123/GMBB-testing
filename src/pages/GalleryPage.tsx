@@ -500,7 +500,6 @@ const GalleryPage: React.FC = () => {
                   <option value="minimalist">Minimalist</option>
                   <option value="vintage">Vintage</option>
                   <option value="modern">Modern</option>
-                  <option value="file-1">File-1</option>
                 </select>
                 
                 <select 
