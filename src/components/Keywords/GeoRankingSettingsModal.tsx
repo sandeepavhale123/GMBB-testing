@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import { ScrollArea } from '../ui/scroll-area';
 import { getDistanceOptions, languageOptions } from '../../utils/geoRankingUtils';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { z } from 'zod';
@@ -191,14 +190,12 @@ export const GeoRankingSettingsModal: React.FC<GeoRankingSettingsModalProps> = (
               <SelectTrigger className={hasFieldError("language") ? "border-destructive" : ""}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="max-h-60">
-                <ScrollArea className="h-full">
-                  {languageOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </ScrollArea>
+              <SelectContent className="max-h-60 overflow-y-auto">
+                {languageOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {hasFieldError("language") && (
