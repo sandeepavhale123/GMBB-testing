@@ -165,8 +165,8 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
           </DialogHeader>
           <div className="flex-1 overflow-hidden p-6 pt-0">
             <Gallery
-              showHeader={false}
-              showUpload={false}
+              showHeader={true}
+              showUpload={true}
               showDeleteButton={false}
               showSelectButton={true}
               onSelectImage={(imageUrl) => {
