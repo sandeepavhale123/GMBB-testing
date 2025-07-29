@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from "react";
 import {
   Upload,
@@ -101,8 +100,9 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
+        onClick={() => setIsGalleryModalOpen(true)}
         className={`
-          relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200
+          relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer
           ${
             isDragging
               ? "border-blue-400 bg-blue-50 scale-[1.02]"
@@ -113,7 +113,10 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
         {/* AI Generate Button - Top Right */}
         <div className="absolute top-4 right-4 z-20">
           <Button
-            onClick={onAIGenerate}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAIGenerate();
+            }}
             variant="outline"
             size="sm"
             className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
@@ -122,14 +125,6 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
             Generate with Genie
           </Button>
         </div>
-
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
-          onChange={handleFileSelect}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          id="media-upload"
-        />
 
         <div className="space-y-4">
           <div className="flex justify-center mt-10 sm:mt-0">
@@ -158,7 +153,10 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               or{" "}
               <button
                 type="button"
-                onClick={() => setIsGalleryModalOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsGalleryModalOpen(true);
+                }}
                 className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer underline"
               >
                 choose from gallery
