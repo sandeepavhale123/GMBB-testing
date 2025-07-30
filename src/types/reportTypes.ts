@@ -94,6 +94,7 @@ export const REPORT_SECTIONS = [
   { id: "posts", name: "Post Report" },
   { id: "media", name: "Media Report" },
   { id: "geo-ranking", name: "GEO Ranking Report" },
+  { id: "citation", name: "Citation Report" },
 ] as const;
 
 export type ReportSectionId = (typeof REPORT_SECTIONS)[number]["id"];

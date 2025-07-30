@@ -39,7 +39,7 @@ export const Health: React.FC = () => {
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
-  // console.log("health data", healthData);
+  console.log("health data", healthData);
 
   const truncateToTwoDecimals = (num: number) => {
     return Math.trunc(num * 100) / 100;
@@ -70,7 +70,7 @@ export const Health: React.FC = () => {
     // header area
     <div className={`flex-1 flex flex-col transition-all duration-300 `}>
       {/* Dark Header */}
-      <header className="bg-gradient-to-br from-primary via-primary/80 to-primary/60 text-white h-[250px] z-10 relative">
+      <header className="bg-gradient-to-br from-primary via-primary/80 to-primary/60 text-white h-[370px] sm:h-[250px] z-10 relative">
         <h2
           className="text-3xl font-bold text-white"
           style={{
@@ -125,14 +125,18 @@ export const Health: React.FC = () => {
                   isMobile ? "text-xs leading-tight max-w-[280px]" : "text-lg"
                 }`}
               >
-                <MapPin className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} text-white/80 shrink-0`} />
+                <MapPin
+                  className={`${
+                    isMobile ? "w-3 h-3" : "w-4 h-4"
+                  } text-white/80 shrink-0`}
+                />
                 {healthData?.address}
               </p>
             </div>
           </div>
 
           {/* Center: Report Title - Hidden on mobile as it's already in the header */}
-          
+
           {/* Right: Report Date */}
           <div className={`${isMobile ? "text-center" : "text-right"}`}>
             <p className="text-sm text-white">Report Date</p>
@@ -149,15 +153,15 @@ export const Health: React.FC = () => {
           marginTop: "-100px",
         }}
       >
-
         {!isMobile && <div className="flex-1 text-center"></div>}
-          <Button
-            onClick={refreshHealthReport}
-            className="bg-white hover:bg-black hover:text-white text-black fixed right-0 top-1/2 -translate-y-1/2 shadow-lg shadow-grey-500/50 flex-col p-2 z-[9999] rounded-l-md rounded-r-none hidden sm:flex"
-           style={{height:70,width:120}}>
-            <RefreshCcw className="w-5 h-5 mb-1" />
-            <span className="text-xs leading-tight">Refresh Report</span>
-          </Button>
+        <Button
+          onClick={refreshHealthReport}
+          className="bg-white hover:bg-black hover:text-white text-black fixed right-0 top-1/2 -translate-y-1/2 shadow-lg shadow-grey-500/50 flex-col p-2 z-[9999] rounded-l-md rounded-r-none hidden sm:flex"
+          style={{ height: 70, width: 120 }}
+        >
+          <RefreshCcw className="w-5 h-5 mb-1" />
+          <span className="text-xs leading-tight">Refresh Report</span>
+        </Button>
         <div className={`container mx-auto ${isMobile ? "p-4" : "p-8"}`}>
           <div className="space-y-6">
             {/* Summary Cards */}
@@ -229,7 +233,7 @@ export const Health: React.FC = () => {
                       {truncateToTwoDecimals(healthData?.gmbPhotos)}
                     </div>
                     <h3 className="font-semibold text-sm text-muted-foreground">
-                      No. Of GMB Photos
+                      No. Of GMB Media
                     </h3>
                   </div>
                 </CardContent>
@@ -267,8 +271,6 @@ export const Health: React.FC = () => {
             {/* GMB Report at a Glance */}
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-8">
-                
-
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   {/* Left side - Test Results Cards */}
                   <div className="space-y-4">
@@ -497,21 +499,21 @@ export const Health: React.FC = () => {
                   </div>
                   <h3 className="font-semibold text-lg mb-3">
                     The listing outperforms or matches its competitors in key
-                    areas
+                    areas.
                   </h3>
 
                   <div className="mb-4">
                     <h4 className="font-medium mb-2">• Why It Matters:</h4>
                     <p className="text-sm text-muted-foreground ml-4">
-                      Standing out among competitors increase the chance of
-                      attraction more customer
+                      Standing out among competitors increases the chance of
+                      attracting more customers.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-medium mb-2">• Recommendation:</h4>
                     <p className="text-sm text-muted-foreground ml-4">
-                      analyze competitor profile and focus on areas where they
+                      Analyze competitor profile and focus on areas where they
                       excel such as better rating or more details description
                     </p>
                   </div>
@@ -619,7 +621,7 @@ export const Health: React.FC = () => {
                 </div>
 
                 {/* Competitor Table */}
-                <div className="overflow-hidden rounded-lg border border-gray-200">
+                <div className="overflow-x-auto rounded-lg border border-gray-200">
                   <table className="w-full">
                     <thead>
                       <tr className="bg-green-200">
@@ -683,23 +685,23 @@ export const Health: React.FC = () => {
                     </Badge>
                   </div>
                   <h3 className="font-semibold text-lg mb-3">
-                    The Listing has fewer citation then competitors.
+                    The Listing Has Fewer Citation Than Competitors.
                   </h3>
 
                   <div className="mb-4">
                     <h4 className="font-medium mb-2">• Why It Matters:</h4>
                     <p className="text-sm text-muted-foreground ml-4">
-                      citation improve local SEO ranking and signal credibility
-                      to search engines and customer.
+                      Citations improve local SEO ranking and signal credibility
+                      to search engines and customers.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-medium mb-2">• Recommendation:</h4>
                     <p className="text-sm text-muted-foreground ml-4">
-                      identify citation gaps by auditing competitor profile
-                      submit your business to directories like Yelp,Yellow page
-                      and other niche-specific site.
+                      Identify citation gaps by auditing competitor profiles.
+                      Submit your business to directories like Yelp,Yellow pages
+                      and other niche-specific sites.
                     </p>
                   </div>
                 </div>
@@ -787,7 +789,7 @@ export const Health: React.FC = () => {
                 </div>
 
                 {/* Citation Table */}
-                <div className="overflow-hidden rounded-lg border border-gray-200">
+                <div className="overflow-x-auto rounded-lg border border-gray-200">
                   <table className="w-full">
                     <thead>
                       <tr className="bg-green-200">
@@ -864,7 +866,7 @@ export const Health: React.FC = () => {
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-gray-600 mt-1">•</span>
-                      <span>Average Rating is below 4 star</span>
+                      <span>Average Rating is below 4 stars.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-gray-600 mt-1">•</span>

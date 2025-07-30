@@ -1041,6 +1041,15 @@ export const PublicReviewsReport: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Review Data Summary</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodOne.date.from_date
+                  )}{" "}
+                  -
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodOne.date.to_date
+                  )}
+                </p>
               </CardHeader>
               <CardContent>
                 {trend1.length === 0 ? (
@@ -1088,6 +1097,15 @@ export const PublicReviewsReport: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Review Data Summary</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodTwo.date.from_date
+                  )}{" "}
+                  -
+                  {formatToDayMonthYear(
+                    reviewsData?.data.periodTwo.date.to_date
+                  )}
+                </p>
               </CardHeader>
               <CardContent>
                 {trend2.length === 0 ? (
@@ -1135,6 +1153,13 @@ export const PublicReviewsReport: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle>Review Data Summary</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {formatToDayMonthYear(
+                  reviewsData?.data.periodOne.date.from_date
+                )}{" "}
+                -
+                {formatToDayMonthYear(reviewsData?.data.periodOne.date.to_date)}
+              </p>
             </CardHeader>
             <CardContent>
               {trend1.length === 0 ? (

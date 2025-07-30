@@ -231,3 +231,28 @@ export const useAllReports = (
     refetchOnWindowFocus: false,
   });
 };
+
+export const usePerformanceCitationReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ["performance-citation-report", reportId],
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceCitationReport(reportId);
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading Citation Report",
+          description:
+            error?.response?.data?.message ||
+            error?.message ||
+            "Failed to fetch performance citation report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
+    enabled: !!reportId,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+};

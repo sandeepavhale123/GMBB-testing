@@ -296,4 +296,23 @@ export const reportsApi = {
       throw error;
     }
   },
+  // Get Performance Citation Report API
+  getPerformanceCitationReport: async (reportId: string): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-performance-citation", {
+        reportId,
+      });
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch citation report"
+        );
+      }
+    } catch (error) {
+      console.error("POST get-performance-citation failed:", error);
+      throw error;
+    }
+  },
 };

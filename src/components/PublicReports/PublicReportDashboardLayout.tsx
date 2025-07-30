@@ -5,6 +5,7 @@ import {
   BarChart3,
   Star,
   MapPin,
+  BookOpen,
   Heart,
   Image,
   LogOut,
@@ -29,6 +30,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePerformanceBrandingReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
+import { object } from "zod";
 
 interface PublicReportDashboardLayoutProps {
   children: React.ReactNode;
@@ -64,6 +66,13 @@ export const PublicReportDashboardLayout: React.FC<
   const branding = brandingData?.data || null;
   const { lightLogo } = useThemeLogo();
 
+  const allEmptyExceptLogo = branding
+    ? Object.entries(branding)
+        .filter(([key]) => key !== "company_logo")
+        .every(([_, value]) => value === "")
+    : true; // default to true or false based on your UX need
+
+  console.log("All fields empty except logo:", allEmptyExceptLogo);
   const allSidebarItems = [
     {
       id: "gmb-health",
@@ -107,6 +116,13 @@ export const PublicReportDashboardLayout: React.FC<
       icon: MapPin,
       path: `/gmb-ranking/${token}`,
     },
+    {
+      id: "citation",
+      label: "Citation Performance",
+      name: "gmb-citation",
+      icon: BookOpen,
+      path: `/gmb-citation/${token}`,
+    },
   ];
   // Filter sidebar items based on visible sections using the `name` field
   const sidebarItems = allSidebarItems.filter((item) =>
@@ -135,35 +151,30 @@ export const PublicReportDashboardLayout: React.FC<
         {/* Fixed Icon Sidebar */}
         <aside
           className={`
-          fixed left-0 top-0 h-full bg-white/95 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-8 px-2 transition-transform duration-300
-          ${isMobile ? "w-24" : "w-24"}
+          fixed left-0 top-0 h-full bg-white/95 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-4 sm:py-8 px-2 transition-transform duration-300
+          ${isMobile ? "w-16" : "w-24"}
           ${isMobile && !sidebarOpen ? "-translate-x-full" : "translate-x-0"}
         `}
         >
           {/* Favicon at Top */}
-          <div className="mb-8">
-            {/* <img
-              src="/lovable-uploads/f6f982ce-daf2-42fe-bff3-b78a0c684308.png"
-              alt="Favicon"
-              className="w-12 h-12 rounded-xl shadow-lg object-cover"
-            /> */}
+          <div className="mb-4 sm:mb-6 lg:mb-8">
             {branding?.company_logo ? (
               <img
                 src={branding?.company_logo}
                 alt="Company Logo"
-                className="w-12 h-12 rounded-xl shadow-lg object-cover"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
               />
             ) : (
               <img
                 src={lightLogo}
                 alt="Default Logo"
-                className="w-12 h-12 rounded-xl shadow-lg object-cover"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
               />
             )}
           </div>
 
           {/* Navigation Icons - Only show visible sections */}
-          <div className="flex flex-col items-center space-y-6 flex-1 justify-center">
+          <div className="flex flex-col items-center space-y-3 sm:space-y-4 lg:space-y-6 flex-1 justify-center">
             {sidebarItems.map((item) => {
               const IconComponent = item.icon;
               const isActive = currentReportName === item.name;
@@ -176,13 +187,13 @@ export const PublicReportDashboardLayout: React.FC<
                         navigate(item.path);
                         if (isMobile) setSidebarOpen(false);
                       }}
-                      className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
+                      className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-lg lg:rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isActive
                           ? "bg-primary text-white shadow-md"
                           : "bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md"
                       }`}
                     >
-                      <IconComponent className="h-10 w-10" />
+                      <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="right" className="ml-2">
@@ -197,14 +208,14 @@ export const PublicReportDashboardLayout: React.FC<
         {/* Main Content Area */}
         <div
           className={`flex-1 flex flex-col transition-all duration-300 ${
-            isMobile ? "ml-0" : "ml-24"
+            isMobile ? "ml-0" : "ml-16 sm:ml-24 lg:ml-24"
           }`}
         >
           {/* Dark Header */}
-          <header 
+          <header
             className="text-white h-[350px] z-10 relative sm:h-[250px]"
             style={{
-              background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`
+              background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`,
             }}
           >
             {/* Mobile Menu Button */}
@@ -214,15 +225,15 @@ export const PublicReportDashboardLayout: React.FC<
                 className="absolute top-4 left-4 p-2 bg-white/20 rounded-lg backdrop-blur-sm z-20"
               >
                 {sidebarOpen ? (
-                  <X className="h-6 w-6" />
+                  <X className="h-5 w-5" />
                 ) : (
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-5 w-5" />
                 )}
               </button>
             )}
 
             <h2
-              className="text-3xl font-bold text-white"
+              className="text-xl sm:text-2xl lg:text-3xl  font-bold text-white"
               style={{
                 marginTop: isMobile ? "60px" : "30px",
                 textAlign: "center",
@@ -306,84 +317,87 @@ export const PublicReportDashboardLayout: React.FC<
               marginTop: "-100px",
             }}
           >
-            <div className={`container mx-auto ${isMobile ? "p-4" : "p-8"}`}>
-              {children}
-            </div>
+            <div className={`container mx-auto p-4 lg:p-8`}>{children}</div>
           </main>
 
           {/* CTA Section */}
-          <section
-            className="relative overflow-hidden"
-            style={{ backgroundColor: "#1e293b" }}
-          >
-            <div
-              className={`container mx-auto ${
-                isMobile ? "px-4 py-12" : "px-6 py-20"
-              }`}
+          {!allEmptyExceptLogo && (
+            <section
+              className="relative overflow-hidden"
+              style={{ backgroundColor: "#1e293b" }}
             >
-              <div className="grid grid-cols-1 gap-12 items-center">
-                {/* Left Content */}
-                <div className="text-white">
-                  {/* Company Branding Card */}
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-6">
-                    <div
-                      className={`flex items-center ${
-                        isMobile ? "space-x-4" : "space-x-4"
-                      }`}
-                    >
-                      {branding?.company_logo ? (
-                        <img
-                          src={branding?.company_logo}
-                          alt="Company Logo"
-                          className="w-20 h-20 rounded-lg object-cover"
-                        />
-                      ) : (
-                        <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
-                          <span className="text-lg font-bold text-white">
-                            {branding?.company_name?.charAt(0) || "C"}
-                          </span>
-                        </div>
-                      )}
-                      <div className={isMobile ? "text-center" : ""}>
-                        <h3 className="text-2xl font-semibold text-white mb-2">
-                          {branding?.company_name}
-                        </h3>
-                        {/* <p className="text-white/80 text-sm">
+              <div
+                className={`container mx-auto ${
+                  isMobile ? "px-4 py-12" : "px-6 py-20"
+                }`}
+              >
+                <div className="grid grid-cols-1 gap-12 items-center">
+                  {/* Left Content */}
+                  <div className="text-white">
+                    {/* Company Branding Card */}
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex justify-between flex-col gap-8 lg:flex-row lg:gap-6">
+                      <div
+                        className={`flex items-center flex-col gap-2 sm:flex-row sm:gap-0  ${
+                          isMobile ? "space-x-4" : "space-x-4"
+                        }`}
+                      >
+                        {branding?.company_logo ? (
+                          <img
+                            src={branding?.company_logo}
+                            alt="Company Logo"
+                            className="w-20 h-20 rounded-lg object-cover"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
+                            <span className="text-lg font-bold text-white">
+                              {branding?.company_name?.charAt(0) || "C"}
+                            </span>
+                          </div>
+                        )}
+                        <div className={isMobile ? "text-center" : ""}>
+                          <h3 className="text-2xl font-semibold text-white mb-2">
+                            {branding?.company_name}
+                          </h3>
+                          {/* <p className="text-white/80 text-sm">
                           Digital Marketing Solutions
                         </p> */}
-                        <div className="text-white/90">
-                          {/* <span className="text-white/70">Website: </span> */}
-                          {branding?.company_website}
+                          <div className="text-white/90">
+                            {/* <span className="text-white/70">Website: </span> */}
+                            {branding?.company_website}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className={`grid gap-2 text-sm  grid-cols-1`} style={{maxWidth:600}}>
-                      <div className="text-white/90">
-                        <span className="text-white/70">Email: </span>
-                        {branding?.company_email}
-                      </div>
-                      <div className="text-white/90">
-                        <span className="text-white/70">Phone: </span>
-                        {branding?.company_phone}
-                      </div>
+                      <div
+                        className={`grid gap-2 text-sm  grid-cols-1`}
+                        style={{ maxWidth: 600 }}
+                      >
+                        <div className="text-white/90">
+                          <span className="text-white/70">Email: </span>
+                          {branding?.company_email}
+                        </div>
+                        <div className="text-white/90">
+                          <span className="text-white/70">Phone: </span>
+                          {branding?.company_phone}
+                        </div>
 
-                      <div className="text-white/90 break-all">
-                        <span className="text-white/70">Address: </span>
-                        {branding?.company_address}
+                        <div className="text-white/90 break-all">
+                          <span className="text-white/70">Address: </span>
+                          {branding?.company_address}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Background decorative elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
-            </div>
-          </section>
+              {/* Background decorative elements */}
+              <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </TooltipProvider>

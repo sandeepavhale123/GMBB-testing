@@ -39,6 +39,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     "posts",
     "media",
     "geo-ranking",
+    "citation",
   ]);
   const [individualDate, setIndividualDate] = useState<DateRange | undefined>();
   const [period1Date, setPeriod1Date] = useState<DateRange | undefined>();
@@ -89,6 +90,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
       "posts",
       "media",
       "geo-ranking",
+      "citation",
     ]);
     setIndividualDate(undefined);
     setPeriod1Date(undefined);
@@ -147,6 +149,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
         "posts",
         "media",
         "geo-ranking",
+        "citation",
       ]);
       setIndividualDate(undefined);
       setPeriod1Date(undefined);

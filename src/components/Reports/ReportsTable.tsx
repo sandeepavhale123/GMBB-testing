@@ -87,6 +87,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
       posts: "outline",
       media: "outline",
       "geo-ranking": "outline",
+      citation: "outline",
     };
     return variants[section] || "outline";
   };
@@ -99,6 +100,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
       posts: "border-pink-500 bg-pink-500 text-white",
       media: "border-purple-500 bg-purple-500 text-white",
       "geo-ranking": "border-orange-500 bg-orange-500 text-white",
+      citation: "border-[#218871] bg-[#218871] text-white",
     };
     return colorMap[section];
   };
@@ -143,18 +145,30 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50">
-                <TableHead className="font-semibold text-gray-900">Report Name</TableHead>
-                <TableHead className="font-semibold text-gray-900">Reports</TableHead>
-                <TableHead className="font-semibold text-gray-900">Report Type</TableHead>
-                <TableHead className="font-semibold text-gray-900">Report Date</TableHead>
-                <TableHead className="text-right font-semibold text-gray-900">Action</TableHead>
+                <TableHead className="font-semibold text-gray-900">
+                  Report Name
+                </TableHead>
+                <TableHead className="font-semibold text-gray-900">
+                  Reports
+                </TableHead>
+                <TableHead className="font-semibold text-gray-900">
+                  Report Type
+                </TableHead>
+                <TableHead className="font-semibold text-gray-900">
+                  Report Date
+                </TableHead>
+                <TableHead className="text-right font-semibold text-gray-900">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {reports.map((report) => (
                 <TableRow key={report.report_id} className="hover:bg-gray-50">
                   <TableCell>
-                    <div className="font-medium text-gray-900">{report.title}</div>
+                    <div className="font-medium text-gray-900">
+                      {report.title}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">

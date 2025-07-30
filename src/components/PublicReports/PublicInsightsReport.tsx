@@ -477,9 +477,14 @@ export const PublicInsightsReport: React.FC = () => {
                       />
                       <Legend
                         verticalAlign="bottom"
-                        height={36}
-                        width={450}
-                        wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
+                        height={60}
+                        wrapperStyle={{
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          flexWrap: "wrap",
+                          paddingTop: "1rem",
+                        }}
                         formatter={(value, entry) => (
                           <span style={{ color: entry.color }}>{value}</span>
                         )}

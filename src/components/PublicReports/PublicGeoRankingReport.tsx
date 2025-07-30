@@ -88,6 +88,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     console.log("rank color selection", rank, rankNum);
     if (rankNum <= 3) return "#22c55e"; // Green
     if (rankNum <= 6) return "#f59e0b"; // Yellow
+    if (rankNum <= 11) return "#f97316";
     return "#ef4444"; // Red
   };
 

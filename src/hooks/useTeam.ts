@@ -1,22 +1,28 @@
-import { useEffect, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from './useRedux';
-import { 
+import { useEffect, useCallback, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "./useRedux";
+import {
   fetchTeamMembers,
   addTeamMemberThunk,
   deleteTeamMemberThunk,
   fetchEditMember,
   updateEditMember,
-  setSearchTerm, 
-  setRoleFilter, 
-  setCurrentPage, 
-  setItemsPerPage, 
+  setSearchTerm,
+  setRoleFilter,
+  setCurrentPage,
+  setItemsPerPage,
   clearError,
   clearAddError,
   clearDeleteError,
   clearEditError,
-  clearSaveError
-} from '../store/slices/teamSlice';
-import { AddTeamMemberRequest, DeleteTeamMemberRequest, GetEditMemberRequest, UpdateTeamMemberRequest } from '../api/teamApi';
+  clearSaveError,
+} from "../store/slices/teamSlice";
+import {
+  AddTeamMemberRequest,
+  DeleteTeamMemberRequest,
+  GetEditMemberRequest,
+  UpdateTeamMemberRequest,
+} from "../api/teamApi";
+import { useDebounce } from "./useDebounce";
 
 export const useTeam = () => {
   const dispatch = useAppDispatch();
@@ -38,18 +44,24 @@ export const useTeam = () => {
     searchTerm,
     roleFilter,
     currentPage,
-    itemsPerPage
-  } = useAppSelector(state => state.team);
-
+    itemsPerPage,
+  } = useAppSelector((state) => state.team);
+  const initializedRef = useRef(false);
+  const debouncedSearch = useDebounce(searchTerm, 400);
   // Fetch team members when parameters change
   useEffect(() => {
-    dispatch(fetchTeamMembers({
-      page: currentPage,
-      limit: itemsPerPage,
-      search: searchTerm,
-      role: roleFilter === 'all' ? '' : roleFilter
-    }));
-  }, [dispatch, currentPage, itemsPerPage, searchTerm, roleFilter]);
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      dispatch(
+        fetchTeamMembers({
+          page: currentPage,
+          limit: itemsPerPage,
+          search: debouncedSearch,
+          role: roleFilter === "all" ? "" : roleFilter,
+        })
+      );
+    }
+  }, []);
 
   const updateSearchTerm = (search: string) => {
     dispatch(setSearchTerm(search));
@@ -87,24 +99,32 @@ export const useTeam = () => {
     dispatch(clearSaveError());
   };
 
-  const fetchEditTeamMember = useCallback(async (memberId: number) => {
-    const result = await dispatch(fetchEditMember({ id: memberId }));
-    return result;
-  }, [dispatch]);
+  const fetchEditTeamMember = useCallback(
+    async (memberId: number) => {
+      const result = await dispatch(fetchEditMember({ id: memberId }));
+      return result;
+    },
+    [dispatch]
+  );
 
-  const updateTeamMember = useCallback(async (memberData: UpdateTeamMemberRequest) => {
-    const result = await dispatch(updateEditMember(memberData));
-    // Note: We don't refresh team members list here since we're on the edit page
-    return result;
-  }, [dispatch]);
+  const updateTeamMember = useCallback(
+    async (memberData: UpdateTeamMemberRequest) => {
+      const result = await dispatch(updateEditMember(memberData));
+      // Note: We don't refresh team members list here since we're on the edit page
+      return result;
+    },
+    [dispatch]
+  );
 
   const refreshTeamMembers = useCallback(() => {
-    dispatch(fetchTeamMembers({
-      page: currentPage,
-      limit: itemsPerPage,
-      search: searchTerm,
-      role: roleFilter === 'all' ? '' : roleFilter
-    }));
+    dispatch(
+      fetchTeamMembers({
+        page: currentPage,
+        limit: itemsPerPage,
+        search: searchTerm,
+        role: roleFilter === "all" ? "" : roleFilter,
+      })
+    );
   }, [dispatch, currentPage, itemsPerPage, searchTerm, roleFilter]);
 
   const addTeamMember = async (memberData: AddTeamMemberRequest) => {
@@ -157,6 +177,6 @@ export const useTeam = () => {
     addTeamMember,
     deleteTeamMember,
     fetchEditTeamMember,
-    updateTeamMember
+    updateTeamMember,
   };
 };
