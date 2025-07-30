@@ -387,6 +387,16 @@ export const Gallery: React.FC<GalleryProps> = ({
   };
 
   const mediaData = images?.map(transformApiImageToMediaItem) || [];
+  
+  // Debug: Log video data when mediaType is VIDEO
+  React.useEffect(() => {
+    if (mediaType === 'VIDEO') {
+      console.log('VIDEO tab selected');
+      console.log('Raw images data:', images);
+      console.log('Transformed mediaData:', mediaData);
+      console.log('Video items:', mediaData.filter(item => item.type === 'video'));
+    }
+  }, [mediaType, images, mediaData]);
   const {
     toast
   } = useToast();
