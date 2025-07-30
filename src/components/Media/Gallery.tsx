@@ -465,8 +465,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </TabsTrigger>
               </TabsList>
             </Tabs>}
+          </div>
         </div>}
-        </div>
 
       {/* Tab Content */}
       <div className="space-y-6">
