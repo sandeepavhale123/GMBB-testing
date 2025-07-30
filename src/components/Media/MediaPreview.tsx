@@ -12,8 +12,9 @@ interface MediaFile {
   altText?: string;
   category?: string;
   location?: string;
-  selectedImage: 'local' | 'ai';
+  selectedImage: 'local' | 'ai' | 'gallery';
   aiImageUrl?: string;
+  galleryImageUrl?: string;
 }
 
 interface MediaPreviewProps {
@@ -30,12 +31,18 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({ file, onRemove }) =>
     if (file.selectedImage === 'ai') {
       return file.title || 'AI Generated Image';
     }
+    if (file.selectedImage === 'gallery') {
+      return file.title || 'Gallery Image';
+    }
     return file.title || file.file?.name || 'Unknown';
   };
 
   const getFileSize = () => {
     if (file.selectedImage === 'ai') {
       return 'AI Generated';
+    }
+    if (file.selectedImage === 'gallery') {
+      return 'From Gallery';
     }
     return file.file ? `${(file.file.size / 1024 / 1024).toFixed(1)}MB` : 'Unknown size';
   };

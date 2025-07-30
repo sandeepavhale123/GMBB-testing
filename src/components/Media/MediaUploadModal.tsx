@@ -18,8 +18,9 @@ interface MediaFile {
   type: "image" | "video";
   title?: string;
   category?: string;
-  selectedImage: "local" | "ai";
+  selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
+  galleryImageUrl?: string;
 }
 interface MediaItem {
   id: string;
@@ -61,8 +62,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         url: selectedMedia.url,
         type: "image", // Assume image for now
         title: selectedMedia.title,
-        selectedImage: selectedMedia.source === 'local' ? "local" : "ai",
+        selectedImage: selectedMedia.source,
         aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
+        galleryImageUrl: selectedMedia.source === 'gallery' ? selectedMedia.url : undefined,
       };
       setFile(mediaFile);
       setFormData(prev => ({
@@ -127,13 +129,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         title:
           formData.title ||
           file.file?.name.replace(/\.[^/.]+$/, "") ||
-          "AI Generated Image",
+          "Generated Image",
         category: formData.category || "additional",
         publishOption: formData.publishOption,
         scheduleDate: formData.scheduleDate,
         listingId: selectedListing.id,
         selectedImage: file.selectedImage,
         aiImageUrl: file.aiImageUrl,
+        galleryImageUrl: file.galleryImageUrl,
       };
       // console.log("Upload data prepared:", {
       //   fileName: uploadData.file?.name,
@@ -307,6 +310,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
                           {file.selectedImage === "ai"
                             ? "AI IMAGE"
+                            : file.selectedImage === "gallery"
+                            ? "GALLERY IMAGE"
                             : file.type.toUpperCase()}
                         </span>
                       </div>

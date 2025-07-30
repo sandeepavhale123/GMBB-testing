@@ -7,8 +7,9 @@ export interface MediaUploadData {
   publishOption: string;
   scheduleDate?: string;
   listingId: string;
-  selectedImage: "local" | "ai";
+  selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
+  galleryImageUrl?: string;
 }
 
 export interface MediaUploadResponse {
@@ -148,6 +149,12 @@ export const uploadMedia = async (
   // Add AI image URL if it's an AI-generated image
   if (data.selectedImage === "ai" && data.aiImageUrl) {
     formData.append("aiImageUrl", data.aiImageUrl);
+    formData.append("type", "photo");
+  }
+
+  // Add gallery image URL if it's a gallery image
+  if (data.selectedImage === "gallery" && data.galleryImageUrl) {
+    formData.append("galleryImageUrl", data.galleryImageUrl);
     formData.append("type", "photo");
   }
 
