@@ -471,7 +471,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
       {/* Tab Content */}
       <div className="space-y-6">
-        {selectedTab === 'local' && <div className="space-y-6 mb-[20px]">
+        {selectedTab === 'local' && <div className="space-y-6 pb-10">
             {/* Search and Upload */}
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Uploaded Images</h2>
