@@ -379,7 +379,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     };
   };
 
-  const mediaData = images.map(transformApiImageToMediaItem);
+  const mediaData = images?.map(transformApiImageToMediaItem) || [];
   const {
     toast
   } = useToast();
