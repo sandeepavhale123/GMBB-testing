@@ -499,129 +499,119 @@ export const Gallery: React.FC<GalleryProps> = ({
                     
                     {/* Action Buttons Overlay */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <div className="flex items-center gap-2">
-                        {/* Quick View */}
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Quick View">
-                              <Eye className="h-4 w-4 text-gray-700" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-4xl">
-                            <div className="flex flex-col items-center space-y-4">
-                              <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
-                              <div className="text-center">
-                                <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
-                                <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                      {showSelectButton ? (
+                        /* Select Button Only for Modal View */
+                        <Button 
+                          onClick={() => handleSelectMedia(item)}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          Select
+                        </Button>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          {/* Quick View */}
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Quick View">
+                                <Eye className="h-4 w-4 text-gray-700" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-4xl">
+                              <div className="flex flex-col items-center space-y-4">
+                                <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
+                                <div className="text-center">
+                                  <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                                  <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                                </div>
                               </div>
-                              {showSelectButton && (
-                                <Button 
-                                  onClick={() => handleSelectMedia(item)}
-                                  className="bg-primary hover:bg-primary/90"
-                                >
-                                  Select
-                                </Button>
-                              )}
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                            </DialogContent>
+                          </Dialog>
 
-                        {/* Actions Dropdown */}
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="More Actions">
-                              <MoreVertical className="h-4 w-4 text-gray-700" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                            <DropdownMenuItem 
-                              onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = item.url;
-                                link.download = item.title || 'image';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              <Download className="h-4 w-4" />
-                              Download Image
-                            </DropdownMenuItem>
-                            
-                            <DropdownMenuItem 
-                              onClick={() => {
-                                console.log('Use for post:', item.id);
-                                toast({
-                                  title: "Image Selected",
-                                  description: "Image ready to use for post creation",
-                                });
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              <FileImage className="h-4 w-4" />
-                              Use for Post
-                            </DropdownMenuItem>
-                            
-                            <DropdownMenuItem 
-                              onClick={() => {
-                                console.log('Use for media:', item.id);
-                                toast({
-                                  title: "Image Selected",
-                                  description: "Image ready to use for media",
-                                });
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                              <Film className="h-4 w-4" />
-                              Use for Media
-                            </DropdownMenuItem>
+                          {/* Actions Dropdown */}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="More Actions">
+                                <MoreVertical className="h-4 w-4 text-gray-700" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
+                              <DropdownMenuItem 
+                                onClick={() => {
+                                  const link = document.createElement('a');
+                                  link.href = item.url;
+                                  link.download = item.title || 'image';
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                              >
+                                <Download className="h-4 w-4" />
+                                Download Image
+                              </DropdownMenuItem>
+                              
+                              <DropdownMenuItem 
+                                onClick={() => {
+                                  console.log('Use for post:', item.id);
+                                  toast({
+                                    title: "Image Selected",
+                                    description: "Image ready to use for post creation",
+                                  });
+                                }}
+                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                              >
+                                <FileImage className="h-4 w-4" />
+                                Use for Post
+                              </DropdownMenuItem>
+                              
+                              <DropdownMenuItem 
+                                onClick={() => {
+                                  console.log('Use for media:', item.id);
+                                  toast({
+                                    title: "Image Selected",
+                                    description: "Image ready to use for media",
+                                  });
+                                }}
+                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                              >
+                                <Film className="h-4 w-4" />
+                                Use for Media
+                              </DropdownMenuItem>
 
-                            {showSelectButton && (
-                              <>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem 
-                                  onClick={() => handleSelectMedia(item)}
-                                  className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-primary"
-                                >
-                                  Select
-                                </DropdownMenuItem>
-                              </>
-                            )}
-
-                            {showDeleteButton && (
-                              <>
-                                <DropdownMenuSeparator />
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem 
-                                      onSelect={(e) => e.preventDefault()}
-                                      className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                      Delete
-                                    </DropdownMenuItem>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>Delete Media</AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        Are you sure you want to delete "{item.title}"? This action cannot be undone.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
+                              {showDeleteButton && (
+                                <>
+                                  <DropdownMenuSeparator />
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <DropdownMenuItem 
+                                        onSelect={(e) => e.preventDefault()}
+                                        className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
+                                      >
+                                        <Trash2 className="h-4 w-4" />
                                         Delete
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
-                              </>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
+                                      </DropdownMenuItem>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
+                                          Delete
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      )}
                     </div>
 
                     {/* Media Info */}
@@ -686,129 +676,119 @@ export const Gallery: React.FC<GalleryProps> = ({
                   
                   {/* Action Buttons Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <div className="flex items-center gap-2">
-                      {/* Quick View */}
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Quick View">
-                            <Eye className="h-4 w-4 text-gray-700" />
-                          </Button>
-                        </DialogTrigger>
-                         <DialogContent className="max-w-4xl">
-                           <div className="flex flex-col items-center space-y-4">
-                             <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full object-contain rounded-lg" />
-                             <div className="text-center">
-                               <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
-                               <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
-                             </div>
-                             {showSelectButton && (
-                               <Button 
-                                 onClick={() => handleSelectMedia(item)}
-                                 className="bg-primary hover:bg-primary/90"
-                               >
-                                 Select
-                               </Button>
-                             )}
-                           </div>
-                         </DialogContent>
-                      </Dialog>
+                    {showSelectButton ? (
+                      /* Select Button Only for Modal View */
+                      <Button 
+                        onClick={() => handleSelectMedia(item)}
+                        className="bg-primary hover:bg-primary/90"
+                      >
+                        Select
+                      </Button>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {/* Quick View */}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="sm" variant="secondary" onClick={() => handleViewMedia(item)} className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="Quick View">
+                              <Eye className="h-4 w-4 text-gray-700" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl">
+                            <div className="flex flex-col items-center space-y-4">
+                              <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full object-contain rounded-lg" />
+                              <div className="text-center">
+                                <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                                <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
 
-                      {/* Actions Dropdown */}
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="More Actions">
-                            <MoreVertical className="h-4 w-4 text-gray-700" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                          <DropdownMenuItem 
-                            onClick={() => {
-                              const link = document.createElement('a');
-                              link.href = item.url;
-                              link.download = item.title || 'image';
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
-                            }}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                          >
-                            <Download className="h-4 w-4" />
-                            Download Image
-                          </DropdownMenuItem>
-                          
-                          <DropdownMenuItem 
-                            onClick={() => {
-                              console.log('Use for post:', item.id);
-                              toast({
-                                title: "Image Selected",
-                                description: "Image ready to use for post creation",
-                              });
-                            }}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                          >
-                            <FileImage className="h-4 w-4" />
-                            Use for Post
-                          </DropdownMenuItem>
-                          
-                          <DropdownMenuItem 
-                            onClick={() => {
-                              console.log('Use for media:', item.id);
-                              toast({
-                                title: "Image Selected",
-                                description: "Image ready to use for media",
-                              });
-                            }}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                          >
-                            <Film className="h-4 w-4" />
-                            Use for Media
-                          </DropdownMenuItem>
+                        {/* Actions Dropdown */}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-white" title="More Actions">
+                              <MoreVertical className="h-4 w-4 text-gray-700" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
+                            <DropdownMenuItem 
+                              onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = item.url;
+                                link.download = item.title || 'image';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              }}
+                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            >
+                              <Download className="h-4 w-4" />
+                              Download Image
+                            </DropdownMenuItem>
+                            
+                            <DropdownMenuItem 
+                              onClick={() => {
+                                console.log('Use for post:', item.id);
+                                toast({
+                                  title: "Image Selected",
+                                  description: "Image ready to use for post creation",
+                                });
+                              }}
+                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            >
+                              <FileImage className="h-4 w-4" />
+                              Use for Post
+                            </DropdownMenuItem>
+                            
+                            <DropdownMenuItem 
+                              onClick={() => {
+                                console.log('Use for media:', item.id);
+                                toast({
+                                  title: "Image Selected",
+                                  description: "Image ready to use for media",
+                                });
+                              }}
+                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            >
+                              <Film className="h-4 w-4" />
+                              Use for Media
+                            </DropdownMenuItem>
 
-                          {showSelectButton && (
-                            <>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem 
-                                onClick={() => handleSelectMedia(item)}
-                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-primary"
-                              >
-                                Select
-                              </DropdownMenuItem>
-                            </>
-                          )}
-
-                          {showDeleteButton && (
-                            <>
-                              <DropdownMenuSeparator />
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <DropdownMenuItem 
-                                    onSelect={(e) => e.preventDefault()}
-                                    className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                    Delete
-                                  </DropdownMenuItem>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Delete Media</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      Are you sure you want to delete "{item.title}"? This action cannot be undone.
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
+                            {showDeleteButton && (
+                              <>
+                                <DropdownMenuSeparator />
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem 
+                                      onSelect={(e) => e.preventDefault()}
+                                      className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
                                       Delete
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
-                            </>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
+                                    </DropdownMenuItem>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Delete Media</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
+                                        Delete
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    )}
                   </div>
 
                   {/* Media Info */}
