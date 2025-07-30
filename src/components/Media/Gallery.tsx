@@ -494,20 +494,17 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
                 {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
-                      <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                      <img 
+                        src={item.url} 
+                        alt={item.title} 
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
+                        onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
+                      />
                     </div>
                     
-                    {/* Action Buttons Overlay */}
+                    {/* Action Buttons Overlay - Hidden in Modal View */}
+                    {!showSelectButton && (
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      {showSelectButton ? (
-                        /* Select Button Only for Modal View */
-                        <Button 
-                          onClick={() => handleSelectMedia(item)}
-                          className="bg-primary hover:bg-primary/90"
-                        >
-                          Select
-                        </Button>
-                      ) : (
                         <div className="flex items-center gap-2">
                           {/* Quick View */}
                           <Dialog>
@@ -671,20 +668,17 @@ export const Gallery: React.FC<GalleryProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
               {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
-                    <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                    <img 
+                      src={item.url} 
+                      alt={item.title} 
+                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
+                      onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
+                    />
                   </div>
                   
-                  {/* Action Buttons Overlay */}
+                  {/* Action Buttons Overlay - Hidden in Modal View */}
+                  {!showSelectButton && (
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    {showSelectButton ? (
-                      /* Select Button Only for Modal View */
-                      <Button 
-                        onClick={() => handleSelectMedia(item)}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Select
-                      </Button>
-                    ) : (
                       <div className="flex items-center gap-2">
                         {/* Quick View */}
                         <Dialog>
