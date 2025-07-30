@@ -259,6 +259,22 @@ export interface GalleryImageResponse {
   };
 }
 
+// Gallery upload interfaces
+export interface GalleryUploadRequest {
+  userfile?: File;
+  selectedImage: "local" | "ai";
+  aiImageUrl?: string;
+  mediaType: "photo" | "video";
+}
+
+export interface GalleryUploadResponse {
+  code: number;
+  message: string;
+  data: {
+    url: string;
+  };
+}
+
 // Get gallery images
 export const getGalleryImages = async (params: GalleryImageRequest): Promise<GalleryImageResponse> => {
   try {
@@ -266,6 +282,35 @@ export const getGalleryImages = async (params: GalleryImageRequest): Promise<Gal
     return response.data;
   } catch (error) {
     console.error('Error fetching gallery images:', error);
+    throw error;
+  }
+};
+
+// Upload media to gallery
+export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<GalleryUploadResponse> => {
+  try {
+    const formData = new FormData();
+    
+    if (data.selectedImage === "local" && data.userfile) {
+      formData.append("userfile", data.userfile);
+    }
+    
+    formData.append("selectedImage", data.selectedImage);
+    formData.append("mediaType", data.mediaType);
+    
+    if (data.selectedImage === "ai" && data.aiImageUrl) {
+      formData.append("aiImageUrl", data.aiImageUrl);
+    }
+
+    const response = await axiosInstance.post<GalleryUploadResponse>('/upload-ingallery', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading to gallery:', error);
     throw error;
   }
 };

@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
-import { generateAIImage } from '@/api/mediaApi';
+import { generateAIImage, uploadGalleryMedia } from '@/api/mediaApi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
@@ -385,8 +385,8 @@ export const Gallery: React.FC<GalleryProps> = ({
     toast
   } = useToast();
 
-  // File upload state
-  const [uploadedFiles, setUploadedFiles] = useState<MediaItem[]>([]);
+  // Upload state
+  const [isUploading, setIsUploading] = useState(false);
 
   // AI Generation state
   const [aiPrompt, setAiPrompt] = useState('');
@@ -395,40 +395,48 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [savingImageIndex, setSavingImageIndex] = useState<number | undefined>();
 
   // File upload handler
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
-    Array.from(files).forEach(file => {
-      if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-        const url = URL.createObjectURL(file);
-        const newMedia: MediaItem = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-          url,
-          type: file.type.startsWith('image/') ? 'image' : 'video',
-          title: file.name.split('.')[0],
-          category: 'local',
-          date: new Date().toISOString().split('T')[0],
-          width: 400,
-          height: 400
-        };
-        setUploadedFiles(prev => [newMedia, ...prev]);
+    
+    setIsUploading(true);
+    try {
+      for (const file of Array.from(files)) {
+        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+          await uploadGalleryMedia({
+            userfile: file,
+            selectedImage: 'local',
+            mediaType: file.type.startsWith('image/') ? 'photo' : 'video'
+          });
+        }
       }
-    });
-    toast({
-      title: "Media Uploaded",
-      description: `Successfully uploaded ${files.length} file(s).`
-    });
-
-    // Reset input
-    event.target.value = '';
+      
+      toast({
+        title: "Media Uploaded",
+        description: `Successfully uploaded ${files.length} file(s).`
+      });
+      
+      // Refresh gallery to show new uploads
+      refetch();
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: "Failed to upload media. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      event.target.value = '';
+    }
   };
 
-  // Combine API data with uploaded files for display
-  const displayMedia = selectedTab === 'local' 
-    ? [...uploadedFiles, ...mediaData]
-    : mediaData;
+  // Display media from API only (no local uploads anymore)
+  const displayMedia = mediaData;
 
   const handleLoadMore = () => {
     loadMore();
@@ -488,6 +496,37 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleSelectImageFromGenerated = (index: number) => {
     setSelectedImageIndex(index);
   };
+
+  // AI Image save handler
+  const handleSaveAIImage = async (imageUrl: string) => {
+    const imageIndex = generatedImages.indexOf(imageUrl);
+    setSavingImageIndex(imageIndex);
+    
+    try {
+      await uploadGalleryMedia({
+        selectedImage: 'ai',
+        aiImageUrl: imageUrl,
+        mediaType: 'photo'
+      });
+      
+      toast({
+        title: "Image Saved",
+        description: "AI generated image has been saved to your gallery."
+      });
+      
+      // Refresh gallery to show new AI image
+      refetch();
+    } catch (error) {
+      console.error('Save AI image error:', error);
+      toast({
+        title: "Save Failed",
+        description: "Failed to save AI image. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSavingImageIndex(undefined);
+    }
+  };
   return <div className={`space-y-6 ${className}`}>
       {/* Header with tabs */}
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -535,10 +574,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </Select>
                 
                 {showUpload && <>
-                    <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" />
-                    <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" onClick={() => document.getElementById('file-upload')?.click()}>
+                    <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" disabled={isUploading} />
+                    <Button 
+                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" 
+                      onClick={() => document.getElementById('file-upload')?.click()}
+                      disabled={isUploading}
+                    >
                       <Upload className="h-4 w-4" />
-                      Upload Media
+                      {isUploading ? 'Uploading...' : 'Upload Media'}
                     </Button>
                   </>}
               </div>
@@ -744,7 +787,17 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </div>
 
                 {generatedImages.length > 0 && <div className="space-y-4">
-                    <AIImagePreview images={generatedImages} selectedIndex={selectedImageIndex} prompt={aiPrompt} style={aiStyle} onPreviousImage={handlePreviousImage} onNextImage={handleNextImage} onSelectImage={handleSelectImageFromGenerated} />
+                    <AIImagePreview 
+                      images={generatedImages} 
+                      selectedIndex={selectedImageIndex} 
+                      prompt={aiPrompt} 
+                      style={aiStyle} 
+                      onPreviousImage={handlePreviousImage} 
+                      onNextImage={handleNextImage} 
+                      onSelectImage={handleSelectImageFromGenerated}
+                      onSaveImage={handleSaveAIImage}
+                      savingImageIndex={savingImageIndex}
+                    />
                   </div>}
               </div>}
 

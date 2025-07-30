@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '../../ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Loader2 } from 'lucide-react';
 
 interface AIImagePreviewProps {
   images: string[];
@@ -11,6 +11,8 @@ interface AIImagePreviewProps {
   onPreviousImage: () => void;
   onNextImage: () => void;
   onSelectImage: (index: number) => void;
+  onSaveImage?: (imageUrl: string) => void;
+  savingImageIndex?: number;
 }
 
 export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
@@ -20,20 +22,44 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
   style,
   onPreviousImage,
   onNextImage,
-  onSelectImage
+  onSelectImage,
+  onSaveImage,
+  savingImageIndex
 }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((imageUrl, index) => (
         <div
           key={index}
-          className="w-[200px] h-[200px] rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all"
+          className="relative w-[200px] h-[200px] rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all group"
         >
           <img 
             src={imageUrl} 
             alt={`AI generated image ${index + 1}`}
             className="w-full h-full object-cover"
           />
+          {onSaveImage && (
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <Button
+                size="sm"
+                onClick={() => onSaveImage(imageUrl)}
+                disabled={savingImageIndex === index}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                {savingImageIndex === index ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4 mr-2" />
+                    Save
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </div>
       ))}
     </div>
