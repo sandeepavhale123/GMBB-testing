@@ -607,9 +607,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                               )}
                             </DropdownMenuContent>
                           </DropdownMenu>
-                        </div>
-                      )}
-                    </div>
+                         </div>
+                       </div>
+                     )}
 
                     {/* Media Info */}
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -781,9 +781,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                             )}
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </div>
-                    )}
-                  </div>
+                       </div>
+                     </div>
+                   )}
 
                   {/* Media Info */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
