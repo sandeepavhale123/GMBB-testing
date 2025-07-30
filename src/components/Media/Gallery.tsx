@@ -532,17 +532,30 @@ export const Gallery: React.FC<GalleryProps> = ({
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                              <DropdownMenuItem 
-                                onClick={() => {
+                            <DropdownMenuItem 
+                              onClick={async () => {
+                                try {
+                                  const response = await fetch(item.url);
+                                  const blob = await response.blob();
+                                  const url = window.URL.createObjectURL(blob);
                                   const link = document.createElement('a');
-                                  link.href = item.url;
-                                  link.download = item.title || 'image';
+                                  link.href = url;
+                                  link.download = `${item.title || 'image'}.jpg`;
                                   document.body.appendChild(link);
                                   link.click();
                                   document.body.removeChild(link);
-                                }}
-                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                              >
+                                  window.URL.revokeObjectURL(url);
+                                } catch (error) {
+                                  console.error('Download failed:', error);
+                                  toast({
+                                    title: "Download Failed",
+                                    description: "Unable to download the image. Please try again.",
+                                    variant: "destructive"
+                                  });
+                                }
+                              }}
+                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            >
                                 <Download className="h-4 w-4" />
                                 Download Image
                               </DropdownMenuItem>
@@ -707,13 +720,26 @@ export const Gallery: React.FC<GalleryProps> = ({
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
                             <DropdownMenuItem 
-                              onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = item.url;
-                                link.download = item.title || 'image';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
+                              onClick={async () => {
+                                try {
+                                  const response = await fetch(item.url);
+                                  const blob = await response.blob();
+                                  const url = window.URL.createObjectURL(blob);
+                                  const link = document.createElement('a');
+                                  link.href = url;
+                                  link.download = `${item.title || 'image'}.jpg`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                  window.URL.revokeObjectURL(url);
+                                } catch (error) {
+                                  console.error('Download failed:', error);
+                                  toast({
+                                    title: "Download Failed",
+                                    description: "Unable to download the image. Please try again.",
+                                    variant: "destructive"
+                                  });
+                                }
                               }}
                               className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                             >
