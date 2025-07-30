@@ -547,12 +547,12 @@ export const Gallery: React.FC<GalleryProps> = ({
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Uploaded Images</h2>
               <div className="flex flex-col sm:flex-row gap-4 items-center">
-                <div className="relative flex-1">
+                <div className="relative flex-1 w-full">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input type="text" placeholder="Search media" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-background border-border" />
                 </div>
                 
-                <Select value={sortOrder} onValueChange={(value) => setSortOrder(value as 'desc' | 'asc')}>
+                <Select value={sortOrder} onValueChange={(value) => setSortOrder(value as 'desc' | 'asc')} className="w-full">
                   <SelectTrigger className="w-[140px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -565,7 +565,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 {showUpload && <>
                     <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" disabled={isUploading} />
                     <Button 
-                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" 
+                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap w-full" 
                       onClick={() => document.getElementById('file-upload')?.click()}
                       disabled={isUploading}
                     >
