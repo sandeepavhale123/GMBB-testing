@@ -451,7 +451,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
           </div>
          <div className="flex align-center gap-4">
-           <Badge variant="secondary" className="text-mg bg-primar  text-white rounded-[5px]">
+           <Badge variant="secondary" className="text-mg bg-primary text-white rounded-[5px]">
                1.5 GB / 790 MB Available
             </Badge>
           {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
