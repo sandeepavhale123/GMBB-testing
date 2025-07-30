@@ -95,7 +95,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       </div>
 
       {/* Image */}
-      {imageUrl ? <img src={imageUrl} alt="Post" className="w-full  h-[auto] object-cover" /> : <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+      {imageUrl ? <img src={imageUrl} alt="Post" className="w-full  h-[300px] object-cover" /> : <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
           <span className="text-white font-medium">Upload an image</span>
         </div>}
 
