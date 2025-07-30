@@ -11,6 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from '@/hooks/use-toast';
 import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
 import { generateAIImage } from '@/api/mediaApi';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
 import { useGalleryImages } from '@/hooks/useGalleryImages';
@@ -556,7 +557,17 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Media Grid */}
             <div className="flex gap-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
-                {displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+                {isLoading ? (
+                  // Skeleton loading
+                  Array.from({ length: 16 }).map((_, index) => (
+                    <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
+                      <div className="aspect-square">
+                        <Skeleton className="h-full w-full" />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
                       <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                     </div>
@@ -671,7 +682,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <p className="font-medium text-xs text-white truncate">{item.title}</p>
                     </div>
-                  </div>)}
+                  </div>)
+                )}
               </div>
               
              
@@ -723,7 +735,17 @@ export const Gallery: React.FC<GalleryProps> = ({
 
             {/* AI Generated Media Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-              {displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+              {isLoading ? (
+                // Skeleton loading
+                Array.from({ length: 16 }).map((_, index) => (
+                  <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
+                    <div className="aspect-square">
+                      <Skeleton className="h-full w-full" />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
                     <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                   </div>
@@ -834,12 +856,13 @@ export const Gallery: React.FC<GalleryProps> = ({
                        </div>
                      </div>}
 
-                  {/* Media Info */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <p className="font-medium text-xs text-white truncate">{item.title}</p>
-                  </div>
-                </div>)}
-            </div>
+                   {/* Media Info */}
+                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                     <p className="font-medium text-xs text-white truncate">{item.title}</p>
+                   </div>
+                 </div>)
+               )}
+             </div>
 
           </div>}
 
