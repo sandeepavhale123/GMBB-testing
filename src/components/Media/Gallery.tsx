@@ -13,6 +13,8 @@ import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
 import { generateAIImage } from '@/api/mediaApi';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
+import { useGalleryImages } from '@/hooks/useGalleryImages';
+import { GalleryImageItem } from '@/api/mediaApi';
 export interface MediaItem {
   id: string;
   url: string;
@@ -22,6 +24,8 @@ export interface MediaItem {
   date: string;
   width?: number;
   height?: number;
+  key?: string;
+  timestamp?: number;
 }
 
 // Sample media data
@@ -322,18 +326,64 @@ export const Gallery: React.FC<GalleryProps> = ({
   } = useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState('local');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [selectedTab, setSelectedTab] = useState<'local' | 'ai-generated'>('local');
+  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [mediaData, setMediaData] = useState<MediaItem[]>(sampleMediaData);
+  
+  // Map tab to API type
+  const getApiType = (tab: string): "IMAGE" | "VIDEO" | "AI" => {
+    switch (tab) {
+      case 'ai-generated':
+        return 'AI';
+      case 'video':
+        return 'VIDEO';
+      default:
+        return 'IMAGE';
+    }
+  };
+
+  // Use gallery images hook
+  const { 
+    images, 
+    isLoading, 
+    error, 
+    hasMore, 
+    loadMore, 
+    refetch 
+  } = useGalleryImages({
+    type: getApiType(selectedTab),
+    searchTerm: searchQuery,
+    sortOrder,
+    limit: 16
+  });
+
+  // Transform API images to MediaItem format
+  const transformApiImageToMediaItem = (apiImage: GalleryImageItem): MediaItem => {
+    // Extract filename from key for title
+    const filename = apiImage.key.split('/').pop() || 'Untitled';
+    const title = filename.split('.')[0];
+    
+    return {
+      id: apiImage.key,
+      url: apiImage.url,
+      type: 'image', // Default to image, could be enhanced based on file extension
+      title,
+      category: selectedTab === 'ai-generated' ? 'ai-generated' : 'local',
+      date: apiImage.date.split(' ')[0], // Extract date part
+      key: apiImage.key,
+      timestamp: apiImage.timestamp,
+      width: 400,
+      height: 400
+    };
+  };
+
+  const mediaData = images.map(transformApiImageToMediaItem);
   const {
     toast
   } = useToast();
 
-  // Pagination state - Load More functionality
-  const [localItemsToShow, setLocalItemsToShow] = useState(16);
-  const [aiItemsToShow, setAiItemsToShow] = useState(16);
-  const itemsPerLoad = 14; // Remaining images after initial 16
+  // File upload state
+  const [uploadedFiles, setUploadedFiles] = useState<MediaItem[]>([]);
 
   // AI Generation state
   const [aiPrompt, setAiPrompt] = useState('');
@@ -360,7 +410,7 @@ export const Gallery: React.FC<GalleryProps> = ({
           width: 400,
           height: 400
         };
-        setMediaData(prev => [newMedia, ...prev]);
+        setUploadedFiles(prev => [newMedia, ...prev]);
       }
     });
     toast({
@@ -372,23 +422,13 @@ export const Gallery: React.FC<GalleryProps> = ({
     event.target.value = '';
   };
 
-  // Filter media by tab and search
-  const filteredMedia = mediaData.filter(item => {
-    const matchesTab = item.category === selectedTab;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesTab && matchesSearch;
-  });
+  // Combine API data with uploaded files for display
+  const displayMedia = selectedTab === 'local' 
+    ? [...uploadedFiles, ...mediaData]
+    : mediaData;
 
-  // Load More calculations
-  const itemsToShow = selectedTab === 'local' ? localItemsToShow : aiItemsToShow;
-  const visibleMedia = filteredMedia.slice(0, itemsToShow);
-  const hasMoreItems = filteredMedia.length > itemsToShow;
   const handleLoadMore = () => {
-    if (selectedTab === 'local') {
-      setLocalItemsToShow(prev => Math.min(prev + itemsPerLoad, filteredMedia.length));
-    } else {
-      setAiItemsToShow(prev => Math.min(prev + itemsPerLoad, filteredMedia.length));
-    }
+    loadMore();
   };
   const handleViewMedia = (media: MediaItem) => {
     setSelectedMedia(media);
@@ -456,7 +496,7 @@ export const Gallery: React.FC<GalleryProps> = ({
            <Badge variant="secondary" className="text-mg bg-primary text-white rounded-[5px] hover:bg-primary hover:text-white">
                1.5 GB / 790 MB Available
             </Badge>
-          {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
+          {showTabs && <Tabs value={selectedTab} onValueChange={(value) => setSelectedTab(value as 'local' | 'ai-generated')} className="w-fit">
               <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
                 <TabsTrigger value="local" className="data-[state=active]:bg-background">
                   Uploaded
@@ -481,7 +521,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   <Input type="text" placeholder="Search media" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-background border-border" />
                 </div>
                 
-                <Select value={sortOrder} onValueChange={setSortOrder}>
+                <Select value={sortOrder} onValueChange={(value) => setSortOrder(value as 'desc' | 'asc')}>
                   <SelectTrigger className="w-[140px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -509,14 +549,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <Button variant="ghost" size="sm" className="h-8">Videos</Button>
               </div>
               <div className="text-sm text-muted-foreground">
-                {filteredMedia.length} items
+                {displayMedia.length} items
               </div>
             </div>
 
             {/* Media Grid */}
             <div className="flex gap-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
-                {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+                {displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
                       <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                     </div>
@@ -637,9 +677,9 @@ export const Gallery: React.FC<GalleryProps> = ({
              
             </div>
            {/* Load More Button - Right Side */}
-              {hasMoreItems && <div className="flex items-start pt-2 justify-center">
+              {hasMore && <div className="flex items-start pt-2 justify-center">
                   <Button onClick={handleLoadMore} variant="outline" className="px-6 whitespace-nowrap">
-                    Load More ({filteredMedia.length - itemsToShow})
+                    Load More
                   </Button>
                 </div>}
           </div>}
@@ -683,7 +723,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
             {/* AI Generated Media Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-              {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+              {displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
                     <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                   </div>
@@ -804,7 +844,7 @@ export const Gallery: React.FC<GalleryProps> = ({
           </div>}
 
         {/* Empty State */}
-        {visibleMedia.length === 0 && <div className="text-center py-12">
+        {displayMedia.length === 0 && <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
               <Search className="h-8 w-8 text-muted-foreground" />
             </div>

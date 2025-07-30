@@ -231,3 +231,40 @@ export const getMediaStats = async (
   );
   return response.data;
 };
+
+// Gallery Images API interfaces
+export interface GalleryImageRequest {
+  type: "IMAGE" | "VIDEO" | "AI";
+  searchTerm: string;
+  limit: number;
+  token: string;
+  sortOrder: "desc" | "asc";
+}
+
+export interface GalleryImageItem {
+  key: string;
+  url: string;
+  date: string;
+  timestamp: number;
+}
+
+export interface GalleryImageResponse {
+  code: number;
+  message: string;
+  data: {
+    images: GalleryImageItem[];
+    isTruncated: boolean;
+    nextToken: string | null;
+  };
+}
+
+// Get gallery images
+export const getGalleryImages = async (params: GalleryImageRequest): Promise<GalleryImageResponse> => {
+  try {
+    const response = await axiosInstance.post('/get-gallery-images', params);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching gallery images:', error);
+    throw error;
+  }
+};
