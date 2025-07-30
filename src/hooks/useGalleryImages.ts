@@ -15,7 +15,8 @@ export const useGalleryImages = ({ type, searchTerm, sortOrder, limit = 16 }: Us
   const [images, setImages] = useState<GalleryImageResponse["data"]["images"]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [nextToken, setNextToken] = useState<string | null>(null);
+  const [nextOffset, setNextOffset] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
   const [isTruncated, setIsTruncated] = useState(false);
   const { toast } = useToast();
   const { accessToken } = useAuthRedux();
@@ -45,7 +46,7 @@ export const useGalleryImages = ({ type, searchTerm, sortOrder, limit = 16 }: Us
         type,
         searchTerm: debouncedSearchTerm,
         limit,
-        token: isLoadMore ? nextToken || "" : "",
+        offset: isLoadMore ? nextOffset : 0,
         sortOrder,
       };
 
@@ -57,7 +58,8 @@ export const useGalleryImages = ({ type, searchTerm, sortOrder, limit = 16 }: Us
         } else {
           setImages(response.data.images);
         }
-        setNextToken(response.data.nextToken);
+        setNextOffset(response.data.nextOffset);
+        setTotal(response.data.total);
         setIsTruncated(response.data.isTruncated);
       } else {
         setError(response.message || "Failed to fetch images");
@@ -79,25 +81,27 @@ export const useGalleryImages = ({ type, searchTerm, sortOrder, limit = 16 }: Us
     } finally {
       setIsLoading(false);
     }
-  }, [accessToken, listingId, type, debouncedSearchTerm, sortOrder, limit, nextToken, toast]);
+  }, [accessToken, listingId, type, debouncedSearchTerm, sortOrder, limit, nextOffset, toast]);
 
   // Reset and fetch when params change
   useEffect(() => {
     setImages([]);
-    setNextToken(null);
+    setNextOffset(0);
+    setTotal(0);
     setIsTruncated(false);
     fetchImages(false);
   }, [type, debouncedSearchTerm, sortOrder]);
 
   const loadMore = useCallback(() => {
-    if (isTruncated && nextToken && !isLoading) {
+    if (isTruncated && !isLoading) {
       fetchImages(true);
     }
-  }, [isTruncated, nextToken, isLoading, fetchImages]);
+  }, [isTruncated, isLoading, fetchImages]);
 
   const refetch = useCallback(() => {
     setImages([]);
-    setNextToken(null);
+    setNextOffset(0);
+    setTotal(0);
     setIsTruncated(false);
     fetchImages(false);
   }, [fetchImages]);
@@ -106,7 +110,8 @@ export const useGalleryImages = ({ type, searchTerm, sortOrder, limit = 16 }: Us
     images,
     isLoading,
     error,
-    hasMore: isTruncated && !!nextToken,
+    hasMore: isTruncated,
+    total,
     loadMore,
     refetch,
   };

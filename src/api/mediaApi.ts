@@ -237,7 +237,7 @@ export interface GalleryImageRequest {
   type: "IMAGE" | "VIDEO" | "AI";
   searchTerm: string;
   limit: number;
-  token: string;
+  offset: number;
   sortOrder: "desc" | "asc";
 }
 
@@ -253,8 +253,9 @@ export interface GalleryImageResponse {
   message: string;
   data: {
     images: GalleryImageItem[];
+    total: number;
     isTruncated: boolean;
-    nextToken: string | null;
+    nextOffset: number;
   };
 }
 
