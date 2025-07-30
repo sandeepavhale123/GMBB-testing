@@ -449,11 +449,12 @@ export const Gallery: React.FC<GalleryProps> = ({
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex items-center gap-4">
             <h1 className="font-bold text-foreground text-2xl">Gallery</h1>
-            <Badge variant="secondary" className="text-xs">
-              150 MB / 1GB used
-            </Badge>
+
           </div>
-          
+         <div className="flex align-center gap-4">
+           <Badge variant="secondary" className="text-mg bg-primary">
+               1.5 GB / 790 MB Available
+            </Badge>
           {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
               <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
                 <TabsTrigger value="local" className="data-[state=active]:bg-background">
@@ -465,6 +466,7 @@ export const Gallery: React.FC<GalleryProps> = ({
               </TabsList>
             </Tabs>}
         </div>}
+        </div>
 
       {/* Tab Content */}
       <div className="space-y-6">
