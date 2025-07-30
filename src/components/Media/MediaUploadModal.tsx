@@ -7,6 +7,7 @@ import { MediaPreview } from "./MediaPreview";
 import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
+import { useMediaContext } from "../../context/MediaContext";
 import { uploadMedia } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 
@@ -49,7 +50,27 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     scheduleDate: "",
   });
   const { selectedListing } = useListingContext();
+  const { selectedMedia } = useMediaContext();
   const { toast } = useToast();
+
+  // Effect to auto-populate with selected media from context
+  React.useEffect(() => {
+    if (selectedMedia && isOpen) {
+      const mediaFile: MediaFile = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        url: selectedMedia.url,
+        type: "image", // Assume image for now
+        title: selectedMedia.title,
+        selectedImage: selectedMedia.source === 'local' ? "local" : "ai",
+        aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
+      };
+      setFile(mediaFile);
+      setFormData(prev => ({
+        ...prev,
+        title: selectedMedia.title,
+      }));
+    }
+  }, [selectedMedia, isOpen]);
   const handleFilesAdded = (newFiles: File[]) => {
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];

@@ -317,7 +317,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   onSelectImage,
   className = ''
 }) => {
-  const { triggerCreatePost } = useMediaContext();
+  const { triggerCreatePost, triggerMediaUpload } = useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('local');
@@ -580,10 +580,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                               
                               <DropdownMenuItem 
                                 onClick={() => {
-                                  console.log('Use for media:', item.id);
-                                  toast({
-                                    title: "Image Selected",
-                                    description: "Image ready to use for media",
+                                  triggerMediaUpload({
+                                    url: item.url,
+                                    title: item.title,
+                                    source: 'local'
                                   });
                                 }}
                                 className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
@@ -767,10 +767,10 @@ export const Gallery: React.FC<GalleryProps> = ({
                             
                             <DropdownMenuItem 
                               onClick={() => {
-                                console.log('Use for media:', item.id);
-                                toast({
-                                  title: "Image Selected",
-                                  description: "Image ready to use for media",
+                                triggerMediaUpload({
+                                  url: item.url,
+                                  title: item.title,
+                                  source: 'ai'
                                 });
                               }}
                               className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
