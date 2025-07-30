@@ -9,6 +9,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from '@/hooks/use-toast';
 import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
 import { generateAIImage } from '@/api/mediaApi';
+import { useMediaContext } from '../../context/MediaContext';
+import { useNavigate } from 'react-router-dom';
 
 export interface MediaItem {
   id: string;
@@ -315,6 +317,8 @@ export const Gallery: React.FC<GalleryProps> = ({
   onSelectImage,
   className = ''
 }) => {
+  const { triggerCreatePost } = useMediaContext();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('local');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
@@ -562,11 +566,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                               
                               <DropdownMenuItem 
                                 onClick={() => {
-                                  console.log('Use for post:', item.id);
-                                  toast({
-                                    title: "Image Selected",
-                                    description: "Image ready to use for post creation",
+                                  triggerCreatePost({
+                                    url: item.url,
+                                    title: item.title,
+                                    source: 'local'
                                   });
+                                  navigate('/');
                                 }}
                                 className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                               >
@@ -749,11 +754,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                             
                             <DropdownMenuItem 
                               onClick={() => {
-                                console.log('Use for post:', item.id);
-                                toast({
-                                  title: "Image Selected",
-                                  description: "Image ready to use for post creation",
+                                triggerCreatePost({
+                                  url: item.url,
+                                  title: item.title,
+                                  source: 'ai'
                                 });
+                                navigate('/');
                               }}
                               className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                             >

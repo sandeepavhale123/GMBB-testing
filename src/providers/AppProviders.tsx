@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { store } from '@/store/store';
+import { MediaProvider } from '@/context/MediaContext';
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ export const AppProviders = ({ children }: AppProvidersProps) => (
       <ThemeProvider>
         <TooltipProvider>
           <BrowserRouter>
-            {children}
+            <MediaProvider>
+              {children}
+            </MediaProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

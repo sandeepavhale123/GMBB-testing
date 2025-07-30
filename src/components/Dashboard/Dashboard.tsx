@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import { BusinessProfileHeader } from "./BusinessProfileHeader";
 import { EnhancedStatsCards } from "./EnhancedStatsCards";
 import { QuickWinsCard } from "./QuickWinsCard";
@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { useListingContext } from "@/context/ListingContext";
+import { useMediaContext } from "@/context/MediaContext";
 import {
   fetchInsightsSummary,
   fetchVisibilityTrends,
@@ -90,6 +91,7 @@ export const Dashboard: React.FC = () => {
   const [insightsDateRange, setInsightsDateRange] = useState("30");
   const navigate = useNavigate();
   const { listings } = useListingContext();
+  const { selectedMedia, shouldOpenCreatePost, clearSelection } = useMediaContext();
 
   const {
     data: setupData,
@@ -123,6 +125,13 @@ export const Dashboard: React.FC = () => {
       dispatch(fetchVisibilityTrends(params));
     }
   }, [activeTab, selectedListing?.id, insightsDateRange, dispatch]);
+
+  // Handle media context - open modal when image is selected from gallery
+  useEffect(() => {
+    if (shouldOpenCreatePost && selectedMedia) {
+      setIsCreateModalOpen(true);
+    }
+  }, [shouldOpenCreatePost, selectedMedia]);
 
   const handleApprovePost = (post: any) => {
     setSelectedPost(post);
@@ -343,7 +352,10 @@ export const Dashboard: React.FC = () => {
       {/* Create Post Modal - Responsive */}
       <CreatePostModal
         isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
+        onClose={() => {
+          clearSelection();
+          setIsCreateModalOpen(false);
+        }}
       />
 
       {/* Post Preview Modal - Responsive */}
