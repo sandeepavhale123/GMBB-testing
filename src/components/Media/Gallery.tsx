@@ -328,6 +328,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState<'local' | 'ai-generated'>('local');
+  const [mediaType, setMediaType] = useState<'IMAGE' | 'VIDEO'>('IMAGE');
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   
@@ -352,7 +353,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     loadMore, 
     refetch 
   } = useGalleryImages({
-    type: getApiType(selectedTab),
+    type: selectedTab === 'ai-generated' ? 'AI' : mediaType,
     searchTerm: searchQuery,
     sortOrder,
     limit: 16
@@ -545,9 +546,22 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Media Filter Tabs */}
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
-                <Button variant="secondary" size="sm" className="h-8">All</Button>
-                <Button variant="ghost" size="sm" className="h-8">Images</Button>
-                <Button variant="ghost" size="sm" className="h-8">Videos</Button>
+                <Button 
+                  variant={mediaType === 'IMAGE' ? 'secondary' : 'ghost'} 
+                  size="sm" 
+                  className="h-8"
+                  onClick={() => setMediaType('IMAGE')}
+                >
+                  Images
+                </Button>
+                <Button 
+                  variant={mediaType === 'VIDEO' ? 'secondary' : 'ghost'} 
+                  size="sm" 
+                  className="h-8"
+                  onClick={() => setMediaType('VIDEO')}
+                >
+                  Videos
+                </Button>
               </div>
               <div className="text-sm text-muted-foreground">
                 {displayMedia.length} items
