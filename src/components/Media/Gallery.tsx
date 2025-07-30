@@ -727,7 +727,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                         triggerCreatePost({
                           url: item.url,
                           title: item.title,
-                          source: 'local'
+                          source: 'gallery'
                         });
                       }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <FileImage className="h-4 w-4" />
@@ -738,7 +738,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                         triggerMediaUpload({
                           url: item.url,
                           title: item.title,
-                          source: 'local'
+                          source: 'gallery'
                         });
                       }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <Film className="h-4 w-4" />
@@ -935,7 +935,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                       triggerCreatePost({
                         url: item.url,
                         title: item.title,
-                        source: 'ai'
+                        source: 'gallery'
                       });
                     }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <FileImage className="h-4 w-4" />
@@ -946,7 +946,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                       triggerMediaUpload({
                         url: item.url,
                         title: item.title,
-                        source: 'ai'
+                        source: 'gallery'
                       });
                     }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <Film className="h-4 w-4" />

@@ -32,6 +32,7 @@ export interface CreatePostRequest {
   userfile?: File;
   selectedImage?: string;
   aiImageUrl?: string;
+  galleryImageUrl?: string;
   ctaButton?: string;
   ctaUrl?: string;
   publishOption: string;
@@ -129,6 +130,9 @@ export const postsApi = {
     }
     if (request.aiImageUrl) {
       formData.append("aiImageUrl", request.aiImageUrl);
+    }
+    if (request.galleryImageUrl) {
+      formData.append("galleryImageUrl", request.galleryImageUrl);
     }
     if (request.ctaButton) {
       formData.append("ctaButton", request.ctaButton);

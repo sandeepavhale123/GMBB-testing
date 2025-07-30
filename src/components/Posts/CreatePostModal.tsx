@@ -76,8 +76,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       title: "",
       postType: "",
       description: "",
-      image: null as File | string | null,
-      imageSource: null as "local" | "ai" | null,
+        image: null as File | string | null,
+        imageSource: null as "local" | "ai" | "gallery" | null,
       ctaButton: "",
       ctaUrl: "",
       publishOption: "now",
@@ -124,7 +124,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   // Updated image change handler to track source
   const handleImageChange = (
     image: File | string | null,
-    source: "local" | "ai" | null = null
+    source: "local" | "ai" | "gallery" | null = null
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -228,13 +228,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postTags: formData.postTags,
         siloPost: formData.siloPost,
         // Handle image based on source
-        selectedImage: formData.imageSource, // Set to "local" or "ai"
+        selectedImage: formData.imageSource, // Set to "local", "ai", or "gallery"
         userfile:
           formData.imageSource === "local" && formData.image instanceof File
             ? formData.image
             : undefined,
         aiImageUrl:
           formData.imageSource === "ai" && typeof formData.image === "string"
+            ? formData.image
+            : undefined,
+        galleryImageUrl:
+          formData.imageSource === "gallery" && typeof formData.image === "string"
             ? formData.image
             : undefined,
       };
