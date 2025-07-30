@@ -466,6 +466,13 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleSelectMedia = (media: MediaItem) => {
     if (onSelectImage) {
       onSelectImage(media.url);
+    } else {
+      // When no onSelectImage prop is provided, use MediaContext for "Use for Media"
+      triggerMediaUpload({
+        url: media.url,
+        title: media.title,
+        source: 'gallery'
+      });
     }
   };
 
