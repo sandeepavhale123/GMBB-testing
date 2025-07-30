@@ -350,6 +350,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     isLoading, 
     error, 
     hasMore, 
+    total,
     loadMore, 
     refetch 
   } = useGalleryImages({
@@ -564,7 +565,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </Button>
               </div>
               <div className="text-sm text-muted-foreground">
-                {displayMedia.length} items
+                {total} items
               </div>
             </div>
 
