@@ -634,13 +634,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                   </div>)}
               </div>
               
-              {/* Load More Button - Right Side */}
-              {hasMoreItems && <div className="flex items-start pt-2">
+             
+            </div>
+           {/* Load More Button - Right Side */}
+              {hasMoreItems && <div className="flex items-start pt-2 justify-center">
                   <Button onClick={handleLoadMore} variant="outline" className="px-6 whitespace-nowrap">
                     Load More ({filteredMedia.length - itemsToShow})
                   </Button>
                 </div>}
-            </div>
           </div>}
 
         {selectedTab === 'ai-generated' && <div className="space-y-6">
