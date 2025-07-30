@@ -478,6 +478,12 @@ export const Gallery: React.FC<GalleryProps> = ({
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input type="text" placeholder="Search media" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-background border-border" />
                 </div>
+                
+                <select className="h-10 px-3 bg-background border border-border rounded-md text-sm min-w-[120px]">
+                  <option value="desc">Newest First</option>
+                  <option value="asc">Oldest First</option>
+                </select>
+                
                 {showUpload && <>
                     <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" />
                     <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" onClick={() => document.getElementById('file-upload')?.click()}>
