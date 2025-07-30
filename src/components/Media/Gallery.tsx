@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, Upload, Eye, Trash2, Download, FileImage, Film, MoreVertical } from 'lucide-react';
@@ -446,7 +447,12 @@ export const Gallery: React.FC<GalleryProps> = ({
   return <div className={`space-y-6 ${className}`}>
       {/* Header with tabs */}
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <h1 className="font-bold text-foreground text-2xl">Gallery</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="font-bold text-foreground text-2xl">Gallery</h1>
+            <Badge variant="secondary" className="text-xs">
+              150 MB / 1GB used
+            </Badge>
+          </div>
           
           {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
               <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
