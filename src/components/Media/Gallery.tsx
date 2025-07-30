@@ -881,7 +881,7 @@ export const Gallery: React.FC<GalleryProps> = ({
           </div>}
 
         {/* Empty State */}
-        {displayMedia.length === 0 && <div className="text-center py-12">
+        {!isLoading && displayMedia.length === 0 && <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-muted rounded-full mb-4">
               <Search className="h-8 w-8 text-muted-foreground" />
             </div>
