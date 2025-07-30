@@ -14,7 +14,8 @@ import { generateAIImage, uploadGalleryMedia, deleteGalleryMedia } from '@/api/m
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
-import { useGalleryImages } from '@/hooks/useGalleryImages';
+import { useGalleryImagesQuery } from '@/hooks/useGalleryImagesQuery';
+import { useUploadGalleryMediaMutation, useDeleteGalleryMediaMutation, useSaveAIImageMutation } from '@/hooks/useGalleryMutations';
 import { GalleryImageItem } from '@/api/mediaApi';
 export interface MediaItem {
   id: string;
@@ -353,7 +354,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     total,
     loadMore, 
     refetch 
-  } = useGalleryImages({
+  } = useGalleryImagesQuery({
     type: selectedTab === 'ai-generated' ? 'AI' : mediaType,
     searchTerm: searchQuery,
     sortOrder,
@@ -404,6 +405,11 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [deletingItemKey, setDeletingItemKey] = useState<string | null>(null);
 
   // File upload handler
+  // Use mutations
+  const uploadMutation = useUploadGalleryMediaMutation();
+  const deleteMutation = useDeleteGalleryMediaMutation();
+  const saveAIMutation = useSaveAIImageMutation();
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
@@ -412,28 +418,15 @@ export const Gallery: React.FC<GalleryProps> = ({
     try {
       for (const file of Array.from(files)) {
         if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-          await uploadGalleryMedia({
+          await uploadMutation.mutateAsync({
             userfile: file,
             selectedImage: 'local',
             mediaType: file.type.startsWith('image/') ? 'photo' : 'video'
           });
         }
       }
-      
-      toast({
-        title: "Media Uploaded",
-        description: `Successfully uploaded ${files.length} file(s).`
-      });
-      
-      // Refresh gallery to show new uploads
-      refetch();
     } catch (error) {
       console.error('Upload error:', error);
-      toast({
-        title: "Upload Failed",
-        description: "Failed to upload media. Please try again.",
-        variant: "destructive"
-      });
     } finally {
       setIsUploading(false);
       // Reset input
@@ -453,23 +446,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleDeleteMedia = async (mediaKey: string) => {
     try {
       setDeletingItemKey(mediaKey);
-      
-      await deleteGalleryMedia({ key: mediaKey });
-      
-      toast({
-        title: "Media deleted",
-        description: "The media has been deleted successfully.",
-      });
-      
-      // Refresh the gallery
-      refetch();
+      await deleteMutation.mutateAsync({ key: mediaKey });
     } catch (error) {
       console.error('Error deleting media:', error);
-      toast({
-        title: "Delete failed",
-        description: "Failed to delete the media. Please try again.",
-        variant: "destructive",
-      });
     } finally {
       setDeletingItemKey(null);
     }
@@ -526,26 +505,13 @@ export const Gallery: React.FC<GalleryProps> = ({
     setSavingImageIndex(imageIndex);
     
     try {
-      await uploadGalleryMedia({
+      await saveAIMutation.mutateAsync({
         selectedImage: 'ai',
         aiImageUrl: imageUrl,
         mediaType: 'photo'
       });
-      
-      toast({
-        title: "Image Saved",
-        description: "AI generated image has been saved to your gallery."
-      });
-      
-      // Refresh gallery to show new AI image
-      refetch();
     } catch (error) {
       console.error('Save AI image error:', error);
-      toast({
-        title: "Save Failed",
-        description: "Failed to save AI image. Please try again.",
-        variant: "destructive"
-      });
     } finally {
       setSavingImageIndex(undefined);
     }
