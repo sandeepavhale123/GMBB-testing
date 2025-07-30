@@ -54,13 +54,20 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const { selectedMedia } = useMediaContext();
   const { toast } = useToast();
 
+  // Helper function to detect media type from URL
+  const getMediaTypeFromUrl = (url: string): 'image' | 'video' => {
+    const extension = url.split('.').pop()?.toLowerCase() || '';
+    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+    return videoExtensions.includes(extension) ? 'video' : 'image';
+  };
+
   // Effect to auto-populate with selected media from context
   React.useEffect(() => {
     if (selectedMedia && isOpen) {
       const mediaFile: MediaFile = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         url: selectedMedia.url,
-        type: "image", // Assume image for now
+        type: getMediaTypeFromUrl(selectedMedia.url),
         title: selectedMedia.title,
         selectedImage: selectedMedia.source,
         aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
