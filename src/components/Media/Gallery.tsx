@@ -12,7 +12,6 @@ import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
 import { generateAIImage } from '@/api/mediaApi';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
-
 export interface MediaItem {
   id: string;
   url: string;
@@ -296,7 +295,6 @@ const sampleMediaData: MediaItem[] = [{
   width: 400,
   height: 400
 }];
-
 interface GalleryProps {
   showTabs?: boolean;
   showHeader?: boolean;
@@ -307,7 +305,6 @@ interface GalleryProps {
   onSelectImage?: (imageUrl: string) => void;
   className?: string;
 }
-
 export const Gallery: React.FC<GalleryProps> = ({
   showTabs = true,
   showHeader = true,
@@ -318,7 +315,10 @@ export const Gallery: React.FC<GalleryProps> = ({
   onSelectImage,
   className = ''
 }) => {
-  const { triggerCreatePost, triggerMediaUpload } = useMediaContext();
+  const {
+    triggerCreatePost,
+    triggerMediaUpload
+  } = useMediaContext();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('local');
@@ -443,7 +443,6 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleSelectImageFromGenerated = (index: number) => {
     setSelectedImageIndex(index);
   };
-
   return <div className={`space-y-6 ${className}`}>
       {/* Header with tabs */}
       {showHeader && <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -452,7 +451,7 @@ export const Gallery: React.FC<GalleryProps> = ({
 
           </div>
          <div className="flex align-center gap-4">
-           <Badge variant="secondary" className="text-mg bg-primary">
+           <Badge variant="secondary" className="text-mg bg-primar  text-white rounded-[5px]">
                1.5 GB / 790 MB Available
             </Badge>
           {showTabs && <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-fit">
@@ -506,17 +505,11 @@ export const Gallery: React.FC<GalleryProps> = ({
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
                 {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
-                      <img 
-                        src={item.url} 
-                        alt={item.title} 
-                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
-                        onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
-                      />
+                      <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                     </div>
                     
                     {/* Action Buttons Overlay - Hidden in Modal View */}
-                    {!showSelectButton && (
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    {!showSelectButton && <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                         <div className="flex items-center gap-2">
                           {/* Quick View */}
                           <Dialog>
@@ -544,71 +537,58 @@ export const Gallery: React.FC<GalleryProps> = ({
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                            <DropdownMenuItem 
-                              onClick={async () => {
-                                try {
-                                  const response = await fetch(item.url);
-                                  const blob = await response.blob();
-                                  const url = window.URL.createObjectURL(blob);
-                                  const link = document.createElement('a');
-                                  link.href = url;
-                                  link.download = `${item.title || 'image'}.jpg`;
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                  window.URL.revokeObjectURL(url);
-                                } catch (error) {
-                                  console.error('Download failed:', error);
-                                  toast({
-                                    title: "Download Failed",
-                                    description: "Unable to download the image. Please try again.",
-                                    variant: "destructive"
-                                  });
-                                }
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
+                            <DropdownMenuItem onClick={async () => {
+                        try {
+                          const response = await fetch(item.url);
+                          const blob = await response.blob();
+                          const url = window.URL.createObjectURL(blob);
+                          const link = document.createElement('a');
+                          link.href = url;
+                          link.download = `${item.title || 'image'}.jpg`;
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                          window.URL.revokeObjectURL(url);
+                        } catch (error) {
+                          console.error('Download failed:', error);
+                          toast({
+                            title: "Download Failed",
+                            description: "Unable to download the image. Please try again.",
+                            variant: "destructive"
+                          });
+                        }
+                      }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <Download className="h-4 w-4" />
                                 Download Image
                               </DropdownMenuItem>
                               
-                              <DropdownMenuItem 
-                                onClick={() => {
-                                  triggerCreatePost({
-                                    url: item.url,
-                                    title: item.title,
-                                    source: 'local'
-                                  });
-                                }}
-                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                              >
+                              <DropdownMenuItem onClick={() => {
+                        triggerCreatePost({
+                          url: item.url,
+                          title: item.title,
+                          source: 'local'
+                        });
+                      }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <FileImage className="h-4 w-4" />
                                 Use for Post
                               </DropdownMenuItem>
                               
-                              <DropdownMenuItem 
-                                onClick={() => {
-                                  triggerMediaUpload({
-                                    url: item.url,
-                                    title: item.title,
-                                    source: 'local'
-                                  });
-                                }}
-                                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                              >
+                              <DropdownMenuItem onClick={() => {
+                        triggerMediaUpload({
+                          url: item.url,
+                          title: item.title,
+                          source: 'local'
+                        });
+                      }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <Film className="h-4 w-4" />
                                 Use for Media
                               </DropdownMenuItem>
 
-                              {showDeleteButton && (
-                                <>
+                              {showDeleteButton && <>
                                   <DropdownMenuSeparator />
                                   <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                      <DropdownMenuItem 
-                                        onSelect={(e) => e.preventDefault()}
-                                        className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
-                                      >
+                                      <DropdownMenuItem onSelect={e => e.preventDefault()} className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600">
                                         <Trash2 className="h-4 w-4" />
                                         Delete
                                       </DropdownMenuItem>
@@ -628,13 +608,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       </AlertDialogFooter>
                                     </AlertDialogContent>
                                   </AlertDialog>
-                                </>
-                              )}
+                                </>}
                             </DropdownMenuContent>
                           </DropdownMenu>
                          </div>
-                       </div>
-                     )}
+                       </div>}
 
                     {/* Media Info */}
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -693,17 +671,11 @@ export const Gallery: React.FC<GalleryProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
               {visibleMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
-                    <img 
-                      src={item.url} 
-                      alt={item.title} 
-                      className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
-                      onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
-                    />
+                    <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
                   </div>
                   
                   {/* Action Buttons Overlay - Hidden in Modal View */}
-                  {!showSelectButton && (
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  {!showSelectButton && <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                       <div className="flex items-center gap-2">
                         {/* Quick View */}
                         <Dialog>
@@ -731,71 +703,58 @@ export const Gallery: React.FC<GalleryProps> = ({
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                            <DropdownMenuItem 
-                              onClick={async () => {
-                                try {
-                                  const response = await fetch(item.url);
-                                  const blob = await response.blob();
-                                  const url = window.URL.createObjectURL(blob);
-                                  const link = document.createElement('a');
-                                  link.href = url;
-                                  link.download = `${item.title || 'image'}.jpg`;
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                  window.URL.revokeObjectURL(url);
-                                } catch (error) {
-                                  console.error('Download failed:', error);
-                                  toast({
-                                    title: "Download Failed",
-                                    description: "Unable to download the image. Please try again.",
-                                    variant: "destructive"
-                                  });
-                                }
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
+                            <DropdownMenuItem onClick={async () => {
+                      try {
+                        const response = await fetch(item.url);
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `${item.title || 'image'}.jpg`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                      } catch (error) {
+                        console.error('Download failed:', error);
+                        toast({
+                          title: "Download Failed",
+                          description: "Unable to download the image. Please try again.",
+                          variant: "destructive"
+                        });
+                      }
+                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <Download className="h-4 w-4" />
                               Download Image
                             </DropdownMenuItem>
                             
-                            <DropdownMenuItem 
-                              onClick={() => {
-                                triggerCreatePost({
-                                  url: item.url,
-                                  title: item.title,
-                                  source: 'ai'
-                                });
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
+                            <DropdownMenuItem onClick={() => {
+                      triggerCreatePost({
+                        url: item.url,
+                        title: item.title,
+                        source: 'ai'
+                      });
+                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <FileImage className="h-4 w-4" />
                               Use for Post
                             </DropdownMenuItem>
                             
-                            <DropdownMenuItem 
-                              onClick={() => {
-                                triggerMediaUpload({
-                                  url: item.url,
-                                  title: item.title,
-                                  source: 'ai'
-                                });
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                            >
+                            <DropdownMenuItem onClick={() => {
+                      triggerMediaUpload({
+                        url: item.url,
+                        title: item.title,
+                        source: 'ai'
+                      });
+                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <Film className="h-4 w-4" />
                               Use for Media
                             </DropdownMenuItem>
 
-                            {showDeleteButton && (
-                              <>
+                            {showDeleteButton && <>
                                 <DropdownMenuSeparator />
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem 
-                                      onSelect={(e) => e.preventDefault()}
-                                      className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600"
-                                    >
+                                    <DropdownMenuItem onSelect={e => e.preventDefault()} className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 cursor-pointer text-red-600">
                                       <Trash2 className="h-4 w-4" />
                                       Delete
                                     </DropdownMenuItem>
@@ -815,13 +774,11 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
                                 </AlertDialog>
-                              </>
-                            )}
+                              </>}
                           </DropdownMenuContent>
                         </DropdownMenu>
                        </div>
-                     </div>
-                   )}
+                     </div>}
 
                   {/* Media Info */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
