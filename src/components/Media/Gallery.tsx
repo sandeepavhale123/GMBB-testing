@@ -571,7 +571,6 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     title: item.title,
                                     source: 'local'
                                   });
-                                  navigate('/');
                                 }}
                                 className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                               >
@@ -759,7 +758,6 @@ export const Gallery: React.FC<GalleryProps> = ({
                                   title: item.title,
                                   source: 'ai'
                                 });
-                                navigate('/');
                               }}
                               className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
                             >
