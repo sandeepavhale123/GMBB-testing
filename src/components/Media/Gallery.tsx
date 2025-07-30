@@ -514,6 +514,14 @@ export const Gallery: React.FC<GalleryProps> = ({
                                 <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
                                 <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
                               </div>
+                              {showSelectButton && (
+                                <Button 
+                                  onClick={() => handleSelectMedia(item)}
+                                  className="bg-primary hover:bg-primary/90"
+                                >
+                                  Select
+                                </Button>
+                              )}
                             </div>
                           </DialogContent>
                         </Dialog>
@@ -686,15 +694,23 @@ export const Gallery: React.FC<GalleryProps> = ({
                             <Eye className="h-4 w-4 text-gray-700" />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-4xl">
-                          <div className="flex flex-col items-center space-y-4">
-                            <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full object-contain rounded-lg" />
-                            <div className="text-center">
-                              <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
-                              <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
-                            </div>
-                          </div>
-                        </DialogContent>
+                         <DialogContent className="max-w-4xl">
+                           <div className="flex flex-col items-center space-y-4">
+                             <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full object-contain rounded-lg" />
+                             <div className="text-center">
+                               <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
+                               <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
+                             </div>
+                             {showSelectButton && (
+                               <Button 
+                                 onClick={() => handleSelectMedia(item)}
+                                 className="bg-primary hover:bg-primary/90"
+                               >
+                                 Select
+                               </Button>
+                             )}
+                           </div>
+                         </DialogContent>
                       </Dialog>
 
                       {/* Actions Dropdown */}
