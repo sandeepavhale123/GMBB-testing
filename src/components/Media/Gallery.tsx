@@ -366,10 +366,15 @@ export const Gallery: React.FC<GalleryProps> = ({
     const filename = apiImage.key.split('/').pop() || 'Untitled';
     const title = filename.split('.')[0];
     
+    // Determine type based on file extension
+    const extension = filename.split('.').pop()?.toLowerCase() || '';
+    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+    const type = videoExtensions.includes(extension) ? 'video' : 'image';
+    
     return {
       id: apiImage.key,
       url: apiImage.url,
-      type: 'image', // Default to image, could be enhanced based on file extension
+      type,
       title,
       category: selectedTab === 'ai-generated' ? 'ai-generated' : 'local',
       date: apiImage.date.split(' ')[0], // Extract date part
@@ -645,7 +650,17 @@ export const Gallery: React.FC<GalleryProps> = ({
                 ) : (
                   displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
-                      <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
+                      {item.type === 'video' ? (
+                        <video 
+                          src={item.url} 
+                          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
+                          onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
+                          preload="metadata"
+                          muted
+                        />
+                      ) : (
+                        <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
+                      )}
                     </div>
                     
                     {/* Action Buttons Overlay - Hidden in Modal View */}
@@ -658,10 +673,19 @@ export const Gallery: React.FC<GalleryProps> = ({
                                 <Eye className="h-4 w-4 text-gray-700" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-4xl">
+                            <DialogContent className="max-w-4xl" aria-describedby="media-preview-description">
                               <div className="flex flex-col items-center space-y-4">
-                                <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
-                                <div className="text-center">
+                                {selectedMedia?.type === 'video' ? (
+                                  <video 
+                                    src={selectedMedia?.url} 
+                                    className="max-w-full max-h-[70vh] object-contain rounded-lg" 
+                                    controls
+                                    preload="metadata"
+                                  />
+                                ) : (
+                                  <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
+                                )}
+                                <div className="text-center" id="media-preview-description">
                                   <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
                                   <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
                                 </div>
@@ -677,29 +701,26 @@ export const Gallery: React.FC<GalleryProps> = ({
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                            <DropdownMenuItem onClick={async () => {
+                            <DropdownMenuItem onClick={() => {
                         try {
-                          const response = await fetch(item.url);
-                          const blob = await response.blob();
-                          const url = window.URL.createObjectURL(blob);
                           const link = document.createElement('a');
-                          link.href = url;
-                          link.download = `${item.title || 'image'}.jpg`;
+                          link.href = item.url;
+                          link.download = `${item.title || 'media'}.${item.type === 'video' ? 'mp4' : 'jpg'}`;
+                          link.target = '_blank';
                           document.body.appendChild(link);
                           link.click();
                           document.body.removeChild(link);
-                          window.URL.revokeObjectURL(url);
                         } catch (error) {
                           console.error('Download failed:', error);
                           toast({
                             title: "Download Failed",
-                            description: "Unable to download the image. Please try again.",
+                            description: "Unable to download the media. Please try again.",
                             variant: "destructive"
                           });
                         }
                       }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <Download className="h-4 w-4" />
-                                Download Image
+                                Download {item.type === 'video' ? 'Video' : 'Image'}
                               </DropdownMenuItem>
                               
                               <DropdownMenuItem onClick={() => {
@@ -837,7 +858,17 @@ export const Gallery: React.FC<GalleryProps> = ({
               ) : (
                 displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
-                    <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
+                    {item.type === 'video' ? (
+                      <video 
+                        src={item.url} 
+                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
+                        onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
+                        preload="metadata"
+                        muted
+                      />
+                    ) : (
+                      <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
+                    )}
                   </div>
                   
                   {/* Action Buttons Overlay - Hidden in Modal View */}
@@ -850,10 +881,19 @@ export const Gallery: React.FC<GalleryProps> = ({
                               <Eye className="h-4 w-4 text-gray-700" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-4xl">
+                          <DialogContent className="max-w-4xl" aria-describedby="media-preview-description">
                             <div className="flex flex-col items-center space-y-4">
-                              <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full object-contain rounded-lg" />
-                              <div className="text-center">
+                              {selectedMedia?.type === 'video' ? (
+                                <video 
+                                  src={selectedMedia?.url} 
+                                  className="max-w-full max-h-[70vh] object-contain rounded-lg" 
+                                  controls
+                                  preload="metadata"
+                                />
+                              ) : (
+                                <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
+                              )}
+                              <div className="text-center" id="media-preview-description">
                                 <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
                                 <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
                               </div>
@@ -869,30 +909,27 @@ export const Gallery: React.FC<GalleryProps> = ({
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
-                            <DropdownMenuItem onClick={async () => {
-                      try {
-                        const response = await fetch(item.url);
-                        const blob = await response.blob();
-                        const url = window.URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = `${item.title || 'image'}.jpg`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-                      } catch (error) {
-                        console.error('Download failed:', error);
-                        toast({
-                          title: "Download Failed",
-                          description: "Unable to download the image. Please try again.",
-                          variant: "destructive"
-                        });
-                      }
-                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
-                              <Download className="h-4 w-4" />
-                              Download Image
-                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                       try {
+                         const link = document.createElement('a');
+                         link.href = item.url;
+                         link.download = `${item.title || 'media'}.${item.type === 'video' ? 'mp4' : 'jpg'}`;
+                         link.target = '_blank';
+                         document.body.appendChild(link);
+                         link.click();
+                         document.body.removeChild(link);
+                       } catch (error) {
+                         console.error('Download failed:', error);
+                         toast({
+                           title: "Download Failed",
+                           description: "Unable to download the media. Please try again.",
+                           variant: "destructive"
+                         });
+                       }
+                     }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+                               <Download className="h-4 w-4" />
+                               Download {item.type === 'video' ? 'Video' : 'Image'}
+                             </DropdownMenuItem>
                             
                             <DropdownMenuItem onClick={() => {
                       triggerCreatePost({
