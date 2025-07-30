@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { AIImagePreview } from '@/components/Media/AIGeneration/AIImagePreview';
-import { generateAIImage, uploadGalleryMedia } from '@/api/mediaApi';
+import { generateAIImage, uploadGalleryMedia, deleteGalleryMedia } from '@/api/mediaApi';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMediaContext } from '../../context/MediaContext';
 import { useNavigate } from 'react-router-dom';
@@ -396,6 +396,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [savingImageIndex, setSavingImageIndex] = useState<number | undefined>();
+  const [deletingItemKey, setDeletingItemKey] = useState<string | null>(null);
 
   // File upload handler
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -444,12 +445,29 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleViewMedia = (media: MediaItem) => {
     setSelectedMedia(media);
   };
-  const handleDeleteMedia = (mediaId: string) => {
-    console.log('Deleting media:', mediaId);
-    toast({
-      title: "Media Deleted",
-      description: "The media item has been successfully deleted."
-    });
+  const handleDeleteMedia = async (mediaKey: string) => {
+    try {
+      setDeletingItemKey(mediaKey);
+      
+      await deleteGalleryMedia({ key: mediaKey });
+      
+      toast({
+        title: "Media deleted",
+        description: "The media has been deleted successfully.",
+      });
+      
+      // Refresh the gallery
+      refetch();
+    } catch (error) {
+      console.error('Error deleting media:', error);
+      toast({
+        title: "Delete failed",
+        description: "Failed to delete the media. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingItemKey(null);
+    }
   };
   const handleSelectMedia = (media: MediaItem) => {
     if (onSelectImage) {
@@ -724,9 +742,13 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       </AlertDialogHeader>
                                       <AlertDialogFooter>
                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
-                                          Delete
-                                        </AlertDialogAction>
+                                         <AlertDialogAction 
+                                           onClick={() => handleDeleteMedia(item.key || item.id)} 
+                                           className="bg-red-600 hover:bg-red-700"
+                                           disabled={deletingItemKey === (item.key || item.id)}
+                                         >
+                                           {deletingItemKey === (item.key || item.id) ? 'Deleting...' : 'Delete'}
+                                         </AlertDialogAction>
                                       </AlertDialogFooter>
                                     </AlertDialogContent>
                                   </AlertDialog>
@@ -912,9 +934,13 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => handleDeleteMedia(item.id)} className="bg-red-600 hover:bg-red-700">
-                                        Delete
-                                      </AlertDialogAction>
+                                       <AlertDialogAction 
+                                         onClick={() => handleDeleteMedia(item.key || item.id)} 
+                                         className="bg-red-600 hover:bg-red-700"
+                                         disabled={deletingItemKey === (item.key || item.id)}
+                                       >
+                                         {deletingItemKey === (item.key || item.id) ? 'Deleting...' : 'Delete'}
+                                       </AlertDialogAction>
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
                                 </AlertDialog>

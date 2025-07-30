@@ -286,6 +286,17 @@ export const getGalleryImages = async (params: GalleryImageRequest): Promise<Gal
   }
 };
 
+// Gallery delete interfaces
+export interface GalleryDeleteRequest {
+  key: string;
+}
+
+export interface GalleryDeleteResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 // Upload media to gallery
 export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<GalleryUploadResponse> => {
   try {
@@ -311,6 +322,17 @@ export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<Ga
     return response.data;
   } catch (error) {
     console.error('Error uploading to gallery:', error);
+    throw error;
+  }
+};
+
+// Delete media from gallery
+export const deleteGalleryMedia = async (data: GalleryDeleteRequest): Promise<GalleryDeleteResponse> => {
+  try {
+    const response = await axiosInstance.post<GalleryDeleteResponse>('/delete-gallery-images', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting gallery media:', error);
     throw error;
   }
 };
