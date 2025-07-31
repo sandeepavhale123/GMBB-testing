@@ -1,10 +1,12 @@
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Upload, Wand2, FolderOpen } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../ui/dialog';
 import { Gallery } from '../../Media/Gallery';
+import { MediaUploadModal } from '../../Media/MediaUploadModal';
+import { useMediaContext } from '../../../context/MediaContext';
 
 interface PostImageSectionProps {
   image: File | string | null;
@@ -19,6 +21,16 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
 }) => {
   const [dragActive, setDragActive] = React.useState(false);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = React.useState(false);
+  const [isMediaUploadModalOpen, setIsMediaUploadModalOpen] = React.useState(false);
+  
+  const { shouldOpenMediaUpload, clearSelection } = useMediaContext();
+
+  // Handle MediaContext trigger for opening MediaUploadModal
+  useEffect(() => {
+    if (shouldOpenMediaUpload) {
+      setIsMediaUploadModalOpen(true);
+    }
+  }, [shouldOpenMediaUpload]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -161,6 +173,18 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <MediaUploadModal
+        isOpen={isMediaUploadModalOpen}
+        onClose={() => {
+          setIsMediaUploadModalOpen(false);
+          clearSelection();
+        }}
+        onUpload={() => {
+          setIsMediaUploadModalOpen(false);
+          clearSelection();
+        }}
+      />
     </div>
   );
 };
