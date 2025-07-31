@@ -12,7 +12,6 @@ interface ThemeState {
   active_menu_label_color: string;
   sidebar_border_color?: string;
   sidebar_hover_text_color?: string;
-  sidebar_hover_bg_color?: string;
   light_logo?: File | null;
   dark_logo?: File | null;
   favicon?: File | null;
@@ -56,7 +55,6 @@ const getInitialState = (): ThemeState => {
         active_menu_label_color: themeData.active_menu_label_color || '#FFFFFF',
         sidebar_border_color: themeData.sidebar_border_color,
         sidebar_hover_text_color: themeData.sidebar_hover_text_color,
-        sidebar_hover_bg_color: themeData.sidebar_hover_bg_color,
         light_logo: null,
         dark_logo: null,
         favicon: null,
@@ -80,9 +78,8 @@ const getInitialState = (): ThemeState => {
     label_color: '#FFFFFF',
     active_menu_bg_color: '#1D4ED8',
     active_menu_label_color: '#FFFFFF',
-        sidebar_border_color: undefined,
-        sidebar_hover_text_color: undefined,
-        sidebar_hover_bg_color: undefined,
+    sidebar_border_color: undefined,
+    sidebar_hover_text_color: undefined,
     light_logo: null,
     dark_logo: null,
     favicon: null,
@@ -149,7 +146,6 @@ const themeSlice = createSlice({
       active_menu_label_color: string;
       sidebar_border_color?: string;
       sidebar_hover_text_color?: string;
-      sidebar_hover_bg_color?: string;
       light_logo: string;
       dark_logo: string;
       favicon: string;
@@ -167,7 +163,6 @@ const themeSlice = createSlice({
       state.active_menu_label_color = themeData.active_menu_label_color;
       state.sidebar_border_color = themeData.sidebar_border_color;
       state.sidebar_hover_text_color = themeData.sidebar_hover_text_color;
-      state.sidebar_hover_bg_color = themeData.sidebar_hover_bg_color;
       state.light_logo_url = themeData.light_logo;
       state.dark_logo_url = themeData.dark_logo;
       state.favicon_url = themeData.favicon;
@@ -182,15 +177,12 @@ const themeSlice = createSlice({
       document.documentElement.style.setProperty('--sidebar-active-bg', themeData.active_menu_bg_color);
       document.documentElement.style.setProperty('--sidebar-active-text', themeData.active_menu_label_color);
       
-      // Apply sidebar border and hover colors if provided
+      // Apply sidebar border and hover text colors if provided
       if (themeData.sidebar_border_color) {
         document.documentElement.style.setProperty('--sidebar-border', themeData.sidebar_border_color);
       }
       if (themeData.sidebar_hover_text_color) {
         document.documentElement.style.setProperty('--sidebar-hover-text', themeData.sidebar_hover_text_color);
-      }
-      if (themeData.sidebar_hover_bg_color) {
-        document.documentElement.style.setProperty('--sidebar-hover-bg', themeData.sidebar_hover_bg_color);
       }
       
       // Update favicon if provided

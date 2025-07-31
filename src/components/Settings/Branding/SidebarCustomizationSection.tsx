@@ -298,8 +298,9 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
       document.documentElement.style.setProperty('--sidebar-text', theme.labelColor);
       document.documentElement.style.setProperty('--sidebar-active-bg', theme.activeMenuBgColor);
       document.documentElement.style.setProperty('--sidebar-active-text', theme.activeMenuLabelColor);
-      // Keep hover background consistent
+      document.documentElement.style.setProperty('--sidebar-border', 'rgba(255, 255, 255, 0.1)');
       document.documentElement.style.setProperty('--sidebar-hover-bg', 'rgba(255, 255, 255, 0.1)');
+      document.documentElement.style.setProperty('--sidebar-hover-text', '#ffffff');
     }
   };
 
@@ -320,8 +321,9 @@ export const SidebarCustomizationSection: React.FC<SidebarCustomizationSectionPr
     document.documentElement.style.setProperty('--sidebar-text', colors.labelColor);
     document.documentElement.style.setProperty('--sidebar-active-bg', colors.activeMenuBgColor);
     document.documentElement.style.setProperty('--sidebar-active-text', colors.activeMenuLabelColor);
-    // Keep hover background consistent
+    document.documentElement.style.setProperty('--sidebar-border', 'rgba(255, 255, 255, 0.1)');
     document.documentElement.style.setProperty('--sidebar-hover-bg', 'rgba(255, 255, 255, 0.1)');
+    document.documentElement.style.setProperty('--sidebar-hover-text', '#ffffff');
   };
 
   return (

@@ -32,13 +32,11 @@ export const applyStoredTheme = () => {
       );
     }
     
-    // Apply hover styles if provided
-    if (themeData.sidebar_hover_bg_color) {
-      document.documentElement.style.setProperty(
-        "--sidebar-hover-bg",
-        themeData.sidebar_hover_bg_color
-      );
-    }
+    // Apply hover styles (keep hover background as default for now)
+    document.documentElement.style.setProperty(
+      "--sidebar-hover-bg",
+      "rgba(255, 255, 255, 0.1)"
+    );
     
     // Apply sidebar hover text color if provided, otherwise use default
     if (themeData.sidebar_hover_text_color) {
