@@ -187,7 +187,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             ))} */}
             <Tabs
               value={activeTab}
-              onValueChange={(value) => onTabChange(value)}
+              onValueChange={(value) => onTabChange?.(value as "business-info" | "opening-hours" | "edit-log")}
               className="w-full"
             >
               <TabsList className="flex flex-wrap gap-2 max-w-max  min-h-max h-min justify-start">

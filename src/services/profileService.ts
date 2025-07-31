@@ -13,6 +13,7 @@ export interface ProfileData {
   planName: string;
   password: string; // Add password field
   role?: string; // Add role field for admin checks
+  planId?: string; // Add planId field for trial plan check
 }
 
 export interface UpdateProfileData {
