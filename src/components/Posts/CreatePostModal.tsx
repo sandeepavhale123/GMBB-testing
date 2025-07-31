@@ -50,6 +50,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     }
     // Check if there's a selected media from gallery
     if (selectedMedia) {
+      console.log('🖼️ Gallery media selected for post:', selectedMedia);
       return {
         listings: [] as string[],
         title: "",
@@ -242,6 +243,14 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             ? formData.image
             : undefined,
       };
+
+      console.log('📤 Sending post data to backend:', createPostData);
+      console.log('🖼️ Image details:', {
+        selectedImage: createPostData.selectedImage,
+        galleryImageUrl: createPostData.galleryImageUrl,
+        aiImageUrl: createPostData.aiImageUrl,
+        userfile: createPostData.userfile?.name || 'none'
+      });
 
       const response = await dispatch(createPost(createPostData)).unwrap();
 
