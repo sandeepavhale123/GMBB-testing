@@ -24,18 +24,27 @@ export const applyStoredTheme = () => {
       "--sidebar-active-text",
       themeData.active_menu_label_color
     );
-    document.documentElement.style.setProperty(
-      "--sidebar-border",
-      "rgba(255, 255, 255, 0.1)"
-    );
+    // Apply sidebar border color if provided, otherwise use default
+    if (themeData.sidebar_border_color) {
+      document.documentElement.style.setProperty(
+        "--sidebar-border",
+        themeData.sidebar_border_color
+      );
+    }
+    
+    // Apply hover styles (keep hover background as default for now)
     document.documentElement.style.setProperty(
       "--sidebar-hover-bg",
       "rgba(255, 255, 255, 0.1)"
     );
-    document.documentElement.style.setProperty(
-      "--sidebar-hover-text",
-      "#ffffff"
-    );
+    
+    // Apply sidebar hover text color if provided, otherwise use default
+    if (themeData.sidebar_hover_text_color) {
+      document.documentElement.style.setProperty(
+        "--sidebar-hover-text",
+        themeData.sidebar_hover_text_color
+      );
+    }
 
     // Apply accent color for public reports
     if (themeData.accent_color) {

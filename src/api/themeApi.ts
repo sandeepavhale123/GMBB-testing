@@ -8,6 +8,8 @@ export interface ThemeUpdateData {
   label_color: string;
   active_menu_bg_color: string;
   active_menu_label_color: string;
+  sidebar_border_color?: string;
+  sidebar_hover_text_color?: string;
   light_logo?: File | null;
   dark_logo?: File | null;
   favicon?: File | null;
@@ -29,6 +31,8 @@ export interface GetThemeResponse {
     label_color: string;
     active_menu_bg_color: string;
     active_menu_label_color: string;
+    sidebar_border_color?: string;
+    sidebar_hover_text_color?: string;
     light_logo: string;
     dark_logo: string;
     favicon: string;
