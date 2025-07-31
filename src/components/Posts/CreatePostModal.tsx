@@ -229,7 +229,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postTags: formData.postTags,
         siloPost: formData.siloPost,
         // Handle image based on source
-        selectedImage: formData.imageSource, // Set to "local", "ai", or "gallery"
+        selectedImage: formData.imageSource || null, // Indicates the source type
         userfile:
           formData.imageSource === "local" && formData.image instanceof File
             ? formData.image
@@ -366,12 +366,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 {/* Post Image Upload */}
                 <PostImageSection
                   image={formData.image}
-                  onImageChange={(image) =>
-                    handleImageChange(
-                      image,
-                      image instanceof File ? "local" : null
-                    )
-                  }
+                  onImageChange={handleImageChange}
                   onOpenAIImage={() => setIsAIImageOpen(true)}
                 />
 
