@@ -332,7 +332,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   const [mediaType, setMediaType] = useState<'IMAGE' | 'VIDEO'>('IMAGE');
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  
+
   // Map tab to API type
   const getApiType = (tab: string): "IMAGE" | "VIDEO" | "AI" => {
     switch (tab) {
@@ -346,14 +346,14 @@ export const Gallery: React.FC<GalleryProps> = ({
   };
 
   // Use gallery images hook
-  const { 
-    images, 
-    isLoading, 
-    error, 
-    hasMore, 
+  const {
+    images,
+    isLoading,
+    error,
+    hasMore,
     total,
-    loadMore, 
-    refetch 
+    loadMore,
+    refetch
   } = useGalleryImagesQuery({
     type: selectedTab === 'ai-generated' ? 'AI' : mediaType,
     searchTerm: searchQuery,
@@ -366,28 +366,27 @@ export const Gallery: React.FC<GalleryProps> = ({
     // Extract filename from key for title
     const filename = apiImage.key.split('/').pop() || 'Untitled';
     const title = filename.split('.')[0];
-    
+
     // Determine type based on file extension
     const extension = filename.split('.').pop()?.toLowerCase() || '';
     const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
     const type = videoExtensions.includes(extension) ? 'video' : 'image';
-    
     return {
       id: apiImage.key,
       url: apiImage.url,
       type,
       title,
       category: selectedTab === 'ai-generated' ? 'ai-generated' : 'local',
-      date: apiImage.date.split(' ')[0], // Extract date part
+      date: apiImage.date.split(' ')[0],
+      // Extract date part
       key: apiImage.key,
       timestamp: apiImage.timestamp,
       width: 400,
       height: 400
     };
   };
-
   const mediaData = images?.map(transformApiImageToMediaItem) || [];
-  
+
   // Debug: Log video data when mediaType is VIDEO
   React.useEffect(() => {
     if (mediaType === 'VIDEO') {
@@ -419,11 +418,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   const uploadMutation = useUploadGalleryMediaMutation();
   const deleteMutation = useDeleteGalleryMediaMutation();
   const saveAIMutation = useSaveAIImageMutation();
-
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
-    
     setIsUploading(true);
     try {
       for (const file of Array.from(files)) {
@@ -446,7 +443,6 @@ export const Gallery: React.FC<GalleryProps> = ({
 
   // Display media from API only (no local uploads anymore)
   const displayMedia = mediaData;
-
   const handleLoadMore = () => {
     loadMore();
   };
@@ -456,7 +452,9 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleDeleteMedia = async (mediaKey: string) => {
     try {
       setDeletingItemKey(mediaKey);
-      await deleteMutation.mutateAsync({ key: mediaKey });
+      await deleteMutation.mutateAsync({
+        key: mediaKey
+      });
     } catch (error) {
       console.error('Error deleting media:', error);
     } finally {
@@ -520,7 +518,6 @@ export const Gallery: React.FC<GalleryProps> = ({
   const handleSaveAIImage = async (imageUrl: string) => {
     const imageIndex = generatedImages.indexOf(imageUrl);
     setSavingImageIndex(imageIndex);
-    
     try {
       await saveAIMutation.mutateAsync({
         selectedImage: 'ai',
@@ -541,10 +538,10 @@ export const Gallery: React.FC<GalleryProps> = ({
 
           </div>
          <div className="flex align-center gap-4">
-           <Badge variant="secondary" className="text-mg bg-primary text-white rounded-[5px] hover:bg-primary hover:text-white">
+           <Badge variant="secondary" className="text-mg bg-primary text-white hidden rounded-[5px] hover:bg-primary hover:text-white">
                1.5 GB / 790 MB Available
             </Badge>
-          {showTabs && <Tabs value={selectedTab} onValueChange={(value) => setSelectedTab(value as 'local' | 'ai-generated')} className="w-fit">
+          {showTabs && <Tabs value={selectedTab} onValueChange={value => setSelectedTab(value as 'local' | 'ai-generated')} className="w-fit">
               <TabsList className="grid w-fit grid-cols-2 bg-muted/50">
                 <TabsTrigger value="local" className="data-[state=active]:bg-background">
                   Uploaded
@@ -569,7 +566,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                   <Input type="text" placeholder="Search media" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-background border-border" />
                 </div>
                 
-                <Select value={sortOrder} onValueChange={(value) => setSortOrder(value as 'desc' | 'asc')}>
+                <Select value={sortOrder} onValueChange={value => setSortOrder(value as 'desc' | 'asc')}>
                   <SelectTrigger className="w-[140px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -581,11 +578,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 
                 {showUpload && <>
                     <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" disabled={isUploading} />
-                    <Button 
-                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" 
-                      onClick={() => document.getElementById('file-upload')?.click()}
-                      disabled={isUploading}
-                    >
+                    <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" onClick={() => document.getElementById('file-upload')?.click()} disabled={isUploading}>
                       <Upload className="h-4 w-4" />
                       {isUploading ? 'Uploading...' : 'Upload Media'}
                     </Button>
@@ -596,20 +589,10 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Media Filter Tabs */}
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
-                <Button 
-                  variant={mediaType === 'IMAGE' ? 'secondary' : 'ghost'} 
-                  size="sm" 
-                  className="h-8"
-                  onClick={() => setMediaType('IMAGE')}
-                >
+                <Button variant={mediaType === 'IMAGE' ? 'secondary' : 'ghost'} size="sm" className="h-8" onClick={() => setMediaType('IMAGE')}>
                   Images
                 </Button>
-                <Button 
-                  variant={mediaType === 'VIDEO' ? 'secondary' : 'ghost'} 
-                  size="sm" 
-                  className="h-8"
-                  onClick={() => setMediaType('VIDEO')}
-                >
+                <Button variant={mediaType === 'VIDEO' ? 'secondary' : 'ghost'} size="sm" className="h-8" onClick={() => setMediaType('VIDEO')}>
                   Videos
                 </Button>
               </div>
@@ -621,29 +604,17 @@ export const Gallery: React.FC<GalleryProps> = ({
             {/* Media Grid */}
             <div className="flex gap-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 flex-1">
-                {isLoading ? (
-                  // Skeleton loading
-                  Array.from({ length: 16 }).map((_, index) => (
-                    <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
+                {isLoading ?
+            // Skeleton loading
+            Array.from({
+              length: 16
+            }).map((_, index) => <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
                       <div className="aspect-square">
                         <Skeleton className="h-full w-full" />
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+                    </div>) : displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
-                      {item.type === 'video' ? (
-                        <video 
-                          src={item.url} 
-                          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
-                          onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
-                          preload="metadata"
-                          muted
-                        />
-                      ) : (
-                        <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
-                      )}
+                      {item.type === 'video' ? <video src={item.url} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} preload="metadata" muted /> : <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />}
                     </div>
                     
                     {/* Action Buttons Overlay - Hidden in Modal View */}
@@ -658,16 +629,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                             </DialogTrigger>
                             <DialogContent className="max-w-4xl" aria-describedby="media-preview-description">
                               <div className="flex flex-col items-center space-y-4">
-                                {selectedMedia?.type === 'video' ? (
-                                  <video 
-                                    src={selectedMedia?.url} 
-                                    className="max-w-full max-h-[70vh] object-contain rounded-lg" 
-                                    controls
-                                    preload="metadata"
-                                  />
-                                ) : (
-                                  <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
-                                )}
+                                {selectedMedia?.type === 'video' ? <video src={selectedMedia?.url} className="max-w-full max-h-[70vh] object-contain rounded-lg" controls preload="metadata" /> : <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />}
                                 <div className="text-center" id="media-preview-description">
                                   <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
                                   <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
@@ -706,18 +668,16 @@ export const Gallery: React.FC<GalleryProps> = ({
                                 Download {item.type === 'video' ? 'Video' : 'Image'}
                               </DropdownMenuItem>
                               
-                              {item.type === 'image' && (
-                                <DropdownMenuItem onClick={() => {
-                          triggerCreatePost({
-                            url: item.url,
-                            title: item.title,
-                            source: 'gallery'
-                          });
-                        }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+                              {item.type === 'image' && <DropdownMenuItem onClick={() => {
+                        triggerCreatePost({
+                          url: item.url,
+                          title: item.title,
+                          source: 'gallery'
+                        });
+                      }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                   <FileImage className="h-4 w-4" />
                                   Use for Post
-                                </DropdownMenuItem>
-                              )}
+                                </DropdownMenuItem>}
                               
                               <DropdownMenuItem onClick={() => {
                         triggerMediaUpload({
@@ -748,11 +708,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                       </AlertDialogHeader>
                                       <AlertDialogFooter>
                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                         <AlertDialogAction 
-                                           onClick={() => handleDeleteMedia(item.key || item.id)} 
-                                           className="bg-red-600 hover:bg-red-700"
-                                           disabled={deletingItemKey === (item.key || item.id)}
-                                         >
+                                         <AlertDialogAction onClick={() => handleDeleteMedia(item.key || item.id)} className="bg-red-600 hover:bg-red-700" disabled={deletingItemKey === (item.key || item.id)}>
                                            {deletingItemKey === (item.key || item.id) ? 'Deleting...' : 'Delete'}
                                          </AlertDialogAction>
                                       </AlertDialogFooter>
@@ -768,8 +724,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <p className="font-medium text-xs text-white truncate">{item.title}</p>
                     </div>
-                  </div>)
-                )}
+                  </div>)}
               </div>
               
              
@@ -815,45 +770,23 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </div>
 
                 {generatedImages.length > 0 && <div className="space-y-4">
-                    <AIImagePreview 
-                      images={generatedImages} 
-                      selectedIndex={selectedImageIndex} 
-                      prompt={aiPrompt} 
-                      style={aiStyle} 
-                      onPreviousImage={handlePreviousImage} 
-                      onNextImage={handleNextImage} 
-                      onSelectImage={handleSelectImageFromGenerated}
-                      onSaveImage={handleSaveAIImage}
-                      savingImageIndex={savingImageIndex}
-                    />
+                    <AIImagePreview images={generatedImages} selectedIndex={selectedImageIndex} prompt={aiPrompt} style={aiStyle} onPreviousImage={handlePreviousImage} onNextImage={handleNextImage} onSelectImage={handleSelectImageFromGenerated} onSaveImage={handleSaveAIImage} savingImageIndex={savingImageIndex} />
                   </div>}
               </div>}
 
             {/* AI Generated Media Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-              {isLoading ? (
-                // Skeleton loading
-                Array.from({ length: 16 }).map((_, index) => (
-                  <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
+              {isLoading ?
+          // Skeleton loading
+          Array.from({
+            length: 16
+          }).map((_, index) => <div key={index} className="group relative overflow-hidden rounded-lg border border-border bg-card">
                     <div className="aspect-square">
                       <Skeleton className="h-full w-full" />
                     </div>
-                  </div>
-                ))
-              ) : (
-                displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
+                  </div>) : displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <div className="aspect-square overflow-hidden">
-                    {item.type === 'video' ? (
-                      <video 
-                        src={item.url} 
-                        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
-                        onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
-                        preload="metadata"
-                        muted
-                      />
-                    ) : (
-                      <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
-                    )}
+                    {item.type === 'video' ? <video src={item.url} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} preload="metadata" muted /> : <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />}
                   </div>
                   
                   {/* Action Buttons Overlay - Hidden in Modal View */}
@@ -868,16 +801,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                           </DialogTrigger>
                           <DialogContent className="max-w-4xl" aria-describedby="media-preview-description">
                             <div className="flex flex-col items-center space-y-4">
-                              {selectedMedia?.type === 'video' ? (
-                                <video 
-                                  src={selectedMedia?.url} 
-                                  className="max-w-full max-h-[70vh] object-contain rounded-lg" 
-                                  controls
-                                  preload="metadata"
-                                />
-                              ) : (
-                                <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />
-                              )}
+                              {selectedMedia?.type === 'video' ? <video src={selectedMedia?.url} className="max-w-full max-h-[70vh] object-contain rounded-lg" controls preload="metadata" /> : <img src={selectedMedia?.url} alt={selectedMedia?.title} className="max-w-full max-h-[70vh] object-contain rounded-lg" />}
                               <div className="text-center" id="media-preview-description">
                                 <h3 className="text-lg font-semibold">{selectedMedia?.title}</h3>
                                 <p className="text-sm text-muted-foreground">{selectedMedia?.date}</p>
@@ -895,23 +819,23 @@ export const Gallery: React.FC<GalleryProps> = ({
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-48 bg-white border border-gray-200 shadow-lg z-50" align="end">
                             <DropdownMenuItem onClick={() => {
-                       try {
-                         const link = document.createElement('a');
-                         link.href = item.url;
-                         link.download = `${item.title || 'media'}.${item.type === 'video' ? 'mp4' : 'jpg'}`;
-                         link.target = '_blank';
-                         document.body.appendChild(link);
-                         link.click();
-                         document.body.removeChild(link);
-                       } catch (error) {
-                         console.error('Download failed:', error);
-                         toast({
-                           title: "Download Failed",
-                           description: "Unable to download the media. Please try again.",
-                           variant: "destructive"
-                         });
-                       }
-                     }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+                      try {
+                        const link = document.createElement('a');
+                        link.href = item.url;
+                        link.download = `${item.title || 'media'}.${item.type === 'video' ? 'mp4' : 'jpg'}`;
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      } catch (error) {
+                        console.error('Download failed:', error);
+                        toast({
+                          title: "Download Failed",
+                          description: "Unable to download the media. Please try again.",
+                          variant: "destructive"
+                        });
+                      }
+                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                <Download className="h-4 w-4" />
                                Download {item.type === 'video' ? 'Video' : 'Image'}
                              </DropdownMenuItem>
@@ -956,11 +880,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                       <AlertDialogAction 
-                                         onClick={() => handleDeleteMedia(item.key || item.id)} 
-                                         className="bg-red-600 hover:bg-red-700"
-                                         disabled={deletingItemKey === (item.key || item.id)}
-                                       >
+                                       <AlertDialogAction onClick={() => handleDeleteMedia(item.key || item.id)} className="bg-red-600 hover:bg-red-700" disabled={deletingItemKey === (item.key || item.id)}>
                                          {deletingItemKey === (item.key || item.id) ? 'Deleting...' : 'Delete'}
                                        </AlertDialogAction>
                                     </AlertDialogFooter>
@@ -976,8 +896,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                      <p className="font-medium text-xs text-white truncate">{item.title}</p>
                    </div>
-                 </div>)
-               )}
+                 </div>)}
              </div>
 
           </div>}
