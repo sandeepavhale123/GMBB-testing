@@ -442,7 +442,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             e.currentTarget.style.backgroundColor =
                               "var(--sidebar-hover-bg, #374151)";
                             e.currentTarget.style.color =
-                              "var(--sidebar-hover-text, #ffffff)";
+                              "var(--sidebar-hover-text, #000000)";
                           }
                         }}
                         onMouseLeave={(e) => {
@@ -515,14 +515,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                       ? "var(--sidebar-active-text, #ffffff)"
                                       : "var(--sidebar-text, #d1d5db)",
                                   }}
-                                  onMouseEnter={(e) => {
-                                    if (!isSubActive) {
-                                      e.currentTarget.style.backgroundColor =
-                                        "var(--sidebar-hover-bg, #374151)";
-                                      e.currentTarget.style.color =
-                                        "var(--sidebar-hover-text, #ffffff)";
-                                    }
-                                  }}
+                                   onMouseEnter={(e) => {
+                                     if (!isSubActive) {
+                                       e.currentTarget.style.backgroundColor =
+                                         "var(--sidebar-hover-bg, #374151)";
+                                       e.currentTarget.style.color =
+                                         "var(--sidebar-hover-text, #000000)";
+                                     }
+                                   }}
                                   onMouseLeave={(e) => {
                                     if (!isSubActive) {
                                       e.currentTarget.style.backgroundColor =
@@ -606,7 +606,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               e.currentTarget.style.backgroundColor =
                 "var(--sidebar-hover-bg, #374151)";
               e.currentTarget.style.color =
-                "var(--sidebar-hover-text, #ffffff)";
+                "var(--sidebar-hover-text, #000000)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "transparent";
