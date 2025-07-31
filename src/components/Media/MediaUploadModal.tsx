@@ -51,7 +51,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     scheduleDate: "",
   });
   const { selectedListing } = useListingContext();
-  const { selectedMedia } = useMediaContext();
+  const { selectedMedia, clearSelection } = useMediaContext();
   const { toast } = useToast();
 
   // Helper function to detect media type from URL
@@ -168,6 +168,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         };
         onUpload([mediaItem]);
         setUploadComplete(true);
+        
+        // Clear MediaContext to prevent modal reopening on page navigation
+        clearSelection();
+        
         toast({
           title: "Upload Successful",
           description: response.message,
