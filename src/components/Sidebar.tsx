@@ -381,7 +381,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div
           className="flex h-20 items-center justify-between border-b px-4"
           style={{
-            borderColor: "var(--sidebar-border, #374151)",
+            borderColor: "#0000001c",
             height: "107px",
           }}
         >
