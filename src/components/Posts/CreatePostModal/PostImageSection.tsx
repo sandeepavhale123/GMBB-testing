@@ -8,7 +8,7 @@ import { Gallery } from '../../Media/Gallery';
 
 interface PostImageSectionProps {
   image: File | string | null;
-  onImageChange: (image: File | string | null) => void;
+  onImageChange: (image: File | string | null, source?: "local" | "ai" | "gallery" | null) => void;
   onOpenAIImage: () => void;
 }
 
@@ -37,14 +37,14 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
       if (file.type.startsWith('image/')) {
-        onImageChange(file);
+        onImageChange(file, "local");
       }
     }
   }, [onImageChange]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      onImageChange(e.target.files[0]);
+      onImageChange(e.target.files[0], "local");
     }
   };
 
@@ -74,7 +74,7 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
   const imageDisplay = getImageDisplay();
 
   const handleGalleryImageSelect = (imageUrl: string) => {
-    onImageChange(imageUrl);
+    onImageChange(imageUrl, "gallery");
   };
 
   return (
@@ -108,8 +108,8 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
               size="sm" 
               onClick={(e) => {
                 e.stopPropagation();
-                onImageChange(null);
-              }} 
+                onImageChange(null, null);
+              }}
               className="text-xs"
             >
               Remove
