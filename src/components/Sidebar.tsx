@@ -64,12 +64,7 @@ const menuItems: MenuItem[] = [
     icon: Image,
     path: "/media",
   },
-  //   , {
-  //   id: "gallery",
-  //   label: "Gallery",
-  //   icon: Images,
-  //   path: "/gallery"
-  // }
+     
   {
     id: "reviews",
     label: "Reviews",
@@ -131,6 +126,12 @@ const menuItems: MenuItem[] = [
     label: "Reports",
     icon: FileBarChart,
     path: "/reports",
+  },
+  {
+    id: "gallery",
+    label: "Gallery",
+    icon: Images,
+    path: "/gallery"
   },
   {
     id: "settings",
