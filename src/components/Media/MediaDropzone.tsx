@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Upload,
   FileImage,
@@ -10,6 +10,7 @@ import {
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
 import { Gallery } from "./Gallery";
+import { useMediaContext } from "@/context/MediaContext";
 
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
@@ -23,6 +24,14 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const { shouldOpenMediaUpload } = useMediaContext();
+
+  // Close gallery modal when media upload is triggered
+  useEffect(() => {
+    if (shouldOpenMediaUpload) {
+      setIsGalleryModalOpen(false);
+    }
+  }, [shouldOpenMediaUpload]);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -87,27 +96,6 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     setIsDragging(false);
   }, []);
 
-  const handleGalleryImageSelect = async (imageUrl: string) => {
-    try {
-      // Fetch the image and convert to File object
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      
-      // Create a file name from the URL
-      const urlParts = imageUrl.split('/');
-      const fileName = urlParts[urlParts.length - 1] || 'selected-image.jpg';
-      
-      // Create File object
-      const file = new File([blob], fileName, { type: blob.type });
-      
-      // Pass the file to the parent component
-      onFilesAdded([file]);
-      setIsGalleryModalOpen(false);
-    } catch (error) {
-      console.error("Error loading selected image:", error);
-      setError("Failed to load selected image");
-    }
-  };
 
   return (
     <div className="space-y-2">
@@ -210,9 +198,6 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
               showUpload={true}
               showDeleteButton={false}
               showSelectButton={true}
-              onSelectImage={(imageUrl) => {
-                handleGalleryImageSelect(imageUrl);
-              }}
               className="h-full"
             />
           </div>
