@@ -441,8 +441,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           if (!isActive) {
                             e.currentTarget.style.backgroundColor =
                               "var(--sidebar-hover-bg, #374151)";
-                            e.currentTarget.style.color =
-                              "var(--sidebar-hover-text, #ffffff)";
+                            e.currentTarget.style.color = "#ffffff";
                           }
                         }}
                         onMouseLeave={(e) => {
@@ -519,8 +518,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                     if (!isSubActive) {
                                       e.currentTarget.style.backgroundColor =
                                         "var(--sidebar-hover-bg, #374151)";
-                                      e.currentTarget.style.color =
-                                        "var(--sidebar-hover-text, #ffffff)";
+                                      e.currentTarget.style.color = "#ffffff";
                                     }
                                   }}
                                   onMouseLeave={(e) => {
@@ -605,8 +603,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor =
                 "var(--sidebar-hover-bg, #374151)";
-              e.currentTarget.style.color =
-                "var(--sidebar-hover-text, #ffffff)";
+              e.currentTarget.style.color = "#ffffff";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "transparent";
