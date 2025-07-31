@@ -29,7 +29,6 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
   useEffect(() => {
     if (shouldOpenMediaUpload) {
       setIsMediaUploadModalOpen(true);
-      setIsGalleryModalOpen(false); // Close gallery modal when media upload opens
     }
   }, [shouldOpenMediaUpload]);
 
@@ -151,8 +150,11 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
               showHeader={true}
               showUpload={true}
               showDeleteButton={false}
-              showSelectButton={false}
-              directMediaUpload={true}
+              showSelectButton={true}
+              onSelectImage={(imageUrl) => {
+                handleGalleryImageSelect(imageUrl);
+                setIsGalleryModalOpen(false);
+              }}
               className="h-full"
             />
           </div>

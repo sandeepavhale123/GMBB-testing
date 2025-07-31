@@ -309,7 +309,6 @@ interface GalleryProps {
   showAIGeneration?: boolean;
   showDeleteButton?: boolean;
   showSelectButton?: boolean;
-  directMediaUpload?: boolean;
   onSelectImage?: (imageUrl: string) => void;
   className?: string;
 }
@@ -320,7 +319,6 @@ export const Gallery: React.FC<GalleryProps> = ({
   showAIGeneration = true,
   showDeleteButton = true,
   showSelectButton = false,
-  directMediaUpload = false,
   onSelectImage,
   className = ''
 }) => {
@@ -466,14 +464,7 @@ export const Gallery: React.FC<GalleryProps> = ({
     }
   };
   const handleSelectMedia = (media: MediaItem) => {
-    if (directMediaUpload) {
-      // Direct media upload mode - always use MediaContext
-      triggerMediaUpload({
-        url: media.url,
-        title: media.title,
-        source: 'gallery'
-      });
-    } else if (onSelectImage) {
+    if (onSelectImage) {
       onSelectImage(media.url);
     } else {
       // When no onSelectImage prop is provided, use MediaContext for "Use for Media"
@@ -642,21 +633,21 @@ export const Gallery: React.FC<GalleryProps> = ({
                 ) : (
                   displayMedia.map(item => <div key={item.id} className="group relative overflow-hidden rounded-lg border border-border bg-card hover:shadow-lg transition-all duration-200 cursor-pointer">
                     <div className="aspect-square overflow-hidden">
-                       {item.type === 'video' ? (
-                         <video 
-                           src={item.url} 
-                           className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
-                           onClick={(showSelectButton || directMediaUpload) ? () => handleSelectMedia(item) : undefined}
-                           preload="metadata"
-                           muted
-                         />
-                       ) : (
-                         <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={(showSelectButton || directMediaUpload) ? () => handleSelectMedia(item) : undefined} />
-                       )}
+                      {item.type === 'video' ? (
+                        <video 
+                          src={item.url} 
+                          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" 
+                          onClick={showSelectButton ? () => handleSelectMedia(item) : undefined}
+                          preload="metadata"
+                          muted
+                        />
+                      ) : (
+                        <img src={item.url} alt={item.title} className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" onClick={showSelectButton ? () => handleSelectMedia(item) : undefined} />
+                      )}
                     </div>
                     
-                     {/* Action Buttons Overlay - Hidden in Modal View and Direct Upload Mode */}
-                     {!showSelectButton && !directMediaUpload && <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    {/* Action Buttons Overlay - Hidden in Modal View */}
+                    {!showSelectButton && <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                         <div className="flex items-center gap-2">
                           {/* Quick View */}
                           <Dialog>
