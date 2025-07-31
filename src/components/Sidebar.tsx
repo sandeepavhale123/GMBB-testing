@@ -586,7 +586,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div
           className="border-t p-4 shrink-0"
           style={{
-            borderColor: "var(--sidebar-border, #374151)",
+            borderColor: "#0000001c",
           }}
         >
           <Button
