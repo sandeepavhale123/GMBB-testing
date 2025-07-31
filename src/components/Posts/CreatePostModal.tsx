@@ -19,6 +19,7 @@ import {
   clearCreateError,
 } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
+import { useMediaContext } from "../../context/MediaContext";
 import { toast } from "@/hooks/use-toast";
 import {
   transformPostForCloning,
@@ -40,19 +41,44 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
+  const { selectedMedia, clearSelection } = useMediaContext();
   const { createLoading, createError } = useAppSelector((state) => state.posts);
 
   const getInitialFormData = () => {
     if (initialData) {
       return initialData;
     }
+    // Check if there's a selected media from gallery
+    if (selectedMedia) {
+      console.log('🖼️ Gallery media selected for post:', selectedMedia);
+      return {
+        listings: [] as string[],
+        title: "",
+        postType: "",
+        description: "",
+        image: selectedMedia.url,
+        imageSource: selectedMedia.source,
+        ctaButton: "",
+        ctaUrl: "",
+        publishOption: "now",
+        scheduleDate: "",
+        platforms: [] as string[],
+        startDate: "",
+        endDate: "",
+        couponCode: "",
+        redeemOnlineUrl: "",
+        termsConditions: "",
+        postTags: "",
+        siloPost: false,
+      };
+    }
     return {
       listings: [] as string[],
       title: "",
       postType: "",
       description: "",
-      image: null as File | string | null,
-      imageSource: null as "local" | "ai" | null,
+        image: null as File | string | null,
+        imageSource: null as "local" | "ai" | "gallery" | null,
       ctaButton: "",
       ctaUrl: "",
       publishOption: "now",
@@ -75,7 +101,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (isOpen) {
       setFormData(getInitialFormData());
     }
-  }, [isOpen, initialData]);
+  }, [isOpen, initialData, selectedMedia]);
 
   const [showCTAButton, setShowCTAButton] = useState(false);
   const [isAIDescriptionOpen, setIsAIDescriptionOpen] = useState(false);
@@ -99,7 +125,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   // Updated image change handler to track source
   const handleImageChange = (
     image: File | string | null,
-    source: "local" | "ai" | null = null
+    source: "local" | "ai" | "gallery" | null = null
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -203,7 +229,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         postTags: formData.postTags,
         siloPost: formData.siloPost,
         // Handle image based on source
-        selectedImage: formData.imageSource, // Set to "local" or "ai"
+        selectedImage: formData.imageSource || null, // Indicates the source type
         userfile:
           formData.imageSource === "local" && formData.image instanceof File
             ? formData.image
@@ -212,7 +238,19 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           formData.imageSource === "ai" && typeof formData.image === "string"
             ? formData.image
             : undefined,
+        galleryImageUrl:
+          formData.imageSource === "gallery" && typeof formData.image === "string"
+            ? formData.image
+            : undefined,
       };
+
+      console.log('📤 Sending post data to backend:', createPostData);
+      console.log('🖼️ Image details:', {
+        selectedImage: createPostData.selectedImage,
+        galleryImageUrl: createPostData.galleryImageUrl,
+        aiImageUrl: createPostData.aiImageUrl,
+        userfile: createPostData.userfile?.name || 'none'
+      });
 
       const response = await dispatch(createPost(createPostData)).unwrap();
 
@@ -259,6 +297,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       setValidationErrors({});
       setShowCTAButton(false);
       setShowAdvancedOptions(false);
+      // Clear media selection after successful post creation
+      clearSelection();
       onClose();
     } catch (error) {
       console.error("Error creating post:", error);
@@ -297,7 +337,12 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={(open) => {
+        if (!open) {
+          clearSelection();
+          onClose();
+        }
+      }}>
         <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <DialogTitle className="text-xl sm:text-2xl font-semibold">
@@ -321,12 +366,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 {/* Post Image Upload */}
                 <PostImageSection
                   image={formData.image}
-                  onImageChange={(image) =>
-                    handleImageChange(
-                      image,
-                      image instanceof File ? "local" : null
-                    )
-                  }
+                  onImageChange={handleImageChange}
                   onOpenAIImage={() => setIsAIImageOpen(true)}
                 />
 
@@ -386,7 +426,10 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
               <Button
                 variant="outline"
-                onClick={onClose}
+                onClick={() => {
+                  clearSelection();
+                  onClose();
+                }}
                 className="w-full sm:w-auto"
               >
                 Cancel

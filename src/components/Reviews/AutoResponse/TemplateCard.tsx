@@ -23,7 +23,7 @@ import { Star } from "lucide-react";
 import { ReplyTemplate } from "../../../store/slices/reviews/templateTypes";
 import { reviewService } from "@/services/reviewService";
 import { toast } from "@/hooks/use-toast";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/useRedux";
 import { fetchAutoReviewReplySettings } from "@/store/slices/reviews/thunks";
 
 interface TemplateCardProps {
@@ -46,7 +46,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   const [isManageOpen, setIsManageOpen] = useState(false);
   const [editContent, setEditContent] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [showDisableConfirm, setShowDisableConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 

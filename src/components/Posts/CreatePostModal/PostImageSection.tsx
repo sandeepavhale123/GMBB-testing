@@ -1,12 +1,16 @@
 
-import React, { useCallback } from 'react';
-import { Upload, Wand2 } from 'lucide-react';
+import React, { useCallback, useEffect } from 'react';
+import { Upload, Wand2, FolderOpen } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../ui/dialog';
+import { Gallery } from '../../Media/Gallery';
+import { MediaUploadModal } from '../../Media/MediaUploadModal';
+import { useMediaContext } from '../../../context/MediaContext';
 
 interface PostImageSectionProps {
   image: File | string | null;
-  onImageChange: (image: File | string | null) => void;
+  onImageChange: (image: File | string | null, source?: "local" | "ai" | "gallery" | null) => void;
   onOpenAIImage: () => void;
 }
 
@@ -16,6 +20,17 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
   onOpenAIImage
 }) => {
   const [dragActive, setDragActive] = React.useState(false);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = React.useState(false);
+  const [isMediaUploadModalOpen, setIsMediaUploadModalOpen] = React.useState(false);
+  
+  const { shouldOpenMediaUpload, clearSelection } = useMediaContext();
+
+  // Handle MediaContext trigger for opening MediaUploadModal
+  useEffect(() => {
+    if (shouldOpenMediaUpload) {
+      setIsMediaUploadModalOpen(true);
+    }
+  }, [shouldOpenMediaUpload]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -34,14 +49,14 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
       if (file.type.startsWith('image/')) {
-        onImageChange(file);
+        onImageChange(file, "local");
       }
     }
   }, [onImageChange]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      onImageChange(e.target.files[0]);
+      onImageChange(e.target.files[0], "local");
     }
   };
 
@@ -70,24 +85,16 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
 
   const imageDisplay = getImageDisplay();
 
+  const handleGalleryImageSelect = (imageUrl: string) => {
+    onImageChange(imageUrl, "gallery");
+  };
+
   return (
     <div className="space-y-3">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <Label className="text-sm font-medium">Post Image</Label>
-        <Button 
-          type="button" 
-          variant="outline" 
-          size="sm" 
-          onClick={onOpenAIImage} 
-          className="text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 w-full sm:w-auto"
-        >
-          <Wand2 className="w-3 h-3 mr-1" />
-          Use GMB Genie to Generate
-        </Button>
-      </div>
+      <Label className="text-sm font-medium">Post Image</Label>
 
       <div 
-        className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all ${
+        className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-all cursor-pointer ${
           dragActive 
             ? 'border-blue-400 bg-blue-50' 
             : image 
@@ -98,14 +105,8 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
+        onClick={() => setIsGalleryModalOpen(true)}
       >
-        <input 
-          type="file" 
-          accept="image/*" 
-          onChange={handleFileChange} 
-          className="hidden" 
-          id="image-upload" 
-        />
         {imageDisplay ? (
           <div className="space-y-2">
             <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
@@ -117,7 +118,10 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
               type="button" 
               variant="outline" 
               size="sm" 
-              onClick={() => onImageChange(null)} 
+              onClick={(e) => {
+                e.stopPropagation();
+                onImageChange(null, null);
+              }}
               className="text-xs"
             >
               Remove
@@ -138,6 +142,49 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
           </div>
         )}
       </div>
+
+      <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
+        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-auto p-6">
+            <Gallery
+              showHeader={true}
+              showUpload={true}
+              showDeleteButton={false}
+              showSelectButton={true}
+              onSelectImage={(imageUrl) => {
+                handleGalleryImageSelect(imageUrl);
+                setIsGalleryModalOpen(false);
+              }}
+              className="h-full"
+            />
+          </div>
+          <DialogFooter className="p-6 pt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsGalleryModalOpen(false)}
+            >
+              Close
+            </Button>
+            <Button 
+              onClick={() => setIsGalleryModalOpen(false)}
+            >
+              Apply
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <MediaUploadModal
+        isOpen={isMediaUploadModalOpen}
+        onClose={() => {
+          setIsMediaUploadModalOpen(false);
+          clearSelection();
+        }}
+        onUpload={() => {
+          setIsMediaUploadModalOpen(false);
+          clearSelection();
+        }}
+      />
     </div>
   );
 };

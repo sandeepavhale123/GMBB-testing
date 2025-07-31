@@ -6,6 +6,7 @@ import {
   setSearchQuery,
 } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
+import { useMediaContext } from "../../context/MediaContext";
 import { DateRange } from "react-day-picker";
 import { toast } from "@/hooks/use-toast";
 import { CreatePostModal } from "./CreatePostModal";
@@ -23,6 +24,7 @@ import { Post } from "../../types/postTypes";
 export const PostsPage = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
+  const { selectedMedia, shouldOpenCreatePost, clearSelection } = useMediaContext();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [localSearchQuery, setLocalSearchQuery] = useState("");
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -92,6 +94,13 @@ export const PostsPage = () => {
     }
   }, [error]);
 
+  // Handle media context - open modal when image is selected from gallery
+  useEffect(() => {
+    if (shouldOpenCreatePost && selectedMedia) {
+      setIsCreateModalOpen(true);
+    }
+  }, [shouldOpenCreatePost, selectedMedia]);
+
   const handleFilterChange = (newFilter: string) => {
     dispatch(setFilter(newFilter));
   };
@@ -147,6 +156,7 @@ export const PostsPage = () => {
   };
 
   const handleCloseModal = () => {
+    clearSelection();
     setIsCreateModalOpen(false);
     setCloneData(null);
     setIsCloning(false);

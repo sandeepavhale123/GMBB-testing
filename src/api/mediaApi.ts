@@ -7,8 +7,9 @@ export interface MediaUploadData {
   publishOption: string;
   scheduleDate?: string;
   listingId: string;
-  selectedImage: "local" | "ai";
+  selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
+  galleryImageUrl?: string;
 }
 
 export interface MediaUploadResponse {
@@ -151,6 +152,12 @@ export const uploadMedia = async (
     formData.append("type", "photo");
   }
 
+  // Add gallery image URL if it's a gallery image
+  if (data.selectedImage === "gallery" && data.galleryImageUrl) {
+    formData.append("galleryImageUrl", data.galleryImageUrl);
+    formData.append("type", "photo");
+  }
+
   // Add schedule date if provided (should already be in UTC format)
   if (data.scheduleDate && data.publishOption === "schedule") {
     formData.append("schedule_date", data.scheduleDate);
@@ -230,4 +237,109 @@ export const getMediaStats = async (
     }
   );
   return response.data;
+};
+
+// Gallery Images API interfaces
+export interface GalleryImageRequest {
+  type: "IMAGE" | "VIDEO" | "AI";
+  searchTerm: string;
+  limit: number;
+  offset: number;
+  sortOrder: "desc" | "asc";
+}
+
+export interface GalleryImageItem {
+  key: string;
+  url: string;
+  date: string;
+  timestamp: number;
+}
+
+export interface GalleryImageResponse {
+  code: number;
+  message: string;
+  data: {
+    images: GalleryImageItem[];
+    total: number;
+    isTruncated: boolean;
+    nextOffset: number;
+  };
+}
+
+// Gallery upload interfaces
+export interface GalleryUploadRequest {
+  userfile?: File;
+  selectedImage: "local" | "ai";
+  aiImageUrl?: string;
+  mediaType: "photo" | "video";
+}
+
+export interface GalleryUploadResponse {
+  code: number;
+  message: string;
+  data: {
+    url: string;
+  };
+}
+
+// Get gallery images
+export const getGalleryImages = async (params: GalleryImageRequest): Promise<GalleryImageResponse> => {
+  try {
+    const response = await axiosInstance.post('/get-gallery-images', params);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching gallery images:', error);
+    throw error;
+  }
+};
+
+// Gallery delete interfaces
+export interface GalleryDeleteRequest {
+  key: string;
+}
+
+export interface GalleryDeleteResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
+// Upload media to gallery
+export const uploadGalleryMedia = async (data: GalleryUploadRequest): Promise<GalleryUploadResponse> => {
+  try {
+    const formData = new FormData();
+    
+    if (data.selectedImage === "local" && data.userfile) {
+      formData.append("userfile", data.userfile);
+    }
+    
+    formData.append("selectedImage", data.selectedImage);
+    formData.append("mediaType", data.mediaType);
+    
+    if (data.selectedImage === "ai" && data.aiImageUrl) {
+      formData.append("aiImageUrl", data.aiImageUrl);
+    }
+
+    const response = await axiosInstance.post<GalleryUploadResponse>('/upload-ingallery', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading to gallery:', error);
+    throw error;
+  }
+};
+
+// Delete media from gallery
+export const deleteGalleryMedia = async (data: GalleryDeleteRequest): Promise<GalleryDeleteResponse> => {
+  try {
+    const response = await axiosInstance.post<GalleryDeleteResponse>('/delete-gallery-images', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting gallery media:', error);
+    throw error;
+  }
 };

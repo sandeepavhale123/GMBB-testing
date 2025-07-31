@@ -7,6 +7,7 @@ import { MediaPreview } from "./MediaPreview";
 import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
+import { useMediaContext } from "../../context/MediaContext";
 import { uploadMedia } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 
@@ -17,8 +18,9 @@ interface MediaFile {
   type: "image" | "video";
   title?: string;
   category?: string;
-  selectedImage: "local" | "ai";
+  selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
+  galleryImageUrl?: string;
 }
 interface MediaItem {
   id: string;
@@ -49,7 +51,35 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     scheduleDate: "",
   });
   const { selectedListing } = useListingContext();
+  const { selectedMedia } = useMediaContext();
   const { toast } = useToast();
+
+  // Helper function to detect media type from URL
+  const getMediaTypeFromUrl = (url: string): 'image' | 'video' => {
+    const extension = url.split('.').pop()?.toLowerCase() || '';
+    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+    return videoExtensions.includes(extension) ? 'video' : 'image';
+  };
+
+  // Effect to auto-populate with selected media from context
+  React.useEffect(() => {
+    if (selectedMedia && isOpen) {
+      const mediaFile: MediaFile = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        url: selectedMedia.url,
+        type: getMediaTypeFromUrl(selectedMedia.url),
+        title: selectedMedia.title,
+        selectedImage: selectedMedia.source,
+        aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
+        galleryImageUrl: selectedMedia.source === 'gallery' ? selectedMedia.url : undefined,
+      };
+      setFile(mediaFile);
+      setFormData(prev => ({
+        ...prev,
+        title: selectedMedia.title,
+      }));
+    }
+  }, [selectedMedia, isOpen]);
   const handleFilesAdded = (newFiles: File[]) => {
     // Only take the first file to enforce single upload
     const firstFile = newFiles[0];
@@ -106,13 +136,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         title:
           formData.title ||
           file.file?.name.replace(/\.[^/.]+$/, "") ||
-          "AI Generated Image",
+          "Generated Image",
         category: formData.category || "additional",
         publishOption: formData.publishOption,
         scheduleDate: formData.scheduleDate,
         listingId: selectedListing.id,
         selectedImage: file.selectedImage,
         aiImageUrl: file.aiImageUrl,
+        galleryImageUrl: file.galleryImageUrl,
       };
       // console.log("Upload data prepared:", {
       //   fileName: uploadData.file?.name,
@@ -286,6 +317,8 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                         <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
                           {file.selectedImage === "ai"
                             ? "AI IMAGE"
+                            : file.selectedImage === "gallery"
+                            ? "GALLERY IMAGE"
                             : file.type.toUpperCase()}
                         </span>
                       </div>

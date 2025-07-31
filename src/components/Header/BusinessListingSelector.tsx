@@ -32,13 +32,7 @@ export const BusinessListingSelector: React.FC = () => {
   const { searchResults, searching, searchQuery, setSearchQuery } =
     useBusinessSearch(listings);
 
-  const filteredListings = searchQuery
-    ? listings.filter(
-        (listing) =>
-          listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          listing.address.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : listings;
+  const displayListings = searchQuery ? searchResults : listings;
 
   const handleSelect = (listing: (typeof listings)[0]) => {
     // console.log("🔍 BusinessSelector: Setting selected listing:", listing);
@@ -48,7 +42,6 @@ export const BusinessListingSelector: React.FC = () => {
     // Navigate to the geo ranking page for this listing
     navigate(`/geo-ranking-report/${listing.id}`);
   };
-  const displayListings = selectedListing || listings[0];
 
   // console.log("🔍 BusinessSelector: selectedListing:", selectedListing);
   // console.log("🔍 BusinessSelector: listings count:", listings.length);
@@ -147,7 +140,7 @@ export const BusinessListingSelector: React.FC = () => {
             <CommandEmpty>No listing found.</CommandEmpty>
             <CommandList>
               <CommandGroup>
-                {filteredListings.map((business) => (
+                {displayListings.map((business) => (
                   <CommandItem
                     key={business.id}
                     value={`${business.name}-${business.id}`}

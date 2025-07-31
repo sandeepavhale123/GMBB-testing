@@ -1,12 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Upload,
   FileImage,
   FileVideo,
   AlertCircle,
   Sparkles,
+  FolderOpen,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter } from "../ui/dialog";
+import { Gallery } from "./Gallery";
+import { useMediaContext } from "@/context/MediaContext";
 
 interface MediaDropzoneProps {
   onFilesAdded: (files: File[]) => void;
@@ -19,6 +23,15 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const { shouldOpenMediaUpload } = useMediaContext();
+
+  // Close gallery modal when media upload is triggered
+  useEffect(() => {
+    if (shouldOpenMediaUpload) {
+      setIsGalleryModalOpen(false);
+    }
+  }, [shouldOpenMediaUpload]);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -83,14 +96,16 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
     setIsDragging(false);
   }, []);
 
+
   return (
     <div className="space-y-2">
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
+        onClick={() => setIsGalleryModalOpen(true)}
         className={`
-          relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200
+          relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer
           ${
             isDragging
               ? "border-blue-400 bg-blue-50 scale-[1.02]"
@@ -101,7 +116,10 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
         {/* AI Generate Button - Top Right */}
         <div className="absolute top-4 right-4 z-20">
           <Button
-            onClick={onAIGenerate}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAIGenerate();
+            }}
             variant="outline"
             size="sm"
             className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
@@ -110,14 +128,6 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
             Generate with Genie
           </Button>
         </div>
-
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"
-          onChange={handleFileSelect}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          id="media-upload"
-        />
 
         <div className="space-y-4">
           <div className="flex justify-center mt-10 sm:mt-0">
@@ -144,12 +154,16 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
             </h3>
             <p className="text-gray-600 mb-4">
               or{" "}
-              <label
-                htmlFor="media-upload"
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsGalleryModalOpen(true);
+                }}
                 className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer underline"
               >
-                browse to choose a file
-              </label>
+                choose from gallery
+              </button>
             </p>
             <p className="text-sm text-gray-500">Upload one file at a time</p>
           </div>
@@ -174,6 +188,29 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
           <span>{error}</span>
         </div>
       )}
+
+      {/* Gallery Modal */}
+      <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
+        <DialogContent className="max-w-[90vw] w-[90vw] h-[90vh] max-h-[90vh] p-0 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-auto p-6">
+            <Gallery
+              showHeader={true}
+              showUpload={true}
+              showDeleteButton={false}
+              showSelectButton={true}
+              className="h-full"
+            />
+          </div>
+          <DialogFooter className="p-6 pt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsGalleryModalOpen(false)}
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

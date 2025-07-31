@@ -141,6 +141,7 @@ const reviewsSlice = createSlice({
         variations: Array.isArray(action.payload.content) ? action.payload.content : [action.payload.content],
         isSystem: false,
         enabled: true,
+        status: 1,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };

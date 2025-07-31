@@ -337,7 +337,7 @@ export const AutoResponseTab: React.FC = () => {
                   <TemplateCard
                     key={rating}
                     starRating={rating}
-                    listingId={selectedListing.id}
+                    listingId={Number(selectedListing.id)}
                     template={getTemplateForRating(rating, false)}
                     onCreateTemplate={handleCreateTemplate}
                     onEditTemplate={handleEditTemplate}
@@ -350,7 +350,8 @@ export const AutoResponseTab: React.FC = () => {
               <ReplyToOldReviewsCard
                 checked={replyToExistingReviews}
                 onToggle={setReplyToExistingReviews}
-                listingId={selectedListing?.id}
+                onSave={() => {}}
+                listingId={selectedListing?.id ? Number(selectedListing.id) : undefined}
                 isAutoResponseMode={true}
               />
             </TabsContent>
@@ -363,7 +364,7 @@ export const AutoResponseTab: React.FC = () => {
                     key={`rating-only-${rating}`}
                     starRating={rating}
                     template={getTemplateForRating(rating, true)}
-                    listingId={selectedListing.id}
+                    listingId={Number(selectedListing.id)}
                     onCreateTemplate={handleCreateTemplate}
                     onEditTemplate={handleEditTemplate}
                     onDeleteTemplate={handleDeleteTemplate}
@@ -376,7 +377,8 @@ export const AutoResponseTab: React.FC = () => {
               <ReplyToOldReviewsCard
                 checked={replyToExistingReviews}
                 onToggle={setReplyToExistingReviews}
-                listingId={selectedListing?.id}
+                onSave={() => {}}
+                listingId={selectedListing?.id ? Number(selectedListing.id) : undefined}
                 isAutoResponseMode={true}
               />
             </TabsContent>
