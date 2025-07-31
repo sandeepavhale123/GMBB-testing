@@ -265,7 +265,7 @@ export const PaymentHistoryTable: React.FC = () => {
                 {paymentHistory.map((payment) => (
                   <TableRow key={payment.id}>
                     <TableCell className="font-mono text-sm">
-                      {payment.transaction_id.slice(-8)}
+                      {payment.transaction_id}
                     </TableCell>
                     <TableCell className="font-medium">
                       {payment.plan_name}

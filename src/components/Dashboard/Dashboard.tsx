@@ -224,7 +224,7 @@ export const Dashboard: React.FC = () => {
                 className="w-full font-medium text-sm sm:text-base"
                 onClick={handleOptimize}
               >
-                View GMB health report 
+                View GMB health report
               </Button>
             </CardContent>
           </Card>
@@ -241,34 +241,22 @@ export const Dashboard: React.FC = () => {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50 border-b border-gray-200 rounded-none p-0 h-auto">
-              <TabsTrigger
-                value="posts"
-                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:text-primary hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm"
-              >
-                <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-50  rounded-none p-0 h-auto">
+              <TabsTrigger value="posts">
+                <FileText className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
                 <span>Posts</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="reviews"
-                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:text-primary hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm"
-              >
-                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
+              <TabsTrigger value="reviews">
+                <MessageSquare className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
                 <span>Reviews</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="geo-ranking"
-                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:text-primary hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm"
-              >
-                <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+              <TabsTrigger value="geo-ranking">
+                <MapPin className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">GEO Ranking</span>
                 <span className="sm:hidden">GEO</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="insights"
-                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-white data-[state=active]:text-primary hover:bg-gray-100 font-medium text-gray-600 transition-colors text-xs sm:text-sm"
-              >
-                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
+              <TabsTrigger value="insights">
+                <TrendingUp className="w-3 h-3 me-2 sm:w-4 sm:h-4" />
                 <span>Insights</span>
               </TabsTrigger>
             </TabsList>

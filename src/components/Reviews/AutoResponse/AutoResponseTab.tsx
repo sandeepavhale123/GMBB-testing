@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import { ReplyToOldReviewsCard } from "./ReplyToOldReviewsCard";
+
 export const AutoResponseTab: React.FC = () => {
   const dispatch = useAppDispatch();
   const { selectedListing } = useListingContext();
@@ -70,11 +71,31 @@ export const AutoResponseTab: React.FC = () => {
       setNoResponseMode(autoResponse.DNR);
     }
   }, [autoResponse.DNR]);
+
+  // Fetch settings on mount
   useEffect(() => {
     if (selectedListing?.id) {
       dispatch(fetchAutoReviewReplySettings(Number(selectedListing?.id)));
     }
   }, [dispatch, selectedListing?.id]);
+
+  // Sync toggles with newStatus from autoSettings and autoAiSettings
+  useEffect(() => {
+    const autoStatus = Number(autoResponse.autoSettings?.newStatus) === 1;
+    const aiStatus = Number(autoResponse.autoAiSettings?.newStatus) === 1;
+
+    if (autoStatus && !autoResponse.enabled) {
+      dispatch(toggleAutoResponse());
+    } else if (!autoStatus && autoResponse.enabled) {
+      dispatch(toggleAutoResponse());
+    }
+
+    setAiAutoResponseEnabled(aiStatus);
+  }, [
+    autoResponse.autoSettings?.newStatus,
+    autoResponse.autoAiSettings?.newStatus,
+  ]);
+
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
       // Enabling auto response, disable AI auto response and no response mode
@@ -91,8 +112,10 @@ export const AutoResponseTab: React.FC = () => {
     dispatch(toggleAutoResponse());
   };
   const handleToggleAIAutoResponse = () => {
-    if (!aiAutoResponseEnabled) {
-      // Enabling AI auto response, disable auto response and no response mode
+    const newValue = !aiAutoResponseEnabled;
+
+    if (newValue) {
+      // AI is being enabled → turn off Auto Response
       if (autoResponse.enabled) {
         dispatch(toggleAutoResponse());
       }
@@ -105,8 +128,10 @@ export const AutoResponseTab: React.FC = () => {
         );
       }
     }
-    setAiAutoResponseEnabled(!aiAutoResponseEnabled);
+
+    setAiAutoResponseEnabled(newValue);
   };
+
   const handleToggleNoResponseMode = () => {
     if (!noResponseMode) {
       // Trying to enable → show modal
@@ -115,6 +140,22 @@ export const AutoResponseTab: React.FC = () => {
       if (!selectedListing?.id) return;
       setNoResponseMode(false);
     }
+  };
+
+  const hasEnabledTemplate = (settings: any): boolean => {
+    if (!settings) return false;
+
+    const ratingWords = ["one", "two", "three", "four", "five"];
+    for (let i = 0; i < ratingWords.length; i++) {
+      const rating = ratingWords[i];
+      const reviewKey = `${rating}TextStatus`;
+      const ratingOnlyKey = `${rating}StarStatus`;
+
+      if (settings[reviewKey] === 1 || settings[ratingOnlyKey] === 1) {
+        return true;
+      }
+    }
+    return false;
   };
 
   // Called when user clicks "Yes" in modal

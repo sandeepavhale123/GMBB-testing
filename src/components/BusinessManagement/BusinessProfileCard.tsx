@@ -10,6 +10,7 @@ import type {
   BusinessInfo,
   BusinessStatistics,
 } from "../../types/businessInfoTypes";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface BusinessProfileCardProps {
   businessInfo: BusinessInfo | null;
@@ -168,9 +169,9 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
 
       {/* Footer with Tabs */}
       <CardFooter className="p-0">
-        <div className="w-full border-t border-gray-200">
-          <nav className="flex space-x-8 px-6">
-            {tabs.map((tab) => (
+        <div className="w-full mb-6">
+          <nav className="flex space-x-8 px-6 flex-wrap">
+            {/* {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => onTabChange?.(tab.id)}
@@ -183,7 +184,24 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               >
                 {tab.label}
               </button>
-            ))}
+            ))} */}
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) => onTabChange(value)}
+              className="w-full"
+            >
+              <TabsList className="flex flex-wrap gap-2 max-w-max  min-h-max h-min justify-start">
+                {tabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.id}
+                    value={tab.id}
+                    className="w-[100px] md:w-auto whitespace-normal break-words text-center text-sm leading-tight px-2 py-2"
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
           </nav>
         </div>
       </CardFooter>

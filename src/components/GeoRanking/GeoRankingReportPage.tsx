@@ -14,6 +14,7 @@ import {
   getDistanceOptions,
   languageOptions,
 } from "../../utils/geoRankingUtils";
+
 import { getKeywordPositionDetails } from "../../api/geoRankingApi";
 import { useToast } from "../../hooks/use-toast";
 import { Progress } from "../ui/progress";
@@ -26,6 +27,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+import { Sheet, SheetContent } from "../ui/sheet";
 
 export const GeoRankingReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -59,6 +61,7 @@ export const GeoRankingReportPage: React.FC = () => {
 
   const { toast } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [modalCoordinate, setModalCoordinate] = useState("");
   const [modalCompetitors, setModalCompetitors] = useState<any[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
@@ -138,19 +141,58 @@ export const GeoRankingReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex w-full">
-      <Sidebar
+      {/* Mobile Navigation Sheet */}
+      <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+        <SheetContent side="left" className="p-0 w-64">
+          <Sidebar
+            activeTab="geo-ranking"
+            onTabChange={() => {}}
+            collapsed={false}
+            onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          />
+        </SheetContent>
+      </Sheet>
+
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex">
+        <Sidebar
+          activeTab="geo-ranking"
+          onTabChange={() => {}}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
+      </div>
+      {/* <Sidebar
         activeTab="geo-ranking"
         onTabChange={() => {}}
         collapsed={sidebarCollapsed}
         onToggleCollapse={toggleSidebar}
-      />
+      /> */}
 
-      <div
+      {/* <div
         className={`flex-1 transition-all duration-300 ${
           sidebarCollapsed ? "ml-16" : "ml-64"
         }`}
       >
-        <Header onToggleSidebar={toggleSidebar} />
+        <Header onToggleSidebar={toggleSidebar} /> */}
+
+      {/* Main Content */}
+      <div
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+          sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+        }`}
+      >
+        {/* Header */}
+        <Header
+          onToggleSidebar={() => {
+            if (window.innerWidth < 768) {
+              setMobileMenuOpen(true);
+            } else {
+              setSidebarCollapsed(!sidebarCollapsed);
+            }
+          }}
+          showFilters={true}
+        />
 
         <div className="p-3 sm:p-4 lg:p-6 px-0 py-0">
           <div className=" mx-auto">

@@ -58,7 +58,6 @@ export const PublicGMBHealthReport: React.FC = () => {
     .map(([key]) => key);
   // console.log("Health data from API call...", publichealthData);
 
-
   // Handle loading state
   if (isLoading) {
     return (
@@ -262,7 +261,7 @@ export const PublicGMBHealthReport: React.FC = () => {
                   <Camera className="h-8 w-8 text-green-600" />
                 </div>
                 <div className="text-2xl font-bold text-green-600">
-                  {publichealthData?.data?.gmbPhotos?.length || 0}
+                  {publichealthData?.data?.gmbPhotos || 0}
                 </div>
                 <h3 className="font-semibold text-sm text-muted-foreground">
                   No. Of GMB Photos
