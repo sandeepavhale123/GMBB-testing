@@ -14,37 +14,23 @@ export const multiDashboardRoutes: RouteConfig[] = [
         <MultiDashboardLayout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/main-dashboard",
-    element: (
-      <ProtectedRoute>
-        <MultiDashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/main-dashboard/bulk-post",
-    element: (
-      <ProtectedRoute>
-        <BulkPost />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/main-dashboard/bulk-media",
-    element: (
-      <ProtectedRoute>
-        <BulkMedia />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/main-dashboard/bulk-review",
-    element: (
-      <ProtectedRoute>
-        <BulkReview />
-      </ProtectedRoute>
-    ),
+    children: [
+      {
+        path: "",
+        element: <MultiDashboard />,
+      },
+      {
+        path: "bulk-post",
+        element: <BulkPost />,
+      },
+      {
+        path: "bulk-media",
+        element: <BulkMedia />,
+      },
+      {
+        path: "bulk-review",
+        element: <BulkReview />,
+      },
+    ],
   },
 ];

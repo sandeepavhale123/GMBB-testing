@@ -10,6 +10,7 @@ import { multiDashboardRoutes } from "./configs/multiDashboardRoutes";
 export interface RouteConfig {
   path: string;
   element: JSX.Element;
+  children?: RouteConfig[];
 }
 
 export const routeConfigs: RouteConfig[] = [
