@@ -18,22 +18,34 @@ export const useThemeLogo = () => {
   useEffect(() => {
     const getLogoFromStorage = () => {
       try {
+        const defaultLogo = "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png";
+        
+        // Check localStorage first
         const storedTheme = localStorage.getItem('theme_customization');
+        let darkLogo = themeState.dark_logo_url;
+        let lightLogo = themeState.light_logo_url;
+        
         if (storedTheme) {
           const themeData = JSON.parse(storedTheme);
-          const darkLogo = themeData.dark_logo || themeState.dark_logo_url;
-          const lightLogo = themeData.light_logo || themeState.light_logo_url;
-          
-          const defaultLogo = "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png";
-          
-          setLogoUrls({
-            darkLogo: darkLogo || defaultLogo,
-            lightLogo: lightLogo || defaultLogo,
-            hasCustomLogo: !!(darkLogo || lightLogo)
-          });
+          // Prefer stored theme data, then Redux state, then default
+          darkLogo = themeData.dark_logo || themeState.dark_logo_url;
+          lightLogo = themeData.light_logo || themeState.light_logo_url;
         }
+        
+        setLogoUrls({
+          darkLogo: darkLogo || defaultLogo,
+          lightLogo: lightLogo || defaultLogo,
+          hasCustomLogo: !!(darkLogo || lightLogo)
+        });
       } catch (error) {
         console.error('Error reading theme customization from localStorage:', error);
+        // Fallback to Redux state only
+        const defaultLogo = "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png";
+        setLogoUrls({
+          darkLogo: themeState.dark_logo_url || defaultLogo,
+          lightLogo: themeState.light_logo_url || defaultLogo,
+          hasCustomLogo: !!(themeState.dark_logo_url || themeState.light_logo_url)
+        });
       }
     };
 
