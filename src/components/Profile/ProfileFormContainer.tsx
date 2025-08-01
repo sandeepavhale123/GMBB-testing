@@ -26,7 +26,7 @@ export const ProfileFormContainer: React.FC = () => {
     email: "",
     timezone: "",
     language: "",
-    dashboardType: "1",
+    dashboardType: "0",
   });
 
   const {
@@ -45,7 +45,7 @@ export const ProfileFormContainer: React.FC = () => {
         email: profileData.username || "",
         timezone: profileData.timezone || "",
         language: profileData.language || "english",
-        dashboardType: "1",
+        dashboardType: profileData.dashboardType?.toString() || "0",
       });
     }
   }, [profileData]);
@@ -147,7 +147,7 @@ export const ProfileFormContainer: React.FC = () => {
       <ProfilePreferencesForm
         formData={{
           timezone: formData.timezone || "",
-          dashboardType: formData.dashboardType || "1",
+          dashboardType: formData.dashboardType || "0",
         }}
         timezones={timezones}
         userRole={user?.role || profileData?.role}
