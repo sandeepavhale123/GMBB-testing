@@ -5,6 +5,7 @@ import { MultiDashboard } from "@/multiDashboardLayout/pages/MultiDashboard";
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
+import { Reports } from "@/multiDashboardLayout/pages/Reports";
 import { RouteConfig } from "../routeConfig";
 
 export const multiDashboardRoutes: RouteConfig[] = [
@@ -31,6 +32,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-review",
         element: <BulkReview />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
       },
     ],
   },

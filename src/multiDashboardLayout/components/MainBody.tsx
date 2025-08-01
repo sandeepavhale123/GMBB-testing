@@ -9,7 +9,7 @@ export const MainBody: React.FC<MainBodyProps> = ({
   children
 }) => {
   return (
-    <main className="flex-1 min-h-[90vh] w-full bg-white pt-20">
+    <main className="flex-1 min-h-[90vh] w-full bg-white pt-32">
       <div className="max-w-7xl mx-auto px-4 py-6">
         {children}
       </div>
