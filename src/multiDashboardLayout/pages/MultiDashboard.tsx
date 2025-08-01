@@ -122,24 +122,39 @@ export const MultiDashboard: React.FC = () => {
               <input placeholder="Search listings by name, location, or category..." className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
             <div className="flex gap-2">
-              <select className="w-48 px-3 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="all">All Health Scores</option>
-                <option value="excellent">Excellent (80+)</option>
-                <option value="good">Good (60-79)</option>
-                <option value="poor">Poor (0-59)</option>
-              </select>
-              <select className="w-40 px-3 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="all">All Categories</option>
-                <option value="healthcare">Healthcare</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="retail">Retail</option>
-              </select>
-              <select className="w-40 px-3 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="all">All Locations</option>
-                <option value="ny">New York</option>
-                <option value="brooklyn">Brooklyn</option>
-                <option value="queens">Queens</option>
-              </select>
+              <Select>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="All Health Scores" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Health Scores</SelectItem>
+                  <SelectItem value="excellent">Excellent (80+)</SelectItem>
+                  <SelectItem value="good">Good (60-79)</SelectItem>
+                  <SelectItem value="poor">Poor (0-59)</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  <SelectItem value="healthcare">Healthcare</SelectItem>
+                  <SelectItem value="restaurant">Restaurant</SelectItem>
+                  <SelectItem value="retail">Retail</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="All Locations" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Locations</SelectItem>
+                  <SelectItem value="ny">New York</SelectItem>
+                  <SelectItem value="brooklyn">Brooklyn</SelectItem>
+                  <SelectItem value="queens">Queens</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           
