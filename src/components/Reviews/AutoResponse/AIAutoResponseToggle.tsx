@@ -207,25 +207,21 @@ Thank you`);
                       className="hover:bg-muted/80"
                     >
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                         Professional
                       </div>
                     </SelectItem>
                     <SelectItem value="friendly" className="hover:bg-muted/80">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                         Friendly
                       </div>
                     </SelectItem>
                     <SelectItem value="casual" className="hover:bg-muted/80">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
                         Casual
                       </div>
                     </SelectItem>
                     <SelectItem value="formal" className="hover:bg-muted/80">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                         Formal
                       </div>
                     </SelectItem>
@@ -244,6 +240,7 @@ Thank you`);
 
               {/* Advanced Options Toggle */}
               <div className="space-y-3 group mb-4">
+                 <Card className="bg-gray-50 border border-gray-200 p-4 ">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-semibold text-foreground">
@@ -256,6 +253,7 @@ Thank you`);
                     className="data-[state=checked]:bg-primary"
                   />
                 </div>
+                 </Card>
               </div>
 
               {/* Apply For Section - Advanced */}
