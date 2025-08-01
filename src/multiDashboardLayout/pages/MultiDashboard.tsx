@@ -112,16 +112,16 @@ export const MultiDashboard: React.FC = () => {
         {metricsCards.map((metric, index) => {
         const Icon = metric.icon;
         return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
-              <div className="flex items-start justify-between mb-4">
-                <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center`}>
+              <div className="flex items-center justify-between">
+                <div className="flex-1 space-y-1">
+                  <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                  <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
+                  <div className="text-sm text-gray-500">{metric.subtitle}</div>
+                  <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
+                </div>
+                <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-                <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
-                <div className="text-sm text-gray-500">{metric.subtitle}</div>
-                <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
               </div>
             </div>;
       })}
