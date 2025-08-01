@@ -94,6 +94,7 @@ const profileSlice = createSlice({
           state.data.username = action.payload.username;
           state.data.language = action.payload.language;
           state.data.profilePic = action.payload.profilePic;
+          state.data.dashboardType = action.payload.dashboardType;
           // Update password in state if it was changed
           if (action.payload.password) {
             state.data.password = action.payload.password;
