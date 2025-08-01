@@ -25,6 +25,7 @@ import {
   ChevronRight,
   Search,
   TrendingUp,
+  ArrowLeft,
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
@@ -49,7 +50,7 @@ const menuItems: MenuItem[] = [
   {
     id: "main-dashboard",
     label: "Main Dashboard",
-    icon: LayoutDashboard,
+    icon: ArrowLeft,
     path: "/main-dashboard",
   },
   {
