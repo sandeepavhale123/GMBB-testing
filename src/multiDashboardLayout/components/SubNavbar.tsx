@@ -14,13 +14,10 @@ export const SubNavbar: React.FC = () => {
 
   return (
     <nav 
-      className="fixed top-[73px] left-0 right-0 z-40 w-full px-4 py-3 border-b border-border"
-      style={{
-        backgroundColor: theme.bg_color || 'hsl(var(--background))'
-      }}
+      className="fixed top-[73px] left-0 right-0 z-40 w-full px-4 py-3 border-b border-border bg-white"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-end gap-6">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -29,7 +26,7 @@ export const SubNavbar: React.FC = () => {
                 `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-white'
+                    : 'text-muted-foreground hover:text-primary-foreground hover:bg-primary'
                 }`
               }
             >
