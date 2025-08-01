@@ -36,6 +36,47 @@ const getColorNameFromHex = (hexColor: string): 'blue' | 'green' | 'purple' | 'o
   return colorMap[hexColor] || 'blue';
 };
 
+// Helper function to convert hex to HSL format
+const getHSLFromHex = (hex: string): string => {
+  // Convert hex to rgb first
+  let r = 0, g = 0, b = 0;
+  if (hex.length === 4) {
+    r = parseInt(hex[1] + hex[1], 16);
+    g = parseInt(hex[2] + hex[2], 16);
+    b = parseInt(hex[3] + hex[3], 16);
+  } else if (hex.length === 7) {
+    r = parseInt(hex[1] + hex[2], 16);
+    g = parseInt(hex[3] + hex[4], 16);
+    b = parseInt(hex[5] + hex[6], 16);
+  }
+  
+  // Convert rgb to hsl
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0, s = 0, l = (max + min) / 2;
+  
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  
+  // Convert to HSL format for CSS
+  const hsl = `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
+  return hsl;
+};
+
 const getInitialState = (): ThemeState => {
   // Load theme from localStorage if available
   const storedTheme = localStorage.getItem('theme_customization');
@@ -168,14 +209,27 @@ const themeSlice = createSlice({
       state.favicon_url = themeData.favicon;
       state.companyName = themeData.companyName;
       
-      // Store in localStorage
-      localStorage.setItem('theme_customization', JSON.stringify(themeData));
+      // Store in localStorage with proper structure for useThemeLogo hook
+      const themeCustomization = {
+        ...themeData,
+        light_logo: themeData.light_logo,
+        dark_logo: themeData.dark_logo,
+        favicon: themeData.favicon
+      };
+      localStorage.setItem('theme_customization', JSON.stringify(themeCustomization));
       
       // Apply theme immediately
       document.documentElement.style.setProperty('--sidebar-bg', themeData.bg_color);
       document.documentElement.style.setProperty('--sidebar-text', themeData.label_color);
       document.documentElement.style.setProperty('--sidebar-active-bg', themeData.active_menu_bg_color);
       document.documentElement.style.setProperty('--sidebar-active-text', themeData.active_menu_label_color);
+      
+      // Apply accent color globally
+      const primaryHsl = getHSLFromHex(themeData.accent_color);
+      document.documentElement.style.setProperty('--primary', primaryHsl);
+      document.documentElement.style.setProperty('--ring', primaryHsl);
+      document.documentElement.style.setProperty('--sidebar-ring', primaryHsl);
+      document.documentElement.style.setProperty('--accent-primary', primaryHsl);
       
       // Apply sidebar border and hover text colors if provided
       if (themeData.sidebar_border_color) {
@@ -190,6 +244,12 @@ const themeSlice = createSlice({
         const faviconLink = document.querySelector("link[rel='icon']") as HTMLLinkElement;
         if (faviconLink) {
           faviconLink.href = themeData.favicon;
+        } else {
+          // Create favicon link if it doesn't exist
+          const newFaviconLink = document.createElement('link');
+          newFaviconLink.rel = 'icon';
+          newFaviconLink.href = themeData.favicon;
+          document.head.appendChild(newFaviconLink);
         }
       }
     },
