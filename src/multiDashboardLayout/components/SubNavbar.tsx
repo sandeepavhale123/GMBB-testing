@@ -22,7 +22,7 @@ export const SubNavbar: React.FC = () => {
   return <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 py-1 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-center md:justify-end gap-2 md:gap-6 flex-wrap">
-          {navItems.map(item => <NavLink key={item.path} to={item.path} className={({
+          {navItems.map((item, index) => <NavLink key={item.path} to={item.path} end={index === 0} className={({
           isActive
         }) => `px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-primary-foreground hover:bg-primary'}`}>
               {item.label}
