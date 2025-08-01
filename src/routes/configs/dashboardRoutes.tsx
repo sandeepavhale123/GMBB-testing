@@ -11,11 +11,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/location-dashboard/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -25,11 +23,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/ai-tasks/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -39,11 +35,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/gallery/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -53,11 +47,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/posts/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -67,11 +59,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/media/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -81,11 +71,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/insights/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -95,11 +83,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/geo-ranking/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -109,11 +95,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/reviews/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -123,11 +107,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/qa/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
@@ -136,11 +118,9 @@ export const dashboardRoutes: RouteConfig[] = [
     path: "/plan-expired",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
-          <ListingProvider>
-            <Index />
-          </ListingProvider>
-        </DashboardTypeGuard>
+        <ListingProvider>
+          <Index />
+        </ListingProvider>
       </ProtectedRoute>
     ),
   },
