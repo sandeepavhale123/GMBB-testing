@@ -74,14 +74,18 @@ export const LoginForm = () => {
         title: "Success",
         description: "Logged in successfully!",
       });
+      
+      // Set flag to indicate user just logged in
+      sessionStorage.setItem("just_logged_in", "true");
+      
       const onboarding = Number(localStorage.getItem("onboarding"));
       const currentStep =
         onboarding !== 1
           ? localStorage.setItem("onboarding_current_step", "6")
           : localStorage.setItem("onboarding_current_step", "1");
-      const resultRedirect =
-        onboarding !== 1 ? "/location-dashboard/default" : "/onboarding";
-      navigate(resultRedirect);
+      
+      // Always redirect to root to let SmartRedirect handle dashboard routing
+      navigate("/");
     } catch (err) {
       toast({
         title: "Error",

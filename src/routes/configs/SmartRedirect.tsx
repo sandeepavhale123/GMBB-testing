@@ -37,6 +37,9 @@ export const SmartRedirect = () => {
       return;
     }
 
+    // Check if user just logged in
+    const justLoggedIn = sessionStorage.getItem("just_logged_in");
+
     // Try to restore from sessionStorage
     const savedPath = sessionStorage.getItem("post_refresh_path");
     const savedAt = sessionStorage.getItem("navigation_saved_at");
@@ -72,33 +75,42 @@ export const SmartRedirect = () => {
       }
     }
 
-    // Fetch user profile to determine dashboard type
-    console.log("SmartRedirect: Fetching profile to determine dashboard type");
-    const fetchProfileAndRedirect = async () => {
-      try {
-        setIsLoadingProfile(true);
-        const profile = await profileService.getUserProfile();
-        console.log("SmartRedirect: Profile data:", profile);
-        console.log("SmartRedirect: Dashboard type:", profile.dashboardType);
-        
-        if (profile.dashboardType === 1) {
-          console.log("SmartRedirect: Redirecting to main-dashboard");
-          setRedirectPath("/main-dashboard");
-        } else {
-          console.log("SmartRedirect: Redirecting to location-dashboard");
-          // dashboardType === 0 or default case
+    // Only apply dashboardType logic if user just logged in
+    if (justLoggedIn) {
+      console.log("SmartRedirect: User just logged in, applying dashboardType logic");
+      sessionStorage.removeItem("just_logged_in"); // Clear the flag
+      
+      // Fetch user profile to determine dashboard type
+      const fetchProfileAndRedirect = async () => {
+        try {
+          setIsLoadingProfile(true);
+          const profile = await profileService.getUserProfile();
+          console.log("SmartRedirect: Profile data:", profile);
+          console.log("SmartRedirect: Dashboard type:", profile.dashboardType);
+          
+          if (profile.dashboardType === 1) {
+            console.log("SmartRedirect: Redirecting to main-dashboard");
+            setRedirectPath("/main-dashboard");
+          } else {
+            console.log("SmartRedirect: Redirecting to location-dashboard");
+            // dashboardType === 0 or default case
+            setRedirectPath("/location-dashboard/default");
+          }
+        } catch (error) {
+          console.error("SmartRedirect: Failed to fetch profile:", error);
+          // Fallback to location dashboard on error
           setRedirectPath("/location-dashboard/default");
+        } finally {
+          setIsLoadingProfile(false);
         }
-      } catch (error) {
-        console.error("SmartRedirect: Failed to fetch profile:", error);
-        // Fallback to location dashboard on error
-        setRedirectPath("/location-dashboard/default");
-      } finally {
-        setIsLoadingProfile(false);
-      }
-    };
+      };
 
-    fetchProfileAndRedirect();
+      fetchProfileAndRedirect();
+    } else {
+      // User didn't just log in, default to location dashboard to allow free navigation
+      console.log("SmartRedirect: User didn't just log in, defaulting to location dashboard");
+      setRedirectPath("/location-dashboard/default");
+    }
   }, [isAuthenticated, isAuthLoading, shouldWaitForAuth]);
 
   // Show loading while determining redirect
