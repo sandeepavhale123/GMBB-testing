@@ -253,8 +253,9 @@ export const MultiDashboard: React.FC = () => {
                             {listing.category}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground">{listing.id}</p>
+                        
                       </div>
+                      <p className="text-sm text-muted-foreground">{listing.id}</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <MapPin className="w-3 h-3" />
                         {listing.location}
