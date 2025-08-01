@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 export const MultiDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const metricsCards = [{
@@ -236,7 +238,7 @@ export const MultiDashboard: React.FC = () => {
                       <BarChart3 className="w-4 h-4 text-muted-foreground" />
                       <span className="text-xs text-muted-foreground ml-1">Trend</span>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
                       <span className="mr-2">View Details</span>
                       <ExternalLink className="w-3 h-3" />
                     </Button>
@@ -278,7 +280,7 @@ export const MultiDashboard: React.FC = () => {
                           {listing.healthScore}%
                         </span>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
                       </Button>
