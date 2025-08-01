@@ -13,10 +13,7 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Section - Logo */}
         <div className="flex items-center gap-3">
-          <img src={logoData.darkLogo} alt="Logo" className="h-8 w-auto" />
-          <span className="text-lg font-semibold text-foreground">
-            GMB Briefcase
-          </span>
+          <img src={logoData.darkLogo} alt="Logo" className="h-10 w-auto" />
         </div>
 
         {/* Right Section - Action Buttons */}
