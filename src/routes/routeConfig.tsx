@@ -5,6 +5,7 @@ import { generalRoutes } from "./configs/generalRoutes";
 import { listingRoutes } from "./configs/listingRoutes";
 import { rootRoutes } from "./configs/rootRoutes";
 import { publicReportRoutes } from "./configs/publicReportRoutes";
+import { multiDashboardRoutes } from "./configs/multiDashboardRoutes";
 
 export interface RouteConfig {
   path: string;
@@ -17,5 +18,6 @@ export const routeConfigs: RouteConfig[] = [
   ...authRoutes,
   ...generalRoutes,
   ...listingRoutes,
-  ...publicReportRoutes
+  ...publicReportRoutes,
+  ...multiDashboardRoutes
 ];
