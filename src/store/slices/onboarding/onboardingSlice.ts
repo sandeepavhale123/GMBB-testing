@@ -224,6 +224,7 @@ const onboardingSlice = createSlice({
     nextStep: (state) => {
       if (state.currentStep < 5) {
         state.currentStep += 1;
+        console.log("next step", state.currentStep);
         saveCurrentStepToStorage(state.currentStep);
       }
     },

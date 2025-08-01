@@ -23,7 +23,7 @@ const Onboarding = () => {
 
   const navigate = useNavigate();
   const localOnboardingStep = localStorage.getItem("onboarding_current_step");
-  // console.log("local onboarding step", localOnboardingStep);
+  console.log("local onboarding step", localOnboardingStep);
   if (localOnboardingStep === "6") {
     navigate("/location-dashboard/default");
   }

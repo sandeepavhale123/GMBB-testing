@@ -90,6 +90,15 @@ const SettingsPage = () => {
 
   const currentView = getCurrentView();
   const activeTab = getActiveTab();
+  const isProfileLoaded = !!profileData?.role && !!profileData?.planExpDate;
+  if (
+    isProfileLoaded &&
+    isPlanExpired === true &&
+    activeTab !== "subscription" &&
+    activeTab !== "google-account"
+  ) {
+    return <Navigate to="/settings/subscription" replace />;
+  }
 
   const renderTabContent = () => {
     if (isPlanExpired && isStaffOrClient) {
@@ -104,11 +113,7 @@ const SettingsPage = () => {
         </div>
       );
     }
-
-    if (isPlanExpired && activeTab !== "subscription") {
-      // Force only subscription tab to show
-      return <Navigate to="/settings/subscription" replace />;
-    }
+    console.log("📍 ActiveTab:", activeTab, "| Expired:", typeof isPlanExpired);
 
     // If not expired or allowed, show normal tab
     if (currentView === "listings" && accountId) {
