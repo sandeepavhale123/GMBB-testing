@@ -1,8 +1,12 @@
-import React from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 export const MultiDashboard: React.FC = () => {
+  const [dashboardType, setDashboardType] = useState('default');
+  const [viewMode, setViewMode] = useState('grid');
   const metricsCards = [
     {
       title: 'Total Listings',
@@ -171,65 +175,139 @@ export const MultiDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* GMB Listings Grid */}
+        {/* GMB Listings */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">GMB Listings</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {listings.map((listing) => (
-              <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="font-semibold text-foreground">{listing.name}</h4>
-                    <p className="text-sm text-muted-foreground">{listing.id}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
-                      {listing.category}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="mb-3">
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                    <MapPin className="w-3 h-3" />
-                    {listing.location}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Health Score:</span>
-                    <span className={`font-semibold ${listing.statusColor}`}>
-                      {listing.healthScore}% {listing.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Eye className="w-3 h-3" />
-                      <span>{listing.views}</span>
-                      <span className="text-xs">Total Views</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Phone className="w-3 h-3" />
-                      <span>{listing.calls}</span>
-                      <span className="text-xs">Calls</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <div className="h-8 bg-muted rounded flex items-center px-2">
-                    <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground ml-1">Trend</span>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <span className="mr-2">View Details</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+            <h3 className="text-lg font-semibold">GMB Listings</h3>
+            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+              <Select value={dashboardType} onValueChange={setDashboardType}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Dashboard Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="default">Default dashboard</SelectItem>
+                  <SelectItem value="review">Review</SelectItem>
+                  <SelectItem value="insight">Insight</SelectItem>
+                  <SelectItem value="group">Group dashboard</SelectItem>
+                  <SelectItem value="listing">Listing dashboard</SelectItem>
+                  <SelectItem value="post">Post dashboard</SelectItem>
+                  <SelectItem value="adv-posts">Adv.posts</SelectItem>
+                </SelectContent>
+              </Select>
+              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value)}>
+                <ToggleGroupItem value="grid" aria-label="Grid view">
+                  <Grid3X3 className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="list" aria-label="List view">
+                  <List className="h-4 w-4" />
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
           </div>
+          {viewMode === 'grid' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {listings.map((listing) => (
+                <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-semibold text-foreground">{listing.name}</h4>
+                      <p className="text-sm text-muted-foreground">{listing.id}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
+                        {listing.category}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-3">
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
+                      <MapPin className="w-3 h-3" />
+                      {listing.location}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Health Score:</span>
+                      <span className={`font-semibold ${listing.statusColor}`}>
+                        {listing.healthScore}% {listing.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Eye className="w-3 h-3" />
+                        <span>{listing.views}</span>
+                        <span className="text-xs">Total Views</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Phone className="w-3 h-3" />
+                        <span>{listing.calls}</span>
+                        <span className="text-xs">Calls</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <div className="h-8 bg-muted rounded flex items-center px-2">
+                      <BarChart3 className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground ml-1">Trend</span>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <span className="mr-2">View Details</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {listings.map((listing) => (
+                <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                          <h4 className="font-semibold text-foreground">{listing.name}</h4>
+                          <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
+                            {listing.category}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{listing.id}</p>
+                      </div>
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <MapPin className="w-3 h-3" />
+                        {listing.location}
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{listing.views}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Phone className="w-3 h-3" />
+                          <span>{listing.calls}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">Health:</span>
+                        <span className={`font-semibold ${listing.statusColor}`}>
+                          {listing.healthScore}%
+                        </span>
+                      </div>
+                      <Button variant="outline" size="sm">
+                        View Details
+                        <ExternalLink className="w-3 h-3 ml-2" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
