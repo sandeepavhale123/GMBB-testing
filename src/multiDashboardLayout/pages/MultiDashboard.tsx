@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -8,6 +8,8 @@ export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const metricsCards = [{
     title: 'Total Listings',
     value: '20',
@@ -106,6 +108,13 @@ export const MultiDashboard: React.FC = () => {
     calls: '34',
     statusColor: 'text-blue-600'
   }];
+  
+  // Pagination logic
+  const totalPages = Math.ceil(listings.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentListings = listings.slice(startIndex, endIndex);
+  
   return <div className="space-y-6">
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -204,7 +213,7 @@ export const MultiDashboard: React.FC = () => {
             </div>
           </div>
           {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {listings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+              {currentListings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h4 className="font-semibold text-foreground">{listing.name}</h4>
@@ -257,7 +266,7 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                 </div>)}
             </div> : <div className="space-y-3">
-              {listings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+              {currentListings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
@@ -300,6 +309,50 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                 </div>)}
             </div>}
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-6">
+                <div className="text-sm text-muted-foreground">
+                  Showing {startIndex + 1} to {Math.min(endIndex, listings.length)} of {listings.length} listings
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </Button>
+                  
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setCurrentPage(page)}
+                        className="w-8 h-8 p-0"
+                      >
+                        {page}
+                      </Button>
+                    ))}
+                  </div>
+                  
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </div>;
