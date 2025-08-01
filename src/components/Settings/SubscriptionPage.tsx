@@ -409,9 +409,7 @@ export const SubscriptionPage: React.FC = () => {
                   }`}
                 >
                   {isExpired
-                    ? `Your plan expired on ${formatDate(
-                        planExpDate
-                      )}. Please renew to continue accessing features.`
+                    ? `Your plan expired. Please renew to continue accessing features.`
                     : `Your plan is active until ${formatDate(planExpDate)}.`}
                 </p>
               </div>
