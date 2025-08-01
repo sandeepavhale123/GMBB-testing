@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
             Add Listing
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-grey-90 hover:text-white">
+          <Button variant="ghost" size="icon" className="text-white hover:text-black">
             <Grid3X3 className="w-4 h-4" />
           </Button>
           
@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></div>
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-grey-90 hover:text-white">
+          <Button variant="ghost" size="icon" className="text-white hover:text-black">
             <Settings className="w-4 h-4" />
           </Button>
           
