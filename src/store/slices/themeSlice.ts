@@ -209,6 +209,11 @@ const themeSlice = createSlice({
       state.favicon_url = themeData.favicon;
       state.companyName = themeData.companyName;
       
+      // Clear any uploaded file objects when loading from API
+      state.light_logo = null;
+      state.dark_logo = null;
+      state.favicon = null;
+      
       // Store in localStorage with proper structure for useThemeLogo hook
       const themeCustomization = {
         ...themeData,
