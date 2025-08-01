@@ -4,6 +4,9 @@ import { useAppSelector } from '@/hooks/useRedux';
 export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
   const navItems = [{
+    label: 'Dashboard',
+    path: '/main-dashboard'
+  }, {
     label: 'Bulk Posts',
     path: '/main-dashboard/bulk-post'
   }, {
