@@ -47,6 +47,12 @@ interface MenuItem {
 }
 const menuItems: MenuItem[] = [
   {
+    id: "main-dashboard",
+    label: "Main Dashboard",
+    icon: LayoutDashboard,
+    path: "/main-dashboard",
+  },
+  {
     id: "overview",
     label: "Dashboard",
     icon: LayoutDashboard,
@@ -225,6 +231,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Handle location-dashboard route mapping to overview tab
     if (baseRoute === "location-dashboard") {
       return "overview";
+    }
+
+    // Handle main-dashboard route mapping to main-dashboard tab
+    if (baseRoute === "main-dashboard") {
+      return "main-dashboard";
     }
 
     // Check main menu items first
@@ -413,6 +424,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {menuItems
                 .filter(
                   (item) => !(item.id === "settings" && shouldHideForRole())
+                )
+                .filter(
+                  (item) => !(item.id === "main-dashboard" && profileData?.dashboardType === 0)
                 )
                 .map((item) => {
                   const Icon = item.icon;
