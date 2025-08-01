@@ -16,7 +16,7 @@ export const multiDashboardRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/main-dashboard/index",
+    path: "/main-dashboard",
     element: (
       <ProtectedRoute>
         <MultiDashboard />
