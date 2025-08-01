@@ -34,16 +34,16 @@ export const Header: React.FC = () => {
             Add Listing
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent">
+          <Button variant="ghost" size="icon" className="text-grey-90 hover:text-white">
             <Grid3X3 className="w-4 h-4" />
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent relative">
+          <Button variant="ghost" size="icon" className="text-grey-90 hover:text-white relative">
             <Bell className="w-4 h-4" />
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></div>
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent">
+          <Button variant="ghost" size="icon" className="text-grey-90 hover:text-white">
             <Settings className="w-4 h-4" />
           </Button>
           
