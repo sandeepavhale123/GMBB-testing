@@ -244,6 +244,7 @@ Thank you`);
 
               {/* Advanced Options Toggle */}
               <div className="space-y-3 group mb-4">
+                <Card className="bg-gray-50 border border-gray-200 p-4 ">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
@@ -257,6 +258,7 @@ Thank you`);
                     className="data-[state=checked]:bg-primary"
                   />
                 </div>
+                </Card>
               </div>
 
               {/* Apply For Section - Advanced */}
