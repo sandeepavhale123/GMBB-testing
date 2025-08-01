@@ -12,30 +12,38 @@ export const MultiDashboard: React.FC = () => {
     title: 'Total Listings',
     value: '20',
     subtitle: 'of 100 selected',
+    trend: '+2 this month',
     icon: MapPin,
-    bgColor: 'bg-blue-500',
-    textColor: 'text-white'
+    bgColor: 'bg-blue-100',
+    iconBgColor: 'bg-blue-500',
+    textColor: 'text-gray-900'
   }, {
     title: 'Avg. Health Score',
     value: '76%',
-    subtitle: 'Across all listings',
+    subtitle: '↑ 8% from last month',
+    trend: 'Improving',
     icon: TrendingUp,
-    bgColor: 'bg-green-500',
-    textColor: 'text-white'
+    bgColor: 'bg-green-100',
+    iconBgColor: 'bg-green-500',
+    textColor: 'text-gray-900'
   }, {
     title: 'Critical Issues',
     value: '3',
     subtitle: 'Require attention',
+    trend: '-2 resolved',
     icon: AlertTriangle,
-    bgColor: 'bg-red-500',
-    textColor: 'text-white'
+    bgColor: 'bg-red-100',
+    iconBgColor: 'bg-red-500',
+    textColor: 'text-gray-900'
   }, {
     title: 'Avg. Rating',
     value: '4.2',
     subtitle: 'Across all listings',
+    trend: '↑ 0.3 points',
     icon: Star,
-    bgColor: 'bg-yellow-500',
-    textColor: 'text-white'
+    bgColor: 'bg-yellow-100',
+    iconBgColor: 'bg-yellow-500',
+    textColor: 'text-gray-900'
   }];
   const listings = [{
     id: 'GMB1234567',
@@ -103,14 +111,18 @@ export const MultiDashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {metricsCards.map((metric, index) => {
         const Icon = metric.icon;
-        return <div key={index} className={`${metric.bgColor} ${metric.textColor} rounded-lg p-6`}>
-              <div className="flex items-center justify-between mb-2">
-                <Icon className="w-6 h-6" />
-                <BarChart3 className="w-4 h-4 opacity-60" />
+        return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
+              <div className="flex items-start justify-between mb-4">
+                <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
               </div>
-              <div className="text-2xl font-bold mb-1">{metric.value}</div>
-              <div className="text-sm opacity-90">{metric.title}</div>
-              <div className="text-xs opacity-75">{metric.subtitle}</div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
+                <div className="text-sm text-gray-500">{metric.subtitle}</div>
+                <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
+              </div>
             </div>;
       })}
       </div>
