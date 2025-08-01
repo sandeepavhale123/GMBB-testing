@@ -9,20 +9,30 @@ export const SmartRedirect = () => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
   useEffect(() => {
+    console.log("SmartRedirect: Starting redirect logic", {
+      isAuthLoading,
+      shouldWaitForAuth,
+      isAuthenticated
+    });
+
     // Wait for auth to be determined
     if (isAuthLoading || shouldWaitForAuth) {
+      console.log("SmartRedirect: Waiting for auth");
       return;
     }
 
     // If not authenticated, go to login
     if (!isAuthenticated) {
+      console.log("SmartRedirect: Not authenticated, redirecting to login");
       setRedirectPath("/login");
       return;
     }
 
     // Check onboarding status (PRIORITY - must come first)
     const onboarding = Number(localStorage.getItem("onboarding"));
+    console.log("SmartRedirect: Onboarding status:", onboarding);
     if (onboarding === 1) {
+      console.log("SmartRedirect: Redirecting to onboarding");
       setRedirectPath("/onboarding");
       return;
     }
@@ -30,6 +40,7 @@ export const SmartRedirect = () => {
     // Try to restore from sessionStorage
     const savedPath = sessionStorage.getItem("post_refresh_path");
     const savedAt = sessionStorage.getItem("navigation_saved_at");
+    console.log("SmartRedirect: Session storage check", { savedPath, savedAt });
 
     if (savedPath && savedAt) {
       // Check if the saved navigation state is not too old (within 5 minutes)
@@ -37,6 +48,7 @@ export const SmartRedirect = () => {
       const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
       if (savedTimestamp > fiveMinutesAgo) {
+        console.log("SmartRedirect: Using saved path:", savedPath);
         // Clear the stored path to prevent loops
         sessionStorage.removeItem("post_refresh_path");
         sessionStorage.removeItem("navigation_saved_at");
@@ -53,6 +65,7 @@ export const SmartRedirect = () => {
         setRedirectPath(savedPath);
         return;
       } else {
+        console.log("SmartRedirect: Saved path too old, clearing");
         sessionStorage.removeItem("post_refresh_path");
         sessionStorage.removeItem("scrollY");
         sessionStorage.removeItem("navigation_saved_at");
@@ -60,19 +73,24 @@ export const SmartRedirect = () => {
     }
 
     // Fetch user profile to determine dashboard type
+    console.log("SmartRedirect: Fetching profile to determine dashboard type");
     const fetchProfileAndRedirect = async () => {
       try {
         setIsLoadingProfile(true);
         const profile = await profileService.getUserProfile();
+        console.log("SmartRedirect: Profile data:", profile);
+        console.log("SmartRedirect: Dashboard type:", profile.dashboardType);
         
         if (profile.dashboardType === 1) {
+          console.log("SmartRedirect: Redirecting to main-dashboard");
           setRedirectPath("/main-dashboard");
         } else {
+          console.log("SmartRedirect: Redirecting to location-dashboard");
           // dashboardType === 0 or default case
           setRedirectPath("/location-dashboard/default");
         }
       } catch (error) {
-        console.error("Failed to fetch profile:", error);
+        console.error("SmartRedirect: Failed to fetch profile:", error);
         // Fallback to location dashboard on error
         setRedirectPath("/location-dashboard/default");
       } finally {

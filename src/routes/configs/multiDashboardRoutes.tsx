@@ -1,4 +1,5 @@
 import { ProtectedRoute } from "../ProtectedRoute";
+import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
 import { MultiDashboard } from "@/multiDashboardLayout/pages/MultiDashboard";
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
@@ -11,7 +12,9 @@ export const multiDashboardRoutes: RouteConfig[] = [
     path: "/main-dashboard",
     element: (
       <ProtectedRoute>
-        <MultiDashboardLayout />
+        <DashboardTypeGuard requiredDashboardType={1}>
+          <MultiDashboardLayout />
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
     children: [
