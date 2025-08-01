@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,13 +27,13 @@ export const MultiDashboard: React.FC = () => {
     iconBgColor: 'bg-green-500',
     textColor: 'text-gray-900'
   }, {
-    title: 'Critical Issues',
-    value: '3',
-    subtitle: 'Require attention',
-    trend: '-2 resolved',
-    icon: AlertTriangle,
-    bgColor: 'bg-red-100',
-    iconBgColor: 'bg-red-500',
+    title: 'Total Posts',
+    value: '156',
+    subtitle: 'Published this month',
+    trend: '+12 this week',
+    icon: FileText,
+    bgColor: 'bg-purple-100',
+    iconBgColor: 'bg-purple-500',
     textColor: 'text-gray-900'
   }, {
     title: 'Avg. Rating',
