@@ -25,8 +25,8 @@ export const Header: React.FC = () => {
         {/* Right Section - Action Buttons */}
         <div className="flex items-center gap-2">
           <Button variant="secondary" size="sm" className="bg-white text-foreground hover:bg-gray-50">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Listing
+            <Plus className="w-4 h-4 " />
+            <span className="hidden md:block ml-1">Add Listing</span>
           </Button>
           
           <Button variant="ghost" size="icon" className="text-white hover:text-black">
