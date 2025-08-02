@@ -317,10 +317,9 @@ export const MultiDashboard: React.FC = () => {
             </div> : <div className="space-y-3">
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                    <div>
+
+                      <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
                             {listing.profilePhoto ? (
                               <img 
                                 src={listing.profilePhoto} 
@@ -331,6 +330,12 @@ export const MultiDashboard: React.FC = () => {
                               <Building2 className="w-5 h-5 text-primary" />
                             )}
                           </div>
+                    
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                          
                           <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
                           <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
                             {listing.storeCode || 'N/A'}
