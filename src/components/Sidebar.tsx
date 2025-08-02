@@ -104,7 +104,7 @@ const menuItems: MenuItem[] = [
     subItems: [
       {
         id: "keywords",
-        label: "keyword Research",
+        label: "Keyword Research",
         icon: Search,
         path: "/keywords",
       },

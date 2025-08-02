@@ -112,7 +112,7 @@ export const InsightsHeader: React.FC<InsightsHeaderProps> = ({
             {isRefreshing ? "Refreshing..." : isLoading ? "Loading..." : "Refresh"}
           </Button>
 
-          <Button variant="outline" className="w-full sm:w-auto" disabled={isExporting} onClick={onExportImage}>
+          <Button variant="outline" disabled={isExporting} onClick={onExportImage} className="w-full sm:w-auto hidden">
             <Image className="w-4 h-4 mr-2" />
             {isExporting ? "Exporting..." : "Export Image"}
           </Button>
