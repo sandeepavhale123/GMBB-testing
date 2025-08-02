@@ -119,7 +119,7 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
             setIsGalleryModalOpen(false);
           }} className="h-full" />
           </div>
-          <DialogFooter className="p-6 pt-4">
+          <DialogFooter className="p-6 pt-4 hidden ">
             <Button variant="outline" onClick={() => setIsGalleryModalOpen(false)}>
               Close
             </Button>
