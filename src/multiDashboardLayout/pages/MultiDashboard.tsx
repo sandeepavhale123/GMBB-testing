@@ -251,7 +251,7 @@ export const MultiDashboard: React.FC = () => {
                         <img 
                           src={listing.profilePhoto} 
                           alt={listing.listingName}
-                          className="w-full h-full object-cover rounded border border-primary/20"
+                          className="w-full h-full object-cover rounded border border-primary/20 overflow-hidden"
                         />
                       ) : (
                         <Building2 className="w-6 h-6 text-primary" />
