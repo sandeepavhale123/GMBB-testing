@@ -261,7 +261,7 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                   
                   {/* Rating Section */}
-                  <div className="mb-4 flex justify-between items-center">
+                  <div className="mb-4">
                     <h5 className="text-sm font-medium text-muted-foreground mb-2">Avg. Rating</h5>
                     <div className="flex items-center gap-2 mb-3">
                       <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
