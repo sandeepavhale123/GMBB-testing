@@ -149,8 +149,6 @@ export const MultiDashboard: React.FC = () => {
                     <div className="flex-1 space-y-1">
                       <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
                       <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
-                      <div className="text-sm text-gray-500">{metric.subtitle}</div>
-                      <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
                     </div>
                     <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
                       <Icon className="w-6 h-6 text-white" />
