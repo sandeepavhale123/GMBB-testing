@@ -25,6 +25,15 @@ export const MultiDashboard: React.FC = () => {
     iconBgColor: 'bg-blue-500',
     textColor: 'text-gray-900'
   }, {
+    title: 'Avg. Rating',
+    value: trendsData.data.stats.avgRating,
+    subtitle: 'Across all listings',
+    trend: '↑ 0.3 points',
+    icon: Star,
+    bgColor: 'bg-yellow-100',
+    iconBgColor: 'bg-yellow-500',
+    textColor: 'text-gray-900'
+  }, {
     title: 'Total Review',
     value: trendsData.data.stats.totalReviews.toLocaleString(),
     subtitle: 'Customer feedback',
@@ -41,15 +50,6 @@ export const MultiDashboard: React.FC = () => {
     icon: FileText,
     bgColor: 'bg-purple-100',
     iconBgColor: 'bg-purple-500',
-    textColor: 'text-gray-900'
-  }, {
-    title: 'Avg. Rating',
-    value: trendsData.data.stats.avgRating,
-    subtitle: 'Across all listings',
-    trend: '↑ 0.3 points',
-    icon: Star,
-    bgColor: 'bg-yellow-100',
-    iconBgColor: 'bg-yellow-500',
     textColor: 'text-gray-900'
   }] : [];
   const listings = [{
