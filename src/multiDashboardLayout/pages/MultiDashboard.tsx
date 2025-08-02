@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useTrendsData } from '@/api/trendsApi';
+import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const metricsCards = [{
+  
+  const { data: trendsData, isLoading: trendsLoading, error: trendsError } = useTrendsData();
+
+  const metricsCards = trendsData ? [{
     title: 'Total Listings',
-    value: '20',
-    subtitle: 'of 100 selected',
+    value: trendsData.data.stats.totalListings.toLocaleString(),
+    subtitle: 'Active locations',
     trend: '+2 this month',
-    icon: MapPin,
+    icon: Building2,
     bgColor: 'bg-blue-100',
     iconBgColor: 'bg-blue-500',
     textColor: 'text-gray-900'
   }, {
-    title: 'Avg. Health Score',
-    value: '76%',
-    subtitle: '↑ 8% from last month',
+    title: 'Total Review',
+    value: trendsData.data.stats.totalReviews.toLocaleString(),
+    subtitle: 'Customer feedback',
     trend: 'Improving',
-    icon: TrendingUp,
+    icon: MessageSquare,
     bgColor: 'bg-green-100',
     iconBgColor: 'bg-green-500',
     textColor: 'text-gray-900'
   }, {
     title: 'Total Posts',
-    value: '156',
+    value: trendsData.data.stats.totalPosts.toLocaleString(),
     subtitle: 'Published this month',
     trend: '+12 this week',
     icon: FileText,
@@ -39,14 +44,14 @@ export const MultiDashboard: React.FC = () => {
     textColor: 'text-gray-900'
   }, {
     title: 'Avg. Rating',
-    value: '4.2',
+    value: trendsData.data.stats.avgRating,
     subtitle: 'Across all listings',
     trend: '↑ 0.3 points',
     icon: Star,
     bgColor: 'bg-yellow-100',
     iconBgColor: 'bg-yellow-500',
     textColor: 'text-gray-900'
-  }];
+  }] : [];
   const listings = [{
     id: 'GMB1234567',
     name: 'Downtown Dental Care',
@@ -118,22 +123,42 @@ export const MultiDashboard: React.FC = () => {
   return <div className="space-y-6">
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {metricsCards.map((metric, index) => {
-        const Icon = metric.icon;
-        return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
+        {trendsLoading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="flex-1 space-y-1">
-                  <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-                  <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
-                  <div className="text-sm text-gray-500">{metric.subtitle}</div>
-                  <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-20" />
                 </div>
-                <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
+                <Skeleton className="w-12 h-12 rounded-lg ml-4" />
               </div>
-            </div>;
-      })}
+            </div>
+          ))
+        ) : trendsError ? (
+          <div className="col-span-4 text-center py-8">
+            <p className="text-gray-500">Failed to load metrics. Please try again.</p>
+          </div>
+        ) : (
+          metricsCards.map((metric, index) => {
+            const Icon = metric.icon;
+            return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                      <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
+                      <div className="text-sm text-gray-500">{metric.subtitle}</div>
+                      <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
+                    </div>
+                    <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
+                </div>;
+          })
+        )}
       </div>
 
       {/* Search and Filters */}
