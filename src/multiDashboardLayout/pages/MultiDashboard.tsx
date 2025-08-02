@@ -37,7 +37,7 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     city: selectedCity
   });
-  const metricsCards = trendsData ? [{
+  const metricsCards = trendsData?.data?.stats ? [{
     title: 'Total Listings',
     value: trendsData.data.stats.totalListings.toLocaleString(),
     subtitle: 'Active locations',
