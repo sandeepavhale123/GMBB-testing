@@ -93,7 +93,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
             </div>
           </div>
 
-          <ScrollArea className="flex-1 p-3">
+          <ScrollArea className="flex-1 p-3 h-[70vh] overflow-auto">
             <div className="space-y-2">
               {isLoadingHistory ? <div className="text-center py-8 text-gray-500">
                   <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
