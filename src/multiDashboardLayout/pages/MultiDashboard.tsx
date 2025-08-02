@@ -320,6 +320,17 @@ export const MultiDashboard: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                            {listing.profilePhoto ? (
+                              <img 
+                                src={listing.profilePhoto} 
+                                alt={listing.listingName}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <Building2 className="w-5 h-5 text-primary" />
+                            )}
+                          </div>
                           <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
                           <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
                             {listing.storeCode || 'N/A'}
