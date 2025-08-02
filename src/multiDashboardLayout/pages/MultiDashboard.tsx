@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTrendsData } from '@/api/trendsApi';
 import { useDashboardData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -104,7 +105,8 @@ export const MultiDashboard: React.FC = () => {
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
-  return <div className="space-y-6">
+  return <TooltipProvider>
+    <div className="space-y-6">
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {trendsLoading ? Array.from({
@@ -237,7 +239,14 @@ export const MultiDashboard: React.FC = () => {
                       {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-6 h-6 text-primary" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.listingName}</h4>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.listingName}</h4>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{listing.listingName}</p>
+                        </TooltipContent>
+                      </Tooltip>
                       <p className="text-xs text-muted-foreground">ID: {listing.id}</p>
                     </div>
                     {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
@@ -356,5 +365,6 @@ export const MultiDashboard: React.FC = () => {
               </div>}
         </div>
       </div>
-    </div>;
+    </div>
+  </TooltipProvider>;
 };
