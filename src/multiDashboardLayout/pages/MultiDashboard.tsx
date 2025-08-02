@@ -1,57 +1,52 @@
 import React, { useState } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2 } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { useTrendsData } from '@/api/trendsApi';
-import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  
-  const { data: trendsData, isLoading: trendsLoading, error: trendsError } = useTrendsData();
-
-  const metricsCards = trendsData ? [{
+  const metricsCards = [{
     title: 'Total Listings',
-    value: trendsData.data.stats.totalListings.toLocaleString(),
-    subtitle: 'Active locations',
+    value: '20',
+    subtitle: 'of 100 selected',
     trend: '+2 this month',
-    icon: Building2,
+    icon: MapPin,
     bgColor: 'bg-blue-100',
     iconBgColor: 'bg-blue-500',
     textColor: 'text-gray-900'
   }, {
-    title: 'Avg. Rating',
-    value: trendsData.data.stats.avgRating,
-    subtitle: 'Across all listings',
-    trend: '↑ 0.3 points',
-    icon: Star,
-    bgColor: 'bg-yellow-100',
-    iconBgColor: 'bg-yellow-500',
-    textColor: 'text-gray-900'
-  }, {
-    title: 'Total Review',
-    value: trendsData.data.stats.totalReviews.toLocaleString(),
-    subtitle: 'Customer feedback',
+    title: 'Avg. Health Score',
+    value: '76%',
+    subtitle: '↑ 8% from last month',
     trend: 'Improving',
-    icon: MessageSquare,
+    icon: TrendingUp,
     bgColor: 'bg-green-100',
     iconBgColor: 'bg-green-500',
     textColor: 'text-gray-900'
   }, {
     title: 'Total Posts',
-    value: trendsData.data.stats.totalPosts.toLocaleString(),
+    value: '156',
     subtitle: 'Published this month',
     trend: '+12 this week',
     icon: FileText,
     bgColor: 'bg-purple-100',
     iconBgColor: 'bg-purple-500',
     textColor: 'text-gray-900'
-  }] : [];
+  }, {
+    title: 'Avg. Rating',
+    value: '4.2',
+    subtitle: 'Across all listings',
+    trend: '↑ 0.3 points',
+    icon: Star,
+    bgColor: 'bg-yellow-100',
+    iconBgColor: 'bg-yellow-500',
+    textColor: 'text-gray-900'
+  }];
   const listings = [{
     id: 'GMB1234567',
     name: 'Downtown Dental Care',
@@ -113,52 +108,31 @@ export const MultiDashboard: React.FC = () => {
     calls: '34',
     statusColor: 'text-blue-600'
   }];
-  
+
   // Pagination logic
   const totalPages = Math.ceil(listings.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentListings = listings.slice(startIndex, endIndex);
-  
   return <div className="space-y-6">
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {trendsLoading ? (
-          Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        {metricsCards.map((metric, index) => {
+        const Icon = metric.icon;
+        return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
               <div className="flex items-center justify-between">
                 <div className="flex-1 space-y-1">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-8 w-16" />
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-3 w-20" />
+                  <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                  <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
+                  <div className="text-sm text-gray-500">{metric.subtitle}</div>
+                  <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
                 </div>
-                <Skeleton className="w-12 h-12 rounded-lg ml-4" />
+                <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
               </div>
-            </div>
-          ))
-        ) : trendsError ? (
-          <div className="col-span-4 text-center py-8">
-            <p className="text-gray-500">Failed to load metrics. Please try again.</p>
-          </div>
-        ) : (
-          metricsCards.map((metric, index) => {
-            const Icon = metric.icon;
-            return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 space-y-1">
-                      <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-                      <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
-                      <div className="text-sm text-gray-500">{metric.subtitle}</div>
-                      <div className="text-xs text-gray-400 mt-2">{metric.trend}</div>
-                    </div>
-                    <div className={`${metric.iconBgColor} rounded-lg p-3 flex items-center justify-center ml-4`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                </div>;
-          })
-        )}
+            </div>;
+      })}
       </div>
 
       {/* Search and Filters */}
@@ -175,7 +149,7 @@ export const MultiDashboard: React.FC = () => {
                   <SelectValue placeholder="All Health Scores" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Health Scores</SelectItem>
+                  
                   <SelectItem value="excellent">Excellent (80+)</SelectItem>
                   <SelectItem value="good">Good (60-79)</SelectItem>
                   <SelectItem value="poor">Poor (0-59)</SelectItem>
@@ -336,48 +310,30 @@ export const MultiDashboard: React.FC = () => {
             </div>}
             
             {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6">
+            {totalPages > 1 && <div className="flex items-center justify-between mt-6">
                 <div className="text-sm text-muted-foreground">
                   Showing {startIndex + 1} to {Math.min(endIndex, listings.length)} of {listings.length} listings
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                     <ChevronLeft className="w-4 h-4" />
                     Previous
                   </Button>
                   
                   <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setCurrentPage(page)}
-                        className="w-8 h-8 p-0"
-                      >
+                    {Array.from({
+                length: totalPages
+              }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0">
                         {page}
-                      </Button>
-                    ))}
+                      </Button>)}
                   </div>
                   
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
                     Next
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
-            )}
+              </div>}
         </div>
       </div>
     </div>;
