@@ -242,51 +242,70 @@ export const MultiDashboard: React.FC = () => {
             <div className="text-center py-8">
               <p className="text-gray-500">Failed to load listings. Please try again.</p>
             </div>
-          ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {listings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
-                      <p className="text-sm text-muted-foreground">{listing.id}</p>
+          ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
+                  {/* Header with Logo and Title */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Building2 className="w-6 h-6 text-primary" />
                     </div>
-                    <div className="flex gap-1">
-                      <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
-                        {listing.storeCode || 'N/A'}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.listingName}</h4>
+                      <p className="text-xs text-muted-foreground">ID: {listing.id}</p>
+                    </div>
+                    {listing.storeCode && (
+                      <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                        {listing.storeCode}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Rating Section */}
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                      <span className={`font-bold text-sm ${getStatusColor(listing.rating)}`}>
+                        {listing.rating} {getStatusText(listing.rating)}
                       </span>
                     </div>
                   </div>
-                  
-                  <div className="mb-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm">Rating:</span>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3 h-3 text-yellow-500" />
-                        <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
-                          {listing.rating} {getStatusText(listing.rating)}
-                        </span>
+
+                  {/* Engagement Stats */}
+                  <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <span className="text-muted-foreground font-medium">Reviews:</span>
+                        <p className="font-semibold text-foreground">{listing.reviewReply}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground font-medium">Q&A:</span>
+                        <p className="font-semibold text-foreground">{listing.qa}</p>
                       </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      <p><strong>Reviews:</strong> {listing.reviewReply}</p>
-                      <p><strong>Q&A:</strong> {listing.qa}</p>
+                  </div>
+
+                  {/* Scheduled Posts */}
+                  <div className="mb-5 space-y-2">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground font-medium">Last Post:</span>
+                      <span className="text-foreground font-medium">{listing.lastPost}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground font-medium">Upcoming:</span>
+                      <span className="text-foreground font-medium">{listing.upcomingPost}</span>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                      <div><strong>Last Post:</strong> {listing.lastPost}</div>
-                      <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <div className="h-8 bg-muted rounded flex items-center px-2">
-                      <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground ml-1">Trend</span>
-                    </div>
-                    <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
-                      <span className="mr-2">View Details</span>
-                      <ExternalLink className="w-3 h-3" />
+                  {/* Action Button */}
+                  <div className="flex justify-end">
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      onClick={() => navigate(`/location-dashboard/${listing.id}`)}
+                      className="w-full gap-2"
+                    >
+                      View Details
+                      <ExternalLink className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>)}
