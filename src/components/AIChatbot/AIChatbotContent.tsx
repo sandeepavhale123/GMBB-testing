@@ -93,7 +93,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
             </div>
           </div>
 
-          <ScrollArea className="flex-1 p-4 max-h-[85vh]">
+          <ScrollArea className="flex-1 p-3">
             <div className="space-y-2">
               {isLoadingHistory ? <div className="text-center py-8 text-gray-500">
                   <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
@@ -196,8 +196,8 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
                     </div>
 
                     {/* Message Content */}
-                    <div className={`flex-1 ${message.type === "ai" ? "max-w-[400px] sm:max-w-[569px] md:max-w-[600px] xl:max-w-[750px] min-[1400px]:max-w-[900px]" : ""} ${message.type === "user" ? "text-right" : ""}`}>
-                      <div className={`inline-block p-3 sm:p-4 rounded-lg ${message.type === "user" ? "bg-primary text-primary-foreground ml-auto" : message.error ? "bg-destructive/10 text-destructive border border-destructive/20" : "bg-muted text-foreground"}`}>
+                    <div className={`flex-1 max-w-[85%] sm:max-w-[80%] ${message.type === "user" ? "text-right" : ""}`}>
+                      <div className={`inline-block p-3 sm:p-4 rounded-lg max-w-[600px] ${message.type === "user" ? "bg-primary text-primary-foreground ml-auto" : message.error ? "bg-destructive/10 text-destructive border border-destructive/20" : "bg-muted text-foreground"}`}>
                         {message.isLoading ? <div className="flex items-center gap-2 text-xs sm:text-sm">
                             <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                             AI is thinking...
