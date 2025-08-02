@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
 import { useProfile } from "../../hooks/useProfile";
@@ -10,6 +11,7 @@ import { profileSchema, ProfileFormData } from "../../schemas/authSchemas";
 
 export const ProfileFormContainer: React.FC = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const {
     profileData,
     timezones,
@@ -29,6 +31,8 @@ export const ProfileFormContainer: React.FC = () => {
     dashboardType: "0",
   });
 
+  const [initialDashboardType, setInitialDashboardType] = useState<string>("0");
+
   const {
     validate,
     getFieldError,
@@ -39,14 +43,16 @@ export const ProfileFormContainer: React.FC = () => {
 
   useEffect(() => {
     if (profileData) {
+      const dashboardTypeValue = profileData.dashboardType?.toString() || "0";
       setFormData({
         firstName: profileData.first_name || "",
         lastName: profileData.last_name || "",
         email: profileData.username || "",
         timezone: profileData.timezone || "",
         language: profileData.language || "english",
-        dashboardType: profileData.dashboardType?.toString() || "0",
+        dashboardType: dashboardTypeValue,
       });
+      setInitialDashboardType(dashboardTypeValue);
     }
   }, [profileData]);
 
@@ -92,6 +98,15 @@ export const ProfileFormContainer: React.FC = () => {
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
       });
+
+      // Check if we need to redirect to multi-dashboard
+      const shouldRedirect = 
+        initialDashboardType === "0" && 
+        formData.dashboardType === "1";
+
+      if (shouldRedirect) {
+        navigate("/main-dashboard");
+      }
     } catch (error) {
       toast({
         title: "Update Failed",
