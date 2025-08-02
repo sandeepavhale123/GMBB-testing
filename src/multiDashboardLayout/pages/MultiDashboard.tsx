@@ -5,15 +5,31 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useTrendsData } from '@/api/trendsApi';
+import { useDashboardData } from '@/api/dashboardApi';
+import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const itemsPerPage = 9;
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   
   const { data: trendsData, isLoading: trendsLoading, error: trendsError } = useTrendsData();
+  
+  // Fetch dashboard listings data
+  const { data: dashboardData, isLoading: dashboardLoading, error: dashboardError } = useDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedCity
+  });
 
   const metricsCards = trendsData ? [{
     title: 'Total Listings',
@@ -52,73 +68,39 @@ export const MultiDashboard: React.FC = () => {
     iconBgColor: 'bg-purple-500',
     textColor: 'text-gray-900'
   }] : [];
-  const listings = [{
-    id: 'GMB1234567',
-    name: 'Downtown Dental Care',
-    category: 'Healthcare',
-    location: 'New York, NY',
-    healthScore: 85,
-    status: 'Excellent',
-    views: '1.2K',
-    calls: '45',
-    statusColor: 'text-green-600'
-  }, {
-    id: 'GMB2345678',
-    name: 'Pizza Palace',
-    category: 'Restaurant',
-    location: 'Brooklyn, NY',
-    healthScore: 72,
-    status: 'Good',
-    views: '890',
-    calls: '23',
-    statusColor: 'text-blue-600'
-  }, {
-    id: 'GMB3456789',
-    name: 'Auto Repair Shop',
-    category: 'Automotive',
-    location: 'Queens, NY',
-    healthScore: 45,
-    status: 'Poor',
-    views: '567',
-    calls: '12',
-    statusColor: 'text-red-600'
-  }, {
-    id: 'GMB4567890',
-    name: 'Fashion Boutique',
-    category: 'Retail',
-    location: 'Manhattan, NY',
-    healthScore: 78,
-    status: 'Good',
-    views: '1.5K',
-    calls: '67',
-    statusColor: 'text-blue-600'
-  }, {
-    id: 'GMB5678901',
-    name: 'Coffee Corner',
-    category: 'Food & Drink',
-    location: 'Bronx, NY',
-    healthScore: 92,
-    status: 'Excellent',
-    views: '2.1K',
-    calls: '89',
-    statusColor: 'text-green-600'
-  }, {
-    id: 'GMB6789012',
-    name: 'Fitness Center',
-    category: 'Health & Fitness',
-    location: 'Staten Island, NY',
-    healthScore: 67,
-    status: 'Good',
-    views: '743',
-    calls: '34',
-    statusColor: 'text-blue-600'
-  }];
+  // Transform API data to display format
+  const listings = dashboardData?.data.listings || [];
+  const pagination = dashboardData?.data.pagination;
   
-  // Pagination logic
-  const totalPages = Math.ceil(listings.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentListings = listings.slice(startIndex, endIndex);
+  // Helper function to get status color based on rating
+  const getStatusColor = (rating: string) => {
+    const numRating = parseFloat(rating);
+    if (numRating >= 4.0) return 'text-green-600';
+    if (numRating >= 3.0) return 'text-blue-600';
+    return 'text-red-600';
+  };
+  
+  // Helper function to get status text based on rating
+  const getStatusText = (rating: string) => {
+    const numRating = parseFloat(rating);
+    if (numRating >= 4.0) return 'Excellent';
+    if (numRating >= 3.0) return 'Good';
+    return 'Poor';
+  };
+  
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page on search
+  };
+  
+  const handleFilterChange = (type: 'category' | 'city', value: string) => {
+    if (type === 'category') {
+      setSelectedCategory(value === 'all' ? '' : value);
+    } else {
+      setSelectedCity(value === 'all' ? '' : value);
+    }
+    setCurrentPage(1); // Reset to first page on filter change
+  };
   
   return <div className="space-y-6">
       {/* Metrics Cards */}
@@ -165,21 +147,15 @@ export const MultiDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <input placeholder="Search listings by name, location, or category..." className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input 
+                placeholder="Search listings by name, location, or category..." 
+                className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                value={searchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
             </div>
             <div className="flex gap-2">
-              <Select>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="All Health Scores" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Health Scores</SelectItem>
-                  <SelectItem value="excellent">Excellent (80+)</SelectItem>
-                  <SelectItem value="good">Good (60-79)</SelectItem>
-                  <SelectItem value="poor">Poor (0-59)</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select>
+              <Select value={selectedCategory} onValueChange={(value) => handleFilterChange('category', value)}>
                 <SelectTrigger className="w-40">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
@@ -188,17 +164,19 @@ export const MultiDashboard: React.FC = () => {
                   <SelectItem value="healthcare">Healthcare</SelectItem>
                   <SelectItem value="restaurant">Restaurant</SelectItem>
                   <SelectItem value="retail">Retail</SelectItem>
+                  <SelectItem value="automotive">Automotive</SelectItem>
                 </SelectContent>
               </Select>
-              <Select>
+              <Select value={selectedCity} onValueChange={(value) => handleFilterChange('city', value)}>
                 <SelectTrigger className="w-40">
-                  <SelectValue placeholder="All Locations" />
+                  <SelectValue placeholder="All Cities" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Locations</SelectItem>
-                  <SelectItem value="ny">New York</SelectItem>
+                  <SelectItem value="all">All Cities</SelectItem>
+                  <SelectItem value="new york">New York</SelectItem>
                   <SelectItem value="brooklyn">Brooklyn</SelectItem>
                   <SelectItem value="queens">Queens</SelectItem>
+                  <SelectItem value="manhattan">Manhattan</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -235,45 +213,69 @@ export const MultiDashboard: React.FC = () => {
               </ToggleGroup>
             </div>
           </div>
-          {viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {currentListings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+          {dashboardLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: itemsPerPage }).map((_, index) => (
+                <div key={index} className="bg-background border border-border rounded-lg p-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-2">
+                        <Skeleton className="h-5 w-32" />
+                        <Skeleton className="h-4 w-20" />
+                      </div>
+                      <Skeleton className="h-6 w-16 rounded" />
+                    </div>
+                    <Skeleton className="h-4 w-24" />
+                    <div className="flex justify-between">
+                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <Skeleton className="h-8 w-16 rounded" />
+                      <Skeleton className="h-8 w-24 rounded" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : dashboardError ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">Failed to load listings. Please try again.</p>
+            </div>
+          ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {listings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h4 className="font-semibold text-foreground">{listing.name}</h4>
+                      <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
                       <p className="text-sm text-muted-foreground">{listing.id}</p>
                     </div>
                     <div className="flex gap-1">
                       <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
-                        {listing.category}
+                        {listing.storeCode || 'N/A'}
                       </span>
                     </div>
                   </div>
                   
                   <div className="mb-3">
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                      <MapPin className="w-3 h-3" />
-                      {listing.location}
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm">Rating:</span>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 text-yellow-500" />
+                        <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
+                          {listing.rating} {getStatusText(listing.rating)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Health Score:</span>
-                      <span className={`font-semibold ${listing.statusColor}`}>
-                        {listing.healthScore}% {listing.status}
-                      </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p><strong>Reviews:</strong> {listing.reviewReply}</p>
+                      <p><strong>Q&A:</strong> {listing.qa}</p>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{listing.views}</span>
-                        <span className="text-xs">Total Views</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Phone className="w-3 h-3" />
-                        <span>{listing.calls}</span>
-                        <span className="text-xs">Calls</span>
-                      </div>
+                    <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                      <div><strong>Last Post:</strong> {listing.lastPost}</div>
+                      <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
                     </div>
                   </div>
 
@@ -289,39 +291,31 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                 </div>)}
             </div> : <div className="space-y-3">
-              {currentListings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+              {listings.map(listing => <div key={listing.id} className="bg-background border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
-                          <h4 className="font-semibold text-foreground">{listing.name}</h4>
+                          <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
                           <span className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
-                            {listing.category}
+                            {listing.storeCode || 'N/A'}
                           </span>
                         </div>
-                        
                       </div>
                       <p className="text-sm text-muted-foreground">{listing.id}</p>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <MapPin className="w-3 h-3" />
-                        {listing.location}
+                      <div className="text-sm text-muted-foreground">
+                        <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                       <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Eye className="w-3 h-3" />
-                          <span>{listing.views}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Phone className="w-3 h-3" />
-                          <span>{listing.calls}</span>
-                        </div>
+                        <div><strong>Last Post:</strong> {listing.lastPost}</div>
+                        <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm">Health:</span>
-                        <span className={`font-semibold ${listing.statusColor}`}>
-                          {listing.healthScore}%
+                        <Star className="w-3 h-3 text-yellow-500" />
+                        <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
+                          {listing.rating}
                         </span>
                       </div>
                       <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
@@ -334,30 +328,31 @@ export const MultiDashboard: React.FC = () => {
             </div>}
             
             {/* Pagination */}
-            {totalPages > 1 && (
+            {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <div className="text-sm text-muted-foreground">
-                  Showing {startIndex + 1} to {Math.min(endIndex, listings.length)} of {listings.length} listings
+                  Showing {((pagination.currentPage - 1) * pagination.resultsPerPage) + 1} to {Math.min(pagination.currentPage * pagination.resultsPerPage, pagination.totalResults)} of {pagination.totalResults} listings
                 </div>
                 <div className="flex items-center gap-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
+                    disabled={currentPage === 1 || dashboardLoading}
                   >
                     <ChevronLeft className="w-4 h-4" />
                     Previous
                   </Button>
                   
                   <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(page => (
                       <Button
                         key={page}
                         variant={currentPage === page ? "default" : "outline"}
                         size="sm"
                         onClick={() => setCurrentPage(page)}
                         className="w-8 h-8 p-0"
+                        disabled={dashboardLoading}
                       >
                         {page}
                       </Button>
@@ -367,8 +362,8 @@ export const MultiDashboard: React.FC = () => {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))}
+                    disabled={currentPage === pagination.totalPages || dashboardLoading}
                   >
                     Next
                     <ChevronRight className="w-4 h-4" />
