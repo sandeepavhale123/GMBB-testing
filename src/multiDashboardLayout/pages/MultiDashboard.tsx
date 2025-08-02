@@ -246,8 +246,16 @@ export const MultiDashboard: React.FC = () => {
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Building2 className="w-6 h-6 text-primary" />
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {listing.profilePhoto ? (
+                        <img 
+                          src={listing.profilePhoto} 
+                          alt={listing.listingName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Building2 className="w-6 h-6 text-primary" />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.listingName}</h4>

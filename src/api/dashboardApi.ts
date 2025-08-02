@@ -19,6 +19,7 @@ interface DashboardListing {
   reviewReply: string;
   rating: string;
   qa: string;
+  profilePhoto: string;
 }
 
 interface DashboardPagination {
