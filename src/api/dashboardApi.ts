@@ -1,6 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance";
 
+// Dashboard Settings API Types
+export interface SetDashboardRequest {
+  dashboard: string;
+}
+
+export interface SetDashboardResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+// Dashboard Settings API function
+const setDashboard = async (dashboard: string): Promise<SetDashboardResponse> => {
+  const response = await axiosInstance.post('/set-dashboard', { dashboard });
+  return response.data;
+};
+
 // Category and State API Types
 export interface CategoryAndStateData {
   categories: string[];
@@ -351,6 +368,9 @@ export const usePostsDashboardData = (params: PostDashboardRequest, enabled: boo
     enabled,
   });
 };
+
+// Export API functions
+export { setDashboard };
 
 export type { 
   DashboardListing, 

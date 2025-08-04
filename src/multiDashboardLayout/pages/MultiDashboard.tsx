@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2 } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,12 +10,23 @@ import { PostCard } from '@/components/Posts/PostCard';
 import { transformPostDashboardPost } from '@/types/postTypes';
 import type { DateRange } from 'react-day-picker';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, usePostsDashboardData, useCategoryAndStateData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, usePostsDashboardData, useCategoryAndStateData, setDashboard } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
+
+// Dashboard type mapping for API
+const DASHBOARD_TYPE_MAPPING = {
+  'default': '1',
+  'insight': '3', 
+  'review': '4',
+  'location': '8',
+  'post': '9'
+} as const;
 
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +36,7 @@ export const MultiDashboard: React.FC = () => {
   const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const [postStatus, setPostStatus] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   
@@ -205,6 +217,29 @@ export const MultiDashboard: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleDashboardTypeChange = async (newType: string) => {
+    try {
+      setIsUpdatingDashboard(true);
+      const numericId = DASHBOARD_TYPE_MAPPING[newType as keyof typeof DASHBOARD_TYPE_MAPPING];
+      await setDashboard(numericId);
+      setDashboardType(newType);
+      setCurrentPage(1); // Reset pagination when changing dashboard type
+      toast({
+        title: "Dashboard preference saved",
+        description: `Switched to ${newType} dashboard`,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to save dashboard preference",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+      console.error('Dashboard save error:', error);
+    } finally {
+      setIsUpdatingDashboard(false);
+    }
+  };
+
   return <TooltipProvider>
     <div className="space-y-6">
       {/* Metrics Cards */}
@@ -284,18 +319,23 @@ export const MultiDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h3 className="text-lg font-semibold">{dashboardType === 'post' ? 'Posts' : 'GMB Listings'}</h3>
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-              <Select value={dashboardType} onValueChange={setDashboardType}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Dashboard Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="default">Default dashboard</SelectItem>
-                  <SelectItem value="insight">Insight dashboard</SelectItem>
-                  <SelectItem value="review">Review dashboard</SelectItem>
-                  <SelectItem value="location">Location dashboard</SelectItem>
-                  <SelectItem value="post">Post dashboard</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex items-center gap-2">
+                <Select value={dashboardType} onValueChange={handleDashboardTypeChange} disabled={isUpdatingDashboard}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Dashboard Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default">Default Dashboard</SelectItem>
+                    <SelectItem value="insight">Insight Dashboard</SelectItem>
+                    <SelectItem value="review">Review Dashboard</SelectItem>
+                    <SelectItem value="location">Location Dashboard</SelectItem>
+                    <SelectItem value="post">Post Dashboard</SelectItem>
+                  </SelectContent>
+                </Select>
+                {isUpdatingDashboard && (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+              </div>
               
               {/* Review Filter Dropdown - Only show for review dashboard */}
               {dashboardType === 'review' && <Select value={reviewFilter} onValueChange={handleReviewFilterChange}>
