@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, useCategoryAndStateData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
@@ -16,15 +16,24 @@ export const MultiDashboard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedState, setSelectedState] = useState('');
   const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  
+  // Fetch trends data
   const {
     data: trendsData,
     isLoading: trendsLoading,
     error: trendsError
   } = useTrendsData();
+
+  // Fetch category and state data
+  const {
+    data: categoryAndStateData,
+    isLoading: categoryStateLoading,
+    error: categoryStateError
+  } = useCategoryAndStateData();
 
   // Conditionally call the appropriate hook based on dashboard type
   const defaultDashboardQuery = useDashboardData({
@@ -32,7 +41,7 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity
+    state: selectedState
   }, dashboardType === 'default');
 
   const insightsDashboardQuery = useInsightsDashboardData({
@@ -40,7 +49,7 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity
+    state: selectedState
   }, dashboardType === 'insight');
 
   const reviewDashboardQuery = useReviewDashboardData({
@@ -48,7 +57,7 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity,
+    state: selectedState,
     review: reviewFilter
   }, dashboardType === 'review');
 
@@ -57,7 +66,7 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity
+    state: selectedState
   }, dashboardType === 'listing');
 
   const locationDashboardQuery = useLocationDashboardData({
@@ -65,7 +74,7 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity
+    state: selectedState
   }, dashboardType === 'location');
 
   // Get the current active query
@@ -148,11 +157,11 @@ export const MultiDashboard: React.FC = () => {
     setSearchTerm(value);
     setCurrentPage(1); // Reset to first page on search
   };
-  const handleFilterChange = (type: 'category' | 'city', value: string) => {
+  const handleFilterChange = (type: 'category' | 'state', value: string) => {
     if (type === 'category') {
       setSelectedCategory(value === 'all' ? '' : value);
     } else {
-      setSelectedCity(value === 'all' ? '' : value);
+      setSelectedState(value === 'all' ? '' : value);
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
@@ -205,27 +214,41 @@ export const MultiDashboard: React.FC = () => {
             </div>
             <div className="flex gap-2">
               <Select value={selectedCategory} onValueChange={value => handleFilterChange('category', value)}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-40 bg-background z-50">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-50 bg-background">
                   <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="healthcare">Healthcare</SelectItem>
-                  <SelectItem value="restaurant">Restaurant</SelectItem>
-                  <SelectItem value="retail">Retail</SelectItem>
-                  <SelectItem value="automotive">Automotive</SelectItem>
+                  {categoryStateLoading ? (
+                    <SelectItem value="" disabled>Loading...</SelectItem>
+                  ) : categoryStateError ? (
+                    <SelectItem value="" disabled>Error loading categories</SelectItem>
+                  ) : (
+                    categoryAndStateData?.data?.categories?.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
-              <Select value={selectedCity} onValueChange={value => handleFilterChange('city', value)}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="All Cities" />
+              <Select value={selectedState} onValueChange={value => handleFilterChange('state', value)}>
+                <SelectTrigger className="w-40 bg-background z-50">
+                  <SelectValue placeholder="All States" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Cities</SelectItem>
-                  <SelectItem value="new york">New York</SelectItem>
-                  <SelectItem value="brooklyn">Brooklyn</SelectItem>
-                  <SelectItem value="queens">Queens</SelectItem>
-                  <SelectItem value="manhattan">Manhattan</SelectItem>
+                <SelectContent className="z-50 bg-background">
+                  <SelectItem value="all">All States</SelectItem>
+                  {categoryStateLoading ? (
+                    <SelectItem value="" disabled>Loading...</SelectItem>
+                  ) : categoryStateError ? (
+                    <SelectItem value="" disabled>Error loading states</SelectItem>
+                  ) : (
+                    categoryAndStateData?.data?.states?.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
             </div>

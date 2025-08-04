@@ -1,13 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "./axiosInstance";
 
+// Category and State API Types
+export interface CategoryAndStateData {
+  categories: string[];
+  states: string[];
+}
+
+export interface CategoryAndStateResponse {
+  code: number;
+  message: string;
+  data: CategoryAndStateData;
+}
+
+// Category and State API function
+const getCategoryAndStateData = async (): Promise<CategoryAndStateResponse> => {
+  const response = await axiosInstance.post('/get-categoryandstate', {});
+  return response.data;
+};
+
+// Custom hook for category and state data
+export const useCategoryAndStateData = () => {
+  return useQuery({
+    queryKey: ['category-state-data'],
+    queryFn: () => getCategoryAndStateData(),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: 2,
+  });
+};
+
 // Types for dashboard API
 interface DashboardRequest {
   page: number;
   limit: number;
   search: string;
   category: string;
-  city: string;
+  state: string;
 }
 
 interface DashboardListing {
@@ -61,7 +89,7 @@ interface InsightsDashboardRequest {
   limit: number;
   search: string;
   category: string;
-  city: string;
+  state: string;
 }
 
 interface InsightsDashboardListing {
@@ -117,7 +145,7 @@ interface ReviewDashboardRequest {
   limit: number;
   search: string;
   category: string;
-  city: string;
+  state: string;
   review: "0" | "1" | "2" | "3" | "4" | "5" | "6";
 }
 
@@ -168,7 +196,7 @@ interface ListingDashboardRequest {
   limit: number;
   search: string;
   category: string;
-  city: string;
+  state: string;
 }
 
 interface ListingDashboardListing {
@@ -214,7 +242,7 @@ interface LocationDashboardRequest {
   limit: number;
   search: string;
   category: string;
-  city: string;
+  state: string;
 }
 
 interface LocationDashboardListing {
