@@ -18,6 +18,9 @@ export const SubNavbar: React.FC = () => {
   }, {
     label: 'Reports',
     path: '/main-dashboard/reports'
+  }, {
+    label: 'Settings',
+    path: '/main-dashboard/google-account'
   }];
   return <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto">
