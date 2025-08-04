@@ -116,7 +116,7 @@ interface ReviewDashboardRequest {
   search: string;
   category: string;
   city: string;
-  review: "1" | "2" | "3" | "4" | "5" | "6";
+  review: "0" | "1" | "2" | "3" | "4" | "5" | "6";
 }
 
 interface ReviewDashboardListing {

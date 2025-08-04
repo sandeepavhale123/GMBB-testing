@@ -17,7 +17,7 @@ export const MultiDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-  const [reviewFilter, setReviewFilter] = useState<"1" | "2" | "3" | "4" | "5" | "6">('1');
+  const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const {
@@ -148,7 +148,8 @@ export const MultiDashboard: React.FC = () => {
     setCurrentPage(1); // Reset to first page on filter change
   };
 
-  const handleReviewFilterChange = (value: "1" | "2" | "3" | "4" | "5" | "6") => {
+  const handleReviewFilterChange = (value: "0" | "1" | "2" | "3" | "4" | "5" | "6") => {
+    console.log('Review filter changed to:', value);
     setReviewFilter(value);
     setCurrentPage(1); // Reset to first page on filter change
   };
@@ -251,12 +252,13 @@ export const MultiDashboard: React.FC = () => {
                     <SelectValue placeholder="Review Filter" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">Un - Responded Review</SelectItem>
-                    <SelectItem value="2">Un - Responded ARE</SelectItem>
-                    <SelectItem value="3">Un - Responded DNR</SelectItem>
-                    <SelectItem value="4">Exclude ARE Review</SelectItem>
-                    <SelectItem value="5">Exclude DNR Review</SelectItem>
-                    <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
+                    <SelectItem value="0">Un - Responded Review</SelectItem>
+                    <SelectItem value="1">Un - Responded ARE</SelectItem>
+                    <SelectItem value="2">Un - Responded DNR</SelectItem>
+                    <SelectItem value="3">Exclude ARE Review</SelectItem>
+                    <SelectItem value="4">Exclude DNR Review</SelectItem>
+                    <SelectItem value="5">Exclude ARE/DNR Review</SelectItem>
+                    <SelectItem value="6">All Reviews</SelectItem>
                   </SelectContent>
                 </Select>
               )}
