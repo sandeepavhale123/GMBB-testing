@@ -5,10 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { PostCard } from '@/components/Posts/PostCard';
+import { transformPostDashboardPost } from '@/types/postTypes';
+import type { DateRange } from 'react-day-picker';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, useCategoryAndStateData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, usePostsDashboardData, useCategoryAndStateData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
+
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardType, setDashboardType] = useState('default');
@@ -18,6 +23,8 @@ export const MultiDashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
+  const [postStatus, setPostStatus] = useState('');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   
@@ -77,6 +84,19 @@ export const MultiDashboard: React.FC = () => {
     state: selectedState
   }, dashboardType === 'location');
 
+  const postDashboardQuery = usePostsDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedState,
+    dateRange: {
+      startDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : "",
+      endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : "",
+    },
+    postStatus: postStatus,
+  }, dashboardType === 'post');
+
   // Get the current active query
   const getCurrentQuery = () => {
     switch (dashboardType) {
@@ -88,6 +108,8 @@ export const MultiDashboard: React.FC = () => {
         return listingDashboardQuery;
       case 'location':
         return locationDashboardQuery;
+      case 'post':
+        return postDashboardQuery;
       default:
         return defaultDashboardQuery;
     }
@@ -134,8 +156,10 @@ export const MultiDashboard: React.FC = () => {
     iconBgColor: 'bg-purple-500',
     textColor: 'text-gray-900'
   }] : [];
+  
   // Transform API data to display format
-  const listings = dashboardResponse?.data?.listings || [];
+  const listings = dashboardType === 'post' ? [] : (dashboardResponse?.data as any)?.listings || [];
+  const posts = dashboardType === 'post' ? (dashboardResponse?.data as any)?.posts || [] : [];
   const pagination = dashboardResponse?.data?.pagination;
 
   // Helper function to get status color based on rating
@@ -170,6 +194,17 @@ export const MultiDashboard: React.FC = () => {
     setReviewFilter(value);
     setCurrentPage(1); // Reset to first page on filter change
   };
+
+  const handlePostStatusChange = (value: string) => {
+    setPostStatus(value);
+    setCurrentPage(1);
+  };
+
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setDateRange(range);
+    setCurrentPage(1);
+  };
+
   return <TooltipProvider>
     <div className="space-y-6">
       {/* Metrics Cards */}
@@ -247,7 +282,7 @@ export const MultiDashboard: React.FC = () => {
         {/* GMB Listings */}
         <div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-            <h3 className="text-lg font-semibold">GMB Listings</h3>
+            <h3 className="text-lg font-semibold">{dashboardType === 'post' ? 'Posts' : 'GMB Listings'}</h3>
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <Select value={dashboardType} onValueChange={setDashboardType}>
                 <SelectTrigger className="w-48">
@@ -257,11 +292,8 @@ export const MultiDashboard: React.FC = () => {
                   <SelectItem value="default">Default dashboard</SelectItem>
                   <SelectItem value="insight">Insight dashboard</SelectItem>
                   <SelectItem value="review">Review dashboard</SelectItem>
-                  {/* <SelectItem value="listing">Listing dashboard</SelectItem> */}
                   <SelectItem value="location">Location dashboard</SelectItem>
-                  {/* <SelectItem value="group">Group dashboard</SelectItem>
-                   <SelectItem value="post">Post dashboard</SelectItem>
-                   <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
+                  <SelectItem value="post">Post dashboard</SelectItem>
                 </SelectContent>
               </Select>
               
@@ -277,9 +309,30 @@ export const MultiDashboard: React.FC = () => {
                     <SelectItem value="3">Exclude ARE Review</SelectItem>
                     <SelectItem value="4">Exclude DNR Review</SelectItem>
                     <SelectItem value="5">Exclude ARE/DNR Review</SelectItem>
-                    {/* <SelectItem value="6">All Reviews</SelectItem> */}
                   </SelectContent>
                 </Select>}
+
+              {/* Post Filters - Only show for post dashboard */}
+              {dashboardType === 'post' && (
+                <>
+                  <Select value={postStatus} onValueChange={handlePostStatusChange}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="Post status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All Posts</SelectItem>
+                      <SelectItem value="scheduled">Scheduled Post</SelectItem>
+                      <SelectItem value="published">Live Post</SelectItem>
+                      <SelectItem value="failed">Failed Post</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <DateRangePicker
+                    date={dateRange}
+                    onDateChange={handleDateRangeChange}
+                  />
+                </>
+              )}
+
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
                 <ToggleGroupItem value="grid" aria-label="Grid view">
                   <Grid3X3 className="h-4 w-4" />
@@ -290,6 +343,19 @@ export const MultiDashboard: React.FC = () => {
               </ToggleGroup>
             </div>
           </div>
+
+          {/* Display counts */}
+          <div className="mb-4">
+            <p className="text-sm text-muted-foreground">
+              {isDashboardLoading ? "Loading..." : 
+                isDashboardError ? "Error loading data" : 
+                dashboardType === 'post' ? 
+                  `Showing ${posts.length} of ${(pagination as any)?.totalPosts || 0} posts` :
+                  `Showing ${listings.length} of ${(pagination as any)?.totalResults || 0} listings`
+              }
+            </p>
+          </div>
+
           {isDashboardLoading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {Array.from({
               length: itemsPerPage
@@ -314,8 +380,29 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                 </div>)}
             </div> : isDashboardError ? <div className="text-center py-8">
-              <p className="text-gray-500">Failed to load listings. Please try again.</p>
-            </div> : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <p className="text-gray-500">Failed to load {dashboardType === 'post' ? 'posts' : 'listings'}. Please try again.</p>
+            </div> : dashboardType === 'post' ? (
+              // Post Dashboard Layout
+              viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {posts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={transformPostDashboardPost(post)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {posts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={transformPostDashboardPost(post)}
+                    />
+                  ))}
+                </div>
+              )
+            ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
@@ -702,7 +789,10 @@ export const MultiDashboard: React.FC = () => {
             {/* Pagination */}
             {pagination && pagination.totalPages > 1 && <div className="flex items-center justify-between mt-6">
                 <div className="text-sm text-muted-foreground">
-                  Showing {(pagination.currentPage - 1) * pagination.resultsPerPage + 1} to {Math.min(pagination.currentPage * pagination.resultsPerPage, pagination.totalResults)} of {pagination.totalResults} listings
+                  {dashboardType === 'post' ? 
+                    `Showing ${(pagination.currentPage - 1) * itemsPerPage + 1} to ${Math.min(pagination.currentPage * itemsPerPage, (pagination as any).totalPosts)} of ${(pagination as any).totalPosts} posts` :
+                    `Showing ${(pagination.currentPage - 1) * (pagination as any).resultsPerPage + 1} to ${Math.min(pagination.currentPage * (pagination as any).resultsPerPage, (pagination as any).totalResults)} of ${(pagination as any).totalResults} listings`
+                  }
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || isDashboardLoading}>

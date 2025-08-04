@@ -288,6 +288,70 @@ export const useLocationDashboardData = (params: LocationDashboardRequest, enabl
   });
 };
 
+// Post Dashboard Types
+interface PostDashboardRequest {
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  city: string;
+  dateRange: {
+    startDate: string;
+    endDate: string;
+  };
+  postStatus: string;
+}
+
+interface PostDashboardPost {
+  id: string;
+  title: string;
+  content: string;
+  status: string;
+  listingId: string;
+  listingName: string;
+  zipcode: string;
+  category: string;
+  searchUrl: string;
+  publishDate: string;
+  media: {
+    images: string;
+  };
+  tags: string;
+  reason: string;
+}
+
+interface PostDashboardResponse {
+  code: number;
+  message: string;
+  data: {
+    posts: PostDashboardPost[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalPosts: number;
+      hasNext: boolean;
+      hasPrevious: boolean;
+    };
+  };
+}
+
+// Post Dashboard API function
+const getPostsDashboardData = async (params: PostDashboardRequest): Promise<PostDashboardResponse> => {
+  const response = await axiosInstance.post('/get-posts-dashboard', params);
+  return response.data;
+};
+
+// Custom hook for post dashboard
+export const usePostsDashboardData = (params: PostDashboardRequest, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ['posts-dashboard-data', params],
+    queryFn: () => getPostsDashboardData(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+    enabled,
+  });
+};
+
 export type { 
   DashboardListing, 
   DashboardPagination, 
@@ -299,5 +363,7 @@ export type {
   ListingDashboardListing,
   ListingDashboardRequest,
   LocationDashboardListing,
-  LocationDashboardRequest
+  LocationDashboardRequest,
+  PostDashboardPost,
+  PostDashboardRequest
 };
