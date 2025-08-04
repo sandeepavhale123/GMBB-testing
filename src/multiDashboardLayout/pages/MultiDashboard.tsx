@@ -188,12 +188,12 @@ export const MultiDashboard: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="default">Default dashboard</SelectItem>
-                  <SelectItem value="review">Review</SelectItem>
                   <SelectItem value="insight">Insight</SelectItem>
-                  <SelectItem value="group">Group dashboard</SelectItem>
+                  <SelectItem value="review">Review</SelectItem>
                   <SelectItem value="listing">Listing dashboard</SelectItem>
+                  {/* <SelectItem value="group">Group dashboard</SelectItem>
                   <SelectItem value="post">Post dashboard</SelectItem>
-                  <SelectItem value="adv-posts">Adv.posts</SelectItem>
+                  <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
                 </SelectContent>
               </Select>
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
