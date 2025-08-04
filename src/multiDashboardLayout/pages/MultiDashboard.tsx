@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData, useInsightsDashboardData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
@@ -25,8 +25,6 @@ export const MultiDashboard: React.FC = () => {
     error: trendsError
   } = useTrendsData();
 
-  // Debug trends data to understand why cards aren't showing
-  console.log('Trends Data Debug:', { trendsData, trendsLoading, trendsError, hasStats: !!trendsData?.data?.stats });
 
   // Fetch dashboard listings data based on dashboard type
   const defaultDashboardQuery = useDashboardData({
@@ -45,10 +43,40 @@ export const MultiDashboard: React.FC = () => {
     city: selectedCity
   });
 
-  // Use appropriate query based on dashboard type - wait for data before accessing
-  const isDashboardLoading = dashboardType === 'insight' ? insightsDashboardQuery.isLoading : defaultDashboardQuery.isLoading;
-  const isDashboardError = dashboardType === 'insight' ? insightsDashboardQuery.error : defaultDashboardQuery.error;
-  const dashboardResponse = dashboardType === 'insight' ? insightsDashboardQuery.data : defaultDashboardQuery.data;
+  const reviewDashboardQuery = useReviewDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedCity
+  });
+
+  const listingDashboardQuery = useListingDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedCity
+  });
+
+  // Use appropriate query based on dashboard type
+  const getDashboardQuery = () => {
+    switch (dashboardType) {
+      case 'insight':
+        return insightsDashboardQuery;
+      case 'review':
+        return reviewDashboardQuery;
+      case 'listing':
+        return listingDashboardQuery;
+      default:
+        return defaultDashboardQuery;
+    }
+  };
+
+  const currentQuery = getDashboardQuery();
+  const isDashboardLoading = currentQuery.isLoading;
+  const isDashboardError = currentQuery.error;
+  const dashboardResponse = currentQuery.data;
   const metricsCards = trendsData?.data?.stats ? [{
     title: 'Total Listings',
     value: trendsData.data.stats.totalListings.toLocaleString(),
@@ -87,7 +115,6 @@ export const MultiDashboard: React.FC = () => {
     textColor: 'text-gray-900'
   }] : [];
   // Transform API data to display format
-  console.log('Dashboard Data Debug:', { dashboardType, dashboardResponse });
   const listings = dashboardResponse?.data?.listings || [];
   const pagination = dashboardResponse?.data?.pagination;
 
@@ -315,6 +342,78 @@ export const MultiDashboard: React.FC = () => {
                             <MessageSquare className="w-3 h-3 text-purple-500" />
                             <span>{listing.customer_actions?.messages || 0} Messages</span>
                           </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : dashboardType === 'review' ? (
+                    // Review Dashboard Content
+                    <>
+                      {/* Rating Section */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Review Stats</h5>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                          <span className={`font-bold text-sm ${getStatusColor(listing.avgRating || listing.rating)}`}>
+                            {listing.avgRating || listing.rating}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Review Stats */}
+                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <span className="text-muted-foreground font-medium">Total:</span>
+                            <p className="font-semibold text-foreground">{listing.totalReviews || 0}</p>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground font-medium">Pending:</span>
+                            <p className="font-semibold text-foreground">{listing.pendingReviews || 0}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Recent Review */}
+                      <div className="mb-5 space-y-2">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground font-medium">Recent Review:</span>
+                          <p className="text-foreground font-medium text-xs mt-1">{listing.recentReview || 'No recent reviews'}</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : dashboardType === 'listing' ? (
+                    // Listing Dashboard Content
+                    <>
+                      {/* Status Section */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Listing Status</h5>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className={`w-2 h-2 rounded-full ${listing.status === 'Active' ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                          <span className="font-bold text-sm text-foreground">
+                            {listing.status || 'Active'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Listing Info */}
+                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <span className="text-muted-foreground font-medium">Visibility:</span>
+                            <p className="font-semibold text-foreground">{listing.visibility || 'Public'}</p>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground font-medium">Complete:</span>
+                            <p className="font-semibold text-foreground">{listing.completeness || 100}%</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Last Updated */}
+                      <div className="mb-5 space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-muted-foreground font-medium">Last Updated:</span>
+                          <span className="text-foreground font-medium">{listing.lastUpdated || 'Recently'}</span>
                         </div>
                       </div>
                     </>

@@ -109,4 +109,105 @@ export const useInsightsDashboardData = (params: InsightsDashboardRequest) => {
   });
 };
 
-export type { DashboardListing, DashboardPagination, DashboardRequest, InsightsDashboardListing, InsightsDashboardRequest };
+// Review Dashboard Types
+interface ReviewDashboardRequest {
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  city: string;
+}
+
+interface ReviewDashboardListing {
+  id: string;
+  listingName: string;
+  storeCode: string;
+  totalReviews: number;
+  avgRating: string;
+  pendingReviews: number;
+  recentReview: string;
+  reviewReply: string;
+  profilePhoto: string;
+}
+
+interface ReviewDashboardResponse {
+  code: number;
+  message: string;
+  data: {
+    listings: ReviewDashboardListing[];
+    pagination: DashboardPagination;
+  };
+}
+
+// Review Dashboard API function
+const getReviewDashboardData = async (params: ReviewDashboardRequest): Promise<ReviewDashboardResponse> => {
+  const response = await axiosInstance.post('/get-review-dashboard', params);
+  return response.data;
+};
+
+// Custom hook for review dashboard
+export const useReviewDashboardData = (params: ReviewDashboardRequest) => {
+  return useQuery({
+    queryKey: ['review-dashboard-data', params],
+    queryFn: () => getReviewDashboardData(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+// Listing Dashboard Types
+interface ListingDashboardRequest {
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  city: string;
+}
+
+interface ListingDashboardListing {
+  id: string;
+  listingName: string;
+  storeCode: string;
+  status: string;
+  lastUpdated: string;
+  visibility: string;
+  profilePhoto: string;
+  completeness: number;
+}
+
+interface ListingDashboardResponse {
+  code: number;
+  message: string;
+  data: {
+    listings: ListingDashboardListing[];
+    pagination: DashboardPagination;
+  };
+}
+
+// Listing Dashboard API function
+const getListingDashboardData = async (params: ListingDashboardRequest): Promise<ListingDashboardResponse> => {
+  const response = await axiosInstance.post('/get-listing-dashboard', params);
+  return response.data;
+};
+
+// Custom hook for listing dashboard
+export const useListingDashboardData = (params: ListingDashboardRequest) => {
+  return useQuery({
+    queryKey: ['listing-dashboard-data', params],
+    queryFn: () => getListingDashboardData(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
+export type { 
+  DashboardListing, 
+  DashboardPagination, 
+  DashboardRequest, 
+  InsightsDashboardListing, 
+  InsightsDashboardRequest,
+  ReviewDashboardListing,
+  ReviewDashboardRequest,
+  ListingDashboardListing,
+  ListingDashboardRequest
+};
