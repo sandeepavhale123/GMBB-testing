@@ -44,9 +44,9 @@ export const MultiDashboard: React.FC = () => {
 
   // Use appropriate query based on dashboard type
   const currentQuery = dashboardType === 'insight' ? insightsDashboardQuery : defaultDashboardQuery;
-  const dashboardData = currentQuery.data;
-  const dashboardLoading = currentQuery.isLoading;
-  const dashboardError = currentQuery.error;
+  const dashboardData = currentQuery?.data;
+  const dashboardLoading = currentQuery?.isLoading;
+  const dashboardError = currentQuery?.error;
   const metricsCards = trendsData?.data?.stats ? [{
     title: 'Total Listings',
     value: trendsData.data.stats.totalListings.toLocaleString(),
