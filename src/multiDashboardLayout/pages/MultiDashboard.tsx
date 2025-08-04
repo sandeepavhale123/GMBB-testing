@@ -224,16 +224,7 @@ export const MultiDashboard: React.FC = () => {
       await setDashboard(numericId);
       setDashboardType(newType);
       setCurrentPage(1); // Reset pagination when changing dashboard type
-      toast({
-        title: "Dashboard preference saved",
-        description: `Switched to ${newType} dashboard`,
-      });
     } catch (error) {
-      toast({
-        title: "Failed to save dashboard preference",
-        description: "Please try again later",
-        variant: "destructive",
-      });
       console.error('Dashboard save error:', error);
     } finally {
       setIsUpdatingDashboard(false);
