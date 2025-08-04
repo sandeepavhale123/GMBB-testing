@@ -28,7 +28,7 @@ const GoogleAuthHandler = () => {
     if (!code || hasProcessed.current || isProcessing || isProcessingGlobally) {
       if (!code) {
         // console.log("GoogleAuthHandler: No code found, redirecting");
-        navigate("/settings/google-account", { replace: true });
+        navigate("/main-dashboard/settings/google-account", { replace: true });
       }
       return;
     }
@@ -90,9 +90,9 @@ const GoogleAuthHandler = () => {
         // Navigate to the listings management page
         // console.log(
         //   "GoogleAuthHandler: Navigating to listings page",
-        //   `/settings/listings/${accountId}`
+        //   `/main-dashboard/settings/listings/${accountId}`
         // );
-        navigate(`/settings/listings/${accountId}`, { replace: true });
+        navigate(`/main-dashboard/settings/listings/${accountId}`, { replace: true });
       } catch (error) {
         console.error("GoogleAuthHandler: Authentication error", error);
 
@@ -136,7 +136,7 @@ const GoogleAuthHandler = () => {
           <p className="text-gray-600 text-sm mb-4">{error}</p>
           <Button
             onClick={() =>
-              navigate("/settings/google-account", { replace: true })
+              navigate("/main-dashboard/settings/google-account", { replace: true })
             }
             className="w-full"
           >

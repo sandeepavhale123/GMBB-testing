@@ -52,7 +52,7 @@ const TeamMembersPage: React.FC = () => {
     clearTeamError
   } = useTeam();
   const handleEditMember = (member: TeamMember) => {
-    navigate(`/settings/team-members/edit/${member.id}`);
+    navigate(`/main-dashboard/settings/team-members/edit/${member.id}`);
   };
   const handleDeleteMember = (member: TeamMember) => {
     setSelectedMember(member);

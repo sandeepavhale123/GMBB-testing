@@ -88,7 +88,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
   // Transform API accounts to match component interface
   const accounts = useMemo(() => apiAccounts.map(transformGoogleAccount), [apiAccounts]);
   const handleManageListings = (accountId: string) => {
-    navigate(`/settings/listings/${accountId}`);
+    navigate(`/main-dashboard/settings/listings/${accountId}`);
   };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

@@ -51,6 +51,21 @@ const settingsNavItems: SettingsNavItem[] = [
 export const SettingsLayout: React.FC = () => {
   const location = useLocation();
 
+  // Function to determine active path for navigation highlighting
+  const getActivePath = (itemPath: string) => {
+    const currentPath = location.pathname;
+    
+    // Handle nested routes - map them to their parent navigation items
+    if (currentPath.includes('/team-members/edit/')) {
+      return '/main-dashboard/settings/team-members';
+    }
+    if (currentPath.includes('/listings/')) {
+      return '/main-dashboard/settings/google-account';
+    }
+    
+    return currentPath;
+  };
+
   return (
     <div className="flex gap-6 min-h-[600px]">
       {/* Left Sidebar - Settings Navigation */}
@@ -63,19 +78,17 @@ export const SettingsLayout: React.FC = () => {
         <nav className="space-y-1">
           {settingsNavItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path;
+            const isActive = getActivePath(item.path) === item.path;
             
             return (
               <NavLink
                 key={item.path}
                 to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`
-                }
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
               >
                 <Icon className="h-4 w-4" />
                 {item.label}

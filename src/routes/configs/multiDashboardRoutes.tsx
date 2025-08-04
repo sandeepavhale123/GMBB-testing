@@ -13,6 +13,8 @@ import { SubscriptionWrapper } from "@/multiDashboardLayout/components/settings/
 import { BrandingWrapper } from "@/multiDashboardLayout/components/settings/BrandingWrapper";
 import { ReportBrandingWrapper } from "@/multiDashboardLayout/components/settings/ReportBrandingWrapper";
 import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/IntegrationsWrapper";
+import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
+import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
 import { RouteConfig } from "../routeConfig";
 
 export const multiDashboardRoutes: RouteConfig[] = [
@@ -75,6 +77,14 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "integrations",
             element: <IntegrationsWrapper />,
+          },
+          {
+            path: "team-members/edit/:memberId",
+            element: <EditTeamMemberWrapper />,
+          },
+          {
+            path: "listings/:accountId",
+            element: <ListingManagementWrapper />,
           },
         ],
       },

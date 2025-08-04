@@ -220,7 +220,7 @@ export const EditTeamMemberSettings: React.FC = () => {
             title: "Success",
             description: "Team member profile updated successfully",
           });
-          navigate("/settings/team-members");
+          navigate("/main-dashboard/settings/team-members");
         }
       } else if (activeTab === "listing") {
         // Save listing assignments
@@ -248,7 +248,7 @@ export const EditTeamMemberSettings: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate("/settings/team-members");
+    navigate("/main-dashboard/settings/team-members");
   };
 
   // Listing management handlers
