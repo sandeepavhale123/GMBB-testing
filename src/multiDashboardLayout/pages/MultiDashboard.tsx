@@ -624,7 +624,7 @@ export const MultiDashboard: React.FC = () => {
                             <p className="font-semibold text-foreground">{listing.reviewCount || 0}</p>
                           </div>
                           <div>
-                            <span className="text-muted-foreground font-medium">Auto Reply Status:</span>
+                            <span className="text-muted-foreground font-medium">Auto reply:</span>
                             <p className="font-semibold text-foreground">{listing.autoReplyStatus || '-'}</p>
                           </div>
                         </div>
