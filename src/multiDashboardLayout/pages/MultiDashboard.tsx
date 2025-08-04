@@ -480,7 +480,7 @@ export const MultiDashboard: React.FC = () => {
                     <>
                       {/* Location Card Header */}
                       <div className="mb-4 border-b border-border pb-4">
-                        <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <div className={`w-3 h-3 rounded-full ${listing.openInfo === 'Open' ? 'bg-green-500' : 'bg-red-500'}`}></div>
                             <span className="font-semibold text-sm text-foreground">{listing.openInfo}</span>
@@ -490,7 +490,6 @@ export const MultiDashboard: React.FC = () => {
                             <span className="font-bold text-foreground">{listing.rating}</span>
                           </div>
                         </div>
-                        <p className="text-sm text-muted-foreground font-medium">{listing.category}</p>
                       </div>
 
                       {/* Address & Contact */}
@@ -503,9 +502,12 @@ export const MultiDashboard: React.FC = () => {
                           </div>
                         </div>
                         {listing.phone && (
-                          <div className="flex items-center gap-3">
-                            <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span className="text-sm text-foreground font-medium">{listing.phone}</span>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                              <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                              <span className="text-sm text-foreground font-medium">{listing.phone}</span>
+                            </div>
+                            <span className="text-xs text-muted-foreground font-medium bg-muted/50 px-2 py-1 rounded">{listing.category}</span>
                           </div>
                         )}
                       </div>
