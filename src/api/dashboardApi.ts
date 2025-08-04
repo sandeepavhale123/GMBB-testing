@@ -204,6 +204,57 @@ export const useListingDashboardData = (params: ListingDashboardRequest) => {
   });
 };
 
+// Location Dashboard Types
+interface LocationDashboardRequest {
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  city: string;
+}
+
+interface LocationDashboardListing {
+  listingId: string;
+  profilePhoto: string;
+  storeCode: string;
+  listingName: string;
+  address: string;
+  zipCode: string;
+  state: string;
+  phone: string;
+  website: string;
+  photoCount: number;
+  map: string;
+  category: string;
+  rating: string;
+  openInfo: string;
+}
+
+interface LocationDashboardResponse {
+  code: number;
+  message: string;
+  data: {
+    listings: LocationDashboardListing[];
+    pagination: DashboardPagination;
+  };
+}
+
+// Location Dashboard API function
+const getLocationDashboardData = async (params: LocationDashboardRequest): Promise<LocationDashboardResponse> => {
+  const response = await axiosInstance.post('/get-location-dashboard', params);
+  return response.data;
+};
+
+// Custom hook for location dashboard
+export const useLocationDashboardData = (params: LocationDashboardRequest) => {
+  return useQuery({
+    queryKey: ['location-dashboard-data', params],
+    queryFn: () => getLocationDashboardData(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+  });
+};
+
 export type { 
   DashboardListing, 
   DashboardPagination, 
@@ -213,5 +264,7 @@ export type {
   ReviewDashboardListing,
   ReviewDashboardRequest,
   ListingDashboardListing,
-  ListingDashboardRequest
+  ListingDashboardRequest,
+  LocationDashboardListing,
+  LocationDashboardRequest
 };

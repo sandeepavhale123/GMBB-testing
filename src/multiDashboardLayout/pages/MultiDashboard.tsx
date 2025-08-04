@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
@@ -61,8 +61,17 @@ export const MultiDashboard: React.FC = () => {
     city: selectedCity
   });
 
+  const locationDashboardQuery = useLocationDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedCity
+  });
+
   // Use appropriate query based on dashboard type
   const getDashboardQuery = () => {
+    console.log('Getting dashboard query for type:', dashboardType);
     switch (dashboardType) {
       case 'insight':
         return insightsDashboardQuery;
@@ -70,6 +79,8 @@ export const MultiDashboard: React.FC = () => {
         return reviewDashboardQuery;
       case 'listing':
         return listingDashboardQuery;
+      case 'location':
+        return locationDashboardQuery;
       default:
         return defaultDashboardQuery;
     }
@@ -239,6 +250,7 @@ export const MultiDashboard: React.FC = () => {
                   <SelectItem value="insight">Insight</SelectItem>
                   <SelectItem value="review">Review</SelectItem>
                   <SelectItem value="listing">Listing dashboard</SelectItem>
+                  <SelectItem value="location">Location dashboard</SelectItem>
                   {/* <SelectItem value="group">Group dashboard</SelectItem>
                   <SelectItem value="post">Post dashboard</SelectItem>
                   <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
