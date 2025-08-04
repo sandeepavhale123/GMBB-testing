@@ -18,32 +18,32 @@ interface SettingsNavItem {
 const settingsNavItems: SettingsNavItem[] = [
   {
     label: 'Google Account',
-    path: '/main-dashboard/google-account',
+    path: '/main-dashboard/settings/google-account',
     icon: User
   },
   {
     label: 'Team Members',
-    path: '/main-dashboard/team-members',
+    path: '/main-dashboard/settings/team-members',
     icon: Users
   },
   {
     label: 'Subscription',
-    path: '/main-dashboard/subscription',
+    path: '/main-dashboard/settings/subscription',
     icon: CreditCard
   },
   {
     label: 'Theme Customization',
-    path: '/main-dashboard/theme-customization',
+    path: '/main-dashboard/settings/theme-customization',
     icon: Palette
   },
   {
     label: 'Report Branding',
-    path: '/main-dashboard/report-branding',
+    path: '/main-dashboard/settings/report-branding',
     icon: FileText
   },
   {
     label: 'Integrations',
-    path: '/main-dashboard/integrations',
+    path: '/main-dashboard/settings/integrations',
     icon: Settings
   }
 ];

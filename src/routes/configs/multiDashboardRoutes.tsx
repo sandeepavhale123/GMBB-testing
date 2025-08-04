@@ -45,61 +45,35 @@ export const multiDashboardRoutes: RouteConfig[] = [
         element: <Reports />,
       },
       {
-        path: "google-account",
+        path: "settings",
         element: <SettingsLayout />,
         children: [
           {
             path: "",
             element: <ManageGoogleAccountPage />,
           },
-        ],
-      },
-      {
-        path: "team-members",
-        element: <SettingsLayout />,
-        children: [
           {
-            path: "",
+            path: "google-account",
+            element: <ManageGoogleAccountPage />,
+          },
+          {
+            path: "team-members",
             element: <TeamMembersPage />,
           },
-        ],
-      },
-      {
-        path: "subscription",
-        element: <SettingsLayout />,
-        children: [
           {
-            path: "",
+            path: "subscription",
             element: <SubscriptionPage />,
           },
-        ],
-      },
-      {
-        path: "theme-customization",
-        element: <SettingsLayout />,
-        children: [
           {
-            path: "",
+            path: "theme-customization",
             element: <BrandingPage />,
           },
-        ],
-      },
-      {
-        path: "report-branding",
-        element: <SettingsLayout />,
-        children: [
           {
-            path: "",
+            path: "report-branding",
             element: <ReportBrandingPage />,
           },
-        ],
-      },
-      {
-        path: "integrations",
-        element: <SettingsLayout />,
-        children: [
           {
-            path: "",
+            path: "integrations",
             element: <IntegrationsPage />,
           },
         ],
