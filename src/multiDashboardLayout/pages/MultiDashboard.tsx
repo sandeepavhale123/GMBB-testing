@@ -23,7 +23,7 @@ export const MultiDashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
-  const [postStatus, setPostStatus] = useState('');
+  const [postStatus, setPostStatus] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -94,7 +94,7 @@ export const MultiDashboard: React.FC = () => {
       startDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : "",
       endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : "",
     },
-    postStatus: postStatus,
+    postStatus: postStatus === 'all' ? '' : postStatus,
   }, dashboardType === 'post');
 
   // Get the current active query
@@ -320,7 +320,7 @@ export const MultiDashboard: React.FC = () => {
                       <SelectValue placeholder="Post status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Posts</SelectItem>
+                      <SelectItem value="all">All Posts</SelectItem>
                       <SelectItem value="scheduled">Scheduled Post</SelectItem>
                       <SelectItem value="published">Live Post</SelectItem>
                       <SelectItem value="failed">Failed Post</SelectItem>
