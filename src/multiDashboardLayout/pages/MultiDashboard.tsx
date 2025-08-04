@@ -214,7 +214,7 @@ export const MultiDashboard: React.FC = () => {
             </div>
             <div className="flex gap-2">
               <Select value={selectedCategory} onValueChange={value => handleFilterChange('category', value)} disabled={categoryStateLoading}>
-                <SelectTrigger className="w-40 bg-background z-50">
+                <SelectTrigger className="w-40 bg-background">
                   <SelectValue placeholder={categoryStateLoading ? "Loading..." : "All Categories"} />
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
@@ -227,7 +227,7 @@ export const MultiDashboard: React.FC = () => {
                 </SelectContent>
               </Select>
               <Select value={selectedState} onValueChange={value => handleFilterChange('state', value)} disabled={categoryStateLoading}>
-                <SelectTrigger className="w-40 bg-background z-50">
+                <SelectTrigger className="w-40 bg-background">
                   <SelectValue placeholder={categoryStateLoading ? "Loading..." : "All States"} />
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
