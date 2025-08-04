@@ -45,12 +45,13 @@ const getDashboardData = async (params: DashboardRequest): Promise<DashboardResp
 };
 
 // Custom hook
-export const useDashboardData = (params: DashboardRequest) => {
+export const useDashboardData = (params: DashboardRequest, enabled: boolean = true) => {
   return useQuery({
     queryKey: ['dashboard-data', params],
     queryFn: () => getDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    enabled,
   });
 };
 
@@ -100,12 +101,13 @@ const getInsightsDashboardData = async (params: InsightsDashboardRequest): Promi
 };
 
 // Custom hook for insights dashboard
-export const useInsightsDashboardData = (params: InsightsDashboardRequest) => {
+export const useInsightsDashboardData = (params: InsightsDashboardRequest, enabled: boolean = true) => {
   return useQuery({
     queryKey: ['insights-dashboard-data', params],
     queryFn: () => getInsightsDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    enabled,
   });
 };
 
@@ -150,12 +152,13 @@ const getReviewDashboardData = async (params: ReviewDashboardRequest): Promise<R
 };
 
 // Custom hook for review dashboard
-export const useReviewDashboardData = (params: ReviewDashboardRequest) => {
+export const useReviewDashboardData = (params: ReviewDashboardRequest, enabled: boolean = true) => {
   return useQuery({
     queryKey: ['review-dashboard-data', params],
     queryFn: () => getReviewDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    enabled,
   });
 };
 
@@ -195,12 +198,13 @@ const getListingDashboardData = async (params: ListingDashboardRequest): Promise
 };
 
 // Custom hook for listing dashboard
-export const useListingDashboardData = (params: ListingDashboardRequest) => {
+export const useListingDashboardData = (params: ListingDashboardRequest, enabled: boolean = true) => {
   return useQuery({
     queryKey: ['listing-dashboard-data', params],
     queryFn: () => getListingDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    enabled,
   });
 };
 
@@ -246,12 +250,13 @@ const getLocationDashboardData = async (params: LocationDashboardRequest): Promi
 };
 
 // Custom hook for location dashboard
-export const useLocationDashboardData = (params: LocationDashboardRequest) => {
+export const useLocationDashboardData = (params: LocationDashboardRequest, enabled: boolean = true) => {
   return useQuery({
     queryKey: ['location-dashboard-data', params],
     queryFn: () => getLocationDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    enabled,
   });
 };
 

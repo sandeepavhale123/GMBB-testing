@@ -26,21 +26,23 @@ export const MultiDashboard: React.FC = () => {
     error: trendsError
   } = useTrendsData();
 
-  // Fetch dashboard listings data based on dashboard type
+  // Conditionally call the appropriate hook based on dashboard type
   const defaultDashboardQuery = useDashboardData({
     page: currentPage,
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
     city: selectedCity
-  });
+  }, dashboardType === 'default');
+
   const insightsDashboardQuery = useInsightsDashboardData({
     page: currentPage,
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
     city: selectedCity
-  });
+  }, dashboardType === 'insight');
+
   const reviewDashboardQuery = useReviewDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -48,25 +50,26 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     city: selectedCity,
     review: reviewFilter
-  });
+  }, dashboardType === 'review');
+
   const listingDashboardQuery = useListingDashboardData({
     page: currentPage,
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
     city: selectedCity
-  });
+  }, dashboardType === 'listing');
+
   const locationDashboardQuery = useLocationDashboardData({
     page: currentPage,
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
     city: selectedCity
-  });
+  }, dashboardType === 'location');
 
-  // Use appropriate query based on dashboard type
-  const getDashboardQuery = () => {
-    console.log('Getting dashboard query for type:', dashboardType);
+  // Get the current active query
+  const getCurrentQuery = () => {
     switch (dashboardType) {
       case 'insight':
         return insightsDashboardQuery;
@@ -80,7 +83,8 @@ export const MultiDashboard: React.FC = () => {
         return defaultDashboardQuery;
     }
   };
-  const currentQuery = getDashboardQuery();
+  
+  const currentQuery = getCurrentQuery();
   const isDashboardLoading = currentQuery.isLoading;
   const isDashboardError = currentQuery.error;
   const dashboardResponse = currentQuery.data;
