@@ -392,14 +392,69 @@ export const MultiDashboard: React.FC = () => {
                     />
                   ))}
                 </div>
-              ) : (
+            ) : (
                 <div className="space-y-4">
-                  {posts.map((post) => (
-                    <PostCard
-                      key={post.id}
-                      post={transformPostDashboardPost(post)}
-                    />
-                  ))}
+                  {posts.map((post) => {
+                    const transformedPost = transformPostDashboardPost(post);
+                    return (
+                      <div key={post.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
+                        <div className="flex items-center gap-4">
+                          {/* Post Image */}
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                            {transformedPost.media?.images ? (
+                              <img src={transformedPost.media.images} alt="Post" className="w-full h-full object-cover" />
+                            ) : (
+                              <span className="text-white text-xs font-medium">No Image</span>
+                            )}
+                          </div>
+
+                          {/* Post Content */}
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-semibold text-foreground text-sm truncate">{transformedPost.title || "Untitled Post"}</h4>
+                            {transformedPost.listingName && (
+                              <p className="text-xs text-muted-foreground">{transformedPost.listingName}</p>
+                            )}
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{transformedPost.content}</p>
+                          </div>
+
+                          {/* Post Details */}
+                          <div className="flex items-center gap-6 text-xs">
+                            <div className="text-center">
+                              <div className={`font-semibold px-2 py-1 rounded text-xs ${
+                                transformedPost.status === 'published' ? 'bg-green-100 text-green-700' :
+                                transformedPost.status === 'scheduled' ? 'bg-blue-100 text-blue-700' :
+                                transformedPost.status === 'failed' ? 'bg-red-100 text-red-700' :
+                                'bg-gray-100 text-gray-700'
+                              }`}>
+                                {transformedPost.status === 'published' ? 'Live' :
+                                 transformedPost.status === 'scheduled' ? 'Scheduled' :
+                                 transformedPost.status === 'failed' ? 'Failed' : 'Draft'}
+                              </div>
+                            </div>
+                            <div className="text-center min-w-0">
+                              <div className="font-semibold text-foreground truncate">{transformedPost.publishDate}</div>
+                              <div className="text-muted-foreground">Publish Date</div>
+                            </div>
+                            {transformedPost.tags && (
+                              <div className="text-center min-w-0">
+                                <div className="font-semibold text-foreground truncate">{transformedPost.tags}</div>
+                                <div className="text-muted-foreground">Tags</div>
+                              </div>
+                            )}
+                          </div>
+
+                           {/* Action Buttons */}
+                           <div className="flex-shrink-0 flex items-center gap-2">
+                             {transformedPost.searchUrl && (
+                               <Button variant="outline" size="sm" onClick={() => window.open(transformedPost.searchUrl, "_blank")}>
+                                 <ExternalLink className="w-3 h-3" />
+                               </Button>
+                             )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )
             ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
