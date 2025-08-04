@@ -478,59 +478,80 @@ export const MultiDashboard: React.FC = () => {
                   ) : dashboardType === 'location' ? (
                     // Location Dashboard Content
                     <>
-                      {/* Business Info Section */}
-                      <div className="mb-4">
-                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Business Information</h5>
-                        <div className="space-y-2 text-sm">
+                      {/* Location Card Header */}
+                      <div className="mb-4 border-b border-border pb-4">
+                        <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
-                            <div className={`w-2 h-2 rounded-full ${listing.openInfo === 'Open' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                            <span className="font-bold text-foreground">{listing.openInfo}</span>
+                            <div className={`w-3 h-3 rounded-full ${listing.openInfo === 'Open' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                            <span className="font-semibold text-sm text-foreground">{listing.openInfo}</span>
                           </div>
-                          <p className="text-muted-foreground">{listing.category}</p>
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                            <span className="font-bold text-foreground">{listing.rating}</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground font-medium">{listing.category}</p>
+                      </div>
+
+                      {/* Address & Contact */}
+                      <div className="mb-4 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-foreground font-medium truncate">{listing.address}</p>
+                            <p className="text-xs text-muted-foreground">{listing.state} {listing.zipCode}</p>
+                          </div>
+                        </div>
+                        {listing.phone && (
+                          <div className="flex items-center gap-3">
+                            <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span className="text-sm text-foreground font-medium">{listing.phone}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Stats Grid */}
+                      <div className="mb-4 grid grid-cols-2 gap-3">
+                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 rounded-lg p-3 text-center">
+                          <div className="text-lg font-bold text-blue-700 dark:text-blue-300">{listing.photoCount || 0}</div>
+                          <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">Photos</div>
+                        </div>
+                        <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 rounded-lg p-3 text-center">
+                          <div className="text-lg font-bold text-green-700 dark:text-green-300">{listing.rating}</div>
+                          <div className="text-xs text-green-600 dark:text-green-400 font-medium">Rating</div>
                         </div>
                       </div>
 
-                      {/* Contact & Location */}
-                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                        <div className="grid grid-cols-1 gap-2 text-sm">
-                          <div>
-                            <span className="text-muted-foreground font-medium">Phone:</span>
-                            <p className="font-semibold text-foreground">{listing.phone || 'N/A'}</p>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground font-medium">Location:</span>
-                            <p className="font-semibold text-foreground">{listing.state}, {listing.zipCode}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Rating & Stats */}
-                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                        <div className="grid grid-cols-2 gap-3 text-sm">
-                          <div>
-                            <span className="text-muted-foreground font-medium">Rating:</span>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                              <span className="font-semibold text-foreground">{listing.rating}</span>
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground font-medium">Photos:</span>
-                            <p className="font-semibold text-foreground">{listing.photoCount}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Website & Maps Links */}
-                      <div className="mb-5 space-y-2">
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-muted-foreground font-medium">Website:</span>
-                          <div dangerouslySetInnerHTML={{ __html: listing.website }} />
-                        </div>
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-muted-foreground font-medium">Maps:</span>
-                          <div dangerouslySetInnerHTML={{ __html: listing.map }} />
-                        </div>
+                      {/* Quick Actions */}
+                      <div className="flex gap-2 mb-4">
+                        {listing.website && (
+                          <button
+                            onClick={() => {
+                              const tempDiv = document.createElement('div');
+                              tempDiv.innerHTML = listing.website;
+                              const link = tempDiv.querySelector('a');
+                              if (link) window.open(link.href, '_blank');
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            Website
+                          </button>
+                        )}
+                        {listing.map && (
+                          <button
+                            onClick={() => {
+                              const tempDiv = document.createElement('div');
+                              tempDiv.innerHTML = listing.map;
+                              const link = tempDiv.querySelector('a');
+                              if (link) window.open(link.href, '_blank');
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium"
+                          >
+                            <MapPin className="w-3 h-3" />
+                            Maps
+                          </button>
+                        )}
                       </div>
                     </>
                   ) : (
