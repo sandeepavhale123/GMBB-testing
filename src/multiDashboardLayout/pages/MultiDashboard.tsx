@@ -26,7 +26,6 @@ export const MultiDashboard: React.FC = () => {
     error: trendsError
   } = useTrendsData();
 
-
   // Fetch dashboard listings data based on dashboard type
   const defaultDashboardQuery = useDashboardData({
     page: currentPage,
@@ -35,7 +34,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     city: selectedCity
   });
-
   const insightsDashboardQuery = useInsightsDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -43,7 +41,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     city: selectedCity
   });
-
   const reviewDashboardQuery = useReviewDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -52,7 +49,6 @@ export const MultiDashboard: React.FC = () => {
     city: selectedCity,
     review: reviewFilter
   });
-
   const listingDashboardQuery = useListingDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -60,7 +56,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     city: selectedCity
   });
-
   const locationDashboardQuery = useLocationDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -85,7 +80,6 @@ export const MultiDashboard: React.FC = () => {
         return defaultDashboardQuery;
     }
   };
-
   const currentQuery = getDashboardQuery();
   const isDashboardLoading = currentQuery.isLoading;
   const isDashboardError = currentQuery.error;
@@ -158,7 +152,6 @@ export const MultiDashboard: React.FC = () => {
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
-
   const handleReviewFilterChange = (value: "0" | "1" | "2" | "3" | "4" | "5" | "6") => {
     console.log('Review filter changed to:', value);
     setReviewFilter(value);
@@ -169,8 +162,8 @@ export const MultiDashboard: React.FC = () => {
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {trendsLoading ? Array.from({
-        length: 4
-      }).map((_, index) => <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          length: 4
+        }).map((_, index) => <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="flex-1 space-y-1">
                   <Skeleton className="h-4 w-24" />
@@ -183,8 +176,8 @@ export const MultiDashboard: React.FC = () => {
             </div>) : trendsError ? <div className="col-span-4 text-center py-8">
             <p className="text-gray-500">Failed to load metrics. Please try again.</p>
           </div> : metricsCards.map((metric, index) => {
-        const Icon = metric.icon;
-        return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
+          const Icon = metric.icon;
+          return <div key={index} className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow`}>
                   <div className="flex items-center justify-between">
                     <div className="flex-1 space-y-1">
                       <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
@@ -195,7 +188,7 @@ export const MultiDashboard: React.FC = () => {
                     </div>
                   </div>
                 </div>;
-      })}
+        })}
       </div>
 
       {/* Search and Filters */}
@@ -252,14 +245,13 @@ export const MultiDashboard: React.FC = () => {
                   <SelectItem value="listing">Listing dashboard</SelectItem>
                   <SelectItem value="location">Location dashboard</SelectItem>
                   {/* <SelectItem value="group">Group dashboard</SelectItem>
-                  <SelectItem value="post">Post dashboard</SelectItem>
-                  <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
+                   <SelectItem value="post">Post dashboard</SelectItem>
+                   <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
                 </SelectContent>
               </Select>
               
               {/* Review Filter Dropdown - Only show for review dashboard */}
-              {dashboardType === 'review' && (
-                <Select value={reviewFilter} onValueChange={handleReviewFilterChange}>
+              {dashboardType === 'review' && <Select value={reviewFilter} onValueChange={handleReviewFilterChange}>
                   <SelectTrigger className="w-52">
                     <SelectValue placeholder="Review Filter" />
                   </SelectTrigger>
@@ -272,8 +264,7 @@ export const MultiDashboard: React.FC = () => {
                     <SelectItem value="5">Exclude ARE/DNR Review</SelectItem>
                     <SelectItem value="6">All Reviews</SelectItem>
                   </SelectContent>
-                </Select>
-              )}
+                </Select>}
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
                 <ToggleGroupItem value="grid" aria-label="Grid view">
                   <Grid3X3 className="h-4 w-4" />
@@ -286,8 +277,8 @@ export const MultiDashboard: React.FC = () => {
           </div>
           {isDashboardLoading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {Array.from({
-            length: itemsPerPage
-          }).map((_, index) => <div key={index} className="bg-background border border-border rounded-lg p-4">
+              length: itemsPerPage
+            }).map((_, index) => <div key={index} className="bg-background border border-border rounded-lg p-4">
                   <div className="space-y-3">
                     <div className="flex justify-between items-start">
                       <div className="space-y-2">
@@ -326,24 +317,18 @@ export const MultiDashboard: React.FC = () => {
                         </TooltipContent>
                       </Tooltip>
                       <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
-                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && (
-                        <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>
-                      )}
-                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && (
-                        <p className="text-xs text-muted-foreground">City: {listing.city}</p>
-                      )}
-                      {dashboardType === 'insight' && listing.category && (
-                        <p className="text-xs text-muted-foreground">{listing.category}</p>
-                      )}
+                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>}
+                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && <p className="text-xs text-muted-foreground">City: {listing.city}</p>}
+                      {dashboardType === 'insight' && listing.category && <p className="text-xs text-muted-foreground">{listing.category}</p>}
                     </div>
                     {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
                         {listing.storeCode}
                       </span>}
                   </div>
                   
-                  {dashboardType === 'insight' ? (
-                    // Insights Dashboard Content
-                    <>
+                  {dashboardType === 'insight' ?
+              // Insights Dashboard Content
+              <>
                       {/* Visibility Stats */}
                       <div className="mb-4">
                         <h5 className="text-sm font-medium text-muted-foreground mb-2">Visibility</h5>
@@ -385,10 +370,9 @@ export const MultiDashboard: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                    </>
-                  ) : dashboardType === 'review' ? (
-                    // Review Dashboard Content
-                    <>
+                    </> : dashboardType === 'review' ?
+              // Review Dashboard Content
+              <>
                       {/* Rating Section */}
                       <div className="mb-4">
                         <h5 className="text-sm font-medium text-muted-foreground mb-2">Review Stats</h5>
@@ -438,10 +422,9 @@ export const MultiDashboard: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                    </>
-                  ) : dashboardType === 'listing' ? (
-                    // Listing Dashboard Content
-                    <>
+                    </> : dashboardType === 'listing' ?
+              // Listing Dashboard Content
+              <>
                       {/* Status Section */}
                       <div className="mb-4">
                         <h5 className="text-sm font-medium text-muted-foreground mb-2">Listing Status</h5>
@@ -474,23 +457,11 @@ export const MultiDashboard: React.FC = () => {
                           <span className="text-foreground font-medium">{listing.lastUpdated || 'Recently'}</span>
                         </div>
                       </div>
-                    </>
-                  ) : dashboardType === 'location' ? (
-                    // Location Dashboard Content
-                    <>
+                    </> : dashboardType === 'location' ?
+              // Location Dashboard Content
+              <>
                       {/* Location Card Header */}
-                      <div className="mb-4 border-b border-border pb-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className={`w-3 h-3 rounded-full ${listing.openInfo === 'Open' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                            <span className="font-semibold text-sm text-foreground">{listing.openInfo}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                            <span className="font-bold text-foreground">{listing.rating}</span>
-                          </div>
-                        </div>
-                      </div>
+                      
 
                       {/* Address & Contact */}
                       <div className="mb-4 space-y-3">
@@ -501,15 +472,13 @@ export const MultiDashboard: React.FC = () => {
                             <p className="text-xs text-muted-foreground">{listing.state} {listing.zipCode}</p>
                           </div>
                         </div>
-                        {listing.phone && (
-                          <div className="flex items-center justify-between gap-3">
+                        {listing.phone && <div className="flex items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
                               <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                               <span className="text-sm text-foreground font-medium">{listing.phone}</span>
                             </div>
                             <span className="text-xs text-muted-foreground font-medium bg-muted/50 px-2 py-1 rounded">{listing.category}</span>
-                          </div>
-                        )}
+                          </div>}
                       </div>
 
                       {/* Stats Grid */}
@@ -526,39 +495,28 @@ export const MultiDashboard: React.FC = () => {
 
                       {/* Quick Actions */}
                       <div className="flex gap-2 mb-4">
-                        {listing.website && (
-                          <button
-                            onClick={() => {
-                              const tempDiv = document.createElement('div');
-                              tempDiv.innerHTML = listing.website;
-                              const link = tempDiv.querySelector('a');
-                              if (link) window.open(link.href, '_blank');
-                            }}
-                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium"
-                          >
+                        {listing.website && <button onClick={() => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = listing.website;
+                    const link = tempDiv.querySelector('a');
+                    if (link) window.open(link.href, '_blank');
+                  }} className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium">
                             <ExternalLink className="w-3 h-3" />
                             Website
-                          </button>
-                        )}
-                        {listing.map && (
-                          <button
-                            onClick={() => {
-                              const tempDiv = document.createElement('div');
-                              tempDiv.innerHTML = listing.map;
-                              const link = tempDiv.querySelector('a');
-                              if (link) window.open(link.href, '_blank');
-                            }}
-                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium"
-                          >
+                          </button>}
+                        {listing.map && <button onClick={() => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = listing.map;
+                    const link = tempDiv.querySelector('a');
+                    if (link) window.open(link.href, '_blank');
+                  }} className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium">
                             <MapPin className="w-3 h-3" />
                             Maps
-                          </button>
-                        )}
+                          </button>}
                       </div>
-                    </>
-                  ) : (
-                    // Default Dashboard Content
-                    <>
+                    </> :
+              // Default Dashboard Content
+              <>
                       {/* Rating Section */}
                       <div className="mb-4">
                         <h5 className="text-sm font-medium text-muted-foreground mb-2">Avg. Rating</h5>
@@ -591,8 +549,7 @@ export const MultiDashboard: React.FC = () => {
                           <span className="text-foreground font-medium">{listing.upcomingPost}</span>
                         </div>
                       </div>
-                    </>
-                  )}
+                    </>}
 
                   {/* Action Button */}
                   <div className="flex justify-end">
@@ -622,40 +579,26 @@ export const MultiDashboard: React.FC = () => {
                       </div>
                       <p className="text-sm text-muted-foreground">{listing.listingId || listing.id}</p>
                       <div className="text-sm text-muted-foreground">
-                        {dashboardType === 'insight' ? (
-                          <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state}</p>
-                        ) : dashboardType === 'location' ? (
-                          <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state} | <strong>Phone:</strong> {listing.phone}</p>
-                        ) : (
-                          <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>
-                        )}
+                        {dashboardType === 'insight' ? <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state}</p> : dashboardType === 'location' ? <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state} | <strong>Phone:</strong> {listing.phone}</p> : <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>}
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                      {dashboardType === 'insight' ? (
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                      {dashboardType === 'insight' ? <div className="flex items-center gap-6 text-sm text-muted-foreground">
                           <div><strong>Views:</strong> {listing.visibility?.total_views || 0}</div>
                           <div><strong>Calls:</strong> {listing.customer_actions?.phone_calls || 0}</div>
-                        </div>
-                      ) : dashboardType === 'location' ? (
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                        </div> : dashboardType === 'location' ? <div className="flex items-center gap-6 text-sm text-muted-foreground">
                           <div><strong>Photos:</strong> {listing.photoCount || 0}</div>
                           <div><strong>Status:</strong> {listing.openInfo || 'N/A'}</div>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                        </div> : <div className="flex items-center gap-6 text-sm text-muted-foreground">
                           <div><strong>Last Post:</strong> {listing.lastPost}</div>
                           <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
-                        </div>
-                      )}
-                      {dashboardType !== 'insight' && (
-                        <div className="flex items-center gap-2">
+                        </div>}
+                      {dashboardType !== 'insight' && <div className="flex items-center gap-2">
                           <Star className="w-3 h-3 text-yellow-500" />
                           <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
                             {listing.rating}
                           </span>
-                        </div>
-                      )}
+                        </div>}
                       <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
@@ -678,8 +621,8 @@ export const MultiDashboard: React.FC = () => {
                   
                   <div className="flex items-center gap-1">
                     {Array.from({
-                length: pagination.totalPages
-              }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
+                  length: pagination.totalPages
+                }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
                         {page}
                       </Button>)}
                   </div>
