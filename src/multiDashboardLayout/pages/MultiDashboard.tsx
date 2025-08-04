@@ -931,11 +931,38 @@ export const MultiDashboard: React.FC = () => {
                   </Button>
                   
                   <div className="flex items-center gap-1">
-                    {Array.from({
-                  length: pagination.totalPages
-                }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
-                        {page}
-                      </Button>)}
+                    {(() => {
+                      const maxVisiblePages = 5;
+                      const totalPages = pagination.totalPages;
+                      const current = currentPage;
+                      
+                      if (totalPages <= maxVisiblePages) {
+                        // Show all pages if total is 5 or less
+                        return Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                          <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
+                            {page}
+                          </Button>
+                        ));
+                      }
+                      
+                      let startPage = Math.max(1, current - Math.floor(maxVisiblePages / 2));
+                      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                      
+                      if (endPage - startPage + 1 < maxVisiblePages) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                      }
+                      
+                      const pages = [];
+                      for (let i = startPage; i <= endPage; i++) {
+                        pages.push(
+                          <Button key={i} variant={currentPage === i ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(i)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
+                            {i}
+                          </Button>
+                        );
+                      }
+                      
+                      return pages;
+                    })()}
                   </div>
                   
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))} disabled={currentPage === pagination.totalPages || isDashboardLoading}>
