@@ -38,7 +38,7 @@ export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { profileData, isLoading: profileLoading } = useProfile();
-  const [dashboardType, setDashboardType] = useState('default');
+  const [dashboardType, setDashboardType] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -53,13 +53,25 @@ export const MultiDashboard: React.FC = () => {
 
   // Initialize dashboard type from profile data
   useEffect(() => {
-    if (profileData?.dashboardFilterType && !isUpdatingDashboard) {
-      const savedType = DASHBOARD_ID_TO_TYPE_MAPPING[profileData.dashboardFilterType];
-      if (savedType && savedType !== dashboardType) {
+    console.log('Profile data loaded:', profileData);
+    console.log('Dashboard filter type:', profileData?.dashboardFilterType);
+    
+    if (profileData?.dashboardFilterType) {
+      const savedType = DASHBOARD_ID_TO_TYPE_MAPPING[profileData.dashboardFilterType as keyof typeof DASHBOARD_ID_TO_TYPE_MAPPING];
+      console.log('Mapped dashboard type:', savedType);
+      
+      if (savedType) {
         setDashboardType(savedType);
+        console.log('Set dashboard type to:', savedType);
+      } else {
+        console.log('Invalid dashboardFilterType, falling back to default');
+        setDashboardType('default');
       }
+    } else if (profileData && !profileData.dashboardFilterType) {
+      console.log('No dashboardFilterType in profile, using default');
+      setDashboardType('default');
     }
-  }, [profileData?.dashboardFilterType, dashboardType, isUpdatingDashboard]);
+  }, [profileData]);
   
   // Fetch trends data
   const {
@@ -132,6 +144,8 @@ export const MultiDashboard: React.FC = () => {
 
   // Get the current active query
   const getCurrentQuery = () => {
+    if (!dashboardType) return null; // Don't query if dashboard type not set yet
+    
     switch (dashboardType) {
       case 'insight':
         return insightsDashboardQuery;
@@ -149,6 +163,15 @@ export const MultiDashboard: React.FC = () => {
   };
   
   const currentQuery = getCurrentQuery();
+  
+  // Show loading while profile or dashboard type is not ready
+  if (profileLoading || !dashboardType) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
   const isDashboardLoading = currentQuery.isLoading;
   const isDashboardError = currentQuery.error;
   const dashboardResponse = currentQuery.data;
