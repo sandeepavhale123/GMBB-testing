@@ -17,6 +17,7 @@ export const MultiDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [reviewFilter, setReviewFilter] = useState<"1" | "2" | "3" | "4" | "5" | "6">('1');
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const {
@@ -48,7 +49,8 @@ export const MultiDashboard: React.FC = () => {
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
-    city: selectedCity
+    city: selectedCity,
+    review: reviewFilter
   });
 
   const listingDashboardQuery = useListingDashboardData({
@@ -145,6 +147,11 @@ export const MultiDashboard: React.FC = () => {
     }
     setCurrentPage(1); // Reset to first page on filter change
   };
+
+  const handleReviewFilterChange = (value: "1" | "2" | "3" | "4" | "5" | "6") => {
+    setReviewFilter(value);
+    setCurrentPage(1); // Reset to first page on filter change
+  };
   return <TooltipProvider>
     <div className="space-y-6">
       {/* Metrics Cards */}
@@ -236,6 +243,23 @@ export const MultiDashboard: React.FC = () => {
                   <SelectItem value="adv-posts">Adv.posts</SelectItem> */}
                 </SelectContent>
               </Select>
+              
+              {/* Review Filter Dropdown - Only show for review dashboard */}
+              {dashboardType === 'review' && (
+                <Select value={reviewFilter} onValueChange={handleReviewFilterChange}>
+                  <SelectTrigger className="w-52">
+                    <SelectValue placeholder="Review Filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Un - Responded Review</SelectItem>
+                    <SelectItem value="2">Un - Responded ARE</SelectItem>
+                    <SelectItem value="3">Un - Responded DNR</SelectItem>
+                    <SelectItem value="4">Exclude ARE Review</SelectItem>
+                    <SelectItem value="5">Exclude DNR Review</SelectItem>
+                    <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
                 <ToggleGroupItem value="grid" aria-label="Grid view">
                   <Grid3X3 className="h-4 w-4" />
@@ -287,9 +311,12 @@ export const MultiDashboard: React.FC = () => {
                           <p>{listing.locationName || listing.listingName}</p>
                         </TooltipContent>
                       </Tooltip>
-                      <p className="text-xs text-muted-foreground">ID: {listing.id}</p>
-                      {dashboardType === 'insight' && listing.zipCode && (
+                      <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
+                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && (
                         <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>
+                      )}
+                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && (
+                        <p className="text-xs text-muted-foreground">City: {listing.city}</p>
                       )}
                       {dashboardType === 'insight' && listing.category && (
                         <p className="text-xs text-muted-foreground">{listing.category}</p>
@@ -364,20 +391,37 @@ export const MultiDashboard: React.FC = () => {
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           <div>
                             <span className="text-muted-foreground font-medium">Total:</span>
-                            <p className="font-semibold text-foreground">{listing.totalReviews || 0}</p>
+                            <p className="font-semibold text-foreground">{listing.reviewCount || 0}</p>
                           </div>
                           <div>
-                            <span className="text-muted-foreground font-medium">Pending:</span>
-                            <p className="font-semibold text-foreground">{listing.pendingReviews || 0}</p>
+                            <span className="text-muted-foreground font-medium">Status:</span>
+                            <p className="font-semibold text-foreground">{listing.autoReplyStatus || '-'}</p>
                           </div>
                         </div>
                       </div>
 
-                      {/* Recent Review */}
-                      <div className="mb-5 space-y-2">
-                        <div className="text-sm">
-                          <span className="text-muted-foreground font-medium">Recent Review:</span>
-                          <p className="text-foreground font-medium text-xs mt-1">{listing.recentReview || 'No recent reviews'}</p>
+                      {/* Auto Reply Status */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Auto Reply Settings</h5>
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div className="text-center p-2 bg-blue-50 rounded">
+                            <div className={`font-semibold ${listing.dnrActive ? 'text-blue-600' : 'text-gray-400'}`}>
+                              {listing.dnrActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-gray-500">DNR</div>
+                          </div>
+                          <div className="text-center p-2 bg-green-50 rounded">
+                            <div className={`font-semibold ${listing.arActive ? 'text-green-600' : 'text-gray-400'}`}>
+                              {listing.arActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-gray-500">AR</div>
+                          </div>
+                          <div className="text-center p-2 bg-purple-50 rounded">
+                            <div className={`font-semibold ${listing.arAiActive ? 'text-purple-600' : 'text-gray-400'}`}>
+                              {listing.arAiActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-gray-500">AI AR</div>
+                          </div>
                         </div>
                       </div>
                     </>
@@ -457,7 +501,7 @@ export const MultiDashboard: React.FC = () => {
 
                   {/* Action Button */}
                   <div className="flex justify-end">
-                    <Button variant="default" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)} className="w-full gap-2">
+                    <Button variant="default" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)} className="w-full gap-2">
                       View Details
                       <ExternalLink className="w-4 h-4" />
                     </Button>

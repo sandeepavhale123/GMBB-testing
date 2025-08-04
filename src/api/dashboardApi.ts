@@ -116,18 +116,22 @@ interface ReviewDashboardRequest {
   search: string;
   category: string;
   city: string;
+  review: "1" | "2" | "3" | "4" | "5" | "6";
 }
 
 interface ReviewDashboardListing {
-  id: string;
-  listingName: string;
-  storeCode: string;
-  totalReviews: number;
-  avgRating: string;
-  pendingReviews: number;
-  recentReview: string;
-  reviewReply: string;
+  listingId: string;
   profilePhoto: string;
+  listingName: string;
+  zipCode: string;
+  storeCode: string;
+  city: string;
+  reviewCount: string;
+  avgRating: string;
+  dnrActive: boolean;
+  arActive: boolean;
+  arAiActive: boolean;
+  autoReplyStatus: string;
 }
 
 interface ReviewDashboardResponse {
