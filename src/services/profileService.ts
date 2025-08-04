@@ -15,6 +15,7 @@ export interface ProfileData {
   role?: string; // Add role field for admin checks
   planId?: string; // Add planId field for trial plan check
   dashboardType: number; // Add dashboardType field for routing
+  dashboardFilterType: string; // Add dashboardFilterType field for saved dashboard preference
 }
 
 export interface UpdateProfileData {

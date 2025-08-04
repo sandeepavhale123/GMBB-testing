@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, use
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { useProfile } from '@/hooks/useProfile';
 
 // Dashboard type mapping for API
 const DASHBOARD_TYPE_MAPPING = {
@@ -24,9 +25,19 @@ const DASHBOARD_TYPE_MAPPING = {
   'post': '9'
 } as const;
 
+// Reverse mapping to convert API numeric IDs to frontend string keys
+const DASHBOARD_ID_TO_TYPE_MAPPING = {
+  '1': 'default',
+  '3': 'insight', 
+  '4': 'review',
+  '8': 'location',
+  '9': 'post'
+} as const;
+
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { profileData, isLoading: profileLoading } = useProfile();
   const [dashboardType, setDashboardType] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +50,16 @@ export const MultiDashboard: React.FC = () => {
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  // Initialize dashboard type from profile data
+  useEffect(() => {
+    if (profileData?.dashboardFilterType && !isUpdatingDashboard) {
+      const savedType = DASHBOARD_ID_TO_TYPE_MAPPING[profileData.dashboardFilterType];
+      if (savedType && savedType !== dashboardType) {
+        setDashboardType(savedType);
+      }
+    }
+  }, [profileData?.dashboardFilterType, dashboardType, isUpdatingDashboard]);
   
   // Fetch trends data
   const {
