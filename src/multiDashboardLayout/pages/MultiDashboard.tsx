@@ -255,9 +255,9 @@ export const MultiDashboard: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="default">Default dashboard</SelectItem>
-                  <SelectItem value="insight">Insight</SelectItem>
-                  <SelectItem value="review">Review</SelectItem>
-                  <SelectItem value="listing">Listing dashboard</SelectItem>
+                  <SelectItem value="insight">Insight dashboard</SelectItem>
+                  <SelectItem value="review">Review dashboard</SelectItem>
+                  {/* <SelectItem value="listing">Listing dashboard</SelectItem> */}
                   <SelectItem value="location">Location dashboard</SelectItem>
                   {/* <SelectItem value="group">Group dashboard</SelectItem>
                    <SelectItem value="post">Post dashboard</SelectItem>
