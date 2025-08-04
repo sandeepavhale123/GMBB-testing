@@ -2,7 +2,20 @@
 import { Routes, Route } from "react-router-dom";
 import { AuthInitializer } from "@/store/slices/auth/AuthInitializer";
 import { useAxiosAuth } from "@/hooks/useAxiosAuth";
-import { routeConfigs } from "./routeConfig";
+import { routeConfigs, RouteConfig } from "./routeConfig";
+
+// Recursive function to render routes with children
+const renderRoutes = (routes: RouteConfig[]) => {
+  return routes.map((route, index) => (
+    <Route
+      key={index}
+      path={route.path}
+      element={route.element}
+    >
+      {route.children && renderRoutes(route.children)}
+    </Route>
+  ));
+};
 
 export const AppRoutes = () => {
   // Initialize axios auth helpers - now inside Router context
@@ -13,21 +26,7 @@ export const AppRoutes = () => {
       {/* Kick off auth refresh if refresh token exists */}
       <AuthInitializer />
       <Routes>
-        {routeConfigs.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            element={route.element}
-          >
-            {route.children?.map((childRoute, childIndex) => (
-              <Route
-                key={childIndex}
-                path={childRoute.path}
-                element={childRoute.element}
-              />
-            ))}
-          </Route>
-        ))}
+        {renderRoutes(routeConfigs)}
       </Routes>
     </>
   );

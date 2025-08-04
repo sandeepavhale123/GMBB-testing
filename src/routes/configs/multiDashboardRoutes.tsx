@@ -7,12 +7,12 @@ import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
-import { ManageGoogleAccountPage } from "@/components/Settings/ManageGoogleAccountPage";
-import TeamMembersPage from "@/components/Settings/TeamMembersPage";
-import { SubscriptionPage } from "@/components/Settings/SubscriptionPage";
-import { BrandingPage } from "@/components/Settings/BrandingPage";
-import { ReportBrandingPage } from "@/components/Settings/ReportBrandingPage";
-import { IntegrationsPage } from "@/components/Settings/IntegrationsPage";
+import { ManageGoogleAccountWrapper } from "@/multiDashboardLayout/components/settings/ManageGoogleAccountWrapper";
+import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/TeamMembersWrapper";
+import { SubscriptionWrapper } from "@/multiDashboardLayout/components/settings/SubscriptionWrapper";
+import { BrandingWrapper } from "@/multiDashboardLayout/components/settings/BrandingWrapper";
+import { ReportBrandingWrapper } from "@/multiDashboardLayout/components/settings/ReportBrandingWrapper";
+import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/IntegrationsWrapper";
 import { RouteConfig } from "../routeConfig";
 
 export const multiDashboardRoutes: RouteConfig[] = [
@@ -50,31 +50,31 @@ export const multiDashboardRoutes: RouteConfig[] = [
         children: [
           {
             path: "",
-            element: <ManageGoogleAccountPage />,
+            element: <ManageGoogleAccountWrapper />,
           },
           {
             path: "google-account",
-            element: <ManageGoogleAccountPage />,
+            element: <ManageGoogleAccountWrapper />,
           },
           {
             path: "team-members",
-            element: <TeamMembersPage />,
+            element: <TeamMembersWrapper />,
           },
           {
             path: "subscription",
-            element: <SubscriptionPage />,
+            element: <SubscriptionWrapper />,
           },
           {
             path: "theme-customization",
-            element: <BrandingPage />,
+            element: <BrandingWrapper />,
           },
           {
             path: "report-branding",
-            element: <ReportBrandingPage />,
+            element: <ReportBrandingWrapper />,
           },
           {
             path: "integrations",
-            element: <IntegrationsPage />,
+            element: <IntegrationsWrapper />,
           },
         ],
       },
