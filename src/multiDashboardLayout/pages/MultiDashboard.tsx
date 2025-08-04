@@ -213,42 +213,30 @@ export const MultiDashboard: React.FC = () => {
               <input placeholder="Search listings by name, location, or category..." className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring" value={searchTerm} onChange={e => handleSearchChange(e.target.value)} />
             </div>
             <div className="flex gap-2">
-              <Select value={selectedCategory} onValueChange={value => handleFilterChange('category', value)}>
+              <Select value={selectedCategory} onValueChange={value => handleFilterChange('category', value)} disabled={categoryStateLoading}>
                 <SelectTrigger className="w-40 bg-background z-50">
-                  <SelectValue placeholder="All Categories" />
+                  <SelectValue placeholder={categoryStateLoading ? "Loading..." : "All Categories"} />
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
                   <SelectItem value="all">All Categories</SelectItem>
-                  {categoryStateLoading ? (
-                    <SelectItem value="" disabled>Loading...</SelectItem>
-                  ) : categoryStateError ? (
-                    <SelectItem value="" disabled>Error loading categories</SelectItem>
-                  ) : (
-                    categoryAndStateData?.data?.categories?.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))
-                  )}
+                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.categories?.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <Select value={selectedState} onValueChange={value => handleFilterChange('state', value)}>
+              <Select value={selectedState} onValueChange={value => handleFilterChange('state', value)} disabled={categoryStateLoading}>
                 <SelectTrigger className="w-40 bg-background z-50">
-                  <SelectValue placeholder="All States" />
+                  <SelectValue placeholder={categoryStateLoading ? "Loading..." : "All States"} />
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
                   <SelectItem value="all">All States</SelectItem>
-                  {categoryStateLoading ? (
-                    <SelectItem value="" disabled>Loading...</SelectItem>
-                  ) : categoryStateError ? (
-                    <SelectItem value="" disabled>Error loading states</SelectItem>
-                  ) : (
-                    categoryAndStateData?.data?.states?.map((state) => (
-                      <SelectItem key={state} value={state}>
-                        {state}
-                      </SelectItem>
-                    ))
-                  )}
+                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.states?.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
