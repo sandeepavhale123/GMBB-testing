@@ -277,7 +277,7 @@ export const MultiDashboard: React.FC = () => {
                     <SelectItem value="3">Exclude ARE Review</SelectItem>
                     <SelectItem value="4">Exclude DNR Review</SelectItem>
                     <SelectItem value="5">Exclude ARE/DNR Review</SelectItem>
-                    <SelectItem value="6">All Reviews</SelectItem>
+                    {/* <SelectItem value="6">All Reviews</SelectItem> */}
                   </SelectContent>
                 </Select>}
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
