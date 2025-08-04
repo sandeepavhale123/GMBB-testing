@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTrendsData } from '@/api/trendsApi';
-import { useDashboardData } from '@/api/dashboardApi';
+import { useDashboardData, useInsightsDashboardData } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Skeleton } from '@/components/ui/skeleton';
 export const MultiDashboard: React.FC = () => {
@@ -25,18 +25,28 @@ export const MultiDashboard: React.FC = () => {
     error: trendsError
   } = useTrendsData();
 
-  // Fetch dashboard listings data
-  const {
-    data: dashboardData,
-    isLoading: dashboardLoading,
-    error: dashboardError
-  } = useDashboardData({
+  // Fetch dashboard listings data based on dashboard type
+  const defaultDashboardQuery = useDashboardData({
     page: currentPage,
     limit: itemsPerPage,
     search: debouncedSearchTerm,
     category: selectedCategory,
     city: selectedCity
   });
+
+  const insightsDashboardQuery = useInsightsDashboardData({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: debouncedSearchTerm,
+    category: selectedCategory,
+    city: selectedCity
+  });
+
+  // Use appropriate query based on dashboard type
+  const currentQuery = dashboardType === 'insight' ? insightsDashboardQuery : defaultDashboardQuery;
+  const dashboardData = currentQuery.data;
+  const dashboardLoading = currentQuery.isLoading;
+  const dashboardError = currentQuery.error;
   const metricsCards = trendsData?.data?.stats ? [{
     title: 'Total Listings',
     value: trendsData.data.stats.totalListings.toLocaleString(),
@@ -236,56 +246,112 @@ export const MultiDashboard: React.FC = () => {
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-6 h-6 text-primary" />}
+                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-6 h-6 text-primary" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.listingName}</h4>
+                          <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.locationName || listing.listingName}</h4>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>{listing.listingName}</p>
+                          <p>{listing.locationName || listing.listingName}</p>
                         </TooltipContent>
                       </Tooltip>
                       <p className="text-xs text-muted-foreground">ID: {listing.id}</p>
+                      {dashboardType === 'insight' && listing.zipCode && (
+                        <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>
+                      )}
+                      {dashboardType === 'insight' && listing.category && (
+                        <p className="text-xs text-muted-foreground">{listing.category}</p>
+                      )}
                     </div>
                     {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
                         {listing.storeCode}
                       </span>}
                   </div>
                   
-                  {/* Rating Section */}
-                  <div className="mb-4">
-                    <h5 className="text-sm font-medium text-muted-foreground mb-2">Avg. Rating</h5>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                      <span className={`font-bold text-sm ${getStatusColor(listing.rating)}`}>
-                        {listing.rating} {getStatusText(listing.rating)}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Engagement Stats */}
-                  <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                    <div className="text-sm">
-                      <div>
-                        <span className="text-muted-foreground font-medium">Reviews:</span>
-                        <p className="font-semibold text-foreground">{listing.reviewReply}</p>
+                  {dashboardType === 'insight' ? (
+                    // Insights Dashboard Content
+                    <>
+                      {/* Visibility Stats */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Visibility</h5>
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div className="text-center p-2 bg-blue-50 rounded">
+                            <div className="font-semibold text-blue-600">{listing.visibility?.search_views || 0}</div>
+                            <div className="text-gray-500">Search</div>
+                          </div>
+                          <div className="text-center p-2 bg-green-50 rounded">
+                            <div className="font-semibold text-green-600">{listing.visibility?.maps_views || 0}</div>
+                            <div className="text-gray-500">Maps</div>
+                          </div>
+                          <div className="text-center p-2 bg-purple-50 rounded">
+                            <div className="font-semibold text-purple-600">{listing.visibility?.total_views || 0}</div>
+                            <div className="text-gray-500">Total</div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Scheduled Posts */}
-                  <div className="mb-5 space-y-2">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground font-medium">Last Post:</span>
-                      <span className="text-foreground font-medium">{listing.lastPost}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground font-medium">Upcoming:</span>
-                      <span className="text-foreground font-medium">{listing.upcomingPost}</span>
-                    </div>
-                  </div>
+                      {/* Customer Actions */}
+                      <div className="mb-5">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Customer Actions</h5>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
+                            <ExternalLink className="w-3 h-3 text-blue-500" />
+                            <span>{listing.customer_actions?.website_clicks || 0} Clicks</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
+                            <MapPin className="w-3 h-3 text-green-500" />
+                            <span>{listing.customer_actions?.direction_requests || 0} Directions</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
+                            <Phone className="w-3 h-3 text-orange-500" />
+                            <span>{listing.customer_actions?.phone_calls || 0} Calls</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
+                            <MessageSquare className="w-3 h-3 text-purple-500" />
+                            <span>{listing.customer_actions?.messages || 0} Messages</span>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    // Default Dashboard Content
+                    <>
+                      {/* Rating Section */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Avg. Rating</h5>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                          <span className={`font-bold text-sm ${getStatusColor(listing.rating)}`}>
+                            {listing.rating} {getStatusText(listing.rating)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Engagement Stats */}
+                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                        <div className="text-sm">
+                          <div>
+                            <span className="text-muted-foreground font-medium">Reviews:</span>
+                            <p className="font-semibold text-foreground">{listing.reviewReply}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Scheduled Posts */}
+                      <div className="mb-5 space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-muted-foreground font-medium">Last Post:</span>
+                          <span className="text-foreground font-medium">{listing.lastPost}</span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-muted-foreground font-medium">Upcoming:</span>
+                          <span className="text-foreground font-medium">{listing.upcomingPost}</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   {/* Action Button */}
                   <div className="flex justify-end">
@@ -309,26 +375,39 @@ export const MultiDashboard: React.FC = () => {
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
                           
-                          <h4 className="font-semibold text-foreground">{listing.listingName}</h4>
+                          <h4 className="font-semibold text-foreground">{listing.locationName || listing.listingName}</h4>
                           
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground">{listing.id}</p>
                       <div className="text-sm text-muted-foreground">
-                        <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>
+                        {dashboardType === 'insight' ? (
+                          <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state}</p>
+                        ) : (
+                          <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                      <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                        <div><strong>Last Post:</strong> {listing.lastPost}</div>
-                        <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Star className="w-3 h-3 text-yellow-500" />
-                        <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
-                          {listing.rating}
-                        </span>
-                      </div>
+                      {dashboardType === 'insight' ? (
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                          <div><strong>Views:</strong> {listing.visibility?.total_views || 0}</div>
+                          <div><strong>Calls:</strong> {listing.customer_actions?.phone_calls || 0}</div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                          <div><strong>Last Post:</strong> {listing.lastPost}</div>
+                          <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
+                        </div>
+                      )}
+                      {!dashboardType.includes('insight') && (
+                        <div className="flex items-center gap-2">
+                          <Star className="w-3 h-3 text-yellow-500" />
+                          <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
+                            {listing.rating}
+                          </span>
+                        </div>
+                      )}
                       <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
