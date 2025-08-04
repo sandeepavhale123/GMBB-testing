@@ -574,215 +574,122 @@ export const MultiDashboard: React.FC = () => {
                     </Button>
                   </div>
                 </div>)}
-            </div> : <div className="space-y-3">
-              {listings.map(listing => <div key={listing.listingId || listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
-                  <div className="flex flex-col lg:flex-row gap-6">
-                    {/* Left: Logo and Basic Info */}
-                    <div className="flex items-start gap-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                        {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-foreground text-lg mb-1">{listing.locationName || listing.listingName}</h4>
-                        <p className="text-sm text-muted-foreground mb-2">ID: {listing.listingId || listing.id}</p>
-                        {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>}
-                        {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && <p className="text-xs text-muted-foreground">City: {listing.city}</p>}
-                        {dashboardType === 'insight' && listing.category && <p className="text-xs text-muted-foreground">{listing.category}</p>}
-                        {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium mt-2 inline-block">
-                          {listing.storeCode}
-                        </span>}
-                      </div>
+            </div> : <div className="space-y-2">
+              {listings.map(listing => <div key={listing.listingId || listing.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
+                  <div className="flex items-center gap-4">
+                    {/* Logo */}
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
                     </div>
 
-                    {/* Middle: Dashboard Type Specific Content */}
-                    <div className="flex-1">
+                    {/* Basic Info */}
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
+                      <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
+                      {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                        {listing.storeCode}
+                      </span>}
+                    </div>
+
+                    {/* Dashboard Type Specific Data */}
+                    <div className="flex items-center gap-6 text-xs">
                       {dashboardType === 'insight' ? (
-                        // Insights Dashboard Content
-                        <div className="space-y-4">
-                          {/* Visibility Stats */}
-                          <div>
-                            <h5 className="text-sm font-medium text-muted-foreground mb-2">Visibility</h5>
-                            <div className="flex gap-4 text-sm">
-                              <div className="text-center">
-                                <div className="font-semibold text-blue-600">{listing.visibility?.search_views || 0}</div>
-                                <div className="text-muted-foreground">Search</div>
-                              </div>
-                              <div className="text-center">
-                                <div className="font-semibold text-green-600">{listing.visibility?.maps_views || 0}</div>
-                                <div className="text-muted-foreground">Maps</div>
-                              </div>
-                              <div className="text-center">
-                                <div className="font-semibold text-purple-600">{listing.visibility?.total_views || 0}</div>
-                                <div className="text-muted-foreground">Total</div>
-                              </div>
-                            </div>
+                        <>
+                          <div className="text-center">
+                            <div className="font-semibold text-blue-600">{listing.visibility?.search_views || 0}</div>
+                            <div className="text-muted-foreground">Search</div>
                           </div>
-
-                          {/* Customer Actions */}
-                          <div>
-                            <h5 className="text-sm font-medium text-muted-foreground mb-2">Customer Actions</h5>
-                            <div className="flex gap-4 text-sm">
-                              <div className="flex items-center gap-2">
-                                <ExternalLink className="w-3 h-3 text-blue-500" />
-                                <span>{listing.customer_actions?.website_clicks || 0} Clicks</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <MapPin className="w-3 h-3 text-green-500" />
-                                <span>{listing.customer_actions?.direction_requests || 0} Directions</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Phone className="w-3 h-3 text-orange-500" />
-                                <span>{listing.customer_actions?.phone_calls || 0} Calls</span>
-                              </div>
-                            </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-green-600">{listing.visibility?.maps_views || 0}</div>
+                            <div className="text-muted-foreground">Maps</div>
                           </div>
-                        </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-orange-600">{listing.customer_actions?.phone_calls || 0}</div>
+                            <div className="text-muted-foreground">Calls</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-purple-600">{listing.customer_actions?.website_clicks || 0}</div>
+                            <div className="text-muted-foreground">Clicks</div>
+                          </div>
+                        </>
                       ) : dashboardType === 'review' ? (
-                        // Review Dashboard Content
-                        <div className="space-y-4">
-                          {/* Rating Section */}
-                          <div>
-                            <h5 className="text-sm font-medium text-muted-foreground mb-2">Review Stats</h5>
-                            <div className="flex items-center gap-2 mb-2">
-                              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                              <span className={`font-bold text-sm ${getStatusColor(listing.avgRating || listing.rating)}`}>
-                                {listing.avgRating || listing.rating}
-                              </span>
-                            </div>
-                            <div className="text-sm">
-                              <span className="text-muted-foreground">Total Reviews:</span>
-                              <span className="font-semibold text-foreground ml-2">{listing.reviewCount || 0}</span>
-                            </div>
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                            <span className={`font-semibold ${getStatusColor(listing.avgRating || listing.rating)}`}>
+                              {listing.avgRating || listing.rating}
+                            </span>
                           </div>
-
-                          {/* Auto Reply Status */}
-                          <div>
-                            <h5 className="text-sm font-medium text-muted-foreground mb-2">Auto Reply Settings</h5>
-                            <div className="flex gap-4 text-sm">
-                              <div className="text-center">
-                                <div className={`font-semibold ${listing.dnrActive ? 'text-blue-600' : 'text-gray-400'}`}>
-                                  {listing.dnrActive ? 'Active' : 'Inactive'}
-                                </div>
-                                <div className="text-muted-foreground">DNR</div>
-                              </div>
-                              <div className="text-center">
-                                <div className={`font-semibold ${listing.arActive ? 'text-green-600' : 'text-gray-400'}`}>
-                                  {listing.arActive ? 'Active' : 'Inactive'}
-                                </div>
-                                <div className="text-muted-foreground">AR</div>
-                              </div>
-                              <div className="text-center">
-                                <div className={`font-semibold ${listing.arAiActive ? 'text-purple-600' : 'text-gray-400'}`}>
-                                  {listing.arAiActive ? 'Active' : 'Inactive'}
-                                </div>
-                                <div className="text-muted-foreground">AI AR</div>
-                              </div>
-                            </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-foreground">{listing.reviewCount || 0}</div>
+                            <div className="text-muted-foreground">Reviews</div>
                           </div>
-                        </div>
+                          <div className="text-center">
+                            <div className={`font-semibold ${listing.dnrActive ? 'text-blue-600' : 'text-gray-400'}`}>
+                              {listing.dnrActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-muted-foreground">DNR</div>
+                          </div>
+                          <div className="text-center">
+                            <div className={`font-semibold ${listing.arActive ? 'text-green-600' : 'text-gray-400'}`}>
+                              {listing.arActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-muted-foreground">AR</div>
+                          </div>
+                          <div className="text-center">
+                            <div className={`font-semibold ${listing.arAiActive ? 'text-purple-600' : 'text-gray-400'}`}>
+                              {listing.arAiActive ? 'Active' : 'Inactive'}
+                            </div>
+                            <div className="text-muted-foreground">AI AR</div>
+                          </div>
+                        </>
                       ) : dashboardType === 'location' ? (
-                        // Location Dashboard Content
-                        <div className="space-y-4">
-                          {/* Address & Contact */}
-                          <div className="space-y-2">
-                            <div className="flex items-start gap-3">
-                              <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                              <div className="flex-1">
-                                <p className="text-sm text-foreground font-medium">{listing.address}</p>
-                                <p className="text-xs text-muted-foreground">{listing.state} {listing.zipCode}</p>
-                              </div>
-                            </div>
-                            {listing.phone && (
-                              <div className="flex items-center gap-3">
-                                <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                                <span className="text-sm text-foreground font-medium">{listing.phone}</span>
-                              </div>
-                            )}
+                        <>
+                          <div className="text-center">
+                            <div className="font-semibold text-blue-600">{listing.photoCount || 0}</div>
+                            <div className="text-muted-foreground">Photos</div>
                           </div>
-
-                          {/* Stats */}
-                          <div className="flex gap-4">
-                            <div className="text-center">
-                              <div className="text-lg font-bold text-blue-700">{listing.photoCount || 0}</div>
-                              <div className="text-xs text-muted-foreground">Photos</div>
-                            </div>
-                            <div className="text-center">
-                              <div className="text-lg font-bold text-green-700">{listing.rating}</div>
-                              <div className="text-xs text-muted-foreground">Rating</div>
-                            </div>
+                          <div className="flex items-center gap-2">
+                            <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                            <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
+                              {listing.rating}
+                            </span>
                           </div>
-
-                          {/* Quick Actions */}
-                          <div className="flex gap-2">
-                            {listing.website && (
-                              <button 
-                                onClick={() => {
-                                  const tempDiv = document.createElement('div');
-                                  tempDiv.innerHTML = listing.website;
-                                  const link = tempDiv.querySelector('a');
-                                  if (link) window.open(link.href, '_blank');
-                                }} 
-                                className="flex items-center gap-2 py-1 px-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium"
-                              >
-                                <ExternalLink className="w-3 h-3" />
-                                Website
-                              </button>
-                            )}
-                            {listing.map && (
-                              <button 
-                                onClick={() => {
-                                  const tempDiv = document.createElement('div');
-                                  tempDiv.innerHTML = listing.map;
-                                  const link = tempDiv.querySelector('a');
-                                  if (link) window.open(link.href, '_blank');
-                                }} 
-                                className="flex items-center gap-2 py-1 px-3 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-lg transition-colors text-sm font-medium"
-                              >
-                                <MapPin className="w-3 h-3" />
-                                Maps
-                              </button>
-                            )}
+                          <div className="text-center min-w-0">
+                            <div className="font-semibold text-foreground truncate">{listing.phone || 'N/A'}</div>
+                            <div className="text-muted-foreground">Phone</div>
                           </div>
-                        </div>
+                          <div className="text-center min-w-0">
+                            <div className="font-semibold text-foreground truncate">{listing.state || 'N/A'}</div>
+                            <div className="text-muted-foreground">State</div>
+                          </div>
+                        </>
                       ) : (
-                        // Default Dashboard Content
-                        <div className="space-y-4">
-                          {/* Rating Section */}
-                          <div>
-                            <h5 className="text-sm font-medium text-muted-foreground mb-2">Avg. Rating</h5>
-                            <div className="flex items-center gap-2">
-                              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                              <span className={`font-bold text-sm ${getStatusColor(listing.rating)}`}>
-                                {listing.rating} {getStatusText(listing.rating)}
-                              </span>
-                            </div>
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                            <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
+                              {listing.rating}
+                            </span>
                           </div>
-
-                          {/* Engagement Stats */}
-                          <div>
-                            <div className="text-sm">
-                              <span className="text-muted-foreground font-medium">Reviews:</span>
-                              <span className="font-semibold text-foreground ml-2">{listing.reviewReply}</span>
-                            </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-foreground">{listing.reviewReply}</div>
+                            <div className="text-muted-foreground">Reviews</div>
                           </div>
-
-                          {/* Scheduled Posts */}
-                          <div className="space-y-1">
-                            <div className="flex justify-between items-center text-sm">
-                              <span className="text-muted-foreground font-medium">Last Post:</span>
-                              <span className="text-foreground font-medium">{listing.lastPost}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                              <span className="text-muted-foreground font-medium">Upcoming:</span>
-                              <span className="text-foreground font-medium">{listing.upcomingPost}</span>
-                            </div>
+                          <div className="text-center min-w-0">
+                            <div className="font-semibold text-foreground truncate">{listing.lastPost}</div>
+                            <div className="text-muted-foreground">Last Post</div>
                           </div>
-                        </div>
+                          <div className="text-center min-w-0">
+                            <div className="font-semibold text-foreground truncate">{listing.upcomingPost}</div>
+                            <div className="text-muted-foreground">Upcoming</div>
+                          </div>
+                        </>
                       )}
                     </div>
 
-                    {/* Right: Action Button */}
-                    <div className="flex items-center">
+                    {/* Action Button */}
+                    <div className="flex-shrink-0">
                       <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
