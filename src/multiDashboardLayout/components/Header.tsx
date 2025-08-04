@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Bell, Settings } from 'lucide-react';
+import { Plus, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 import { ModulesMegaMenu } from './ModulesMegaMenu';
@@ -37,9 +37,6 @@ export const Header: React.FC = () => {
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></div>
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-white hover:text-black">
-            <Settings className="w-4 h-4" />
-          </Button>
           
           <UserProfileDropdown />
         </div>
