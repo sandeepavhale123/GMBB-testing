@@ -42,11 +42,10 @@ export const MultiDashboard: React.FC = () => {
     city: selectedCity
   });
 
-  // Use appropriate query based on dashboard type
-  const currentQuery = dashboardType === 'insight' ? insightsDashboardQuery : defaultDashboardQuery;
-  const dashboardData = currentQuery?.data;
-  const dashboardLoading = currentQuery?.isLoading;
-  const dashboardError = currentQuery?.error;
+  // Use appropriate query based on dashboard type - wait for data before accessing
+  const isDashboardLoading = dashboardType === 'insight' ? insightsDashboardQuery.isLoading : defaultDashboardQuery.isLoading;
+  const isDashboardError = dashboardType === 'insight' ? insightsDashboardQuery.error : defaultDashboardQuery.error;
+  const dashboardResponse = dashboardType === 'insight' ? insightsDashboardQuery.data : defaultDashboardQuery.data;
   const metricsCards = trendsData?.data?.stats ? [{
     title: 'Total Listings',
     value: trendsData.data.stats.totalListings.toLocaleString(),
@@ -85,8 +84,9 @@ export const MultiDashboard: React.FC = () => {
     textColor: 'text-gray-900'
   }] : [];
   // Transform API data to display format
-  const listings = dashboardData?.data.listings || [];
-  const pagination = dashboardData?.data.pagination;
+  console.log('Dashboard Data Debug:', { dashboardType, dashboardResponse });
+  const listings = dashboardResponse?.data?.listings || [];
+  const pagination = dashboardResponse?.data?.pagination;
 
   // Helper function to get status color based on rating
   const getStatusColor = (rating: string) => {
@@ -216,7 +216,7 @@ export const MultiDashboard: React.FC = () => {
               </ToggleGroup>
             </div>
           </div>
-          {dashboardLoading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {isDashboardLoading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {Array.from({
             length: itemsPerPage
           }).map((_, index) => <div key={index} className="bg-background border border-border rounded-lg p-4">
@@ -239,7 +239,7 @@ export const MultiDashboard: React.FC = () => {
                     </div>
                   </div>
                 </div>)}
-            </div> : dashboardError ? <div className="text-center py-8">
+            </div> : isDashboardError ? <div className="text-center py-8">
               <p className="text-gray-500">Failed to load listings. Please try again.</p>
             </div> : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
@@ -423,7 +423,7 @@ export const MultiDashboard: React.FC = () => {
                   Showing {(pagination.currentPage - 1) * pagination.resultsPerPage + 1} to {Math.min(pagination.currentPage * pagination.resultsPerPage, pagination.totalResults)} of {pagination.totalResults} listings
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || dashboardLoading}>
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || isDashboardLoading}>
                     <ChevronLeft className="w-4 h-4" />
                     Previous
                   </Button>
@@ -431,12 +431,12 @@ export const MultiDashboard: React.FC = () => {
                   <div className="flex items-center gap-1">
                     {Array.from({
                 length: pagination.totalPages
-              }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={dashboardLoading}>
+              }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
                         {page}
                       </Button>)}
                   </div>
                   
-                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))} disabled={currentPage === pagination.totalPages || dashboardLoading}>
+                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))} disabled={currentPage === pagination.totalPages || isDashboardLoading}>
                     Next
                     <ChevronRight className="w-4 h-4" />
                   </Button>
