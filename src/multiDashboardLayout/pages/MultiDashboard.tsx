@@ -537,7 +537,7 @@ export const MultiDashboard: React.FC = () => {
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-6 h-6 text-primary" />}
+                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full " /> : <Building2 className="w-6 h-6 text-primary" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <Tooltip>
