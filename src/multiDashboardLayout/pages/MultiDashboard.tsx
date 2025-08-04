@@ -475,6 +475,64 @@ export const MultiDashboard: React.FC = () => {
                         </div>
                       </div>
                     </>
+                  ) : dashboardType === 'location' ? (
+                    // Location Dashboard Content
+                    <>
+                      {/* Business Info Section */}
+                      <div className="mb-4">
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Business Information</h5>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-center gap-2">
+                            <div className={`w-2 h-2 rounded-full ${listing.openInfo === 'Open' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                            <span className="font-bold text-foreground">{listing.openInfo}</span>
+                          </div>
+                          <p className="text-muted-foreground">{listing.category}</p>
+                        </div>
+                      </div>
+
+                      {/* Contact & Location */}
+                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                        <div className="grid grid-cols-1 gap-2 text-sm">
+                          <div>
+                            <span className="text-muted-foreground font-medium">Phone:</span>
+                            <p className="font-semibold text-foreground">{listing.phone || 'N/A'}</p>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground font-medium">Location:</span>
+                            <p className="font-semibold text-foreground">{listing.state}, {listing.zipCode}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Rating & Stats */}
+                      <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <span className="text-muted-foreground font-medium">Rating:</span>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                              <span className="font-semibold text-foreground">{listing.rating}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground font-medium">Photos:</span>
+                            <p className="font-semibold text-foreground">{listing.photoCount}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Website & Maps Links */}
+                      <div className="mb-5 space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-muted-foreground font-medium">Website:</span>
+                          <div dangerouslySetInnerHTML={{ __html: listing.website }} />
+                        </div>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-muted-foreground font-medium">Maps:</span>
+                          <div dangerouslySetInnerHTML={{ __html: listing.map }} />
+                        </div>
+                      </div>
+                    </>
                   ) : (
                     // Default Dashboard Content
                     <>
@@ -522,12 +580,12 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                 </div>)}
             </div> : <div className="space-y-3">
-              {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
+              {listings.map(listing => <div key={listing.listingId || listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div>
 
                       <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                            {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
+                            {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
                           </div>
                     
                     </div>
@@ -539,10 +597,12 @@ export const MultiDashboard: React.FC = () => {
                           
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground">{listing.id}</p>
+                      <p className="text-sm text-muted-foreground">{listing.listingId || listing.id}</p>
                       <div className="text-sm text-muted-foreground">
                         {dashboardType === 'insight' ? (
                           <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state}</p>
+                        ) : dashboardType === 'location' ? (
+                          <p><strong>Category:</strong> {listing.category} | <strong>State:</strong> {listing.state} | <strong>Phone:</strong> {listing.phone}</p>
                         ) : (
                           <p><strong>Reviews:</strong> {listing.reviewReply} | <strong>Q&A:</strong> {listing.qa}</p>
                         )}
@@ -554,13 +614,18 @@ export const MultiDashboard: React.FC = () => {
                           <div><strong>Views:</strong> {listing.visibility?.total_views || 0}</div>
                           <div><strong>Calls:</strong> {listing.customer_actions?.phone_calls || 0}</div>
                         </div>
+                      ) : dashboardType === 'location' ? (
+                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                          <div><strong>Photos:</strong> {listing.photoCount || 0}</div>
+                          <div><strong>Status:</strong> {listing.openInfo || 'N/A'}</div>
+                        </div>
                       ) : (
                         <div className="flex items-center gap-6 text-sm text-muted-foreground">
                           <div><strong>Last Post:</strong> {listing.lastPost}</div>
                           <div><strong>Upcoming:</strong> {listing.upcomingPost}</div>
                         </div>
                       )}
-                      {!dashboardType.includes('insight') && (
+                      {dashboardType !== 'insight' && (
                         <div className="flex items-center gap-2">
                           <Star className="w-3 h-3 text-yellow-500" />
                           <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
@@ -568,7 +633,7 @@ export const MultiDashboard: React.FC = () => {
                           </span>
                         </div>
                       )}
-                      <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.id}`)}>
+                      <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
                       </Button>
