@@ -25,6 +25,9 @@ export const MultiDashboard: React.FC = () => {
     error: trendsError
   } = useTrendsData();
 
+  // Debug trends data to understand why cards aren't showing
+  console.log('Trends Data Debug:', { trendsData, trendsLoading, trendsError, hasStats: !!trendsData?.data?.stats });
+
   // Fetch dashboard listings data based on dashboard type
   const defaultDashboardQuery = useDashboardData({
     page: currentPage,
