@@ -204,9 +204,16 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-2">
-            <h3 className="font-semibold text-gray-900 line-clamp-2">
-              {post.title || "Untitled Post"}
-            </h3>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-gray-900 line-clamp-2">
+                {post.title || "Untitled Post"}
+              </h3>
+              {post.listingName && (
+                <p className="text-sm text-muted-foreground mt-1 font-medium">
+                  {post.listingName}
+                </p>
+              )}
+            </div>
             {post.status === "failed" ? <Tooltip>
                 <TooltipTrigger asChild>
                   <Badge className={getStatusColor(post.status)}>
