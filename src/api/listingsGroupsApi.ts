@@ -23,7 +23,7 @@ export interface ListingsGroupsResponse {
 export const listingsGroupsApi = createApi({
   reducerPath: 'listingsGroupsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
+    baseUrl: '/api/v1',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as any).auth?.token;
       if (token) {
