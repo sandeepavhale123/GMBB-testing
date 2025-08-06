@@ -175,29 +175,36 @@ export const BulkPost: React.FC = () => {
                 <p className="text-sm text-muted-foreground order-2 sm:order-1">
                   Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
                 </p>
-                <div className="flex items-center gap-2 order-1 sm:order-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={prevPage}
-                    disabled={!pagination.hasPrevious}
-                    className="flex items-center gap-1"
-                  >
-                    <span className="hidden sm:inline">Previous</span>
-                  </Button>
-                  <span className="text-sm text-muted-foreground px-2">
-                    Page {pagination.currentPage} of {pagination.totalPages}
-                  </span>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={nextPage}
-                    disabled={!pagination.hasNext}
-                    className="flex items-center gap-1"
-                  >
-                    <span className="hidden sm:inline">Next</span>
-                  </Button>
-                </div>
+                
+                <Pagination className="order-1 sm:order-2">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={prevPage}
+                        className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          onClick={() => goToPage(pageNum)}
+                          isActive={pageNum === pagination.currentPage}
+                          className="cursor-pointer"
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={nextPage}
+                        className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             )}
           </div>
