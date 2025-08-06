@@ -175,7 +175,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                              <span>{option.name}</span>
                              {option.locCount && (
                                <div className="flex items-center">
-                                 <span className="text-xs text-muted-foreground mr-1">Total listings</span>
+                                 <span className="text-xs text-muted-foreground mr-1">Listings</span>
                                  <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
                                    {option.locCount}
                                  </span>
