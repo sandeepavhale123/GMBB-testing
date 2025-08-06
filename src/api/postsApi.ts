@@ -326,4 +326,14 @@ export const postsApi = {
     const response = await axiosInstance.post("/delete-bulk-overview-posts", request);
     return response.data;
   },
+
+  getBulkPostDetails: async (request: { bulkId: string }): Promise<{ code: number; message: string; data: { bulkPost: any; posts: any[] } }> => {
+    const response = await axiosInstance.get(`/bulk-post-details/${request.bulkId}`);
+    return response.data;
+  },
+
+  deletePostFromBulk: async (request: { postId: string }): Promise<{ code: number; message: string; data: any[] }> => {
+    const response = await axiosInstance.post("/delete-post-from-bulk", request);
+    return response.data;
+  }
 };

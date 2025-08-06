@@ -8,7 +8,9 @@ import { format } from 'date-fns';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { toast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useNavigate } from 'react-router-dom';
 export const BulkPost: React.FC = () => {
+  const navigate = useNavigate();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
@@ -171,7 +173,12 @@ export const BulkPost: React.FC = () => {
                         
                         {/* Action Buttons */}
                         <div className="flex gap-2 w-full sm:w-auto">
-                          <Button variant="outline" size="sm" onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')} className="flex-1 sm:flex-initial">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => navigate(`/main-dashboard/bulk-post-details/${post.id}`)} 
+                            className="flex-1 sm:flex-initial"
+                          >
                             View Details
                           </Button>
                           <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(Number(post.id))} className="flex-shrink-0">

@@ -56,6 +56,14 @@ interface PostsState {
     hasNext: boolean;
     hasPrevious: boolean;
   };
+  
+  // Bulk post details state
+  bulkPostDetails: {
+    bulkPost: any;
+    posts: any[];
+  } | null;
+  bulkPostDetailsLoading: boolean;
+  bulkPostDetailsError: string | null;
 }
 
 const initialState: PostsState = {
@@ -85,6 +93,10 @@ const initialState: PostsState = {
     hasNext: false,
     hasPrevious: false,
   },
+
+  bulkPostDetails: null,
+  bulkPostDetailsLoading: false,
+  bulkPostDetailsError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -251,6 +263,32 @@ export const deleteBulkPost = createAsyncThunk(
   }
 );
 
+// Fetch bulk post details
+export const fetchBulkPostDetails = createAsyncThunk(
+  'posts/fetchBulkPostDetails',
+  async (request: { bulkId: string }, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.getBulkPostDetails(request);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch bulk post details');
+    }
+  }
+);
+
+// Delete post from bulk
+export const deletePostFromBulk = createAsyncThunk(
+  'posts/deletePostFromBulk',
+  async (request: { postId: string }, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.deletePostFromBulk(request);
+      return { response, postId: request.postId };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to delete post');
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -284,6 +322,11 @@ const postsSlice = createSlice({
     },
     clearBulkPostsOverviewError: (state) => {
       state.bulkPostsOverviewError = null;
+    },
+
+    // Clear bulk post details error
+    clearBulkPostDetailsError: (state) => {
+      state.bulkPostDetailsError = null;
     },
   },
   extraReducers: (builder) => {
@@ -389,6 +432,38 @@ const postsSlice = createSlice({
       .addCase(deleteBulkPost.rejected, (state, action) => {
         state.deleteLoading = false;
         state.deleteError = action.payload as string;
+      })
+
+      // Fetch bulk post details
+      .addCase(fetchBulkPostDetails.pending, (state) => {
+        state.bulkPostDetailsLoading = true;
+        state.bulkPostDetailsError = null;
+      })
+      .addCase(fetchBulkPostDetails.fulfilled, (state, action) => {
+        state.bulkPostDetailsLoading = false;
+        state.bulkPostDetails = action.payload;
+      })
+      .addCase(fetchBulkPostDetails.rejected, (state, action) => {
+        state.bulkPostDetailsLoading = false;
+        state.bulkPostDetailsError = action.payload as string;
+      })
+
+      // Delete post from bulk
+      .addCase(deletePostFromBulk.pending, (state) => {
+        state.bulkPostDetailsLoading = true;
+      })
+      .addCase(deletePostFromBulk.fulfilled, (state, action) => {
+        state.bulkPostDetailsLoading = false;
+        // Remove the deleted post from the details
+        if (state.bulkPostDetails) {
+          state.bulkPostDetails.posts = state.bulkPostDetails.posts.filter(
+            post => post.id !== action.payload.postId
+          );
+        }
+      })
+      .addCase(deletePostFromBulk.rejected, (state, action) => {
+        state.bulkPostDetailsLoading = false;
+        state.bulkPostDetailsError = action.payload as string;
       });
   },
 });
@@ -402,5 +477,6 @@ export const {
   clearCreateError,
   clearDeleteError,
   clearBulkPostsOverviewError,
+  clearBulkPostDetailsError,
 } = postsSlice.actions;
 export default postsSlice.reducer;

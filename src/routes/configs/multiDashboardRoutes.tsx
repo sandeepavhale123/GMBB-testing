@@ -3,6 +3,7 @@ import { DashboardTypeGuard } from "../guards/DashboardTypeGuard";
 import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
 import { MultiDashboard } from "@/multiDashboardLayout/pages/MultiDashboard";
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
+import { BulkPostDetails } from "@/multiDashboardLayout/pages/BulkPostDetails";
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
@@ -33,6 +34,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-post",
         element: <BulkPost />,
+      },
+      {
+        path: "bulk-post-details/:bulkId",
+        element: <BulkPostDetails />,
       },
       {
         path: "bulk-media",
