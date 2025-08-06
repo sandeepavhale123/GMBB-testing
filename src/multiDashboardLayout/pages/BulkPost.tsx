@@ -65,7 +65,7 @@ export const BulkPost: React.FC = () => {
 
         {/* Content Area */}
         <div className="lg:col-span-3">
-          <div className="bg-card border border-border rounded-lg p-6">
+          <div className="">
             
             
             {error && <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
