@@ -216,13 +216,20 @@ export const BulkPostDetails: React.FC = () => {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-2 text-sm">
-                            <button onClick={() => handleViewPost(post)} className="text-primary hover:underline">
-                              View
+                          <div className="flex items-center gap-2">
+                            <button 
+                              onClick={() => handleViewPost(post)} 
+                              className="text-primary hover:bg-primary/10 p-1 rounded transition-colors"
+                              title="View Post"
+                            >
+                              <Eye className="w-4 h-4" />
                             </button>
-                            <span className="text-muted-foreground">|</span>
-                            <button onClick={() => handleDeleteClick(post.id)} className="text-destructive hover:underline">
-                              Delete
+                            <button 
+                              onClick={() => handleDeleteClick(post.id)} 
+                              className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
+                              title="Delete Post"
+                            >
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
                         </TableCell>
