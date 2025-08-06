@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Check, ChevronDown, ChevronRight, X, Search } from 'lucide-react';
+import { Check, ChevronDown, X, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import { Input } from '../../ui/input';
 import { Badge } from '../../ui/badge';
-import { ScrollArea } from '../../ui/scroll-area';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../ui/collapsible';
 import { useGetAllListingsMutation, GroupsList, LocationsList } from '../../../api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
 
@@ -31,8 +29,6 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<ListingOption[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [groupsExpanded, setGroupsExpanded] = useState(true);
-  const [locationsExpanded, setLocationsExpanded] = useState(true);
   const [getAllListings, { isLoading }] = useGetAllListingsMutation();
 
   useEffect(() => {
@@ -207,98 +203,78 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             </div>
             
             {/* Options List */}
-            <ScrollArea className="mt-3 h-60">
+            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
               {filteredOptions.length === 0 ? (
                 <div className="py-6 text-center text-sm text-muted-foreground">
                   {isLoading ? "Loading..." : "No listings found."}
                 </div>
               ) : (
-                <div className="space-y-1 p-1">
+                <div className="space-y-1">
                   {/* Groups Section */}
                   {groupOptions.length > 0 && (
-                    <Collapsible open={groupsExpanded} onOpenChange={setGroupsExpanded}>
-                      <CollapsibleTrigger className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent rounded-sm">
-                        <div className="flex items-center gap-1">
-                          {groupsExpanded ? (
-                            <ChevronDown className="h-3 w-3" />
-                          ) : (
-                            <ChevronRight className="h-3 w-3" />
-                          )}
-                          <span>Groups</span>
-                        </div>
+                    <div>
+                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        <span>Groups</span>
                         <button
                           onMouseDown={areAllGroupsSelected ? handleDeselectAllGroups : handleSelectAllGroups}
                           className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           {areAllGroupsSelected ? 'Deselect All' : 'Select All'}
                         </button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="space-y-0.5">
-                        {groupOptions.map((option) => (
-                          <div
-                            key={option.id}
-                            className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground ml-4"
-                            onMouseDown={(e) => handleSelect(option.id, e)}
-                          >
-                            <Check
-                              className={`h-4 w-4 ${
-                                selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                              }`}
-                            />
-                            <span>{option.name}</span>
-                          </div>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
+                      </div>
+                      {groupOptions.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                          onMouseDown={(e) => handleSelect(option.id, e)}
+                        >
+                          <Check
+                            className={`h-4 w-4 ${
+                              selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
+                          <span>{option.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   )}
                   
                   {/* Locations Section */}
                   {locationOptions.length > 0 && (
-                    <Collapsible open={locationsExpanded} onOpenChange={setLocationsExpanded}>
-                      <CollapsibleTrigger className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent rounded-sm">
-                        <div className="flex items-center gap-1">
-                          {locationsExpanded ? (
-                            <ChevronDown className="h-3 w-3" />
-                          ) : (
-                            <ChevronRight className="h-3 w-3" />
-                          )}
-                          <span>Locations</span>
-                        </div>
+                    <div>
+                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        <span>Locations</span>
                         <button
                           onMouseDown={areAllLocationsSelected ? handleDeselectAllLocations : handleSelectAllLocations}
                           className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           {areAllLocationsSelected ? 'Deselect All' : 'Select All'}
                         </button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="space-y-0.5">
-                        {locationOptions.map((option) => (
-                          <div
-                            key={option.id}
-                            className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground ml-4"
-                            onMouseDown={(e) => handleSelect(option.id, e)}
-                          >
-                            <Check
-                              className={`h-4 w-4 ${
-                                selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                              }`}
-                            />
-                            <div className="flex flex-col">
-                              <span>{option.name}</span>
-                              {option.zipCode && (
-                                <span className="text-xs text-muted-foreground">{option.zipCode}</span>
-                              )}
-                            </div>
+                      </div>
+                      {locationOptions.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                          onMouseDown={(e) => handleSelect(option.id, e)}
+                        >
+                          <Check
+                            className={`h-4 w-4 ${
+                              selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
+                          <div className="flex flex-col">
+                            <span>{option.name}</span>
+                            {option.zipCode && (
+                              <span className="text-xs text-muted-foreground">{option.zipCode}</span>
+                            )}
                           </div>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
               )}
-            </ScrollArea>
+            </div>
           </div>
         </PopoverContent>
       </Popover>
