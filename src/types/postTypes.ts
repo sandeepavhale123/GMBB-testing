@@ -21,6 +21,7 @@ export interface Post {
   listingName?: string;
   zipcode?: string;
   category?: string;
+  storeCode?: string;
 }
 
 // Helper function to transform API post to frontend post

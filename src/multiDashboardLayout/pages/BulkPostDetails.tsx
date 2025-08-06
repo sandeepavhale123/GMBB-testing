@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, Eye } from 'lucide-react';
+import { ArrowLeft, Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,13 +12,15 @@ import { SafeHtmlRenderer } from '@/components/ui/safe-html-renderer';
 import { toast } from '@/hooks/use-toast';
 import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
 import { format } from 'date-fns';
+import { PostImage } from '@/components/PublicReports/PostImage';
 
 export const BulkPostDetails: React.FC = () => {
   const { bulkId } = useParams<{ bulkId: string }>();
   const navigate = useNavigate();
-  const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const {
     bulkPost,
@@ -59,21 +62,16 @@ export const BulkPostDetails: React.FC = () => {
     }
   };
 
-  const handleSelectPost = (postId: string) => {
-    setSelectedPosts(prev => 
-      prev.includes(postId) 
-        ? prev.filter(id => id !== postId)
-        : [...prev, postId]
-    );
-  };
-
-  const handleSelectAll = () => {
-    if (selectedPosts.length === posts.length) {
-      setSelectedPosts([]);
-    } else {
-      setSelectedPosts(posts.map(post => post.id));
-    }
-  };
+  // Filter posts based on search term and status
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.listingName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         post.business?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         post.zipcode?.includes(searchTerm);
+    
+    const matchesStatus = statusFilter === 'all' || post.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
 
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
@@ -117,7 +115,10 @@ export const BulkPostDetails: React.FC = () => {
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+              <div>
+                <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+                <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+              </div>
             </div>
           </div>
         </div>
@@ -149,7 +150,10 @@ export const BulkPostDetails: React.FC = () => {
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+              <div>
+                <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+                <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+              </div>
             </div>
           </div>
         </div>
@@ -175,7 +179,10 @@ export const BulkPostDetails: React.FC = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+            <div>
+              <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+              <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+            </div>
           </div>
         </div>
       </div>
@@ -183,72 +190,71 @@ export const BulkPostDetails: React.FC = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Column - Post Review */}
+          {/* Left Column - Post Preview */}
           <div className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Post Preview</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {bulkPost?.title && (
-                  <div>
-                    <h3 className="font-semibold text-lg text-foreground">{bulkPost.title}</h3>
-                  </div>
-                )}
-                
-                {bulkPost?.content && (
-                  <div>
-                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Content</h4>
-                    <SafeHtmlRenderer html={bulkPost.content} className="text-sm" />
-                  </div>
-                )}
-
-                {bulkPost?.media?.images && (
-                  <div>
-                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Image</h4>
-                    <img 
-                      src={bulkPost.media.images} 
-                      alt="Post media" 
-                      className="w-full max-w-sm rounded-lg border border-border"
-                    />
-                  </div>
-                )}
-
-                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  {bulkPost?.publishDate && (
-                    <div>
-                      <span className="font-medium">Date:</span> {formatDateTime(bulkPost.publishDate)}
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {bulkPost?.media?.images && (
+                    <div className="flex justify-center">
+                      <PostImage src={bulkPost.media.images} />
                     </div>
                   )}
-                  {bulkPost?.status && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">Status:</span>
-                      <Badge variant={getStatusVariant(bulkPost.status)}>
-                        {bulkPost.status}
-                      </Badge>
+                  
+                  {bulkPost?.title && (
+                    <div className="text-center">
+                      <h3 className="font-semibold text-xl text-foreground">{bulkPost.title}</h3>
+                    </div>
+                  )}
+                  
+                  {bulkPost?.content && (
+                    <div className="text-center">
+                      <SafeHtmlRenderer html={bulkPost.content} className="text-sm text-muted-foreground" />
+                    </div>
+                  )}
+
+                  {bulkPost?.publishDate && (
+                    <div className="text-center pt-4 border-t border-border">
+                      <p className="text-sm text-muted-foreground">
+                        Posted on: {format(new Date(bulkPost.publishDate), 'MMM dd, yyyy')}
+                      </p>
                     </div>
                   )}
                 </div>
-
-                {bulkPost?.tags && (
-                  <div>
-                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Tags</h4>
-                    <p className="text-sm">{bulkPost.tags}</p>
-                  </div>
-                )}
               </CardContent>
             </Card>
           </div>
 
-          {/* Right Column - Posts Table */}
+          {/* Right Column - Listings Table */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">Post Locations</h2>
-              {selectedPosts.length > 0 && (
-                <span className="text-sm text-muted-foreground">
-                  {selectedPosts.length} selected
-                </span>
-              )}
+              <h2 className="text-lg font-semibold text-foreground">Listings</h2>
+            </div>
+            
+            {/* Filters */}
+            <div className="flex gap-4 mb-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search listings..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-48">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="scheduled">Scheduled</SelectItem>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="failed">Failed</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <Card>
@@ -256,70 +262,46 @@ export const BulkPostDetails: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-12">
-                        <Checkbox
-                          checked={posts.length > 0 && selectedPosts.length === posts.length}
-                          onCheckedChange={handleSelectAll}
-                        />
-                      </TableHead>
-                      <TableHead>Location Name</TableHead>
-                      <TableHead>Post Type</TableHead>
-                      <TableHead>Date & Time</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead>Listing Name</TableHead>
+                      <TableHead>Zip Code</TableHead>
+                      <TableHead>Store Code</TableHead>
                       <TableHead className="w-32">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {posts.length === 0 ? (
+                    {filteredPosts.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                          No posts found for this bulk post.
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          {searchTerm || statusFilter !== 'all' ? 'No listings match your filters.' : 'No posts found for this bulk post.'}
                         </TableCell>
                       </TableRow>
                     ) : (
-                      posts.map((post) => (
+                      filteredPosts.map((post) => (
                         <TableRow key={post.id}>
                           <TableCell>
-                            <Checkbox
-                              checked={selectedPosts.includes(post.id)}
-                              onCheckedChange={() => handleSelectPost(post.id)}
-                            />
-                          </TableCell>
-                          <TableCell>
                             <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
-                            {post.zipcode && (
-                              <div className="text-sm text-muted-foreground">{post.zipcode}</div>
-                            )}
                           </TableCell>
                           <TableCell>
-                            <span className="text-sm">{post.category || 'General'}</span>
+                            <span className="text-sm">{post.zipcode || '-'}</span>
                           </TableCell>
                           <TableCell>
-                            <span className="text-sm">{formatDateTime(post.publishDate)}</span>
+                            <span className="text-sm">{post.storeCode || '-'}</span>
                           </TableCell>
                           <TableCell>
-                            <Badge variant={getStatusVariant(post.status)}>
-                              {post.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
+                            <div className="flex items-center gap-2 text-sm">
+                              <button
                                 onClick={() => handleViewPost(post)}
-                                className="h-8 w-8 p-0"
+                                className="text-primary hover:underline"
                               >
-                                <Eye className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
+                                View
+                              </button>
+                              <span className="text-muted-foreground">|</span>
+                              <button
                                 onClick={() => handleDeleteClick(post.id)}
-                                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                                className="text-destructive hover:underline"
                               >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
+                                Delete
+                              </button>
                             </div>
                           </TableCell>
                         </TableRow>

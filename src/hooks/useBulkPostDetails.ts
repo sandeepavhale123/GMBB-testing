@@ -105,6 +105,7 @@ export const useBulkPostDetails = (bulkId: string) => {
         publishDate: new Date().toISOString(),
         status: "published",
         zipcode: "12345",
+        storeCode: "DT001",
         searchUrl: "https://example.com/post1"
       },
       {
@@ -115,6 +116,7 @@ export const useBulkPostDetails = (bulkId: string) => {
         publishDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
         status: "draft",
         zipcode: "67890",
+        storeCode: "CR002",
         searchUrl: "https://example.com/post2"
       },
       {
@@ -125,7 +127,19 @@ export const useBulkPostDetails = (bulkId: string) => {
         publishDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
         status: "scheduled",
         zipcode: "54321",
+        storeCode: "PS003",
         searchUrl: "https://example.com/post3"
+      },
+      {
+        id: "4",
+        listingName: "Coffee Shop Downtown", 
+        business: "Coffee Shop Downtown",
+        category: "Food & Beverage",
+        publishDate: new Date().toISOString(),
+        status: "failed",
+        zipcode: "11111",
+        storeCode: "CS004",
+        searchUrl: "https://example.com/post4"
       }
     ]
   } : null;
