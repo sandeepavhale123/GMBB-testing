@@ -117,10 +117,10 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md" side="bottom" align="start">
-          <Command>
+        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md pointer-events-auto" side="bottom" align="start">
+          <Command className="pointer-events-auto">
             <CommandInput placeholder="Search listings and groups..." className="h-9" />
-            <CommandList className="max-h-60 overflow-y-auto">
+            <CommandList className="max-h-60 overflow-y-auto pointer-events-auto">
               <CommandEmpty>
                 {isLoading ? "Loading..." : "No listings found."}
               </CommandEmpty>
@@ -134,10 +134,12 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                       <CommandItem
                         key={option.id}
                         value={option.name}
-                        onSelect={() => {
+                        className="cursor-pointer pointer-events-auto hover:bg-accent"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
                           handleSelect(option.id);
                         }}
-                        className="cursor-pointer"
                       >
                         <Check
                           className={`mr-2 h-4 w-4 ${
@@ -159,10 +161,12 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                       <CommandItem
                         key={option.id}
                         value={`${option.name} ${option.zipCode || ''}`}
-                        onSelect={() => {
+                        className="cursor-pointer pointer-events-auto hover:bg-accent"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
                           handleSelect(option.id);
                         }}
-                        className="cursor-pointer"
                       >
                         <Check
                           className={`mr-2 h-4 w-4 ${
