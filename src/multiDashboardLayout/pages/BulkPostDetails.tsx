@@ -12,6 +12,8 @@ import { toast } from '@/hooks/use-toast';
 import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
 import { format } from 'date-fns';
 
+// Updated component - no SafeHtmlRenderer dependency
+
 export const BulkPostDetails: React.FC = () => {
   const { bulkId } = useParams<{ bulkId: string }>();
   const navigate = useNavigate();
