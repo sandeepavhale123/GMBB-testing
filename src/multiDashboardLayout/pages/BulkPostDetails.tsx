@@ -15,7 +15,11 @@ import { format } from 'date-fns';
 // Updated component - no SafeHtmlRenderer dependency
 
 export const BulkPostDetails: React.FC = () => {
-  const { bulkId } = useParams<{ bulkId: string }>();
+  const {
+    bulkId
+  } = useParams<{
+    bulkId: string;
+  }>();
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
@@ -23,7 +27,6 @@ export const BulkPostDetails: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const {
     bulkPost,
     posts,
@@ -32,14 +35,11 @@ export const BulkPostDetails: React.FC = () => {
     deletePost,
     refresh
   } = useBulkPostDetails(bulkId || '');
-
   const handleBack = () => {
     navigate('/main-dashboard/bulk-post');
   };
-
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return "secondary";
-    
     switch (status.toLowerCase()) {
       case "published":
       case "live":
@@ -54,7 +54,6 @@ export const BulkPostDetails: React.FC = () => {
         return "secondary";
     }
   };
-
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -67,77 +66,63 @@ export const BulkPostDetails: React.FC = () => {
   // Filter and paginate posts
   const filteredPosts = useMemo(() => {
     return posts.filter(post => {
-      const matchesSearch = post.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           post.business?.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = post.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) || post.business?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = statusFilter === 'all' || post.status?.toLowerCase() === statusFilter.toLowerCase();
       return matchesSearch && matchesStatus;
     });
   }, [posts, searchQuery, statusFilter]);
-
   const paginatedPosts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredPosts, currentPage, itemsPerPage]);
-
   const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
-
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
   };
-
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
       try {
         await deletePost(deletingPostId);
         toast({
           title: "Success",
-          description: "Post deleted successfully",
+          description: "Post deleted successfully"
         });
         refresh();
       } catch (error) {
         toast({
           title: "Error",
           description: "Failed to delete post",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
     setDeleteDialogOpen(false);
     setDeletingPostId(null);
   };
-
   const handleViewPost = (post: any) => {
     if (post.searchUrl) {
       window.open(post.searchUrl, '_blank');
     }
   };
-
   if (loading) {
-    return (
-      <div className="animate-pulse space-y-6">
+    return <div className="animate-pulse space-y-6">
         <div className="h-8 bg-muted rounded w-1/3"></div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="h-96 bg-muted rounded"></div>
           <div className="lg:col-span-2 h-96 bg-muted rounded"></div>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (error) {
-    return (
-      <div className="text-center py-12">
+    return <div className="text-center py-12">
         <p className="text-muted-foreground">Error loading post details: {error}</p>
         <Button onClick={refresh} className="mt-4">
           Try Again
         </Button>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="space-y-0">
+  return <div className="space-y-0">
       {/* Page Header - Minimal spacing */}
       <div className="mb-4">
         <div>
@@ -153,27 +138,17 @@ export const BulkPostDetails: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               {/* Image */}
-              {bulkPost?.media?.images && (
-                <div className="w-full">
-                  <img 
-                    src={bulkPost.media.images} 
-                    alt="Post media" 
-                    className="w-full h-48 object-cover rounded-lg border border-border"
-                  />
-                </div>
-              )}
+              {bulkPost?.media?.images && <div className="w-full">
+                  <img src={bulkPost.media.images} alt="Post media" className="w-full h-48 object-cover rounded-lg border border-border" />
+                </div>}
 
               {/* Title */}
-              {bulkPost?.title && (
-                <h3 className="text-xl font-bold text-foreground">{bulkPost.title}</h3>
-              )}
+              {bulkPost?.title && <h3 className="text-xl font-bold text-foreground">{bulkPost.title}</h3>}
 
               {/* Description */}
-              {bulkPost?.content && (
-                <div className="text-sm text-muted-foreground leading-relaxed">
+              {bulkPost?.content && <div className="text-sm text-muted-foreground leading-relaxed">
                   {bulkPost.content.replace(/<[^>]*>/g, '')}
-                </div>
-              )}
+                </div>}
 
               {/* CTA Button */}
               <Button className="w-full">
@@ -181,29 +156,20 @@ export const BulkPostDetails: React.FC = () => {
               </Button>
 
               {/* Date */}
-              {bulkPost?.publishDate && (
-                <div className="text-sm text-muted-foreground">
+              {bulkPost?.publishDate && <div className="text-sm text-muted-foreground">
                   Posted on: {formatDateTime(bulkPost.publishDate)}
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
         </div>
 
         {/* Right Column - Updated Table */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-foreground">Listings</h2>
-          </div>
+          
 
           {/* Filters */}
           <div className="flex gap-4">
-            <Input
-              placeholder="Search listings..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-sm"
-            />
+            <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="max-w-sm" />
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-40">
                 <SelectValue placeholder="Filter by status" />
@@ -230,15 +196,11 @@ export const BulkPostDetails: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {paginatedPosts.length === 0 ? (
-                    <TableRow>
+                  {paginatedPosts.length === 0 ? <TableRow>
                       <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                         No listings found.
                       </TableCell>
-                    </TableRow>
-                  ) : (
-                    paginatedPosts.map((post) => (
-                      <TableRow key={post.id}>
+                    </TableRow> : paginatedPosts.map(post => <TableRow key={post.id}>
                         <TableCell>
                           <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
                         </TableCell>
@@ -252,60 +214,40 @@ export const BulkPostDetails: React.FC = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2 text-sm">
-                            <button
-                              onClick={() => handleViewPost(post)}
-                              className="text-primary hover:underline"
-                            >
+                            <button onClick={() => handleViewPost(post)} className="text-primary hover:underline">
                               View
                             </button>
                             <span className="text-muted-foreground">|</span>
-                            <button
-                              onClick={() => handleDeleteClick(post.id)}
-                              className="text-destructive hover:underline"
-                            >
+                            <button onClick={() => handleDeleteClick(post.id)} className="text-destructive hover:underline">
                               Delete
                             </button>
                           </div>
                         </TableCell>
-                      </TableRow>
-                    ))
-                  )}
+                      </TableRow>)}
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between">
+          {totalPages > 1 && <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
                 Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredPosts.length)} of {filteredPosts.length} entries
               </div>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                >
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Button>
                 <span className="text-sm text-muted-foreground">
                   Page {currentPage} of {totalPages}
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                >
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
       </div>
 
@@ -320,15 +262,11 @@ export const BulkPostDetails: React.FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDeleteConfirm} 
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
+    </div>;
 };
