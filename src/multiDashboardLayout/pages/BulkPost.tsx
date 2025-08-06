@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Calendar, Send, FileText } from 'lucide-react';
+import { Plus, Calendar, Send, FileText, ImageOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
@@ -170,12 +170,14 @@ export const BulkPost: React.FC = () => {
                               target.style.display = 'none';
                               const parent = target.parentElement;
                               if (parent) {
-                                parent.innerHTML = '<svg class="w-6 h-6 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><polyline points="14,2 14,8 20,8"/></svg>';
+                                const iconElement = document.createElement('div');
+                                iconElement.innerHTML = '<svg class="w-6 h-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 20h16M12 4v16M4 12h16"></path></svg>';
+                                parent.appendChild(iconElement);
                               }
                             }}
                           />
                         ) : (
-                          <FileText className="w-6 h-6 text-muted-foreground" />
+                          <ImageOff className="w-6 h-6 text-muted-foreground" />
                         )}
                       </div>
                       <div>
