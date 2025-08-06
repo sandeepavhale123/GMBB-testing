@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '@/hooks/useRedux';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useProfile } from '@/hooks/useProfile';
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,6 +14,12 @@ import {
 export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
   const isMobile = useIsMobile(768);
+  const { profileData } = useProfile();
+  
+  const shouldHideSettings = () => {
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
   
   const navItems = [{
     label: 'Dashboard',
@@ -38,7 +45,12 @@ export const SubNavbar: React.FC = () => {
     label: 'Settings',
     path: '/main-dashboard/settings',
     icon: Settings
-  }];
+  }].filter(item => {
+    if (item.label === 'Settings' && shouldHideSettings()) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
