@@ -173,9 +173,9 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                           <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
                            <div className="flex items-center justify-between w-full">
                              <span>{option.name}</span>
-                             {option.locCount && <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                             {option.locCount && <div>Total listings</span><span className="text-xs ml-1 text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
                                  {option.locCount}
-                               </span>}
+                               </span></div>}
                            </div>
                         </div>)}
                     </div>}
