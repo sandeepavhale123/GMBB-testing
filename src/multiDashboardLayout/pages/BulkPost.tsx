@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Calendar, Send, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 
 export const BulkPost: React.FC = () => {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   return (
-    <div className="space-y-6">
+    <>
+      <CreatePostModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setIsCreateModalOpen(false)} 
+      />
+      <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Post Management</h1>
           <p className="text-muted-foreground">Create and schedule posts across multiple listings</p>
         </div>
-        <Button>
+        <Button onClick={() => setIsCreateModalOpen(true)}>
           <Plus className="w-4 h-4 mr-2" />
           Create New Post
         </Button>
@@ -83,6 +91,7 @@ export const BulkPost: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };

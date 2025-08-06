@@ -15,6 +15,7 @@ import { RESET_STORE } from "./actions/globalActions";
 import onboardingReducer from "./slices/onboarding/onboardingSlice";
 import { timeZoneApi } from "@/api/timeZoneApi";
 import { qaApi } from "@/api/qaApi";
+import { listingsGroupsApi } from "../api/listingsGroupsApi";
 
 // Combine all reducers
 const appReducer = combineReducers({
@@ -33,6 +34,7 @@ const appReducer = combineReducers({
   onboarding: onboardingReducer,
   [timeZoneApi.reducerPath]: timeZoneApi.reducer,
   [qaApi.reducerPath]: qaApi.reducer,
+  [listingsGroupsApi.reducerPath]: listingsGroupsApi.reducer,
 });
 
 // Root reducer that handles global store reset
@@ -57,7 +59,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST"],
       },
-    }).concat(timeZoneApi.middleware, qaApi.middleware),
+    }).concat(timeZoneApi.middleware, qaApi.middleware, listingsGroupsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

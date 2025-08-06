@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Eye } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
@@ -12,6 +13,7 @@ import { PostDescriptionSection } from "./CreatePostModal/PostDescriptionSection
 import { PostImageSection } from "./CreatePostModal/PostImageSection";
 import { CTAButtonSection } from "./CreatePostModal/CTAButtonSection";
 import { AdvancedOptionsSection } from "./CreatePostModal/AdvancedOptionsSection";
+import { MultiListingSelector } from "./CreatePostModal/MultiListingSelector";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import {
   createPost,
@@ -40,9 +42,13 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   isCloning = false,
 }) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { selectedListing } = useListingContext();
   const { selectedMedia, clearSelection } = useMediaContext();
   const { createLoading, createError } = useAppSelector((state) => state.posts);
+
+  // Check if we're in multi-dashboard context
+  const isMultiDashboard = location.pathname.includes('/main-dashboard');
 
   const getInitialFormData = () => {
     if (initialData) {
@@ -159,6 +165,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       !formData.ctaUrl.trim()
     ) {
       errors.ctaUrl = "URL is required when CTA button is enabled";
+    }
+
+    // Listings validation for multi-dashboard context
+    if (isMultiDashboard && formData.listings.length === 0) {
+      errors.listings = "Please select at least one listing or group";
     }
 
     setValidationErrors(errors);
@@ -333,7 +344,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     if (Object.keys(validationErrors).length > 0) {
       validateForm();
     }
-  }, [formData.title, formData.postType, formData.ctaUrl, showCTAButton]);
+  }, [formData.title, formData.postType, formData.ctaUrl, formData.listings, showCTAButton]);
 
   return (
     <>
@@ -362,6 +373,17 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   }
                   onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
                 />
+
+                {/* Multi-Listing Selector (only in multi-dashboard) */}
+                {isMultiDashboard && (
+                  <MultiListingSelector
+                    selectedListings={formData.listings}
+                    onListingsChange={(listings) =>
+                      setFormData((prev) => ({ ...prev, listings }))
+                    }
+                    error={validationErrors.listings}
+                  />
+                )}
 
                 {/* Post Image Upload */}
                 <PostImageSection
