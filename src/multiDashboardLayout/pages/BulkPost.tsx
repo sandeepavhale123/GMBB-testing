@@ -172,13 +172,13 @@ export const BulkPost: React.FC = () => {
             {/* Pagination */}
             {!loading && !error && pagination && (
               <div className="mt-8 pt-6 border-t border-border">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <p className="text-sm text-muted-foreground order-2 sm:order-1">
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-4">
+                  <p className="text-sm text-muted-foreground sm:mr-auto">
                     Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
                   </p>
                   
                   {pagination.totalPages > 1 && (
-                    <Pagination className="order-1 sm:order-2">
+                    <Pagination>
                       <PaginationContent>
                         <PaginationItem>
                           <PaginationPrevious 
