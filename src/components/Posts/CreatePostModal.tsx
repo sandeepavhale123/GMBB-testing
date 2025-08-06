@@ -365,15 +365,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             {/* Main Panel - Form (full width on mobile/tablet, 8 columns on desktop) */}
             <div className="flex-1 lg:flex-[8] p-4 sm:p-6 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                {/* Post Description Field */}
-                <PostDescriptionSection
-                  description={formData.description}
-                  onDescriptionChange={(value) =>
-                    setFormData((prev) => ({ ...prev, description: value }))
-                  }
-                  onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
-                />
 
+                
                 {/* Multi-Listing Selector (only in multi-dashboard) */}
                 {isMultiDashboard && (
                   <MultiListingSelector
@@ -384,6 +377,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     error={validationErrors.listings}
                   />
                 )}
+                
+                {/* Post Description Field */}
+                <PostDescriptionSection
+                  description={formData.description}
+                  onDescriptionChange={(value) =>
+                    setFormData((prev) => ({ ...prev, description: value }))
+                  }
+                  onOpenAIDescription={() => setIsAIDescriptionOpen(true)}
+                />
+
 
                 {/* Post Image Upload */}
                 <PostImageSection
