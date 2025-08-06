@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '@/hooks/useRedux';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useProfile } from '@/hooks/useProfile';
@@ -17,6 +17,7 @@ export const SubNavbar: React.FC = () => {
   const isMobile = useIsMobile(768);
   const { profileData } = useProfile();
   const location = useLocation();
+  const navigate = useNavigate();
   
   // Show custom back button header for bulk post details page
   if (location.pathname.includes('/bulk-post-details/')) {
@@ -25,7 +26,7 @@ export const SubNavbar: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-start py-3">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate('/main-dashboard/bulk-post')}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
