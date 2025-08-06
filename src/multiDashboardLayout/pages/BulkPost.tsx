@@ -5,13 +5,25 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 import { useBulkPostsOverview } from '@/hooks/useBulkPostsOverview';
 import { format } from 'date-fns';
+import { 
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const {
     bulkPosts,
     loading,
     error,
-    refresh
+    pagination,
+    refresh,
+    goToPage,
+    nextPage,
+    prevPage
   } = useBulkPostsOverview();
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return 'bg-gray-100 text-gray-800';
@@ -156,6 +168,38 @@ export const BulkPost: React.FC = () => {
                     </div>
                   </div>)}
             </div>
+
+            {/* Pagination */}
+            {!loading && !error && pagination && pagination.totalPages > 1 && (
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-8 pt-6 border-t border-border gap-4">
+                <p className="text-sm text-muted-foreground order-2 sm:order-1">
+                  Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
+                </p>
+                <div className="flex items-center gap-2 order-1 sm:order-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={prevPage}
+                    disabled={!pagination.hasPrevious}
+                    className="flex items-center gap-1"
+                  >
+                    <span className="hidden sm:inline">Previous</span>
+                  </Button>
+                  <span className="text-sm text-muted-foreground px-2">
+                    Page {pagination.currentPage} of {pagination.totalPages}
+                  </span>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={nextPage}
+                    disabled={!pagination.hasNext}
+                    className="flex items-center gap-1"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -134,7 +134,8 @@ export interface CreateBulkPostResponse {
 }
 
 export interface GetBulkPostsOverviewRequest {
-  // Empty interface as the API doesn't require parameters
+  page: number;
+  limit: number;
 }
 
 export interface BulkPostOverviewItem {
@@ -158,6 +159,13 @@ export interface GetBulkPostsOverviewResponse {
   message: string;
   data: {
     bulkPostOverviewDetails: BulkPostOverviewItem[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+      hasNext: boolean;
+      hasPrevious: boolean;
+    };
   };
 }
 
@@ -310,8 +318,8 @@ export const postsApi = {
     return response.data;
   },
 
-  getBulkPostsOverview: async (): Promise<GetBulkPostsOverviewResponse> => {
-    const response = await axiosInstance.post("/get-bulk-posts-overview", {});
+  getBulkPostsOverview: async (request: GetBulkPostsOverviewRequest): Promise<GetBulkPostsOverviewResponse> => {
+    const response = await axiosInstance.post("/get-bulk-posts-overview", request);
     return response.data;
   },
 };

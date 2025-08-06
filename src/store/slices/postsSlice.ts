@@ -49,6 +49,13 @@ interface PostsState {
   bulkPostsOverview: BulkPostOverviewItem[];
   bulkPostsOverviewLoading: boolean;
   bulkPostsOverviewError: string | null;
+  bulkPostsOverviewPagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  };
 }
 
 const initialState: PostsState = {
@@ -71,6 +78,13 @@ const initialState: PostsState = {
   bulkPostsOverview: [],
   bulkPostsOverviewLoading: false,
   bulkPostsOverviewError: null,
+  bulkPostsOverviewPagination: {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    hasNext: false,
+    hasPrevious: false,
+  },
 };
 
 // Helper function to map API status to frontend status
@@ -218,8 +232,8 @@ export const deletePost = createAsyncThunk(
 // Async thunk for fetching bulk posts overview
 export const fetchBulkPostsOverview = createAsyncThunk(
   "posts/fetchBulkPostsOverview",
-  async () => {
-    const response = await postsApi.getBulkPostsOverview();
+  async ({ page = 1, limit = 10 }: { page?: number; limit?: number } = {}) => {
+    const response = await postsApi.getBulkPostsOverview({ page, limit });
     return response;
   }
 );
@@ -334,6 +348,7 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostsOverview.fulfilled, (state, action) => {
         state.bulkPostsOverviewLoading = false;
         state.bulkPostsOverview = action.payload.data.bulkPostOverviewDetails;
+        state.bulkPostsOverviewPagination = action.payload.data.pagination;
       })
       .addCase(fetchBulkPostsOverview.rejected, (state, action) => {
         state.bulkPostsOverviewLoading = false;

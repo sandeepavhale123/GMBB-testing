@@ -1,32 +1,62 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from './useRedux';
 import { fetchBulkPostsOverview, clearBulkPostsOverviewError } from '@/store/slices/postsSlice';
 
-export const useBulkPostsOverview = () => {
+export const useBulkPostsOverview = (initialPage = 1, initialLimit = 10) => {
   const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [itemsPerPage, setItemsPerPage] = useState(initialLimit);
+  
   const { 
     bulkPostsOverview, 
     bulkPostsOverviewLoading: loading, 
-    bulkPostsOverviewError: error 
+    bulkPostsOverviewError: error,
+    bulkPostsOverviewPagination: pagination
   } = useAppSelector((state) => state.posts);
 
-  useEffect(() => {
-    dispatch(fetchBulkPostsOverview());
+  const fetchData = useCallback((page: number, limit: number) => {
+    dispatch(fetchBulkPostsOverview({ page, limit }));
   }, [dispatch]);
 
-  const refresh = () => {
-    dispatch(fetchBulkPostsOverview());
-  };
+  useEffect(() => {
+    fetchData(currentPage, itemsPerPage);
+  }, [fetchData, currentPage, itemsPerPage]);
 
-  const clearError = () => {
+  const refresh = useCallback(() => {
+    fetchData(currentPage, itemsPerPage);
+  }, [fetchData, currentPage, itemsPerPage]);
+
+  const goToPage = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const nextPage = useCallback(() => {
+    if (pagination.hasNext) {
+      setCurrentPage(prev => prev + 1);
+    }
+  }, [pagination.hasNext]);
+
+  const prevPage = useCallback(() => {
+    if (pagination.hasPrevious) {
+      setCurrentPage(prev => prev - 1);
+    }
+  }, [pagination.hasPrevious]);
+
+  const clearError = useCallback(() => {
     dispatch(clearBulkPostsOverviewError());
-  };
+  }, [dispatch]);
 
   return {
     bulkPosts: bulkPostsOverview,
     loading,
     error,
+    pagination,
+    currentPage,
+    itemsPerPage,
     refresh,
+    goToPage,
+    nextPage,
+    prevPage,
     clearError,
   };
 };
