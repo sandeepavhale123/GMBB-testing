@@ -59,8 +59,9 @@ interface PostsState {
   
   // Bulk post details state
   bulkPostDetails: {
-    bulkPost: any;
-    posts: any[];
+    postSummary: any[];
+    bulkPostDetails: any[];
+    pagination: any;
   } | null;
   bulkPostDetailsLoading: boolean;
   bulkPostDetailsError: string | null;
@@ -266,7 +267,7 @@ export const deleteBulkPost = createAsyncThunk(
 // Fetch bulk post details
 export const fetchBulkPostDetails = createAsyncThunk(
   'posts/fetchBulkPostDetails',
-  async (request: { bulkId: string }, { rejectWithValue }) => {
+  async (request: { bulkId: string; page: number; limit: number }, { rejectWithValue }) => {
     try {
       const response = await postsApi.getBulkPostDetails(request);
       return response.data;
@@ -456,7 +457,7 @@ const postsSlice = createSlice({
         state.bulkPostDetailsLoading = false;
         // Remove the deleted post from the details
         if (state.bulkPostDetails) {
-          state.bulkPostDetails.posts = state.bulkPostDetails.posts.filter(
+          state.bulkPostDetails.bulkPostDetails = state.bulkPostDetails.bulkPostDetails.filter(
             post => post.id !== action.payload.postId
           );
         }

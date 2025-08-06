@@ -25,15 +25,17 @@ export const BulkPostDetails: React.FC = () => {
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
   const {
     bulkPost,
     posts,
+    pagination,
     loading,
     error,
     deletePost,
-    refresh
+    refresh,
+    currentPage,
+    setCurrentPage,
+    itemsPerPage
   } = useBulkPostDetails(bulkId || '');
   const handleBack = () => {
     navigate('/main-dashboard/bulk-post');
@@ -71,11 +73,9 @@ export const BulkPostDetails: React.FC = () => {
       return matchesSearch && matchesStatus;
     });
   }, [posts, searchQuery, statusFilter]);
-  const paginatedPosts = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredPosts, currentPage, itemsPerPage]);
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+  // Use filtered posts directly since pagination is handled by API
+  const paginatedPosts = filteredPosts;
+  const totalPages = pagination?.pages || 1;
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
@@ -151,8 +151,11 @@ export const BulkPostDetails: React.FC = () => {
                 </div>}
 
               {/* CTA Button */}
-              <Button className="w-full">
-                View Post
+              <Button 
+                className="w-full"
+                onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}
+              >
+                {bulkPost?.actionType || 'View Post'}
               </Button>
 
               {/* Date */}
@@ -232,7 +235,7 @@ export const BulkPostDetails: React.FC = () => {
           {/* Pagination */}
           {totalPages > 1 && <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredPosts.length)} of {filteredPosts.length} entries
+                Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, pagination?.total || 0)} of {pagination?.total || 0} entries
               </div>
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>

@@ -327,8 +327,41 @@ export const postsApi = {
     return response.data;
   },
 
-  getBulkPostDetails: async (request: { bulkId: string }): Promise<{ code: number; message: string; data: { bulkPost: any; posts: any[] } }> => {
-    const response = await axiosInstance.get(`/bulk-post-details/${request.bulkId}`);
+  getBulkPostDetails: async (request: { bulkId: string; page: number; limit: number }): Promise<{ 
+    code: number; 
+    message: string; 
+    data: { 
+      postSummary: Array<{
+        posttype: string;
+        posttext: string;
+        state: string;
+        tags: string;
+        image: string;
+        event_title: string;
+        action_type: string;
+        CTA_url: string;
+        publishDate: string;
+      }>;
+      bulkPostDetails: Array<{
+        id: string;
+        state: string;
+        search_url: string;
+        locationName: string;
+        zipCode: string;
+      }>;
+      pagination: {
+        total: number;
+        page: number;
+        limit: number;
+        pages: number;
+      };
+    } 
+  }> => {
+    const response = await axiosInstance.post("/get-bulk-posts-details", {
+      bulkId: parseInt(request.bulkId),
+      page: request.page,
+      limit: request.limit
+    });
     return response.data;
   },
 

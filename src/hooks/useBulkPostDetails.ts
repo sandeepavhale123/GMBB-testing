@@ -4,6 +4,8 @@ import { fetchBulkPostDetails, deletePostFromBulk } from '@/store/slices/postsSl
 
 export const useBulkPostDetails = (bulkId: string) => {
   const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   
   const { 
     bulkPostDetails, 
@@ -13,62 +15,13 @@ export const useBulkPostDetails = (bulkId: string) => {
 
   const fetchData = useCallback(() => {
     if (bulkId) {
-      // For now, we'll create mock data since the API endpoint might not be ready
-      // dispatch(fetchBulkPostDetails({ bulkId }));
-      
-      // Mock implementation for testing
-      const mockBulkPost = {
-        bulkPost: {
-          id: bulkId,
-          title: "Sample Bulk Post Title",
-          content: "This is a sample bulk post content for testing the details view.",
-          status: "published",
-          publishDate: new Date().toISOString(),
-          tags: "sample, test, bulk",
-          media: {
-            images: "https://via.placeholder.com/400x300"
-          }
-        },
-        posts: [
-          {
-            id: "1",
-            listingName: "Business Location 1",
-            business: "Business Location 1",
-            category: "Restaurant",
-            publishDate: new Date().toISOString(),
-            status: "published",
-            zipcode: "12345",
-            searchUrl: "https://example.com/post1"
-          },
-          {
-            id: "2", 
-            listingName: "Business Location 2",
-            business: "Business Location 2",
-            category: "Retail",
-            publishDate: new Date().toISOString(),
-            status: "draft",
-            zipcode: "67890",
-            searchUrl: "https://example.com/post2"
-          },
-          {
-            id: "3",
-            listingName: "Business Location 3", 
-            business: "Business Location 3",
-            category: "Service",
-            publishDate: new Date().toISOString(),
-            status: "scheduled",
-            zipcode: "54321",
-            searchUrl: "https://example.com/post3"
-          }
-        ]
-      };
-      
-      // Mock the dispatch call
-      setTimeout(() => {
-        // This would normally be handled by Redux
-      }, 100);
+      dispatch(fetchBulkPostDetails({ 
+        bulkId, 
+        page: currentPage, 
+        limit: itemsPerPage 
+      }));
     }
-  }, [dispatch, bulkId]);
+  }, [dispatch, bulkId, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchData();
@@ -79,77 +32,50 @@ export const useBulkPostDetails = (bulkId: string) => {
   }, [fetchData]);
 
   const deletePost = useCallback(async (postId: string) => {
-    // Mock delete - just show success
-    return { type: 'fulfilled', payload: { postId } };
+    try {
+      await dispatch(deletePostFromBulk({ postId })).unwrap();
+      return { type: 'fulfilled', payload: { postId } };
+    } catch (error) {
+      throw error;
+    }
   }, [dispatch]);
 
-  // Mock data for development
-  const mockData = bulkId ? {
-    bulkPost: {
+  // Transform API data to match component expectations
+  const transformedData = bulkPostDetails ? {
+    bulkPost: bulkPostDetails.postSummary?.[0] ? {
       id: bulkId,
-      title: "Sample Bulk Post Title",
-      content: "This is a sample bulk post content for testing the details view. It includes all the necessary information to demonstrate how the bulk post details page will look and function.",
-      status: "published",
-      publishDate: new Date().toISOString(),
-      tags: "sample, test, bulk, development",
+      title: bulkPostDetails.postSummary[0].event_title || bulkPostDetails.postSummary[0].posttype,
+      content: bulkPostDetails.postSummary[0].posttext,
+      status: bulkPostDetails.postSummary[0].state,
+      publishDate: bulkPostDetails.postSummary[0].publishDate,
+      tags: bulkPostDetails.postSummary[0].tags,
       media: {
-        images: "https://via.placeholder.com/400x300?text=Sample+Post+Image"
-      }
-    },
-    posts: [
-      {
-        id: "1",
-        listingName: "Downtown Restaurant",
-        business: "Downtown Restaurant",
-        category: "Restaurant",
-        publishDate: new Date().toISOString(),
-        status: "published",
-        zipcode: "12345",
-        storeCode: "DT001",
-        searchUrl: "https://example.com/post1"
+        images: bulkPostDetails.postSummary[0].image
       },
-      {
-        id: "2", 
-        listingName: "City Retail Store",
-        business: "City Retail Store",
-        category: "Retail",
-        publishDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
-        status: "draft",
-        zipcode: "67890",
-        storeCode: "CR002",
-        searchUrl: "https://example.com/post2"
-      },
-      {
-        id: "3",
-        listingName: "Professional Services LLC", 
-        business: "Professional Services LLC",
-        category: "Service",
-        publishDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
-        status: "scheduled",
-        zipcode: "54321",
-        storeCode: "PS003",
-        searchUrl: "https://example.com/post3"
-      },
-      {
-        id: "4",
-        listingName: "Coffee Shop Downtown", 
-        business: "Coffee Shop Downtown",
-        category: "Food & Beverage",
-        publishDate: new Date().toISOString(),
-        status: "failed",
-        zipcode: "11111",
-        storeCode: "CS004",
-        searchUrl: "https://example.com/post4"
-      }
-    ]
+      actionType: bulkPostDetails.postSummary[0].action_type,
+      ctaUrl: bulkPostDetails.postSummary[0].CTA_url
+    } : null,
+    posts: bulkPostDetails.bulkPostDetails?.map(post => ({
+      id: post.id,
+      listingName: post.locationName,
+      business: post.locationName,
+      status: post.state,
+      zipcode: post.zipCode,
+      searchUrl: post.search_url
+    })) || [],
+    pagination: bulkPostDetails.pagination
   } : null;
 
   return {
-    bulkPost: mockData?.bulkPost || bulkPostDetails?.bulkPost,
-    posts: mockData?.posts || bulkPostDetails?.posts || [],
-    loading: false, // Set to false for mock data
-    error: null,
+    bulkPost: transformedData?.bulkPost,
+    posts: transformedData?.posts || [],
+    pagination: transformedData?.pagination,
+    loading,
+    error,
     refresh,
     deletePost,
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
   };
 };
