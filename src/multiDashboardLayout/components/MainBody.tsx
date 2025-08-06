@@ -1,18 +1,13 @@
-
 import React from 'react';
-
 interface MainBodyProps {
   children: React.ReactNode;
 }
-
 export const MainBody: React.FC<MainBodyProps> = ({
   children
 }) => {
-  return (
-    <main className="flex-1 min-h-[90vh] w-full bg-white pt-32">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+  return <main className="flex-1 min-h-[90vh] w-full bg-white pt-32">
+      <div className="max-w-7xl mx-auto px-4 py-6 mt-[-60px]">
         {children}
       </div>
-    </main>
-  );
+    </main>;
 };
