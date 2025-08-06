@@ -117,58 +117,68 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0" side="bottom" align="start">
+        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md" side="bottom" align="start">
           <Command>
-            <CommandInput placeholder="Search listings and groups..." />
-            <CommandList>
+            <CommandInput placeholder="Search listings and groups..." className="h-9" />
+            <CommandList className="max-h-60 overflow-y-auto">
               <CommandEmpty>
                 {isLoading ? "Loading..." : "No listings found."}
               </CommandEmpty>
               
               {/* Groups */}
-              <CommandGroup heading="Groups">
-                {options
-                  .filter(option => option.type === 'group')
-                  .map((option) => (
-                    <CommandItem
-                      key={option.id}
-                      value={option.name}
-                      onSelect={() => handleSelect(option.id)}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${
-                          selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                      {option.name}
-                    </CommandItem>
-                  ))}
-              </CommandGroup>
+              {options.filter(option => option.type === 'group').length > 0 && (
+                <CommandGroup heading="Groups">
+                  {options
+                    .filter(option => option.type === 'group')
+                    .map((option) => (
+                      <CommandItem
+                        key={option.id}
+                        value={option.name}
+                        onSelect={() => {
+                          handleSelect(option.id);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${
+                            selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                          }`}
+                        />
+                        {option.name}
+                      </CommandItem>
+                    ))}
+                </CommandGroup>
+              )}
               
               {/* Locations */}
-              <CommandGroup heading="Locations">
-                {options
-                  .filter(option => option.type === 'location')
-                  .map((option) => (
-                    <CommandItem
-                      key={option.id}
-                      value={`${option.name} ${option.zipCode}`}
-                      onSelect={() => handleSelect(option.id)}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${
-                          selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                      <div className="flex flex-col">
-                        <span>{option.name}</span>
-                        {option.zipCode && (
-                          <span className="text-xs text-muted-foreground">{option.zipCode}</span>
-                        )}
-                      </div>
-                    </CommandItem>
-                  ))}
-              </CommandGroup>
+              {options.filter(option => option.type === 'location').length > 0 && (
+                <CommandGroup heading="Locations">
+                  {options
+                    .filter(option => option.type === 'location')
+                    .map((option) => (
+                      <CommandItem
+                        key={option.id}
+                        value={`${option.name} ${option.zipCode || ''}`}
+                        onSelect={() => {
+                          handleSelect(option.id);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${
+                            selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                          }`}
+                        />
+                        <div className="flex flex-col">
+                          <span>{option.name}</span>
+                          {option.zipCode && (
+                            <span className="text-xs text-muted-foreground">{option.zipCode}</span>
+                          )}
+                        </div>
+                      </CommandItem>
+                    ))}
+                </CommandGroup>
+              )}
             </CommandList>
           </Command>
         </PopoverContent>
