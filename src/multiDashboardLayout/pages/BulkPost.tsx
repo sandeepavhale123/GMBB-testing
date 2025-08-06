@@ -175,7 +175,7 @@ export const BulkPost: React.FC = () => {
                             }}
                           />
                         ) : (
-                          <span className="text-xs text-muted-foreground text-center px-1">Image not available</span>
+                          <span className="text-xs text-muted-foreground text-center px-1">No Image</span>
                         )}
                       </div>
                       <div>
