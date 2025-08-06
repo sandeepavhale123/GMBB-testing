@@ -1,29 +1,26 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { SafeHtmlRenderer } from '@/components/ui/safe-html-renderer';
 import { toast } from '@/hooks/use-toast';
 import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
 import { format } from 'date-fns';
-
-// Updated component - no SafeHtmlRenderer dependency
-
 export const BulkPostDetails: React.FC = () => {
-  const { bulkId } = useParams<{ bulkId: string }>();
+  const {
+    bulkId
+  } = useParams<{
+    bulkId: string;
+  }>();
   const navigate = useNavigate();
+  const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
   const {
     bulkPost,
     posts,
@@ -32,14 +29,11 @@ export const BulkPostDetails: React.FC = () => {
     deletePost,
     refresh
   } = useBulkPostDetails(bulkId || '');
-
   const handleBack = () => {
     navigate('/main-dashboard/bulk-post');
   };
-
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return "secondary";
-    
     switch (status.toLowerCase()) {
       case "published":
       case "live":
@@ -54,7 +48,6 @@ export const BulkPostDetails: React.FC = () => {
         return "secondary";
     }
   };
-
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -63,255 +56,219 @@ export const BulkPostDetails: React.FC = () => {
       return dateString;
     }
   };
-
-  // Filter and paginate posts
-  const filteredPosts = useMemo(() => {
-    return posts.filter(post => {
-      const matchesSearch = post.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           post.business?.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || post.status?.toLowerCase() === statusFilter.toLowerCase();
-      return matchesSearch && matchesStatus;
-    });
-  }, [posts, searchQuery, statusFilter]);
-
-  const paginatedPosts = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredPosts.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredPosts, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
-
+  const handleSelectPost = (postId: string) => {
+    setSelectedPosts(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
+  };
+  const handleSelectAll = () => {
+    if (selectedPosts.length === posts.length) {
+      setSelectedPosts([]);
+    } else {
+      setSelectedPosts(posts.map(post => post.id));
+    }
+  };
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
   };
-
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
       try {
         await deletePost(deletingPostId);
         toast({
           title: "Success",
-          description: "Post deleted successfully",
+          description: "Post deleted successfully"
         });
         refresh();
       } catch (error) {
         toast({
           title: "Error",
           description: "Failed to delete post",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     }
     setDeleteDialogOpen(false);
     setDeletingPostId(null);
   };
-
   const handleViewPost = (post: any) => {
     if (post.searchUrl) {
       window.open(post.searchUrl, '_blank');
     }
   };
-
   if (loading) {
-    return (
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 bg-muted rounded w-1/3"></div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="h-96 bg-muted rounded"></div>
-          <div className="lg:col-span-2 h-96 bg-muted rounded"></div>
+    return <div className="min-h-screen bg-background">
+        <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="sm" onClick={handleBack}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+            </div>
+          </div>
         </div>
-      </div>
-    );
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+                <div className="h-32 bg-muted rounded"></div>
+              </div>
+              <div className="space-y-4">
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+                <div className="h-64 bg-muted rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>;
   }
-
   if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">Error loading post details: {error}</p>
-        <Button onClick={refresh} className="mt-4">
-          Try Again
-        </Button>
-      </div>
-    );
+    return <div className="min-h-screen bg-background">
+        <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="sm" onClick={handleBack}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Error loading post details: {error}</p>
+            <Button onClick={refresh} className="mt-4">
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>;
   }
-
-  return (
-    <div className="space-y-0">
-      {/* Page Header - Minimal spacing */}
-      <div className="mb-4">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={handleBack}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
-            <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+  return <div className="min-h-screen bg-background">
+      {/* Custom Header */}
+      <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={handleBack}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Redesigned Post Preview */}
-        <div className="lg:col-span-1">
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              {/* Image */}
-              {bulkPost?.media?.images && (
-                <div className="w-full">
-                  <img 
-                    src={bulkPost.media.images} 
-                    alt="Post media" 
-                    className="w-full h-48 object-cover rounded-lg border border-border"
-                  />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - Post Review */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Post Preview</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {bulkPost?.title && <div>
+                    <h3 className="font-semibold text-lg text-foreground">{bulkPost.title}</h3>
+                  </div>}
+                
+                {bulkPost?.content && <div>
+                    
+                    <SafeHtmlRenderer html={bulkPost.content} className="text-sm" />
+                  </div>}
+
+                {bulkPost?.media?.images && <div>
+                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Image</h4>
+                    <img src={bulkPost.media.images} alt="Post media" className="w-full max-w-sm rounded-lg border border-border" />
+                  </div>}
+
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                  {bulkPost?.publishDate && <div>
+                      <span className="font-medium">Date:</span> {formatDateTime(bulkPost.publishDate)}
+                    </div>}
+                  {bulkPost?.status && <div className="flex items-center gap-2">
+                      <span className="font-medium">Status:</span>
+                      <Badge variant={getStatusVariant(bulkPost.status)}>
+                        {bulkPost.status}
+                      </Badge>
+                    </div>}
                 </div>
-              )}
 
-              {/* Title */}
-              {bulkPost?.title && (
-                <h3 className="text-xl font-bold text-foreground">{bulkPost.title}</h3>
-              )}
-
-              {/* Description */}
-              {bulkPost?.content && (
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  {bulkPost.content.replace(/<[^>]*>/g, '')}
-                </div>
-              )}
-
-              {/* CTA Button */}
-              <Button className="w-full">
-                View Post
-              </Button>
-
-              {/* Date */}
-              {bulkPost?.publishDate && (
-                <div className="text-sm text-muted-foreground">
-                  Posted on: {formatDateTime(bulkPost.publishDate)}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Column - Updated Table */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-foreground">Listings</h2>
+                {bulkPost?.tags && <div>
+                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Tags</h4>
+                    <p className="text-sm">{bulkPost.tags}</p>
+                  </div>}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Filters */}
-          <div className="flex gap-4">
-            <Input
-              placeholder="Search listings..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-sm"
-            />
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Listing Name</TableHead>
-                    <TableHead>Zip Code</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="w-32">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginatedPosts.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                        No listings found.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    paginatedPosts.map((post) => (
-                      <TableRow key={post.id}>
-                        <TableCell>
-                          <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-sm">{post.zipcode || 'N/A'}</span>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(post.status)}>
-                            {post.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2 text-sm">
-                            <button
-                              onClick={() => handleViewPost(post)}
-                              className="text-primary hover:underline"
-                            >
-                              View
-                            </button>
-                            <span className="text-muted-foreground">|</span>
-                            <button
-                              onClick={() => handleDeleteClick(post.id)}
-                              className="text-destructive hover:underline"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
+          {/* Right Column - Posts Table */}
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div className="text-sm text-muted-foreground">
-                Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredPosts.length)} of {filteredPosts.length} entries
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Button>
-                <span className="text-sm text-muted-foreground">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </div>
+              <h2 className="text-lg font-semibold text-foreground">Post Locations</h2>
+              {selectedPosts.length > 0 && <span className="text-sm text-muted-foreground">
+                  {selectedPosts.length} selected
+                </span>}
             </div>
-          )}
+
+            <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-12">
+                        <Checkbox checked={posts.length > 0 && selectedPosts.length === posts.length} onCheckedChange={handleSelectAll} />
+                      </TableHead>
+                      <TableHead>Location Name</TableHead>
+                      <TableHead>Post Type</TableHead>
+                      <TableHead>Date & Time</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="w-32">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {posts.length === 0 ? <TableRow>
+                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                          No posts found for this bulk post.
+                        </TableCell>
+                      </TableRow> : posts.map(post => <TableRow key={post.id}>
+                          <TableCell>
+                            <Checkbox checked={selectedPosts.includes(post.id)} onCheckedChange={() => handleSelectPost(post.id)} />
+                          </TableCell>
+                          <TableCell>
+                            <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
+                            {post.zipcode && <div className="text-sm text-muted-foreground">{post.zipcode}</div>}
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm">{post.category || 'General'}</span>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm">{formatDateTime(post.publishDate)}</span>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={getStatusVariant(post.status)}>
+                              {post.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <Button variant="ghost" size="sm" onClick={() => handleViewPost(post)} className="h-8 w-8 p-0">
+                                <Eye className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm" onClick={() => handleDeleteClick(post.id)} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>)}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
@@ -326,15 +283,11 @@ export const BulkPostDetails: React.FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDeleteConfirm} 
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
+    </div>;
 };
