@@ -131,9 +131,15 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-full p-0 z-50 bg-popover border shadow-md" 
+          className="w-full p-0 z-[100] bg-popover border shadow-md pointer-events-auto" 
           side="bottom" 
           align="start"
+          onPointerDownOutside={(e) => {
+            const target = e.target as Element;
+            if (target.closest('[data-radix-popover-content]')) {
+              e.preventDefault();
+            }
+          }}
         >
           <div className="p-3">
             {/* Search Input */}
