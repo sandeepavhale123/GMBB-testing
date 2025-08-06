@@ -172,26 +172,18 @@ export const BulkPost: React.FC = () => {
                         </p>
                         
                         {/* Status Information */}
-                        <div className="space-y-1 mb-4">
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
                           {post.livePosts > 0 && (
-                            <div className="text-sm">
-                              <span className="text-green-600 font-medium">Posted on {post.livePosts} listings</span>
-                            </div>
+                            <span className="text-sm text-green-600 font-medium">Posted on {post.livePosts} listings</span>
                           )}
                           {post.failedPosts > 0 && (
-                            <div className="text-sm">
-                              <span className="text-red-600 font-medium">Failed on {post.failedPosts} listings</span>
-                            </div>
+                            <span className="text-sm text-red-600 font-medium">Failed on {post.failedPosts} listings</span>
                           )}
                           {post.schedulePosts > 0 && (
-                            <div className="text-sm">
-                              <span className="text-blue-600 font-medium">Scheduled on {post.schedulePosts} listings</span>
-                            </div>
+                            <span className="text-sm text-blue-600 font-medium">Scheduled on {post.schedulePosts} listings</span>
                           )}
                           {post.livePosts === 0 && post.failedPosts === 0 && post.schedulePosts === 0 && (
-                            <div className="text-sm text-muted-foreground">
-                              No active posts
-                            </div>
+                            <span className="text-sm text-muted-foreground">No active posts</span>
                           )}
                         </div>
                         
