@@ -133,6 +133,31 @@ export interface CreateBulkPostResponse {
   };
 }
 
+export interface GetBulkPostsOverviewRequest {
+  // Empty interface as the API doesn't require parameters
+}
+
+export interface BulkPostOverviewItem {
+  id: string;
+  posttype: string;
+  posttext: string;
+  state: string;
+  tags: string;
+  image: string;
+  action_type: string;
+  CTA_url: string;
+  location_count: number;
+  publishDate: string;
+}
+
+export interface GetBulkPostsOverviewResponse {
+  code: number;
+  message: string;
+  data: {
+    bulkPostOverviewDetails: BulkPostOverviewItem[];
+  };
+}
+
 export const postsApi = {
   getPosts: async (request: GetPostsRequest): Promise<GetPostsResponse> => {
     const response = await axiosInstance.post("/get-posts", request);
@@ -279,6 +304,11 @@ export const postsApi = {
         "Content-Type": "multipart/form-data",
       },
     });
+    return response.data;
+  },
+
+  getBulkPostsOverview: async (): Promise<GetBulkPostsOverviewResponse> => {
+    const response = await axiosInstance.post("/get-bulk-posts-overview", {});
     return response.data;
   },
 };

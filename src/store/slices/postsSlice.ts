@@ -6,6 +6,7 @@ import {
   CreatePostRequest,
   DeletePostRequest,
   CreateBulkPostRequest,
+  BulkPostOverviewItem,
 } from "../../api/postsApi";
 
 interface Post {
@@ -45,6 +46,9 @@ interface PostsState {
   createError: string | null;
   deleteLoading: boolean;
   deleteError: string | null;
+  bulkPostsOverview: BulkPostOverviewItem[];
+  bulkPostsOverviewLoading: boolean;
+  bulkPostsOverviewError: string | null;
 }
 
 const initialState: PostsState = {
@@ -64,6 +68,9 @@ const initialState: PostsState = {
   createError: null,
   deleteLoading: false,
   deleteError: null,
+  bulkPostsOverview: [],
+  bulkPostsOverviewLoading: false,
+  bulkPostsOverviewError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -208,6 +215,15 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching bulk posts overview
+export const fetchBulkPostsOverview = createAsyncThunk(
+  "posts/fetchBulkPostsOverview",
+  async () => {
+    const response = await postsApi.getBulkPostsOverview();
+    return response;
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -238,6 +254,9 @@ const postsSlice = createSlice({
     },
     clearDeleteError: (state) => {
       state.deleteError = null;
+    },
+    clearBulkPostsOverviewError: (state) => {
+      state.bulkPostsOverviewError = null;
     },
   },
   extraReducers: (builder) => {
@@ -307,6 +326,18 @@ const postsSlice = createSlice({
       .addCase(deletePost.rejected, (state, action) => {
         state.deleteLoading = false;
         state.deleteError = action.error.message || "Failed to delete posts";
+      })
+      .addCase(fetchBulkPostsOverview.pending, (state) => {
+        state.bulkPostsOverviewLoading = true;
+        state.bulkPostsOverviewError = null;
+      })
+      .addCase(fetchBulkPostsOverview.fulfilled, (state, action) => {
+        state.bulkPostsOverviewLoading = false;
+        state.bulkPostsOverview = action.payload.data.bulkPostOverviewDetails;
+      })
+      .addCase(fetchBulkPostsOverview.rejected, (state, action) => {
+        state.bulkPostsOverviewLoading = false;
+        state.bulkPostsOverviewError = action.error.message || "Failed to fetch bulk posts overview";
       });
   },
 });
@@ -319,5 +350,6 @@ export const {
   clearError,
   clearCreateError,
   clearDeleteError,
+  clearBulkPostsOverviewError,
 } = postsSlice.actions;
 export default postsSlice.reducer;
