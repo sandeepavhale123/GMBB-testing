@@ -62,7 +62,10 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
     }
   };
 
-  const handleSelect = (optionId: string) => {
+  const handleSelect = (optionId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    
     const isSelected = selectedListings.includes(optionId);
     if (isSelected) {
       onListingsChange(selectedListings.filter(id => id !== optionId));
@@ -127,7 +130,22 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md" side="bottom" align="start">
+        <PopoverContent 
+          className="w-full p-0 z-50 bg-popover border shadow-md" 
+          side="bottom" 
+          align="start"
+          onInteractOutside={(e) => {
+            // Only close if clicking outside the popover
+            const target = e.target as Element;
+            if (!target.closest('[data-radix-popper-content-wrapper]')) {
+              setOpen(false);
+            }
+          }}
+          onPointerDownOutside={(e) => {
+            // Prevent closing when clicking inside the popover
+            e.preventDefault();
+          }}
+        >
           <div className="p-3">
             {/* Search Input */}
             <div className="relative">
@@ -137,6 +155,8 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-8"
+                onFocus={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
             
@@ -158,7 +178,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                         <div
                           key={option.id}
                           className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                          onClick={() => handleSelect(option.id)}
+                          onMouseDown={(e) => handleSelect(option.id, e)}
                         >
                           <Check
                             className={`h-4 w-4 ${
@@ -181,7 +201,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                         <div
                           key={option.id}
                           className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                          onClick={() => handleSelect(option.id)}
+                          onMouseDown={(e) => handleSelect(option.id, e)}
                         >
                           <Check
                             className={`h-4 w-4 ${
