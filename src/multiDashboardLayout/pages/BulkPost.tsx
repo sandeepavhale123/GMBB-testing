@@ -180,9 +180,9 @@ export const BulkPost: React.FC = () => {
                       </div>
                       <div>
                         <h4 className="font-medium line-clamp-1">
-                          {post.posttext.length > 50 
+                          {post.posttext && post.posttext.length > 50 
                             ? `${post.posttext.substring(0, 50)}...` 
-                            : post.posttext}
+                            : (post.posttext || 'No content')}
                         </h4>
                         <p className="text-sm text-muted-foreground">
                           {post.location_count} locations • {formatPublishDate(post.publishDate)}
@@ -194,7 +194,9 @@ export const BulkPost: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-1 text-xs rounded ${getStatusVariant(post.state)}`}>
-                        {post.state ? post.state.charAt(0).toUpperCase() + post.state.slice(1) : 'Unknown'}
+                        {post.state && typeof post.state === 'string' && post.state.length > 0 
+                          ? post.state.charAt(0).toUpperCase() + post.state.slice(1) 
+                          : 'Unknown'}
                       </span>
                       <Button 
                         variant="outline" 
