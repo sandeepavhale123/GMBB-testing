@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Check, ChevronDown, X } from 'lucide-react';
+import { Check, ChevronDown, X, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../../ui/command';
+import { Input } from '../../ui/input';
 import { Badge } from '../../ui/badge';
 import { useGetAllListingsMutation, GroupsList, LocationsList } from '../../../api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
@@ -28,6 +28,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<ListingOption[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [getAllListings, { isLoading }] = useGetAllListingsMutation();
 
   useEffect(() => {
@@ -78,6 +79,14 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
     return options.filter(option => selectedListings.includes(option.id));
   };
 
+  const filteredOptions = options.filter(option => 
+    option.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (option.zipCode && option.zipCode.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const groupOptions = filteredOptions.filter(option => option.type === 'group');
+  const locationOptions = filteredOptions.filter(option => option.type === 'location');
+
   return (
     <div className="space-y-3">
       <Label className="text-sm font-medium">Select Listings & Groups</Label>
@@ -109,82 +118,90 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             role="combobox"
             aria-expanded={open}
             className="w-full justify-between"
+            disabled={isLoading}
           >
             {selectedListings.length === 0 
-              ? "Select listings and groups..." 
+              ? (isLoading ? "Loading..." : "Select listings and groups...") 
               : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`
             }
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md pointer-events-auto" side="bottom" align="start">
-          <Command className="pointer-events-auto">
-            <CommandInput placeholder="Search listings and groups..." className="h-9" />
-            <CommandList className="max-h-60 overflow-y-auto pointer-events-auto">
-              <CommandEmpty>
-                {isLoading ? "Loading..." : "No listings found."}
-              </CommandEmpty>
-              
-              {/* Groups */}
-              {options.filter(option => option.type === 'group').length > 0 && (
-                <CommandGroup heading="Groups">
-                  {options
-                    .filter(option => option.type === 'group')
-                    .map((option) => (
-                      <CommandItem
-                        key={option.id}
-                        value={option.name}
-                        className="cursor-pointer pointer-events-auto hover:bg-accent"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleSelect(option.id);
-                        }}
-                      >
-                        <Check
-                          className={`mr-2 h-4 w-4 ${
-                            selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                          }`}
-                        />
-                        {option.name}
-                      </CommandItem>
-                    ))}
-                </CommandGroup>
-              )}
-              
-              {/* Locations */}
-              {options.filter(option => option.type === 'location').length > 0 && (
-                <CommandGroup heading="Locations">
-                  {options
-                    .filter(option => option.type === 'location')
-                    .map((option) => (
-                      <CommandItem
-                        key={option.id}
-                        value={`${option.name} ${option.zipCode || ''}`}
-                        className="cursor-pointer pointer-events-auto hover:bg-accent"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleSelect(option.id);
-                        }}
-                      >
-                        <Check
-                          className={`mr-2 h-4 w-4 ${
-                            selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
-                          }`}
-                        />
-                        <div className="flex flex-col">
+        <PopoverContent className="w-full p-0 z-50 bg-popover border shadow-md" side="bottom" align="start">
+          <div className="p-3">
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search listings and groups..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            
+            {/* Options List */}
+            <div className="mt-3 max-h-60 overflow-y-auto">
+              {filteredOptions.length === 0 ? (
+                <div className="py-6 text-center text-sm text-muted-foreground">
+                  {isLoading ? "Loading..." : "No listings found."}
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {/* Groups Section */}
+                  {groupOptions.length > 0 && (
+                    <div>
+                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        Groups
+                      </div>
+                      {groupOptions.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                          onClick={() => handleSelect(option.id)}
+                        >
+                          <Check
+                            className={`h-4 w-4 ${
+                              selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
                           <span>{option.name}</span>
-                          {option.zipCode && (
-                            <span className="text-xs text-muted-foreground">{option.zipCode}</span>
-                          )}
                         </div>
-                      </CommandItem>
-                    ))}
-                </CommandGroup>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {/* Locations Section */}
+                  {locationOptions.length > 0 && (
+                    <div>
+                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        Locations
+                      </div>
+                      {locationOptions.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                          onClick={() => handleSelect(option.id)}
+                        >
+                          <Check
+                            className={`h-4 w-4 ${
+                              selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
+                          <div className="flex flex-col">
+                            <span>{option.name}</span>
+                            {option.zipCode && (
+                              <span className="text-xs text-muted-foreground">{option.zipCode}</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
-            </CommandList>
-          </Command>
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
       
