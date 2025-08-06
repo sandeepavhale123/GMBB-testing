@@ -5,16 +5,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 import { useBulkPostsOverview } from '@/hooks/useBulkPostsOverview';
 import { format } from 'date-fns';
+
 export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const {
-    bulkPosts,
-    loading,
-    error,
-    refresh
-  } = useBulkPostsOverview();
+  const { bulkPosts, loading, error, refresh } = useBulkPostsOverview();
+
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return 'bg-gray-100 text-gray-800';
+    
     const normalizedStatus = status.toLowerCase();
     switch (normalizedStatus) {
       case 'published':
@@ -30,23 +28,31 @@ export const BulkPost: React.FC = () => {
         return 'bg-gray-100 text-gray-800';
     }
   };
+
   const formatPublishDate = (dateString: string) => {
     try {
       // Parse the date format "12/03/2025 11:30 AM"
       const [datePart, timePart, period] = dateString.split(' ');
       const [month, day, year] = datePart.split('/');
       const [hours, minutes] = timePart.split(':');
+      
       let hour24 = parseInt(hours);
       if (period === 'PM' && hour24 !== 12) hour24 += 12;
       if (period === 'AM' && hour24 === 12) hour24 = 0;
+      
       const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), hour24, parseInt(minutes));
       return format(date, 'MMM dd, yyyy • h:mm a');
     } catch {
       return dateString;
     }
   };
-  return <>
-      <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+
+  return (
+    <>
+      <CreatePostModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setIsCreateModalOpen(false)} 
+      />
       <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
@@ -110,19 +116,20 @@ export const BulkPost: React.FC = () => {
               </Button>
             </div>
             
-            {error && <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
+            {error && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
                 <p className="text-red-800 text-sm">Error loading bulk posts: {error}</p>
                 <Button variant="outline" size="sm" onClick={refresh} className="mt-2">
                   Try Again
                 </Button>
-              </div>}
+              </div>
+            )}
 
             <div className="space-y-4">
-              {loading ?
-              // Loading skeleton
-              Array.from({
-                length: 3
-              }).map((_, index) => <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+              {loading ? (
+                // Loading skeleton
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
                     <div className="flex items-center gap-4">
                       <Skeleton className="w-12 h-12 rounded-lg" />
                       <div className="space-y-2">
@@ -134,9 +141,11 @@ export const BulkPost: React.FC = () => {
                       <Skeleton className="h-6 w-16" />
                       <Skeleton className="h-8 w-12" />
                     </div>
-                  </div>) : bulkPosts.length === 0 ?
-              // Empty state
-              <div className="text-center py-12">
+                  </div>
+                ))
+              ) : bulkPosts.length === 0 ? (
+                // Empty state
+                <div className="text-center py-12">
                   <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <h4 className="text-lg font-medium text-foreground mb-2">No bulk posts yet</h4>
                   <p className="text-muted-foreground mb-4">Create your first bulk post to get started</p>
@@ -144,43 +153,67 @@ export const BulkPost: React.FC = () => {
                     <Plus className="w-4 h-4 mr-2" />
                     Create Bulk Post
                   </Button>
-                </div> :
-              // Actual data
-              bulkPosts.map(post => <div key={post.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                </div>
+              ) : (
+                // Actual data
+                bulkPosts.map((post) => (
+                  <div key={post.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                        {post.image ? <img src={post.image} alt="Post" className="w-full h-full object-cover" onError={e => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        parent.innerHTML = '<span class="text-xs text-muted-foreground text-center px-1">Image not available</span>';
-                      }
-                    }} /> : <span className="text-xs text-muted-foreground text-center px-1">No Image</span>}
+                        {post.image ? (
+                          <img 
+                            src={post.image} 
+                            alt="Post" 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = '<span class="text-xs text-muted-foreground text-center px-1">Image not available</span>';
+                              }
+                            }}
+                          />
+                        ) : (
+                          <span className="text-xs text-muted-foreground text-center px-1">Image not available</span>
+                        )}
                       </div>
                       <div>
                         <h4 className="font-medium line-clamp-1">
-                          {post.posttext && post.posttext.length > 50 ? `${post.posttext.substring(0, 50)}...` : post.posttext || 'No content'}
+                          {post.posttext && post.posttext.length > 50 
+                            ? `${post.posttext.substring(0, 50)}...` 
+                            : (post.posttext || 'No content')}
                         </h4>
                         <p className="text-sm text-muted-foreground">
                           {post.location_count} locations • {formatPublishDate(post.publishDate)}
                         </p>
-                        {post.tags}
+                        {post.tags && (
+                          <p className="text-xs text-muted-foreground mt-1">{post.tags}</p>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-1 text-xs rounded ${getStatusVariant(post.state)}`}>
-                        {post.state && typeof post.state === 'string' && post.state.length > 0 ? post.state.charAt(0).toUpperCase() + post.state.slice(1) : 'Unknown'}
+                        {post.state && typeof post.state === 'string' && post.state.length > 0 
+                          ? post.state.charAt(0).toUpperCase() + post.state.slice(1) 
+                          : 'Unknown'}
                       </span>
-                      <Button variant="outline" size="sm" onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')}>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')}
+                      >
                         {post.state === 'failed' ? 'Retry' : 'View'}
                       </Button>
                     </div>
-                  </div>)}
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
       </div>
       </div>
-    </>;
+    </>
+  );
 };
