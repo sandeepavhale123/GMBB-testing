@@ -324,7 +324,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         : (isCloning ? "Post Cloned Successfully" : "Post Created Successfully");
       
       const successDescription = isBulkPosting
-        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${formData.listings.length} listings with ID: ${response.data.postId}`
+        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${formData.listings.length} listings.`
         : `Post ${isCloning ? "cloned" : "created"} with ID: ${response.data.postId}`;
 
       toast({
