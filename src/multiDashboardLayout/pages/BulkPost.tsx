@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, Calendar, Send, FileText, ImageOff } from 'lucide-react';
+import { Plus, Calendar, Send, FileText, ImageOff, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 import { useBulkPostsOverview } from '@/hooks/useBulkPostsOverview';
 import { format } from 'date-fns';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { toast } from '@/hooks/use-toast';
 export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const {
@@ -16,7 +17,8 @@ export const BulkPost: React.FC = () => {
     refresh,
     goToPage,
     nextPage,
-    prevPage
+    prevPage,
+    deleteBulk
   } = useBulkPostsOverview();
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return 'bg-gray-100 text-gray-800';
@@ -48,6 +50,21 @@ export const BulkPost: React.FC = () => {
       return format(date, 'MMM dd, yyyy • h:mm a');
     } catch {
       return dateString;
+    }
+  };
+
+  const handleDelete = async (bulkId: number) => {
+    try {
+      await deleteBulk(bulkId);
+      toast.success({
+        title: "Success",
+        description: "Bulk post deleted successfully",
+      });
+    } catch (error) {
+      toast.error({
+        title: "Error",
+        description: "Failed to delete bulk post",
+      });
     }
   };
   return <>
@@ -137,10 +154,15 @@ export const BulkPost: React.FC = () => {
                           {post.tags && <span> • {post.tags}</span>}
                         </div>
                         
-                        {/* Action Button */}
-                        <Button variant="outline" size="sm" onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')} className="w-full sm:w-auto">
-                          View Details
-                        </Button>
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 w-full sm:w-auto">
+                          <Button variant="outline" size="sm" onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')} className="flex-1 sm:flex-initial">
+                            View Details
+                          </Button>
+                          <Button variant="destructive" size="sm" onClick={() => handleDelete(Number(post.id))} className="flex-shrink-0">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
                       </div>
                       
                       {/* Right Image */}

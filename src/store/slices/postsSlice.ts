@@ -238,6 +238,19 @@ export const fetchBulkPostsOverview = createAsyncThunk(
   }
 );
 
+// Async thunk for deleting bulk post
+export const deleteBulkPost = createAsyncThunk(
+  "posts/deleteBulkPost",
+  async (params: { bulkId: number }, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.deleteBulkPost(params);
+      return { ...response, bulkId: params.bulkId };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to delete bulk post');
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -362,6 +375,20 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostsOverview.rejected, (state, action) => {
         state.bulkPostsOverviewLoading = false;
         state.bulkPostsOverviewError = action.error.message || "Failed to fetch bulk posts overview";
+      })
+      
+      .addCase(deleteBulkPost.pending, (state) => {
+        state.deleteLoading = true;
+        state.deleteError = null;
+      })
+      .addCase(deleteBulkPost.fulfilled, (state, action) => {
+        state.deleteLoading = false;
+        // Remove deleted bulk post from the overview array
+        state.bulkPostsOverview = state.bulkPostsOverview.filter(post => Number(post.id) !== action.payload.bulkId);
+      })
+      .addCase(deleteBulkPost.rejected, (state, action) => {
+        state.deleteLoading = false;
+        state.deleteError = action.payload as string;
       });
   },
 });

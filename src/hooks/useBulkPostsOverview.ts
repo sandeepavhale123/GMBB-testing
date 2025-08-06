@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from './useRedux';
-import { fetchBulkPostsOverview, clearBulkPostsOverviewError } from '@/store/slices/postsSlice';
+import { fetchBulkPostsOverview, clearBulkPostsOverviewError, deleteBulkPost } from '@/store/slices/postsSlice';
 
 export const useBulkPostsOverview = (initialPage = 1, initialLimit = 10) => {
   const dispatch = useAppDispatch();
@@ -46,6 +46,11 @@ export const useBulkPostsOverview = (initialPage = 1, initialLimit = 10) => {
     dispatch(clearBulkPostsOverviewError());
   }, [dispatch]);
 
+  const deleteBulk = useCallback(async (bulkId: number) => {
+    const result = await dispatch(deleteBulkPost({ bulkId }));
+    return result;
+  }, [dispatch]);
+
   return {
     bulkPosts: bulkPostsOverview,
     loading,
@@ -58,5 +63,6 @@ export const useBulkPostsOverview = (initialPage = 1, initialLimit = 10) => {
     nextPage,
     prevPage,
     clearError,
+    deleteBulk,
   };
 };

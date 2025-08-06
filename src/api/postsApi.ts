@@ -321,4 +321,9 @@ export const postsApi = {
     const response = await axiosInstance.post("/get-bulk-posts-overview", request);
     return response.data;
   },
+
+  deleteBulkPost: async (request: { bulkId: number }): Promise<{ code: number; message: string; data: any[] }> => {
+    const response = await axiosInstance.post("/delete-bulk-overview-posts", request);
+    return response.data;
+  },
 };
