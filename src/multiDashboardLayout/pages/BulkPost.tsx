@@ -10,7 +10,9 @@ export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { bulkPosts, loading, error, refresh } = useBulkPostsOverview();
 
-  const getStatusVariant = (status: string) => {
+  const getStatusVariant = (status: string | null | undefined) => {
+    if (!status) return 'bg-gray-100 text-gray-800';
+    
     const normalizedStatus = status.toLowerCase();
     switch (normalizedStatus) {
       case 'published':
@@ -192,7 +194,7 @@ export const BulkPost: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-1 text-xs rounded ${getStatusVariant(post.state)}`}>
-                        {post.state.charAt(0).toUpperCase() + post.state.slice(1)}
+                        {post.state ? post.state.charAt(0).toUpperCase() + post.state.slice(1) : 'Unknown'}
                       </span>
                       <Button 
                         variant="outline" 
