@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { axiosBaseQuery } from './axiosBaseQuery';
 
 export interface GroupsList {
   id: string;
@@ -22,16 +23,7 @@ export interface ListingsGroupsResponse {
 
 export const listingsGroupsApi = createApi({
   reducerPath: 'listingsGroupsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as any).auth?.token;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
     getAllListings: builder.mutation<ListingsGroupsResponse, void>({
       query: () => ({
