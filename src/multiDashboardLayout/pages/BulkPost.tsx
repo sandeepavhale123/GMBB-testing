@@ -170,14 +170,12 @@ export const BulkPost: React.FC = () => {
                               target.style.display = 'none';
                               const parent = target.parentElement;
                               if (parent) {
-                                const iconElement = document.createElement('div');
-                                iconElement.innerHTML = '<svg class="w-6 h-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 20h16M12 4v16M4 12h16"></path></svg>';
-                                parent.appendChild(iconElement);
+                                parent.innerHTML = '<span class="text-xs text-muted-foreground text-center px-1">Image not available</span>';
                               }
                             }}
                           />
                         ) : (
-                          <ImageOff className="w-6 h-6 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground text-center px-1">Image not available</span>
                         )}
                       </div>
                       <div>
