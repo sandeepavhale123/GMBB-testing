@@ -1,7 +1,6 @@
 import { useInfiniteQuery, InfiniteData } from "@tanstack/react-query";
 import { getGalleryImages, GalleryImageRequest, GalleryImageResponse } from "../api/mediaApi";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
-import { useParams } from "react-router-dom";
 import { galleryQueryKeys } from "./galleryQueryKeys";
 import { useState, useEffect } from "react";
 
@@ -16,7 +15,6 @@ export interface UseGalleryImagesParams {
 
 export const useGalleryImagesQuery = ({ type, searchTerm, sortOrder, limit = 16 }: UseGalleryImagesParams) => {
   const { accessToken } = useAuthRedux();
-  const { listingId } = useParams();
 
   // Debounced search
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
@@ -44,8 +42,8 @@ export const useGalleryImagesQuery = ({ type, searchTerm, sortOrder, limit = 16 
     queryKey: galleryQueryKeys.infinite(queryParams),
     initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
-      if (!accessToken || !listingId) {
-        throw new Error("Missing authentication or listing ID");
+      if (!accessToken) {
+        throw new Error("Missing authentication");
       }
 
       const params: GalleryImageRequest = {
@@ -67,7 +65,7 @@ export const useGalleryImagesQuery = ({ type, searchTerm, sortOrder, limit = 16 
     getNextPageParam: (lastPage) => {
       return lastPage.isTruncated ? lastPage.nextOffset : undefined;
     },
-    enabled: !!accessToken && !!listingId,
+    enabled: !!accessToken,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes (was cacheTime)
     refetchOnWindowFocus: true,
