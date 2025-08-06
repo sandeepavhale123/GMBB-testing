@@ -5,14 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CreatePostModal } from '@/components/Posts/CreatePostModal';
 import { useBulkPostsOverview } from '@/hooks/useBulkPostsOverview';
 import { format } from 'date-fns';
-import { 
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const {
@@ -170,47 +163,33 @@ export const BulkPost: React.FC = () => {
             </div>
 
             {/* Pagination */}
-            {!loading && !error && pagination && (
-              <div className="mt-8 pt-6 border-t border-border">
+            {!loading && !error && pagination && <div className="mt-8 pt-6 border-t border-border">
                 <div className="flex flex-col sm:flex-row items-center justify-end gap-4">
                   <p className="text-sm text-muted-foreground sm:mr-auto">
-                    Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
+                    Showing {(pagination.currentPage - 1) * 10 + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
                   </p>
                   
-                  {pagination.totalPages > 1 && (
-                    <Pagination >
-                      <PaginationContent className="mr-0">
+                  {pagination.totalPages > 1 && <Pagination className="mr-0 flex align-end justify-end ">
+                      <PaginationContent>
                         <PaginationItem>
-                          <PaginationPrevious 
-                            onClick={prevPage}
-                            className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          />
+                          <PaginationPrevious onClick={prevPage} className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"} />
                         </PaginationItem>
                         
-                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
-                          <PaginationItem key={pageNum}>
-                            <PaginationLink
-                              onClick={() => goToPage(pageNum)}
-                              isActive={pageNum === pagination.currentPage}
-                              className="cursor-pointer"
-                            >
+                        {Array.from({
+                      length: pagination.totalPages
+                    }, (_, i) => i + 1).map(pageNum => <PaginationItem key={pageNum}>
+                            <PaginationLink onClick={() => goToPage(pageNum)} isActive={pageNum === pagination.currentPage} className="cursor-pointer">
                               {pageNum}
                             </PaginationLink>
-                          </PaginationItem>
-                        ))}
+                          </PaginationItem>)}
                         
                         <PaginationItem>
-                          <PaginationNext 
-                            onClick={nextPage}
-                            className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                          />
+                          <PaginationNext onClick={nextPage} className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"} />
                         </PaginationItem>
                       </PaginationContent>
-                    </Pagination>
-                  )}
+                    </Pagination>}
                 </div>
-              </div>
-            )}
+              </div>}
           </div>
         </div>
       </div>
