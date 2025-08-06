@@ -7,8 +7,11 @@ import { useBulkPostsOverview } from '@/hooks/useBulkPostsOverview';
 import { format } from 'date-fns';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { toast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
   const {
     bulkPosts,
     loading,
@@ -53,19 +56,31 @@ export const BulkPost: React.FC = () => {
     }
   };
 
-  const handleDelete = async (bulkId: number) => {
-    try {
-      await deleteBulk(bulkId);
-      toast.success({
-        title: "Success",
-        description: "Bulk post deleted successfully",
-      });
-    } catch (error) {
-      toast.error({
-        title: "Error",
-        description: "Failed to delete bulk post",
-      });
+  const handleDeleteClick = (bulkId: number) => {
+    setDeletingPostId(bulkId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deletingPostId) {
+      try {
+        await deleteBulk(deletingPostId);
+        // Go to page 1 after successful deletion
+        goToPage(1);
+        toast({
+          title: "Success",
+          description: "Bulk post deleted successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete bulk post",
+          variant: "destructive",
+        });
+      }
     }
+    setDeleteDialogOpen(false);
+    setDeletingPostId(null);
   };
   return <>
       <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
@@ -159,7 +174,7 @@ export const BulkPost: React.FC = () => {
                           <Button variant="outline" size="sm" onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')} className="flex-1 sm:flex-initial">
                             View Details
                           </Button>
-                          <Button variant="destructive" size="sm" onClick={() => handleDelete(Number(post.id))} className="flex-shrink-0">
+                          <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(Number(post.id))} className="flex-shrink-0">
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
@@ -216,5 +231,23 @@ export const BulkPost: React.FC = () => {
         </div>
       </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the bulk post and all associated data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>;
 };
