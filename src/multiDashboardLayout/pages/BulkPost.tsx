@@ -157,54 +157,85 @@ export const BulkPost: React.FC = () => {
               ) : (
                 // Actual data
                 bulkPosts.map((post) => (
-                  <div key={post.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                        {post.image ? (
-                          <img 
-                            src={post.image} 
-                            alt="Post" 
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                              const parent = target.parentElement;
-                              if (parent) {
-                                parent.innerHTML = '<span class="text-xs text-muted-foreground text-center px-1">Image not available</span>';
-                              }
-                            }}
-                          />
-                        ) : (
-                          <span className="text-xs text-muted-foreground text-center px-1">Image not available</span>
-                        )}
-                      </div>
-                      <div>
-                        <h4 className="font-medium line-clamp-1">
-                          {post.posttext && post.posttext.length > 50 
-                            ? `${post.posttext.substring(0, 50)}...` 
-                            : (post.posttext || 'No content')}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {post.location_count} locations • {formatPublishDate(post.publishDate)}
+                  <div key={post.id} className="bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
+                    <div className="flex items-start gap-6">
+                      {/* Left Content */}
+                      <div className="flex-1 min-w-0">
+                        {/* Title - using posttype */}
+                        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                          {post.posttype || 'Untitled Post'}
+                        </h3>
+                        
+                        {/* Description */}
+                        <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                          {post.posttext || 'No description available'}
                         </p>
-                        {post.tags && (
-                          <p className="text-xs text-muted-foreground mt-1">{post.tags}</p>
-                        )}
+                        
+                        {/* Status Information */}
+                        <div className="space-y-1 mb-4">
+                          {post.livePosts > 0 && (
+                            <div className="text-sm">
+                              <span className="text-green-600 font-medium">Posted on {post.livePosts} listings</span>
+                            </div>
+                          )}
+                          {post.failedPosts > 0 && (
+                            <div className="text-sm">
+                              <span className="text-red-600 font-medium">Failed on {post.failedPosts} listings</span>
+                            </div>
+                          )}
+                          {post.schedulePosts > 0 && (
+                            <div className="text-sm">
+                              <span className="text-blue-600 font-medium">Scheduled on {post.schedulePosts} listings</span>
+                            </div>
+                          )}
+                          {post.livePosts === 0 && post.failedPosts === 0 && post.schedulePosts === 0 && (
+                            <div className="text-sm text-muted-foreground">
+                              No active posts
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Meta Information */}
+                        <div className="text-xs text-muted-foreground mb-4">
+                          {post.location_count} total locations • {formatPublishDate(post.publishDate)}
+                          {post.tags && <span> • {post.tags}</span>}
+                        </div>
+                        
+                        {/* Action Button */}
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')}
+                          className="w-full sm:w-auto"
+                        >
+                          View Details
+                        </Button>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 text-xs rounded ${getStatusVariant(post.state)}`}>
-                        {post.state && typeof post.state === 'string' && post.state.length > 0 
-                          ? post.state.charAt(0).toUpperCase() + post.state.slice(1) 
-                          : 'Unknown'}
-                      </span>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => post.CTA_url && window.open(post.CTA_url, '_blank')}
-                      >
-                        {post.state === 'failed' ? 'Retry' : 'View'}
-                      </Button>
+                      
+                      {/* Right Image */}
+                      <div className="flex-shrink-0">
+                        <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden">
+                          {post.image ? (
+                            <img 
+                              src={post.image} 
+                              alt={post.posttype || 'Post image'} 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = '<div class="w-full h-full bg-muted rounded-lg flex items-center justify-center"><span class="text-xs text-muted-foreground text-center px-2">No image</span></div>';
+                                }
+                              }}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
+                              <span className="text-xs text-muted-foreground text-center px-2">No image</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))

@@ -148,6 +148,9 @@ export interface BulkPostOverviewItem {
   CTA_url: string;
   location_count: number;
   publishDate: string;
+  livePosts: number;
+  failedPosts: number;
+  schedulePosts: number;
 }
 
 export interface GetBulkPostsOverviewResponse {
