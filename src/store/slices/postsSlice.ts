@@ -5,6 +5,7 @@ import {
   ApiPost,
   CreatePostRequest,
   DeletePostRequest,
+  CreateBulkPostRequest,
 } from "../../api/postsApi";
 
 interface Post {
@@ -189,6 +190,15 @@ export const createPost = createAsyncThunk(
   }
 );
 
+// Async thunk for creating bulk posts
+export const createBulkPost = createAsyncThunk(
+  "posts/createBulkPost",
+  async (postData: CreateBulkPostRequest) => {
+    const response = await postsApi.createBulkPost(postData);
+    return response;
+  }
+);
+
 // Async thunk for deleting posts (handles both single and multi-delete)
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
@@ -262,6 +272,20 @@ const postsSlice = createSlice({
       .addCase(createPost.rejected, (state, action) => {
         state.createLoading = false;
         state.createError = action.error.message || "Failed to create post";
+      })
+      .addCase(createBulkPost.pending, (state) => {
+        state.createLoading = true;
+        state.createError = null;
+      })
+      .addCase(createBulkPost.fulfilled, (state, action) => {
+        state.createLoading = false;
+        // console.log("Bulk post created successfully:", action.payload);
+        // Increment total posts count
+        state.pagination.totalPosts += 1;
+      })
+      .addCase(createBulkPost.rejected, (state, action) => {
+        state.createLoading = false;
+        state.createError = action.error.message || "Failed to create bulk post";
       })
       .addCase(deletePost.pending, (state) => {
         state.deleteLoading = true;

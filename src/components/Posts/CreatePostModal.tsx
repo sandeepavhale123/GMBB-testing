@@ -17,6 +17,7 @@ import { MultiListingSelector } from "./CreatePostModal/MultiListingSelector";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import {
   createPost,
+  createBulkPost,
   fetchPosts,
   clearCreateError,
 } from "../../store/slices/postsSlice";
@@ -167,7 +168,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       errors.ctaUrl = "URL is required when CTA button is enabled";
     }
 
-    // Listings validation for multi-dashboard context
+    // Listings validation for multi-dashboard context (bulk posting)
     if (isMultiDashboard && formData.listings.length === 0) {
       errors.listings = "Please select at least one listing or group";
     }
@@ -189,16 +190,16 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       return;
     }
 
-    // Get listingId from context or URL
-    // const listingId = selectedListing?.id || parseInt(window.location.pathname.split('/')[2]) || 176832;
-    const listingId =
-      selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+    // Determine if this is bulk posting or single posting
+    const isBulkPosting = isMultiDashboard && formData.listings.length > 0;
+    
+    // For single posting, get listingId from context or URL
+    const singleListingId = selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
 
-    if (!listingId) {
+    if (!isBulkPosting && !singleListingId) {
       toast({
         title: "Error",
-        description:
-          "No business listing selected. Please select a listing first.",
+        description: "No business listing selected. Please select a listing first.",
         variant: "destructive",
       });
       return;
@@ -208,81 +209,139 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       // Clear any previous errors
       dispatch(clearCreateError());
 
-      const createPostData = {
-        listingId: parseInt(listingId.toString()),
-        title: formData.title,
-        postType: formData.postType,
-        description: formData.description,
-        ctaButton: showCTAButton ? formData.ctaButton : undefined,
-        ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
-        publishOption: formData.publishOption,
-        scheduleDate:
-          formData.publishOption === "schedule" && formData.scheduleDate
-            ? formData.scheduleDate
-            : undefined,
-        platforms: formData.platforms,
-        startDate:
-          (formData.postType === "event" || formData.postType === "offer") &&
-          formData.startDate
-            ? formData.startDate
-            : undefined,
-        endDate:
-          (formData.postType === "event" || formData.postType === "offer") &&
-          formData.endDate
-            ? formData.endDate
-            : undefined,
-        couponCode:
-          formData.postType === "offer" ? formData.couponCode : undefined,
-        redeemOnlineUrl:
-          formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
-        termsConditions:
-          formData.postType === "offer" ? formData.termsConditions : undefined,
-        postTags: formData.postTags,
-        siloPost: formData.siloPost,
-        // Handle image based on source
-        selectedImage: formData.imageSource || null, // Indicates the source type
-        userfile:
-          formData.imageSource === "local" && formData.image instanceof File
-            ? formData.image
-            : undefined,
-        aiImageUrl:
-          formData.imageSource === "ai" && typeof formData.image === "string"
-            ? formData.image
-            : undefined,
-        galleryImageUrl:
-          formData.imageSource === "gallery" && typeof formData.image === "string"
-            ? formData.image
-            : undefined,
-      };
+      let response;
 
-      console.log('📤 Sending post data to backend:', createPostData);
-      console.log('🖼️ Image details:', {
-        selectedImage: createPostData.selectedImage,
-        galleryImageUrl: createPostData.galleryImageUrl,
-        aiImageUrl: createPostData.aiImageUrl,
-        userfile: createPostData.userfile?.name || 'none'
-      });
+      if (isBulkPosting) {
+        // Create bulk post data with comma-separated listingId
+        const bulkPostData = {
+          listingId: formData.listings.join(','), // Convert array to comma-separated string
+          title: formData.title,
+          postType: formData.postType,
+          description: formData.description,
+          ctaButton: showCTAButton ? formData.ctaButton : undefined,
+          ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+          publishOption: formData.publishOption,
+          scheduleDate:
+            formData.publishOption === "schedule" && formData.scheduleDate
+              ? formData.scheduleDate
+              : undefined,
+          platforms: formData.platforms,
+          startDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.startDate
+              ? formData.startDate
+              : undefined,
+          endDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.endDate
+              ? formData.endDate
+              : undefined,
+          couponCode:
+            formData.postType === "offer" ? formData.couponCode : undefined,
+          redeemOnlineUrl:
+            formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
+          termsConditions:
+            formData.postType === "offer" ? formData.termsConditions : undefined,
+          postTags: formData.postTags,
+          siloPost: formData.siloPost,
+          // Handle image based on source
+          selectedImage: formData.imageSource || null,
+          userfile:
+            formData.imageSource === "local" && formData.image instanceof File
+              ? formData.image
+              : undefined,
+          aiImageUrl:
+            formData.imageSource === "ai" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+          galleryImageUrl:
+            formData.imageSource === "gallery" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+        };
 
-      const response = await dispatch(createPost(createPostData)).unwrap();
+        console.log('📤 Sending bulk post data to backend:', bulkPostData);
+        console.log('🔄 Selected listings for bulk posting:', formData.listings);
+        
+        response = await dispatch(createBulkPost(bulkPostData)).unwrap();
+      } else {
+        // Create single post data
+        const createPostData = {
+          listingId: parseInt(singleListingId!.toString()),
+          title: formData.title,
+          postType: formData.postType,
+          description: formData.description,
+          ctaButton: showCTAButton ? formData.ctaButton : undefined,
+          ctaUrl: showCTAButton ? formData.ctaUrl : undefined,
+          publishOption: formData.publishOption,
+          scheduleDate:
+            formData.publishOption === "schedule" && formData.scheduleDate
+              ? formData.scheduleDate
+              : undefined,
+          platforms: formData.platforms,
+          startDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.startDate
+              ? formData.startDate
+              : undefined,
+          endDate:
+            (formData.postType === "event" || formData.postType === "offer") &&
+            formData.endDate
+              ? formData.endDate
+              : undefined,
+          couponCode:
+            formData.postType === "offer" ? formData.couponCode : undefined,
+          redeemOnlineUrl:
+            formData.postType === "offer" ? formData.redeemOnlineUrl : undefined,
+          termsConditions:
+            formData.postType === "offer" ? formData.termsConditions : undefined,
+          postTags: formData.postTags,
+          siloPost: formData.siloPost,
+          // Handle image based on source
+          selectedImage: formData.imageSource || null,
+          userfile:
+            formData.imageSource === "local" && formData.image instanceof File
+              ? formData.image
+              : undefined,
+          aiImageUrl:
+            formData.imageSource === "ai" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+          galleryImageUrl:
+            formData.imageSource === "gallery" && typeof formData.image === "string"
+              ? formData.image
+              : undefined,
+        };
+
+        console.log('📤 Sending single post data to backend:', createPostData);
+        
+        response = await dispatch(createPost(createPostData)).unwrap();
+      }
 
       // Show success message
+      const successTitle = isBulkPosting 
+        ? (isCloning ? "Bulk Post Cloned Successfully" : "Bulk Post Created Successfully")
+        : (isCloning ? "Post Cloned Successfully" : "Post Created Successfully");
+      
+      const successDescription = isBulkPosting
+        ? `Bulk post ${isCloning ? "cloned" : "created"} for ${formData.listings.length} listings with ID: ${response.data.postId}`
+        : `Post ${isCloning ? "cloned" : "created"} with ID: ${response.data.postId}`;
+
       toast({
-        title: isCloning
-          ? "Post Cloned Successfully"
-          : "Post Created Successfully",
-        description: `Post ${isCloning ? "cloned" : "created"} with ID: ${
-          response.data.postId
-        }`,
+        title: successTitle,
+        description: successDescription,
       });
 
-      // Refresh posts list
-      dispatch(
-        fetchPosts({
-          listingId: parseInt(listingId.toString()),
-          filters: { status: "all", search: "" },
-          pagination: { page: 1, limit: 12 },
-        })
-      );
+      // Refresh posts list only for single posting (bulk posting doesn't need refresh since it's cross-listing)
+      if (!isBulkPosting && singleListingId) {
+        dispatch(
+          fetchPosts({
+            listingId: parseInt(singleListingId.toString()),
+            filters: { status: "all", search: "" },
+            pagination: { page: 1, limit: 12 },
+          })
+        );
+      }
 
       // Reset form and close modal
       setFormData({
@@ -314,7 +373,9 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     } catch (error) {
       console.error("Error creating post:", error);
       toast({
-        title: isCloning ? "Failed to Clone Post" : "Failed to Create Post",
+        title: isBulkPosting 
+          ? (isCloning ? "Failed to Clone Bulk Post" : "Failed to Create Bulk Post")
+          : (isCloning ? "Failed to Clone Post" : "Failed to Create Post"),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
