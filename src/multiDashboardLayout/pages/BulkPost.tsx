@@ -170,41 +170,51 @@ export const BulkPost: React.FC = () => {
             </div>
 
             {/* Pagination */}
-            {!loading && !error && pagination && pagination.totalPages > 1 && (
-              <div className="flex flex-col sm:flex-row items-center justify-between mt-8 pt-6 border-t border-border gap-4">
-                <p className="text-sm text-muted-foreground order-2 sm:order-1">
-                  Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
-                </p>
+            {!loading && !error && pagination && (
+              <div className="mt-8 pt-6 border-t border-border">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <p className="text-sm text-muted-foreground order-2 sm:order-1">
+                    Showing {((pagination.currentPage - 1) * 10) + 1} to {Math.min(pagination.currentPage * 10, pagination.totalItems)} of {pagination.totalItems} posts
+                  </p>
+                  
+                  {pagination.totalPages > 1 && (
+                    <Pagination className="order-1 sm:order-2">
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            onClick={prevPage}
+                            className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                          />
+                        </PaginationItem>
+                        
+                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
+                          <PaginationItem key={pageNum}>
+                            <PaginationLink
+                              onClick={() => goToPage(pageNum)}
+                              isActive={pageNum === pagination.currentPage}
+                              className="cursor-pointer"
+                            >
+                              {pageNum}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            onClick={nextPage}
+                            className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
+                </div>
                 
-                <Pagination className="order-1 sm:order-2">
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        onClick={prevPage}
-                        className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          onClick={() => goToPage(pageNum)}
-                          isActive={pageNum === pagination.currentPage}
-                          className="cursor-pointer"
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        onClick={nextPage}
-                        className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                {/* Debug info - remove this after testing */}
+                <div className="mt-4 p-2 bg-gray-100 text-xs text-gray-600 rounded">
+                  Debug: Loading: {loading.toString()}, Error: {error || 'none'}, 
+                  Pagination: {pagination ? `currentPage: ${pagination.currentPage}, totalPages: ${pagination.totalPages}, totalItems: ${pagination.totalItems}` : 'null'}
+                </div>
               </div>
             )}
           </div>
