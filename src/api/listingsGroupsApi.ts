@@ -4,6 +4,7 @@ import { axiosBaseQuery } from './axiosBaseQuery';
 export interface GroupsList {
   id: string;
   labelName: string;
+  locCount: number;
 }
 
 export interface LocationsList {

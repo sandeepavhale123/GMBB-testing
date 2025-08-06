@@ -19,6 +19,7 @@ interface ListingOption {
   name: string;
   type: 'group' | 'location';
   zipCode?: string;
+  locCount?: number;
 }
 
 export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
@@ -39,11 +40,14 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
     try {
       const response = await getAllListings().unwrap();
       
-      const groupOptions: ListingOption[] = response.data.groupsLists.map((group: GroupsList) => ({
-        id: group.id,
-        name: group.labelName,
-        type: 'group'
-      }));
+      const groupOptions: ListingOption[] = response.data.groupsLists
+        .filter((group: GroupsList) => group.locCount > 0)
+        .map((group: GroupsList) => ({
+          id: group.id,
+          name: group.labelName,
+          type: 'group',
+          locCount: group.locCount
+        }));
 
       const locationOptions: ListingOption[] = response.data.locationLists.map((location: LocationsList) => ({
         id: location.id,
@@ -233,7 +237,14 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                               selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
                             }`}
                           />
-                          <span>{option.name}</span>
+                           <div className="flex items-center justify-between w-full">
+                             <span>{option.name}</span>
+                             {option.locCount && (
+                               <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                 {option.locCount}
+                               </span>
+                             )}
+                           </div>
                         </div>
                       ))}
                     </div>
