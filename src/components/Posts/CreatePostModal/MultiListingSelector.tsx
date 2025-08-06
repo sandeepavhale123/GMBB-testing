@@ -90,6 +90,53 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   const groupOptions = filteredOptions.filter(option => option.type === 'group');
   const locationOptions = filteredOptions.filter(option => option.type === 'location');
 
+  // Helper functions for select/deselect all functionality
+  const handleSelectAllGroups = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const groupIds = groupOptions.map(option => option.id);
+    const newSelections = [...selectedListings];
+    groupIds.forEach(id => {
+      if (!newSelections.includes(id)) {
+        newSelections.push(id);
+      }
+    });
+    onListingsChange(newSelections);
+  };
+
+  const handleDeselectAllGroups = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const groupIds = groupOptions.map(option => option.id);
+    const newSelections = selectedListings.filter(id => !groupIds.includes(id));
+    onListingsChange(newSelections);
+  };
+
+  const handleSelectAllLocations = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const locationIds = locationOptions.map(option => option.id);
+    const newSelections = [...selectedListings];
+    locationIds.forEach(id => {
+      if (!newSelections.includes(id)) {
+        newSelections.push(id);
+      }
+    });
+    onListingsChange(newSelections);
+  };
+
+  const handleDeselectAllLocations = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const locationIds = locationOptions.map(option => option.id);
+    const newSelections = selectedListings.filter(id => !locationIds.includes(id));
+    onListingsChange(newSelections);
+  };
+
+  // Check if all items in a section are selected
+  const areAllGroupsSelected = groupOptions.length > 0 && groupOptions.every(option => selectedListings.includes(option.id));
+  const areAllLocationsSelected = locationOptions.length > 0 && locationOptions.every(option => selectedListings.includes(option.id));
+
   return (
     <div className="space-y-3">
       <Label className="text-sm font-medium">Select Listings & Groups</Label>
@@ -131,7 +178,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-full p-0 z-[100] bg-popover border shadow-md pointer-events-auto" 
+          className="w-full p-0 z-[100] bg-popover border shadow-md" 
           side="bottom" 
           align="start"
           onPointerDownOutside={(e) => {
@@ -156,7 +203,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             </div>
             
             {/* Options List */}
-            <div className="mt-3 max-h-60 overflow-y-auto">
+            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
               {filteredOptions.length === 0 ? (
                 <div className="py-6 text-center text-sm text-muted-foreground">
                   {isLoading ? "Loading..." : "No listings found."}
@@ -166,8 +213,14 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                   {/* Groups Section */}
                   {groupOptions.length > 0 && (
                     <div>
-                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                        Groups
+                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        <span>Groups</span>
+                        <button
+                          onMouseDown={areAllGroupsSelected ? handleDeselectAllGroups : handleSelectAllGroups}
+                          className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
+                        >
+                          {areAllGroupsSelected ? 'Deselect All' : 'Select All'}
+                        </button>
                       </div>
                       {groupOptions.map((option) => (
                         <div
@@ -189,8 +242,14 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                   {/* Locations Section */}
                   {locationOptions.length > 0 && (
                     <div>
-                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                        Locations
+                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                        <span>Locations</span>
+                        <button
+                          onMouseDown={areAllLocationsSelected ? handleDeselectAllLocations : handleSelectAllLocations}
+                          className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
+                        >
+                          {areAllLocationsSelected ? 'Deselect All' : 'Select All'}
+                        </button>
                       </div>
                       {locationOptions.map((option) => (
                         <div
