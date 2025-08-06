@@ -161,16 +161,6 @@ export const BulkPost: React.FC = () => {
                     <div className="flex items-start gap-6">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
-                        {/* Title - using posttype */}
-                        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
-                          {post.posttype || 'Untitled Post'}
-                        </h3>
-                        
-                        {/* Description */}
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-1">
-                          {post.posttext || "No description available"}
-                        </p>
-                        
                         {/* Status Information */}
                         <div className="flex flex-wrap items-center gap-3 mb-4">
                           {post.livePosts > 0 && (
@@ -186,6 +176,16 @@ export const BulkPost: React.FC = () => {
                             <span className="text-sm text-muted-foreground">No active posts</span>
                           )}
                         </div>
+                        
+                        {/* Title - using posttype */}
+                        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+                          {post.posttype || "Untitled Post"}
+                        </h3>
+                        
+                        {/* Description */}
+                        <p className="text-sm text-muted-foreground mb-4 line-clamp-1">
+                          {post.posttext || "No description available"}
+                        </p>
                         
                         {/* Meta Information */}
                         <div className="text-xs text-muted-foreground mb-4">
