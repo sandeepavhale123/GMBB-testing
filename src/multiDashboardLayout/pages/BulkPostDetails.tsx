@@ -166,22 +166,23 @@ export const BulkPostDetails: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Custom Header */}
-      <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={handleBack}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-            <h1 className="text-2xl font-semibold text-foreground">Posts details</h1>
+    <div>
+      {/* Page Header */}
+      <div className="mb-6">
+        <div className="flex items-center gap-4 mb-4">
+          <Button variant="ghost" size="sm" onClick={handleBack}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+            <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Post Review */}
           <div className="space-y-6 lg:col-span-1">

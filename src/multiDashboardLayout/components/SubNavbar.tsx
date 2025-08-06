@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector } from '@/hooks/useRedux';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useProfile } from '@/hooks/useProfile';
@@ -15,6 +15,12 @@ export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
   const isMobile = useIsMobile(768);
   const { profileData } = useProfile();
+  const location = useLocation();
+  
+  // Hide SubNavbar on bulk post details page
+  if (location.pathname.includes('/bulk-post-details/')) {
+    return null;
+  }
   
   const shouldHideSettings = () => {
     const userRole = profileData?.role?.toLowerCase();

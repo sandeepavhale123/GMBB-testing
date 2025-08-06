@@ -21,16 +21,6 @@ import { RouteConfig } from "../routeConfig";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
-    path: "/main-dashboard/bulk-post-details/:bulkId",
-    element: (
-      <ProtectedRoute>
-        <StandaloneLayout>
-          <BulkPostDetails />
-        </StandaloneLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: "/main-dashboard",
     element: (
       <ProtectedRoute>
@@ -57,6 +47,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "reports",
         element: <Reports />,
+      },
+      {
+        path: "bulk-post-details/:bulkId",
+        element: <BulkPostDetails />,
       },
       {
         path: "settings",
