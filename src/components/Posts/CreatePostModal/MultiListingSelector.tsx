@@ -134,17 +134,6 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
           className="w-full p-0 z-50 bg-popover border shadow-md" 
           side="bottom" 
           align="start"
-          onInteractOutside={(e) => {
-            // Only close if clicking outside the popover
-            const target = e.target as Element;
-            if (!target.closest('[data-radix-popper-content-wrapper]')) {
-              setOpen(false);
-            }
-          }}
-          onPointerDownOutside={(e) => {
-            // Prevent closing when clicking inside the popover
-            e.preventDefault();
-          }}
         >
           <div className="p-3">
             {/* Search Input */}
