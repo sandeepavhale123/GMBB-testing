@@ -140,15 +140,9 @@ export const BulkPostDetails: React.FC = () => {
     <div className="space-y-0">
       {/* Page Header - Minimal spacing */}
       <div className="mb-4">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={handleBack}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
-            <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+          <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
         </div>
       </div>
 
