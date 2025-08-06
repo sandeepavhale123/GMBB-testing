@@ -179,7 +179,7 @@ export const BulkPost: React.FC = () => {
                   
                   {pagination.totalPages > 1 && (
                     <Pagination className="w-auto">
-                      <PaginationContent>
+                      <PaginationContent className="ml-auto">
                         <PaginationItem>
                           <PaginationPrevious 
                             onClick={prevPage}
