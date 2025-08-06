@@ -348,7 +348,16 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostsOverview.fulfilled, (state, action) => {
         state.bulkPostsOverviewLoading = false;
         state.bulkPostsOverview = action.payload.data.bulkPostOverviewDetails;
-        state.bulkPostsOverviewPagination = action.payload.data.pagination;
+        
+        // Map API pagination format to our internal format
+        const apiPagination = action.payload.data.pagination;
+        state.bulkPostsOverviewPagination = {
+          currentPage: apiPagination.page,
+          totalPages: apiPagination.pages,
+          totalItems: apiPagination.total,
+          hasNext: apiPagination.page < apiPagination.pages,
+          hasPrevious: apiPagination.page > 1,
+        };
       })
       .addCase(fetchBulkPostsOverview.rejected, (state, action) => {
         state.bulkPostsOverviewLoading = false;

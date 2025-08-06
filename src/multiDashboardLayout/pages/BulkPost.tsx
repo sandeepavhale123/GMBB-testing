@@ -209,12 +209,6 @@ export const BulkPost: React.FC = () => {
                     </Pagination>
                   )}
                 </div>
-                
-                {/* Debug info - remove this after testing */}
-                <div className="mt-4 p-2 bg-gray-100 text-xs text-gray-600 rounded">
-                  Debug: Loading: {loading.toString()}, Error: {error || 'none'}, 
-                  Pagination: {pagination ? `currentPage: ${pagination.currentPage}, totalPages: ${pagination.totalPages}, totalItems: ${pagination.totalItems}` : 'null'}
-                </div>
               </div>
             )}
           </div>

@@ -160,11 +160,10 @@ export interface GetBulkPostsOverviewResponse {
   data: {
     bulkPostOverviewDetails: BulkPostOverviewItem[];
     pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalItems: number;
-      hasNext: boolean;
-      hasPrevious: boolean;
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
     };
   };
 }
