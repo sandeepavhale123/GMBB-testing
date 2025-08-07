@@ -493,6 +493,8 @@ export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<Bul
 // Bulk Media Details interfaces
 export interface BulkMediaDetailsRequest {
   bulkId: number;
+  search: string;
+  status: string;
   page: number;
   limit: number;
 }

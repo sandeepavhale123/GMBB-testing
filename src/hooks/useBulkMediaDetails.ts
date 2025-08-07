@@ -5,6 +5,8 @@ import type { BulkMediaDetailsResponse } from '@/api/mediaApi';
 export const useBulkMediaDetails = (bulkId: string) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
   const [bulkMediaDetails, setBulkMediaDetails] = useState<BulkMediaDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +19,9 @@ export const useBulkMediaDetails = (bulkId: string) => {
     
     try {
       const response = await getBulkMediaDetails({ 
-        bulkId: parseInt(bulkId), 
+        bulkId: parseInt(bulkId),
+        search,
+        status,
         page: currentPage, 
         limit: itemsPerPage 
       });
@@ -32,7 +36,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [bulkId, currentPage, itemsPerPage]);
+  }, [bulkId, currentPage, itemsPerPage, search, status]);
 
   useEffect(() => {
     fetchData();
@@ -94,5 +98,9 @@ export const useBulkMediaDetails = (bulkId: string) => {
     currentPage,
     setCurrentPage,
     itemsPerPage,
+    search,
+    setSearch,
+    status,
+    setStatus,
   };
 };
