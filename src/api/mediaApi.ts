@@ -391,3 +391,79 @@ export const getBulkMediaOverview = async (params: BulkMediaOverviewRequest): Pr
     throw error;
   }
 };
+
+// Bulk Media Upload interfaces
+export interface BulkMediaUploadData {
+  file?: File;
+  title: string;
+  category: string;
+  publishOption: string;
+  scheduleDate?: string;
+  listingId: string; // Comma-separated format: "label-1530,176820,177880"
+  selectedImage: "local" | "ai" | "gallery";
+  aiImageUrl?: string;
+  galleryImageUrl?: string;
+}
+
+export interface BulkMediaUploadResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
+// Create bulk media
+export const createBulkMedia = async (
+  data: BulkMediaUploadData
+): Promise<BulkMediaUploadResponse> => {
+  const formData = new FormData();
+
+  // Add the file only for local uploads
+  if (data.selectedImage === "local" && data.file) {
+    formData.append("userfile", data.file);
+    formData.append(
+      "type",
+      data.file.type.startsWith("image/") ? "photo" : "video"
+    );
+  }
+
+  // Add other form fields
+  formData.append("title", data.title);
+  formData.append("category", data.category.toUpperCase());
+  formData.append("publish_option", data.publishOption);
+  formData.append("listingId", data.listingId); // Already comma-separated string
+  formData.append("selectedImage", data.selectedImage);
+
+  // Add AI image URL if it's an AI-generated image
+  if (data.selectedImage === "ai" && data.aiImageUrl) {
+    formData.append("aiImageUrl", data.aiImageUrl);
+    formData.append("type", "photo");
+  }
+
+  // Add gallery image URL if it's a gallery image
+  if (data.selectedImage === "gallery" && data.galleryImageUrl) {
+    formData.append("galleryImageUrl", data.galleryImageUrl);
+    formData.append("type", "photo");
+  }
+
+  // Add schedule date if provided (should already be in UTC format)
+  if (data.scheduleDate && data.publishOption === "schedule") {
+    formData.append("schedule_date", data.scheduleDate);
+  }
+
+  try {
+    const response = await axiosInstance.post<BulkMediaUploadResponse>(
+      "/create-bulk-media",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Bulk media upload API error:", error?.response?.data?.message);
+    throw error;
+  }
+};

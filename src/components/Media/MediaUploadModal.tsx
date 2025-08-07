@@ -8,7 +8,7 @@ import { MediaForm } from "./MediaForm";
 import { AIMediaGenerationModal } from "./AIMediaGenerationModal";
 import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
-import { uploadMedia } from "../../api/mediaApi";
+import { uploadMedia, createBulkMedia } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
 import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
 
@@ -153,37 +153,25 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     setIsUploading(true);
     try {
       if (isBulkUpload) {
-        // Handle bulk upload to multiple listings
-        let successCount = 0;
-        let failCount = 0;
+        // Handle bulk upload using new bulk API
+        const formattedListingId = selectedListings.join(',');
         
-        for (const listingId of selectedListings) {
-          try {
-            const uploadData = {
-              file: file.file,
-              title:
-                formData.title ||
-                file.file?.name.replace(/\.[^/.]+$/, "") ||
-                "Generated Image",
-              category: formData.category || "additional",
-              publishOption: formData.publishOption,
-              scheduleDate: formData.scheduleDate,
-              listingId: listingId,
-              selectedImage: file.selectedImage,
-              aiImageUrl: file.aiImageUrl,
-              galleryImageUrl: file.galleryImageUrl,
-            };
-            
-            const response = await uploadMedia(uploadData);
-            if (response.code === 200) {
-              successCount++;
-            } else {
-              failCount++;
-            }
-          } catch (error) {
-            failCount++;
-          }
-        }
+        const bulkUploadData = {
+          file: file.file,
+          title:
+            formData.title ||
+            file.file?.name.replace(/\.[^/.]+$/, "") ||
+            "Generated Image",
+          category: formData.category || "additional",
+          publishOption: formData.publishOption,
+          scheduleDate: formData.scheduleDate,
+          listingId: formattedListingId,
+          selectedImage: file.selectedImage,
+          aiImageUrl: file.aiImageUrl,
+          galleryImageUrl: file.galleryImageUrl,
+        };
+        
+        const response = await createBulkMedia(bulkUploadData);
         
         // Create media item for local state update
         const mediaItem: MediaItem = {
@@ -203,9 +191,9 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         clearSelection();
         
         toast({
-          title: "Bulk Upload Complete",
-          description: `Successfully uploaded to ${successCount} listings${failCount > 0 ? `. Failed on ${failCount} listings.` : '.'}`,
-          variant: successCount > 0 ? "default" : "destructive",
+          title: "Bulk Media Posted Successfully",
+          description: `Media has been posted to ${selectedListings.length} listing${selectedListings.length > 1 ? 's' : ''}.`,
+          variant: "default",
         });
         
         // Close modal after showing success briefly
