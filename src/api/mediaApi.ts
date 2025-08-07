@@ -411,6 +411,17 @@ export interface BulkMediaUploadResponse {
   data: any[];
 }
 
+// Bulk Media Delete interfaces
+export interface BulkMediaDeleteRequest {
+  bulkId: number;
+}
+
+export interface BulkMediaDeleteResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
 // Create bulk media
 export const createBulkMedia = async (
   data: BulkMediaUploadData
@@ -464,6 +475,17 @@ export const createBulkMedia = async (
     return response.data;
   } catch (error) {
     console.error("Bulk media upload API error:", error?.response?.data?.message);
+    throw error;
+  }
+};
+
+// Delete bulk media
+export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<BulkMediaDeleteResponse> => {
+  try {
+    const response = await axiosInstance.post<BulkMediaDeleteResponse>('/delete-bulk-overview-media', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting bulk media:', error);
     throw error;
   }
 };

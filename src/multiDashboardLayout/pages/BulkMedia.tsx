@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, Image, Video, FileText, Folder, Play } from 'lucide-react';
+import { Upload, Image, Video, FileText, Folder, Play, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
@@ -7,8 +7,14 @@ import { useBulkMediaOverview } from '@/hooks/useBulkMediaOverview';
 import { format } from 'date-fns';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { MediaUploadModal } from '@/components/Media/MediaUploadModal';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { deleteBulkMedia } from '@/api/mediaApi';
+import { toast } from '@/hooks/use-toast';
 export const BulkMedia: React.FC = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; title: string } | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const {
     bulkMedia,
     loading,
@@ -60,6 +66,43 @@ export const BulkMedia: React.FC = () => {
     refresh();
     setShowUploadModal(false);
   };
+
+  const handleDeleteClick = (item: { id: string; category: string }) => {
+    setItemToDelete({ id: item.id, title: item.category || 'Untitled' });
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!itemToDelete) return;
+    
+    setDeletingId(itemToDelete.id);
+    
+    try {
+      const response = await deleteBulkMedia({ bulkId: parseInt(itemToDelete.id) });
+      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Media deleted successfully",
+        });
+        refresh();
+      } else {
+        throw new Error(response.message || 'Failed to delete media');
+      }
+    } catch (error) {
+      console.error('Error deleting media:', error);
+      toast({
+        title: "Error", 
+        description: "Failed to delete media. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingId(null);
+      setDeleteDialogOpen(false);
+      setItemToDelete(null);
+    }
+  };
+
 
   return (
     <div className="space-y-6">
@@ -166,6 +209,16 @@ export const BulkMedia: React.FC = () => {
                         <Button variant="outline" size="sm" className="flex-1 sm:flex-initial">
                           View Details
                         </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="flex items-center gap-2"
+                          onClick={() => handleDeleteClick({ id: media.id, category: media.category })}
+                          disabled={deletingId === media.id}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          {deletingId === media.id ? 'Deleting...' : 'Delete'}
+                        </Button>
                       </div>
                     </div>
                     
@@ -262,6 +315,27 @@ export const BulkMedia: React.FC = () => {
         onUpload={handleUploadSuccess}
         isBulkUpload={true}
       />
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Media</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{itemToDelete?.title}"? This action cannot be undone and will remove the media from all associated listings.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
