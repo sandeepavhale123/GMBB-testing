@@ -151,9 +151,16 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
       }}>
           <div className="p-3">
             {/* Search Input */}
-            <div className="relative">
+            <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search listings and groups..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8" onFocus={e => e.stopPropagation()} onClick={e => e.stopPropagation()} />
+              <Input 
+                placeholder="Search listings and groups..." 
+                value={searchTerm} 
+                onChange={e => setSearchTerm(e.target.value)} 
+                className="pl-8 w-full" 
+                onFocus={e => e.stopPropagation()} 
+                onClick={e => e.stopPropagation()} 
+              />
             </div>
             
             {/* Options List */}
