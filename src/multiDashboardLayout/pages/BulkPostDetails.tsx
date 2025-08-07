@@ -151,12 +151,14 @@ export const BulkPostDetails: React.FC = () => {
                 </div>}
 
               {/* CTA Button */}
-              <Button 
-                className="w-full"
-                onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}
-              >
-                {bulkPost?.actionType || 'View Post'}
-              </Button>
+              {bulkPost?.actionType && bulkPost.actionType.trim() !== '' && (
+                <Button 
+                  className="w-full"
+                  onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}
+                >
+                  {bulkPost.actionType}
+                </Button>
+              )}
 
               {/* Date */}
               {bulkPost?.publishDate && <div className="text-sm text-muted-foreground">
