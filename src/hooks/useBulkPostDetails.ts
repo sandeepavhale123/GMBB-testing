@@ -8,6 +8,8 @@ export const useBulkPostDetails = (bulkId: string) => {
   const [itemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [initialBulkPost, setInitialBulkPost] = useState<any>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   
   const { 
     bulkPostDetails, 
@@ -30,6 +32,27 @@ export const useBulkPostDetails = (bulkId: string) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Store initial bulk post data on first load
+  useEffect(() => {
+    if (bulkPostDetails?.postSummary?.[0] && isInitialLoad) {
+      const initialPost = {
+        id: bulkId,
+        title: bulkPostDetails.postSummary[0].event_title || bulkPostDetails.postSummary[0].posttype,
+        content: bulkPostDetails.postSummary[0].posttext,
+        status: bulkPostDetails.postSummary[0].state,
+        publishDate: bulkPostDetails.postSummary[0].publishDate,
+        tags: bulkPostDetails.postSummary[0].tags,
+        media: {
+          images: bulkPostDetails.postSummary[0].image
+        },
+        actionType: bulkPostDetails.postSummary[0].action_type,
+        ctaUrl: bulkPostDetails.postSummary[0].CTA_url
+      };
+      setInitialBulkPost(initialPost);
+      setIsInitialLoad(false);
+    }
+  }, [bulkPostDetails, bulkId, isInitialLoad]);
 
   const refresh = useCallback(() => {
     fetchData();
@@ -81,7 +104,7 @@ export const useBulkPostDetails = (bulkId: string) => {
   } : null;
 
   return {
-    bulkPost: transformedData?.bulkPost,
+    bulkPost: initialBulkPost || transformedData?.bulkPost,
     posts: transformedData?.posts || [],
     pagination: transformedData?.pagination,
     loading,
