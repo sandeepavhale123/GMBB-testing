@@ -186,7 +186,7 @@ export const BulkPost: React.FC = () => {
                       </div>
                       
                       {/* Right Image */}
-                      <div className="flex-shrink-0 w-70 max-h-[190px]">
+                      <div className="flex-shrink-0 w-60 max-h-[190px]">
   <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden">
     {post.image ? (
       <img
