@@ -527,7 +527,7 @@ export interface BulkMediaDetailsResponse {
 
 // Delete media from bulk operation
 export interface DeleteMediaFromBulkRequest {
-  mediaId: string;
+  mediaId: number[];
 }
 
 export interface DeleteMediaFromBulkResponse {
@@ -544,17 +544,6 @@ export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Prom
 
 // Delete media from bulk operation
 export const deleteMediaFromBulk = async (params: DeleteMediaFromBulkRequest): Promise<DeleteMediaFromBulkResponse> => {
-  const response = await fetch('/api/delete-media-from-bulk', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(params),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
+  const response = await axiosInstance.post('/delete-bulk-media', params);
+  return response.data;
 };

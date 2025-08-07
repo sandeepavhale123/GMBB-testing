@@ -44,7 +44,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
 
   const deleteMedia = useCallback(async (mediaId: string) => {
     try {
-      const response = await deleteMediaFromBulk({ mediaId });
+      const response = await deleteMediaFromBulk({ mediaId: [parseInt(mediaId)] });
       if (response.code === 200) {
         return { type: 'fulfilled', payload: { mediaId } };
       } else {
