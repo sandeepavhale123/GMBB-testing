@@ -207,6 +207,7 @@ const PostsTable = memo(({
 PostsTable.displayName = 'PostsTable';
 
 export const BulkPostDetails: React.FC = () => {
+  // All hooks must be called first, before any conditional logic
   const {
     bulkId
   } = useParams<{
@@ -248,9 +249,12 @@ export const BulkPostDetails: React.FC = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [statusFilter, setCurrentPage]);
+
+  // All functions and computed values
   const handleBack = () => {
     navigate('/main-dashboard/bulk-post');
   };
+  
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return "secondary";
     switch (status.toLowerCase()) {
@@ -267,6 +271,7 @@ export const BulkPostDetails: React.FC = () => {
         return "secondary";
     }
   };
+  
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -279,6 +284,7 @@ export const BulkPostDetails: React.FC = () => {
   // Use posts directly since filtering and pagination are handled server-side
   const paginatedPosts = posts;
   const totalPages = pagination?.pages || 1;
+  
   const handleSelectPost = (postId: string, checked: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
     if (checked) {
@@ -288,6 +294,7 @@ export const BulkPostDetails: React.FC = () => {
     }
     setSelectedPosts(newSelectedPosts);
   };
+  
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedPosts(new Set(paginatedPosts.map(post => post.id)));
@@ -295,11 +302,13 @@ export const BulkPostDetails: React.FC = () => {
       setSelectedPosts(new Set());
     }
   };
+  
   const handleBulkDelete = () => {
     if (selectedPosts.size > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
+  
   const handleBulkDeleteConfirm = async () => {
     try {
       for (const postId of selectedPosts) {
@@ -320,10 +329,12 @@ export const BulkPostDetails: React.FC = () => {
     }
     setBulkDeleteDialogOpen(false);
   };
+  
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
   };
+  
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
       try {
@@ -344,11 +355,14 @@ export const BulkPostDetails: React.FC = () => {
     setDeleteDialogOpen(false);
     setDeletingPostId(null);
   };
+  
   const handleViewPost = (post: any) => {
     if (post.searchUrl) {
       window.open(post.searchUrl, '_blank');
     }
   };
+
+  // Early returns AFTER all hooks are called
   if (loading) {
     return <div className="animate-pulse space-y-6">
         <div className="h-8 bg-muted rounded w-1/3"></div>
@@ -358,6 +372,7 @@ export const BulkPostDetails: React.FC = () => {
         </div>
       </div>;
   }
+  
   if (error) {
     return <div className="text-center py-12">
         <p className="text-muted-foreground">Error loading post details: {error}</p>
