@@ -38,6 +38,25 @@ export const SubNavbar: React.FC = () => {
     );
   }
   
+  // Show custom back button header for bulk media details page
+  if (location.pathname.includes('/bulk-media-details/')) {
+    return (
+      <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-start py-3">
+            <button
+              onClick={() => navigate('/main-dashboard/bulk-media')}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </button>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+  
   const shouldHideSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
     return userRole === 'staff' || userRole === 'client';
