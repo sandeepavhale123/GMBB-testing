@@ -343,3 +343,51 @@ export const deleteGalleryMedia = async (data: GalleryDeleteRequest): Promise<Ga
     throw error;
   }
 };
+
+// Bulk Media Overview interfaces
+export interface BulkMediaOverviewRequest {
+  page: number;
+  limit: number;
+}
+
+export interface BulkMediaOverviewItem {
+  id: string;
+  url: string;
+  postdate: string;
+  posttime: string;
+  category: string;
+  status: string;
+  lids: string;
+  ids: string;
+  location_count: number;
+  livePosts: number;
+  schedulePosts: number;
+  failedPosts: number;
+  publishDate: string;
+  mediaType: string;
+}
+
+export interface BulkMediaOverviewResponse {
+  code: number;
+  message: string;
+  data: {
+    bulkMediaOverviewDetails: BulkMediaOverviewItem[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
+    };
+  };
+}
+
+// Get bulk media overview
+export const getBulkMediaOverview = async (params: BulkMediaOverviewRequest): Promise<BulkMediaOverviewResponse> => {
+  try {
+    const response = await axiosInstance.post('/get-bulk-media-overview', params);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching bulk media overview:', error);
+    throw error;
+  }
+};
