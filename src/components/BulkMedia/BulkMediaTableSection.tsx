@@ -203,7 +203,7 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
                         {media.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="flex justify-end ">
                       <div className="flex items-center gap-2">
                         <button onClick={() => handleDeleteClick(media.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" title="Delete Media">
                           <Trash2 className="w-4 h-4" />
