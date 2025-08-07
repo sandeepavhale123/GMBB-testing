@@ -195,6 +195,7 @@ export const BulkPostDetails: React.FC = () => {
     bulkId: string;
   }>();
   const navigate = useNavigate();
+  
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
   const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
@@ -217,6 +218,23 @@ export const BulkPostDetails: React.FC = () => {
     statusFilter,
     updateStatusFilter
   } = useBulkPostDetails(bulkId || '');
+
+  // Memoize stable page header - never re-renders after initial load
+  const stablePageHeader = useMemo(() => (
+    <div className="mb-4">
+      <div>
+        <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+        <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+      </div>
+    </div>
+  ), []);
+
+  // Memoize stable post preview - never re-renders after initial load
+  const stablePostPreview = useMemo(() => (
+    <div className="lg:col-span-1">
+      <PostPreview bulkPost={bulkPost} />
+    </div>
+  ), [bulkPost]);
 
   // Debounce search input
   const debouncedSearch = useDebounce(searchInput, 500);
@@ -349,20 +367,13 @@ export const BulkPostDetails: React.FC = () => {
       </div>;
   }
   return <div className="space-y-0">
-      {/* Page Header - Minimal spacing */}
-      <div className="mb-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
-          <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
-        </div>
-      </div>
+      {/* Page Header - Stable, never re-renders */}
+      {stablePageHeader}
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Post Preview */}
-        <div className="lg:col-span-1">
-          <PostPreview bulkPost={bulkPost} />
-        </div>
+        {/* Left Column - Post Preview - Stable, never re-renders after initial load */}
+        {stablePostPreview}
 
         {/* Right Column - Table and Controls */}
         <div className="lg:col-span-2 space-y-4">
