@@ -192,7 +192,7 @@ export const BulkPost: React.FC = () => {
       <img
         src={post.image}
         alt={post.posttype || 'Post image'}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover max-h-[190px]"
         onError={(e) => {
           const target = e.target as HTMLImageElement;
           target.style.display = 'none';
