@@ -9,7 +9,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
-
 interface Media {
   id: string;
   listingName: string;
@@ -19,14 +18,12 @@ interface Media {
   searchUrl: string;
   image: string;
 }
-
 interface Pagination {
   page: number;
   limit: number;
   total: number;
   pages: number;
 }
-
 interface BulkMediaTableSectionProps {
   medias: Media[];
   pagination: Pagination | undefined;
@@ -42,7 +39,6 @@ interface BulkMediaTableSectionProps {
   searchInput: string;
   setSearchInput: (input: string) => void;
 }
-
 const getStatusVariant = (status: string | null | undefined) => {
   if (!status) return "secondary";
   switch (status.toLowerCase()) {
@@ -59,7 +55,6 @@ const getStatusVariant = (status: string | null | undefined) => {
       return "secondary";
   }
 };
-
 export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
   medias,
   pagination,
@@ -79,10 +74,8 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
   const [deletingMediaId, setDeletingMediaId] = useState<string | null>(null);
   const [selectedMedias, setSelectedMedias] = useState<Set<string>>(new Set());
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
-
   const paginatedMedias = medias;
   const totalPages = pagination?.pages || 1;
-
   const handleSelectMedia = (mediaId: string, checked: boolean) => {
     const newSelectedMedias = new Set(selectedMedias);
     if (checked) {
@@ -92,7 +85,6 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
     }
     setSelectedMedias(newSelectedMedias);
   };
-
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedMedias(new Set(paginatedMedias.map(media => media.id)));
@@ -100,13 +92,11 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
       setSelectedMedias(new Set());
     }
   };
-
   const handleBulkDelete = () => {
     if (selectedMedias.size > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
-
   const handleBulkDeleteConfirm = async () => {
     try {
       for (const mediaId of selectedMedias) {
@@ -127,12 +117,10 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
     }
     setBulkDeleteDialogOpen(false);
   };
-
   const handleDeleteClick = (mediaId: string) => {
     setDeletingMediaId(mediaId);
     setDeleteDialogOpen(true);
   };
-
   const handleDeleteConfirm = async () => {
     if (deletingMediaId) {
       try {
@@ -153,12 +141,9 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
     setDeleteDialogOpen(false);
     setDeletingMediaId(null);
   };
-
-  return (
-    <div className="lg:col-span-2 space-y-4">
+  return <div className="lg:col-span-2 space-y-4">
       {/* Bulk Actions */}
-      {selectedMedias.size > 0 && (
-        <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+      {selectedMedias.size > 0 && <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
           <span className="text-sm text-muted-foreground">
             {selectedMedias.size} media{selectedMedias.size > 1 ? 's' : ''} selected
           </span>
@@ -166,17 +151,11 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
             <Trash2 className="w-4 h-4 mr-2" />
             Delete Selected
           </Button>
-        </div>
-      )}
+        </div>}
 
       {/* Filters */}
       <div className="flex gap-4">
-        <Input
-          placeholder="Search by listing name."
-          value={searchInput}
-          onChange={e => setSearchInput(e.target.value)}
-          className="flex-1"
-        />
+        <Input placeholder="Search by listing name." value={searchInput} onChange={e => setSearchInput(e.target.value)} className="flex-1" />
         <Select value={status} onValueChange={setStatus}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="Filter by status" />
@@ -196,34 +175,22 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12">
-                  <Checkbox
-                    checked={paginatedMedias.length > 0 && selectedMedias.size === paginatedMedias.length}
-                    onCheckedChange={handleSelectAll}
-                    aria-label="Select all media"
-                  />
+                  <Checkbox checked={paginatedMedias.length > 0 && selectedMedias.size === paginatedMedias.length} onCheckedChange={handleSelectAll} aria-label="Select all media" />
                 </TableHead>
                 <TableHead>Listing Name</TableHead>
                 <TableHead>Zip Code</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="w-32">Action</TableHead>
+                <TableHead className="w-32 text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedMedias.length === 0 ? (
-                <TableRow>
+              {paginatedMedias.length === 0 ? <TableRow>
                   <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                     No listings found.
                   </TableCell>
-                </TableRow>
-              ) : (
-                paginatedMedias.map(media => (
-                  <TableRow key={media.id}>
+                </TableRow> : paginatedMedias.map(media => <TableRow key={media.id}>
                     <TableCell>
-                      <Checkbox
-                        checked={selectedMedias.has(media.id)}
-                        onCheckedChange={checked => handleSelectMedia(media.id, checked as boolean)}
-                        aria-label={`Select ${media.listingName || media.business || 'media'}`}
-                      />
+                      <Checkbox checked={selectedMedias.has(media.id)} onCheckedChange={checked => handleSelectMedia(media.id, checked as boolean)} aria-label={`Select ${media.listingName || media.business || 'media'}`} />
                     </TableCell>
                     <TableCell>
                       <div className="font-medium">{media.listingName || media.business || 'Unknown'}</div>
@@ -238,54 +205,36 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleDeleteClick(media.id)}
-                          className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
-                          title="Delete Media"
-                        >
+                        <button onClick={() => handleDeleteClick(media.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" title="Delete Media">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </TableCell>
-                  </TableRow>
-                ))
-              )}
+                  </TableRow>)}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between">
+      {totalPages > 1 && <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, pagination?.total || 0)} of {pagination?.total || 0} entries
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
-              disabled={currentPage === 1}
-            >
+            <Button variant="outline" size="sm" onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))} disabled={currentPage === 1}>
               <ChevronLeft className="w-4 h-4" />
               Previous
             </Button>
             <span className="text-sm text-muted-foreground">
               Page {currentPage} of {totalPages}
             </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
-              disabled={currentPage === totalPages}
-            >
+            <Button variant="outline" size="sm" onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))} disabled={currentPage === totalPages}>
               Next
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
-        </div>
-      )}
+        </div>}
 
       {/* Bulk Delete Confirmation Dialog */}
       <AlertDialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
@@ -322,8 +271,6 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
+    </div>;
 });
-
 BulkMediaTableSection.displayName = 'BulkMediaTableSection';
