@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -23,6 +24,8 @@ export const BulkPostDetails: React.FC = () => {
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
+  const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const {
@@ -76,6 +79,52 @@ export const BulkPostDetails: React.FC = () => {
   // Use filtered posts directly since pagination is handled by API
   const paginatedPosts = filteredPosts;
   const totalPages = pagination?.pages || 1;
+
+  const handleSelectPost = (postId: string, checked: boolean) => {
+    const newSelectedPosts = new Set(selectedPosts);
+    if (checked) {
+      newSelectedPosts.add(postId);
+    } else {
+      newSelectedPosts.delete(postId);
+    }
+    setSelectedPosts(newSelectedPosts);
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedPosts(new Set(paginatedPosts.map(post => post.id)));
+    } else {
+      setSelectedPosts(new Set());
+    }
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedPosts.size > 0) {
+      setBulkDeleteDialogOpen(true);
+    }
+  };
+
+  const handleBulkDeleteConfirm = async () => {
+    try {
+      for (const postId of selectedPosts) {
+        await deletePost(postId);
+      }
+      toast({
+        title: "Success",
+        description: `${selectedPosts.size} posts deleted successfully`
+      });
+      setSelectedPosts(new Set());
+      refresh();
+    } catch (error) {
+      toast({
+        title: "Error", 
+        description: "Failed to delete some posts",
+        variant: "destructive"
+      });
+    }
+    setBulkDeleteDialogOpen(false);
+  };
+
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
@@ -170,30 +219,53 @@ export const BulkPostDetails: React.FC = () => {
 
         {/* Right Column - Updated Table */}
         <div className="lg:col-span-2 space-y-4">
-          
-
-          {/* Filters */}
-          <div className="flex gap-4">
-            <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-              </SelectContent>
-            </Select>
+        {/* Bulk Actions */}
+        {selectedPosts.size > 0 && (
+          <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+            <span className="text-sm text-muted-foreground">
+              {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
+            </span>
+            <Button 
+              variant="destructive" 
+              size="sm" 
+              onClick={handleBulkDelete}
+              className="ml-auto"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete Selected
+            </Button>
           </div>
+        )}
+
+        {/* Filters */}
+        <div className="flex gap-4">
+          <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="published">Published</SelectItem>
+              <SelectItem value="draft">Draft</SelectItem>
+              <SelectItem value="scheduled">Scheduled</SelectItem>
+              <SelectItem value="failed">Failed</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
           <Card>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-12">
+                      <Checkbox
+                        checked={paginatedPosts.length > 0 && selectedPosts.size === paginatedPosts.length}
+                        onCheckedChange={handleSelectAll}
+                        aria-label="Select all posts"
+                      />
+                    </TableHead>
                     <TableHead>Listing Name</TableHead>
                     <TableHead>Zip Code</TableHead>
                     <TableHead>Status</TableHead>
@@ -202,10 +274,17 @@ export const BulkPostDetails: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {paginatedPosts.length === 0 ? <TableRow>
-                      <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                      <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                         No listings found.
                       </TableCell>
                     </TableRow> : paginatedPosts.map(post => <TableRow key={post.id}>
+                        <TableCell>
+                          <Checkbox
+                            checked={selectedPosts.has(post.id)}
+                            onCheckedChange={(checked) => handleSelectPost(post.id, checked as boolean)}
+                            aria-label={`Select ${post.listingName || post.business || 'post'}`}
+                          />
+                        </TableCell>
                         <TableCell>
                           <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
                         </TableCell>
@@ -262,6 +341,24 @@ export const BulkPostDetails: React.FC = () => {
             </div>}
         </div>
       </div>
+
+      {/* Bulk Delete Confirmation Dialog */}
+      <AlertDialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Multiple Posts</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete {selectedPosts.size} selected post{selectedPosts.size > 1 ? 's' : ''}? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleBulkDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete All
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
