@@ -241,7 +241,7 @@ export const BulkMediaDetails: React.FC = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
+              <SelectItem value="live">Live</SelectItem>
               <SelectItem value="scheduled">Scheduled</SelectItem>
               <SelectItem value="failed">Failed</SelectItem>
             </SelectContent>
