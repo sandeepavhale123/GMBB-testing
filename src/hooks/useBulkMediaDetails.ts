@@ -5,8 +5,6 @@ import type { BulkMediaDetailsResponse } from '@/api/mediaApi';
 export const useBulkMediaDetails = (bulkId: string) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
   const [bulkMediaDetails, setBulkMediaDetails] = useState<BulkMediaDetailsResponse['data'] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,9 +17,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
     
     try {
       const response = await getBulkMediaDetails({ 
-        bulkId: parseInt(bulkId),
-        search: searchQuery,
-        status: statusFilter,
+        bulkId: parseInt(bulkId), 
         page: currentPage, 
         limit: itemsPerPage 
       });
@@ -36,7 +32,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [bulkId, searchQuery, statusFilter, currentPage, itemsPerPage]);
+  }, [bulkId, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchData();
@@ -57,16 +53,6 @@ export const useBulkMediaDetails = (bulkId: string) => {
     } catch (error) {
       throw error;
     }
-  }, []);
-
-  const updateSearchQuery = useCallback((query: string) => {
-    setSearchQuery(query);
-    setCurrentPage(1); // Reset to first page when searching
-  }, []);
-
-  const updateStatusFilter = useCallback((status: string) => {
-    setStatusFilter(status);
-    setCurrentPage(1); // Reset to first page when filtering
   }, []);
 
   // Transform API data to match component expectations
@@ -108,9 +94,5 @@ export const useBulkMediaDetails = (bulkId: string) => {
     currentPage,
     setCurrentPage,
     itemsPerPage,
-    searchQuery,
-    updateSearchQuery,
-    statusFilter,
-    updateStatusFilter,
   };
 };
