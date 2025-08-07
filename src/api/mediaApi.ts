@@ -492,7 +492,7 @@ export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<Bul
 
 // Bulk Media Details interfaces
 export interface BulkMediaDetailsRequest {
-  bulkId: string;
+  bulkId: number;
   page: number;
   limit: number;
 }
@@ -501,30 +501,26 @@ export interface BulkMediaDetailsResponse {
   code: number;
   message: string;
   data: {
-    mediaSummary: Array<{
-      id: string;
-      title?: string;
-      description?: string;
-      category?: string;
-      mediaType?: string;
-      image?: string;
-      video?: string;
-      publishDate?: string;
-      tags?: string[];
-      status?: string;
+    MediaSummary: Array<{
+      bulkId: string;
+      tags: string;
+      image: string;
+      category: string;
+      mediaType: string;
+      publishDate: string;
     }>;
     bulkMediaDetails: Array<{
       id: string;
+      state: string;
+      image: string;
       locationName: string;
       zipCode: string;
-      state: string;
-      search_url?: string;
     }>;
     pagination: {
       total: number;
-      pages: number;
-      currentPage: number;
+      page: number;
       limit: number;
+      pages: number;
     };
   };
 }
@@ -542,19 +538,8 @@ export interface DeleteMediaFromBulkResponse {
 
 // Get bulk media details function
 export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Promise<BulkMediaDetailsResponse> => {
-  const response = await fetch('/api/get-bulk-media-details', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(params),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
+  const response = await axiosInstance.post('/get-bulk-media-details', params);
+  return response.data;
 };
 
 // Delete media from bulk operation

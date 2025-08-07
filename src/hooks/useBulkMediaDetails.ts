@@ -17,7 +17,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
     
     try {
       const response = await getBulkMediaDetails({ 
-        bulkId, 
+        bulkId: parseInt(bulkId), 
         page: currentPage, 
         limit: itemsPerPage 
       });
@@ -57,18 +57,18 @@ export const useBulkMediaDetails = (bulkId: string) => {
 
   // Transform API data to match component expectations
   const transformedData = bulkMediaDetails ? {
-    bulkMedia: bulkMediaDetails.mediaSummary?.[0] ? {
+    bulkMedia: bulkMediaDetails.MediaSummary?.[0] ? {
       id: bulkId,
-      title: bulkMediaDetails.mediaSummary[0].title,
-      description: bulkMediaDetails.mediaSummary[0].description,
-      category: bulkMediaDetails.mediaSummary[0].category,
-      mediaType: bulkMediaDetails.mediaSummary[0].mediaType,
-      publishDate: bulkMediaDetails.mediaSummary[0].publishDate,
-      tags: bulkMediaDetails.mediaSummary[0].tags,
-      status: bulkMediaDetails.mediaSummary[0].status,
+      title: '', // Not provided in API
+      description: '', // Not provided in API
+      category: bulkMediaDetails.MediaSummary[0].category,
+      mediaType: bulkMediaDetails.MediaSummary[0].mediaType,
+      publishDate: bulkMediaDetails.MediaSummary[0].publishDate,
+      tags: bulkMediaDetails.MediaSummary[0].tags ? [bulkMediaDetails.MediaSummary[0].tags] : [],
+      status: 'live', // Default status
       media: {
-        image: bulkMediaDetails.mediaSummary[0].image,
-        video: bulkMediaDetails.mediaSummary[0].video
+        image: bulkMediaDetails.MediaSummary[0].image,
+        video: '' // Not provided in API
       }
     } : null,
     medias: bulkMediaDetails.bulkMediaDetails?.map(media => ({
@@ -77,7 +77,8 @@ export const useBulkMediaDetails = (bulkId: string) => {
       business: media.locationName,
       status: media.state,
       zipcode: media.zipCode,
-      searchUrl: media.search_url
+      searchUrl: '', // Not provided in current API
+      image: media.image
     })) || [],
     pagination: bulkMediaDetails.pagination
   } : null;

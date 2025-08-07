@@ -233,14 +233,9 @@ export const BulkMediaDetails: React.FC = () => {
               </div>
 
               {/* Title */}
-              {bulkMedia?.title && <h3 className="text-xl font-bold text-foreground">{bulkMedia.title}</h3>}
-
-              {/* Description */}
-              {bulkMedia?.description && (
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  {bulkMedia.description}
-                </div>
-              )}
+              <h3 className="text-xl font-bold text-foreground">
+                {bulkMedia?.category || 'Untitled Media'}
+              </h3>
 
               {/* Tags */}
               {bulkMedia?.tags && bulkMedia.tags.length > 0 && (
