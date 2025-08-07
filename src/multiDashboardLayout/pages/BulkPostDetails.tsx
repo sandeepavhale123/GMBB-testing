@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
 import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
+import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 
 // Updated component - no SafeHtmlRenderer dependency
@@ -26,8 +27,8 @@ export const BulkPostDetails: React.FC = () => {
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
   const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchInput, setSearchInput] = useState('');
+  
   const {
     bulkPost,
     posts,
@@ -38,8 +39,25 @@ export const BulkPostDetails: React.FC = () => {
     refresh,
     currentPage,
     setCurrentPage,
-    itemsPerPage
+    itemsPerPage,
+    searchQuery,
+    updateSearchQuery,
+    statusFilter,
+    updateStatusFilter
   } = useBulkPostDetails(bulkId || '');
+
+  // Debounce search input
+  const debouncedSearch = useDebounce(searchInput, 500);
+
+  // Update search in hook when debounced value changes
+  useEffect(() => {
+    updateSearchQuery(debouncedSearch);
+  }, [debouncedSearch, updateSearchQuery]);
+
+  // Reset page when status filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter, setCurrentPage]);
   const handleBack = () => {
     navigate('/main-dashboard/bulk-post');
   };
@@ -68,16 +86,8 @@ export const BulkPostDetails: React.FC = () => {
     }
   };
 
-  // Filter and paginate posts
-  const filteredPosts = useMemo(() => {
-    return posts.filter(post => {
-      const matchesSearch = post.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) || post.business?.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || post.status?.toLowerCase() === statusFilter.toLowerCase();
-      return matchesSearch && matchesStatus;
-    });
-  }, [posts, searchQuery, statusFilter]);
-  // Use filtered posts directly since pagination is handled by API
-  const paginatedPosts = filteredPosts;
+  // Use posts directly since filtering and pagination are handled server-side
+  const paginatedPosts = posts;
   const totalPages = pagination?.pages || 1;
   const handleSelectPost = (postId: string, checked: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
@@ -222,8 +232,8 @@ export const BulkPostDetails: React.FC = () => {
 
         {/* Filters */}
         <div className="flex gap-4">
-          <Input placeholder="Search by listing name or ZIP code." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Input placeholder="Search by listing name." value={searchInput} onChange={e => setSearchInput(e.target.value)} className="flex-1" />
+          <Select value={statusFilter} onValueChange={updateStatusFilter}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
