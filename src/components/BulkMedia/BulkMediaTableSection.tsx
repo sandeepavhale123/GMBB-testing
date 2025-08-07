@@ -182,7 +182,7 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="all">All Posts</SelectItem>
             <SelectItem value="live">Live</SelectItem>
             <SelectItem value="scheduled">Scheduled</SelectItem>
             <SelectItem value="failed">Failed</SelectItem>
