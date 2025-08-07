@@ -4,6 +4,7 @@ import { MultiDashboardLayout } from "@/multiDashboardLayout/pageLayout";
 import { MultiDashboard } from "@/multiDashboardLayout/pages/MultiDashboard";
 import { BulkPost } from "@/multiDashboardLayout/pages/BulkPost";
 import { BulkPostDetails } from "@/multiDashboardLayout/pages/BulkPostDetails";
+import { BulkMediaDetails } from "@/multiDashboardLayout/pages/BulkMediaDetails";
 import { StandaloneLayout } from "@/multiDashboardLayout/layouts/StandaloneLayout";
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
@@ -51,6 +52,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "bulk-post-details/:bulkId",
         element: <BulkPostDetails />,
+      },
+      {
+        path: "bulk-media-details/:bulkId",
+        element: <BulkMediaDetails />,
       },
       {
         path: "settings",

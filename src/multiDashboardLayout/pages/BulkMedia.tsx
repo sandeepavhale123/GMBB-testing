@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Upload, Image, Video, FileText, Folder, Play, Trash2 } from 'lucide-react';
+import { Upload, Image, Video, FileText, Folder, Play, Trash2, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +12,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { deleteBulkMedia } from '@/api/mediaApi';
 import { toast } from '@/hooks/use-toast';
 export const BulkMedia: React.FC = () => {
+  const navigate = useNavigate();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{ id: string; title: string } | null>(null);
@@ -204,11 +206,17 @@ export const BulkMedia: React.FC = () => {
                         {media.location_count} total locations • {formatPublishDate(media.publishDate)}
                       </div>
                       
-                      {/* Action Buttons */}
-                      <div className="flex gap-2 w-full sm:w-auto">
-                        <Button variant="outline" size="sm" className="flex-1 sm:flex-initial">
-                          View Details
-                        </Button>
+                       {/* Action Buttons */}
+                       <div className="flex gap-2 w-full sm:w-auto">
+                         <Button 
+                           variant="outline" 
+                           size="sm" 
+                           className="flex-1 sm:flex-initial"
+                           onClick={() => navigate(`/main-dashboard/bulk-media-details/${media.id}`)}
+                         >
+                           <Eye className="w-4 h-4 mr-2" />
+                           View Details
+                         </Button>
                         <Button
                           variant="destructive"
                           size="sm"

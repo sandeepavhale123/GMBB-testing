@@ -489,3 +489,87 @@ export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<Bul
     throw error;
   }
 };
+
+// Bulk Media Details interfaces
+export interface BulkMediaDetailsRequest {
+  bulkId: string;
+  page: number;
+  limit: number;
+}
+
+export interface BulkMediaDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    mediaSummary: Array<{
+      id: string;
+      title?: string;
+      description?: string;
+      category?: string;
+      mediaType?: string;
+      image?: string;
+      video?: string;
+      publishDate?: string;
+      tags?: string[];
+      status?: string;
+    }>;
+    bulkMediaDetails: Array<{
+      id: string;
+      locationName: string;
+      zipCode: string;
+      state: string;
+      search_url?: string;
+    }>;
+    pagination: {
+      total: number;
+      pages: number;
+      currentPage: number;
+      limit: number;
+    };
+  };
+}
+
+// Delete media from bulk operation
+export interface DeleteMediaFromBulkRequest {
+  mediaId: string;
+}
+
+export interface DeleteMediaFromBulkResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
+// Get bulk media details function
+export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Promise<BulkMediaDetailsResponse> => {
+  const response = await fetch('/api/get-bulk-media-details', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
+// Delete media from bulk operation
+export const deleteMediaFromBulk = async (params: DeleteMediaFromBulkRequest): Promise<DeleteMediaFromBulkResponse> => {
+  const response = await fetch('/api/delete-media-from-bulk', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
