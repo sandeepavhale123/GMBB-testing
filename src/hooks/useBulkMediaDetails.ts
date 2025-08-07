@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { getBulkMediaDetails, deleteMediaFromBulk } from '@/api/mediaApi';
 import type { BulkMediaDetailsResponse } from '@/api/mediaApi';
 
@@ -8,6 +8,7 @@ export const useBulkMediaDetails = (bulkId: string) => {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('all');
   const [bulkMediaDetails, setBulkMediaDetails] = useState<BulkMediaDetailsResponse['data'] | null>(null);
+  const [stableBulkMedia, setStableBulkMedia] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,6 +29,25 @@ export const useBulkMediaDetails = (bulkId: string) => {
       
       if (response.code === 200) {
         setBulkMediaDetails(response.data);
+        
+        // Only update stable media data if MediaSummary exists (not empty)
+        if (response.data.MediaSummary && response.data.MediaSummary.length > 0 && !stableBulkMedia) {
+          const mediaData = response.data.MediaSummary[0];
+          setStableBulkMedia({
+            id: bulkId,
+            title: '',
+            description: '',
+            category: mediaData.category,
+            mediaType: mediaData.mediaType,
+            publishDate: mediaData.publishDate,
+            tags: mediaData.tags ? [mediaData.tags] : [],
+            status: 'live',
+            media: {
+              image: mediaData.image,
+              video: ''
+            }
+          });
+        }
       } else {
         setError(response.message || 'Failed to fetch media details');
       }
@@ -59,48 +79,42 @@ export const useBulkMediaDetails = (bulkId: string) => {
     }
   }, []);
 
-  // Transform API data to match component expectations
-  const transformedData = bulkMediaDetails ? {
-    bulkMedia: bulkMediaDetails.MediaSummary?.[0] ? {
-      id: bulkId,
-      title: '', // Not provided in API
-      description: '', // Not provided in API
-      category: bulkMediaDetails.MediaSummary[0].category,
-      mediaType: bulkMediaDetails.MediaSummary[0].mediaType,
-      publishDate: bulkMediaDetails.MediaSummary[0].publishDate,
-      tags: bulkMediaDetails.MediaSummary[0].tags ? [bulkMediaDetails.MediaSummary[0].tags] : [],
-      status: 'live', // Default status
-      media: {
-        image: bulkMediaDetails.MediaSummary[0].image,
-        video: '' // Not provided in API
-      }
-    } : null,
-    medias: bulkMediaDetails.bulkMediaDetails?.map(media => ({
+  // Transform dynamic media data (for table)
+  const medias = useMemo(() => 
+    bulkMediaDetails?.bulkMediaDetails?.map(media => ({
       id: media.id,
       listingName: media.locationName,
       business: media.locationName,
       status: media.state,
       zipcode: media.zipCode,
-      searchUrl: '', // Not provided in current API
+      searchUrl: '',
       image: media.image
-    })) || [],
-    pagination: bulkMediaDetails.pagination
-  } : null;
+    })) || []
+  , [bulkMediaDetails?.bulkMediaDetails]);
+
+  const pagination = useMemo(() => bulkMediaDetails?.pagination, [bulkMediaDetails?.pagination]);
+
+  // Stable callbacks to prevent re-renders
+  const stableDeleteMedia = useCallback(deleteMedia, []);
+  const stableRefresh = useCallback(refresh, [refresh]);
+  const stableSetCurrentPage = useCallback(setCurrentPage, []);
+  const stableSetSearch = useCallback(setSearch, []);
+  const stableSetStatus = useCallback(setStatus, []);
 
   return {
-    bulkMedia: transformedData?.bulkMedia,
-    medias: transformedData?.medias || [],
-    pagination: transformedData?.pagination,
+    bulkMedia: stableBulkMedia,
+    medias,
+    pagination,
     loading,
     error,
-    refresh,
-    deleteMedia,
+    refresh: stableRefresh,
+    deleteMedia: stableDeleteMedia,
     currentPage,
-    setCurrentPage,
+    setCurrentPage: stableSetCurrentPage,
     itemsPerPage,
     search,
-    setSearch,
+    setSearch: stableSetSearch,
     status,
-    setStatus,
+    setStatus: stableSetStatus,
   };
 };
