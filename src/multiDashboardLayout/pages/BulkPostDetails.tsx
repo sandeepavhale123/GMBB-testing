@@ -79,7 +79,6 @@ export const BulkPostDetails: React.FC = () => {
   // Use filtered posts directly since pagination is handled by API
   const paginatedPosts = filteredPosts;
   const totalPages = pagination?.pages || 1;
-
   const handleSelectPost = (postId: string, checked: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
     if (checked) {
@@ -89,7 +88,6 @@ export const BulkPostDetails: React.FC = () => {
     }
     setSelectedPosts(newSelectedPosts);
   };
-
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedPosts(new Set(paginatedPosts.map(post => post.id)));
@@ -97,13 +95,11 @@ export const BulkPostDetails: React.FC = () => {
       setSelectedPosts(new Set());
     }
   };
-
   const handleBulkDelete = () => {
     if (selectedPosts.size > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
-
   const handleBulkDeleteConfirm = async () => {
     try {
       for (const postId of selectedPosts) {
@@ -117,14 +113,13 @@ export const BulkPostDetails: React.FC = () => {
       refresh();
     } catch (error) {
       toast({
-        title: "Error", 
+        title: "Error",
         description: "Failed to delete some posts",
         variant: "destructive"
       });
     }
     setBulkDeleteDialogOpen(false);
   };
-
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
@@ -200,14 +195,9 @@ export const BulkPostDetails: React.FC = () => {
                 </div>}
 
               {/* CTA Button */}
-              {bulkPost?.actionType && bulkPost.actionType.trim() !== '' && (
-                <Button 
-                  className="w-full"
-                  onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}
-                >
+              {bulkPost?.actionType && bulkPost.actionType.trim() !== '' && <Button className="w-full" onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}>
                   {bulkPost.actionType}
-                </Button>
-              )}
+                </Button>}
 
               {/* Date */}
               {bulkPost?.publishDate && <div className="text-sm text-muted-foreground">
@@ -220,22 +210,15 @@ export const BulkPostDetails: React.FC = () => {
         {/* Right Column - Updated Table */}
         <div className="lg:col-span-2 space-y-4">
         {/* Bulk Actions */}
-        {selectedPosts.size > 0 && (
-          <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+        {selectedPosts.size > 0 && <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
             <span className="text-sm text-muted-foreground">
               {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
             </span>
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={handleBulkDelete}
-              className="ml-auto"
-            >
+            <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
               <Trash2 className="w-4 h-4 mr-2" />
               Delete Selected
             </Button>
-          </div>
-        )}
+          </div>}
 
         {/* Filters */}
         <div className="flex gap-4">
@@ -260,16 +243,12 @@ export const BulkPostDetails: React.FC = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-12">
-                      <Checkbox
-                        checked={paginatedPosts.length > 0 && selectedPosts.size === paginatedPosts.length}
-                        onCheckedChange={handleSelectAll}
-                        aria-label="Select all posts"
-                      />
+                      <Checkbox checked={paginatedPosts.length > 0 && selectedPosts.size === paginatedPosts.length} onCheckedChange={handleSelectAll} aria-label="Select all posts" />
                     </TableHead>
                     <TableHead>Listing Name</TableHead>
                     <TableHead>Zip Code</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="w-32">Action</TableHead>
+                    <TableHead className="w-32 text-right">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -279,11 +258,7 @@ export const BulkPostDetails: React.FC = () => {
                       </TableCell>
                     </TableRow> : paginatedPosts.map(post => <TableRow key={post.id}>
                         <TableCell>
-                          <Checkbox
-                            checked={selectedPosts.has(post.id)}
-                            onCheckedChange={(checked) => handleSelectPost(post.id, checked as boolean)}
-                            aria-label={`Select ${post.listingName || post.business || 'post'}`}
-                          />
+                          <Checkbox checked={selectedPosts.has(post.id)} onCheckedChange={checked => handleSelectPost(post.id, checked as boolean)} aria-label={`Select ${post.listingName || post.business || 'post'}`} />
                         </TableCell>
                         <TableCell>
                           <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
@@ -298,20 +273,10 @@ export const BulkPostDetails: React.FC = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2 justify-end">
-                            {post.status?.toLowerCase() === 'live' && (
-                              <button 
-                                onClick={() => handleViewPost(post)} 
-                                className="text-primary hover:bg-primary/10 p-1 rounded transition-colors"
-                                title="View Post"
-                              >
+                            {post.status?.toLowerCase() === 'live' && <button onClick={() => handleViewPost(post)} className="text-primary hover:bg-primary/10 p-1 rounded transition-colors" title="View Post">
                                 <Eye className="w-4 h-4" />
-                              </button>
-                            )}
-                            <button 
-                              onClick={() => handleDeleteClick(post.id)} 
-                              className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
-                              title="Delete Post"
-                            >
+                              </button>}
+                            <button onClick={() => handleDeleteClick(post.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" title="Delete Post">
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
