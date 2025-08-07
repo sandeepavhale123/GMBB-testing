@@ -20,7 +20,7 @@ export const BulkMedia: React.FC = () => {
 
         {/* Media Gallery */}
         <div className="lg:col-span-4">
-          <div className="bg-card border border-border rounded-lg p-6">
+          <div className="">
             <h3 className="text-lg font-semibold mb-4">Media Library</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(index => <div key={index} className="aspect-square bg-muted rounded-lg flex items-center justify-center border border-border hover:border-primary cursor-pointer transition-colors">
