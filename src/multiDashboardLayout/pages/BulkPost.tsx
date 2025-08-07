@@ -14,6 +14,7 @@ export const BulkPost: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const {
     bulkPosts,
     loading,
@@ -65,6 +66,7 @@ export const BulkPost: React.FC = () => {
 
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
+      setIsDeleting(true);
       try {
         await deleteBulk(deletingPostId);
         // Go to page 1 after successful deletion
@@ -79,6 +81,8 @@ export const BulkPost: React.FC = () => {
           description: "Failed to delete bulk post",
           variant: "destructive",
         });
+      } finally {
+        setIsDeleting(false);
       }
     }
     setDeleteDialogOpen(false);
@@ -181,8 +185,15 @@ export const BulkPost: React.FC = () => {
                           >
                             View Details
                           </Button>
-                          <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(Number(post.id))} className="flex-shrink-0">
+                          <Button 
+                            variant="destructive" 
+                            size="sm" 
+                            onClick={() => handleDeleteClick(Number(post.id))} 
+                            className="flex-shrink-0 flex items-center gap-2"
+                            disabled={isDeleting && deletingPostId === Number(post.id)}
+                          >
                             <Trash2 className="w-4 h-4" />
+                            {isDeleting && deletingPostId === Number(post.id) ? 'Deleting...' : 'Delete'}
                           </Button>
                         </div>
                       </div>
