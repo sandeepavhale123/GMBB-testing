@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from './useRedux';
 import { fetchBulkPostDetails, deletePostFromBulk } from '@/store/slices/postsSlice';
 
@@ -8,8 +8,8 @@ export const useBulkPostDetails = (bulkId: string) => {
   const [itemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [stableBulkPost, setStableBulkPost] = useState<any>(null);
-  const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
+  const [initialBulkPost, setInitialBulkPost] = useState<any>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   
   const { 
     bulkPostDetails, 
@@ -33,10 +33,10 @@ export const useBulkPostDetails = (bulkId: string) => {
     fetchData();
   }, [fetchData]);
 
-  // Store stable bulk post data on first successful load - never update after this
+  // Store initial bulk post data on first load
   useEffect(() => {
-    if (bulkPostDetails?.postSummary?.[0] && !isInitialLoadComplete) {
-      const stablePost = {
+    if (bulkPostDetails?.postSummary?.[0] && isInitialLoad) {
+      const initialPost = {
         id: bulkId,
         title: bulkPostDetails.postSummary[0].event_title || bulkPostDetails.postSummary[0].posttype,
         content: bulkPostDetails.postSummary[0].posttext,
@@ -49,10 +49,10 @@ export const useBulkPostDetails = (bulkId: string) => {
         actionType: bulkPostDetails.postSummary[0].action_type,
         ctaUrl: bulkPostDetails.postSummary[0].CTA_url
       };
-      setStableBulkPost(stablePost);
-      setIsInitialLoadComplete(true);
+      setInitialBulkPost(initialPost);
+      setIsInitialLoad(false);
     }
-  }, [bulkPostDetails, bulkId, isInitialLoadComplete]);
+  }, [bulkPostDetails, bulkId, isInitialLoad]);
 
   const refresh = useCallback(() => {
     fetchData();
@@ -77,9 +77,22 @@ export const useBulkPostDetails = (bulkId: string) => {
     setCurrentPage(1); // Reset to first page when filtering
   }, []);
 
-  // Transform table data only (posts and pagination) - this is what changes on API calls
-  const tableData = useMemo(() => ({
-    posts: bulkPostDetails?.bulkPostDetails?.map(post => ({
+  // Transform API data to match component expectations
+  const transformedData = bulkPostDetails ? {
+    bulkPost: bulkPostDetails.postSummary?.[0] ? {
+      id: bulkId,
+      title: bulkPostDetails.postSummary[0].event_title || bulkPostDetails.postSummary[0].posttype,
+      content: bulkPostDetails.postSummary[0].posttext,
+      status: bulkPostDetails.postSummary[0].state,
+      publishDate: bulkPostDetails.postSummary[0].publishDate,
+      tags: bulkPostDetails.postSummary[0].tags,
+      media: {
+        images: bulkPostDetails.postSummary[0].image
+      },
+      actionType: bulkPostDetails.postSummary[0].action_type,
+      ctaUrl: bulkPostDetails.postSummary[0].CTA_url
+    } : null,
+    posts: bulkPostDetails.bulkPostDetails?.map(post => ({
       id: post.id,
       listingName: post.locationName,
       business: post.locationName,
@@ -87,18 +100,13 @@ export const useBulkPostDetails = (bulkId: string) => {
       zipcode: post.zipCode,
       searchUrl: post.search_url
     })) || [],
-    pagination: bulkPostDetails?.pagination
-  }), [bulkPostDetails?.bulkPostDetails, bulkPostDetails?.pagination]);
+    pagination: bulkPostDetails.pagination
+  } : null;
 
   return {
-    // Stable data - never changes after initial load
-    bulkPost: stableBulkPost,
-    
-    // Dynamic table data - changes on API calls
-    posts: tableData.posts,
-    pagination: tableData.pagination,
-    
-    // State and actions
+    bulkPost: initialBulkPost || transformedData?.bulkPost,
+    posts: transformedData?.posts || [],
+    pagination: transformedData?.pagination,
     loading,
     error,
     refresh,

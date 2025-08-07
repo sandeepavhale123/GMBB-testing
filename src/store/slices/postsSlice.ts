@@ -48,10 +48,6 @@ interface PostsState {
   deleteError: string | null;
   bulkPostsOverview: BulkPostOverviewItem[];
   bulkPostsOverviewLoading: boolean;
-  // Stable data that only changes on initial load
-  stableBulkPostData: any;
-  stableBulkPostDataLoading: boolean;
-  stableBulkPostDataError: string | null;
   bulkPostsOverviewError: string | null;
   bulkPostsOverviewPagination: {
     currentPage: number;
@@ -98,9 +94,7 @@ const initialState: PostsState = {
     hasNext: false,
     hasPrevious: false,
   },
-  stableBulkPostData: null,
-  stableBulkPostDataLoading: false,
-  stableBulkPostDataError: null,
+
   bulkPostDetails: null,
   bulkPostDetailsLoading: false,
   bulkPostDetailsError: null,
@@ -451,31 +445,14 @@ const postsSlice = createSlice({
       .addCase(fetchBulkPostDetails.pending, (state) => {
         state.bulkPostDetailsLoading = true;
         state.bulkPostDetailsError = null;
-        // Also set stable loading if we don't have stable data yet
-        if (!state.stableBulkPostData) {
-          state.stableBulkPostDataLoading = true;
-          state.stableBulkPostDataError = null;
-        }
       })
       .addCase(fetchBulkPostDetails.fulfilled, (state, action) => {
         state.bulkPostDetailsLoading = false;
         state.bulkPostDetails = action.payload;
-        
-        // Set stable data only if we don't have it yet (initial load)
-        if (!state.stableBulkPostData) {
-          state.stableBulkPostData = action.payload;
-          state.stableBulkPostDataLoading = false;
-        }
       })
       .addCase(fetchBulkPostDetails.rejected, (state, action) => {
         state.bulkPostDetailsLoading = false;
         state.bulkPostDetailsError = action.payload as string;
-        
-        // Also handle stable data error if it was the initial load
-        if (!state.stableBulkPostData) {
-          state.stableBulkPostDataLoading = false;
-          state.stableBulkPostDataError = action.payload as string;
-        }
       })
 
       // Delete post from bulk
