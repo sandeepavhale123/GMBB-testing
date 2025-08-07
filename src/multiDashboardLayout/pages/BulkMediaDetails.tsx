@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, Eye, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
 import { useBulkMediaDetails } from '@/hooks/useBulkMediaDetails';
+import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 export const BulkMediaDetails: React.FC = () => {
   const {
@@ -23,8 +24,8 @@ export const BulkMediaDetails: React.FC = () => {
   const [deletingMediaId, setDeletingMediaId] = useState<string | null>(null);
   const [selectedMedias, setSelectedMedias] = useState<Set<string>>(new Set());
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchInput, setSearchInput] = useState('');
+  
   const {
     bulkMedia,
     medias,
@@ -35,8 +36,26 @@ export const BulkMediaDetails: React.FC = () => {
     refresh,
     currentPage,
     setCurrentPage,
-    itemsPerPage
+    itemsPerPage,
+    search,
+    setSearch,
+    status,
+    setStatus
   } = useBulkMediaDetails(bulkId || '');
+
+  // Debounce search input
+  const debouncedSearch = useDebounce(searchInput, 500);
+
+  // Update search in hook when debounced value changes
+  useEffect(() => {
+    setSearch(debouncedSearch);
+    setCurrentPage(1); // Reset to first page when searching
+  }, [debouncedSearch, setSearch, setCurrentPage]);
+
+  // Reset page when status filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [status, setCurrentPage]);
   const handleBack = () => {
     navigate('/main-dashboard/bulk-media');
   };
@@ -65,17 +84,8 @@ export const BulkMediaDetails: React.FC = () => {
     }
   };
 
-  // Filter and paginate medias
-  const filteredMedias = useMemo(() => {
-    return medias.filter(media => {
-      const matchesSearch = media.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) || media.business?.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || media.status?.toLowerCase() === statusFilter.toLowerCase();
-      return matchesSearch && matchesStatus;
-    });
-  }, [medias, searchQuery, statusFilter]);
-
-  // Use filtered medias directly since pagination is handled by API
-  const paginatedMedias = filteredMedias;
+  // Use medias directly since filtering and pagination are handled server-side
+  const paginatedMedias = medias;
   const totalPages = pagination?.pages || 1;
   const handleSelectMedia = (mediaId: string, checked: boolean) => {
     const newSelectedMedias = new Set(selectedMedias);
@@ -234,8 +244,8 @@ export const BulkMediaDetails: React.FC = () => {
 
         {/* Filters */}
         <div className="flex gap-4">
-          <Input placeholder="Search by listing name or ZIP code." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Input placeholder="Search by listing name." value={searchInput} onChange={e => setSearchInput(e.target.value)} className="flex-1" />
+          <Select value={status} onValueChange={setStatus}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
