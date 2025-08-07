@@ -158,7 +158,7 @@ export const BulkPost: React.FC = () => {
                         </div>
                         
                         {/* Title - using posttype */}
-                        <h3 className="font-semibold text-foreground mb-2 line-clamp-2 text-xl">
+                        <h3 className="font-semibold text-foreground mb-1 line-clamp-2 text-xl">
                           {post.posttype || "Untitled Post"}
                         </h3>
                         
