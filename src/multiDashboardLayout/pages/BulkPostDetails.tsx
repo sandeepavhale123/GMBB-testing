@@ -14,7 +14,7 @@ import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
 import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 
-// Memoized Post Preview Component
+// Memoized Post Preview Component with deep comparison
 const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
   const formatDateTime = (dateString: string) => {
     try {
@@ -71,6 +71,24 @@ const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
         )}
       </CardContent>
     </Card>
+  );
+}, (prevProps, nextProps) => {
+  // Custom comparison function - only re-render if bulkPost data actually changes
+  const prev = prevProps.bulkPost;
+  const next = nextProps.bulkPost;
+  
+  if (prev === next) return true; // Same reference
+  if (!prev || !next) return prev === next; // One is null/undefined
+  
+  // Deep comparison of relevant fields
+  return (
+    prev.id === next.id &&
+    prev.title === next.title &&
+    prev.content === next.content &&
+    prev.actionType === next.actionType &&
+    prev.ctaUrl === next.ctaUrl &&
+    prev.publishDate === next.publishDate &&
+    prev.media?.images === next.media?.images
   );
 });
 
@@ -361,7 +379,9 @@ export const BulkPostDetails: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Post Preview */}
         <div className="lg:col-span-1">
-          <PostPreview bulkPost={bulkPost} />
+          {useMemo(() => (
+            <PostPreview bulkPost={bulkPost} />
+          ), [bulkPost])}
         </div>
 
         {/* Right Column - Table and Controls */}
