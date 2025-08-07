@@ -146,19 +146,19 @@ export const BulkPost: React.FC = () => {
                 </div> :
               // Actual data
               bulkPosts.map(post => <div key={post.id} className=" mb-4 ">
-                    <div className="flex items-start gap-6 border-bottom  pb-3 mb-3 ">
+                    <div className="flex items-start gap-6">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
                         {/* Status Information */}
                         <div className="flex flex-wrap items-center gap-3 mb-4">
-                          {post.livePosts > 0 && <span className="text-sm text-green-600 font-medium">Posted on {post.livePosts} listings</span>}
-                          {post.failedPosts > 0 && <span className="text-sm text-red-600 font-medium">Failed on {post.failedPosts} listings</span>}
-                          {post.schedulePosts > 0 && <span className="text-sm text-blue-600 font-medium">Scheduled on {post.schedulePosts} listings</span>}
+                          {post.livePosts > 0 && <span className="font-medium">Posted on {post.livePosts} listings</span>}
+                          {post.failedPosts > 0 && <span className="font-medium">Failed on {post.failedPosts} listings</span>}
+                          {post.schedulePosts > 0 && <span className="font-medium">Scheduled on {post.schedulePosts} listings</span>}
                           {post.livePosts === 0 && post.failedPosts === 0 && post.schedulePosts === 0 && <span className="text-sm text-muted-foreground">No active posts</span>}
                         </div>
                         
                         {/* Title - using posttype */}
-                        <h3 className="font-semibold text-foreground mb-2 line-clamp-2 text-2xl">
+                        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
                           {post.posttype || "Untitled Post"}
                         </h3>
                         
