@@ -6,6 +6,8 @@ export const useBulkPostDetails = (bulkId: string) => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   
   const { 
     bulkPostDetails, 
@@ -17,11 +19,13 @@ export const useBulkPostDetails = (bulkId: string) => {
     if (bulkId) {
       dispatch(fetchBulkPostDetails({ 
         bulkId, 
+        search: searchQuery,
+        status: statusFilter,
         page: currentPage, 
         limit: itemsPerPage 
       }));
     }
-  }, [dispatch, bulkId, currentPage, itemsPerPage]);
+  }, [dispatch, bulkId, searchQuery, statusFilter, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchData();
@@ -39,6 +43,16 @@ export const useBulkPostDetails = (bulkId: string) => {
       throw error;
     }
   }, [dispatch]);
+
+  const updateSearchQuery = useCallback((query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1); // Reset to first page when searching
+  }, []);
+
+  const updateStatusFilter = useCallback((status: string) => {
+    setStatusFilter(status);
+    setCurrentPage(1); // Reset to first page when filtering
+  }, []);
 
   // Transform API data to match component expectations
   const transformedData = bulkPostDetails ? {
@@ -77,5 +91,9 @@ export const useBulkPostDetails = (bulkId: string) => {
     currentPage,
     setCurrentPage,
     itemsPerPage,
+    searchQuery,
+    updateSearchQuery,
+    statusFilter,
+    updateStatusFilter,
   };
 };

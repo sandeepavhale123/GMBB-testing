@@ -267,9 +267,15 @@ export const deleteBulkPost = createAsyncThunk(
 // Fetch bulk post details
 export const fetchBulkPostDetails = createAsyncThunk(
   'posts/fetchBulkPostDetails',
-  async (request: { bulkId: string; page: number; limit: number }, { rejectWithValue }) => {
+  async (request: { bulkId: string; search: string; status: string; page: number; limit: number }, { rejectWithValue }) => {
     try {
-      const response = await postsApi.getBulkPostDetails(request);
+      const response = await postsApi.getBulkPostDetails({
+        bulkId: parseInt(request.bulkId),
+        search: request.search,
+        status: request.status,
+        page: request.page,
+        limit: request.limit
+      });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch bulk post details');

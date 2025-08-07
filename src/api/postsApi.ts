@@ -327,7 +327,7 @@ export const postsApi = {
     return response.data;
   },
 
-  getBulkPostDetails: async (request: { bulkId: string; page: number; limit: number }): Promise<{ 
+  getBulkPostDetails: async (request: { bulkId: number; search: string; status: string; page: number; limit: number }): Promise<{ 
     code: number; 
     message: string; 
     data: { 
@@ -358,7 +358,9 @@ export const postsApi = {
     } 
   }> => {
     const response = await axiosInstance.post("/get-bulk-posts-details", {
-      bulkId: parseInt(request.bulkId),
+      bulkId: request.bulkId,
+      search: request.search,
+      status: request.status,
       page: request.page,
       limit: request.limit
     });
