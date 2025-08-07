@@ -394,9 +394,7 @@ export const BulkPostDetails: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Post Preview */}
         <div className="lg:col-span-1">
-          {useMemo(() => (
-            <PostPreview bulkPost={bulkPost} />
-          ), [bulkPost])}
+          <PostPreview bulkPost={bulkPost} />
         </div>
 
         {/* Right Column - Table and Controls */}
