@@ -168,7 +168,7 @@ export const BulkPost: React.FC = () => {
                         </p>
                         
                         {/* Meta Information */}
-                        <div className="text-xs text-muted-foreground mb-4">
+                        <div className="text-body  text-muted-foreground mb-4">
                           {post.location_count} total locations • {formatPublishDate(post.publishDate)}
                           {post.tags && <span> • {post.tags}</span>}
                         </div>
