@@ -12,7 +12,6 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from '@/hooks/use-toast';
 import { useBulkMediaDetails } from '@/hooks/useBulkMediaDetails';
 import { format } from 'date-fns';
-
 export const BulkMediaDetails: React.FC = () => {
   const {
     bulkId
@@ -38,11 +37,9 @@ export const BulkMediaDetails: React.FC = () => {
     setCurrentPage,
     itemsPerPage
   } = useBulkMediaDetails(bulkId || '');
-  
   const handleBack = () => {
     navigate('/main-dashboard/bulk-media');
   };
-  
   const getStatusVariant = (status: string | null | undefined) => {
     if (!status) return "secondary";
     switch (status.toLowerCase()) {
@@ -59,7 +56,6 @@ export const BulkMediaDetails: React.FC = () => {
         return "secondary";
     }
   };
-  
   const formatDateTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -77,11 +73,10 @@ export const BulkMediaDetails: React.FC = () => {
       return matchesSearch && matchesStatus;
     });
   }, [medias, searchQuery, statusFilter]);
-  
+
   // Use filtered medias directly since pagination is handled by API
   const paginatedMedias = filteredMedias;
   const totalPages = pagination?.pages || 1;
-
   const handleSelectMedia = (mediaId: string, checked: boolean) => {
     const newSelectedMedias = new Set(selectedMedias);
     if (checked) {
@@ -91,7 +86,6 @@ export const BulkMediaDetails: React.FC = () => {
     }
     setSelectedMedias(newSelectedMedias);
   };
-
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedMedias(new Set(paginatedMedias.map(media => media.id)));
@@ -99,13 +93,11 @@ export const BulkMediaDetails: React.FC = () => {
       setSelectedMedias(new Set());
     }
   };
-
   const handleBulkDelete = () => {
     if (selectedMedias.size > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
-
   const handleBulkDeleteConfirm = async () => {
     try {
       for (const mediaId of selectedMedias) {
@@ -119,19 +111,17 @@ export const BulkMediaDetails: React.FC = () => {
       refresh();
     } catch (error) {
       toast({
-        title: "Error", 
+        title: "Error",
         description: "Failed to delete some media items",
         variant: "destructive"
       });
     }
     setBulkDeleteDialogOpen(false);
   };
-
   const handleDeleteClick = (mediaId: string) => {
     setDeletingMediaId(mediaId);
     setDeleteDialogOpen(true);
   };
-  
   const handleDeleteConfirm = async () => {
     if (deletingMediaId) {
       try {
@@ -152,13 +142,11 @@ export const BulkMediaDetails: React.FC = () => {
     setDeleteDialogOpen(false);
     setDeletingMediaId(null);
   };
-  
   const handleViewMedia = (media: any) => {
     if (media.searchUrl) {
       window.open(media.searchUrl, '_blank');
     }
   };
-  
   if (loading) {
     return <div className="animate-pulse space-y-6">
         <div className="h-8 bg-muted rounded w-1/3"></div>
@@ -168,7 +156,6 @@ export const BulkMediaDetails: React.FC = () => {
         </div>
       </div>;
   }
-  
   if (error) {
     return <div className="text-center py-12">
         <p className="text-muted-foreground">Error loading media details: {error}</p>
@@ -177,7 +164,6 @@ export const BulkMediaDetails: React.FC = () => {
         </Button>
       </div>;
   }
-  
   return <div className="space-y-0">
       {/* Page Header - Minimal spacing */}
       <div className="mb-4">
@@ -194,42 +180,23 @@ export const BulkMediaDetails: React.FC = () => {
           <Card>
             <CardContent className="p-6 space-y-4">
               {/* Media Image/Video */}
-              {bulkMedia?.media && (
-                <div className="w-full relative">
-                  {bulkMedia.media.video ? (
-                    <div className="relative">
-                      <video 
-                        src={bulkMedia.media.video} 
-                        className="w-full h-48 object-cover rounded-lg border border-border"
-                        controls
-                        poster={bulkMedia.media.image}
-                      />
+              {bulkMedia?.media && <div className="w-full relative">
+                  {bulkMedia.media.video ? <div className="relative">
+                      <video src={bulkMedia.media.video} className="w-full h-48 object-cover rounded-lg border border-border" controls poster={bulkMedia.media.image} />
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <Play className="w-12 h-12 text-white/80" />
                       </div>
-                    </div>
-                  ) : bulkMedia.media.image ? (
-                    <img 
-                      src={bulkMedia.media.image} 
-                      alt="Media content" 
-                      className="w-full h-48 object-cover rounded-lg border border-border" 
-                    />
-                  ) : null}
-                </div>
-              )}
+                    </div> : bulkMedia.media.image ? <img src={bulkMedia.media.image} alt="Media content" className="w-full h-48 object-cover rounded-lg border border-border" /> : null}
+                </div>}
 
               {/* Category and Media Type */}
               <div className="flex gap-2">
-                {bulkMedia?.category && (
-                  <Badge variant="secondary">
+                {bulkMedia?.category && <Badge variant="secondary">
                     {bulkMedia.category}
-                  </Badge>
-                )}
-                {bulkMedia?.mediaType && (
-                  <Badge variant="outline">
+                  </Badge>}
+                {bulkMedia?.mediaType && <Badge variant="outline">
                     {bulkMedia.mediaType}
-                  </Badge>
-                )}
+                  </Badge>}
               </div>
 
               {/* Title */}
@@ -238,22 +205,16 @@ export const BulkMediaDetails: React.FC = () => {
               </h3>
 
               {/* Tags */}
-              {bulkMedia?.tags && bulkMedia.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1">
-                  {bulkMedia.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
+              {bulkMedia?.tags && bulkMedia.tags.length > 0 && <div className="flex flex-wrap gap-1">
+                  {bulkMedia.tags.map((tag, index) => <Badge key={index} variant="outline" className="text-xs">
                       {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
+                    </Badge>)}
+                </div>}
 
               {/* Date */}
-              {bulkMedia?.publishDate && (
-                <div className="text-sm text-muted-foreground">
+              {bulkMedia?.publishDate && <div className="text-sm text-muted-foreground">
                   Published on: {formatDateTime(bulkMedia.publishDate)}
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
         </div>
@@ -261,22 +222,15 @@ export const BulkMediaDetails: React.FC = () => {
         {/* Right Column - Media Listings Table */}
         <div className="lg:col-span-2 space-y-4">
         {/* Bulk Actions */}
-        {selectedMedias.size > 0 && (
-          <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+        {selectedMedias.size > 0 && <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
             <span className="text-sm text-muted-foreground">
               {selectedMedias.size} media{selectedMedias.size > 1 ? 's' : ''} selected
             </span>
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={handleBulkDelete}
-              className="ml-auto"
-            >
+            <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
               <Trash2 className="w-4 h-4 mr-2" />
               Delete Selected
             </Button>
-          </div>
-        )}
+          </div>}
 
         {/* Filters */}
         <div className="flex gap-4">
@@ -301,11 +255,7 @@ export const BulkMediaDetails: React.FC = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-12">
-                      <Checkbox
-                        checked={paginatedMedias.length > 0 && selectedMedias.size === paginatedMedias.length}
-                        onCheckedChange={handleSelectAll}
-                        aria-label="Select all media"
-                      />
+                      <Checkbox checked={paginatedMedias.length > 0 && selectedMedias.size === paginatedMedias.length} onCheckedChange={handleSelectAll} aria-label="Select all media" />
                     </TableHead>
                     <TableHead>Listing Name</TableHead>
                     <TableHead>Zip Code</TableHead>
@@ -320,11 +270,7 @@ export const BulkMediaDetails: React.FC = () => {
                       </TableCell>
                     </TableRow> : paginatedMedias.map(media => <TableRow key={media.id}>
                         <TableCell>
-                          <Checkbox
-                            checked={selectedMedias.has(media.id)}
-                            onCheckedChange={(checked) => handleSelectMedia(media.id, checked as boolean)}
-                            aria-label={`Select ${media.listingName || media.business || 'media'}`}
-                          />
+                          <Checkbox checked={selectedMedias.has(media.id)} onCheckedChange={checked => handleSelectMedia(media.id, checked as boolean)} aria-label={`Select ${media.listingName || media.business || 'media'}`} />
                         </TableCell>
                         <TableCell>
                           <div className="font-medium">{media.listingName || media.business || 'Unknown'}</div>
@@ -339,18 +285,8 @@ export const BulkMediaDetails: React.FC = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <button 
-                              onClick={() => handleViewMedia(media)} 
-                              className="text-primary hover:bg-primary/10 p-1 rounded transition-colors"
-                              title="View Media"
-                            >
-                              <Eye className="w-4 h-4" />
-                            </button>
-                            <button 
-                              onClick={() => handleDeleteClick(media.id)} 
-                              className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
-                              title="Delete Media"
-                            >
+                            
+                            <button onClick={() => handleDeleteClick(media.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" title="Delete Media">
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
