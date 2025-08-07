@@ -163,7 +163,7 @@ export const BulkPost: React.FC = () => {
                         </h3>
                         
                         {/* Description */}
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-1">
+                        <p className="text-muted-foreground mb-4 line-clamp-1 text-base">
                           {post.posttext || "No description available"}
                         </p>
                         
