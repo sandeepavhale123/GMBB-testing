@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
 import { useBulkMediaDetails } from '@/hooks/useBulkMediaDetails';
+import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 export const BulkMediaDetails: React.FC = () => {
   const {
@@ -23,8 +24,11 @@ export const BulkMediaDetails: React.FC = () => {
   const [deletingMediaId, setDeletingMediaId] = useState<string | null>(null);
   const [selectedMedias, setSelectedMedias] = useState<Set<string>>(new Set());
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [localSearchQuery, setLocalSearchQuery] = useState('');
+  const [localStatusFilter, setLocalStatusFilter] = useState('all');
+  
+  const debouncedSearchQuery = useDebounce(localSearchQuery, 500);
+  
   const {
     bulkMedia,
     medias,
@@ -35,8 +39,21 @@ export const BulkMediaDetails: React.FC = () => {
     refresh,
     currentPage,
     setCurrentPage,
-    itemsPerPage
+    itemsPerPage,
+    searchQuery,
+    updateSearchQuery,
+    statusFilter,
+    updateStatusFilter,
   } = useBulkMediaDetails(bulkId || '');
+
+  // Update hook state when debounced search or status changes
+  useEffect(() => {
+    updateSearchQuery(debouncedSearchQuery);
+  }, [debouncedSearchQuery, updateSearchQuery]);
+
+  useEffect(() => {
+    updateStatusFilter(localStatusFilter);
+  }, [localStatusFilter, updateStatusFilter]);
   const handleBack = () => {
     navigate('/main-dashboard/bulk-media');
   };
@@ -65,17 +82,8 @@ export const BulkMediaDetails: React.FC = () => {
     }
   };
 
-  // Filter and paginate medias
-  const filteredMedias = useMemo(() => {
-    return medias.filter(media => {
-      const matchesSearch = media.listingName?.toLowerCase().includes(searchQuery.toLowerCase()) || media.business?.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = statusFilter === 'all' || media.status?.toLowerCase() === statusFilter.toLowerCase();
-      return matchesSearch && matchesStatus;
-    });
-  }, [medias, searchQuery, statusFilter]);
-
-  // Use filtered medias directly since pagination is handled by API
-  const paginatedMedias = filteredMedias;
+  // Since filtering is now handled server-side, use medias directly
+  const paginatedMedias = medias;
   const totalPages = pagination?.pages || 1;
   const handleSelectMedia = (mediaId: string, checked: boolean) => {
     const newSelectedMedias = new Set(selectedMedias);
@@ -234,14 +242,14 @@ export const BulkMediaDetails: React.FC = () => {
 
         {/* Filters */}
         <div className="flex gap-4">
-          <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Input placeholder="Search by listing name." value={localSearchQuery} onChange={e => setLocalSearchQuery(e.target.value)} className="flex-1" />
+          <Select value={localStatusFilter} onValueChange={setLocalStatusFilter}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
+              <SelectItem value="live">Live</SelectItem>
               <SelectItem value="draft">Draft</SelectItem>
               <SelectItem value="scheduled">Scheduled</SelectItem>
               <SelectItem value="failed">Failed</SelectItem>

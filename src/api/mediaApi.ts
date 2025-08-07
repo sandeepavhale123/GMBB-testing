@@ -493,6 +493,8 @@ export const deleteBulkMedia = async (data: BulkMediaDeleteRequest): Promise<Bul
 // Bulk Media Details interfaces
 export interface BulkMediaDetailsRequest {
   bulkId: number;
+  search: string;
+  status: string;
   page: number;
   limit: number;
 }
@@ -538,7 +540,13 @@ export interface DeleteMediaFromBulkResponse {
 
 // Get bulk media details function
 export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Promise<BulkMediaDetailsResponse> => {
-  const response = await axiosInstance.post('/get-bulk-media-details', params);
+  const response = await axiosInstance.post('/get-bulk-media-details', {
+    bulkId: params.bulkId,
+    search: params.search,
+    status: params.status,
+    page: params.page,
+    limit: params.limit
+  });
   return response.data;
 };
 
