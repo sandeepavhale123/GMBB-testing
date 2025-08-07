@@ -186,20 +186,33 @@ export const BulkPost: React.FC = () => {
                       </div>
                       
                       {/* Right Image */}
-                      <div className="flex-shrink-0">
-                        <div className="w-40 h-40 bg-muted rounded-lg overflow-hidden">
-                          {post.image ? <img src={post.image} alt={post.posttype || 'Post image'} className="w-full h-full object-cover" onError={e => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          parent.innerHTML = '<div class="w-full h-full bg-muted rounded-lg flex items-center justify-center"><span class="text-xs text-muted-foreground text-center px-2">No image</span></div>';
-                        }
-                      }} /> : <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
-                              <span className="text-xs text-muted-foreground text-center px-2">No image</span>
-                            </div>}
-                        </div>
-                      </div>
+                      <div className="flex-shrink-0 w-60">
+  <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden">
+    {post.image ? (
+      <img
+        src={post.image}
+        alt={post.posttype || 'Post image'}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          const parent = target.parentElement;
+          if (parent) {
+            parent.innerHTML = `
+              <div class='w-full h-full bg-muted rounded-lg flex items-center justify-center'>
+                <span class='text-xs text-muted-foreground text-center px-2'>No image</span>
+              </div>
+            `;
+          }
+        }}
+      />
+    ) : (
+      <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
+        <span className="text-xs text-muted-foreground text-center px-2">No image</span>
+      </div>
+    )}
+  </div>
+</div>
                     </div>
                   </div>)}
             </div>
