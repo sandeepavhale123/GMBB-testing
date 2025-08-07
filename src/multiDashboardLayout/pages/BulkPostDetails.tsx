@@ -172,7 +172,7 @@ export const BulkPostDetails: React.FC = () => {
 
           {/* Filters */}
           <div className="flex gap-4">
-            <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="max-w-sm" />
+            <Input placeholder="Search listings..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="flex-1" />
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-40">
                 <SelectValue placeholder="Filter by status" />
