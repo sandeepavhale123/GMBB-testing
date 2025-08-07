@@ -214,7 +214,6 @@ export const BulkMedia: React.FC = () => {
                            className="flex-1 sm:flex-initial"
                            onClick={() => navigate(`/main-dashboard/bulk-media-details/${media.id}`)}
                          >
-                           <Eye className="w-4 h-4 mr-2" />
                            View Details
                          </Button>
                         <Button
