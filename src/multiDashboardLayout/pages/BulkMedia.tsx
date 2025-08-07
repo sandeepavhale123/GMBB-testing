@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Upload, Image, Video, FileText, Folder, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -6,7 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { useBulkMediaOverview } from '@/hooks/useBulkMediaOverview';
 import { format } from 'date-fns';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { MediaUploadModal } from '@/components/Media/MediaUploadModal';
 export const BulkMedia: React.FC = () => {
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const {
     bulkMedia,
     loading,
@@ -54,6 +56,11 @@ export const BulkMedia: React.FC = () => {
     }
   };
 
+  const handleUploadSuccess = () => {
+    refresh();
+    setShowUploadModal(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -61,7 +68,7 @@ export const BulkMedia: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">Bulk Media Management</h1>
           <p className="text-muted-foreground">Upload and organize media across multiple listings</p>
         </div>
-        <Button>
+        <Button onClick={() => setShowUploadModal(true)}>
           <Upload className="w-4 h-4 mr-2" />
           Upload Media
         </Button>
@@ -103,7 +110,7 @@ export const BulkMedia: React.FC = () => {
                 <Image className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <h4 className="text-lg font-medium text-foreground mb-2">No bulk media yet</h4>
                 <p className="text-muted-foreground mb-4">Upload your first bulk media to get started</p>
-                <Button>
+                <Button onClick={() => setShowUploadModal(true)}>
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Media
                 </Button>
@@ -247,6 +254,14 @@ export const BulkMedia: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Upload Modal */}
+      <MediaUploadModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+        onUpload={handleUploadSuccess}
+        isBulkUpload={true}
+      />
     </div>
   );
 };

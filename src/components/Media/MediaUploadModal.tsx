@@ -10,6 +10,7 @@ import { useListingContext } from "../../context/ListingContext";
 import { useMediaContext } from "../../context/MediaContext";
 import { uploadMedia } from "../../api/mediaApi";
 import { useToast } from "../../hooks/use-toast";
+import { MultiListingSelector } from "../Posts/CreatePostModal/MultiListingSelector";
 
 interface MediaFile {
   id: string;
@@ -34,16 +35,19 @@ interface MediaUploadModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpload: (mediaItems: MediaItem[]) => void;
+  isBulkUpload?: boolean;
 }
 export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   isOpen,
   onClose,
   onUpload,
+  isBulkUpload = false,
 }) => {
   const [file, setFile] = useState<MediaFile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
+  const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -107,11 +111,28 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     }));
   };
   const handleUpload = async () => {
-    if (!file || !selectedListing) {
+    if (!file) {
       toast({
         title: "Upload Error",
-        description:
-          "Please select a file and ensure a business listing is selected.",
+        description: "Please select a file.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isBulkUpload && selectedListings.length === 0) {
+      toast({
+        title: "Upload Error",
+        description: "Please select at least one listing or group.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!isBulkUpload && !selectedListing) {
+      toast({
+        title: "Upload Error",
+        description: "Please ensure a business listing is selected.",
         variant: "destructive",
       });
       return;
@@ -131,36 +152,45 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
     // });
     setIsUploading(true);
     try {
-      const uploadData = {
-        file: file.file,
-        title:
-          formData.title ||
-          file.file?.name.replace(/\.[^/.]+$/, "") ||
-          "Generated Image",
-        category: formData.category || "additional",
-        publishOption: formData.publishOption,
-        scheduleDate: formData.scheduleDate,
-        listingId: selectedListing.id,
-        selectedImage: file.selectedImage,
-        aiImageUrl: file.aiImageUrl,
-        galleryImageUrl: file.galleryImageUrl,
-      };
-      // console.log("Upload data prepared:", {
-      //   fileName: uploadData.file?.name,
-      //   title: uploadData.title,
-      //   category: uploadData.category,
-      //   publishOption: uploadData.publishOption,
-      //   listingId: uploadData.listingId,
-      //   selectedImage: uploadData.selectedImage,
-      //   aiImageUrl: uploadData.aiImageUrl,
-      // });
-      const response = await uploadMedia(uploadData);
-      // console.log("Upload response:", response);
-      if (response.code === 200) {
+      if (isBulkUpload) {
+        // Handle bulk upload to multiple listings
+        let successCount = 0;
+        let failCount = 0;
+        
+        for (const listingId of selectedListings) {
+          try {
+            const uploadData = {
+              file: file.file,
+              title:
+                formData.title ||
+                file.file?.name.replace(/\.[^/.]+$/, "") ||
+                "Generated Image",
+              category: formData.category || "additional",
+              publishOption: formData.publishOption,
+              scheduleDate: formData.scheduleDate,
+              listingId: listingId,
+              selectedImage: file.selectedImage,
+              aiImageUrl: file.aiImageUrl,
+              galleryImageUrl: file.galleryImageUrl,
+            };
+            
+            const response = await uploadMedia(uploadData);
+            if (response.code === 200) {
+              successCount++;
+            } else {
+              failCount++;
+            }
+          } catch (error) {
+            failCount++;
+          }
+        }
+        
         // Create media item for local state update
         const mediaItem: MediaItem = {
           id: file.id,
-          name: uploadData.title,
+          name: formData.title ||
+            file.file?.name.replace(/\.[^/.]+$/, "") ||
+            "Generated Image",
           views: "0 views",
           type: file.type,
           url: file.url,
@@ -173,16 +203,71 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
         clearSelection();
         
         toast({
-          title: "Upload Successful",
-          description: response.message,
+          title: "Bulk Upload Complete",
+          description: `Successfully uploaded to ${successCount} listings${failCount > 0 ? `. Failed on ${failCount} listings.` : '.'}`,
+          variant: successCount > 0 ? "default" : "destructive",
         });
-
+        
         // Close modal after showing success briefly
         setTimeout(() => {
           handleClose();
-        }, 1500);
+        }, 2000);
+        
       } else {
-        throw new Error(response.message || "Upload failed");
+        // Handle single listing upload
+        const uploadData = {
+          file: file.file,
+          title:
+            formData.title ||
+            file.file?.name.replace(/\.[^/.]+$/, "") ||
+            "Generated Image",
+          category: formData.category || "additional",
+          publishOption: formData.publishOption,
+          scheduleDate: formData.scheduleDate,
+          listingId: selectedListing.id,
+          selectedImage: file.selectedImage,
+          aiImageUrl: file.aiImageUrl,
+          galleryImageUrl: file.galleryImageUrl,
+        };
+      // console.log("Upload data prepared:", {
+      //   fileName: uploadData.file?.name,
+      //   title: uploadData.title,
+      //   category: uploadData.category,
+      //   publishOption: uploadData.publishOption,
+      //   listingId: uploadData.listingId,
+      //   selectedImage: uploadData.selectedImage,
+      //   aiImageUrl: uploadData.aiImageUrl,
+      // });
+        const response = await uploadMedia(uploadData);
+        // console.log("Upload response:", response);
+        if (response.code === 200) {
+          // Create media item for local state update
+          const mediaItem: MediaItem = {
+            id: file.id,
+            name: uploadData.title,
+            views: "0 views",
+            type: file.type,
+            url: file.url,
+            uploadDate: new Date().toISOString().split("T")[0],
+          };
+          onUpload([mediaItem]);
+          setUploadComplete(true);
+          
+          // Clear MediaContext to prevent modal reopening on page navigation
+          clearSelection();
+          
+          toast({
+            title: "Upload Successful",
+            description: response.message,
+          });
+
+          // Close modal after showing success briefly
+          setTimeout(() => {
+            handleClose();
+          }, 1500);
+        } else {
+          throw new Error(response.message || "Upload failed");
+        }
       }
     } catch (error) {
       console.error("Upload error:", error);
@@ -201,6 +286,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const handleClose = () => {
     setFile(null);
     setUploadComplete(false);
+    setSelectedListings([]);
     setFormData({
       title: "",
       category: "",
@@ -254,7 +340,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             <DialogHeader className="p-6 pb-4">
               <div className="flex items-center justify-between">
                 <DialogTitle className="text-2xl font-bold text-gray-900">
-                  Upload Media{" "}
+                  {isBulkUpload ? "Upload Media to Multiple Listings" : "Upload Media"}
                 </DialogTitle>
                 <Button
                   variant="ghost"
@@ -301,6 +387,17 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             {/* Upload Interface */}
             {!uploadComplete && (
               <>
+                {/* Multi-Listing Selector for Bulk Upload */}
+                {isBulkUpload && (
+                  <div className="pb-6 border-b border-gray-200">
+                    <MultiListingSelector
+                      selectedListings={selectedListings}
+                      onListingsChange={setSelectedListings}
+                      error={selectedListings.length === 0 ? "Please select at least one listing or group" : undefined}
+                    />
+                  </div>
+                )}
+
                 {/* Dropzone Area - Only show if no file selected */}
                 {!file && (
                   <MediaDropzone
@@ -352,10 +449,13 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                   </Button>
                   <Button
                     onClick={handleUpload}
-                    disabled={!file || isUploading || !selectedListing}
+                    disabled={!file || isUploading || (isBulkUpload ? selectedListings.length === 0 : !selectedListing)}
                     className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
                   >
-                    {isUploading ? "Uploading..." : "Upload Media"}
+                    {isUploading 
+                      ? (isBulkUpload ? "Uploading to Multiple Listings..." : "Uploading...") 
+                      : (isBulkUpload ? "Upload to Selected Listings" : "Upload Media")
+                    }
                   </Button>
                 </div>
               </>
