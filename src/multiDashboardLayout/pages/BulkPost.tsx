@@ -58,12 +58,10 @@ export const BulkPost: React.FC = () => {
       return dateString;
     }
   };
-
   const handleDeleteClick = (bulkId: number) => {
     setDeletingPostId(bulkId);
     setDeleteDialogOpen(true);
   };
-
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
       setIsDeleting(true);
@@ -73,13 +71,13 @@ export const BulkPost: React.FC = () => {
         goToPage(1);
         toast({
           title: "Success",
-          description: "Bulk post deleted successfully",
+          description: "Bulk post deleted successfully"
         });
       } catch (error) {
         toast({
           title: "Error",
           description: "Failed to delete bulk post",
-          variant: "destructive",
+          variant: "destructive"
         });
       } finally {
         setIsDeleting(false);
@@ -147,7 +145,7 @@ export const BulkPost: React.FC = () => {
                   </Button>
                 </div> :
               // Actual data
-              bulkPosts.map(post => <div key={post.id} className="bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
+              bulkPosts.map(post => <div key={post.id} className=" mb-4 ">
                     <div className="flex items-start gap-6">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
@@ -177,21 +175,10 @@ export const BulkPost: React.FC = () => {
                         
                         {/* Action Buttons */}
                         <div className="flex gap-2 w-full sm:w-auto">
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            onClick={() => navigate(`/main-dashboard/bulk-post-details/${post.id}`)} 
-                            className="flex-1 sm:flex-initial"
-                          >
+                          <Button variant="outline" size="sm" onClick={() => navigate(`/main-dashboard/bulk-post-details/${post.id}`)} className="flex-1 sm:flex-initial">
                             View Details
                           </Button>
-                          <Button 
-                            variant="destructive" 
-                            size="sm" 
-                            onClick={() => handleDeleteClick(Number(post.id))} 
-                            className="flex-shrink-0 flex items-center gap-2"
-                            disabled={isDeleting && deletingPostId === Number(post.id)}
-                          >
+                          <Button variant="destructive" size="sm" onClick={() => handleDeleteClick(Number(post.id))} className="flex-shrink-0 flex items-center gap-2" disabled={isDeleting && deletingPostId === Number(post.id)}>
                             <Trash2 className="w-4 h-4" />
                             {isDeleting && deletingPostId === Number(post.id) ? 'Deleting...' : 'Delete'}
                           </Button>
