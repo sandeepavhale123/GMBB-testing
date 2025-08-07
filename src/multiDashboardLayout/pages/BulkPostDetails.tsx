@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -14,7 +14,179 @@ import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
 import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 
-// Updated component - no SafeHtmlRenderer dependency
+// Memoized Post Preview Component
+const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
+  const formatDateTime = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return format(date, 'MMM dd, yyyy • hh:mm a');
+    } catch (error) {
+      return dateString;
+    }
+  };
+
+  if (!bulkPost) return null;
+
+  return (
+    <Card>
+      <CardContent className="p-6 space-y-4">
+        {/* Image */}
+        {bulkPost?.media?.images && (
+          <div className="w-full">
+            <img 
+              src={bulkPost.media.images} 
+              alt="Post media" 
+              className="w-full h-48 object-cover rounded-lg border border-border" 
+            />
+          </div>
+        )}
+
+        {/* Title */}
+        {bulkPost?.title && (
+          <h3 className="text-xl font-bold text-foreground">{bulkPost.title}</h3>
+        )}
+
+        {/* Description */}
+        {bulkPost?.content && (
+          <div className="text-sm text-muted-foreground leading-relaxed">
+            {bulkPost.content.replace(/<[^>]*>/g, '')}
+          </div>
+        )}
+
+        {/* CTA Button */}
+        {bulkPost?.actionType && bulkPost.actionType.trim() !== '' && (
+          <Button 
+            className="w-full" 
+            onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}
+          >
+            {bulkPost.actionType}
+          </Button>
+        )}
+
+        {/* Date */}
+        {bulkPost?.publishDate && (
+          <div className="text-sm text-muted-foreground">
+            Posted on: {formatDateTime(bulkPost.publishDate)}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+});
+
+PostPreview.displayName = 'PostPreview';
+
+// Memoized Table Component
+const PostsTable = memo(({ 
+  posts, 
+  selectedPosts, 
+  onSelectPost, 
+  onSelectAll, 
+  onViewPost, 
+  onDeleteClick 
+}: {
+  posts: any[];
+  selectedPosts: Set<string>;
+  onSelectPost: (postId: string, checked: boolean) => void;
+  onSelectAll: (checked: boolean) => void;
+  onViewPost: (post: any) => void;
+  onDeleteClick: (postId: string) => void;
+}) => {
+  const getStatusVariant = (status: string | null | undefined) => {
+    if (!status) return "secondary";
+    switch (status.toLowerCase()) {
+      case "published":
+      case "live":
+        return "default";
+      case "draft":
+        return "secondary";
+      case "scheduled":
+        return "outline";
+      case "failed":
+        return "destructive";
+      default:
+        return "secondary";
+    }
+  };
+
+  return (
+    <Card>
+      <CardContent className="p-0">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-12">
+                <Checkbox 
+                  checked={posts.length > 0 && selectedPosts.size === posts.length} 
+                  onCheckedChange={onSelectAll} 
+                  aria-label="Select all posts" 
+                />
+              </TableHead>
+              <TableHead>Listing Name</TableHead>
+              <TableHead>Zip Code</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="w-32 text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {posts.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  No listings found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              posts.map(post => (
+                <TableRow key={post.id}>
+                  <TableCell>
+                    <Checkbox 
+                      checked={selectedPosts.has(post.id)} 
+                      onCheckedChange={checked => onSelectPost(post.id, checked as boolean)} 
+                      aria-label={`Select ${post.listingName || post.business || 'post'}`} 
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{post.zipcode || 'N/A'}</span>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={getStatusVariant(post.status)}>
+                      {post.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 justify-end">
+                      {post.status?.toLowerCase() === 'live' && (
+                        <button 
+                          onClick={() => onViewPost(post)} 
+                          className="text-primary hover:bg-primary/10 p-1 rounded transition-colors" 
+                          title="View Post"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      )}
+                      <button 
+                        onClick={() => onDeleteClick(post.id)} 
+                        className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" 
+                        title="Delete Post"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+});
+
+PostsTable.displayName = 'PostsTable';
 
 export const BulkPostDetails: React.FC = () => {
   const {
@@ -187,134 +359,88 @@ export const BulkPostDetails: React.FC = () => {
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Redesigned Post Preview */}
+        {/* Left Column - Post Preview */}
         <div className="lg:col-span-1">
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              {/* Image */}
-              {bulkPost?.media?.images && <div className="w-full">
-                  <img src={bulkPost.media.images} alt="Post media" className="w-full h-48 object-cover rounded-lg border border-border" />
-                </div>}
-
-              {/* Title */}
-              {bulkPost?.title && <h3 className="text-xl font-bold text-foreground">{bulkPost.title}</h3>}
-
-              {/* Description */}
-              {bulkPost?.content && <div className="text-sm text-muted-foreground leading-relaxed">
-                  {bulkPost.content.replace(/<[^>]*>/g, '')}
-                </div>}
-
-              {/* CTA Button */}
-              {bulkPost?.actionType && bulkPost.actionType.trim() !== '' && <Button className="w-full" onClick={() => bulkPost?.ctaUrl && window.open(bulkPost.ctaUrl, '_blank')}>
-                  {bulkPost.actionType}
-                </Button>}
-
-              {/* Date */}
-              {bulkPost?.publishDate && <div className="text-sm text-muted-foreground">
-                  Posted on: {formatDateTime(bulkPost.publishDate)}
-                </div>}
-            </CardContent>
-          </Card>
+          <PostPreview bulkPost={bulkPost} />
         </div>
 
-        {/* Right Column - Updated Table */}
+        {/* Right Column - Table and Controls */}
         <div className="lg:col-span-2 space-y-4">
-        {/* Bulk Actions */}
-        {selectedPosts.size > 0 && <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-            <span className="text-sm text-muted-foreground">
-              {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
-            </span>
-            <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete Selected
-            </Button>
-          </div>}
+          {/* Bulk Actions */}
+          {selectedPosts.size > 0 && (
+            <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+              <span className="text-sm text-muted-foreground">
+                {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
+              </span>
+              <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete Selected
+              </Button>
+            </div>
+          )}
 
-        {/* Filters */}
-        <div className="flex gap-4">
-          <Input placeholder="Search by listing name." value={searchInput} onChange={e => setSearchInput(e.target.value)} className="flex-1" />
-          <Select value={statusFilter} onValueChange={updateStatusFilter}>
-            <SelectTrigger className="w-40">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Posts</SelectItem>
-              <SelectItem value="live">Live</SelectItem>
-              <SelectItem value="scheduled">Scheduled</SelectItem>
-              <SelectItem value="failed">Failed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+          {/* Filters */}
+          <div className="flex gap-4">
+            <Input 
+              placeholder="Search by listing name." 
+              value={searchInput} 
+              onChange={e => setSearchInput(e.target.value)} 
+              className="flex-1" 
+            />
+            <Select value={statusFilter} onValueChange={updateStatusFilter}>
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Posts</SelectItem>
+                <SelectItem value="live">Live</SelectItem>
+                <SelectItem value="scheduled">Scheduled</SelectItem>
+                <SelectItem value="failed">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-12">
-                      <Checkbox checked={paginatedPosts.length > 0 && selectedPosts.size === paginatedPosts.length} onCheckedChange={handleSelectAll} aria-label="Select all posts" />
-                    </TableHead>
-                    <TableHead>Listing Name</TableHead>
-                    <TableHead>Zip Code</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="w-32 text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginatedPosts.length === 0 ? <TableRow>
-                      <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                        No listings found.
-                      </TableCell>
-                    </TableRow> : paginatedPosts.map(post => <TableRow key={post.id}>
-                        <TableCell>
-                          <Checkbox checked={selectedPosts.has(post.id)} onCheckedChange={checked => handleSelectPost(post.id, checked as boolean)} aria-label={`Select ${post.listingName || post.business || 'post'}`} />
-                        </TableCell>
-                        <TableCell>
-                          <div className="font-medium">{post.listingName || post.business || 'Unknown'}</div>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-sm">{post.zipcode || 'N/A'}</span>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(post.status)}>
-                            {post.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2 justify-end">
-                            {post.status?.toLowerCase() === 'live' && <button onClick={() => handleViewPost(post)} className="text-primary hover:bg-primary/10 p-1 rounded transition-colors" title="View Post">
-                                <Eye className="w-4 h-4" />
-                              </button>}
-                            <button onClick={() => handleDeleteClick(post.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors" title="Delete Post">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </TableCell>
-                      </TableRow>)}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          {/* Posts Table */}
+          <PostsTable
+            posts={paginatedPosts}
+            selectedPosts={selectedPosts}
+            onSelectPost={handleSelectPost}
+            onSelectAll={handleSelectAll}
+            onViewPost={handleViewPost}
+            onDeleteClick={handleDeleteClick}
+          />
 
           {/* Pagination */}
-          {totalPages > 1 && <div className="flex items-center justify-between">
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
                 Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, pagination?.total || 0)} of {pagination?.total || 0} entries
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                  disabled={currentPage === 1}
+                >
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Button>
                 <span className="text-sm text-muted-foreground">
                   Page {currentPage} of {totalPages}
                 </span>
-                <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                  disabled={currentPage === totalPages}
+                >
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
 
