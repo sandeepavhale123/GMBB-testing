@@ -113,8 +113,8 @@ export const generateAIReply = createAsyncThunk(
     try {
       const response = await reviewService.generateAIReply(reviewId);
 
-      // Refresh summary after successful AI reply generation
-      if (listingId) {
+      // Refresh summary after successful AI reply generation (only for non-bulk context)
+      if (listingId && listingId !== "bulk") {
         dispatch(fetchReviewSummary(listingId));
       }
 

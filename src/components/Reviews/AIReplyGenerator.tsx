@@ -40,7 +40,8 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
   const [hasGenerated, setHasGenerated] = useState(false);
 
   const generateReply = async () => {
-    if (!selectedListing?.id) return;
+    // For bulk reviews, we don't need listing ID, just use a placeholder
+    const listingId = selectedListing?.id || "bulk";
 
     try {
       setHasGenerated(false);
@@ -49,7 +50,7 @@ export const AIReplyGenerator: React.FC<AIReplyGeneratorProps> = ({
       const result = await dispatch(
         generateAIReply({
           reviewId: parseInt(reviewId),
-          listingId: selectedListing.id,
+          listingId: listingId,
         })
       );
 
