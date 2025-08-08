@@ -1,19 +1,22 @@
 
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
+import { Bot } from 'lucide-react';
 
 interface ReviewReplyFormProps {
   initialText: string;
   isLoading: boolean;
   onSave: (text: string) => void;
   onCancel: () => void;
+  onGenerateAI?: () => void;
 }
 
 export const ReviewReplyForm: React.FC<ReviewReplyFormProps> = ({
   initialText,
   isLoading,
   onSave,
-  onCancel
+  onCancel,
+  onGenerateAI
 }) => {
   const [replyText, setReplyText] = useState(initialText);
 
@@ -31,6 +34,18 @@ export const ReviewReplyForm: React.FC<ReviewReplyFormProps> = ({
         rows={3} 
       />
       <div className="flex flex-wrap gap-2 mt-3">
+        {onGenerateAI && (
+          <Button 
+            size="sm" 
+            variant="outline"
+            onClick={onGenerateAI}
+            disabled={isLoading}
+            className="flex items-center gap-1"
+          >
+            <Bot className="w-4 h-4" />
+            Generate using Genie
+          </Button>
+        )}
         <Button 
           size="sm" 
           onClick={handleSave}
