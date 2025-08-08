@@ -146,15 +146,16 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
         <PopoverContent className="w-[400px] p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start">
           <div className="p-3">
             {/* Search Input - Fixed at top */}
-            <div className="relative flex-1 mb-3 pointer-events-auto">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1 mb-3">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
               <Input 
                 placeholder="Search listings and groups..." 
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)} 
                 className="pl-8 w-full" 
-                onFocus={e => e.stopPropagation()} 
-                onClick={e => e.stopPropagation()} 
+                onKeyDown={e => e.stopPropagation()}
+                onMouseDown={e => e.stopPropagation()}
+                onClick={e => e.stopPropagation()}
               />
             </div>
             
