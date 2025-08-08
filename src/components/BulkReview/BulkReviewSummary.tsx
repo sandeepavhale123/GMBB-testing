@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Star, MessageSquare, Clock, Bot, User, TrendingUp } from 'lucide-react';
+import { Progress } from '../ui/progress';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 export const BulkReviewSummary: React.FC = () => {
   // Mock data - in real implementation, this would come from Redux/API
@@ -12,6 +14,37 @@ export const BulkReviewSummary: React.FC = () => {
     manual_replies: 43,
     response_rate: 85
   };
+
+  // Mock star distribution data
+  const starDistribution = {
+    5: { count: 78, percentage: 50 },
+    4: { count: 47, percentage: 30 },
+    3: { count: 16, percentage: 10 },
+    2: { count: 8, percentage: 5 },
+    1: { count: 7, percentage: 5 }
+  };
+
+  // Activity data for doughnut chart
+  const activityData = [
+    {
+      name: 'AI Replies',
+      value: summaryData.ai_replies,
+      color: '#10B981',
+      percentage: Math.round((summaryData.ai_replies / (summaryData.ai_replies + summaryData.manual_replies + summaryData.pending_replies)) * 100)
+    },
+    {
+      name: 'Manual Replies',
+      value: summaryData.manual_replies,
+      color: '#8B5CF6',
+      percentage: Math.round((summaryData.manual_replies / (summaryData.ai_replies + summaryData.manual_replies + summaryData.pending_replies)) * 100)
+    },
+    {
+      name: 'Pending',
+      value: summaryData.pending_replies,
+      color: '#F59E0B',
+      percentage: Math.round((summaryData.pending_replies / (summaryData.ai_replies + summaryData.manual_replies + summaryData.pending_replies)) * 100)
+    }
+  ];
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -27,6 +60,15 @@ export const BulkReviewSummary: React.FC = () => {
       />
     ));
   };
+
+  // Convert star distribution to array for rendering
+  const starDistributionArray = Object.entries(starDistribution)
+    .map(([stars, data]) => ({
+      stars: parseInt(stars),
+      count: data.count,
+      percentage: data.percentage
+    }))
+    .sort((a, b) => b.stars - a.stars);
 
   // Stats data for the summary cards
   const stats = [
@@ -111,6 +153,24 @@ export const BulkReviewSummary: React.FC = () => {
             </p>
           </div>
 
+          {/* Star Distribution with Progress Bars */}
+          <div className="space-y-3">
+            {starDistributionArray.map((item) => (
+              <div key={item.stars} className="flex items-center gap-3">
+                <div className="flex items-center gap-1 w-12">
+                  <span className="text-sm font-medium">{item.stars}</span>
+                  <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                </div>
+                <div className="flex-1">
+                  <Progress value={item.percentage} className="h-2" />
+                </div>
+                <span className="text-xs text-muted-foreground w-8 text-right">
+                  {item.count}
+                </span>
+              </div>
+            ))}
+          </div>
+
           {/* Response Rate Display */}
           <div className="pt-4 border-t border-border">
             <div className="flex items-center justify-between">
@@ -134,6 +194,33 @@ export const BulkReviewSummary: React.FC = () => {
           </div>
 
           <div className="space-y-4">
+            {/* Doughnut Chart */}
+            <div className="h-32 mb-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={activityData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={30}
+                    outerRadius={60}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {activityData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value, name, props) => [
+                      `${value} (${props.payload.percentage}%)`,
+                      name,
+                    ]}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
             {/* Response Breakdown */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -141,7 +228,7 @@ export const BulkReviewSummary: React.FC = () => {
                   <div className="w-3 h-3 rounded-full bg-green-500" />
                   <span className="text-sm text-muted-foreground">AI Responses</span>
                 </div>
-                <span className="text-sm font-medium">{summaryData.ai_replies}</span>
+                <span className="text-sm font-medium">{summaryData.ai_replies} ({activityData[0].percentage}%)</span>
               </div>
               
               <div className="flex items-center justify-between">
@@ -149,7 +236,7 @@ export const BulkReviewSummary: React.FC = () => {
                   <div className="w-3 h-3 rounded-full bg-purple-500" />
                   <span className="text-sm text-muted-foreground">Manual Responses</span>
                 </div>
-                <span className="text-sm font-medium">{summaryData.manual_replies}</span>
+                <span className="text-sm font-medium">{summaryData.manual_replies} ({activityData[1].percentage}%)</span>
               </div>
               
               <div className="flex items-center justify-between">
@@ -157,7 +244,7 @@ export const BulkReviewSummary: React.FC = () => {
                   <div className="w-3 h-3 rounded-full bg-orange-500" />
                   <span className="text-sm text-muted-foreground">Pending</span>
                 </div>
-                <span className="text-sm font-medium">{summaryData.pending_replies}</span>
+                <span className="text-sm font-medium">{summaryData.pending_replies} ({activityData[2].percentage}%)</span>
               </div>
             </div>
 
