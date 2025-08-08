@@ -206,7 +206,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                 </TooltipTrigger>
                 {isDNR && (
                   <TooltipContent>
-                    <p>Do Not Respond to this review</p>
+                    <p>Response disabled — DNR (Do Not Respond) setting is active for this review.</p>
                   </TooltipContent>
                 )}
               </Tooltip>
@@ -229,7 +229,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
                 </TooltipTrigger>
                 {isDNR && (
                   <TooltipContent>
-                    <p>Do Not Respond to this review</p>
+                    <p>Response disabled — DNR (Do Not Respond) setting is active for this review.</p>
                   </TooltipContent>
                 )}
               </Tooltip>
