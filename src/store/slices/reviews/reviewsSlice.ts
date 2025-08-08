@@ -5,6 +5,7 @@ import {
   fetchReviewSummary,
   fetchBulkReviewStats,
   fetchReviews,
+  fetchBulkReviews,
   sendReviewReply,
   deleteReviewReply,
   generateAIReply,
@@ -216,6 +217,19 @@ const reviewsSlice = createSlice({
         state.pagination = action.payload.pagination;
       })
       .addCase(fetchReviews.rejected, (state, action) => {
+        state.reviewsLoading = false;
+        state.reviewsError = action.payload as string;
+      })
+      .addCase(fetchBulkReviews.pending, (state) => {
+        state.reviewsLoading = true;
+        state.reviewsError = null;
+      })
+      .addCase(fetchBulkReviews.fulfilled, (state, action) => {
+        state.reviewsLoading = false;
+        state.reviews = action.payload.reviews;
+        state.pagination = action.payload.pagination;
+      })
+      .addCase(fetchBulkReviews.rejected, (state, action) => {
         state.reviewsLoading = false;
         state.reviewsError = action.payload as string;
       })
