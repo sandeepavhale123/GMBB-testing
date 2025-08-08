@@ -154,7 +154,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                 placeholder="Search listings and groups..." 
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)} 
-                className="pl-8 w-full" 
+                className="pl-8 w-full focus-visible:ring-0 focus-visible:ring-offset-0 border-input" 
                 onFocus={e => e.stopPropagation()} 
                 onClick={e => e.stopPropagation()} 
               />
