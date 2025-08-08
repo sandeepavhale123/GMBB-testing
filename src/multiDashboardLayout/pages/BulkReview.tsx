@@ -6,27 +6,14 @@ import { BulkReviewFilters } from '@/components/BulkReview/BulkReviewFilters';
 import { BulkReviewCard } from '@/components/BulkReview/BulkReviewCard';
 import { DateRange } from 'react-day-picker';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import { 
-  fetchBulkReviews, 
-  fetchBulkReviewStats,
-  sendReviewReply,
-  deleteReviewReply,
-  generateAIReply
-} from '@/store/slices/reviews/thunks';
-import { 
-  setFilter, 
-  setSearchQuery, 
-  setSentimentFilter, 
-  setSortBy, 
-  setDateRange, 
-  clearDateRange,
-  setCurrentPage 
-} from '@/store/slices/reviews/reviewsSlice';
+import { fetchBulkReviews, fetchBulkReviewStats, sendReviewReply, deleteReviewReply, generateAIReply } from '@/store/slices/reviews/thunks';
+import { setFilter, setSearchQuery, setSentimentFilter, setSortBy, setDateRange, clearDateRange, setCurrentPage } from '@/store/slices/reviews/reviewsSlice';
 import { useToast } from '@/hooks/use-toast';
 export const BulkReview: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const {
     reviews,
     pagination,
@@ -42,13 +29,11 @@ export const BulkReview: React.FC = () => {
     dateRange,
     currentPage,
     pageSize
-  } = useAppSelector((state) => state.reviews);
-
+  } = useAppSelector(state => state.reviews);
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [editingReply, setEditingReply] = useState<string | null>(null);
   const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
-
   const hasDateRange = localDateRange?.from || localDateRange?.to;
 
   // Debounced search effect
@@ -70,7 +55,6 @@ export const BulkReview: React.FC = () => {
   useEffect(() => {
     loadBulkReviews();
   }, [filter, searchQuery, sortBy, sentimentFilter, dateRange, currentPage]);
-
   const loadBulkReviews = useCallback(() => {
     const params = {
       pagination: {
@@ -92,22 +76,18 @@ export const BulkReview: React.FC = () => {
         sortOrder: sortBy === 'newest' ? 'desc' as const : 'asc' as const
       }
     };
-
     dispatch(fetchBulkReviews(params));
   }, [dispatch, currentPage, pageSize, searchQuery, filter, dateRange, sentimentFilter, sortBy]);
-
   const handleRefresh = () => {
     setIsRefreshing(true);
     loadBulkReviews();
     dispatch(fetchBulkReviewStats());
     setTimeout(() => setIsRefreshing(false), 1000);
   };
-
   const handleClearDateRange = () => {
     setLocalDateRange(undefined);
     dispatch(clearDateRange());
   };
-
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setLocalDateRange(range);
     if (range?.from && range?.to) {
@@ -117,20 +97,16 @@ export const BulkReview: React.FC = () => {
       }));
     }
   };
-
   const handleGenerateReply = (reviewId: string) => {
     setShowingAIGenerator(reviewId);
     setEditingReply(null);
   };
-
   const handleManualReply = (reviewId: string) => {
     setEditingReply(reviewId);
     setShowingAIGenerator(null);
   };
-
   const handleSaveReply = async (reviewId: string, reply?: string) => {
     if (!reply?.trim()) return;
-
     try {
       await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
@@ -138,51 +114,45 @@ export const BulkReview: React.FC = () => {
         replyType: "manual",
         listingId: "bulk" // For bulk operations
       })).unwrap();
-
       setEditingReply(null);
       setShowingAIGenerator(null);
       toast({
         title: "Success",
-        description: "Reply sent successfully",
+        description: "Reply sent successfully"
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to send reply",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   const handleDeleteReply = async (reviewId: string) => {
     try {
       await dispatch(deleteReviewReply({
         reviewId,
         listingId: "bulk"
       })).unwrap();
-
       toast({
         title: "Success",
-        description: "Reply deleted successfully",
+        description: "Reply deleted successfully"
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to delete reply",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   const handleCancelAIGenerator = () => {
     setShowingAIGenerator(null);
     setEditingReply(null);
   };
-
   const handlePageChange = (page: number) => {
     dispatch(setCurrentPage(page));
   };
-
   return <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
@@ -203,110 +173,54 @@ export const BulkReview: React.FC = () => {
         <div className="bg-card border border-border rounded-lg p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold">Customer Reviews</h3>
-            <Button>
+            <Button className="hidden ">
               <MessageCircle className="w-4 h-4 mr-2" />
               Bulk Response
             </Button>
           </div>
 
           {/* Search and Filters */}
-          <BulkReviewFilters
-            searchQuery={searchTerm}
-            filter={filter}
-            sentimentFilter={sentimentFilter}
-            sortBy={sortBy}
-            localDateRange={localDateRange}
-            hasDateRange={!!hasDateRange}
-            isRefreshing={isRefreshing}
-            onSearchChange={setSearchTerm}
-            onFilterChange={(value) => dispatch(setFilter(value))}
-            onSentimentFilterChange={(value) => dispatch(setSentimentFilter(value))}
-            onSortChange={(value) => dispatch(setSortBy(value))}
-            onDateRangeChange={handleDateRangeChange}
-            onClearDateRange={handleClearDateRange}
-            onRefresh={handleRefresh}
-          />
+          <BulkReviewFilters searchQuery={searchTerm} filter={filter} sentimentFilter={sentimentFilter} sortBy={sortBy} localDateRange={localDateRange} hasDateRange={!!hasDateRange} isRefreshing={isRefreshing} onSearchChange={setSearchTerm} onFilterChange={value => dispatch(setFilter(value))} onSentimentFilterChange={value => dispatch(setSentimentFilter(value))} onSortChange={value => dispatch(setSortBy(value))} onDateRangeChange={handleDateRangeChange} onClearDateRange={handleClearDateRange} onRefresh={handleRefresh} />
 
           {/* Loading State */}
-          {reviewsLoading && (
-            <div className="flex items-center justify-center py-8">
+          {reviewsLoading && <div className="flex items-center justify-center py-8">
               <div className="text-muted-foreground">Loading reviews...</div>
-            </div>
-          )}
+            </div>}
 
           {/* Error State */}
-          {reviewsError && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          {reviewsError && <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <p className="text-red-700">Error: {reviewsError}</p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={loadBulkReviews}
-                className="mt-2"
-              >
+              <Button variant="outline" size="sm" onClick={loadBulkReviews} className="mt-2">
                 Retry
               </Button>
-            </div>
-          )}
+            </div>}
 
           {/* Reviews List */}
-          {!reviewsLoading && !reviewsError && (
-            <div className="space-y-4">
-              {reviews.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
+          {!reviewsLoading && !reviewsError && <div className="space-y-4">
+              {reviews.length === 0 ? <div className="text-center py-8 text-muted-foreground">
                   No reviews found matching your criteria.
-                </div>
-              ) : (
-                reviews.map((review) => (
-                  <BulkReviewCard
-                    key={review.id}
-                    review={review}
-                    editingReply={editingReply}
-                    showingAIGenerator={showingAIGenerator}
-                    replyLoading={replyLoading}
-                    deleteLoading={deleteReplyLoading}
-                    onGenerateReply={handleGenerateReply}
-                    onManualReply={handleManualReply}
-                    onSaveReply={handleSaveReply}
-                    onDeleteReply={handleDeleteReply}
-                    onCancelAIGenerator={handleCancelAIGenerator}
-                  />
-                ))
-              )}
-            </div>
-          )}
+                </div> : reviews.map(review => <BulkReviewCard key={review.id} review={review} editingReply={editingReply} showingAIGenerator={showingAIGenerator} replyLoading={replyLoading} deleteLoading={deleteReplyLoading} onGenerateReply={handleGenerateReply} onManualReply={handleManualReply} onSaveReply={handleSaveReply} onDeleteReply={handleDeleteReply} onCancelAIGenerator={handleCancelAIGenerator} />)}
+            </div>}
 
           {/* Pagination */}
-          {pagination && pagination.total_pages > 1 && (
-            <div className="flex items-center justify-between mt-6">
+          {pagination && pagination.total_pages > 1 && <div className="flex items-center justify-between mt-6">
               <p className="text-sm text-muted-foreground">
-                Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
+                Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
                 {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
                 {pagination.total} reviews
               </p>
               <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(pagination.page - 1)}
-                  disabled={!pagination.has_prev}
-                >
+                <Button variant="outline" size="sm" onClick={() => handlePageChange(pagination.page - 1)} disabled={!pagination.has_prev}>
                   Previous
                 </Button>
                 <span className="px-3 py-1 text-sm bg-muted rounded">
                   Page {pagination.page} of {pagination.total_pages}
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(pagination.page + 1)}
-                  disabled={!pagination.has_next}
-                >
+                <Button variant="outline" size="sm" onClick={() => handlePageChange(pagination.page + 1)} disabled={!pagination.has_next}>
                   Next
                 </Button>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
       </div>
     </div>;
