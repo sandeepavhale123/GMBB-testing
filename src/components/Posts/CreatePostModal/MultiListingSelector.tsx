@@ -136,14 +136,25 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             </Badge>)}
         </div>}
 
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={setOpen} modal={false}>
         <PopoverTrigger asChild>
           <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between" disabled={isLoading}>
             {selectedListings.length === 0 ? isLoading ? "Loading..." : "Select listings and groups..." : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[400px] p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start">
+        <PopoverContent 
+          className="w-[400px] p-0 bg-background border border-border shadow-lg" 
+          side="bottom" 
+          align="start"
+          onInteractOutside={(e) => {
+            // Prevent closing when interacting with the search input or options
+            const target = e.target as Element;
+            if (target.closest('input') || target.closest('[data-radix-popover-content]')) {
+              e.preventDefault();
+            }
+          }}
+        >
           <div className="p-3">
             {/* Search Input - Fixed at top */}
             <div className="relative">
@@ -157,6 +168,8 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => e.stopPropagation()}
                 onFocus={e => e.stopPropagation()}
+                onKeyDown={e => e.stopPropagation()}
+                onPointerDown={e => e.stopPropagation()}
               />
             </div>
             
