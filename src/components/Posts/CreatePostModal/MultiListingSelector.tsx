@@ -159,7 +159,12 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
 
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger asChild>
-          <Button variant="outline" className="w-full justify-between" disabled={isLoading}>
+          <Button 
+            variant="outline" 
+            className="w-full justify-between" 
+            disabled={isLoading}
+            onClick={() => setOpen(!open)}
+          >
             {selectedListings.length === 0 ? isLoading ? "Loading..." : "Select listings and groups..." : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
             <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
           </Button>
