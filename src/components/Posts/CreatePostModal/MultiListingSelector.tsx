@@ -136,7 +136,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             </Badge>)}
         </div>}
 
-      <Popover open={open} onOpenChange={setOpen} modal={false}>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between" disabled={isLoading}>
             {selectedListings.length === 0 ? isLoading ? "Loading..." : "Select listings and groups..." : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
@@ -144,13 +144,28 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-[400px] p-0 bg-background border border-border shadow-lg" 
+          className="w-[400px] p-0 bg-background border border-border shadow-lg z-[9999]" 
           side="bottom" 
           align="start"
-          onInteractOutside={(e) => {
-            // Prevent closing when interacting with the search input or options
+          sideOffset={4}
+          avoidCollisions={true}
+          onEscapeKeyDown={(e) => {
+            e.preventDefault();
+            setOpen(false);
+          }}
+          onFocusOutside={(e) => {
+            // Keep popover open when focus moves to modal content
             const target = e.target as Element;
-            if (target.closest('input') || target.closest('[data-radix-popover-content]')) {
+            if (target.closest('[role="dialog"]')) {
+              e.preventDefault();
+            }
+          }}
+          onInteractOutside={(e) => {
+            // Only close when clicking outside both popover and modal
+            const target = e.target as Element;
+            if (!target.closest('[role="dialog"]') && !target.closest('[data-radix-popover-content]')) {
+              setOpen(false);
+            } else {
               e.preventDefault();
             }
           }}

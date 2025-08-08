@@ -443,7 +443,25 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           onClose();
         }
       }}>
-        <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col">
+        <DialogContent 
+          className="max-w-7xl max-h-[95vh] overflow-hidden p-0 flex flex-col"
+          onPointerDownOutside={(e) => {
+            // Prevent dialog from closing when interacting with popovers
+            const target = e.target as Element;
+            if (target.closest('[data-radix-popper-content-wrapper]') || 
+                target.closest('[data-radix-popover-content]')) {
+              e.preventDefault();
+            }
+          }}
+          onInteractOutside={(e) => {
+            // Prevent dialog from closing when interacting with popovers
+            const target = e.target as Element;
+            if (target.closest('[data-radix-popper-content-wrapper]') || 
+                target.closest('[data-radix-popover-content]')) {
+              e.preventDefault();
+            }
+          }}
+        >
           <DialogHeader className="p-4 sm:p-6 pb-4 border-b shrink-0">
             <DialogTitle className="text-xl sm:text-2xl font-semibold">
               {isCloning ? "Clone Post" : "Create Post"}
