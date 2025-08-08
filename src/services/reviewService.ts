@@ -273,6 +273,11 @@ export const reviewService = {
     return response.data;
   },
 
+  getBulkReviewStats: async (): Promise<ReviewSummaryResponse> => {
+    const response = await axiosInstance.post("/get-bulk-reviews-stats");
+    return response.data;
+  },
+
   getReviews: async (
     params: GetReviewsRequest
   ): Promise<GetReviewsResponse> => {

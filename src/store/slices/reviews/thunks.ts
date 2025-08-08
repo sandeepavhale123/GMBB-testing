@@ -21,6 +21,21 @@ export const fetchReviewSummary = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching bulk review stats
+export const fetchBulkReviewStats = createAsyncThunk(
+  "reviews/fetchBulkStats",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await reviewService.getBulkReviewStats();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch bulk review stats"
+      );
+    }
+  }
+);
+
 // Async thunk for fetching reviews
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchReviews",

@@ -3,6 +3,7 @@ import { ReviewsState } from "./types";
 import { ReplyTemplate, CreateTemplateRequest } from "./templateTypes";
 import {
   fetchReviewSummary,
+  fetchBulkReviewStats,
   fetchReviews,
   sendReviewReply,
   deleteReviewReply,
@@ -188,6 +189,20 @@ const reviewsSlice = createSlice({
         state.sentimentAnalysis = action.payload.sentiment_analysis;
       })
       .addCase(fetchReviewSummary.rejected, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryError = action.payload as string;
+      })
+      .addCase(fetchBulkReviewStats.pending, (state) => {
+        state.summaryLoading = true;
+        state.summaryError = null;
+      })
+      .addCase(fetchBulkReviewStats.fulfilled, (state, action) => {
+        state.summaryLoading = false;
+        state.summaryCards = action.payload.summary_cards;
+        state.starDistribution = action.payload.star_distribution;
+        state.sentimentAnalysis = action.payload.sentiment_analysis;
+      })
+      .addCase(fetchBulkReviewStats.rejected, (state, action) => {
         state.summaryLoading = false;
         state.summaryError = action.payload as string;
       })
