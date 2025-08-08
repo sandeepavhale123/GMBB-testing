@@ -146,7 +146,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
         <PopoverContent className="w-[400px] p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start">
           <div className="p-3">
             {/* Search Input - Fixed at top */}
-            <div className="relative flex-1 mb-3">
+            <div className="relative flex-1 mb-3 pointer-events-auto">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
                 placeholder="Search listings and groups..." 
