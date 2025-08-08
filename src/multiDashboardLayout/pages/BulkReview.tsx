@@ -159,7 +159,7 @@ export const BulkReview: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">Bulk Review Management</h1>
           <p className="text-muted-foreground">Manage reviews across all your listings</p>
         </div>
-        <Button>
+        <Button className="hidden">
           <MessageCircle className="w-4 h-4 mr-2" />
           Bulk Response
         </Button>
