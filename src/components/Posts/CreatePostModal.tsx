@@ -34,6 +34,7 @@ interface CreatePostModalProps {
   onClose: () => void;
   initialData?: CreatePostFormData | null;
   isCloning?: boolean;
+  onBulkPostCreated?: () => void;
 }
 
 export const CreatePostModal: React.FC<CreatePostModalProps> = ({
@@ -41,6 +42,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   onClose,
   initialData = null,
   isCloning = false,
+  onBulkPostCreated,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -264,6 +266,11 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
         console.log('🔄 Selected listings for bulk posting:', formData.listings);
         
         response = await dispatch(createBulkPost(bulkPostData)).unwrap();
+        
+        // Call the bulk post created callback if provided
+        if (onBulkPostCreated) {
+          onBulkPostCreated();
+        }
       } else {
         // Create single post data
         const createPostData = {

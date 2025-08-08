@@ -87,7 +87,11 @@ export const BulkPost: React.FC = () => {
     setDeletingPostId(null);
   };
   return <>
-      <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+      <CreatePostModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setIsCreateModalOpen(false)} 
+        onBulkPostCreated={refresh}
+      />
       <div className="space-y-6">
       <div className="flex justify-start md:justify-between items-center mb-10 flex-col-reverse md:flex-row">
         <div>
