@@ -18,20 +18,8 @@ export const PostDescriptionSection: React.FC<PostDescriptionSectionProps> = ({
 }) => {
   return (
     <div className="space-y-3 sm:space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <Label className="text-sm font-medium">Post Description</Label>
-        <Button 
-          type="button" 
-          variant="outline" 
-          size="sm" 
-          onClick={onOpenAIDescription} 
-          className="text-xs bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 w-full sm:w-auto"
-        >
-          <Wand2 className="w-3 h-3 mr-1" />
-          Use GMB Genie to Write
-        </Button>
-      </div>
-      <div className="space-y-2">
+      <Label className="text-sm font-medium">Post Description</Label>
+      <div className="space-y-2 relative">
         <Textarea 
           value={description} 
           onChange={e => {
@@ -42,9 +30,18 @@ export const PostDescriptionSection: React.FC<PostDescriptionSectionProps> = ({
           }}
           placeholder="Write your post description..." 
           rows={7} 
-          className="resize-none text-sm sm:text-base" 
+          className="resize-none text-sm sm:text-base pr-12" 
           maxLength={1500}
         />
+        <Button 
+          type="button" 
+          size="sm"
+          onClick={onOpenAIDescription} 
+          className="absolute bottom-12 right-2 h-8 w-8 p-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg"
+          title="Use GMB Genie to Write"
+        >
+          <Wand2 className="w-4 h-4" />
+        </Button>
         <div className="flex justify-end">
           <span className={`text-xs ${description.length > 1400 ? 'text-destructive' : 'text-muted-foreground'}`}>
             {description.length}/1500
