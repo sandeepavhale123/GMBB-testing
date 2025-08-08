@@ -184,11 +184,32 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
     // Validate form
     if (!validateForm()) {
-      toast({
-        title: "Validation Error",
-        description: "Please fix the validation errors before submitting.",
-        variant: "destructive",
-      });
+      // Check for specific validation errors and show appropriate messages
+      if (validationErrors.listings) {
+        toast({
+          title: "Listing Required",
+          description: "Please select at least one listing",
+          variant: "destructive",
+        });
+      } else if (validationErrors.title) {
+        toast({
+          title: "Title Required", 
+          description: validationErrors.title,
+          variant: "destructive",
+        });
+      } else if (validationErrors.ctaUrl) {
+        toast({
+          title: "URL Required",
+          description: validationErrors.ctaUrl,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Validation Error",
+          description: "Please fix the validation errors before submitting.",
+          variant: "destructive",
+        });
+      }
       return;
     }
 
