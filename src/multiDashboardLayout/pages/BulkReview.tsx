@@ -1,9 +1,29 @@
-import React from 'react';
-import { MessageCircle, Star, Search, RefreshCw, Calendar, ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { BulkReviewSummary } from '@/components/BulkReview/BulkReviewSummary';
+import { BulkReviewFilters } from '@/components/BulkReview/BulkReviewFilters';
+import { DateRange } from 'react-day-picker';
 export const BulkReview: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [sentimentFilter, setSentimentFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
+  const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const hasDateRange = localDateRange?.from || localDateRange?.to;
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    // Simulate refresh
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
+
+  const handleClearDateRange = () => {
+    setLocalDateRange(undefined);
+  };
+
   return <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
@@ -31,38 +51,22 @@ export const BulkReview: React.FC = () => {
           </div>
 
           {/* Search and Filters */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input placeholder="Search reviews..." className="pl-10 flex-1 " />
-            </div>
-            
-            <div className="flex items-center gap-2 ml-auto">
-              <Button variant="outline" className="h-10">
-                All Reviews
-                <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
-              
-              <Button variant="outline" className="h-10">
-                All Sentiment
-                <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
-              
-              <Button variant="outline" className="h-10">
-                Newest First
-                <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
-              
-              <Button variant="outline" className="h-10">
-                <Calendar className="w-4 h-4 mr-2" />
-                Select date range
-              </Button>
-              
-              <Button variant="outline" size="icon" className="h-10 w-10">
-                <RefreshCw className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <BulkReviewFilters
+            searchQuery={searchQuery}
+            filter={filter}
+            sentimentFilter={sentimentFilter}
+            sortBy={sortBy}
+            localDateRange={localDateRange}
+            hasDateRange={!!hasDateRange}
+            isRefreshing={isRefreshing}
+            onSearchChange={setSearchQuery}
+            onFilterChange={setFilter}
+            onSentimentFilterChange={setSentimentFilter}
+            onSortChange={setSortBy}
+            onDateRangeChange={setLocalDateRange}
+            onClearDateRange={handleClearDateRange}
+            onRefresh={handleRefresh}
+          />
 
           {/* Reviews List */}
           <div className="space-y-4">
