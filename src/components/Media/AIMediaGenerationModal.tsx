@@ -184,6 +184,7 @@ export const AIMediaGenerationModal: React.FC<AIMediaGenerationModalProps> = ({
                 onPreviousImage={handlePreviousImage}
                 onNextImage={handleNextImage}
                 onSelectImage={setSelectedImageIndex}
+                onCloseModal={handleClose}
               />
 
               <AIActionButtons

@@ -14,6 +14,7 @@ interface AIImagePreviewProps {
   onSelectImage: (index: number) => void;
   onSaveImage?: (imageUrl: string) => void;
   savingImageIndex?: number;
+  onCloseModal?: () => void;
 }
 
 export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
@@ -25,7 +26,8 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
   onNextImage,
   onSelectImage,
   onSaveImage,
-  savingImageIndex
+  savingImageIndex,
+  onCloseModal
 }) => {
   const { triggerCreatePost } = useMediaContext();
 
@@ -41,6 +43,11 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
       title: `AI Generated - ${prompt.slice(0, 30)}...`,
       source: 'ai'
     });
+
+    // Close the gallery modal
+    if (onCloseModal) {
+      onCloseModal();
+    }
   };
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
