@@ -3,10 +3,8 @@ import { MessageCircle, Star, Search, RefreshCw, Calendar, ChevronDown } from 'l
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BulkReviewSummary } from '@/components/BulkReview/BulkReviewSummary';
-
 export const BulkReview: React.FC = () => {
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Review Management</h1>
@@ -36,13 +34,10 @@ export const BulkReview: React.FC = () => {
           <div className="flex items-center gap-4 mb-6">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input 
-                placeholder="Search reviews..." 
-                className="pl-10 flex-1"
-              />
+              <Input placeholder="Search reviews..." className="pl-10 flex-1 " />
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
               <Button variant="outline" className="h-10">
                 All Reviews
                 <ChevronDown className="w-4 h-4 ml-2" />
@@ -71,8 +66,7 @@ export const BulkReview: React.FC = () => {
 
           {/* Reviews List */}
           <div className="space-y-4">
-            {[1, 2, 3].map((index) => (
-              <div key={index} className="border border-border rounded-lg p-6">
+            {[1, 2, 3].map(index => <div key={index} className="border border-border rounded-lg p-6">
                 {/* Review Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -88,12 +82,7 @@ export const BulkReview: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star 
-                              key={star} 
-                              className="w-4 h-4 text-yellow-400 fill-current" 
-                            />
-                          ))}
+                          {[1, 2, 3, 4, 5].map(star => <Star key={star} className="w-4 h-4 text-yellow-400 fill-current" />)}
                         </div>
                         <span className="text-sm text-muted-foreground">(5/5)</span>
                       </div>
@@ -126,11 +115,9 @@ export const BulkReview: React.FC = () => {
                     Delete Reply
                   </Button>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
