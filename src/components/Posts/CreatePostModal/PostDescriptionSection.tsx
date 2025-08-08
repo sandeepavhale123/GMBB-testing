@@ -37,7 +37,7 @@ export const PostDescriptionSection: React.FC<PostDescriptionSectionProps> = ({
           type="button" 
           size="sm"
           onClick={onOpenAIDescription} 
-          className="absolute bottom-12 right-2 h-8 w-8 p-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg"
+          className="absolute bottom-8 right-2 h-8 w-8 p-0 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg"
           title="Use GMB Genie to Write"
         >
           <Wand2 className="w-4 h-4" />
