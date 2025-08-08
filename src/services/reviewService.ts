@@ -88,10 +88,13 @@ export interface Review {
   reply_text: string;
   reply_date: string;
   profile_image_url: string;
+  locationName: string;
+  zipcode: string;
   platform: string;
   is_new: boolean;
   replied: boolean;
   reply_type: string;
+  reply_setting?: string;
 }
 
 export interface PaginationResponse {
@@ -367,6 +370,30 @@ export const reviewService = {
       listingId,
       oldStatus,
     });
+    return response.data;
+  },
+
+  getBulkReviews: async (params: {
+    pagination: {
+      page: number;
+      limit: number;
+      offset: number;
+    };
+    filters: {
+      search: string;
+      status: string;
+      dateRange: {
+        startDate: string;
+        endDate: string;
+      };
+      sentiment: string;
+    };
+    sorting: {
+      sortBy: string;
+      sortOrder: "asc" | "desc";
+    };
+  }): Promise<GetReviewsResponse> => {
+    const response = await axiosInstance.post("/get-bulk-reviews", params);
     return response.data;
   },
 };

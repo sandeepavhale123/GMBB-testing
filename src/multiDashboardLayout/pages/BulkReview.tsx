@@ -1,27 +1,186 @@
-import React, { useState } from 'react';
-import { MessageCircle, Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BulkReviewSummary } from '@/components/BulkReview/BulkReviewSummary';
 import { BulkReviewFilters } from '@/components/BulkReview/BulkReviewFilters';
+import { BulkReviewCard } from '@/components/BulkReview/BulkReviewCard';
 import { DateRange } from 'react-day-picker';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { 
+  fetchBulkReviews, 
+  fetchBulkReviewStats,
+  sendReviewReply,
+  deleteReviewReply,
+  generateAIReply
+} from '@/store/slices/reviews/thunks';
+import { 
+  setFilter, 
+  setSearchQuery, 
+  setSentimentFilter, 
+  setSortBy, 
+  setDateRange, 
+  clearDateRange,
+  setCurrentPage 
+} from '@/store/slices/reviews/reviewsSlice';
+import { useToast } from '@/hooks/use-toast';
 export const BulkReview: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [sentimentFilter, setSentimentFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
+  const dispatch = useAppDispatch();
+  const { toast } = useToast();
+  
+  const {
+    reviews,
+    pagination,
+    reviewsLoading,
+    reviewsError,
+    replyLoading,
+    deleteReplyLoading,
+    aiGenerationLoading,
+    filter,
+    searchQuery,
+    sortBy,
+    sentimentFilter,
+    dateRange,
+    currentPage,
+    pageSize
+  } = useAppSelector((state) => state.reviews);
+
   const [localDateRange, setLocalDateRange] = useState<DateRange | undefined>();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [editingReply, setEditingReply] = useState<string | null>(null);
+  const [showingAIGenerator, setShowingAIGenerator] = useState<string | null>(null);
 
   const hasDateRange = localDateRange?.from || localDateRange?.to;
 
+  // Debounced search effect
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(setSearchQuery(searchTerm));
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, dispatch]);
+
+  // Load initial data
+  useEffect(() => {
+    dispatch(fetchBulkReviewStats());
+    loadBulkReviews();
+  }, []);
+
+  // Reload when filters change
+  useEffect(() => {
+    loadBulkReviews();
+  }, [filter, searchQuery, sortBy, sentimentFilter, dateRange, currentPage]);
+
+  const loadBulkReviews = useCallback(() => {
+    const params = {
+      pagination: {
+        page: currentPage,
+        limit: pageSize,
+        offset: (currentPage - 1) * pageSize
+      },
+      filters: {
+        search: searchQuery,
+        status: filter,
+        dateRange: {
+          startDate: dateRange.startDate || "2018-01-01",
+          endDate: dateRange.endDate || "2025-12-31"
+        },
+        sentiment: sentimentFilter === 'all' ? 'All' : sentimentFilter
+      },
+      sorting: {
+        sortBy: sortBy === 'newest' ? 'date' : sortBy,
+        sortOrder: sortBy === 'newest' ? 'desc' as const : 'asc' as const
+      }
+    };
+
+    dispatch(fetchBulkReviews(params));
+  }, [dispatch, currentPage, pageSize, searchQuery, filter, dateRange, sentimentFilter, sortBy]);
+
   const handleRefresh = () => {
     setIsRefreshing(true);
-    // Simulate refresh
+    loadBulkReviews();
+    dispatch(fetchBulkReviewStats());
     setTimeout(() => setIsRefreshing(false), 1000);
   };
 
   const handleClearDateRange = () => {
     setLocalDateRange(undefined);
+    dispatch(clearDateRange());
+  };
+
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setLocalDateRange(range);
+    if (range?.from && range?.to) {
+      dispatch(setDateRange({
+        startDate: range.from.toISOString().split('T')[0],
+        endDate: range.to.toISOString().split('T')[0]
+      }));
+    }
+  };
+
+  const handleGenerateReply = (reviewId: string) => {
+    setShowingAIGenerator(reviewId);
+    setEditingReply(null);
+  };
+
+  const handleManualReply = (reviewId: string) => {
+    setEditingReply(reviewId);
+    setShowingAIGenerator(null);
+  };
+
+  const handleSaveReply = async (reviewId: string, reply?: string) => {
+    if (!reply?.trim()) return;
+
+    try {
+      await dispatch(sendReviewReply({
+        reviewId: parseInt(reviewId),
+        replyText: reply,
+        replyType: "manual",
+        listingId: "bulk" // For bulk operations
+      })).unwrap();
+
+      setEditingReply(null);
+      setShowingAIGenerator(null);
+      toast({
+        title: "Success",
+        description: "Reply sent successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send reply",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteReply = async (reviewId: string) => {
+    try {
+      await dispatch(deleteReviewReply({
+        reviewId,
+        listingId: "bulk"
+      })).unwrap();
+
+      toast({
+        title: "Success",
+        description: "Reply deleted successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete reply",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCancelAIGenerator = () => {
+    setShowingAIGenerator(null);
+    setEditingReply(null);
+  };
+
+  const handlePageChange = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   return <div className="space-y-6">
@@ -52,75 +211,102 @@ export const BulkReview: React.FC = () => {
 
           {/* Search and Filters */}
           <BulkReviewFilters
-            searchQuery={searchQuery}
+            searchQuery={searchTerm}
             filter={filter}
             sentimentFilter={sentimentFilter}
             sortBy={sortBy}
             localDateRange={localDateRange}
             hasDateRange={!!hasDateRange}
             isRefreshing={isRefreshing}
-            onSearchChange={setSearchQuery}
-            onFilterChange={setFilter}
-            onSentimentFilterChange={setSentimentFilter}
-            onSortChange={setSortBy}
-            onDateRangeChange={setLocalDateRange}
+            onSearchChange={setSearchTerm}
+            onFilterChange={(value) => dispatch(setFilter(value))}
+            onSentimentFilterChange={(value) => dispatch(setSentimentFilter(value))}
+            onSortChange={(value) => dispatch(setSortBy(value))}
+            onDateRangeChange={handleDateRangeChange}
             onClearDateRange={handleClearDateRange}
             onRefresh={handleRefresh}
           />
 
+          {/* Loading State */}
+          {reviewsLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-muted-foreground">Loading reviews...</div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {reviewsError && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <p className="text-red-700">Error: {reviewsError}</p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={loadBulkReviews}
+                className="mt-2"
+              >
+                Retry
+              </Button>
+            </div>
+          )}
+
           {/* Reviews List */}
-          <div className="space-y-4">
-            {[1, 2, 3].map(index => <div key={index} className="border border-border rounded-lg p-6">
-                {/* Review Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium">AT</span>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium">Asmita Thakur</span>
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                          positive
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center">
-                          {[1, 2, 3, 4, 5].map(star => <Star key={star} className="w-4 h-4 text-yellow-400 fill-current" />)}
-                        </div>
-                        <span className="text-sm text-muted-foreground">(5/5)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-sm text-muted-foreground">08 Mar 2019</span>
+          {!reviewsLoading && !reviewsError && (
+            <div className="space-y-4">
+              {reviews.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No reviews found matching your criteria.
                 </div>
+              ) : (
+                reviews.map((review) => (
+                  <BulkReviewCard
+                    key={review.id}
+                    review={review}
+                    editingReply={editingReply}
+                    showingAIGenerator={showingAIGenerator}
+                    replyLoading={replyLoading}
+                    deleteLoading={deleteReplyLoading}
+                    onGenerateReply={handleGenerateReply}
+                    onManualReply={handleManualReply}
+                    onSaveReply={handleSaveReply}
+                    onDeleteReply={handleDeleteReply}
+                    onCancelAIGenerator={handleCancelAIGenerator}
+                  />
+                ))
+              )}
+            </div>
+          )}
 
-                {/* Review Text */}
-                <p className="text-sm text-foreground mb-4">
-                  Nice place to work
-                </p>
-
-                {/* Reply Section */}
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    Hi Asmita Thakur, Thank you so much for your glowing five-star review of Webmarts Software Solution! We are absolutely thrilled to hear that you had such a positive experience with our services. Your kind words truly make the world of us and serve as a wonderful affirmation of the hard work and dedication our team puts into ensuring the highest level of customer satisfaction. At Webmarts, we strive to provide innovative and reliable software solutions tailored to meet the unique needs of each of our clients. It is incredibly rewarding to know that our efforts have made a significant impact on your business. Your feedback not only motivates us to maintain our standards but also inspires us to continue improving and expanding our offerings.
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Replied on 30 May 2025
-                  </p>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    Edit Reply
-                  </Button>
-                  <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                    Delete Reply
-                  </Button>
-                </div>
-              </div>)}
-          </div>
+          {/* Pagination */}
+          {pagination && pagination.total_pages > 1 && (
+            <div className="flex items-center justify-between mt-6">
+              <p className="text-sm text-muted-foreground">
+                Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
+                {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
+                {pagination.total} reviews
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(pagination.page - 1)}
+                  disabled={!pagination.has_prev}
+                >
+                  Previous
+                </Button>
+                <span className="px-3 py-1 text-sm bg-muted rounded">
+                  Page {pagination.page} of {pagination.total_pages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(pagination.page + 1)}
+                  disabled={!pagination.has_next}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>;
