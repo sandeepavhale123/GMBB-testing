@@ -214,17 +214,7 @@ export const BulkReviewSummary: React.FC = () => {
             </div>
 
             {/* Progress Bar */}
-            <div className="pt-3 border-t border-border">
-              <div className="flex justify-between text-xs text-muted-foreground mb-2">
-                <span>Progress</span>
-                <span>{Math.round((summaryData.total_reviews - summaryData.pending_replies) / summaryData.total_reviews * 100)}% Complete</span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-                width: `${(summaryData.total_reviews - summaryData.pending_replies) / summaryData.total_reviews * 100}%`
-              }} />
-              </div>
-            </div>
+            
           </div>
         </CardContent>
       </Card>
