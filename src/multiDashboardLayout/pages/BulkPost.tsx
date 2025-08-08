@@ -146,7 +146,7 @@ export const BulkPost: React.FC = () => {
                 </div> :
               // Actual data
               bulkPosts.map(post => <div key={post.id} className=" mb-[20px]  ">
-                    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 pb-4 sm:pb-5 mb-4 sm:mb-6 border-b border-gray-200">
+                    <div className="flex flex-col-reverse sm:flex-row items-start gap-4 sm:gap-6 pb-4 sm:pb-5 mb-4 sm:mb-6 border-b border-gray-200">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
                         {/* Status Information */}
