@@ -143,53 +143,28 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent 
-          className="w-[400px] p-0 bg-background border border-border shadow-lg z-[9999]" 
-          side="bottom" 
-          align="start"
-          sideOffset={4}
-          avoidCollisions={true}
-          onEscapeKeyDown={(e) => {
-            e.preventDefault();
-            setOpen(false);
-          }}
-          onFocusOutside={(e) => {
-            // Keep popover open when focus moves to modal content
-            const target = e.target as Element;
-            if (target.closest('[role="dialog"]')) {
-              e.preventDefault();
-            }
-          }}
-          onInteractOutside={(e) => {
-            // Only close when clicking outside both popover and modal
-            const target = e.target as Element;
-            if (!target.closest('[role="dialog"]') && !target.closest('[data-radix-popover-content]')) {
-              setOpen(false);
-            } else {
-              e.preventDefault();
-            }
-          }}
-        >
+        <PopoverContent className="w-full p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start" onPointerDownOutside={e => {
+        const target = e.target as Element;
+        if (target.closest('[data-radix-popover-content]')) {
+          e.preventDefault();
+        }
+      }}>
           <div className="p-3">
-            {/* Search Input - Fixed at top */}
-            <div className="relative">
+            {/* Search Input */}
+            <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
                 placeholder="Search listings and groups..." 
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)} 
                 className="pl-8 w-full" 
-                autoComplete="off"
-                onMouseDown={e => e.stopPropagation()}
-                onClick={e => e.stopPropagation()}
-                onFocus={e => e.stopPropagation()}
-                onKeyDown={e => e.stopPropagation()}
-                onPointerDown={e => e.stopPropagation()}
+                onFocus={e => e.stopPropagation()} 
+                onClick={e => e.stopPropagation()} 
               />
             </div>
             
             {/* Options List */}
-            <div className="mt-3 max-h-60 overflow-y-auto">
+            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
               {filteredOptions.length === 0 ? <div className="py-6 text-center text-sm text-muted-foreground">
                   {isLoading ? "Loading..." : "No listings found."}
                 </div> : <div className="space-y-1">
