@@ -179,7 +179,7 @@ export const BulkMedia: React.FC = () => {
                         <div className="font-semibold text-foreground mb-1 line-clamp-2 text-xl">
                           {media.category}
                         </div>
-                        <Badge variant="outline flex gap-2">{media.mediaType === 'video' ? <><Play className="w-3 h-3" /> Video</> : <><Image className="w-3 h-3" /> Photo</>}</Badge>
+                        <Badge variant="outline" className="flex gap-2">{media.mediaType === 'video' ? <><Play className="w-3 h-3" /> Video</> : <><Image className="w-3 h-3" /> Photo</>}</Badge>
                       </div>
                       
                       {/* Meta Information */}
