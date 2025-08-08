@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '../../ui/button';
-import { ChevronLeft, ChevronRight, Download, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Loader2 } from 'lucide-react';
 
 interface AIImagePreviewProps {
   images: string[];
@@ -53,8 +53,8 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4 mr-2" />
-                    Save
+                    <Check className="w-4 h-4 mr-2" />
+                    Use Image
                   </>
                 )}
               </Button>
