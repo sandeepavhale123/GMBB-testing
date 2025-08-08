@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Check, ChevronDown, X, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../ui/collapsible';
 import { Input } from '../../ui/input';
 import { Badge } from '../../ui/badge';
 import { useGetAllListingsMutation, GroupsList, LocationsList } from '../../../api/listingsGroupsApi';
@@ -136,83 +136,78 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             </Badge>)}
         </div>}
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between" disabled={isLoading}>
+      <Collapsible open={open} onOpenChange={setOpen}>
+        <CollapsibleTrigger asChild>
+          <Button variant="outline" className="w-full justify-between" disabled={isLoading}>
             {selectedListings.length === 0 ? isLoading ? "Loading..." : "Select listings and groups..." : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`}
-            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
           </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-full p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start" onPointerDownOutside={e => {
-        const target = e.target as Element;
-        if (target.closest('[data-radix-popover-content]')) {
-          e.preventDefault();
-        }
-      }}>
-          <div className="p-3">
-            {/* Search Input */}
-            <div className="relative flex-1">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input 
-                placeholder="Search listings and groups..." 
-                value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
-                className="pl-8 w-full" 
-                onFocus={e => e.stopPropagation()} 
-                onClick={e => e.stopPropagation()} 
-              />
-            </div> 
-            
-            {/* Options List */}
-            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
-              {filteredOptions.length === 0 ? <div className="py-6 text-center text-sm text-muted-foreground">
-                  {isLoading ? "Loading..." : "No listings found."}
-                </div> : <div className="space-y-1">
-                  {/* Groups Section */}
-                  {groupOptions.length > 0 && <div>
-                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                        <span>Groups</span>
-                        <button onMouseDown={areAllGroupsSelected ? handleDeselectAllGroups : handleSelectAllGroups} className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer">
-                          {areAllGroupsSelected ? 'Deselect All' : 'Select All'}
-                        </button>
-                      </div>
-                      {groupOptions.map(option => <div key={option.id} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" onMouseDown={e => handleSelect(option.id, e)}>
-                          <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                           <div className="flex items-center justify-between w-full">
-                             <span>{option.name}</span>
-                             {option.locCount && (
-                               <div className="flex items-center">
-                                 <span className="text-xs text-muted-foreground mr-1">Listings</span>
-                                 <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                                   {option.locCount}
-                                 </span>
-                               </div>
-                             )}
-                           </div>
-                        </div>)}
-                    </div>}
-                  
-                  {/* Locations Section */}
-                  {locationOptions.length > 0 && <div>
-                      <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                        <span>Locations</span>
-                        <button onMouseDown={areAllLocationsSelected ? handleDeselectAllLocations : handleSelectAllLocations} className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer">
-                          {areAllLocationsSelected ? 'Deselect All' : 'Select All'}
-                        </button>
-                      </div>
-                      {locationOptions.map(option => <div key={option.id} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" onMouseDown={e => handleSelect(option.id, e)}>
-                          <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                          <div className="flex flex-col">
-                            <span>{option.name}</span>
-                            {option.zipCode && <span className="text-xs text-muted-foreground">{option.zipCode}</span>}
-                          </div>
-                        </div>)}
-                    </div>}
-                </div>}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <div className="border rounded-md bg-background shadow-sm">
+            <div className="p-3">
+              {/* Search Input */}
+              <div className="relative flex-1">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search listings and groups..." 
+                  value={searchTerm} 
+                  onChange={e => setSearchTerm(e.target.value)} 
+                  className="pl-8 w-full" 
+                />
+              </div> 
+              
+              {/* Options List */}
+              <div className="mt-3 max-h-60 overflow-y-auto">
+                {filteredOptions.length === 0 ? <div className="py-6 text-center text-sm text-muted-foreground">
+                    {isLoading ? "Loading..." : "No listings found."}
+                  </div> : <div className="space-y-1">
+                    {/* Groups Section */}
+                    {groupOptions.length > 0 && <div>
+                        <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                          <span>Groups</span>
+                          <button onClick={areAllGroupsSelected ? handleDeselectAllGroups : handleSelectAllGroups} className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer">
+                            {areAllGroupsSelected ? 'Deselect All' : 'Select All'}
+                          </button>
+                        </div>
+                        {groupOptions.map(option => <div key={option.id} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={e => handleSelect(option.id, e)}>
+                            <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                             <div className="flex items-center justify-between w-full">
+                               <span>{option.name}</span>
+                               {option.locCount && (
+                                 <div className="flex items-center">
+                                   <span className="text-xs text-muted-foreground mr-1">Listings</span>
+                                   <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                     {option.locCount}
+                                   </span>
+                                 </div>
+                               )}
+                             </div>
+                          </div>)}
+                      </div>}
+                    
+                    {/* Locations Section */}
+                    {locationOptions.length > 0 && <div>
+                        <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                          <span>Locations</span>
+                          <button onClick={areAllLocationsSelected ? handleDeselectAllLocations : handleSelectAllLocations} className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer">
+                            {areAllLocationsSelected ? 'Deselect All' : 'Select All'}
+                          </button>
+                        </div>
+                        {locationOptions.map(option => <div key={option.id} className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" onClick={e => handleSelect(option.id, e)}>
+                            <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                            <div className="flex flex-col">
+                              <span>{option.name}</span>
+                              {option.zipCode && <span className="text-xs text-muted-foreground">{option.zipCode}</span>}
+                            </div>
+                          </div>)}
+                      </div>}
+                  </div>}
+              </div>
             </div>
           </div>
-        </PopoverContent>
-      </Popover>
+        </CollapsibleContent>
+      </Collapsible>
       
       {selectedListings.length === 0 && !error && <p className="text-xs text-muted-foreground">
           Select at least one listing or group to continue
