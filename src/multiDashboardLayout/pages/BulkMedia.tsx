@@ -157,7 +157,7 @@ export const BulkMedia: React.FC = () => {
               </div> :
           // Actual data
           bulkMedia.map(media => <div key={media.id} className="gap-6 pb-5 mb-6 border-b border-gray-200">
-                  <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
+                  <div className="flex flex-col-reverse md:flex-row md:items-start gap-4 md:gap-6">
                     {/* Left Content */}
                     <div className="flex-1 min-w-0">
                       {/* Status Information */}
