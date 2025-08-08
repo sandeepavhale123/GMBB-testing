@@ -151,7 +151,9 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
       }}>
           <div className="p-3">
             {/* Search Input */}
-            <div className="relative flex-1">
+            {/* Options List */}
+            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
+               <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
                 placeholder="Search listings and groups..." 
@@ -162,9 +164,6 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                 onClick={e => e.stopPropagation()} 
               />
             </div>
-            
-            {/* Options List */}
-            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
               {filteredOptions.length === 0 ? <div className="py-6 text-center text-sm text-muted-foreground">
                   {isLoading ? "Loading..." : "No listings found."}
                 </div> : <div className="space-y-1">
