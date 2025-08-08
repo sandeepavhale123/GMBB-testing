@@ -117,7 +117,7 @@ export const PostImageSection: React.FC<PostImageSectionProps> = ({
             <Gallery showHeader={true} showUpload={true} showDeleteButton={false} showSelectButton={true} onSelectImage={imageUrl => {
             handleGalleryImageSelect(imageUrl);
             setIsGalleryModalOpen(false);
-          }} className="h-full" />
+          }} onCloseModal={() => setIsGalleryModalOpen(false)} className="h-full" />
           </div>
           <DialogFooter className="p-6 pt-4 hidden ">
             <Button variant="outline" onClick={() => setIsGalleryModalOpen(false)}>

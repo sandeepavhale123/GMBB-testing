@@ -310,6 +310,7 @@ interface GalleryProps {
   showDeleteButton?: boolean;
   showSelectButton?: boolean;
   onSelectImage?: (imageUrl: string) => void;
+  onCloseModal?: () => void;
   className?: string;
 }
 export const Gallery: React.FC<GalleryProps> = ({
@@ -320,6 +321,7 @@ export const Gallery: React.FC<GalleryProps> = ({
   showDeleteButton = true,
   showSelectButton = false,
   onSelectImage,
+  onCloseModal,
   className = ''
 }) => {
   const {
@@ -770,7 +772,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 </div>
 
                 {generatedImages.length > 0 && <div className="space-y-4">
-                    <AIImagePreview images={generatedImages} selectedIndex={selectedImageIndex} prompt={aiPrompt} style={aiStyle} onPreviousImage={handlePreviousImage} onNextImage={handleNextImage} onSelectImage={handleSelectImageFromGenerated} onSaveImage={handleSaveAIImage} savingImageIndex={savingImageIndex} />
+                    <AIImagePreview images={generatedImages} selectedIndex={selectedImageIndex} prompt={aiPrompt} style={aiStyle} onPreviousImage={handlePreviousImage} onNextImage={handleNextImage} onSelectImage={handleSelectImageFromGenerated} onSaveImage={handleSaveAIImage} savingImageIndex={savingImageIndex} onCloseModal={onCloseModal} />
                   </div>}
               </div>}
 
