@@ -162,13 +162,13 @@ export const BulkMedia: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       {/* Status Information */}
                       <div className="flex flex-wrap items-center gap-3 mb-4">
-                        {media.livePosts > 0 && <span className="text-sm text-green-600 font-medium">
+                        {media.livePosts > 0 && <span className="text-sm font-medium text-slate-500">
                             Posted on {media.livePosts} listings
                           </span>}
-                        {media.failedPosts > 0 && <span className="text-sm text-red-600 font-medium">
+                        {media.failedPosts > 0 && <span className="text-sm font-medium text-slate-500">
                             Failed on {media.failedPosts} listings
                           </span>}
-                        {media.schedulePosts > 0 && <span className="text-sm text-blue-600 font-medium">
+                        {media.schedulePosts > 0 && <span className="text-sm font-medium text-slate-500">
                             Scheduled on {media.schedulePosts} listings
                           </span>}
                         {media.livePosts === 0 && media.failedPosts === 0 && media.schedulePosts === 0 && <span className="text-sm text-muted-foreground">No active posts</span>}
@@ -183,7 +183,7 @@ export const BulkMedia: React.FC = () => {
                       </div>
                       
                       {/* Meta Information */}
-                      <div className="text-xs text-muted-foreground mb-4">
+                      <div className="text-sm text-muted-foreground mb-4">
                         {media.location_count} total locations • {formatPublishDate(media.publishDate)}
                       </div>
                       
