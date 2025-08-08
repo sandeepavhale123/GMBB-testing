@@ -190,9 +190,9 @@ export const BulkPost: React.FC = () => {
                       </div>
                       
                       {/* Right Image */}
-                      <div className="flex-shrink-0 w-60 max-h-[190px]">
-  <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px] h-[190px]">
-    {post.image ? <img src={post.image} alt={post.posttype || 'Post image'} className="w-full h-full object-cover" onError={e => {
+                      <div className="flex-shrink-0">
+  <div className="bg-muted rounded-lg overflow-hidden relative group" style={{ height: '190px', width: '337px' }}>
+    {post.image ? <img src={post.image} alt={post.posttype || 'Post image'} className="w-full h-[190px] object-cover transition-all duration-300 group-hover:object-cover" style={{ aspectRatio: '16/9' }} onError={e => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const parent = target.parentElement;
