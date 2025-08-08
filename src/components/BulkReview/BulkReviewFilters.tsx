@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, RefreshCw, X, ChevronDown, Calendar } from 'lucide-react';
+import { Search, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -49,7 +49,6 @@ export const BulkReviewFilters: React.FC<BulkReviewFiltersProps> = ({
       <Select value={filter} onValueChange={onFilterChange}>
         <SelectTrigger className="w-[140px]">
           <SelectValue placeholder="All Reviews" />
-          <ChevronDown className="w-4 h-4 ml-2" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All Reviews</SelectItem>
@@ -62,7 +61,6 @@ export const BulkReviewFilters: React.FC<BulkReviewFiltersProps> = ({
       <Select value={sentimentFilter} onValueChange={onSentimentFilterChange}>
         <SelectTrigger className="w-[130px]">
           <SelectValue placeholder="All Sentiment" />
-          <ChevronDown className="w-4 h-4 ml-2" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All Sentiment</SelectItem>
@@ -76,7 +74,6 @@ export const BulkReviewFilters: React.FC<BulkReviewFiltersProps> = ({
       <Select value={sortBy} onValueChange={onSortChange}>
         <SelectTrigger className="w-[130px]">
           <SelectValue placeholder="Newest First" />
-          <ChevronDown className="w-4 h-4 ml-2" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="newest">Newest First</SelectItem>
