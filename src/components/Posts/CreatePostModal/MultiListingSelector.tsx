@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Check, ChevronDown, X, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { Label } from '../../ui/label';
@@ -29,12 +29,31 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [locationsOpen, setLocationsOpen] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [getAllListings, {
     isLoading
   }] = useGetAllListingsMutation();
+  
   useEffect(() => {
     fetchListings();
   }, []);
+
+  // Close collapsible when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
   const fetchListings = async () => {
     try {
       const response = await getAllListings().unwrap();
@@ -146,7 +165,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2">
-          <div className="border rounded-md bg-background shadow-sm">
+          <div ref={containerRef} className="border rounded-md bg-background shadow-sm">
             <div className="p-3">
               {/* Search Input */}
               <div className="relative flex-1">
