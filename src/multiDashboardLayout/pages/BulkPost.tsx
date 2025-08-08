@@ -145,7 +145,7 @@ export const BulkPost: React.FC = () => {
                   </Button>
                 </div> :
               // Actual data
-              bulkPosts.map(post => <div key={post.id} className=" mb-4 ">
+              bulkPosts.map(post => <div key={post.id} className=" mb-[20px]  ">
                     <div className="flex items-start gap-6">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
@@ -187,7 +187,7 @@ export const BulkPost: React.FC = () => {
                       
                       {/* Right Image */}
                       <div className="flex-shrink-0 w-60 max-h-[190px]">
-  <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px]">
+  <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px] h-[190px]">
     {post.image ? (
       <img
         src={post.image}
