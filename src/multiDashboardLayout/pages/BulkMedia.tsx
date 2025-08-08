@@ -209,7 +209,7 @@ export const BulkMedia: React.FC = () => {
                             <img 
                               src={media.url} 
                               alt={`${media.category} media`} 
-                              className="w-full h-[190px] object-cover transition-all duration-300 group-hover:object-contain group-hover:aspect-video" 
+                              className="w-full h-[190px] object-cover transition-all duration-300" 
                               style={{ aspectRatio: '16/9' }}
                               onError={e => {
                       const target = e.target as HTMLImageElement;
