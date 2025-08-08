@@ -204,9 +204,14 @@ export const BulkMedia: React.FC = () => {
                     
                     {/* Right Image */}
                     <div className="flex-shrink-0">
-                      <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px] h-[190px]">
+                      <div className="bg-muted rounded-lg overflow-hidden relative group" style={{ height: '190px', width: '337px' }}>
                         {media.url ? <>
-                            <img src={media.url} alt={`${media.category} media`} className="w-full h-full object-cover" onError={e => {
+                            <img 
+                              src={media.url} 
+                              alt={`${media.category} media`} 
+                              className="w-full h-[190px] object-cover transition-all duration-300 group-hover:object-contain group-hover:aspect-video" 
+                              style={{ aspectRatio: '16/9' }}
+                              onError={e => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                       const parent = target.parentElement;
