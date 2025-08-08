@@ -81,7 +81,7 @@ export const DashboardRecentReviews: React.FC = () => {
     try {
       const result = await dispatch(sendReviewReply({
         reviewId: parseInt(reviewId),
-        reply_text: replyText,
+        replyText,
         replyType: showingAIGenerator === reviewId ? 'AI' : 'manual',
         listingId: selectedListing.id
       }));

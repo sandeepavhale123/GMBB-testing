@@ -51,21 +51,6 @@ export const fetchReviews = createAsyncThunk(
   }
 );
 
-// Async thunk for fetching bulk reviews
-export const fetchBulkReviews = createAsyncThunk(
-  "reviews/fetchBulkReviews",
-  async (params: GetReviewsRequest, { rejectWithValue }) => {
-    try {
-      const response = await reviewService.getBulkReviews(params);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch bulk reviews"
-      );
-    }
-  }
-);
-
 // Async thunk for sending review reply
 export const sendReviewReply = createAsyncThunk(
   "reviews/sendReply",
@@ -84,7 +69,7 @@ export const sendReviewReply = createAsyncThunk(
       return {
         ...response,
         reviewId: params.reviewId,
-        replyText: params.reply_text,
+        replyText: params.replyText,
       };
     } catch (error: any) {
       return rejectWithValue(

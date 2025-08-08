@@ -63,7 +63,7 @@ export interface FilterParams {
     max: number;
   };
   sentiment: string;
-  listingId?: string;
+  listingId: string;
 }
 
 export interface SortingParams {
@@ -79,8 +79,8 @@ export interface GetReviewsRequest {
 
 export interface Review {
   id: string;
-  listingId?: string;
-  accountId?: string;
+  listingId: string;
+  accountId: string;
   customer_name: string;
   rating: number;
   comment: string;
@@ -88,14 +88,10 @@ export interface Review {
   reply_text: string;
   reply_date: string;
   profile_image_url: string;
-  locationName?: string;
-  zipcode?: string;
   platform: string;
   is_new: boolean;
   replied: boolean;
   reply_type: string;
-  reply_setting?: string;
-  sentiment?: string;
 }
 
 export interface PaginationResponse {
@@ -118,8 +114,8 @@ export interface GetReviewsResponse {
 
 export interface SendReplyRequest {
   reviewId: number;
-  reply_text: string;
-  replyType?: "manual" | "AI";
+  replyText: string;
+  replyType: "manual" | "AI";
 }
 
 export interface SendReplyResponse {
@@ -309,13 +305,6 @@ export const reviewService = {
     const response = await axiosInstance.post("/generate-ai-reply", {
       reviewId,
     });
-    return response.data;
-  },
-
-  getBulkReviews: async (
-    params: GetReviewsRequest
-  ): Promise<GetReviewsResponse> => {
-    const response = await axiosInstance.post("/get-bulk-reviews", params);
     return response.data;
   },
 
