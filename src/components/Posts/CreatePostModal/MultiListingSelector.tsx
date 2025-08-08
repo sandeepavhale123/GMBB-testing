@@ -154,6 +154,9 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
                 onChange={e => setSearchTerm(e.target.value)} 
                 className="pl-8 w-full" 
                 autoComplete="off"
+                onMouseDown={e => e.stopPropagation()}
+                onClick={e => e.stopPropagation()}
+                onFocus={e => e.stopPropagation()}
               />
             </div>
             
