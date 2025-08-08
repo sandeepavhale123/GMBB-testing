@@ -106,7 +106,7 @@ export const BulkMedia: React.FC = () => {
     }
   };
   return <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-10">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Media Management</h1>
           <p className="text-muted-foreground">Upload and organize media across multiple listings</p>
