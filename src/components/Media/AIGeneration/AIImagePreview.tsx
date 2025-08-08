@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '../../ui/button';
 import { ChevronLeft, ChevronRight, Check, Loader2 } from 'lucide-react';
+import { useMediaContext } from '../../../context/MediaContext';
 
 interface AIImagePreviewProps {
   images: string[];
@@ -26,6 +27,21 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
   onSaveImage,
   savingImageIndex
 }) => {
+  const { triggerCreatePost } = useMediaContext();
+
+  const handleUseImage = async (imageUrl: string) => {
+    // First save to gallery if onSaveImage is provided
+    if (onSaveImage) {
+      await onSaveImage(imageUrl);
+    }
+    
+    // Then trigger create post modal with the image
+    triggerCreatePost({
+      url: imageUrl,
+      title: `AI Generated - ${prompt.slice(0, 30)}...`,
+      source: 'ai'
+    });
+  };
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((imageUrl, index) => (
@@ -42,7 +58,7 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <Button
                 size="sm"
-                onClick={() => onSaveImage(imageUrl)}
+                onClick={() => handleUseImage(imageUrl)}
                 disabled={savingImageIndex === index}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
