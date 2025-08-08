@@ -143,24 +143,22 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[400px] p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start">
+        <PopoverContent className="w-full p-0 z-[100] bg-popover border shadow-md" side="bottom" align="start">
           <div className="p-3">
-            {/* Search Input - Fixed at top */}
-            <div className="relative flex-1 mb-3">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+            {/* Search Input */}
+            {/* Options List */}
+            <div className="mt-3 max-h-60 overflow-y-auto pointer-events-auto">
+               <div className="relative flex-1">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
                 placeholder="Search listings and groups..." 
                 value={searchTerm} 
                 onChange={e => setSearchTerm(e.target.value)} 
                 className="pl-8 w-full" 
-                onKeyDown={e => e.stopPropagation()}
-                onMouseDown={e => e.stopPropagation()}
-                onClick={e => e.stopPropagation()}
+                onFocus={e => e.stopPropagation()} 
+                onClick={e => e.stopPropagation()} 
               />
             </div>
-            
-            {/* Options List - Scrollable */}
-            <div className="max-h-60 overflow-y-auto pointer-events-auto">
               {filteredOptions.length === 0 ? <div className="py-6 text-center text-sm text-muted-foreground">
                   {isLoading ? "Loading..." : "No listings found."}
                 </div> : <div className="space-y-1">
