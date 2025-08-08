@@ -89,7 +89,7 @@ export const BulkPost: React.FC = () => {
   return <>
       <CreatePostModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
       <div className="space-y-6">
-      <div className="flex xs:justify-start md: justify-between items-center mb-10 xs:flex-col-reverse md:flex-row ">
+      <div className="flex justify-start md:justify-between items-center mb-10 flex-col-reverse md:flex-row">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Post Management</h1>
           <p className="text-muted-foreground">Create and schedule posts across multiple listings</p>
