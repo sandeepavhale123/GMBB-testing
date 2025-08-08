@@ -204,7 +204,7 @@ export const BulkMedia: React.FC = () => {
                     
                     {/* Right Image */}
                     <div className="flex-shrink-0">
-                      <div className="w-40 h-40 bg-muted rounded-lg overflow-hidden relative">
+                      <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px] h-[190px]">
                         {media.url ? <>
                             <img src={media.url} alt={`${media.category} media`} className="w-full h-full object-cover" onError={e => {
                       const target = e.target as HTMLImageElement;
