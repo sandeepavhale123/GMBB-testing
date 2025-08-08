@@ -146,7 +146,7 @@ export const BulkPost: React.FC = () => {
                 </div> :
               // Actual data
               bulkPosts.map(post => <div key={post.id} className=" mb-[20px]  ">
-                    <div className="flex items-start gap-6">
+                    <div className="flex items-start gap-6 pb-5 mb-6 border-b border-gray-200">
                       {/* Left Content */}
                       <div className="flex-1 min-w-0">
                         {/* Status Information */}
@@ -188,31 +188,22 @@ export const BulkPost: React.FC = () => {
                       {/* Right Image */}
                       <div className="flex-shrink-0 w-60 max-h-[190px]">
   <div className="aspect-w-16 aspect-h-9 bg-muted rounded-lg overflow-hidden h-full max-h-[190px] h-[190px]">
-    {post.image ? (
-      <img
-        src={post.image}
-        alt={post.posttype || 'Post image'}
-        className="w-full h-full object-cover"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.style.display = 'none';
-          const parent = target.parentElement;
-          if (parent) {
-            parent.innerHTML = `
+    {post.image ? <img src={post.image} alt={post.posttype || 'Post image'} className="w-full h-full object-cover" onError={e => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.innerHTML = `
               <div class='w-full h-full bg-muted rounded-lg flex items-center justify-center'>
                 <span class='text-xs text-muted-foreground text-center px-2'>No image</span>
               </div>
             `;
-          }
-        }}
-      />
-    ) : (
-      <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
+                        }
+                      }} /> : <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
         <span className="text-xs text-muted-foreground text-center px-2">No image</span>
-      </div>
-    )}
+      </div>}
   </div>
-</div>
+                  </div>
                     </div>
                   </div>)}
             </div>
