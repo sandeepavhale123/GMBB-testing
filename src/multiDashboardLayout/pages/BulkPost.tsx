@@ -153,7 +153,7 @@ export const BulkPost: React.FC = () => {
                         <div className="flex flex-wrap items-center gap-3 mb-1">
                           {post.livePosts > 0 && <span className="font-medium text-sm text-slate-500">Posted on {post.livePosts} listings</span>}
                           {post.failedPosts > 0 && <span className="text-sm font-medium text-slate-500">Failed on {post.failedPosts} listings</span>}
-                          {post.schedulePosts > 0 && <span className="font-medium">Scheduled on {post.schedulePosts} listings</span>}
+                          {post.schedulePosts > 0 && <span className="text-sm font-medium text-slate-500">Scheduled on {post.schedulePosts} listings</span>}
                           {post.livePosts === 0 && post.failedPosts === 0 && post.schedulePosts === 0 && <span className="text-sm text-muted-foreground">No active posts</span>}
                         </div>
                         
