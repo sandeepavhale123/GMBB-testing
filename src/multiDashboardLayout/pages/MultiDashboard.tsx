@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2, Loader2 } from 'lucide-react';
+import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2, Loader2, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -45,7 +45,7 @@ export const MultiDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedState, setSelectedState] = useState('');
-  const [reviewFilter, setReviewFilter] = useState< "all"| "0" | "1" | "2" | "3" | "4" | "5" | "6">("all");
+  const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const [postStatus, setPostStatus] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
@@ -379,10 +379,37 @@ export const MultiDashboard: React.FC = () => {
                     <SelectValue placeholder="Review Filter" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Reviews</SelectItem>
                     <SelectItem value="0">Un - Responded Review</SelectItem>
-                    <SelectItem value="1">Un - Responded ARE</SelectItem>
-                    <SelectItem value="2">Un - Responded DNR</SelectItem>
+                    <SelectItem value="1">
+                      <div className="flex items-center gap-2">
+                        <span>Un - Responded ARE</span>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-3 w-3 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Auto Respond Enable</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="2">
+                      <div className="flex items-center gap-2">
+                        <span>Un - Responded DNR</span>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-3 w-3 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Do Not Respond</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </SelectItem>
                     <SelectItem value="3">Exclude ARE Review</SelectItem>
                     <SelectItem value="4">Exclude DNR Review</SelectItem>
                     <SelectItem value="5">Exclude ARE/DNR Review</SelectItem>
