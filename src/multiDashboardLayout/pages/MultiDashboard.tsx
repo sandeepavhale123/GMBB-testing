@@ -316,7 +316,7 @@ export const MultiDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <input placeholder="Search listings by name, location, or category..." className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring" value={searchTerm} onChange={e => handleSearchChange(e.target.value)} />
+              <input placeholder="Search by listing name or ZIP code" className="w-full pl-10 pr-4 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring" value={searchTerm} onChange={e => handleSearchChange(e.target.value)} />
             </div>
             <div className="flex gap-2">
               <Select value={selectedCategory} onValueChange={value => handleFilterChange('category', value)} disabled={categoryStateLoading}>
