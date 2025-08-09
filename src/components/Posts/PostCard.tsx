@@ -131,10 +131,10 @@ export const PostCard: React.FC<PostCardProps> = ({
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
           Deleting post...
         </div>,
-      description: <div className="space-y-2">
+      description: <div className="space-y-2 w-full">
           <div className="text-sm text-muted-foreground">Preparing deletion...</div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+          <div className="w-full bg-muted rounded-full h-3">
+            <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
             width: '10%'
           }} />
           </div>
@@ -150,10 +150,10 @@ export const PostCard: React.FC<PostCardProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
+          description: <div className="space-y-2 w-full">
               <div className="text-sm text-muted-foreground">Deleting post...</div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+              <div className="w-full bg-muted rounded-full h-3">
+                <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
                 width: '60%'
               }} />
               </div>
@@ -163,10 +163,10 @@ export const PostCard: React.FC<PostCardProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
+          description: <div className="space-y-2 w-full">
               <div className="text-sm text-muted-foreground">Finalizing...</div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+              <div className="w-full bg-muted rounded-full h-3">
+                <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
                 width: '90%'
               }} />
               </div>
@@ -192,10 +192,10 @@ export const PostCard: React.FC<PostCardProps> = ({
             </div>
             Post deleted successfully
           </div>,
-        description: <div className="space-y-2">
+        description: <div className="space-y-2 w-full">
             <div className="text-sm text-green-600">Deletion completed</div>
-            <div className="w-full bg-muted rounded-full h-2">
-              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{
+            <div className="w-full bg-muted rounded-full h-3">
+              <div className="bg-green-500 h-3 rounded-full transition-all duration-300" style={{
               width: '100%'
             }} />
             </div>
