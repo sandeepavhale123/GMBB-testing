@@ -125,23 +125,20 @@ export const PostCard: React.FC<PostCardProps> = ({
 
     // Show progress toast
     const progressToast = toast({
-      title: (
-        <div className="flex items-center gap-2">
+      title: <div className="flex items-center gap-2">
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
           Deleting post...
-        </div>
-      ),
-      description: (
-        <div className="space-y-2">
+        </div>,
+      description: <div className="space-y-2">
           <div className="text-sm text-muted-foreground">Preparing deletion...</div>
           <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '10%' }} />
+            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+            width: '10%'
+          }} />
           </div>
-        </div>
-      ),
-      duration: Infinity, // Keep open until we dismiss it
+        </div>,
+      duration: Infinity // Keep open until we dismiss it
     });
-
     try {
       // Clear any previous errors
       setIsDeleting(true);
@@ -151,31 +148,29 @@ export const PostCard: React.FC<PostCardProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: (
-            <div className="space-y-2">
+          description: <div className="space-y-2">
               <div className="text-sm text-muted-foreground">Deleting post...</div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '60%' }} />
+                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+                width: '60%'
+              }} />
               </div>
             </div>
-          ),
         });
       }, 300);
-
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: (
-            <div className="space-y-2">
+          description: <div className="space-y-2">
               <div className="text-sm text-muted-foreground">Finalizing...</div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '90%' }} />
+                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
+                width: '90%'
+              }} />
               </div>
             </div>
-          ),
         });
       }, 600);
-
       await dispatch(deletePost({
         postId: [parseInt(post.id)],
         listingId: parseInt(listingId.toString())
@@ -186,28 +181,26 @@ export const PostCard: React.FC<PostCardProps> = ({
         // Force a page reload to refresh the dashboard data
         window.location.reload();
       }
-      
+
       // Complete progress and show success
       progressToast.update({
         id: progressToast.id,
-        title: (
-          <div className="flex items-center gap-2">
+        title: <div className="flex items-center gap-2">
             <div className="h-4 w-4 bg-green-500 rounded-full flex items-center justify-center">
               <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
             Post deleted successfully
-          </div>
-        ),
-        description: (
-          <div className="space-y-2">
+          </div>,
+        description: <div className="space-y-2">
             <div className="text-sm text-green-600">Deletion completed</div>
             <div className="w-full bg-muted rounded-full h-2">
-              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{ width: '100%' }} />
+              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{
+              width: '100%'
+            }} />
             </div>
           </div>
-        ),
       });
 
       // Auto-dismiss success toast after 2 seconds
@@ -218,10 +211,9 @@ export const PostCard: React.FC<PostCardProps> = ({
       // Post will be automatically removed from UI by Redux store
     } catch (error) {
       console.error("Error deleting post:", error);
-      
+
       // Dismiss progress toast and show error
       progressToast.dismiss();
-      
       toast({
         title: "Failed to Delete Post",
         description: error instanceof Error ? (error as any)?.response?.data?.message || error.message : "An unexpected error occurred. Please try again.",
@@ -257,7 +249,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {/* Post Image */}
         <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
           {/* External Link Button */}
-          {post.searchUrl && <Button variant="ghost" size="sm" onClick={() => window.open(post.searchUrl, "_blank")} title="Open post on Google" className="absolute top-2 right-2 h-8 w-8 p-0 text-white rounded-full z-20 bg-gray-800 hover:bg-gray-700">
+          {post.searchUrl && <Button variant="ghost" size="sm" onClick={() => window.open(post.searchUrl, "_blank")} title="Open post on Google" className="absolute top-2 right-2 h-8 w-8 p-0 text-white rounded-full z-20 bg-gray-800 hover:bg-gray-700 hover:text-white ">
               <ArrowUpRight className="w-4 h-4" />
             </Button>}
           {post.media?.images ? <>
@@ -284,11 +276,9 @@ export const PostCard: React.FC<PostCardProps> = ({
               <h3 className="font-semibold text-gray-900 line-clamp-2">
                 {post.title || "Untitled Post"}
               </h3>
-              {post.listingName && (
-                <p className="text-sm text-muted-foreground mt-1 font-medium">
+              {post.listingName && <p className="text-sm text-muted-foreground mt-1 font-medium">
                   {post.listingName}
-                </p>
-              )}
+                </p>}
             </div>
             {post.status === "failed" ? <Tooltip>
                 <TooltipTrigger asChild>
