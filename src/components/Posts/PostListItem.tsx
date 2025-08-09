@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, Edit, Trash2, Copy, Eye, Loader2 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { formatScheduledDate } from "../../utils/dateUtils";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -19,12 +20,12 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import {
   deletePost,
-  fetchPosts,
   clearDeleteError,
 } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
+import axiosInstance from "../../api/axiosInstance";
 
 interface PostListItemProps {
   post: Post;
@@ -42,9 +43,13 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   isSelectionMode = false,
 }) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { selectedListing } = useListingContext();
   const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  // Check if we're on bulk dashboard
+  const isBulkDashboard = location.pathname.startsWith('/main-dashboard');
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -148,6 +153,26 @@ export const PostListItem: React.FC<PostListItemProps> = ({
           listingId: parseInt(listingId.toString()),
         })
       ).unwrap();
+
+      // If on bulk dashboard, refresh the dashboard data
+      if (isBulkDashboard) {
+        try {
+          await axiosInstance.post('/get-posts-dashboard', {
+            page: 1, // Current page - you may want to get this from your state
+            limit: 10, // Adjust based on your pagination
+            search: "",
+            category: "",
+            city: "",
+            dateRange: {
+              startDate: "",
+              endDate: ""
+            },
+            postStatus: ""
+          });
+        } catch (dashboardError) {
+          console.error("Error refreshing dashboard:", dashboardError);
+        }
+      }
 
       // Complete progress and show success
       progressToast.update({

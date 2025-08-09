@@ -395,11 +395,11 @@ const postsSlice = createSlice({
           id.toString()
         );
         console.log("Deleted IDs:", deletedIds);
-        console.log("Current posts before filter:", state.posts.map(p => p.id));
+        console.log("Current posts before filter:", state.posts.map(p => `${p.id} (${typeof p.id})`));
         state.posts = state.posts.filter(
-          (post) => !deletedIds.includes(post.id)
+          (post) => !deletedIds.includes(post.id.toString())
         );
-        console.log("Posts after filter:", state.posts.map(p => p.id));
+        console.log("Posts after filter:", state.posts.map(p => `${p.id} (${typeof p.id})`));
         // Update pagination totals
         state.pagination.totalPosts -= deletedIds.length;
       })

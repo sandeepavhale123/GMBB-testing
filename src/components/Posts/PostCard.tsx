@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, Trash2, Copy, Eye, Loader2, ArrowUpRight } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -7,11 +8,13 @@ import { Checkbox } from "../ui/checkbox";
 import { PostViewModal } from "./PostViewModal";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
-import { deletePost, fetchPosts, clearDeleteError } from "../../store/slices/postsSlice";
+import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
+import { usePostsDashboardData } from "../../api/dashboardApi";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import axiosInstance from "../../api/axiosInstance";
 interface PostCardProps {
   post: Post;
   isSelectionMode?: boolean;
@@ -27,6 +30,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   onClonePost
 }) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const {
     selectedListing
   } = useListingContext();
@@ -38,6 +42,9 @@ export const PostCard: React.FC<PostCardProps> = ({
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+
+  // Check if we're on bulk dashboard
+  const isBulkDashboard = location.pathname.startsWith('/main-dashboard');
 
   // Debug logging to check post status
   // console.log(
@@ -173,6 +180,26 @@ export const PostCard: React.FC<PostCardProps> = ({
         postId: [parseInt(post.id)],
         listingId: parseInt(listingId.toString())
       })).unwrap();
+
+      // If on bulk dashboard, refresh the dashboard data
+      if (isBulkDashboard) {
+        try {
+          await axiosInstance.post('/get-posts-dashboard', {
+            page: 1, // Current page - you may want to get this from your state
+            limit: 10, // Adjust based on your pagination
+            search: "",
+            category: "",
+            city: "",
+            dateRange: {
+              startDate: "",
+              endDate: ""
+            },
+            postStatus: ""
+          });
+        } catch (dashboardError) {
+          console.error("Error refreshing dashboard:", dashboardError);
+        }
+      }
       
       // Complete progress and show success
       progressToast.update({
