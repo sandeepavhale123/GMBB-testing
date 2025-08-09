@@ -574,12 +574,12 @@ export const MultiDashboard: React.FC = () => {
                       <div className="mb-4 p-3 bg-muted/50 rounded-lg">
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           <div>
-                            <span className="text-muted-foreground font-medium">Total:</span>
+                            <span className="text-muted-foreground font-medium">Total Reviews:</span>
                             <p className="font-semibold text-foreground">{listing.reviewCount || 0}</p>
                           </div>
                           <div>
-                            <span className="text-muted-foreground font-medium">Auto reply:</span>
-                            <p className="font-semibold text-foreground">{listing.autoReplyStatus || '-'}</p>
+                            <span className="text-muted-foreground font-medium">Replied:</span>
+                            <p className="font-semibold text-foreground">{listing.replyCount || 0}</p>
                           </div>
                         </div>
                       </div>
