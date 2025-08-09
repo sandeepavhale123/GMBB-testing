@@ -42,7 +42,7 @@ export const BulkReviewFilters: React.FC<BulkReviewFiltersProps> = ({
       {/* Search Bar */}
       <div className="relative min-w-[200px] flex-1 max-w-sm">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input placeholder="Search reviews..." value={searchQuery} onChange={e => onSearchChange(e.target.value)} className="pl-10" />
+        <Input placeholder="Search by listing name or ZIP code" value={searchQuery} onChange={e => onSearchChange(e.target.value)} className="pl-10" />
       </div>
 
       {/* Status Filter */}
