@@ -751,22 +751,16 @@ export const MultiDashboard: React.FC = () => {
                             <div className="text-muted-foreground">Reviews</div>
                           </div>
                           <div className="text-center">
-                            <div className={`font-semibold ${listing.dnrActive ? 'text-blue-600' : 'text-gray-400'}`}>
-                              {listing.dnrActive ? 'Active' : 'Inactive'}
-                            </div>
-                            <div className="text-muted-foreground">DNR</div>
+                            <div className="font-semibold text-green-600">{listing.sentiment?.positive || 0}</div>
+                            <div className="text-muted-foreground">Positive</div>
                           </div>
                           <div className="text-center">
-                            <div className={`font-semibold ${listing.arActive ? 'text-green-600' : 'text-gray-400'}`}>
-                              {listing.arActive ? 'Active' : 'Inactive'}
-                            </div>
-                            <div className="text-muted-foreground">AR</div>
+                            <div className="font-semibold text-gray-600">{listing.sentiment?.neutral || 0}</div>
+                            <div className="text-muted-foreground">Neutral</div>
                           </div>
                           <div className="text-center">
-                            <div className={`font-semibold ${listing.arAiActive ? 'text-purple-600' : 'text-gray-400'}`}>
-                              {listing.arAiActive ? 'Active' : 'Inactive'}
-                            </div>
-                            <div className="text-muted-foreground">AI AR</div>
+                            <div className="font-semibold text-red-600">{listing.sentiment?.negative || 0}</div>
+                            <div className="text-muted-foreground">Negative</div>
                           </div>
                         </> : dashboardType === 'location' ? <>
                           <div className="text-center">
