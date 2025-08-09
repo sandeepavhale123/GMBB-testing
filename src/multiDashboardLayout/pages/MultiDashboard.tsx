@@ -45,7 +45,7 @@ export const MultiDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedState, setSelectedState] = useState('');
-  const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
+  const [reviewFilter, setReviewFilter] = useState< "all"| "0" | "1" | "2" | "3" | "4" | "5" | "6">("all");
   const [postStatus, setPostStatus] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
@@ -379,6 +379,7 @@ export const MultiDashboard: React.FC = () => {
                     <SelectValue placeholder="Review Filter" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="all">All Reviews</SelectItem>
                     <SelectItem value="0">Un - Responded Review</SelectItem>
                     <SelectItem value="1">Un - Responded ARE</SelectItem>
                     <SelectItem value="2">Un - Responded DNR</SelectItem>
