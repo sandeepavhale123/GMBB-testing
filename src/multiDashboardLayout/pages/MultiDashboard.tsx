@@ -50,7 +50,7 @@ export const MultiDashboard: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
   const itemsPerPage = 9;
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const debouncedSearchTerm = useDebounce(searchTerm, 3000);
 
   // Initialize dashboard type from profile data
   useEffect(() => {
