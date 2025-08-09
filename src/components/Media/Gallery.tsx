@@ -420,12 +420,51 @@ export const Gallery: React.FC<GalleryProps> = ({
   const uploadMutation = useUploadGalleryMediaMutation();
   const deleteMutation = useDeleteGalleryMediaMutation();
   const saveAIMutation = useSaveAIImageMutation();
+  const validateFile = (file: File): boolean => {
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif", "video/mp4", "video/quicktime", "video/avi", "video/mov"];
+    
+    if (!allowedTypes.includes(file.type)) {
+      toast({
+        title: "Invalid File Type",
+        description: "Only JPG, PNG, WebP, GIF, MP4, MOV, and AVI files are allowed.",
+        variant: "error"
+      });
+      return false;
+    }
+    
+    if (file.size > maxSize) {
+      toast({
+        title: "File Too Large",
+        description: `File size must be less than 10MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`,
+        variant: "error"
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
+
+    // Validate all files first
+    const validFiles: File[] = [];
+    for (const file of Array.from(files)) {
+      if (validateFile(file)) {
+        validFiles.push(file);
+      }
+    }
+
+    if (validFiles.length === 0) {
+      event.target.value = '';
+      return;
+    }
+
     setIsUploading(true);
     try {
-      for (const file of Array.from(files)) {
+      for (const file of validFiles) {
         if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
           await uploadMutation.mutateAsync({
             userfile: file,
@@ -434,8 +473,19 @@ export const Gallery: React.FC<GalleryProps> = ({
           });
         }
       }
+      
+      toast({
+        title: "Upload Successful",
+        description: `Successfully uploaded ${validFiles.length} file(s).`,
+        variant: "success"
+      });
     } catch (error) {
       console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: "An error occurred while uploading your files. Please try again.",
+        variant: "error"
+      });
     } finally {
       setIsUploading(false);
       // Reset input
