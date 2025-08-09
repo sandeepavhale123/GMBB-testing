@@ -75,7 +75,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
     onDeleteReply?.(review.id);
     setShowDeleteDialog(false);
   };
-  return <div className="bg-card border border-border rounded-lg p-6 relative"> 
+  return <div className="bg-card border border-border rounded-lg p-6 relative pt-10"> 
           <div className="bg-black absolute rounded-tl-[10px]   top-0 left-0 rounded-br-[10px] px-2 py-1 text-white ">
              {review.locationName} • {review.zipcode}
           </div>
