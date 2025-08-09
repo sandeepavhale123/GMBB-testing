@@ -486,7 +486,7 @@ export const MultiDashboard: React.FC = () => {
                 </div>
               )
             ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20">
+              {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20 flex flex-col">
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
@@ -737,7 +737,7 @@ export const MultiDashboard: React.FC = () => {
                     </>}
 
                   {/* Action Button */}
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-auto">
                     <Button variant="default" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)} className="w-full gap-2">
                       View Details
                       <ExternalLink className="w-4 h-4" />
