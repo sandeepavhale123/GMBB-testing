@@ -98,7 +98,7 @@ export const BulkReviewCard: React.FC<BulkReviewCardProps> = ({
               {renderStars(review.rating)}
               <span className="text-sm text-muted-foreground">({review.rating}/5)</span>
             </div>
-            <div className="text-[16px] text-black ont-medium ">
+            <div className="text-[16px] text-black ont-medium bg-slate-200 py-1 px-2 rounded-lg ">
               {review.locationName} • {review.zipcode}
             </div>
           </div>
