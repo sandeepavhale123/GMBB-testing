@@ -535,7 +535,7 @@ export const MultiDashboard: React.FC = () => {
                             <span className="text-muted-foreground font-medium">Reviews / Reply</span>
                             <p className="font-semibold text-foreground">{listing.reviewCount || 0} / {listing.replyCount || 0}</p>
                           </div>
-                          <div className="text-right">
+                          <div className="text-center">
                             <span className="text-muted-foreground font-medium">Auto reply:</span>
                             <p className="font-semibold text-foreground">{listing.autoReplyStatus || '-'}</p>
                           </div>
