@@ -12,6 +12,7 @@ import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { toast } from "@/hooks/use-toast";
 import { Post } from "../../types/postTypes";
+import { useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../api/axiosInstance";
 interface PostListItemProps {
   post: Post;
@@ -29,6 +30,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const {
     selectedListing
   } = useListingContext();
@@ -132,27 +134,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({
         listingId: parseInt(listingId.toString())
       })).unwrap();
 
-      // If on bulk dashboard, refresh the dashboard data
-      if (isBulkDashboard) {
-        try {
-          await axiosInstance.post('/get-posts-dashboard', {
-            page: 1,
-            // Current page - you may want to get this from your state
-            limit: 10,
-            // Adjust based on your pagination
-            search: "",
-            category: "",
-            city: "",
-            dateRange: {
-              startDate: "",
-              endDate: ""
-            },
-            postStatus: ""
-          });
-        } catch (dashboardError) {
-          console.error("Error refreshing dashboard:", dashboardError);
-        }
-      }
+      // Invalidate React Query cache to refresh data without page reload
+      queryClient.invalidateQueries({ queryKey: ['posts-dashboard-data'] });
 
       // Complete progress and show success
       progressToast.update({
