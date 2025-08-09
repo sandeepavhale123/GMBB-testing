@@ -20,7 +20,7 @@ import { useProfile } from '@/hooks/useProfile';
 // Dashboard type mapping for API
 const DASHBOARD_TYPE_MAPPING = {
   'default': '1',
-  'insight': '3', 
+  'insight': '3',
   'review': '4',
   'location': '8',
   'post': '9'
@@ -29,23 +29,27 @@ const DASHBOARD_TYPE_MAPPING = {
 // Reverse mapping to convert API numeric IDs to frontend string keys
 const DASHBOARD_ID_TO_TYPE_MAPPING = {
   '1': 'default',
-  '3': 'insight', 
+  '3': 'insight',
   '4': 'review',
   '8': 'location',
   '9': 'post'
 } as const;
-
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const { profileData, isLoading: profileLoading } = useProfile();
+  const {
+    toast
+  } = useToast();
+  const {
+    profileData,
+    isLoading: profileLoading
+  } = useProfile();
   const [dashboardType, setDashboardType] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedState, setSelectedState] = useState('');
-  const [reviewFilter, setReviewFilter] = useState< "0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
+  const [reviewFilter, setReviewFilter] = useState<"0" | "1" | "2" | "3" | "4" | "5" | "6">("0");
   const [postStatus, setPostStatus] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
@@ -56,11 +60,9 @@ export const MultiDashboard: React.FC = () => {
   useEffect(() => {
     console.log('Profile data loaded:', profileData);
     console.log('Dashboard filter type:', profileData?.dashboardFilterType);
-    
     if (profileData?.dashboardFilterType) {
       const savedType = DASHBOARD_ID_TO_TYPE_MAPPING[profileData.dashboardFilterType as keyof typeof DASHBOARD_ID_TO_TYPE_MAPPING];
       console.log('Mapped dashboard type:', savedType);
-      
       if (savedType) {
         setDashboardType(savedType);
         console.log('Set dashboard type to:', savedType);
@@ -73,7 +75,7 @@ export const MultiDashboard: React.FC = () => {
       setDashboardType('default');
     }
   }, [profileData]);
-  
+
   // Fetch trends data
   const {
     data: trendsData,
@@ -96,7 +98,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     state: selectedState
   }, dashboardType === 'default');
-
   const insightsDashboardQuery = useInsightsDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -104,7 +105,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     state: selectedState
   }, dashboardType === 'insight');
-
   const reviewDashboardQuery = useReviewDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -113,7 +113,6 @@ export const MultiDashboard: React.FC = () => {
     state: selectedState,
     review: reviewFilter
   }, dashboardType === 'review');
-
   const listingDashboardQuery = useListingDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -121,7 +120,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     state: selectedState
   }, dashboardType === 'listing');
-
   const locationDashboardQuery = useLocationDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -129,7 +127,6 @@ export const MultiDashboard: React.FC = () => {
     category: selectedCategory,
     state: selectedState
   }, dashboardType === 'location');
-
   const postDashboardQuery = usePostsDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -138,15 +135,15 @@ export const MultiDashboard: React.FC = () => {
     city: selectedState,
     dateRange: {
       startDate: dateRange?.from ? dateRange.from.toISOString().split('T')[0] : "",
-      endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : "",
+      endDate: dateRange?.to ? dateRange.to.toISOString().split('T')[0] : ""
     },
-    postStatus: postStatus === 'all' ? '' : postStatus,
+    postStatus: postStatus === 'all' ? '' : postStatus
   }, dashboardType === 'post');
 
   // Get the current active query
   const getCurrentQuery = () => {
     if (!dashboardType) return null; // Don't query if dashboard type not set yet
-    
+
     switch (dashboardType) {
       case 'insight':
         return insightsDashboardQuery;
@@ -162,16 +159,13 @@ export const MultiDashboard: React.FC = () => {
         return defaultDashboardQuery;
     }
   };
-  
   const currentQuery = getCurrentQuery();
-  
+
   // Show loading while profile or dashboard type is not ready
   if (profileLoading || !dashboardType) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
+    return <div className="flex items-center justify-center min-h-[400px]">
         <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
+      </div>;
   }
   const isDashboardLoading = currentQuery.isLoading;
   const isDashboardError = currentQuery.error;
@@ -213,7 +207,7 @@ export const MultiDashboard: React.FC = () => {
     iconBgColor: 'bg-purple-500',
     textColor: 'text-gray-900'
   }] : [];
-  
+
   // Transform API data to display format
   const listings = dashboardType === 'post' ? [] : (dashboardResponse?.data as any)?.listings || [];
   const posts = dashboardType === 'post' ? (dashboardResponse?.data as any)?.posts || [] : [];
@@ -251,17 +245,14 @@ export const MultiDashboard: React.FC = () => {
     setReviewFilter(value);
     setCurrentPage(1); // Reset to first page on filter change
   };
-
   const handlePostStatusChange = (value: string) => {
     setPostStatus(value);
     setCurrentPage(1);
   };
-
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setDateRange(range);
     setCurrentPage(1);
   };
-
   const handleDashboardTypeChange = async (newType: string) => {
     try {
       setIsUpdatingDashboard(true);
@@ -275,7 +266,6 @@ export const MultiDashboard: React.FC = () => {
       setIsUpdatingDashboard(false);
     }
   };
-
   return <TooltipProvider>
     <div className="space-y-6">
       {/* Metrics Cards */}
@@ -325,11 +315,9 @@ export const MultiDashboard: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
                   <SelectItem value="all">All Categories</SelectItem>
-                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.categories?.map((category) => (
-                    <SelectItem key={category} value={category}>
+                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.categories?.map(category => <SelectItem key={category} value={category}>
                       {category}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
               <Select value={selectedState} onValueChange={value => handleFilterChange('state', value)} disabled={categoryStateLoading}>
@@ -338,11 +326,9 @@ export const MultiDashboard: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent className="z-50 bg-background">
                   <SelectItem value="all">All States</SelectItem>
-                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.states?.map((state) => (
-                    <SelectItem key={state} value={state}>
+                  {!categoryStateLoading && !categoryStateError && categoryAndStateData?.data?.states?.map(state => <SelectItem key={state} value={state}>
                       {state}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -368,9 +354,7 @@ export const MultiDashboard: React.FC = () => {
                     <SelectItem value="post">Post Dashboard</SelectItem>
                   </SelectContent>
                 </Select>
-                {isUpdatingDashboard && (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                )}
+                {isUpdatingDashboard && <Loader2 className="h-4 w-4 animate-spin" />}
               </div>
               
               {/* Review Filter Dropdown - Only show for review dashboard */}
@@ -390,8 +374,7 @@ export const MultiDashboard: React.FC = () => {
                 </Select>}
 
               {/* Post Filters - Only show for post dashboard */}
-              {dashboardType === 'post' && (
-                <>
+              {dashboardType === 'post' && <>
                   <Select value={postStatus} onValueChange={handlePostStatusChange}>
                     <SelectTrigger className="w-48">
                       <SelectValue placeholder="Post status" />
@@ -403,12 +386,8 @@ export const MultiDashboard: React.FC = () => {
                       <SelectItem value="failed">Failed Post</SelectItem>
                     </SelectContent>
                   </Select>
-                  <DateRangePicker
-                    date={dateRange}
-                    onDateChange={handleDateRangeChange}
-                  />
-                </>
-              )}
+                  <DateRangePicker date={dateRange} onDateChange={handleDateRangeChange} />
+                </>}
 
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
                 <ToggleGroupItem value="grid" aria-label="Grid view">
@@ -424,12 +403,7 @@ export const MultiDashboard: React.FC = () => {
           {/* Display counts */}
           <div className="mb-4">
             <p className="text-sm text-muted-foreground">
-              {isDashboardLoading ? "Loading..." : 
-                isDashboardError ? "Error loading data" : 
-                dashboardType === 'post' ? 
-                  `Showing ${posts.length} of ${(pagination as any)?.totalPosts || 0} posts` :
-                  `Showing ${listings.length} of ${(pagination as any)?.totalResults || 0} listings`
-              }
+              {isDashboardLoading ? "Loading..." : isDashboardError ? "Error loading data" : dashboardType === 'post' ? `Showing ${posts.length} of ${(pagination as any)?.totalPosts || 0} posts` : `Showing ${listings.length} of ${(pagination as any)?.totalResults || 0} listings`}
             </p>
           </div>
 
@@ -458,35 +432,19 @@ export const MultiDashboard: React.FC = () => {
                 </div>)}
             </div> : isDashboardError ? <div className="text-center py-8">
               <p className="text-gray-500">Failed to load {dashboardType === 'post' ? 'posts' : 'listings'}. Please try again.</p>
-            </div> : dashboardType === 'post' ? (
-              // Post Dashboard Layout
-              viewMode === 'grid' ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {posts.map((post) => (
-                    <PostCard
-                      key={post.id}
-                      post={transformPostDashboardPost(post)}
-                    />
-                  ))}
-                </div>
-            ) : (
-                <div className="space-y-2">
-                  {posts.map((post) => {
-                    const transformedPost = transformPostDashboardPost(post);
-                    return (
-                      <PostListItem
-                        key={post.id}
-                        post={transformedPost}
-                        onClonePost={(post) => {
-                          // Handle clone post logic here
-                          console.log('Clone post:', post);
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              )
-            ) : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div> : dashboardType === 'post' ?
+          // Post Dashboard Layout
+          viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {posts.map(post => <PostCard key={post.id} post={transformPostDashboardPost(post)} />)}
+                </div> : <div className="space-y-2">
+                  {posts.map(post => {
+              const transformedPost = transformPostDashboardPost(post);
+              return <PostListItem key={post.id} post={transformedPost} onClonePost={post => {
+                // Handle clone post logic here
+                console.log('Clone post:', post);
+              }} />;
+            })}
+                </div> : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20 flex flex-col">
                   {/* Header with Logo and Title */}
                   <div className="flex items-start gap-4 mb-4">
@@ -572,10 +530,14 @@ export const MultiDashboard: React.FC = () => {
 
                       {/* Review Stats */}
                       <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                        <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="grid grid-cols-3 gap-3 text-sm">
                           <div>
-                            <span className="text-muted-foreground font-medium">Reviews:</span>
-                            <p className="font-semibold text-foreground">{listing.reviewCount || 0} / {listing.replyCount || 0}</p>
+                            <span className="text-muted-foreground font-medium">Total Reviews:</span>
+                            <p className="font-semibold text-foreground">{listing.reviewCount || 0}</p>
+                          </div>
+                                                    <div className="text-right">
+                            <span className="text-muted-foreground font-medium">Replied:</span>
+                            <p className="font-semibold text-foreground">{listing.replyCount || 0}</p>
                           </div>
                           <div>
                             <span className="text-muted-foreground font-medium">Auto reply:</span>
@@ -764,8 +726,7 @@ export const MultiDashboard: React.FC = () => {
 
                     {/* Dashboard Type Specific Data */}
                     <div className="flex items-center gap-6 text-xs">
-                      {dashboardType === 'insight' ? (
-                        <>
+                      {dashboardType === 'insight' ? <>
                           <div className="text-center">
                             <div className="font-semibold text-blue-600">{listing.visibility?.search_views || 0}</div>
                             <div className="text-muted-foreground">Search</div>
@@ -782,9 +743,7 @@ export const MultiDashboard: React.FC = () => {
                             <div className="font-semibold text-purple-600">{listing.customer_actions?.website_clicks || 0}</div>
                             <div className="text-muted-foreground">Clicks</div>
                           </div>
-                        </>
-                      ) : dashboardType === 'review' ? (
-                        <>
+                        </> : dashboardType === 'review' ? <>
                           <div className="flex items-center gap-2">
                             <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                             <span className={`font-semibold ${getStatusColor(listing.avgRating || listing.rating)}`}>
@@ -813,9 +772,7 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-muted-foreground">AI AR</div>
                           </div>
-                        </>
-                      ) : dashboardType === 'location' ? (
-                        <>
+                        </> : dashboardType === 'location' ? <>
                           <div className="text-center">
                             <div className="font-semibold text-blue-600">{listing.photoCount || 0}</div>
                             <div className="text-muted-foreground">Photos</div>
@@ -834,9 +791,7 @@ export const MultiDashboard: React.FC = () => {
                             <div className="font-semibold text-foreground truncate">{listing.state || 'N/A'}</div>
                             <div className="text-muted-foreground">State</div>
                           </div>
-                        </>
-                      ) : (
-                        <>
+                        </> : <>
                           <div className="flex items-center gap-2">
                             <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                             <span className={`font-semibold ${getStatusColor(listing.rating)}`}>
@@ -855,8 +810,7 @@ export const MultiDashboard: React.FC = () => {
                             <div className="font-semibold text-foreground truncate">{listing.upcomingPost}</div>
                             <div className="text-muted-foreground">Upcoming</div>
                           </div>
-                        </>
-                      )}
+                        </>}
                     </div>
 
                     {/* Action Button */}
@@ -873,10 +827,7 @@ export const MultiDashboard: React.FC = () => {
             {/* Pagination */}
             {pagination && pagination.totalPages > 1 && <div className="flex items-center justify-between mt-6">
                 <div className="text-sm text-muted-foreground">
-                  {dashboardType === 'post' ? 
-                    `Showing ${(pagination.currentPage - 1) * itemsPerPage + 1} to ${Math.min(pagination.currentPage * itemsPerPage, (pagination as any).totalPosts)} of ${(pagination as any).totalPosts} posts` :
-                    `Showing ${(pagination.currentPage - 1) * (pagination as any).resultsPerPage + 1} to ${Math.min(pagination.currentPage * (pagination as any).resultsPerPage, (pagination as any).totalResults)} of ${(pagination as any).totalResults} listings`
-                  }
+                  {dashboardType === 'post' ? `Showing ${(pagination.currentPage - 1) * itemsPerPage + 1} to ${Math.min(pagination.currentPage * itemsPerPage, (pagination as any).totalPosts)} of ${(pagination as any).totalPosts} posts` : `Showing ${(pagination.currentPage - 1) * (pagination as any).resultsPerPage + 1} to ${Math.min(pagination.currentPage * (pagination as any).resultsPerPage, (pagination as any).totalResults)} of ${(pagination as any).totalResults} listings`}
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || isDashboardLoading}>
@@ -886,37 +837,30 @@ export const MultiDashboard: React.FC = () => {
                   
                   <div className="flex items-center gap-1">
                     {(() => {
-                      const maxVisiblePages = 5;
-                      const totalPages = pagination.totalPages;
-                      const current = currentPage;
-                      
-                      if (totalPages <= maxVisiblePages) {
-                        // Show all pages if total is 5 or less
-                        return Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                          <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
+                  const maxVisiblePages = 5;
+                  const totalPages = pagination.totalPages;
+                  const current = currentPage;
+                  if (totalPages <= maxVisiblePages) {
+                    // Show all pages if total is 5 or less
+                    return Array.from({
+                      length: totalPages
+                    }, (_, i) => i + 1).map(page => <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(page)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
                             {page}
-                          </Button>
-                        ));
-                      }
-                      
-                      let startPage = Math.max(1, current - Math.floor(maxVisiblePages / 2));
-                      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-                      
-                      if (endPage - startPage + 1 < maxVisiblePages) {
-                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-                      }
-                      
-                      const pages = [];
-                      for (let i = startPage; i <= endPage; i++) {
-                        pages.push(
-                          <Button key={i} variant={currentPage === i ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(i)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
+                          </Button>);
+                  }
+                  let startPage = Math.max(1, current - Math.floor(maxVisiblePages / 2));
+                  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                  if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                  }
+                  const pages = [];
+                  for (let i = startPage; i <= endPage; i++) {
+                    pages.push(<Button key={i} variant={currentPage === i ? "default" : "outline"} size="sm" onClick={() => setCurrentPage(i)} className="w-8 h-8 p-0" disabled={isDashboardLoading}>
                             {i}
-                          </Button>
-                        );
-                      }
-                      
-                      return pages;
-                    })()}
+                          </Button>);
+                  }
+                  return pages;
+                })()}
                   </div>
                   
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))} disabled={currentPage === pagination.totalPages || isDashboardLoading}>
