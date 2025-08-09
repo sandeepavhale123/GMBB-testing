@@ -152,7 +152,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           id: progressToast.id,
           description: <div className="space-y-2 w-full">
               <div className="text-sm text-muted-foreground">Deleting post...</div>
-              <div className="w-full bg-muted rounded-full h-3">
+              <div className="w-full bg-muted rounded-full h-3 flex-1">
                 <div className="bg-primary h-3 rounded-full transition-all duration-300" style={{
                 width: '60%'
               }} />
