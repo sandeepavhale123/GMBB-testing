@@ -179,6 +179,12 @@ interface ReviewDashboardListing {
   arActive: boolean;
   arAiActive: boolean;
   autoReplyStatus: string;
+  replyCount: number;
+  sentiment: {
+    positive: number;
+    neutral: number;
+    negative: number;
+  };
 }
 
 interface ReviewDashboardResponse {

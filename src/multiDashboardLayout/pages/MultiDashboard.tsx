@@ -584,27 +584,27 @@ export const MultiDashboard: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Auto Reply Status */}
+                      {/* Review Sentiment */}
                       <div className="mb-4">
-                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Auto Reply Settings</h5>
+                        <h5 className="text-sm font-medium text-muted-foreground mb-2">Review Sentiment</h5>
                         <div className="grid grid-cols-3 gap-2 text-xs">
-                          <div className="text-center p-2 bg-blue-50 rounded">
-                            <div className={`font-semibold ${listing.dnrActive ? 'text-blue-600' : 'text-gray-400'}`}>
-                              {listing.dnrActive ? 'Active' : 'Inactive'}
-                            </div>
-                            <div className="text-gray-500">DNR</div>
-                          </div>
                           <div className="text-center p-2 bg-green-50 rounded">
-                            <div className={`font-semibold ${listing.arActive ? 'text-green-600' : 'text-gray-400'}`}>
-                              {listing.arActive ? 'Active' : 'Inactive'}
+                            <div className="font-semibold text-green-600">
+                              {listing.sentiment?.positive || 0}
                             </div>
-                            <div className="text-gray-500">AR</div>
+                            <div className="text-gray-500">Positive</div>
                           </div>
-                          <div className="text-center p-2 bg-purple-50 rounded">
-                            <div className={`font-semibold ${listing.arAiActive ? 'text-purple-600' : 'text-gray-400'}`}>
-                              {listing.arAiActive ? 'Active' : 'Inactive'}
+                          <div className="text-center p-2 bg-gray-50 rounded">
+                            <div className="font-semibold text-gray-600">
+                              {listing.sentiment?.neutral || 0}
                             </div>
-                            <div className="text-gray-500">AI AR</div>
+                            <div className="text-gray-500">Neutral</div>
+                          </div>
+                          <div className="text-center p-2 bg-red-50 rounded">
+                            <div className="font-semibold text-red-600">
+                              {listing.sentiment?.negative || 0}
+                            </div>
+                            <div className="text-gray-500">Negative</div>
                           </div>
                         </div>
                       </div>
