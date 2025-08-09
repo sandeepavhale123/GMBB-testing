@@ -181,24 +181,10 @@ export const PostCard: React.FC<PostCardProps> = ({
         listingId: parseInt(listingId.toString())
       })).unwrap();
 
-      // If on bulk dashboard, refresh the dashboard data
+      // If on bulk dashboard, refresh the page to reload data
       if (isBulkDashboard) {
-        try {
-          await axiosInstance.post('/get-posts-dashboard', {
-            page: 1, // Current page - you may want to get this from your state
-            limit: 10, // Adjust based on your pagination
-            search: "",
-            category: "",
-            city: "",
-            dateRange: {
-              startDate: "",
-              endDate: ""
-            },
-            postStatus: ""
-          });
-        } catch (dashboardError) {
-          console.error("Error refreshing dashboard:", dashboardError);
-        }
+        // Force a page reload to refresh the dashboard data
+        window.location.reload();
       }
       
       // Complete progress and show success
