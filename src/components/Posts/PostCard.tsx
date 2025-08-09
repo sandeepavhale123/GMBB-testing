@@ -311,9 +311,6 @@ export const PostCard: React.FC<PostCardProps> = ({
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setIsViewModalOpen(true)}>
               <Eye className="w-3 h-3" />
             </Button>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={handleClonePost}>
-              <Copy className="w-3 h-3" />
-            </Button>
             {!isSelectionMode && <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700" disabled={deleteLoading}>
