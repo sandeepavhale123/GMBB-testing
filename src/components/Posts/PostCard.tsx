@@ -12,6 +12,7 @@ import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
 import { usePostsDashboardData } from "../../api/dashboardApi";
 import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { Post } from "../../types/postTypes";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import axiosInstance from "../../api/axiosInstance";
@@ -31,6 +32,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const {
     selectedListing
   } = useListingContext();
@@ -176,11 +178,8 @@ export const PostCard: React.FC<PostCardProps> = ({
         listingId: parseInt(listingId.toString())
       })).unwrap();
 
-      // If on bulk dashboard, refresh the page to reload data
-      if (isBulkDashboard) {
-        // Force a page reload to refresh the dashboard data
-        window.location.reload();
-      }
+      // Invalidate React Query cache to refresh data without page reload
+      queryClient.invalidateQueries({ queryKey: ['posts-dashboard-data'] });
 
       // Complete progress and show success
       progressToast.update({
