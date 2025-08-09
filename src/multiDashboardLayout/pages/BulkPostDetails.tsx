@@ -392,7 +392,7 @@ export const BulkPostDetails: React.FC = () => {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Posts</SelectItem>
+                <SelectItem value="all">Post Status</SelectItem>
                 <SelectItem value="live">Live</SelectItem>
                 <SelectItem value="scheduled">Scheduled</SelectItem>
                 <SelectItem value="failed">Failed</SelectItem>
