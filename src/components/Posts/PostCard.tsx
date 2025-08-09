@@ -248,7 +248,7 @@ export const PostCard: React.FC<PostCardProps> = ({
     }
   }, [deleteError]);
   return <>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow relative">
+      <Card className="overflow-hidden hover:shadow-md transition-shadow relative flex flex-col h-full">
         {/* Selection Checkbox */}
         {isSelectionMode && <div className="absolute top-2 left-2 z-10">
             <Checkbox checked={isSelected} onCheckedChange={handleCheckboxChange} className="bg-white border-2" />
@@ -312,7 +312,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           {post.tags && <div className="text-xs text-blue-600 mb-2">{post.tags}</div>}
         </CardContent>
 
-        <CardFooter className="p-4 pt-0 flex justify-between">
+        <CardFooter className="p-4 pt-0 flex justify-between mt-auto">
           <div className="flex items-center text-xs text-gray-500 mb-3">
             <Calendar className="w-3 h-3 mr-1" />
             {post.status === "scheduled" ? `Scheduled: ${formatPublishDate(post.publishDate)}` : formatPublishDate(post.publishDate)}
