@@ -128,18 +128,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         description: "Post has been successfully deleted."
       });
 
-      // Refresh posts list
-      dispatch(fetchPosts({
-        listingId: parseInt(listingId.toString()),
-        filters: {
-          status: "all",
-          search: ""
-        },
-        pagination: {
-          page: 1,
-          limit: 12
-        }
-      }));
+      // Post will be automatically removed from UI by Redux store
     } catch (error) {
       console.error("Error deleting post:", error);
       toast({
