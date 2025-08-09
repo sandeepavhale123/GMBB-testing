@@ -105,12 +105,8 @@ export const PostCard: React.FC<PostCardProps> = ({
     }
   };
   const handleDeletePost = async () => {
-    // Get listingId from context or URL
-    // const listingId =
-    //   selectedListing?.id ||
-    //   parseInt(window.location.pathname.split("/")[2]) ||
-    //   176832;
-    const listingId = selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+    // Get listingId from post data first, then context or URL
+    const listingId = post.listingId || selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
     if (!listingId) {
       toast({
         title: "Error",
