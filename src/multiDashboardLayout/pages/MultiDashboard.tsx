@@ -675,8 +675,8 @@ export const MultiDashboard: React.FC = () => {
                       {/* Engagement Stats */}
                       <div className="mb-4 p-3 bg-muted/50 rounded-lg">
                         <div className="text-sm">
-                          <div>
-                            <span className="text-muted-foreground font-medium">Reviews:</span>
+                          <div className="text-center">
+                            <span className="text-muted-foreground font-medium">Reviews / Reply</span>
                             <p className="font-semibold text-foreground">{listing.reviewReply}</p>
                           </div>
                         </div>
