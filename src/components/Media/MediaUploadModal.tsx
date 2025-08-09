@@ -71,7 +71,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
       const mediaFile: MediaFile = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
         url: selectedMedia.url,
-        type: getMediaTypeFromUrl(selectedMedia.url),
+        type: selectedMedia.type,
         title: selectedMedia.title,
         selectedImage: selectedMedia.source,
         aiImageUrl: selectedMedia.source === 'ai' ? selectedMedia.url : undefined,
@@ -169,6 +169,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           selectedImage: file.selectedImage,
           aiImageUrl: file.aiImageUrl,
           galleryImageUrl: file.galleryImageUrl,
+          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video",
         };
         
         const response = await createBulkMedia(bulkUploadData);
@@ -216,6 +217,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           selectedImage: file.selectedImage,
           aiImageUrl: file.aiImageUrl,
           galleryImageUrl: file.galleryImageUrl,
+          galleryMediaType: (selectedMedia?.type === 'video' ? 'video' : 'photo') as "photo" | "video",
         };
       // console.log("Upload data prepared:", {
       //   fileName: uploadData.file?.name,

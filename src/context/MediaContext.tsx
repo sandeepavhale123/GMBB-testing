@@ -5,12 +5,13 @@ interface MediaContextType {
     url: string;
     title: string;
     source: 'local' | 'ai' | 'gallery';
+    type: 'image' | 'video';
   } | null;
   shouldOpenCreatePost: boolean;
   shouldOpenMediaUpload: boolean;
-  setSelectedMedia: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery' } | null) => void;
-  triggerCreatePost: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery' }) => void;
-  triggerMediaUpload: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery' }) => void;
+  setSelectedMedia: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' } | null) => void;
+  triggerCreatePost: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => void;
+  triggerMediaUpload: (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => void;
   clearSelection: () => void;
 }
 
@@ -21,12 +22,12 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [shouldOpenCreatePost, setShouldOpenCreatePost] = useState(false);
   const [shouldOpenMediaUpload, setShouldOpenMediaUpload] = useState(false);
 
-  const triggerCreatePost = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery' }) => {
+  const triggerCreatePost = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => {
     setSelectedMedia(media);
     setShouldOpenCreatePost(true);
   };
 
-  const triggerMediaUpload = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery' }) => {
+  const triggerMediaUpload = (media: { url: string; title: string; source: 'local' | 'ai' | 'gallery'; type: 'image' | 'video' }) => {
     setSelectedMedia(media);
     setShouldOpenMediaUpload(true);
   };

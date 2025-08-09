@@ -521,7 +521,8 @@ export const Gallery: React.FC<GalleryProps> = ({
       triggerMediaUpload({
         url: media.url,
         title: media.title,
-        source: 'gallery'
+        source: 'gallery',
+        type: media.type
       });
     }
   };
@@ -724,7 +725,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                         triggerCreatePost({
                           url: item.url,
                           title: item.title,
-                          source: 'gallery'
+                          source: 'gallery',
+                          type: item.type
                         });
                       }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                   <FileImage className="h-4 w-4" />
@@ -735,7 +737,8 @@ export const Gallery: React.FC<GalleryProps> = ({
                         triggerMediaUpload({
                           url: item.url,
                           title: item.title,
-                          source: 'gallery'
+                          source: 'gallery',
+                          type: item.type
                         });
                       }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                                 <Film className="h-4 w-4" />
@@ -892,22 +895,24 @@ export const Gallery: React.FC<GalleryProps> = ({
                                Download {item.type === 'video' ? 'Video' : 'Image'}
                              </DropdownMenuItem>
                             
-                            <DropdownMenuItem onClick={() => {
-                      triggerCreatePost({
-                        url: item.url,
-                        title: item.title,
-                        source: 'gallery'
-                      });
-                    }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
-                              <FileImage className="h-4 w-4" />
-                              Use for Post
-                            </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => {
+                        triggerCreatePost({
+                          url: item.url,
+                          title: item.title,
+                          source: 'gallery',
+                          type: item.type
+                        });
+                      }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
+                                  <FileImage className="h-4 w-4" />
+                                  Use for Post
+                                </DropdownMenuItem>
                             
                             <DropdownMenuItem onClick={() => {
                       triggerMediaUpload({
                         url: item.url,
                         title: item.title,
-                        source: 'gallery'
+                        source: 'gallery',
+                        type: item.type
                       });
                     }} className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer">
                               <Film className="h-4 w-4" />

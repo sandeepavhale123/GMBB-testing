@@ -41,7 +41,8 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
     triggerCreatePost({
       url: imageUrl,
       title: `AI Generated - ${prompt.slice(0, 30)}...`,
-      source: 'ai'
+      source: 'ai',
+      type: 'image'
     });
 
     // Close the gallery modal

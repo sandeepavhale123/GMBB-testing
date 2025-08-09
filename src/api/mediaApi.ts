@@ -10,6 +10,7 @@ export interface MediaUploadData {
   selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
   galleryImageUrl?: string;
+  galleryMediaType?: "photo" | "video";
 }
 
 export interface MediaUploadResponse {
@@ -155,7 +156,7 @@ export const uploadMedia = async (
   // Add gallery image URL if it's a gallery image
   if (data.selectedImage === "gallery" && data.galleryImageUrl) {
     formData.append("galleryImageUrl", data.galleryImageUrl);
-    formData.append("type", "photo");
+    formData.append("type", data.galleryMediaType || "photo");
   }
 
   // Add schedule date if provided (should already be in UTC format)
@@ -403,6 +404,7 @@ export interface BulkMediaUploadData {
   selectedImage: "local" | "ai" | "gallery";
   aiImageUrl?: string;
   galleryImageUrl?: string;
+  galleryMediaType?: "photo" | "video";
 }
 
 export interface BulkMediaUploadResponse {
@@ -453,7 +455,7 @@ export const createBulkMedia = async (
   // Add gallery image URL if it's a gallery image
   if (data.selectedImage === "gallery" && data.galleryImageUrl) {
     formData.append("galleryImageUrl", data.galleryImageUrl);
-    formData.append("type", "photo");
+    formData.append("type", data.galleryMediaType || "photo");
   }
 
   // Add schedule date if provided (should already be in UTC format)
