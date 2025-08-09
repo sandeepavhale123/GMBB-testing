@@ -90,9 +90,57 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       return;
     }
 
+    // Show progress toast
+    const progressToast = toast({
+      title: (
+        <div className="flex items-center gap-2">
+          <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+          Deleting post...
+        </div>
+      ),
+      description: (
+        <div className="space-y-2">
+          <div className="text-sm text-muted-foreground">Preparing deletion...</div>
+          <div className="w-full bg-muted rounded-full h-2">
+            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '10%' }} />
+          </div>
+        </div>
+      ),
+      duration: Infinity, // Keep open until we dismiss it
+    });
+
     try {
       // Clear any previous errors
       dispatch(clearDeleteError());
+
+      // Simulate progress stages
+      setTimeout(() => {
+        progressToast.update({
+          id: progressToast.id,
+          description: (
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">Deleting post...</div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '60%' }} />
+              </div>
+            </div>
+          ),
+        });
+      }, 300);
+
+      setTimeout(() => {
+        progressToast.update({
+          id: progressToast.id,
+          description: (
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">Finalizing...</div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: '90%' }} />
+              </div>
+            </div>
+          ),
+        });
+      }, 600);
 
       await dispatch(
         deletePost({
@@ -101,14 +149,41 @@ export const PostListItem: React.FC<PostListItemProps> = ({
         })
       ).unwrap();
 
-      toast({
-        title: "Post Deleted",
-        description: "Post has been successfully deleted.",
+      // Complete progress and show success
+      progressToast.update({
+        id: progressToast.id,
+        title: (
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 bg-green-500 rounded-full flex items-center justify-center">
+              <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+            Post deleted successfully
+          </div>
+        ),
+        description: (
+          <div className="space-y-2">
+            <div className="text-sm text-green-600">Deletion completed</div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{ width: '100%' }} />
+            </div>
+          </div>
+        ),
       });
+
+      // Auto-dismiss success toast after 2 seconds
+      setTimeout(() => {
+        progressToast.dismiss();
+      }, 2000);
 
       // Post will be automatically removed from UI by Redux store
     } catch (error) {
       console.error("Error deleting post:", error);
+      
+      // Dismiss progress toast and show error
+      progressToast.dismiss();
+      
       toast({
         title: "Failed to Delete Post",
         description:
