@@ -530,9 +530,9 @@ export const MultiDashboard: React.FC = () => {
 
                       {/* Review Stats */}
                       <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                        <div className="grid grid-cols-2 gap-3 text-sm">
-                          <div className="text-center">
-                            <span className="text-muted-foreground font-medium">Reviews/Reply</span>
+                        <div className="grid grid-cols-2 text-sm">
+                          <div className="text-center border-r border-gray-300">
+                            <span className="text-muted-foreground font-medium">Reviews / Reply</span>
                             <p className="font-semibold text-foreground">{listing.reviewCount || 0} / {listing.replyCount || 0}</p>
                           </div>
                           <div className="text-right">
