@@ -389,14 +389,17 @@ const postsSlice = createSlice({
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.deleteLoading = false;
-        // console.log("Posts deleted successfully:", action.payload);
+        console.log("Posts deleted successfully:", action.payload);
         // Remove deleted posts from state
         const deletedIds = action.payload.deletedPostIds.map((id) =>
           id.toString()
         );
+        console.log("Deleted IDs:", deletedIds);
+        console.log("Current posts before filter:", state.posts.map(p => p.id));
         state.posts = state.posts.filter(
           (post) => !deletedIds.includes(post.id)
         );
+        console.log("Posts after filter:", state.posts.map(p => p.id));
         // Update pagination totals
         state.pagination.totalPosts -= deletedIds.length;
       })
