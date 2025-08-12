@@ -267,9 +267,21 @@ The Team`);
               return (
                 <Card
                   key={star}
-                  className={`p-3 cursor-pointer border-border/60 ${
+                  className={`p-3 cursor-pointer border-border/60 transition-all hover:border-primary/70 ${
                     isChecked ? "border-primary bg-primary/10" : ""
                   }`}
+                  onClick={() => {
+                    if (isChecked) {
+                      setSelectedStarRatings((prev) =>
+                        prev.filter((s) => s !== starKey)
+                      );
+                    } else {
+                      setSelectedStarRatings((prev) => [
+                        ...prev,
+                        starKey,
+                      ]);
+                    }
+                  }}
                 >
                   <div className="flex items-center justify-between">
                     <label
