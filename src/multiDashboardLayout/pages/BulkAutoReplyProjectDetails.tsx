@@ -9,7 +9,6 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
   const [showAddListingModal, setShowAddListingModal] = useState(false);
 
   return (
-    <MainBody>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
@@ -46,6 +45,5 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
           </div>
         </div>
       </div>
-    </MainBody>
   );
 };
