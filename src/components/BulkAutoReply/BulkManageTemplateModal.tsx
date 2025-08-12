@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Star } from 'lucide-react';
-
 interface Template {
   id: string;
   starRating: number;
@@ -17,14 +11,12 @@ interface Template {
   enabled: boolean;
   isRatingOnly?: boolean;
 }
-
 interface BulkManageTemplateModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   template: Template | null;
   onSave: (template: Template) => void;
 }
-
 export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = ({
   open,
   onOpenChange,
@@ -34,28 +26,19 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
   const [content, setContent] = useState('');
   const [enabled, setEnabled] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-
   useEffect(() => {
     if (template) {
       setContent(template.content || '');
       setEnabled(template.enabled);
     }
   }, [template]);
-
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star
-        key={index}
-        className={`w-5 h-5 ${
-          index < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-        }`}
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, index) => <Star key={index} className={`w-5 h-5 ${index < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />);
   };
-
   const handleSave = async () => {
     if (!template) return;
-    
     setIsSaving(true);
     try {
       const updatedTemplate = {
@@ -70,13 +53,9 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
       setIsSaving(false);
     }
   };
-
   if (!template) return null;
-
   const isNewTemplate = !template.id;
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+  return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
@@ -124,18 +103,7 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
               </div>
             </div>
 
-            <div className="border-t pt-4">
-              <h4 className="font-medium mb-2">Template Status</h4>
-              <div className="flex items-center gap-3">
-                <Switch
-                  checked={enabled}
-                  onCheckedChange={setEnabled}
-                />
-                <span className={`text-sm ${enabled ? 'text-green-600' : 'text-gray-500'}`}>
-                  {enabled ? 'Template Enabled' : 'Template Disabled'}
-                </span>
-              </div>
-            </div>
+            
           </div>
 
           {/* Right Panel - Template Content */}
@@ -144,16 +112,7 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
               <label className="text-sm font-medium text-gray-700 mb-2 block">
                 Template Content
               </label>
-              <Textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="min-h-[300px] resize-y"
-                placeholder={
-                  template.isRatingOnly
-                    ? "Enter response for rating-only reviews..."
-                    : "Enter response template for reviews with comments..."
-                }
-              />
+              <Textarea value={content} onChange={e => setContent(e.target.value)} className="min-h-[300px] resize-y" placeholder={template.isRatingOnly ? "Enter response for rating-only reviews..." : "Enter response template for reviews with comments..."} />
               <p className="text-xs text-gray-500 mt-1">
                 This template will be used for {template.starRating}-star {template.isRatingOnly ? 'rating-only' : 'review'} responses.
               </p>
@@ -162,21 +121,13 @@ export const BulkManageTemplateModal: React.FC<BulkManageTemplateModalProps> = (
         </div>
 
         <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
-          <Button 
-            variant="outline" 
-            onClick={() => onOpenChange(false)}
-            disabled={isSaving}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
             Cancel
           </Button>
-          <Button 
-            onClick={handleSave}
-            disabled={isSaving || !content.trim()}
-          >
+          <Button onClick={handleSave} disabled={isSaving || !content.trim()}>
             {isSaving ? 'Saving...' : isNewTemplate ? 'Create Template' : 'Save Changes'}
           </Button>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
