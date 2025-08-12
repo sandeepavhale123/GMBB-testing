@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
   Table, 
@@ -40,6 +40,7 @@ export interface BulkAutoReplyTableProps {
   pageSize: number;
   onPageChange: (page: number) => void;
   onDeleteProject: (id: string) => void;
+  onViewProject: (id: string) => void;
 }
 
 export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
@@ -51,7 +52,8 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
   totalItems,
   pageSize,
   onPageChange,
-  onDeleteProject
+  onDeleteProject,
+  onViewProject
 }) => {
   const startItem = (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, totalItems);
@@ -110,30 +112,40 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Auto Reply Project</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Are you sure you want to delete "{project.projectName}"? This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => onDeleteProject(project.id)}
-                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        >
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <div className="flex items-center justify-end gap-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => onViewProject(project.id)}
+                      className="text-primary hover:text-primary"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Auto Reply Project</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to delete "{project.projectName}"? This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => onDeleteProject(project.id)}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </TableCell>
               </TableRow>
             ))

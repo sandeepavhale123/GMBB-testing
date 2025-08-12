@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BulkAutoReplyFilters } from '@/components/BulkAutoReply/BulkAutoReplyFilters';
 import { BulkAutoReplyTable } from '@/components/BulkAutoReply/BulkAutoReplyTable';
@@ -39,7 +40,8 @@ const MemoizedTable = React.memo<{
   pageSize: number;
   onPageChange: (page: number) => void;
   onDeleteProject: (id: string) => void;
-}>(({ projects, loading, error, currentPage, totalPages, totalItems, pageSize, onPageChange, onDeleteProject }) => (
+  onViewProject: (id: string) => void;
+}>(({ projects, loading, error, currentPage, totalPages, totalItems, pageSize, onPageChange, onDeleteProject, onViewProject }) => (
   <BulkAutoReplyTable
     projects={projects}
     loading={loading}
@@ -50,11 +52,13 @@ const MemoizedTable = React.memo<{
     pageSize={pageSize}
     onPageChange={onPageChange}
     onDeleteProject={onDeleteProject}
+    onViewProject={onViewProject}
   />
 ));
 
 export const BulkAutoReply: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { toast } = useToast();
   
   const {
@@ -136,6 +140,10 @@ export const BulkAutoReply: React.FC = () => {
     console.log('Add listing clicked');
   }, []);
 
+  const handleViewProject = useCallback((projectId: string) => {
+    navigate(`/main-dashboard/bulk-auto-reply-project-details/${projectId}`);
+  }, [navigate]);
+
   const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
     loadProjects();
@@ -183,6 +191,7 @@ export const BulkAutoReply: React.FC = () => {
           pageSize={pageSize}
           onPageChange={handlePageChange}
           onDeleteProject={handleDeleteProject}
+          onViewProject={handleViewProject}
         />
       </div>
 
