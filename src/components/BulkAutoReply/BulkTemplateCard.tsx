@@ -83,15 +83,17 @@ export const BulkTemplateCard: React.FC<BulkTemplateCardProps> = ({
           
           <div className="flex-shrink-0">
             {template ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onManage(template)}
-                className="flex items-center gap-1"
-              >
-                <Settings className="h-3 w-3" />
-                Manage
-              </Button>
+              template.enabled && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onManage(template)}
+                  className="flex items-center gap-1"
+                >
+                  <Settings className="h-3 w-3" />
+                  Manage
+                </Button>
+              )
             ) : (
               <Button
                 variant="outline"
