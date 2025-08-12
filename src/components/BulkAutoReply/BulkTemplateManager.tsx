@@ -49,19 +49,19 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
   React.useEffect(() => {
     if (autoSettings) {
       const reviewTemplates: Template[] = [
-        { id: '1', starRating: 1, content: autoSettings.starone_reply, enabled: !!autoSettings.oneTextStatus },
-        { id: '2', starRating: 2, content: autoSettings.startwo_reply, enabled: !!autoSettings.twoTextStatus },
-        { id: '3', starRating: 3, content: autoSettings.starthree_reply, enabled: !!autoSettings.threeTextStatus },
-        { id: '4', starRating: 4, content: autoSettings.starfour_reply, enabled: !!autoSettings.fourTextStatus },
-        { id: '5', starRating: 5, content: autoSettings.starfive_reply, enabled: !!autoSettings.fiveTextStatus },
+        { id: '1', starRating: 1, content: autoSettings.starone_reply, enabled: autoSettings.oneTextStatus === 1 },
+        { id: '2', starRating: 2, content: autoSettings.startwo_reply, enabled: autoSettings.twoTextStatus === 1 },
+        { id: '3', starRating: 3, content: autoSettings.starthree_reply, enabled: autoSettings.threeTextStatus === 1 },
+        { id: '4', starRating: 4, content: autoSettings.starfour_reply, enabled: autoSettings.fourTextStatus === 1 },
+        { id: '5', starRating: 5, content: autoSettings.starfive_reply, enabled: autoSettings.fiveTextStatus === 1 },
       ];
 
       const ratingOnlyTemplates: Template[] = [
-        { id: '6', starRating: 1, content: autoSettings.starone_wreply, enabled: !!autoSettings.oneStarStatus, isRatingOnly: true },
-        { id: '7', starRating: 2, content: autoSettings.startwo_wreply, enabled: !!autoSettings.twoStarStatus, isRatingOnly: true },
-        { id: '8', starRating: 3, content: autoSettings.starthree_wreply, enabled: !!autoSettings.threeStarStatus, isRatingOnly: true },
-        { id: '9', starRating: 4, content: autoSettings.starfour_wreply, enabled: !!autoSettings.fourStarStatus, isRatingOnly: true },
-        { id: '10', starRating: 5, content: autoSettings.starfive_wreply, enabled: !!autoSettings.fiveStarStatus, isRatingOnly: true },
+        { id: '6', starRating: 1, content: autoSettings.starone_wreply, enabled: autoSettings.oneStarStatus === 1, isRatingOnly: true },
+        { id: '7', starRating: 2, content: autoSettings.startwo_wreply, enabled: autoSettings.twoStarStatus === 1, isRatingOnly: true },
+        { id: '8', starRating: 3, content: autoSettings.starthree_wreply, enabled: autoSettings.threeStarStatus === 1, isRatingOnly: true },
+        { id: '9', starRating: 4, content: autoSettings.starfour_wreply, enabled: autoSettings.fourStarStatus === 1, isRatingOnly: true },
+        { id: '10', starRating: 5, content: autoSettings.starfive_wreply, enabled: autoSettings.fiveStarStatus === 1, isRatingOnly: true },
       ];
 
       setTemplates({ review: reviewTemplates, ratingOnly: ratingOnlyTemplates });
@@ -100,8 +100,12 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
       setTemplates(prev => ({ ...prev, review: updatedTemplates }));
     }
     
-    // Here you would typically make an API call to save the change
-    console.log(`${enabled ? 'Enabled' : 'Disabled'} template for ${template.starRating} stars (${template.isRatingOnly ? 'rating-only' : 'review'})`);
+    // Convert boolean to backend format (1 for enabled, 0 for disabled)
+    const statusValue = enabled ? 1 : 0;
+    console.log(`${enabled ? 'Enabled' : 'Disabled'} template for ${template.starRating} stars (${template.isRatingOnly ? 'rating-only' : 'review'}) - Status: ${statusValue}`);
+    
+    // TODO: Make API call to update the status in backend
+    // The API should update the corresponding field like oneTextStatus, twoTextStatus, etc.
   };
 
   return (
