@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useAppDispatch } from '@/hooks/useRedux';
 import { createAutoReplyProject } from '@/store/slices/autoReplySlice';
 import { useToast } from '@/hooks/use-toast';
@@ -49,6 +50,24 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   // Listing selection state
   const [listingSearch, setListingSearch] = useState('');
   const [isListingDropdownOpen, setIsListingDropdownOpen] = useState(false);
+  const collapsibleRef = useRef<HTMLDivElement>(null);
+
+  // Handle outside click to close
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (collapsibleRef.current && !collapsibleRef.current.contains(event.target as Node)) {
+        setIsListingDropdownOpen(false);
+      }
+    };
+
+    if (isListingDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isListingDropdownOpen]);
 
   // Mock listings data - replace with actual API call
   const mockListings: ListingOption[] = [{
@@ -158,45 +177,55 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Multi-select Listing Dropdown */}
-          <div className="space-y-2">
+          {/* Multi-select Listing Collapsible */}
+          <div className="space-y-2" ref={collapsibleRef}>
             <Label>Select Listings</Label>
-            <div className="relative">
-              <div className="border border-input rounded-md p-3 cursor-pointer min-h-[40px] flex items-center justify-between bg-background" onClick={() => setIsListingDropdownOpen(!isListingDropdownOpen)}>
-                <span className={selectedListings.length === 0 ? 'text-muted-foreground' : 'text-foreground'}>
-                  {selectedListings.length === 0 ? 'Select listings...' : `${selectedListings.length} listing(s) selected`}
-                </span>
-                <ChevronDown className="w-4 h-4" />
-              </div>
+            <Collapsible open={isListingDropdownOpen} onOpenChange={setIsListingDropdownOpen}>
+              <CollapsibleTrigger asChild>
+                <div className="border border-input rounded-md p-3 cursor-pointer min-h-[40px] flex items-center justify-between bg-background" onClick={() => setIsListingDropdownOpen(!isListingDropdownOpen)}>
+                  <span className={selectedListings.length === 0 ? 'text-muted-foreground' : 'text-foreground'}>
+                    {selectedListings.length === 0 ? 'Select listings...' : `${selectedListings.length} listing(s) selected`}
+                  </span>
+                  <ChevronDown className="w-4 h-4" />
+                </div>
+              </CollapsibleTrigger>
               
-              {isListingDropdownOpen && <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {/* Search box */}
-                  <div className="p-3 border-b border-border">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input placeholder="Search listings..." value={listingSearch} onChange={e => setListingSearch(e.target.value)} className="pl-10" />
+              <CollapsibleContent className="mt-1 bg-popover border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                {/* Search box */}
+                <div className="p-3 border-b border-border">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input placeholder="Search listings..." value={listingSearch} onChange={e => setListingSearch(e.target.value)} className="pl-10" />
+                  </div>
+                </div>
+                
+                {/* Listing options */}
+                <div className="p-2">
+                  {filteredListings.length === 0 ? (
+                    <div className="px-3 py-2 text-sm text-muted-foreground">
+                      No listings found
                     </div>
-                  </div>
-                  
-                  {/* Listing options */}
-                  <div className="p-2">
-                    {filteredListings.length === 0 ? <div className="px-3 py-2 text-sm text-muted-foreground">
-                        No listings found
-                      </div> : filteredListings.map(listing => <div key={listing.id} className="flex items-start space-x-3 p-2 hover:bg-accent rounded-sm cursor-pointer" onClick={() => handleListingToggle(listing.id)}>
-                          <Checkbox checked={selectedListings.includes(listing.id)} onChange={() => handleListingToggle(listing.id)} />
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium">{listing.name}</span>
-                              {!listing.isActive && <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground rounded">
-                                  Inactive
-                                </span>}
-                            </div>
-                            <p className="text-xs text-muted-foreground">{listing.address}</p>
+                  ) : (
+                    filteredListings.map(listing => (
+                      <div key={listing.id} className="flex items-start space-x-3 p-2 hover:bg-accent rounded-sm cursor-pointer" onClick={() => handleListingToggle(listing.id)}>
+                        <Checkbox checked={selectedListings.includes(listing.id)} onChange={() => handleListingToggle(listing.id)} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">{listing.name}</span>
+                            {!listing.isActive && (
+                              <span className="text-xs px-2 py-0.5 bg-muted text-muted-foreground rounded">
+                                Inactive
+                              </span>
+                            )}
                           </div>
-                        </div>)}
-                  </div>
-                </div>}
-            </div>
+                          <p className="text-xs text-muted-foreground">{listing.address}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
             
             {/* Selected listings display */}
             {selectedListings.length > 0 && <div className="mt-2 p-3 bg-muted/50 rounded-md">
