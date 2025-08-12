@@ -40,8 +40,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   const [aiResponseLength, setAiResponseLength] = useState('medium');
   const [aiIncludePromotions, setAiIncludePromotions] = useState(false);
 
-  // Custom Settings
-  const [customTemplate, setCustomTemplate] = useState('');
 
   // Listing selection state
   const [listingSearch, setListingSearch] = useState('');
@@ -85,14 +83,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       return;
     }
 
-    if (replyType === 'template' && !customTemplate.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a custom template",
-        variant: "destructive"
-      });
-      return;
-    }
 
     try {
       const response = await createBulkTemplateProject({
@@ -128,7 +118,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     setAiTone('professional');
     setAiResponseLength('medium');
     setAiIncludePromotions(false);
-    setCustomTemplate('');
     setListingSearch('');
   };
 
