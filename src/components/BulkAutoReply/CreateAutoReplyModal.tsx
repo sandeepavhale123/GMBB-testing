@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAppDispatch } from '@/hooks/useRedux';
 import { createAutoReplyProject } from '@/store/slices/autoReplySlice';
 import { useToast } from '@/hooks/use-toast';
-import { MultiListingSelector } from '@/components/Posts/CreatePostModal/MultiListingSelector';
+import { BulkReplyListingSelector } from './BulkReplyListingSelector';
 export interface CreateAutoReplyModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -148,7 +148,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Multi-select Listing Component */}
-          <MultiListingSelector
+          <BulkReplyListingSelector
             selectedListings={selectedListings}
             onListingsChange={setSelectedListings}
             error={selectedListings.length === 0 ? "Please select at least one listing" : undefined}
