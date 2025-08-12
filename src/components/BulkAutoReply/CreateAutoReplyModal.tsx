@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Search, ChevronDown } from 'lucide-react';
+import { X, Search, ChevronDown, Bot, FileText, Ban } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -173,6 +173,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                 onClick={() => setReplyType('ai')}
               >
                 <div className="text-center space-y-2">
+                  <Bot className="h-8 w-8 mx-auto text-primary" />
                   <h3 className="font-medium">AI Generated Replies</h3>
                   <p className="text-sm text-muted-foreground">Smart responses powered by AI</p>
                 </div>
@@ -185,6 +186,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                 onClick={() => setReplyType('template')}
               >
                 <div className="text-center space-y-2">
+                  <FileText className="h-8 w-8 mx-auto text-primary" />
                   <h3 className="font-medium">Custom Template</h3>
                   <p className="text-sm text-muted-foreground">Use your own reply template</p>
                 </div>
@@ -197,6 +199,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                 onClick={() => setReplyType('dnr')}
               >
                 <div className="text-center space-y-2">
+                  <Ban className="h-8 w-8 mx-auto text-primary" />
                   <h3 className="font-medium">DNR (Do Not Respond)</h3>
                   <p className="text-sm text-muted-foreground">Skip auto-replies for these listings</p>
                 </div>
