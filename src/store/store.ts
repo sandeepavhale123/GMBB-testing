@@ -16,6 +16,7 @@ import onboardingReducer from "./slices/onboarding/onboardingSlice";
 import { timeZoneApi } from "@/api/timeZoneApi";
 import { qaApi } from "@/api/qaApi";
 import { listingsGroupsApi } from "../api/listingsGroupsApi";
+import autoReplyReducer from "./slices/autoReplySlice";
 
 // Combine all reducers
 const appReducer = combineReducers({
@@ -32,6 +33,7 @@ const appReducer = combineReducers({
   businessInfo: businessInfoReducer,
   team: teamReducer,
   onboarding: onboardingReducer,
+  autoReply: autoReplyReducer,
   [timeZoneApi.reducerPath]: timeZoneApi.reducer,
   [qaApi.reducerPath]: qaApi.reducer,
   [listingsGroupsApi.reducerPath]: listingsGroupsApi.reducer,

@@ -9,6 +9,7 @@ import { StandaloneLayout } from "@/multiDashboardLayout/layouts/StandaloneLayou
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
+import { BulkAutoReply } from "@/multiDashboardLayout/pages/BulkAutoReply";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
 import { ManageGoogleAccountWrapper } from "@/multiDashboardLayout/components/settings/ManageGoogleAccountWrapper";
 import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/TeamMembersWrapper";
@@ -45,10 +46,14 @@ export const multiDashboardRoutes: RouteConfig[] = [
         path: "bulk-review",
         element: <BulkReview />,
       },
-      {
-        path: "reports",
-        element: <Reports />,
-      },
+        {
+          path: "reports",
+          element: <Reports />,
+        },
+        {
+          path: "bulk-auto-reply",
+          element: <BulkAutoReply />,
+        },
       {
         path: "bulk-post-details/:bulkId",
         element: <BulkPostDetails />,
