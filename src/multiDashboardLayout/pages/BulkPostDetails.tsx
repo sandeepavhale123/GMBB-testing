@@ -189,17 +189,28 @@ const PostsTable = memo(({
 
 PostsTable.displayName = 'PostsTable';
 
-export const BulkPostDetails: React.FC = () => {
-  const {
-    bulkId
-  } = useParams<{
-    bulkId: string;
-  }>();
-  const navigate = useNavigate();
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
-  const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
-  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+// Memoized Table Section - Only re-renders when table data changes
+const TableSection = memo(({ 
+  bulkId, 
+  selectedPosts, 
+  setSelectedPosts, 
+  deleteDialogOpen, 
+  setDeleteDialogOpen, 
+  deletingPostId, 
+  setDeletingPostId, 
+  bulkDeleteDialogOpen, 
+  setBulkDeleteDialogOpen 
+}: {
+  bulkId: string;
+  selectedPosts: Set<string>;
+  setSelectedPosts: (posts: Set<string>) => void;
+  deleteDialogOpen: boolean;
+  setDeleteDialogOpen: (open: boolean) => void;
+  deletingPostId: string | null;
+  setDeletingPostId: (id: string | null) => void;
+  bulkDeleteDialogOpen: boolean;
+  setBulkDeleteDialogOpen: (open: boolean) => void;
+}) => {
   const [searchInput, setSearchInput] = useState('');
   
   const {
@@ -216,18 +227,7 @@ export const BulkPostDetails: React.FC = () => {
     updateSearchQuery,
     statusFilter,
     updateStatusFilter
-  } = useBulkPostDetails(bulkId || '');
-
-  // Use the new hook for summary data
-  const {
-    bulkPost,
-    loading: summaryLoading,
-    error: summaryError
-  } = useBulkPostSummary(bulkId || '');
-
-  // Combine loading and error states
-  const loading = detailsLoading || summaryLoading;
-  const error = detailsError || summaryError;
+  } = useBulkPostDetails(bulkId);
 
   // Debounce search input
   const debouncedSearch = useDebounce(searchInput, 500);
@@ -241,37 +241,11 @@ export const BulkPostDetails: React.FC = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [statusFilter, setCurrentPage]);
-  const handleBack = () => {
-    navigate('/main-dashboard/bulk-post');
-  };
-  const getStatusVariant = (status: string | null | undefined) => {
-    if (!status) return "secondary";
-    switch (status.toLowerCase()) {
-      case "published":
-      case "live":
-        return "default";
-      case "draft":
-        return "secondary";
-      case "scheduled":
-        return "outline";
-      case "failed":
-        return "destructive";
-      default:
-        return "secondary";
-    }
-  };
-  const formatDateTime = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return format(date, 'MMM dd, yyyy • hh:mm a');
-    } catch (error) {
-      return dateString;
-    }
-  };
 
   // Use posts directly since filtering and pagination are handled server-side
   const paginatedPosts = posts;
   const totalPages = pagination?.pages || 1;
+
   const handleSelectPost = (postId: string, checked: boolean) => {
     const newSelectedPosts = new Set(selectedPosts);
     if (checked) {
@@ -281,6 +255,7 @@ export const BulkPostDetails: React.FC = () => {
     }
     setSelectedPosts(newSelectedPosts);
   };
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedPosts(new Set(paginatedPosts.map(post => post.id)));
@@ -288,11 +263,13 @@ export const BulkPostDetails: React.FC = () => {
       setSelectedPosts(new Set());
     }
   };
+
   const handleBulkDelete = () => {
     if (selectedPosts.size > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
+
   const handleBulkDeleteConfirm = async () => {
     try {
       for (const postId of selectedPosts) {
@@ -313,10 +290,12 @@ export const BulkPostDetails: React.FC = () => {
     }
     setBulkDeleteDialogOpen(false);
   };
+
   const handleDeleteClick = (postId: string) => {
     setDeletingPostId(postId);
     setDeleteDialogOpen(true);
   };
+
   const handleDeleteConfirm = async () => {
     if (deletingPostId) {
       try {
@@ -337,123 +316,106 @@ export const BulkPostDetails: React.FC = () => {
     setDeleteDialogOpen(false);
     setDeletingPostId(null);
   };
+
   const handleViewPost = (post: any) => {
     if (post.searchUrl) {
       window.open(post.searchUrl, '_blank');
     }
   };
-  if (loading) {
-    return <div className="animate-pulse space-y-6">
-        <div className="h-8 bg-muted rounded w-1/3"></div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="h-96 bg-muted rounded"></div>
-          <div className="lg:col-span-2 h-96 bg-muted rounded"></div>
-        </div>
-      </div>;
+
+  if (detailsLoading) {
+    return <div className="animate-pulse space-y-4">
+      <div className="h-32 bg-muted rounded"></div>
+      <div className="h-96 bg-muted rounded"></div>
+    </div>;
   }
-  if (error) {
+
+  if (detailsError) {
     return <div className="text-center py-12">
-        <p className="text-muted-foreground">Error loading post details: {error}</p>
-        <Button onClick={refresh} className="mt-4">
-          Try Again
-        </Button>
-      </div>;
+      <p className="text-muted-foreground">Error loading post details: {detailsError}</p>
+      <Button onClick={refresh} className="mt-4">
+        Try Again
+      </Button>
+    </div>;
   }
-  return <div className="space-y-0">
-      {/* Page Header - Minimal spacing */}
-      <div className="mb-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
-          <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+
+  return (
+    <div className="space-y-4">
+      {/* Bulk Actions */}
+      {selectedPosts.size > 0 && (
+        <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
+          <span className="text-sm text-muted-foreground">
+            {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
+          </span>
+          <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
+            <Trash2 className="w-4 h-4 mr-2" />
+            Delete Selected
+          </Button>
         </div>
+      )}
+
+      {/* Filters */}
+      <div className="flex gap-4">
+        <Input 
+          placeholder="Search by listing name." 
+          value={searchInput} 
+          onChange={e => setSearchInput(e.target.value)} 
+          className="flex-1" 
+        />
+        <Select value={statusFilter} onValueChange={updateStatusFilter}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Post Status</SelectItem>
+            <SelectItem value="live">Live</SelectItem>
+            <SelectItem value="scheduled">Scheduled</SelectItem>
+            <SelectItem value="failed">Failed</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Post Preview */}
-        <div className="lg:col-span-1">
-          <PostPreview bulkPost={bulkPost} />
-        </div>
+      {/* Posts Table */}
+      <PostsTable
+        posts={paginatedPosts}
+        selectedPosts={selectedPosts}
+        onSelectPost={handleSelectPost}
+        onSelectAll={handleSelectAll}
+        onViewPost={handleViewPost}
+        onDeleteClick={handleDeleteClick}
+      />
 
-        {/* Right Column - Table and Controls */}
-        <div className="lg:col-span-2 space-y-4">
-          {/* Bulk Actions */}
-          {selectedPosts.size > 0 && (
-            <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-              <span className="text-sm text-muted-foreground">
-                {selectedPosts.size} post{selectedPosts.size > 1 ? 's' : ''} selected
-              </span>
-              <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="ml-auto">
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete Selected
-              </Button>
-            </div>
-          )}
-
-          {/* Filters */}
-          <div className="flex gap-4">
-            <Input 
-              placeholder="Search by listing name." 
-              value={searchInput} 
-              onChange={e => setSearchInput(e.target.value)} 
-              className="flex-1" 
-            />
-            <Select value={statusFilter} onValueChange={updateStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Post Status</SelectItem>
-                <SelectItem value="live">Live</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-              </SelectContent>
-            </Select>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-muted-foreground">
+            Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, pagination?.total || 0)} of {pagination?.total || 0} entries
           </div>
-
-          {/* Posts Table */}
-          <PostsTable
-            posts={paginatedPosts}
-            selectedPosts={selectedPosts}
-            onSelectPost={handleSelectPost}
-            onSelectAll={handleSelectAll}
-            onViewPost={handleViewPost}
-            onDeleteClick={handleDeleteClick}
-          />
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-muted-foreground">
-                Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, pagination?.total || 0)} of {pagination?.total || 0} entries
-              </div>
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Button>
-                <span className="text-sm text-muted-foreground">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+              disabled={currentPage === totalPages}
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Bulk Delete Confirmation Dialog */}
       <AlertDialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
@@ -490,5 +452,78 @@ export const BulkPostDetails: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>;
+    </div>
+  );
+});
+
+TableSection.displayName = 'TableSection';
+
+export const BulkPostDetails: React.FC = () => {
+  const { bulkId } = useParams<{ bulkId: string; }>();
+  const navigate = useNavigate();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
+  const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+
+  // Use the new hook for summary data - stable, doesn't change on search
+  const {
+    bulkPost,
+    loading: summaryLoading,
+    error: summaryError
+  } = useBulkPostSummary(bulkId || '');
+
+  if (summaryLoading) {
+    return <div className="animate-pulse space-y-6">
+        <div className="h-8 bg-muted rounded w-1/3"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="h-96 bg-muted rounded"></div>
+          <div className="lg:col-span-2 h-96 bg-muted rounded"></div>
+        </div>
+      </div>;
+  }
+
+  if (summaryError) {
+    return <div className="text-center py-12">
+        <p className="text-muted-foreground">Error loading post details: {summaryError}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">
+          Try Again
+        </Button>
+      </div>;
+  }
+
+  return (
+    <div className="space-y-0">
+      {/* Page Header - Minimal spacing */}
+      <div className="mb-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">View Details</h1>
+          <p className="text-sm text-muted-foreground">View details of the selected bulk post</p>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Post Preview - Stable, never re-renders */}
+        <div className="lg:col-span-1">
+          <PostPreview bulkPost={bulkPost} />
+        </div>
+
+        {/* Right Column - Dynamic Table Section */}
+        <div className="lg:col-span-2">
+          <TableSection
+            bulkId={bulkId || ''}
+            selectedPosts={selectedPosts}
+            setSelectedPosts={setSelectedPosts}
+            deleteDialogOpen={deleteDialogOpen}
+            setDeleteDialogOpen={setDeleteDialogOpen}
+            deletingPostId={deletingPostId}
+            setDeletingPostId={setDeletingPostId}
+            bulkDeleteDialogOpen={bulkDeleteDialogOpen}
+            setBulkDeleteDialogOpen={setBulkDeleteDialogOpen}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
