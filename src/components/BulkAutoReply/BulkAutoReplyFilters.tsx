@@ -14,7 +14,7 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
 }) => {
   return <div className="flex flex-wrap items-center gap-3 mb-6">
       {/* Search Bar */}
-      <div className="relative flex-1 min-w-[300px] max-w-md">
+      <div className="relative flex-1 min-w-[300px]">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
         <Input placeholder="Search projects..." value={searchQuery} onChange={e => onSearchChange(e.target.value)} className="pl-10 flex-1 " />
       </div>
