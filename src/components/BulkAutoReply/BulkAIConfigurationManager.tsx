@@ -14,6 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Star, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useUpdateBulkTemplateAutoReplyMutation } from "@/api/bulkAutoReplyApi";
+import { useParams } from "react-router-dom";
 
 interface BulkAISettings {
   tone?: string;
@@ -28,14 +30,18 @@ interface BulkAIConfigurationManagerProps {
   onSave?: (settings: BulkAISettings) => void;
   isEnabled?: boolean;
   onToggle?: (enabled: boolean) => void;
+  projectId?: number;
 }
 
 export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProps> = ({
   autoAiSettings,
   onSave,
   isEnabled = false,
-  onToggle
+  onToggle,
+  projectId
 }) => {
+  const params = useParams();
+  const [updateBulkTemplateAutoReply] = useUpdateBulkTemplateAutoReplyMutation();
   const [responseStyle, setResponseStyle] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>([]);
@@ -69,7 +75,7 @@ Thank you`);
     }
   }, [autoAiSettings]);
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = async () => {
     setIsSaving(true);
 
     const payload = {
@@ -80,19 +86,64 @@ Thank you`);
       prompt: additionalInstructions,
     };
 
-    // Call the onSave callback if provided
-    if (onSave) {
-      onSave(payload);
-    }
+    try {
+      const currentProjectId = projectId || parseInt(params.projectId || "1");
+      
+      await updateBulkTemplateAutoReply({
+        projectId: currentProjectId,
+        type: "text",
+        status: isEnabled ? 1 : 0,
+        text: replyTemplate,
+        rating: 2 // Default rating, can be made configurable
+      }).unwrap();
 
-    // TODO: Implement actual API call for bulk project AI settings
-    setTimeout(() => {
+      // Call the onSave callback if provided
+      if (onSave) {
+        onSave(payload);
+      }
+
       toast({
         title: "Success",
         description: "AI Auto Reply settings saved successfully!",
       });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save AI Auto Reply settings. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSaving(false);
-    }, 1000);
+    }
+  };
+
+  const handleToggleEnabled = async (enabled: boolean) => {
+    try {
+      const currentProjectId = projectId || parseInt(params.projectId || "1");
+      
+      await updateBulkTemplateAutoReply({
+        projectId: currentProjectId,
+        type: "text",
+        status: enabled ? 1 : 0,
+        text: replyTemplate,
+        rating: 2
+      }).unwrap();
+
+      if (onToggle) {
+        onToggle(enabled);
+      }
+
+      toast({
+        title: "Success",
+        description: `AI Auto Reply ${enabled ? "enabled" : "disabled"} successfully!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update AI Auto Reply status. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -107,12 +158,22 @@ Thank you`);
               <CardTitle className="text-base font-medium text-gray-900">
                 AI Auto Response
               </CardTitle>
-              <Badge
-                variant="secondary"
-                className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
-              >
-                AI Powered
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge
+                  variant="secondary"
+                  className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
+                >
+                  AI Powered
+                </Badge>
+                <Switch
+                  checked={isEnabled}
+                  onCheckedChange={handleToggleEnabled}
+                  className="data-[state=checked]:bg-primary"
+                />
+                <span className="text-sm text-muted-foreground">
+                  {isEnabled ? "Enabled" : "Disabled"}
+                </span>
+              </div>
             </div>
             <p className="text-sm text-gray-500 mt-1">
               Let AI generate personalized, contextual responses based on review

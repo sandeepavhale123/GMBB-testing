@@ -85,6 +85,19 @@ export interface BulkProjectDetailsResponse {
   };
 }
 
+export interface UpdateBulkTemplateAutoReplyRequest {
+  projectId: number;
+  type: string;
+  status: number;
+  text: string;
+  rating: number;
+}
+
+export interface UpdateBulkTemplateAutoReplyResponse {
+  code: number;
+  message: string;
+}
+
 export interface BulkReplyDetailsResponse {
   code: number;
   message: string;
@@ -118,7 +131,19 @@ export const bulkAutoReplyApi = createApi({
         data: { projectId: parseInt(projectId) },
       }),
     }),
+    updateBulkTemplateAutoReply: builder.mutation<UpdateBulkTemplateAutoReplyResponse, UpdateBulkTemplateAutoReplyRequest>({
+      query: (data) => ({
+        url: '/update-bulk-template-autoreply',
+        method: 'POST',
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useGetBulkReplyDetailsMutation, useCreateBulkTemplateProjectMutation, useGetBulkProjectDetailsMutation } = bulkAutoReplyApi;
+export const { 
+  useGetBulkReplyDetailsMutation, 
+  useCreateBulkTemplateProjectMutation, 
+  useGetBulkProjectDetailsMutation,
+  useUpdateBulkTemplateAutoReplyMutation 
+} = bulkAutoReplyApi;
