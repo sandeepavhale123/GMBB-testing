@@ -163,81 +163,7 @@ Thank you`);
           💡 AI will adapt this style to each review's specific content and rating.
         </p>
 
-        {/* Generate Sample AI Response Card */}
-        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200">
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-              <CardTitle className="text-sm font-semibold text-foreground">
-                Generate Sample AI Response
-              </CardTitle>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Test how AI will respond to a sample review
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Dummy Review Example */}
-            <div className="bg-white p-3 rounded-lg border border-gray-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <span className="text-sm font-medium text-gray-700">John Doe</span>
-              </div>
-              <p className="text-sm text-gray-600">
-                "Had an amazing experience! The service was excellent and the staff was very friendly. 
-                Everything exceeded my expectations. Will definitely come back again!"
-              </p>
-            </div>
-
-            <Button
-              onClick={() => {
-                setIsGeneratingSample(true);
-                // Simulate AI response generation
-                setTimeout(() => {
-                  setSampleResponse(`Hi John Doe,
-
-Thank you so much for taking the time to share your ${responseStyle || 'professional'} experience with us! We're thrilled to hear that you had a great time and that our staff exceeded your expectations.
-
-Your feedback about our excellent service means a lot to our team. We're delighted that you found our staff friendly and helpful.
-
-We appreciate your business and look forward to serving you again soon!
-
-Best regards,
-The Team`);
-                  setIsGeneratingSample(false);
-                }, 2000);
-              }}
-              disabled={isGeneratingSample}
-              variant="outline"
-              className="w-full"
-            >
-              {isGeneratingSample ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Generating Sample Response...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Generate Sample AI Response
-                </>
-              )}
-            </Button>
-            
-            {sampleResponse && (
-              <div className="mt-3 p-4 bg-white rounded-lg border border-gray-200">
-                <p className="text-sm text-muted-foreground mb-2">AI Generated Response:</p>
-                <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded border">
-                  {sampleResponse}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        
 
         {/* Advanced Options Toggle */}
         <Card className="bg-gray-50 border border-gray-200 p-4">
@@ -358,6 +284,82 @@ The Team`);
             </div>
           </div>
         )}
+
+        {/* Generate Sample AI Response Card */}
+        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+              <CardTitle className="text-sm font-semibold text-foreground">
+                Generate Sample AI Response
+              </CardTitle>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Test how AI will respond to a sample review
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Dummy Review Example */}
+            <div className="bg-white p-3 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-gray-700">John Doe</span>
+              </div>
+              <p className="text-sm text-gray-600">
+                "Had an amazing experience! The service was excellent and the staff was very friendly. 
+                Everything exceeded my expectations. Will definitely come back again!"
+              </p>
+            </div>
+
+            <Button
+              onClick={() => {
+                setIsGeneratingSample(true);
+                // Simulate AI response generation
+                setTimeout(() => {
+                  setSampleResponse(`Hi John Doe,
+
+Thank you so much for taking the time to share your ${responseStyle || 'professional'} experience with us! We're thrilled to hear that you had a great time and that our staff exceeded your expectations.
+
+Your feedback about our excellent service means a lot to our team. We're delighted that you found our staff friendly and helpful.
+
+We appreciate your business and look forward to serving you again soon!
+
+Best regards,
+The Team`);
+                  setIsGeneratingSample(false);
+                }, 2000);
+              }}
+              disabled={isGeneratingSample}
+              variant="outline"
+              className="w-full"
+            >
+              {isGeneratingSample ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Generating Sample Response...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Generate Sample AI Response
+                </>
+              )}
+            </Button>
+            
+            {sampleResponse && (
+              <div className="mt-3 p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-sm text-muted-foreground mb-2">AI Generated Response:</p>
+                <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded border">
+                  {sampleResponse}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Reply to Existing Reviews */}
         <Card className="bg-gray-50 border border-gray-200 p-4">
