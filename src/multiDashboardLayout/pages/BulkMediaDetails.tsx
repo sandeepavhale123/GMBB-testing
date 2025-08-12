@@ -1,17 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useBulkMediaDetails } from '@/hooks/useBulkMediaDetails';
 import { useDebounce } from '@/hooks/useDebounce';
 import { BulkMediaPreviewSection } from '@/components/BulkMedia/BulkMediaPreviewSection';
 import { BulkMediaTableSection } from '@/components/BulkMedia/BulkMediaTableSection';
-export const BulkMediaDetails: React.FC = () => {
-  const { bulkId } = useParams<{ bulkId: string }>();
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState('');
-  
+
+// Memoized Filter Section - Stable, doesn't re-render with table updates
+const MediaFilterSection = memo(({ 
+  searchInput, 
+  setSearchInput, 
+  status, 
+  setStatus 
+}: {
+  searchInput: string;
+  setSearchInput: (value: string) => void;
+  status: string;
+  setStatus: (value: string) => void;
+}) => {
+  return (
+    <div className="flex gap-4">
+      <Input 
+        placeholder="Search by listing name." 
+        value={searchInput} 
+        onChange={e => setSearchInput(e.target.value)} 
+        className="flex-1" 
+      />
+      <Select value={status} onValueChange={setStatus}>
+        <SelectTrigger className="w-40">
+          <SelectValue placeholder="Filter by status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Post Status</SelectItem>
+          <SelectItem value="live">Live</SelectItem>
+          <SelectItem value="scheduled">Scheduled</SelectItem>
+          <SelectItem value="failed">Failed</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+});
+
+MediaFilterSection.displayName = 'MediaFilterSection';
+
+// Memoized Media Table Section - Only re-renders when media data changes
+const MediaTableSection = memo(({ 
+  bulkId,
+  debouncedSearch,
+  status
+}: {
+  bulkId: string;
+  debouncedSearch: string;
+  status: string;
+}) => {
   const {
-    bulkMedia,
     medias,
     pagination,
     loading,
@@ -21,30 +65,81 @@ export const BulkMediaDetails: React.FC = () => {
     currentPage,
     setCurrentPage,
     itemsPerPage,
-    search,
     setSearch,
-    status,
     setStatus
-  } = useBulkMediaDetails(bulkId || '');
+  } = useBulkMediaDetails(bulkId);
 
-  // Debounce search input
-  const debouncedSearch = useDebounce(searchInput, 500);
-
-  // Update search in hook when debounced value changes
+  // Update search and status when props change
   useEffect(() => {
     setSearch(debouncedSearch);
     setCurrentPage(1); // Reset to first page when searching
   }, [debouncedSearch, setSearch, setCurrentPage]);
 
-  // Reset page when status filter changes
   useEffect(() => {
+    setStatus(status);
     setCurrentPage(1);
-  }, [status, setCurrentPage]);
+  }, [status, setStatus, setCurrentPage]);
+
+  if (loading) {
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-32 bg-muted rounded"></div>
+        <div className="h-96 bg-muted rounded"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">Error loading media details: {error}</p>
+        <Button onClick={refresh} className="mt-4">
+          Try Again
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <BulkMediaTableSection
+      medias={medias}
+      pagination={pagination}
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      itemsPerPage={itemsPerPage}
+      search={debouncedSearch}
+      setSearch={setSearch}
+      status={status}
+      setStatus={setStatus}
+      deleteMedia={deleteMedia}
+      refresh={refresh}
+      searchInput=""
+      setSearchInput={() => {}}
+    />
+  );
+});
+
+MediaTableSection.displayName = 'MediaTableSection';
+
+export const BulkMediaDetails: React.FC = () => {
+  const { bulkId } = useParams<{ bulkId: string }>();
+  const navigate = useNavigate();
+  
+  // Filter states - managed at parent level to prevent re-renders
+  const [searchInput, setSearchInput] = useState('');
+  const [status, setStatus] = useState('all');
+
+  // Debounce search input
+  const debouncedSearch = useDebounce(searchInput, 500);
+
+  // Get bulk media data for preview (stable, doesn't change with search)
+  const { bulkMedia, loading: previewLoading, error: previewError } = useBulkMediaDetails(bulkId || '');
 
   const handleBack = () => {
     navigate('/main-dashboard/bulk-media');
   };
-  if (loading) {
+
+  if (previewLoading) {
     return (
       <div className="animate-pulse space-y-6">
         <div className="h-8 bg-muted rounded w-1/3"></div>
@@ -56,11 +151,11 @@ export const BulkMediaDetails: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (previewError) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground">Error loading media details: {error}</p>
-        <Button onClick={refresh} className="mt-4">
+        <p className="text-muted-foreground">Error loading media details: {previewError}</p>
+        <Button onClick={() => window.location.reload()} className="mt-4">
           Try Again
         </Button>
       </div>
@@ -79,25 +174,26 @@ export const BulkMediaDetails: React.FC = () => {
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Media Preview (Static) */}
+        {/* Left Column - Media Preview (Static, never re-renders) */}
         <BulkMediaPreviewSection bulkMedia={bulkMedia} />
 
-        {/* Right Column - Media Listings Table (Dynamic) */}
-        <BulkMediaTableSection
-          medias={medias}
-          pagination={pagination}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          itemsPerPage={itemsPerPage}
-          search={search}
-          setSearch={setSearch}
-          status={status}
-          setStatus={setStatus}
-          deleteMedia={deleteMedia}
-          refresh={refresh}
-          searchInput={searchInput}
-          setSearchInput={setSearchInput}
-        />
+        {/* Right Column - Filter Section + Dynamic Table Section */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Filter Section - Stable, doesn't re-render with table */}
+          <MediaFilterSection
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            status={status}
+            setStatus={setStatus}
+          />
+          
+          {/* Table Section - Only re-renders when data changes */}
+          <MediaTableSection
+            bulkId={bulkId || ''}
+            debouncedSearch={debouncedSearch}
+            status={status}
+          />
+        </div>
       </div>
     </div>
   );

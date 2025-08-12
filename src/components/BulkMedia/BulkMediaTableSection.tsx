@@ -141,7 +141,7 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
     setDeleteDialogOpen(false);
     setDeletingMediaId(null);
   };
-  return <div className="lg:col-span-2 space-y-4">
+  return <div className="space-y-4">
       {/* Bulk Actions */}
       {selectedMedias.size > 0 && <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
           <span className="text-sm text-muted-foreground">
@@ -152,22 +152,6 @@ export const BulkMediaTableSection = memo<BulkMediaTableSectionProps>(({
             Delete Selected
           </Button>
         </div>}
-
-      {/* Filters */}
-      <div className="flex gap-4">
-        <Input placeholder="Search by listing name." value={searchInput} onChange={e => setSearchInput(e.target.value)} className="flex-1" />
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Post Status</SelectItem>
-            <SelectItem value="live">Live</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="failed">Failed</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
 
       <Card>
         <CardContent className="p-0">
