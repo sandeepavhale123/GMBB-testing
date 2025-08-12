@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BulkReviewSummary } from '@/components/BulkReview/BulkReviewSummary';
 import { BulkReviewFilters } from '@/components/BulkReview/BulkReviewFilters';
@@ -11,6 +12,7 @@ import { setFilter, setSearchQuery, setSentimentFilter, setSortBy, setDateRange,
 import { useToast } from '@/hooks/use-toast';
 export const BulkReview: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     toast
   } = useToast();
@@ -159,7 +161,7 @@ export const BulkReview: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">Bulk Review Management</h1>
           <p className="text-muted-foreground">Manage reviews across all your listings</p>
         </div>
-        <Button className="">
+        <Button onClick={() => navigate('/main-dashboard/bulk-auto-reply')} className="">
           <MessageCircle className="w-4 h-4 mr-2" />
           Bulk Response
         </Button>
