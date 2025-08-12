@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MainBody } from '../components/MainBody';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { BulkTemplateManager } from '@/components/BulkAutoReply/BulkTemplateManager';
 import { ProjectListingsTable } from '@/components/BulkAutoReply/ProjectListingsTable';
 
@@ -24,7 +24,7 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             onClick={() => setShowAddLocationModal(true)}
             className="flex items-center gap-2"
           >
-            <Plus className="h-4 w-4" />
+            <Save className="h-4 w-4" />
             Save Changes
           </Button>
         </div>
