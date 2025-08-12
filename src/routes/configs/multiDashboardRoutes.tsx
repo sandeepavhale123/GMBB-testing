@@ -10,6 +10,7 @@ import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
 import { BulkAutoReply } from "@/multiDashboardLayout/pages/BulkAutoReply";
+import { BulkAutoReplyProjectDetails } from "@/multiDashboardLayout/pages/BulkAutoReplyProjectDetails";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
 import { ManageGoogleAccountWrapper } from "@/multiDashboardLayout/components/settings/ManageGoogleAccountWrapper";
 import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/TeamMembersWrapper";
@@ -53,6 +54,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
         {
           path: "bulk-auto-reply",
           element: <BulkAutoReply />,
+        },
+        {
+          path: "bulk-auto-reply-details/:projectId",
+          element: <BulkAutoReplyProjectDetails />,
         },
       {
         path: "bulk-post-details/:bulkId",
