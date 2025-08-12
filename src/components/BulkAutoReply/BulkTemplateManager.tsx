@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BulkTemplateCard } from './BulkTemplateCard';
 import { BulkManageTemplateModal } from './BulkManageTemplateModal';
+import { useUpdateBulkTemplateAutoReplyMutation } from '@/api/bulkAutoReplyApi';
+import { useToast } from '@/hooks/use-toast';
 
 interface Template {
   id: string;
@@ -40,6 +43,10 @@ interface BulkTemplateManagerProps {
 }
 
 export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSettings }) => {
+  const { projectId } = useParams<{ projectId: string }>();
+  const { toast } = useToast();
+  const [updateBulkTemplateAutoReply] = useUpdateBulkTemplateAutoReplyMutation();
+  
   const [activeTab, setActiveTab] = useState('review');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showManageModal, setShowManageModal] = useState(false);
@@ -85,27 +92,53 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
     setShowManageModal(true);
   };
 
-  const handleToggleTemplate = (template: Template, enabled: boolean) => {
-    const updatedTemplate = { ...template, enabled };
-    
-    if (template.isRatingOnly) {
-      const updatedTemplates = templates.ratingOnly.map(t => 
-        t.id === template.id ? updatedTemplate : t
-      );
-      setTemplates(prev => ({ ...prev, ratingOnly: updatedTemplates }));
-    } else {
-      const updatedTemplates = templates.review.map(t => 
-        t.id === template.id ? updatedTemplate : t
-      );
-      setTemplates(prev => ({ ...prev, review: updatedTemplates }));
+  const handleToggleTemplate = async (template: Template, enabled: boolean) => {
+    if (!projectId) {
+      toast({
+        title: "Error",
+        description: "Project ID not found",
+        variant: "destructive",
+      });
+      return;
     }
-    
-    // Convert boolean to backend format (1 for enabled, 0 for disabled)
-    const statusValue = enabled ? 1 : 0;
-    console.log(`${enabled ? 'Enabled' : 'Disabled'} template for ${template.starRating} stars (${template.isRatingOnly ? 'rating-only' : 'review'}) - Status: ${statusValue}`);
-    
-    // TODO: Make API call to update the status in backend
-    // The API should update the corresponding field like oneTextStatus, twoTextStatus, etc.
+
+    try {
+      // Call API to update the template status
+      await updateBulkTemplateAutoReply({
+        projectId: parseInt(projectId),
+        type: template.isRatingOnly ? "star" : "text",
+        status: enabled ? 1 : 0,
+        text: template.content,
+        rating: template.starRating,
+      }).unwrap();
+
+      // Update local state only after successful API call
+      const updatedTemplate = { ...template, enabled };
+      
+      if (template.isRatingOnly) {
+        const updatedTemplates = templates.ratingOnly.map(t => 
+          t.id === template.id ? updatedTemplate : t
+        );
+        setTemplates(prev => ({ ...prev, ratingOnly: updatedTemplates }));
+      } else {
+        const updatedTemplates = templates.review.map(t => 
+          t.id === template.id ? updatedTemplate : t
+        );
+        setTemplates(prev => ({ ...prev, review: updatedTemplates }));
+      }
+
+      toast({
+        title: "Success",
+        description: `Template ${enabled ? 'enabled' : 'disabled'} successfully`,
+      });
+    } catch (error) {
+      console.error('Error updating template:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update template status",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
