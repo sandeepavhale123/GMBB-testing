@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useBulkMediaDetails } from '@/hooks/useBulkMediaDetails';
+import { useBulkMediaSummary } from '@/hooks/useBulkMediaSummary';
 import { useDebounce } from '@/hooks/useDebounce';
 import { BulkMediaPreviewSection } from '@/components/BulkMedia/BulkMediaPreviewSection';
 import { BulkMediaTableSection } from '@/components/BulkMedia/BulkMediaTableSection';
@@ -133,7 +134,10 @@ export const BulkMediaDetails: React.FC = () => {
   const debouncedSearch = useDebounce(searchInput, 500);
 
   // Get bulk media data for preview (stable, doesn't change with search)
-  const { bulkMedia, loading: previewLoading, error: previewError } = useBulkMediaDetails(bulkId || '');
+  const { bulkMedia: summaryBulkMedia, loading: previewLoading, error: previewError } = useBulkMediaSummary(bulkId || '');
+  
+  // Use empty hook call for the table data to avoid duplicate API calls
+  const { } = useBulkMediaDetails(bulkId || '');
 
   const handleBack = () => {
     navigate('/main-dashboard/bulk-media');
@@ -175,7 +179,7 @@ export const BulkMediaDetails: React.FC = () => {
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Media Preview (Static, never re-renders) */}
-        <BulkMediaPreviewSection bulkMedia={bulkMedia} />
+        <BulkMediaPreviewSection bulkMedia={summaryBulkMedia} />
 
         {/* Right Column - Filter Section + Dynamic Table Section */}
         <div className="lg:col-span-2 space-y-4">

@@ -1,6 +1,6 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getBulkMediaOverview, BulkMediaOverviewRequest, BulkMediaOverviewItem } from '@/api/mediaApi';
+import { getBulkMediaOverview, BulkMediaOverviewRequest, BulkMediaOverviewItem, getBulkMediaSummary, GetBulkMediaSummaryRequest, BulkMediaSummaryItem } from '@/api/mediaApi';
 
 interface MediaItem {
   id: string;
@@ -28,6 +28,10 @@ interface MediaState {
   bulkMediaOverviewLoading: boolean;
   bulkMediaOverviewError: string | null;
   bulkMediaOverviewPagination: PaginationState;
+  // New state for bulk media summary
+  bulkMediaSummary: BulkMediaSummaryItem | null;
+  bulkMediaSummaryLoading: boolean;
+  bulkMediaSummaryError: string | null;
 }
 
 const initialState: MediaState = {
@@ -62,6 +66,10 @@ const initialState: MediaState = {
     hasNext: false,
     hasPrevious: false,
   },
+  // Initialize new bulk media summary state
+  bulkMediaSummary: null,
+  bulkMediaSummaryLoading: false,
+  bulkMediaSummaryError: null,
 };
 
 // Async thunk for fetching bulk media overview
@@ -69,6 +77,15 @@ export const fetchBulkMediaOverview = createAsyncThunk(
   'media/fetchBulkMediaOverview',
   async (params: BulkMediaOverviewRequest) => {
     const response = await getBulkMediaOverview(params);
+    return response;
+  }
+);
+
+// Async thunk for fetching bulk media summary
+export const fetchBulkMediaSummary = createAsyncThunk(
+  'media/fetchBulkMediaSummary',
+  async (params: GetBulkMediaSummaryRequest) => {
+    const response = await getBulkMediaSummary(params);
     return response;
   }
 );
@@ -85,6 +102,9 @@ const mediaSlice = createSlice({
     },
     clearBulkMediaOverviewError: (state) => {
       state.bulkMediaOverviewError = null;
+    },
+    clearBulkMediaSummaryError: (state) => {
+      state.bulkMediaSummaryError = null;
     },
   },
   extraReducers: (builder) => {
@@ -108,9 +128,22 @@ const mediaSlice = createSlice({
       .addCase(fetchBulkMediaOverview.rejected, (state, action) => {
         state.bulkMediaOverviewLoading = false;
         state.bulkMediaOverviewError = action.error.message || 'Failed to fetch bulk media overview';
+      })
+      // Bulk media summary reducers
+      .addCase(fetchBulkMediaSummary.pending, (state) => {
+        state.bulkMediaSummaryLoading = true;
+        state.bulkMediaSummaryError = null;
+      })
+      .addCase(fetchBulkMediaSummary.fulfilled, (state, action) => {
+        state.bulkMediaSummaryLoading = false;
+        state.bulkMediaSummary = action.payload.data.MediaSummary[0] || null;
+      })
+      .addCase(fetchBulkMediaSummary.rejected, (state, action) => {
+        state.bulkMediaSummaryLoading = false;
+        state.bulkMediaSummaryError = action.error.message || 'Failed to fetch bulk media summary';
       });
   },
 });
 
-export const { setSelectedBusiness, addMedia, clearBulkMediaOverviewError } = mediaSlice.actions;
+export const { setSelectedBusiness, addMedia, clearBulkMediaOverviewError, clearBulkMediaSummaryError } = mediaSlice.actions;
 export default mediaSlice.reducer;

@@ -1,5 +1,27 @@
 import axiosInstance from "./axiosInstance";
 
+// New interfaces for bulk media summary
+export interface GetBulkMediaSummaryRequest {
+  bulkId: number;
+}
+
+export interface BulkMediaSummaryItem {
+  bulkId: string;
+  tags: string;
+  image: string;
+  category: string;
+  mediaType: string;
+  publishDate: string;
+}
+
+export interface GetBulkMediaSummaryResponse {
+  code: number;
+  message: string;
+  data: {
+    MediaSummary: BulkMediaSummaryItem[];
+  };
+}
+
 export interface MediaUploadData {
   file?: File;
   title: string;
@@ -549,5 +571,11 @@ export const getBulkMediaDetails = async (params: BulkMediaDetailsRequest): Prom
 // Delete media from bulk operation
 export const deleteMediaFromBulk = async (params: DeleteMediaFromBulkRequest): Promise<DeleteMediaFromBulkResponse> => {
   const response = await axiosInstance.post('/delete-bulk-media', params);
+  return response.data;
+};
+
+// Get bulk media summary
+export const getBulkMediaSummary = async (params: GetBulkMediaSummaryRequest): Promise<GetBulkMediaSummaryResponse> => {
+  const response = await axiosInstance.post('/get-bulk-media-summary', params);
   return response.data;
 };
