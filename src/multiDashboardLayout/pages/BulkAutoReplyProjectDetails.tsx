@@ -103,8 +103,8 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             </div>
           </div>
         ) : projectType === 'ai' ? (
-          /* AI Project: Single Column Layout */
-          <div className="space-y-8">
+          /* AI Project: 2-Column Layout */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* AI Configuration Manager */}
             <BulkAIConfigurationManager 
               autoAiSettings={projectData?.data?.autoSettings}
