@@ -180,27 +180,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
             </RadioGroup>
           </div>
 
-          {/* Custom Template Settings */}
-          {replyType === 'template' && (
-            <div className="p-4 border border-border rounded-lg space-y-4">
-              <h4 className="font-medium">Custom Auto Reply Settings</h4>
-              
-              <div className="space-y-2">
-                <Label htmlFor="template">Reply Template</Label>
-                <Textarea 
-                  id="template" 
-                  value={customTemplate} 
-                  onChange={e => setCustomTemplate(e.target.value)} 
-                  placeholder="Enter your custom reply template..." 
-                  rows={4} 
-                  required={replyType === 'template'} 
-                />
-                <p className="text-sm text-muted-foreground">
-                  Use variables like {'{customerName}'}, {'{businessName}'}, etc. in your template
-                </p>
-              </div>
-            </div>
-          )}
         </form>
 
         <DialogFooter>
