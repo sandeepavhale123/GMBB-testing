@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Search, Plus, Trash2 } from 'lucide-react';
 
-interface Listing {
+interface Location {
   id: string;
   name: string;
   platform: string;
@@ -56,10 +56,10 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedListings, setSelectedListings] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
-  // Mock listings data
-  const allListings: Listing[] = [
+  // Mock locations data
+  const allLocations: Location[] = [
     { id: '1', name: 'ABC Restaurant Downtown', platform: 'Google', status: 'active', addedDate: '2024-01-15' },
     { id: '2', name: 'Best Pizza Place', platform: 'Yelp', status: 'active', addedDate: '2024-01-14' },
     { id: '3', name: 'Coffee Corner Cafe', platform: 'Google', status: 'inactive', addedDate: '2024-01-13' },
@@ -67,23 +67,23 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
     { id: '5', name: 'Quick Burger Joint', platform: 'Google', status: 'active', addedDate: '2024-01-11' },
   ];
 
-  const filteredListings = allListings.filter(listing =>
-    listing.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredLocations = allLocations.filter(location =>
+    location.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredLocations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentListings = filteredListings.slice(startIndex, endIndex);
+  const currentLocations = filteredLocations.slice(startIndex, endIndex);
 
-  const handleDeleteListing = (listingId: string) => {
-    console.log('Deleting listing:', listingId);
+  const handleDeleteLocation = (locationId: string) => {
+    console.log('Deleting location:', locationId);
     // Handle delete logic here
   };
 
-  const handleAddListing = (selectedListings: string[]) => {
-    console.log('Adding listings:', selectedListings);
+  const handleAddLocation = (selectedLocations: string[]) => {
+    console.log('Adding locations:', selectedLocations);
     onCloseAddModal();
   };
 
@@ -91,7 +91,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Project Listings</CardTitle>
+          <CardTitle>Project Locations</CardTitle>
         </CardHeader>
         <CardContent>
           {/* Filters */}
@@ -99,7 +99,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                placeholder="Search listings..."
+                placeholder="Search locations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -111,7 +111,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               className="flex items-center gap-2"
             >
               <Plus className="h-4 w-4" />
-              Add Listing
+              Add Location
             </Button>
           </div>
 
@@ -125,16 +125,16 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {currentListings.length === 0 ? (
+                {currentLocations.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={2} className="text-center py-8 text-gray-500">
-                      No listings found
+                      No locations found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  currentListings.map((listing) => (
-                    <TableRow key={listing.id}>
-                      <TableCell className="font-medium">{listing.name}</TableCell>
+                  currentLocations.map((location) => (
+                    <TableRow key={location.id}>
+                      <TableCell className="font-medium">{location.name}</TableCell>
                       <TableCell className="text-right">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -144,16 +144,16 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Remove Listing</AlertDialogTitle>
+                              <AlertDialogTitle>Remove Location</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to remove "{listing.name}" from this project? 
+                                Are you sure you want to remove "{location.name}" from this project? 
                                 This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
                               <AlertDialogAction 
-                                onClick={() => handleDeleteListing(listing.id)}
+                                onClick={() => handleDeleteLocation(location.id)}
                                 className="bg-red-600 hover:bg-red-700"
                               >
                                 Remove
@@ -206,54 +206,54 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
         </CardContent>
       </Card>
 
-      {/* Add Listing Modal */}
-      <AddListingModal 
+      {/* Add Location Modal */}
+      <AddLocationModal 
         open={showAddModal}
         onOpenChange={onCloseAddModal}
-        onAddListings={handleAddListing}
+        onAddLocations={handleAddLocation}
       />
     </>
   );
 };
 
-// Add Listing Modal Component
-interface AddListingModalProps {
+// Add Location Modal Component
+interface AddLocationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAddListings: (listingIds: string[]) => void;
+  onAddLocations: (locationIds: string[]) => void;
 }
 
-const AddListingModal: React.FC<AddListingModalProps> = ({
+const AddLocationModal: React.FC<AddLocationModalProps> = ({
   open,
   onOpenChange,
-  onAddListings
+  onAddLocations
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedListings, setSelectedListings] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
-  // Mock available listings
-  const availableListings = [
+  // Mock available locations
+  const availableLocations = [
     { id: 'a1', name: 'New Restaurant XYZ', platform: 'Google' },
     { id: 'a2', name: 'Trendy Bar & Grill', platform: 'Yelp' },
     { id: 'a3', name: 'Family Diner', platform: 'TripAdvisor' },
     { id: 'a4', name: 'Sushi Express', platform: 'Google' },
   ];
 
-  const filteredAvailableListings = availableListings.filter(listing =>
-    listing.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredAvailableLocations = availableLocations.filter(location =>
+    location.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleToggleSelection = (listingId: string) => {
-    setSelectedListings(prev =>
-      prev.includes(listingId)
-        ? prev.filter(id => id !== listingId)
-        : [...prev, listingId]
+  const handleToggleSelection = (locationId: string) => {
+    setSelectedLocations(prev =>
+      prev.includes(locationId)
+        ? prev.filter(id => id !== locationId)
+        : [...prev, locationId]
     );
   };
 
   const handleAdd = () => {
-    onAddListings(selectedListings);
-    setSelectedListings([]);
+    onAddLocations(selectedLocations);
+    setSelectedLocations([]);
     setSearchQuery('');
   };
 
@@ -261,14 +261,14 @@ const AddListingModal: React.FC<AddListingModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Add Listings to Project</DialogTitle>
+          <DialogTitle>Add Locations to Project</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
-              placeholder="Search available listings..."
+              placeholder="Search available locations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -276,27 +276,27 @@ const AddListingModal: React.FC<AddListingModalProps> = ({
           </div>
 
           <div className="border rounded-lg max-h-64 overflow-y-auto">
-            {filteredAvailableListings.length === 0 ? (
+            {filteredAvailableLocations.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
-                No listings available
+                No locations available
               </div>
             ) : (
               <div className="divide-y">
-                {filteredAvailableListings.map((listing) => (
+                {filteredAvailableLocations.map((location) => (
                   <div
-                    key={listing.id}
+                    key={location.id}
                     className="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer"
-                    onClick={() => handleToggleSelection(listing.id)}
+                    onClick={() => handleToggleSelection(location.id)}
                   >
                     <input
                       type="checkbox"
-                      checked={selectedListings.includes(listing.id)}
-                      onChange={() => handleToggleSelection(listing.id)}
+                      checked={selectedLocations.includes(location.id)}
+                      onChange={() => handleToggleSelection(location.id)}
                       className="rounded"
                     />
                     <div className="flex-1">
-                      <p className="font-medium">{listing.name}</p>
-                      <p className="text-sm text-gray-500">{listing.platform}</p>
+                      <p className="font-medium">{location.name}</p>
+                      <p className="text-sm text-gray-500">{location.platform}</p>
                     </div>
                   </div>
                 ))}
@@ -306,7 +306,7 @@ const AddListingModal: React.FC<AddListingModalProps> = ({
 
           <div className="flex justify-between items-center pt-4 border-t">
             <p className="text-sm text-gray-600">
-              {selectedListings.length} listing(s) selected
+              {selectedLocations.length} location(s) selected
             </p>
             <div className="flex gap-3">
               <Button variant="outline" onClick={() => onOpenChange(false)}>
@@ -314,7 +314,7 @@ const AddListingModal: React.FC<AddListingModalProps> = ({
               </Button>
               <Button 
                 onClick={handleAdd}
-                disabled={selectedListings.length === 0}
+                disabled={selectedLocations.length === 0}
               >
                 Add Selected
               </Button>

@@ -6,7 +6,7 @@ import { BulkTemplateManager } from '@/components/BulkAutoReply/BulkTemplateMana
 import { ProjectListingsTable } from '@/components/BulkAutoReply/ProjectListingsTable';
 
 export const BulkAutoReplyProjectDetails: React.FC = () => {
-  const [showAddListingModal, setShowAddListingModal] = useState(false);
+  const [showAddLocationModal, setShowAddLocationModal] = useState(false);
 
   return (
       <div className="space-y-6">
@@ -17,15 +17,15 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
               Project Details
             </h1>
             <p className="text-gray-600 mt-1">
-              Manage auto-reply templates and listings for this project
+              Manage auto-reply templates and locations for this project
             </p>
           </div>
           <Button 
-            onClick={() => setShowAddListingModal(true)}
+            onClick={() => setShowAddLocationModal(true)}
             className="flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
-            Add Listing
+            Add Location
           </Button>
         </div>
 
@@ -36,11 +36,11 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             <BulkTemplateManager />
           </div>
 
-          {/* Column 2: Listings Table */}
+          {/* Column 2: Locations Table */}
           <div className="space-y-6">
             <ProjectListingsTable 
-              showAddModal={showAddListingModal}
-              onCloseAddModal={() => setShowAddListingModal(false)}
+              showAddModal={showAddLocationModal}
+              onCloseAddModal={() => setShowAddLocationModal(false)}
             />
           </div>
         </div>
