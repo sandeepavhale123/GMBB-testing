@@ -73,7 +73,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
   }
 
   return (
-    <div className="border">
+    <div className="border rounded-lg">
       {/* Table */}
       <Table>
         <TableHeader>
