@@ -117,14 +117,13 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                 <TableRow>
                   <TableHead>Location Name</TableHead>
                   <TableHead>Zip Code</TableHead>
-                  <TableHead>Setting Type</TableHead>
                   <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {currentLocations.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center py-8 text-gray-500">
+                    <TableCell colSpan={3} className="text-center py-8 text-gray-500">
                       No locations found
                     </TableCell>
                   </TableRow>
@@ -133,7 +132,6 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                     <TableRow key={location.id}>
                       <TableCell className="font-medium">{location.locationName}</TableCell>
                       <TableCell>{location.zipCode || 'N/A'}</TableCell>
-                      <TableCell>{location.setting_type}</TableCell>
                       <TableCell className="text-right">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
