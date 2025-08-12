@@ -32,17 +32,23 @@ function toast({ ...props }: Toast) {
     ) : props.title
   }
 
-  dispatch({
-    type: "ADD_TOAST",
-    toast: {
-      ...enhancedProps,
-      id,
-      open: true,
-      onOpenChange: (open) => {
-        if (!open) dismiss()
+  try {
+    dispatch({
+      type: "ADD_TOAST",
+      toast: {
+        ...enhancedProps,
+        id,
+        open: true,
+        onOpenChange: (open) => {
+          if (!open) dismiss()
+        },
       },
-    },
-  })
+    })
+  } catch (error) {
+    console.error('Toast error:', error);
+    // Fallback to console log if toast system fails
+    console.log('Toast message:', props.title, props.description);
+  }
 
   return {
     id: id,
