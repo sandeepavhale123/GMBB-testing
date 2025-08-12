@@ -158,12 +158,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Project Name */}
-          <div className="space-y-2">
-            <Label htmlFor="projectName">Project Name</Label>
-            <Input id="projectName" value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="Enter project name" required />
-          </div>
-
           {/* Multi-select Listing Dropdown */}
           <div className="space-y-2">
             <Label>Select Listings</Label>
@@ -210,6 +204,14 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                 <p className="text-sm">{selectedListingNames}</p>
               </div>}
           </div>
+          
+          {/* Project Name */}
+          <div className="space-y-2">
+            <Label htmlFor="projectName">Project Name</Label>
+            <Input id="projectName" value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="Enter project name" required />
+          </div>
+
+          
 
           {/* Reply Type Selection */}
           <div className="space-y-3">
