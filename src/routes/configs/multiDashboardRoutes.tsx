@@ -56,7 +56,7 @@ export const multiDashboardRoutes: RouteConfig[] = [
           element: <BulkAutoReply />,
         },
         {
-          path: "bulk-auto-reply-details/:projectId",
+          path: "bulk-auto-reply-project-details/:projectId",
           element: <BulkAutoReplyProjectDetails />,
         },
       {
