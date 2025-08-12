@@ -33,7 +33,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   // Form state
   const [projectName, setProjectName] = useState('');
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  const [replyType, setReplyType] = useState<'ai' | 'custom'>('ai');
+  const [replyType, setReplyType] = useState<'ai' | 'template'>('ai');
 
   // AI Settings
   const [aiTone, setAiTone] = useState('professional');
@@ -85,7 +85,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       return;
     }
 
-    if (replyType === 'custom' && !customTemplate.trim()) {
+    if (replyType === 'template' && !customTemplate.trim()) {
       toast({
         title: "Error",
         description: "Please enter a custom template",
@@ -98,7 +98,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       const response = await createBulkTemplateProject({
         listingIds: selectedListings,
         project_name: projectName,
-        type: replyType === 'ai' ? 'ai' : 'template'
+        type: replyType
       }).unwrap();
 
       toast({
@@ -167,68 +167,21 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
             <Label>Reply Type</Label>
             <RadioGroup 
               value={replyType} 
-              onValueChange={(value: 'ai' | 'custom') => setReplyType(value)}
+              onValueChange={(value: 'ai' | 'template') => setReplyType(value)}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="ai" id="ai" />
                 <Label htmlFor="ai">AI Generated Replies</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="custom" id="custom" />
-                <Label htmlFor="custom">Custom Template</Label>
+                <RadioGroupItem value="template" id="template" />
+                <Label htmlFor="template">Custom Template</Label>
               </div>
             </RadioGroup>
           </div>
 
-          {/* AI Settings */}
-          {replyType === 'ai' && (
-            <div className="p-4 border border-border rounded-lg space-y-4">
-              <h4 className="font-medium">AI Reply Settings</h4>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="tone">Tone</Label>
-                  <Select value={aiTone} onValueChange={setAiTone}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select tone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="professional">Professional</SelectItem>
-                      <SelectItem value="friendly">Friendly</SelectItem>
-                      <SelectItem value="casual">Casual</SelectItem>
-                      <SelectItem value="formal">Formal</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="length">Response Length</Label>
-                  <Select value={aiResponseLength} onValueChange={setAiResponseLength}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select length" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="short">Short</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="long">Long</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="promotions" 
-                  checked={aiIncludePromotions}
-                  onCheckedChange={(checked) => setAiIncludePromotions(checked === true)}
-                />
-                <Label htmlFor="promotions">Include promotional content</Label>
-              </div>
-            </div>
-          )}
-
           {/* Custom Template Settings */}
-          {replyType === 'custom' && (
+          {replyType === 'template' && (
             <div className="p-4 border border-border rounded-lg space-y-4">
               <h4 className="font-medium">Custom Auto Reply Settings</h4>
               
@@ -240,7 +193,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                   onChange={e => setCustomTemplate(e.target.value)} 
                   placeholder="Enter your custom reply template..." 
                   rows={4} 
-                  required={replyType === 'custom'} 
+                  required={replyType === 'template'} 
                 />
                 <p className="text-sm text-muted-foreground">
                   Use variables like {'{customerName}'}, {'{businessName}'}, etc. in your template
