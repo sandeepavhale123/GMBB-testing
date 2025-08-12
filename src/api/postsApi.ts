@@ -168,6 +168,30 @@ export interface GetBulkPostsOverviewResponse {
   };
 }
 
+export interface GetBulkPostsSummaryRequest {
+  bulkId: number;
+}
+
+export interface BulkPostSummaryItem {
+  posttype: string;
+  posttext: string;
+  state: string;
+  tags: string;
+  image: string;
+  event_title: string;
+  action_type: string;
+  CTA_url: string;
+  publishDate: string;
+}
+
+export interface GetBulkPostsSummaryResponse {
+  code: number;
+  message: string;
+  data: {
+    postSummary: BulkPostSummaryItem[];
+  };
+}
+
 export const postsApi = {
   getPosts: async (request: GetPostsRequest): Promise<GetPostsResponse> => {
     const response = await axiosInstance.post("/get-posts", request);
@@ -371,6 +395,11 @@ export const postsApi = {
     const response = await axiosInstance.post("/delete-bulk-posts", {
       postId: [Number(request.postId)]
     });
+    return response.data;
+  },
+
+  getBulkPostsSummary: async (request: GetBulkPostsSummaryRequest): Promise<GetBulkPostsSummaryResponse> => {
+    const response = await axiosInstance.post("/get-bulk-posts-summary", request);
     return response.data;
   }
 };

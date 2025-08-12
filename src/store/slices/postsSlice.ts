@@ -7,6 +7,8 @@ import {
   DeletePostRequest,
   CreateBulkPostRequest,
   BulkPostOverviewItem,
+  GetBulkPostsSummaryRequest,
+  BulkPostSummaryItem,
 } from "../../api/postsApi";
 
 interface Post {
@@ -65,6 +67,11 @@ interface PostsState {
   } | null;
   bulkPostDetailsLoading: boolean;
   bulkPostDetailsError: string | null;
+
+  // Bulk post summary state
+  bulkPostSummary: BulkPostSummaryItem[] | null;
+  bulkPostSummaryLoading: boolean;
+  bulkPostSummaryError: string | null;
 }
 
 const initialState: PostsState = {
@@ -98,6 +105,10 @@ const initialState: PostsState = {
   bulkPostDetails: null,
   bulkPostDetailsLoading: false,
   bulkPostDetailsError: null,
+
+  bulkPostSummary: null,
+  bulkPostSummaryLoading: false,
+  bulkPostSummaryError: null,
 };
 
 // Helper function to map API status to frontend status
@@ -296,6 +307,19 @@ export const deletePostFromBulk = createAsyncThunk(
   }
 );
 
+// Fetch bulk post summary
+export const fetchBulkPostSummary = createAsyncThunk(
+  'posts/fetchBulkPostSummary',
+  async (request: GetBulkPostsSummaryRequest, { rejectWithValue }) => {
+    try {
+      const response = await postsApi.getBulkPostsSummary(request);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch bulk post summary');
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -334,6 +358,11 @@ const postsSlice = createSlice({
     // Clear bulk post details error
     clearBulkPostDetailsError: (state) => {
       state.bulkPostDetailsError = null;
+    },
+
+    // Clear bulk post summary error
+    clearBulkPostSummaryError: (state) => {
+      state.bulkPostSummaryError = null;
     },
   },
   extraReducers: (builder) => {
@@ -474,6 +503,20 @@ const postsSlice = createSlice({
       .addCase(deletePostFromBulk.rejected, (state, action) => {
         state.bulkPostDetailsLoading = false;
         state.bulkPostDetailsError = action.payload as string;
+      })
+
+      // Fetch bulk post summary
+      .addCase(fetchBulkPostSummary.pending, (state) => {
+        state.bulkPostSummaryLoading = true;
+        state.bulkPostSummaryError = null;
+      })
+      .addCase(fetchBulkPostSummary.fulfilled, (state, action) => {
+        state.bulkPostSummaryLoading = false;
+        state.bulkPostSummary = action.payload.postSummary;
+      })
+      .addCase(fetchBulkPostSummary.rejected, (state, action) => {
+        state.bulkPostSummaryLoading = false;
+        state.bulkPostSummaryError = action.payload as string;
       });
   },
 });
@@ -488,5 +531,6 @@ export const {
   clearDeleteError,
   clearBulkPostsOverviewError,
   clearBulkPostDetailsError,
+  clearBulkPostSummaryError,
 } = postsSlice.actions;
 export default postsSlice.reducer;

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { toast } from '@/hooks/use-toast';
 import { useBulkPostDetails } from '@/hooks/useBulkPostDetails';
+import { useBulkPostSummary } from '@/hooks/useBulkPostSummary';
 import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 
@@ -202,11 +203,10 @@ export const BulkPostDetails: React.FC = () => {
   const [searchInput, setSearchInput] = useState('');
   
   const {
-    bulkPost,
     posts,
     pagination,
-    loading,
-    error,
+    loading: detailsLoading,
+    error: detailsError,
     deletePost,
     refresh,
     currentPage,
@@ -217,6 +217,17 @@ export const BulkPostDetails: React.FC = () => {
     statusFilter,
     updateStatusFilter
   } = useBulkPostDetails(bulkId || '');
+
+  // Use the new hook for summary data
+  const {
+    bulkPost,
+    loading: summaryLoading,
+    error: summaryError
+  } = useBulkPostSummary(bulkId || '');
+
+  // Combine loading and error states
+  const loading = detailsLoading || summaryLoading;
+  const error = detailsError || summaryError;
 
   // Debounce search input
   const debouncedSearch = useDebounce(searchInput, 500);
