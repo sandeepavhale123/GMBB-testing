@@ -41,7 +41,19 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     selectedListing
   } = useListingContext();
 
-  // Helper function to get image URL
+  // Add debug logging
+  React.useEffect(() => {
+    console.log('🎯 PostPreview mounted with data:', data);
+    return () => {
+      console.log('🎯 PostPreview unmounting');
+    };
+  }, []);
+
+  React.useEffect(() => {
+    console.log('🎯 PostPreview data changed:', data);
+  }, [data]);
+
+  // Helper function to get image URL with proper cleanup
   const getImageUrl = () => {
     if (!data.image) return null;
     if (typeof data.image === 'string') {
@@ -52,6 +64,22 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       return URL.createObjectURL(data.image);
     }
   };
+
+  // Add cleanup for object URLs
+  React.useEffect(() => {
+    let objectUrl: string | null = null;
+    
+    if (data.image && typeof data.image !== 'string') {
+      objectUrl = URL.createObjectURL(data.image);
+    }
+
+    return () => {
+      if (objectUrl) {
+        console.log('🧹 Cleaning up object URL:', objectUrl);
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [data.image]);
 
   // Helper function to get business name with character limit
   const getBusinessName = () => {
@@ -77,6 +105,9 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
     return option ? option.label : value;
   };
   const imageUrl = getImageUrl();
+  
+  console.log('🎯 PostPreview rendering with imageUrl:', imageUrl);
+  
   return <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Mock Business Header */}
       <div className="p-4 border-b">

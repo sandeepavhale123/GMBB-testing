@@ -3,6 +3,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { PostPreview } from './PostPreview';
+import { PostPreviewErrorBoundary } from './PostPreviewErrorBoundary';
 
 interface PostPreviewModalProps {
   isOpen: boolean;
@@ -30,7 +31,9 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
         </DialogHeader>
         
         <div className="mt-4">
-          <PostPreview data={data} />
+          <PostPreviewErrorBoundary>
+            <PostPreview data={data} />
+          </PostPreviewErrorBoundary>
         </div>
 
         <div className="flex justify-end pt-4 border-t">

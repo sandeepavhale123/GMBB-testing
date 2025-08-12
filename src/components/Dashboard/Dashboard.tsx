@@ -21,6 +21,7 @@ import {
 import { CircularProgress } from "../ui/circular-progress";
 import { CreatePostModal } from "../Posts/CreatePostModal";
 import { PostPreview } from "../Posts/PostPreview";
+import { PostPreviewErrorBoundary } from "../Posts/PostPreviewErrorBoundary";
 import { ListingLoader } from "../ui/listing-loader";
 import { NoListingSelected } from "../ui/no-listing-selected";
 import {
@@ -128,12 +129,15 @@ export const Dashboard: React.FC = () => {
 
   // Handle media context - open modal when image is selected from gallery
   useEffect(() => {
+    console.log('🎯 Dashboard media context changed:', { shouldOpenCreatePost, selectedMedia });
     if (shouldOpenCreatePost && selectedMedia) {
+      console.log('🎯 Opening create post modal from media context');
       setIsCreateModalOpen(true);
     }
   }, [shouldOpenCreatePost, selectedMedia]);
 
   const handleApprovePost = (post: any) => {
+    console.log('🎯 Dashboard handleApprovePost called with:', post);
     setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
@@ -355,17 +359,28 @@ export const Dashboard: React.FC = () => {
             </DialogTitle>
           </DialogHeader>
           {selectedPost && (
-            <PostPreview
-              data={{
-                title: selectedPost.title,
-                description: selectedPost.content,
-                ctaButton: "",
-                ctaUrl: "",
-                image: selectedPost.image,
-                platforms: [],
-                scheduledDate: selectedPost.scheduledDate,
-              }}
-            />
+            <div>
+              <p className="text-sm text-gray-500 mb-4">Previewing post: {selectedPost.title}</p>
+              <PostPreviewErrorBoundary
+                fallback={
+                  <div className="p-4 text-center text-red-600 bg-red-50 rounded-lg border border-red-200">
+                    <p className="text-sm">Unable to display preview</p>
+                  </div>
+                }
+              >
+                <PostPreview
+                  data={{
+                    title: selectedPost.title,
+                    description: selectedPost.content,
+                    ctaButton: "",
+                    ctaUrl: "",
+                    image: selectedPost.image,
+                    platforms: [],
+                    scheduledDate: selectedPost.scheduledDate,
+                  }}
+                />
+              </PostPreviewErrorBoundary>
+            </div>
           )}
           <DialogFooter className="gap-2 flex-col sm:flex-row">
             <Button
