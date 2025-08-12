@@ -15,7 +15,7 @@ import { useBulkPostSummary } from '@/hooks/useBulkPostSummary';
 import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 
-// Memoized Post Preview Component
+// Memoized Post Preview Component - Stable, doesn't re-render on search
 const PostPreview = memo(({ bulkPost }: { bulkPost: any }) => {
   const formatDateTime = (dateString: string) => {
     try {
