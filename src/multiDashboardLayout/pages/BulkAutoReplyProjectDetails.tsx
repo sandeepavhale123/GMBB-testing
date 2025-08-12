@@ -103,26 +103,22 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             </div>
           </div>
         ) : projectType === 'ai' ? (
-          /* AI Project: 2-Column Grid Layout */
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Column 1: AI Configuration Manager */}
-            <div className="space-y-6">
-              <BulkAIConfigurationManager 
-                autoAiSettings={projectData?.data?.autoSettings}
-                onSave={handleAISettingsSave}
-                isEnabled={aiEnabled}
-                onToggle={setAiEnabled}
-              />
-            </div>
-
-            {/* Column 2: Locations Table */}
-            <div className="space-y-6">
-              <ProjectListingsTable 
-                showAddModal={showAddLocationModal}
-                onCloseAddModal={() => setShowAddLocationModal(false)}
-                listingDetails={projectData?.data?.listingDetails}
-              />
-            </div>
+          /* AI Project: Single Column Layout */
+          <div className="space-y-8">
+            {/* AI Configuration Manager */}
+            <BulkAIConfigurationManager 
+              autoAiSettings={projectData?.data?.autoSettings}
+              onSave={handleAISettingsSave}
+              isEnabled={aiEnabled}
+              onToggle={setAiEnabled}
+            />
+            
+            {/* Locations Table */}
+            <ProjectListingsTable 
+              showAddModal={showAddLocationModal}
+              onCloseAddModal={() => setShowAddLocationModal(false)}
+              listingDetails={projectData?.data?.listingDetails}
+            />
           </div>
         ) : (
           /* Fallback for unknown project types */
