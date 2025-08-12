@@ -163,6 +163,22 @@ Thank you`);
           💡 AI will adapt this style to each review's specific content and rating.
         </p>
 
+        {/* Advanced Options Toggle */}
+        <Card className="bg-gray-50 border border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-semibold text-foreground">
+                Advanced Options
+              </label>
+            </div>
+            <Switch
+              checked={showAdvanced}
+              onCheckedChange={setShowAdvanced}
+              className="data-[state=checked]:bg-primary"
+            />
+          </div>
+        </Card>
+
         {/* Generate Sample AI Response Card */}
         <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200">
           <CardHeader className="pb-3">
@@ -237,22 +253,6 @@ The Team`);
               </div>
             )}
           </CardContent>
-        </Card>
-
-        {/* Advanced Options Toggle */}
-        <Card className="bg-gray-50 border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-semibold text-foreground">
-                Advanced Options
-              </label>
-            </div>
-            <Switch
-              checked={showAdvanced}
-              onCheckedChange={setShowAdvanced}
-              className="data-[state=checked]:bg-primary"
-            />
-          </div>
         </Card>
 
         {/* Advanced Options Content */}
