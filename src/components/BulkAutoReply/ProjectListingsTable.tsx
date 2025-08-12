@@ -45,9 +45,6 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
   };
   return <>
       <Card>
-        <CardHeader>
-          
-        </CardHeader>
         <CardContent>
           {/* Filters */}
           <div className="flex items-center gap-4 mb-6">
