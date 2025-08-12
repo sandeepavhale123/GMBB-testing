@@ -199,7 +199,9 @@ const TableSection = memo(({
   deletingPostId, 
   setDeletingPostId, 
   bulkDeleteDialogOpen, 
-  setBulkDeleteDialogOpen 
+  setBulkDeleteDialogOpen,
+  searchQuery,
+  statusFilter
 }: {
   bulkId: string;
   selectedPosts: Set<string>;
@@ -210,9 +212,9 @@ const TableSection = memo(({
   setDeletingPostId: (id: string | null) => void;
   bulkDeleteDialogOpen: boolean;
   setBulkDeleteDialogOpen: (open: boolean) => void;
+  searchQuery: string;
+  statusFilter: string;
 }) => {
-  const [searchInput, setSearchInput] = useState('');
-  
   const {
     posts,
     pagination,
@@ -223,19 +225,18 @@ const TableSection = memo(({
     currentPage,
     setCurrentPage,
     itemsPerPage,
-    searchQuery,
     updateSearchQuery,
-    statusFilter,
     updateStatusFilter
   } = useBulkPostDetails(bulkId);
 
-  // Debounce search input
-  const debouncedSearch = useDebounce(searchInput, 500);
-
-  // Update search in hook when debounced value changes
+  // Update search and status when props change
   useEffect(() => {
-    updateSearchQuery(debouncedSearch);
-  }, [debouncedSearch, updateSearchQuery]);
+    updateSearchQuery(searchQuery);
+  }, [searchQuery, updateSearchQuery]);
+
+  useEffect(() => {
+    updateStatusFilter(statusFilter);
+  }, [statusFilter, updateStatusFilter]);
 
   // Reset page when status filter changes
   useEffect(() => {
@@ -354,27 +355,6 @@ const TableSection = memo(({
         </div>
       )}
 
-      {/* Filters */}
-      <div className="flex gap-4">
-        <Input 
-          placeholder="Search by listing name." 
-          value={searchInput} 
-          onChange={e => setSearchInput(e.target.value)} 
-          className="flex-1" 
-        />
-        <Select value={statusFilter} onValueChange={updateStatusFilter}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Post Status</SelectItem>
-            <SelectItem value="live">Live</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="failed">Failed</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
       {/* Posts Table */}
       <PostsTable
         posts={paginatedPosts}
@@ -458,6 +438,43 @@ const TableSection = memo(({
 
 TableSection.displayName = 'TableSection';
 
+// Memoized Filter Section - Stable, doesn't re-render with table updates
+const FilterSection = memo(({ 
+  searchInput, 
+  setSearchInput, 
+  statusFilter, 
+  setStatusFilter 
+}: {
+  searchInput: string;
+  setSearchInput: (value: string) => void;
+  statusFilter: string;
+  setStatusFilter: (value: string) => void;
+}) => {
+  return (
+    <div className="flex gap-4">
+      <Input 
+        placeholder="Search by listing name." 
+        value={searchInput} 
+        onChange={e => setSearchInput(e.target.value)} 
+        className="flex-1" 
+      />
+      <Select value={statusFilter} onValueChange={setStatusFilter}>
+        <SelectTrigger className="w-40">
+          <SelectValue placeholder="Filter by status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Post Status</SelectItem>
+          <SelectItem value="live">Live</SelectItem>
+          <SelectItem value="scheduled">Scheduled</SelectItem>
+          <SelectItem value="failed">Failed</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+});
+
+FilterSection.displayName = 'FilterSection';
+
 export const BulkPostDetails: React.FC = () => {
   const { bulkId } = useParams<{ bulkId: string; }>();
   const navigate = useNavigate();
@@ -465,6 +482,13 @@ export const BulkPostDetails: React.FC = () => {
   const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
   const [selectedPosts, setSelectedPosts] = useState<Set<string>>(new Set());
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+  
+  // Filter states - managed at parent level to prevent re-renders
+  const [searchInput, setSearchInput] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  // Debounce search input
+  const debouncedSearch = useDebounce(searchInput, 500);
 
   // Use the new hook for summary data - stable, doesn't change on search
   const {
@@ -509,8 +533,17 @@ export const BulkPostDetails: React.FC = () => {
           <PostPreview bulkPost={bulkPost} />
         </div>
 
-        {/* Right Column - Dynamic Table Section */}
-        <div className="lg:col-span-2">
+        {/* Right Column - Filter Section + Dynamic Table Section */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Filter Section - Stable, doesn't re-render with table */}
+          <FilterSection
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
+          
+          {/* Table Section - Only re-renders when data changes */}
           <TableSection
             bulkId={bulkId || ''}
             selectedPosts={selectedPosts}
@@ -521,6 +554,8 @@ export const BulkPostDetails: React.FC = () => {
             setDeletingPostId={setDeletingPostId}
             bulkDeleteDialogOpen={bulkDeleteDialogOpen}
             setBulkDeleteDialogOpen={setBulkDeleteDialogOpen}
+            searchQuery={debouncedSearch}
+            statusFilter={statusFilter}
           />
         </div>
       </div>
