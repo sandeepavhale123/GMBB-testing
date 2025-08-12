@@ -281,14 +281,19 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
 
           {/* AI Settings */}
           {replyType === 'AI' && (
-            <div className="p-4 border border-border rounded-lg space-y-4">
-              <h4 className="font-medium">AI Reply Settings</h4>
+            <div className="p-4 border-2 border-primary bg-primary/5 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-medium text-primary">AI Reply Settings</h4>
+                <div className="px-2 py-1 bg-primary text-primary-foreground text-xs rounded-full">
+                  Active
+                </div>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Tone</Label>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <Label className="text-sm whitespace-nowrap">Tone:</Label>
                   <Select value={aiTone} onValueChange={setAiTone}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -300,10 +305,10 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                   </Select>
                 </div>
                 
-                <div className="space-y-2">
-                  <Label>Response Length</Label>
+                <div className="flex items-center gap-2">
+                  <Label className="text-sm whitespace-nowrap">Length:</Label>
                   <Select value={aiResponseLength} onValueChange={setAiResponseLength}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-24">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -313,15 +318,15 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="promotions"
-                  checked={aiIncludePromotions}
-                  onCheckedChange={(checked) => setAiIncludePromotions(checked as boolean)}
-                />
-                <Label htmlFor="promotions">Include promotional content</Label>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="promotions"
+                    checked={aiIncludePromotions}
+                    onCheckedChange={(checked) => setAiIncludePromotions(checked as boolean)}
+                  />
+                  <Label htmlFor="promotions" className="text-sm">Include promotions</Label>
+                </div>
               </div>
             </div>
           )}
