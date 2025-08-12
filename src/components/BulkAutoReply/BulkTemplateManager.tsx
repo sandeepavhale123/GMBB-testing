@@ -198,10 +198,51 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
         open={showManageModal}
         onOpenChange={setShowManageModal}
         template={selectedTemplate}
-        onSave={(template) => {
-          // Handle save logic here
-          console.log('Saving template:', template);
-          setShowManageModal(false);
+        onSave={async (template) => {
+          if (!projectId) {
+            toast({
+              title: "Error",
+              description: "Project ID not found",
+              variant: "destructive",
+            });
+            return;
+          }
+
+          try {
+            await updateBulkTemplateAutoReply({
+              projectId: parseInt(projectId),
+              type: template.isRatingOnly ? "star" : "text",
+              status: template.enabled ? 1 : 0,
+              text: template.content,
+              rating: template.starRating,
+            }).unwrap();
+
+            // Update local state after successful API call
+            if (template.isRatingOnly) {
+              const updatedTemplates = templates.ratingOnly.map(t => 
+                t.id === template.id ? template : t
+              );
+              setTemplates(prev => ({ ...prev, ratingOnly: updatedTemplates }));
+            } else {
+              const updatedTemplates = templates.review.map(t => 
+                t.id === template.id ? template : t
+              );
+              setTemplates(prev => ({ ...prev, review: updatedTemplates }));
+            }
+
+            toast({
+              title: "Success", 
+              description: "Template saved successfully",
+            });
+            setShowManageModal(false);
+          } catch (error) {
+            console.error('Error saving template:', error);
+            toast({
+              title: "Error",
+              description: "Failed to save template",
+              variant: "destructive",
+            });
+          }
         }}
       />
     </>
