@@ -43,8 +43,9 @@ export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProp
 {responsetext}
 Thank you`);
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [sampleResponse, setSampleResponse] = useState("");
 
   // Update state when autoAiSettings data is loaded
   useEffect(() => {
@@ -91,6 +92,24 @@ Thank you`);
       });
       setIsSaving(false);
     }, 1000);
+  };
+
+  const handleGenerateSample = () => {
+    setIsGenerating(true);
+    
+    // Mock sample response generation based on selected tone
+    setTimeout(() => {
+      const sampleResponses = {
+        professional: "Thank you for taking the time to share your feedback. We value your input and are committed to delivering exceptional service. We appreciate your business and look forward to serving you again.",
+        friendly: "Hi there! Thanks so much for your review! We're thrilled to hear about your experience and really appreciate you taking the time to share. Looking forward to seeing you again soon!",
+        casual: "Hey! Thanks for the review! We're super happy you had a great time. Catch you next time!",
+        formal: "We extend our sincere gratitude for your comprehensive feedback. Your valued opinion assists us in maintaining our commitment to excellence. We look forward to your continued patronage.",
+        empathetic: "Thank you for sharing your experience with us. We truly understand how important this is to you, and we're grateful for your trust in our services. Your feedback helps us grow and serve you better."
+      };
+      
+      setSampleResponse(sampleResponses[responseStyle as keyof typeof sampleResponses] || "Please select a response style to generate a sample.");
+      setIsGenerating(false);
+    }, 1500);
   };
 
   return (
@@ -165,136 +184,144 @@ Thank you`);
             </Select>
           </div>
 
-          {/* Advanced Options Toggle */}
+          <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded-md">
+            💡 AI will adapt this style to each review's specific content and rating.
+          </p>
+
+          {/* Variables Info Card */}
+          <div className="rounded-2xl p-4 bg-blue-900 text-white">
+            <label className="block text-sm font-semibold text-gray-200 mb-1">
+              Note:
+            </label>
+            <p className="text-sm leading-relaxed">
+              You can use the following variables in your reply text to
+              display the reviewer's name:
+              <span className="font-medium text-white">
+                {" "}
+                {"{full_name}"}, {"{first_name}"}, {"{last_name}"}
+              </span>
+              . To insert the response content, use
+              <span className="font-medium text-white">
+                {" "}
+                {"{responsetext}"}
+              </span>
+              . Don't forget to include it in your template.
+            </p>
+          </div>
+
+          {/* Reply Text Section */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <label className="text-sm font-semibold text-foreground">
+                Reply Text
+              </label>
+            </div>
+            <Textarea
+              placeholder="Enter your response template..."
+              className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
+              rows={6}
+              value={replyTemplate}
+              onChange={(e) => setReplyTemplate(e.target.value)}
+            />
+          </div>
+
+          {/* Star Ratings Selection */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+              <h4 className="text-sm font-semibold text-foreground">
+                Apply For Star Ratings
+              </h4>
+            </div>
+            <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
+              {[1, 2, 3, 4, 5].map((star) => {
+                const starKey = `${star}_star`;
+                const isChecked = selectedStarRatings.includes(starKey);
+                return (
+                  <Card
+                    key={star}
+                    className={`p-3 cursor-pointer border-border/60 ${
+                      isChecked ? "border-primary bg-primary/10" : ""
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <label
+                        htmlFor={`checkbox-star-${star}`}
+                        className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
+                      >
+                        {star} Star
+                      </label>
+                      <Checkbox
+                        id={`checkbox-star-${star}`}
+                        checked={isChecked}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedStarRatings((prev) => [
+                              ...prev,
+                              starKey,
+                            ]);
+                          } else {
+                            setSelectedStarRatings((prev) =>
+                              prev.filter((s) => s !== starKey)
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Reply to Existing Reviews */}
           <Card className="bg-gray-50 border border-gray-200 p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <label className="text-sm font-semibold text-foreground">
-                  Advanced Options
+                  Reply to Existing Reviews
                 </label>
               </div>
               <Switch
-                checked={showAdvanced}
-                onCheckedChange={setShowAdvanced}
+                checked={replyToExistingReviews}
+                onCheckedChange={setReplyToExistingReviews}
                 className="data-[state=checked]:bg-primary"
               />
             </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Enable this to automatically reply to reviews that were posted before enabling AI responses.
+            </p>
           </Card>
 
-          {/* Advanced Options Content */}
-          {showAdvanced && (
-            <div className="space-y-6">
-              <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded-md">
-                💡 AI will adapt this style to each review's specific content and rating.
-              </p>
-
-              {/* Variables Info Card */}
-              <div className="rounded-2xl p-4 bg-blue-900 text-white">
-                <label className="block text-sm font-semibold text-gray-200 mb-1">
-                  Note:
-                </label>
-                <p className="text-sm leading-relaxed">
-                  You can use the following variables in your reply text to
-                  display the reviewer's name:
-                  <span className="font-medium text-white">
-                    {" "}
-                    {"{full_name}"}, {"{first_name}"}, {"{last_name}"}
-                  </span>
-                  . To insert the response content, use
-                  <span className="font-medium text-white">
-                    {" "}
-                    {"{responsetext}"}
-                  </span>
-                  . Don't forget to include it in your template.
-                </p>
-              </div>
-
-              {/* Reply Text Section */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                  <label className="text-sm font-semibold text-foreground">
-                    Reply Text
-                  </label>
-                </div>
-                <Textarea
-                  placeholder="Enter your response template..."
-                  className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
-                  rows={6}
-                  value={replyTemplate}
-                  onChange={(e) => setReplyTemplate(e.target.value)}
-                />
-              </div>
-
-              {/* Star Ratings Selection */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-                  <h4 className="text-sm font-semibold text-foreground">
-                    Apply For Star Ratings
-                  </h4>
-                </div>
-                <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
-                  {[1, 2, 3, 4, 5].map((star) => {
-                    const starKey = `${star}_star`;
-                    const isChecked = selectedStarRatings.includes(starKey);
-                    return (
-                      <Card
-                        key={star}
-                        className={`p-3 cursor-pointer border-border/60 ${
-                          isChecked ? "border-primary bg-primary/10" : ""
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <label
-                            htmlFor={`checkbox-star-${star}`}
-                            className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
-                          >
-                            {star} Star
-                          </label>
-                          <Checkbox
-                            id={`checkbox-star-${star}`}
-                            checked={isChecked}
-                            onCheckedChange={(checked) => {
-                              if (checked) {
-                                setSelectedStarRatings((prev) => [
-                                  ...prev,
-                                  starKey,
-                                ]);
-                              } else {
-                                setSelectedStarRatings((prev) =>
-                                  prev.filter((s) => s !== starKey)
-                                );
-                              }
-                            }}
-                          />
-                        </div>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Reply to Existing Reviews */}
-              <Card className="bg-gray-50 border border-gray-200 p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm font-semibold text-foreground">
-                      Reply to Existing Reviews
-                    </label>
-                  </div>
-                  <Switch
-                    checked={replyToExistingReviews}
-                    onCheckedChange={setReplyToExistingReviews}
-                    className="data-[state=checked]:bg-primary"
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Enable this to automatically reply to reviews that were posted before enabling AI responses.
+          {/* Generate Sample AI Response */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+              <label className="text-sm font-semibold text-foreground">
+                Generate Sample AI Response
+              </label>
+            </div>
+            <div className="flex gap-3">
+              <Button 
+                onClick={handleGenerateSample}
+                disabled={isGenerating || !responseStyle}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                {isGenerating && <Loader2 className="h-4 w-4 animate-spin" />}
+                <Sparkles className="h-4 w-4" />
+                Generate Sample
+              </Button>
+            </div>
+            {sampleResponse && (
+              <Card className="p-4 bg-purple-50 border-purple-200">
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  {sampleResponse}
                 </p>
               </Card>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Save Button */}
           <div className="flex justify-end pt-4">
