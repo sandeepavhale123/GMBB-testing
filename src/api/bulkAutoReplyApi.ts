@@ -18,6 +18,20 @@ export interface BulkReplyLocationsList {
   setting_type: string;
 }
 
+export interface CreateBulkTemplateProjectRequest {
+  listingIds: string[];
+  project_name: string;
+  type: 'template' | 'ai';
+}
+
+export interface CreateBulkTemplateProjectResponse {
+  code: number;
+  message: string;
+  data: {
+    projectId: number;
+  };
+}
+
 export interface BulkReplyDetailsResponse {
   code: number;
   message: string;
@@ -37,7 +51,14 @@ export const bulkAutoReplyApi = createApi({
         method: 'POST',
       }),
     }),
+    createBulkTemplateProject: builder.mutation<CreateBulkTemplateProjectResponse, CreateBulkTemplateProjectRequest>({
+      query: (data) => ({
+        url: '/create-bulk-template-project',
+        method: 'POST',
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useGetBulkReplyDetailsMutation } = bulkAutoReplyApi;
+export const { useGetBulkReplyDetailsMutation, useCreateBulkTemplateProjectMutation } = bulkAutoReplyApi;

@@ -10,30 +10,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { createAutoReplyProject } from '@/store/slices/autoReplySlice';
 import { useToast } from '@/hooks/use-toast';
 import { BulkReplyListingSelector } from './BulkReplyListingSelector';
+import { useCreateBulkTemplateProjectMutation } from '@/api/bulkAutoReplyApi';
+import { useNavigate } from 'react-router-dom';
+
 export interface CreateAutoReplyModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
+
 export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   isOpen,
   onClose,
   onSuccess
 }) => {
-  const dispatch = useAppDispatch();
-  const {
-    toast
-  } = useToast();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [createBulkTemplateProject, { isLoading }] = useCreateBulkTemplateProjectMutation();
 
   // Form state
   const [projectName, setProjectName] = useState('');
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  const [replyType, setReplyType] = useState<'AI' | 'Custom'>('AI');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [replyType, setReplyType] = useState<'ai' | 'custom'>('ai');
 
   // AI Settings
   const [aiTone, setAiTone] = useState('professional');
@@ -64,11 +64,9 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     }
   }, [isListingDropdownOpen]);
 
-  const handleListingToggle = (listingId: string) => {
-    setSelectedListings(prev => prev.includes(listingId) ? prev.filter(id => id !== listingId) : [...prev, listingId]);
-  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!projectName.trim()) {
       toast({
         title: "Error",
@@ -77,15 +75,17 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       });
       return;
     }
+    
     if (selectedListings.length === 0) {
       toast({
-        title: "Error",
+        title: "Error", 
         description: "Please select at least one listing",
         variant: "destructive"
       });
       return;
     }
-    if (replyType === 'Custom' && !customTemplate.trim()) {
+
+    if (replyType === 'custom' && !customTemplate.trim()) {
       toast({
         title: "Error",
         description: "Please enter a custom template",
@@ -93,51 +93,47 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       });
       return;
     }
-    setIsSubmitting(true);
+
     try {
-      const requestData = {
-        projectName: projectName.trim(),
-        listings: selectedListings,
-        replyType,
-        ...(replyType === 'AI' && {
-          aiSettings: {
-            tone: aiTone,
-            responseLength: aiResponseLength,
-            includePromotions: aiIncludePromotions
-          }
-        }),
-        ...(replyType === 'Custom' && {
-          customSettings: {
-            template: customTemplate.trim(),
-            variables: [] // Extract variables from template if needed
-          }
-        })
-      };
-      await dispatch(createAutoReplyProject(requestData)).unwrap();
+      const response = await createBulkTemplateProject({
+        listingIds: selectedListings,
+        project_name: projectName,
+        type: replyType === 'ai' ? 'ai' : 'template'
+      }).unwrap();
+
+      toast({
+        title: "Success",
+        description: "Auto-reply project created successfully",
+        variant: "default"
+      });
+
+      // Redirect to project details page
+      navigate(`/main-dashboard/bulk-auto-reply-project-details/${response.data.projectId}`);
+      
       onSuccess();
       resetForm();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to create auto reply project",
+        description: "Failed to create auto-reply project",
         variant: "destructive"
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
+
   const resetForm = () => {
     setProjectName('');
     setSelectedListings([]);
-    setReplyType('AI');
+    setReplyType('ai');
     setAiTone('professional');
     setAiResponseLength('medium');
     setAiIncludePromotions(false);
     setCustomTemplate('');
     setListingSearch('');
   };
-  const selectedListingNames = selectedListings.map(id => `Listing ${id}`).join(', ');
-  return <Dialog open={isOpen} onOpenChange={onClose}>
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create Auto Reply Project</DialogTitle>
@@ -157,51 +153,116 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
           {/* Project Name */}
           <div className="space-y-2">
             <Label htmlFor="projectName">Project Name</Label>
-            <Input id="projectName" value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="Enter project name" required />
+            <Input 
+              id="projectName" 
+              value={projectName} 
+              onChange={e => setProjectName(e.target.value)} 
+              placeholder="Enter project name" 
+              required 
+            />
           </div>
-
-          
 
           {/* Reply Type Selection */}
           <div className="space-y-3">
             <Label>Reply Type</Label>
-            <RadioGroup value={replyType} onValueChange={(value: 'AI' | 'Custom') => setReplyType(value)}>
+            <RadioGroup 
+              value={replyType} 
+              onValueChange={(value: 'ai' | 'custom') => setReplyType(value)}
+            >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="AI" id="ai" />
+                <RadioGroupItem value="ai" id="ai" />
                 <Label htmlFor="ai">AI Generated Replies</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Custom" id="custom" />
+                <RadioGroupItem value="custom" id="custom" />
                 <Label htmlFor="custom">Custom Template</Label>
               </div>
             </RadioGroup>
           </div>
 
           {/* AI Settings */}
-          {replyType === 'AI'}
+          {replyType === 'ai' && (
+            <div className="p-4 border border-border rounded-lg space-y-4">
+              <h4 className="font-medium">AI Reply Settings</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="tone">Tone</Label>
+                  <Select value={aiTone} onValueChange={setAiTone}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select tone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="professional">Professional</SelectItem>
+                      <SelectItem value="friendly">Friendly</SelectItem>
+                      <SelectItem value="casual">Casual</SelectItem>
+                      <SelectItem value="formal">Formal</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="length">Response Length</Label>
+                  <Select value={aiResponseLength} onValueChange={setAiResponseLength}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select length" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="short">Short</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="long">Long</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="promotions" 
+                  checked={aiIncludePromotions}
+                  onCheckedChange={(checked) => setAiIncludePromotions(checked === true)}
+                />
+                <Label htmlFor="promotions">Include promotional content</Label>
+              </div>
+            </div>
+          )}
 
           {/* Custom Template Settings */}
-          {replyType === 'Custom' && <div className="p-4 border border-border rounded-lg space-y-4">
+          {replyType === 'custom' && (
+            <div className="p-4 border border-border rounded-lg space-y-4">
               <h4 className="font-medium">Custom Auto Reply Settings</h4>
               
               <div className="space-y-2">
                 <Label htmlFor="template">Reply Template</Label>
-                <Textarea id="template" value={customTemplate} onChange={e => setCustomTemplate(e.target.value)} placeholder="Enter your custom reply template..." rows={4} required={replyType === 'Custom'} />
+                <Textarea 
+                  id="template" 
+                  value={customTemplate} 
+                  onChange={e => setCustomTemplate(e.target.value)} 
+                  placeholder="Enter your custom reply template..." 
+                  rows={4} 
+                  required={replyType === 'custom'} 
+                />
                 <p className="text-sm text-muted-foreground">
                   Use variables like {'{customerName}'}, {'{businessName}'}, etc. in your template
                 </p>
               </div>
-            </div>}
+            </div>
+          )}
         </form>
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
             Close
           </Button>
-          <Button type="submit" onClick={handleSubmit} disabled={isSubmitting}>
-            {isSubmitting ? 'Creating...' : 'Submit'}
+          <Button 
+            type="submit" 
+            onClick={handleSubmit} 
+            disabled={isLoading}
+          >
+            {isLoading ? 'Creating...' : 'Create Project'}
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 };
