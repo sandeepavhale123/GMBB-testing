@@ -55,7 +55,7 @@ export const BulkTemplateManager: React.FC = () => {
     <>
       <Card>
         <CardHeader>
-          <CardTitle className="text-[16px]">Reply Templates</CardTitle>
+          <CardTitle>Reply Templates</CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
