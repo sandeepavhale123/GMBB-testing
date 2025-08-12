@@ -95,7 +95,7 @@ export const BulkReviewFilters: React.FC<BulkReviewFiltersProps> = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="outline" onClick={onRefresh} disabled={isRefreshing} className="h-10 flex items-center gap-2 hidden ">
+            <Button variant="outline" onClick={onRefresh} disabled={isRefreshing} className="h-10 flex items-center gap-2 ">
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
