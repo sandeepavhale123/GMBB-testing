@@ -17,6 +17,7 @@ interface BulkTemplateCardProps {
   template?: Template;
   onManage: (template: Template) => void;
   onCreate: (starRating: number) => void;
+  onToggle?: (template: Template, enabled: boolean) => void;
   isRatingOnly?: boolean;
 }
 
@@ -25,6 +26,7 @@ export const BulkTemplateCard: React.FC<BulkTemplateCardProps> = ({
   template,
   onManage,
   onCreate,
+  onToggle,
   isRatingOnly = false
 }) => {
   const renderStars = (rating: number) => {
@@ -39,9 +41,8 @@ export const BulkTemplateCard: React.FC<BulkTemplateCardProps> = ({
   };
 
   const handleToggle = (checked: boolean) => {
-    if (template) {
-      // Handle enable/disable logic
-      console.log(`${checked ? 'Enabling' : 'Disabling'} template for ${starRating} stars`);
+    if (template && onToggle) {
+      onToggle(template, checked);
     }
   };
 

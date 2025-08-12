@@ -43,23 +43,30 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
   const [activeTab, setActiveTab] = useState('review');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showManageModal, setShowManageModal] = useState(false);
+  const [templates, setTemplates] = useState<{ review: Template[], ratingOnly: Template[] }>({ review: [], ratingOnly: [] });
 
-  // Create templates from API data
-  const reviewTemplates: Template[] = autoSettings ? [
-    { id: '1', starRating: 1, content: autoSettings.starone_reply, enabled: !!autoSettings.oneTextStatus },
-    { id: '2', starRating: 2, content: autoSettings.startwo_reply, enabled: !!autoSettings.twoTextStatus },
-    { id: '3', starRating: 3, content: autoSettings.starthree_reply, enabled: !!autoSettings.threeTextStatus },
-    { id: '4', starRating: 4, content: autoSettings.starfour_reply, enabled: !!autoSettings.fourTextStatus },
-    { id: '5', starRating: 5, content: autoSettings.starfive_reply, enabled: !!autoSettings.fiveTextStatus },
-  ] : [];
+  // Create templates from API data and update state when autoSettings change
+  React.useEffect(() => {
+    if (autoSettings) {
+      const reviewTemplates: Template[] = [
+        { id: '1', starRating: 1, content: autoSettings.starone_reply, enabled: !!autoSettings.oneTextStatus },
+        { id: '2', starRating: 2, content: autoSettings.startwo_reply, enabled: !!autoSettings.twoTextStatus },
+        { id: '3', starRating: 3, content: autoSettings.starthree_reply, enabled: !!autoSettings.threeTextStatus },
+        { id: '4', starRating: 4, content: autoSettings.starfour_reply, enabled: !!autoSettings.fourTextStatus },
+        { id: '5', starRating: 5, content: autoSettings.starfive_reply, enabled: !!autoSettings.fiveTextStatus },
+      ];
 
-  const ratingOnlyTemplates: Template[] = autoSettings ? [
-    { id: '6', starRating: 1, content: autoSettings.starone_wreply, enabled: !!autoSettings.oneStarStatus, isRatingOnly: true },
-    { id: '7', starRating: 2, content: autoSettings.startwo_wreply, enabled: !!autoSettings.twoStarStatus, isRatingOnly: true },
-    { id: '8', starRating: 3, content: autoSettings.starthree_wreply, enabled: !!autoSettings.threeStarStatus, isRatingOnly: true },
-    { id: '9', starRating: 4, content: autoSettings.starfour_wreply, enabled: !!autoSettings.fourStarStatus, isRatingOnly: true },
-    { id: '10', starRating: 5, content: autoSettings.starfive_wreply, enabled: !!autoSettings.fiveStarStatus, isRatingOnly: true },
-  ] : [];
+      const ratingOnlyTemplates: Template[] = [
+        { id: '6', starRating: 1, content: autoSettings.starone_wreply, enabled: !!autoSettings.oneStarStatus, isRatingOnly: true },
+        { id: '7', starRating: 2, content: autoSettings.startwo_wreply, enabled: !!autoSettings.twoStarStatus, isRatingOnly: true },
+        { id: '8', starRating: 3, content: autoSettings.starthree_wreply, enabled: !!autoSettings.threeStarStatus, isRatingOnly: true },
+        { id: '9', starRating: 4, content: autoSettings.starfour_wreply, enabled: !!autoSettings.fourStarStatus, isRatingOnly: true },
+        { id: '10', starRating: 5, content: autoSettings.starfive_wreply, enabled: !!autoSettings.fiveStarStatus, isRatingOnly: true },
+      ];
+
+      setTemplates({ review: reviewTemplates, ratingOnly: ratingOnlyTemplates });
+    }
+  }, [autoSettings]);
 
   const handleManageTemplate = (template: Template) => {
     setSelectedTemplate(template);
@@ -78,6 +85,25 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
     setShowManageModal(true);
   };
 
+  const handleToggleTemplate = (template: Template, enabled: boolean) => {
+    const updatedTemplate = { ...template, enabled };
+    
+    if (template.isRatingOnly) {
+      const updatedTemplates = templates.ratingOnly.map(t => 
+        t.id === template.id ? updatedTemplate : t
+      );
+      setTemplates(prev => ({ ...prev, ratingOnly: updatedTemplates }));
+    } else {
+      const updatedTemplates = templates.review.map(t => 
+        t.id === template.id ? updatedTemplate : t
+      );
+      setTemplates(prev => ({ ...prev, review: updatedTemplates }));
+    }
+    
+    // Here you would typically make an API call to save the change
+    console.log(`${enabled ? 'Enabled' : 'Disabled'} template for ${template.starRating} stars (${template.isRatingOnly ? 'rating-only' : 'review'})`);
+  };
+
   return (
     <>
       <Card>
@@ -94,7 +120,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
             <TabsContent value="review" className="space-y-4 mt-6">
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map((starRating) => {
-                  const template = reviewTemplates.find(t => t.starRating === starRating);
+                  const template = templates.review.find(t => t.starRating === starRating);
                   return (
                     <BulkTemplateCard
                       key={`review-${starRating}`}
@@ -102,6 +128,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
                       template={template}
                       onManage={handleManageTemplate}
                       onCreate={(rating) => handleCreateTemplate(rating, false)}
+                      onToggle={handleToggleTemplate}
                     />
                   );
                 })}
@@ -111,7 +138,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
             <TabsContent value="rating" className="space-y-4 mt-6">
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map((starRating) => {
-                  const template = ratingOnlyTemplates.find(t => t.starRating === starRating);
+                  const template = templates.ratingOnly.find(t => t.starRating === starRating);
                   return (
                     <BulkTemplateCard
                       key={`rating-${starRating}`}
@@ -119,6 +146,7 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
                       template={template}
                       onManage={handleManageTemplate}
                       onCreate={(rating) => handleCreateTemplate(rating, true)}
+                      onToggle={handleToggleTemplate}
                       isRatingOnly
                     />
                   );
