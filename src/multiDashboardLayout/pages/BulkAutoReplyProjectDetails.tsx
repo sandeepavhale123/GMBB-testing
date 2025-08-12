@@ -4,6 +4,7 @@ import { MainBody } from '../components/MainBody';
 import { Button } from '@/components/ui/button';
 import { Save, Loader2 } from 'lucide-react';
 import { BulkTemplateManager } from '@/components/BulkAutoReply/BulkTemplateManager';
+import { BulkAIConfigurationManager } from '@/components/BulkAutoReply/BulkAIConfigurationManager';
 import { ProjectListingsTable } from '@/components/BulkAutoReply/ProjectListingsTable';
 import { useGetBulkProjectDetailsMutation } from '@/api/bulkAutoReplyApi';
 import { toast } from '@/hooks/use-toast';
@@ -11,6 +12,7 @@ import { toast } from '@/hooks/use-toast';
 export const BulkAutoReplyProjectDetails: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [showAddLocationModal, setShowAddLocationModal] = useState(false);
+  const [aiEnabled, setAiEnabled] = useState(false);
   const [getBulkProjectDetails, { data: projectData, isLoading, error }] = useGetBulkProjectDetailsMutation();
 
   useEffect(() => {
@@ -26,6 +28,14 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
       description: "Changes saved successfully!",
     });
   };
+
+  const handleAISettingsSave = (settings: any) => {
+    // TODO: Implement AI settings save functionality
+    console.log('Saving AI settings:', settings);
+  };
+
+  // Get project type from the data
+  const projectType = projectData?.data?.project?.type;
 
   if (isLoading) {
     return (
@@ -74,22 +84,48 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
           </Button>
         </div>
 
-        {/* 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Column 1: Template Manager */}
-          <div className="space-y-6">
-            <BulkTemplateManager autoSettings={projectData?.data?.autoSettings} />
-          </div>
+        {/* Conditional Layout Based on Project Type */}
+        {projectType === 'template' ? (
+          /* Template Project: 2-Column Grid */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Column 1: Template Manager */}
+            <div className="space-y-6">
+              <BulkTemplateManager autoSettings={projectData?.data?.autoSettings} />
+            </div>
 
-          {/* Column 2: Locations Table */}
-          <div className="space-y-6">
+            {/* Column 2: Locations Table */}
+            <div className="space-y-6">
+              <ProjectListingsTable 
+                showAddModal={showAddLocationModal}
+                onCloseAddModal={() => setShowAddLocationModal(false)}
+                listingDetails={projectData?.data?.listingDetails}
+              />
+            </div>
+          </div>
+        ) : projectType === 'ai' ? (
+          /* AI Project: Single Column Layout */
+          <div className="space-y-8">
+            {/* AI Configuration Manager */}
+            <BulkAIConfigurationManager 
+              autoAiSettings={projectData?.data?.autoSettings}
+              onSave={handleAISettingsSave}
+              isEnabled={aiEnabled}
+              onToggle={setAiEnabled}
+            />
+            
+            {/* Locations Table */}
             <ProjectListingsTable 
               showAddModal={showAddLocationModal}
               onCloseAddModal={() => setShowAddLocationModal(false)}
               listingDetails={projectData?.data?.listingDetails}
             />
           </div>
-        </div>
+        ) : (
+          /* Fallback for unknown project types */
+          <div className="text-center py-12">
+            <p className="text-gray-600">Unsupported project type: {projectType}</p>
+          </div>
+        )}
       </div>
   );
 };
