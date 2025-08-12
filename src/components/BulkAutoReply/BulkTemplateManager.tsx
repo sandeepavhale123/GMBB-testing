@@ -12,27 +12,54 @@ interface Template {
   isRatingOnly?: boolean;
 }
 
-export const BulkTemplateManager: React.FC = () => {
+interface AutoSettings {
+  starone_reply: string;
+  startwo_reply: string;
+  starthree_reply: string;
+  starfour_reply: string;
+  starfive_reply: string;
+  starone_wreply: string;
+  startwo_wreply: string;
+  starthree_wreply: string;
+  starfour_wreply: string;
+  starfive_wreply: string;
+  oneTextStatus: number;
+  twoTextStatus: number;
+  threeTextStatus: number;
+  fourTextStatus: number;
+  fiveTextStatus: number;
+  oneStarStatus: number;
+  twoStarStatus: number;
+  threeStarStatus: number;
+  fourStarStatus: number;
+  fiveStarStatus: number;
+}
+
+interface BulkTemplateManagerProps {
+  autoSettings?: AutoSettings;
+}
+
+export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSettings }) => {
   const [activeTab, setActiveTab] = useState('review');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showManageModal, setShowManageModal] = useState(false);
 
-  // Mock templates data
-  const reviewTemplates: Template[] = [
-    { id: '1', starRating: 1, content: 'We apologize for your poor experience...', enabled: true },
-    { id: '2', starRating: 2, content: 'Thank you for your feedback. We will improve...', enabled: true },
-    { id: '3', starRating: 3, content: 'Thank you for your review...', enabled: false },
-    { id: '4', starRating: 4, content: 'Thank you for the great review!...', enabled: true },
-    { id: '5', starRating: 5, content: 'Thank you so much for the amazing review!...', enabled: true },
-  ];
+  // Create templates from API data
+  const reviewTemplates: Template[] = autoSettings ? [
+    { id: '1', starRating: 1, content: autoSettings.starone_reply, enabled: !!autoSettings.oneTextStatus },
+    { id: '2', starRating: 2, content: autoSettings.startwo_reply, enabled: !!autoSettings.twoTextStatus },
+    { id: '3', starRating: 3, content: autoSettings.starthree_reply, enabled: !!autoSettings.threeTextStatus },
+    { id: '4', starRating: 4, content: autoSettings.starfour_reply, enabled: !!autoSettings.fourTextStatus },
+    { id: '5', starRating: 5, content: autoSettings.starfive_reply, enabled: !!autoSettings.fiveTextStatus },
+  ] : [];
 
-  const ratingOnlyTemplates: Template[] = [
-    { id: '6', starRating: 1, content: 'Thank you for your rating', enabled: true, isRatingOnly: true },
-    { id: '7', starRating: 2, content: 'Thank you for your rating', enabled: false, isRatingOnly: true },
-    { id: '8', starRating: 3, content: 'Thank you for your rating', enabled: true, isRatingOnly: true },
-    { id: '9', starRating: 4, content: 'Thank you for your rating', enabled: true, isRatingOnly: true },
-    { id: '10', starRating: 5, content: 'Thank you for your rating', enabled: true, isRatingOnly: true },
-  ];
+  const ratingOnlyTemplates: Template[] = autoSettings ? [
+    { id: '6', starRating: 1, content: autoSettings.starone_wreply, enabled: !!autoSettings.oneStarStatus, isRatingOnly: true },
+    { id: '7', starRating: 2, content: autoSettings.startwo_wreply, enabled: !!autoSettings.twoStarStatus, isRatingOnly: true },
+    { id: '8', starRating: 3, content: autoSettings.starthree_wreply, enabled: !!autoSettings.threeStarStatus, isRatingOnly: true },
+    { id: '9', starRating: 4, content: autoSettings.starfour_wreply, enabled: !!autoSettings.fourStarStatus, isRatingOnly: true },
+    { id: '10', starRating: 5, content: autoSettings.starfive_wreply, enabled: !!autoSettings.fiveStarStatus, isRatingOnly: true },
+  ] : [];
 
   const handleManageTemplate = (template: Template) => {
     setSelectedTemplate(template);

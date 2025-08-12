@@ -39,36 +39,31 @@ import { Search, Plus, Trash2 } from 'lucide-react';
 
 interface Location {
   id: string;
+  locationName: string;
+  zipCode: string;
+  google_account_id: string;
   name: string;
-  platform: string;
-  status: 'active' | 'inactive';
-  addedDate: string;
+  setting: string;
+  setting_type: string;
 }
 
 interface ProjectListingsTableProps {
   showAddModal: boolean;
   onCloseAddModal: () => void;
+  listingDetails?: Location[];
 }
 
 export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
   showAddModal,
-  onCloseAddModal
+  onCloseAddModal,
+  listingDetails = []
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
-  // Mock locations data
-  const allLocations: Location[] = [
-    { id: '1', name: 'ABC Restaurant Downtown', platform: 'Google', status: 'active', addedDate: '2024-01-15' },
-    { id: '2', name: 'Best Pizza Place', platform: 'Yelp', status: 'active', addedDate: '2024-01-14' },
-    { id: '3', name: 'Coffee Corner Cafe', platform: 'Google', status: 'inactive', addedDate: '2024-01-13' },
-    { id: '4', name: 'Fine Dining Experience', platform: 'TripAdvisor', status: 'active', addedDate: '2024-01-12' },
-    { id: '5', name: 'Quick Burger Joint', platform: 'Google', status: 'active', addedDate: '2024-01-11' },
-  ];
-
-  const filteredLocations = allLocations.filter(location =>
-    location.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredLocations = listingDetails.filter(location =>
+    location.locationName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const itemsPerPage = 10;
@@ -121,20 +116,24 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               <TableHeader>
                 <TableRow>
                   <TableHead>Location Name</TableHead>
+                  <TableHead>Zip Code</TableHead>
+                  <TableHead>Setting Type</TableHead>
                   <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {currentLocations.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={2} className="text-center py-8 text-gray-500">
+                    <TableCell colSpan={4} className="text-center py-8 text-gray-500">
                       No locations found
                     </TableCell>
                   </TableRow>
                 ) : (
                   currentLocations.map((location) => (
                     <TableRow key={location.id}>
-                      <TableCell className="font-medium">{location.name}</TableCell>
+                      <TableCell className="font-medium">{location.locationName}</TableCell>
+                      <TableCell>{location.zipCode || 'N/A'}</TableCell>
+                      <TableCell>{location.setting_type}</TableCell>
                       <TableCell className="text-right">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -146,7 +145,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                             <AlertDialogHeader>
                               <AlertDialogTitle>Remove Location</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to remove "{location.name}" from this project? 
+                                Are you sure you want to remove "{location.locationName}" from this project? 
                                 This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>

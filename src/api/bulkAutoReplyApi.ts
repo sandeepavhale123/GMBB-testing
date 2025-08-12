@@ -32,6 +32,59 @@ export interface CreateBulkTemplateProjectResponse {
   };
 }
 
+export interface ListingDetail {
+  id: string;
+  locationName: string;
+  zipCode: string;
+  google_account_id: string;
+  name: string;
+  setting: string;
+  setting_type: string;
+}
+
+export interface AutoSettings {
+  starone_reply: string;
+  startwo_reply: string;
+  starthree_reply: string;
+  starfour_reply: string;
+  starfive_reply: string;
+  starone_wreply: string;
+  startwo_wreply: string;
+  starthree_wreply: string;
+  starfour_wreply: string;
+  starfive_wreply: string;
+  newStatus: string;
+  oldStatus: string;
+  oneTextStatus: number;
+  twoTextStatus: number;
+  threeTextStatus: number;
+  fourTextStatus: number;
+  fiveTextStatus: number;
+  oneStarStatus: number;
+  twoStarStatus: number;
+  threeStarStatus: number;
+  fourStarStatus: number;
+  fiveStarStatus: number;
+}
+
+export interface ProjectInfo {
+  id: string;
+  listingIds: string;
+  projectName: string;
+  type: string;
+  date: string;
+}
+
+export interface BulkProjectDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    listingDetails: ListingDetail[];
+    autoSettings: AutoSettings;
+    project: ProjectInfo;
+  };
+}
+
 export interface BulkReplyDetailsResponse {
   code: number;
   message: string;
@@ -58,7 +111,14 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
+    getBulkProjectDetails: builder.mutation<BulkProjectDetailsResponse, { projectId: string }>({
+      query: ({ projectId }) => ({
+        url: '/get-bulk-project-details',
+        method: 'POST',
+        data: { projectId: parseInt(projectId) },
+      }),
+    }),
   }),
 });
 
-export const { useGetBulkReplyDetailsMutation, useCreateBulkTemplateProjectMutation } = bulkAutoReplyApi;
+export const { useGetBulkReplyDetailsMutation, useCreateBulkTemplateProjectMutation, useGetBulkProjectDetailsMutation } = bulkAutoReplyApi;
