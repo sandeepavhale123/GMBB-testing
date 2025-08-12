@@ -46,6 +46,7 @@ Thank you`);
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingSample, setIsGeneratingSample] = useState(false);
   const [sampleResponse, setSampleResponse] = useState("");
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   // Update state when autoAiSettings data is loaded
   useEffect(() => {
@@ -162,53 +163,36 @@ Thank you`);
           💡 AI will adapt this style to each review's specific content and rating.
         </p>
 
-        {/* Variables Info Card */}
-        <div className="rounded-2xl p-4 bg-blue-900 text-white">
-          <label className="block text-sm font-semibold text-gray-200 mb-1">
-            Note:
-          </label>
-          <p className="text-sm leading-relaxed">
-            You can use the following variables in your reply text to
-            display the reviewer's name:
-            <span className="font-medium text-white">
-              {" "}
-              {"{full_name}"}, {"{first_name}"}, {"{last_name}"}
-            </span>
-            . To insert the response content, use
-            <span className="font-medium text-white">
-              {" "}
-              {"{responsetext}"}
-            </span>
-            . Don't forget to include it in your template.
-          </p>
-        </div>
+        {/* Generate Sample AI Response Card */}
+        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+              <CardTitle className="text-sm font-semibold text-foreground">
+                Generate Sample AI Response
+              </CardTitle>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Test how AI will respond to a sample review
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Dummy Review Example */}
+            <div className="bg-white p-3 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-gray-700">John Doe</span>
+              </div>
+              <p className="text-sm text-gray-600">
+                "Had an amazing experience! The service was excellent and the staff was very friendly. 
+                Everything exceeded my expectations. Will definitely come back again!"
+              </p>
+            </div>
 
-        {/* Reply Text Section */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-            <label className="text-sm font-semibold text-foreground">
-              Reply Text
-            </label>
-          </div>
-          <Textarea
-            placeholder="Enter your response template..."
-            className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
-            rows={6}
-            value={replyTemplate}
-            onChange={(e) => setReplyTemplate(e.target.value)}
-          />
-        </div>
-
-        {/* Generate Sample AI Response */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-            <label className="text-sm font-semibold text-foreground">
-              Sample AI Response
-            </label>
-          </div>
-          <div className="space-y-3">
             <Button
               onClick={() => {
                 setIsGeneratingSample(true);
@@ -216,7 +200,9 @@ Thank you`);
                 setTimeout(() => {
                   setSampleResponse(`Hi John Doe,
 
-Thank you so much for taking the time to share your ${responseStyle || 'professional'} experience with us! We're thrilled to hear that you had a great time. Your feedback means a lot to our team.
+Thank you so much for taking the time to share your ${responseStyle || 'professional'} experience with us! We're thrilled to hear that you had a great time and that our staff exceeded your expectations.
+
+Your feedback about our excellent service means a lot to our team. We're delighted that you found our staff friendly and helpful.
 
 We appreciate your business and look forward to serving you again soon!
 
@@ -241,77 +227,137 @@ The Team`);
                 </>
               )}
             </Button>
+            
             {sampleResponse && (
-              <div className="mt-3 p-4 bg-muted/50 rounded-lg border">
-                <p className="text-sm text-muted-foreground mb-2">Sample AI Generated Response:</p>
-                <div className="text-sm whitespace-pre-wrap font-mono bg-background p-3 rounded border">
+              <div className="mt-3 p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-sm text-muted-foreground mb-2">AI Generated Response:</p>
+                <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded border">
                   {sampleResponse}
                 </div>
               </div>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Star Ratings Selection */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-            <h4 className="text-sm font-semibold text-foreground">
-              Apply For Star Ratings
-            </h4>
+        {/* Advanced Options Toggle */}
+        <Card className="bg-gray-50 border border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-semibold text-foreground">
+                Advanced Options
+              </label>
+            </div>
+            <Switch
+              checked={showAdvanced}
+              onCheckedChange={setShowAdvanced}
+              className="data-[state=checked]:bg-primary"
+            />
           </div>
-          <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
-            {[1, 2, 3, 4, 5].map((star) => {
-              const starKey = `${star}_star`;
-              const isChecked = selectedStarRatings.includes(starKey);
-              return (
-                <Card
-                  key={star}
-                  className={`p-3 cursor-pointer border-border/60 transition-all hover:border-primary/70 ${
-                    isChecked ? "border-primary bg-primary/10" : ""
-                  }`}
-                  onClick={() => {
-                    if (isChecked) {
-                      setSelectedStarRatings((prev) =>
-                        prev.filter((s) => s !== starKey)
-                      );
-                    } else {
-                      setSelectedStarRatings((prev) => [
-                        ...prev,
-                        starKey,
-                      ]);
-                    }
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <label
-                      htmlFor={`checkbox-star-${star}`}
-                      className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
-                    >
-                      {star} Star
-                    </label>
-                    <Checkbox
-                      id={`checkbox-star-${star}`}
-                      checked={isChecked}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
+        </Card>
+
+        {/* Advanced Options Content */}
+        {showAdvanced && (
+          <div className="space-y-6">
+            {/* Variables Info Card */}
+            <div className="rounded-2xl p-4 bg-blue-900 text-white">
+              <label className="block text-sm font-semibold text-gray-200 mb-1">
+                Note:
+              </label>
+              <p className="text-sm leading-relaxed">
+                You can use the following variables in your reply text to
+                display the reviewer's name:
+                <span className="font-medium text-white">
+                  {" "}
+                  {"{full_name}"}, {"{first_name}"}, {"{last_name}"}
+                </span>
+                . To insert the response content, use
+                <span className="font-medium text-white">
+                  {" "}
+                  {"{responsetext}"}
+                </span>
+                . Don't forget to include it in your template.
+              </p>
+            </div>
+
+            {/* Reply Text Section */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <label className="text-sm font-semibold text-foreground">
+                  Reply Text
+                </label>
+              </div>
+              <Textarea
+                placeholder="Enter your response template..."
+                className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
+                rows={6}
+                value={replyTemplate}
+                onChange={(e) => setReplyTemplate(e.target.value)}
+              />
+            </div>
+
+            {/* Star Ratings Selection */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                <h4 className="text-sm font-semibold text-foreground">
+                  Apply For Star Ratings
+                </h4>
+              </div>
+              <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
+                {[1, 2, 3, 4, 5].map((star) => {
+                  const starKey = `${star}_star`;
+                  const isChecked = selectedStarRatings.includes(starKey);
+                  return (
+                    <Card
+                      key={star}
+                      className={`p-3 cursor-pointer border-border/60 transition-all hover:border-primary/70 ${
+                        isChecked ? "border-primary bg-primary/10" : ""
+                      }`}
+                      onClick={() => {
+                        if (isChecked) {
+                          setSelectedStarRatings((prev) =>
+                            prev.filter((s) => s !== starKey)
+                          );
+                        } else {
                           setSelectedStarRatings((prev) => [
                             ...prev,
                             starKey,
                           ]);
-                        } else {
-                          setSelectedStarRatings((prev) =>
-                            prev.filter((s) => s !== starKey)
-                          );
                         }
                       }}
-                    />
-                  </div>
-                </Card>
-              );
-            })}
+                    >
+                      <div className="flex items-center justify-between">
+                        <label
+                          htmlFor={`checkbox-star-${star}`}
+                          className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
+                        >
+                          {star} Star
+                        </label>
+                        <Checkbox
+                          id={`checkbox-star-${star}`}
+                          checked={isChecked}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedStarRatings((prev) => [
+                                ...prev,
+                                starKey,
+                              ]);
+                            } else {
+                              setSelectedStarRatings((prev) =>
+                                prev.filter((s) => s !== starKey)
+                              );
+                            }
+                          }}
+                        />
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Reply to Existing Reviews */}
         <Card className="bg-gray-50 border border-gray-200 p-4">
