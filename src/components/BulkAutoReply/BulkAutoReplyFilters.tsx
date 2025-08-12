@@ -1,17 +1,37 @@
-import React from 'react';
-import { Search, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Filter, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 export interface BulkAutoReplyFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  onAddListing: () => void;
+  selectedFilter: string;
+  onFilterChange: (filter: string) => void;
 }
 export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
   searchQuery,
   onSearchChange,
-  onAddListing
+  selectedFilter,
+  onFilterChange
 }) => {
+  const filterOptions = [
+    { value: 'all', label: 'All Responses' },
+    { value: 'ai', label: 'AI' },
+    { value: 'custom', label: 'Custom Template' },
+    { value: 'dnr', label: 'DNR (Do not response)' }
+  ];
+
+  const getSelectedLabel = () => {
+    const option = filterOptions.find(opt => opt.value === selectedFilter);
+    return option ? option.label : 'Filter';
+  };
+
   return <div className="flex flex-wrap items-center gap-3 mb-6">
       {/* Search Bar */}
       <div className="relative flex-1 min-w-[300px]">
@@ -19,10 +39,29 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
         <Input placeholder="Search projects..." value={searchQuery} onChange={e => onSearchChange(e.target.value)} className="pl-10 flex-1 " />
       </div>
 
-      {/* Add Listing Button */}
-      <Button variant="outline" onClick={onAddListing} className="gap-2">
-        <Plus className="w-4 h-4" />
-        Add Listing
-      </Button>
+      {/* Filter Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="gap-2">
+            <Filter className="w-4 h-4" />
+            {getSelectedLabel()}
+            <ChevronDown className="w-4 h-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent 
+          align="end" 
+          className="w-56 bg-white border shadow-lg z-50"
+        >
+          {filterOptions.map((option) => (
+            <DropdownMenuItem
+              key={option.value}
+              onClick={() => onFilterChange(option.value)}
+              className="cursor-pointer hover:bg-gray-100 px-4 py-2"
+            >
+              {option.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>;
 };

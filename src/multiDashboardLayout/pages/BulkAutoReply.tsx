@@ -20,12 +20,14 @@ import { useToast } from '@/hooks/use-toast';
 const MemoizedFilters = React.memo<{
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  onAddListing: () => void;
-}>(({ searchQuery, onSearchChange, onAddListing }) => (
+  selectedFilter: string;
+  onFilterChange: (filter: string) => void;
+}>(({ searchQuery, onSearchChange, selectedFilter, onFilterChange }) => (
   <BulkAutoReplyFilters
     searchQuery={searchQuery}
     onSearchChange={onSearchChange}
-    onAddListing={onAddListing}
+    selectedFilter={selectedFilter}
+    onFilterChange={onFilterChange}
   />
 ));
 
@@ -73,6 +75,7 @@ export const BulkAutoReply: React.FC = () => {
   } = useAppSelector(state => state.autoReply);
 
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
+  const [selectedFilter, setSelectedFilter] = useState('all');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -135,9 +138,10 @@ export const BulkAutoReply: React.FC = () => {
     });
   }, [loadProjects, toast]);
 
-  const handleAddListing = useCallback(() => {
-    // Navigate to listings management or open listings modal
-    console.log('Add listing clicked');
+  const handleFilterChange = useCallback((filter: string) => {
+    setSelectedFilter(filter);
+    // You can add additional logic here to filter the data based on the selected filter
+    console.log('Filter changed to:', filter);
   }, []);
 
   const handleViewProject = useCallback((projectId: string) => {
@@ -177,7 +181,8 @@ export const BulkAutoReply: React.FC = () => {
         <MemoizedFilters
           searchQuery={localSearchQuery}
           onSearchChange={handleSearchChange}
-          onAddListing={handleAddListing}
+          selectedFilter={selectedFilter}
+          onFilterChange={handleFilterChange}
         />
 
         {/* Table Section */}
