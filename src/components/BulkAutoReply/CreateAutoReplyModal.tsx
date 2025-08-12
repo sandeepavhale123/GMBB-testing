@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -33,7 +33,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   // Form state
   const [projectName, setProjectName] = useState('');
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
-  const [replyType, setReplyType] = useState<'ai' | 'template'>('ai');
+  const [replyType, setReplyType] = useState<'ai' | 'template' | 'dnr'>('ai');
 
   // AI Settings
   const [aiTone, setAiTone] = useState('professional');
@@ -165,19 +165,43 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
           {/* Reply Type Selection */}
           <div className="space-y-3">
             <Label>Reply Type</Label>
-            <RadioGroup 
-              value={replyType} 
-              onValueChange={(value: 'ai' | 'template') => setReplyType(value)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="ai" id="ai" />
-                <Label htmlFor="ai">AI Generated Replies</Label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
+                  replyType === 'ai' ? 'border-primary bg-primary/5' : 'border-border'
+                }`}
+                onClick={() => setReplyType('ai')}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="font-medium">AI Generated Replies</h3>
+                  <p className="text-sm text-muted-foreground">Smart responses powered by AI</p>
+                </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="template" id="template" />
-                <Label htmlFor="template">Custom Template</Label>
+              
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
+                  replyType === 'template' ? 'border-primary bg-primary/5' : 'border-border'
+                }`}
+                onClick={() => setReplyType('template')}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="font-medium">Custom Template</h3>
+                  <p className="text-sm text-muted-foreground">Use your own reply template</p>
+                </div>
               </div>
-            </RadioGroup>
+              
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
+                  replyType === 'dnr' ? 'border-primary bg-primary/5' : 'border-border'
+                }`}
+                onClick={() => setReplyType('dnr')}
+              >
+                <div className="text-center space-y-2">
+                  <h3 className="font-medium">DNR (Do Not Respond)</h3>
+                  <p className="text-sm text-muted-foreground">Skip auto-replies for these listings</p>
+                </div>
+              </div>
+            </div>
           </div>
 
         </form>

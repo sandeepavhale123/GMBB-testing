@@ -21,7 +21,7 @@ export interface BulkReplyLocationsList {
 export interface CreateBulkTemplateProjectRequest {
   listingIds: string[];
   project_name: string;
-  type: 'template' | 'ai';
+  type: 'template' | 'ai' | 'dnr';
 }
 
 export interface CreateBulkTemplateProjectResponse {
