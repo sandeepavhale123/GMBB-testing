@@ -120,17 +120,14 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Listing Name</TableHead>
-                  <TableHead>Platform</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Added Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>Location Name</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {currentListings.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                    <TableCell colSpan={2} className="text-center py-8 text-gray-500">
                       No listings found
                     </TableCell>
                   </TableRow>
@@ -138,17 +135,6 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                   currentListings.map((listing) => (
                     <TableRow key={listing.id}>
                       <TableCell className="font-medium">{listing.name}</TableCell>
-                      <TableCell>{listing.platform}</TableCell>
-                      <TableCell>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          listing.status === 'active' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {listing.status === 'active' ? 'Active' : 'Inactive'}
-                        </span>
-                      </TableCell>
-                      <TableCell>{listing.addedDate}</TableCell>
                       <TableCell className="text-right">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
