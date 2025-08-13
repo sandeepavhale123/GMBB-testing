@@ -89,7 +89,7 @@ Thank you`);
         tone: responseStyle,
         reply_text: formattedReplyText,
         specific_star: selectedStarRatings,
-        newStatus: isEnabled ? 1 : 0,
+        newStatus: 1,
         oldStatus: replyToExistingReviews ? 1 : 0
       }).unwrap();
 
@@ -133,7 +133,7 @@ Thank you`);
         tone: responseStyle,
         reply_text: formattedReplyText,
         specific_star: selectedStarRatings,
-        newStatus: enabled ? 1 : 0,
+        newStatus: 1,
         oldStatus: replyToExistingReviews ? 1 : 0
       }).unwrap();
 
