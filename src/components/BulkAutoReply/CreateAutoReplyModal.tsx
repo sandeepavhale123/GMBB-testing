@@ -190,7 +190,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   return (
     <>
       {/* Conflict Warning Dialog */}
-      <AlertDialog open={showConflictDialog} onOpenChange={setShowConflictDialog}>
+      <AlertDialog open={showConflictDialog}>
         <AlertDialogContent className="bg-background border-border">
           <AlertDialogHeader>
             <div className="flex items-center gap-2">
