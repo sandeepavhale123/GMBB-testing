@@ -244,7 +244,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       </AlertDialog>
 
       {/* Main Dialog */}
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen && !showConflictDialog} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create Auto Reply Project</DialogTitle>
