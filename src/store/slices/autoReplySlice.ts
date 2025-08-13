@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axiosInstance from '@/api/axiosInstance';
 
 // Types
 export interface AutoReplyProject {
@@ -40,15 +41,8 @@ export const fetchAutoReplyProjects = createAsyncThunk(
   'autoReply/fetchProjects',
   async (params: { page: number; limit: number; search?: string }) => {
     try {
-      const response = await fetch('/get-bulk-auto-reply-details', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params),
-      });
-      
-      const result = await response.json();
+      const response = await axiosInstance.post('/get-bulk-auto-reply-details', params);
+      const result = response.data;
       
       if (result.code === 200) {
         // Calculate pagination based on the data
