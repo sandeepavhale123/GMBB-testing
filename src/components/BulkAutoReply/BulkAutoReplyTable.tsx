@@ -83,6 +83,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
             <TableHead>Project Name</TableHead>
             <TableHead>No. of Locations</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Response Type</TableHead>
             <TableHead>Created Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -90,7 +91,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
         <TableBody>
           {!Array.isArray(projects) || projects.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                 No auto reply projects found.
               </TableCell>
             </TableRow>
@@ -110,6 +111,11 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                       : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                   }`}>
                     {project.status}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    {project.setting_type}
                   </span>
                 </TableCell>
                 <TableCell>
