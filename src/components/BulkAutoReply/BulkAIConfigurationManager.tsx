@@ -42,7 +42,7 @@ export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProp
 }) => {
   const params = useParams();
   const [saveBulkAIAutoReply] = useSaveBulkAIAutoReplyMutation();
-  const [responseStyle, setResponseStyle] = useState("");
+  const [responseStyle, setResponseStyle] = useState("professional");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>(["1_star", "2_star", "3_star", "4_star", "5_star"]);
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
@@ -206,14 +206,6 @@ Thank you`);
                 >
                   AI Powered
                 </Badge>
-                <Switch
-                  checked={isEnabled}
-                  onCheckedChange={handleToggleEnabled}
-                  className="data-[state=checked]:bg-primary"
-                />
-                <span className="text-sm text-muted-foreground">
-                  {isEnabled ? "Enabled" : "Disabled"}
-                </span>
               </div>
             </div>
             <p className="text-sm text-gray-500 mt-1">
