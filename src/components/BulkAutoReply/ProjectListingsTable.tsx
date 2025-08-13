@@ -7,6 +7,8 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Search, Plus, Trash2 } from 'lucide-react';
+import { useDeleteListingFromProjectMutation } from '@/api/bulkAutoReplyApi';
+import { toast } from '@/hooks/use-toast';
 interface Location {
   id: string;
   locationName: string;
@@ -20,24 +22,59 @@ interface ProjectListingsTableProps {
   showAddModal: boolean;
   onCloseAddModal: () => void;
   listingDetails?: Location[];
+  projectId?: string;
+  onListingDeleted?: () => void;
 }
 export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
   showAddModal,
   onCloseAddModal,
-  listingDetails = []
+  listingDetails = [],
+  projectId,
+  onListingDeleted
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [deleteListingFromProject] = useDeleteListingFromProjectMutation();
+  
   const filteredLocations = listingDetails.filter(location => location.locationName.toLowerCase().includes(searchQuery.toLowerCase()));
   const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredLocations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentLocations = filteredLocations.slice(startIndex, endIndex);
-  const handleDeleteLocation = (locationId: string) => {
-    console.log('Deleting location:', locationId);
-    // Handle delete logic here
+  
+  const handleDeleteLocation = async (locationId: string) => {
+    if (!projectId) {
+      toast({
+        title: "Error",
+        description: "Project ID is required to delete listing",
+        variant: "error"
+      });
+      return;
+    }
+
+    try {
+      await deleteListingFromProject({
+        projectId: parseInt(projectId),
+        listingIds: [parseInt(locationId)]
+      }).unwrap();
+      
+      toast({
+        title: "Success",
+        description: "Listing removed from project successfully",
+        variant: "success"
+      });
+      
+      // Trigger refresh of project details
+      onListingDeleted?.();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to remove listing from project",
+        variant: "error"
+      });
+    }
   };
   const handleAddLocation = (selectedLocations: string[]) => {
     console.log('Adding locations:', selectedLocations);

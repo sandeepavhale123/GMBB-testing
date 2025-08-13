@@ -130,6 +130,17 @@ export interface BulkReplyDetailsResponse {
   };
 }
 
+export interface DeleteListingFromProjectRequest {
+  projectId: number;
+  listingIds: number[];
+}
+
+export interface DeleteListingFromProjectResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export const bulkAutoReplyApi = createApi({
   reducerPath: 'bulkAutoReplyApi',
   baseQuery: axiosBaseQuery(),
@@ -168,6 +179,13 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
+    deleteListingFromProject: builder.mutation<DeleteListingFromProjectResponse, DeleteListingFromProjectRequest>({
+      query: (data) => ({
+        url: '/delete-listing-from-project',
+        method: 'POST',
+        data,
+      }),
+    }),
   }),
 });
 
@@ -176,5 +194,6 @@ export const {
   useCreateBulkTemplateProjectMutation, 
   useGetBulkProjectDetailsMutation,
   useUpdateBulkTemplateAutoReplyMutation,
-  useSaveBulkAIAutoReplyMutation
+  useSaveBulkAIAutoReplyMutation,
+  useDeleteListingFromProjectMutation
 } = bulkAutoReplyApi;
