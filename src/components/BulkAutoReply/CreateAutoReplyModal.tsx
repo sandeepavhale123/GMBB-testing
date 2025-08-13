@@ -149,7 +149,10 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     }
   };
 
-  const handleRemoveConflictListing = (listingId: string) => {
+  const handleRemoveConflictListing = (e: React.MouseEvent, listingId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     // Remove from selected listings
     const updatedSelectedListings = selectedListings.filter(id => id !== listingId);
     setSelectedListings(updatedSelectedListings);
@@ -212,7 +215,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleRemoveConflictListing(listingOption?.id)}
+                        onClick={(e) => handleRemoveConflictListing(e, listingOption?.id)}
                         className="h-6 w-6 p-0 hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
                       >
                         <X className="h-3 w-3" />
