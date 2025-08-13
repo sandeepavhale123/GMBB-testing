@@ -81,15 +81,16 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
         <TableHeader>
           <TableRow>
             <TableHead>Project Name</TableHead>
-            <TableHead>No. of Locations</TableHead>
-            <TableHead>Setting Type</TableHead>
+            <TableHead>No. of Listings</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Created Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {projects.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                 No auto reply projects found.
               </TableCell>
             </TableRow>
@@ -97,19 +98,22 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
             projects.map((project) => (
               <TableRow key={project.id}>
                 <TableCell className="font-medium">
-                  {project.projectName}
+                  {project.project_name}
                 </TableCell>
                 <TableCell>
-                  {project.locationCount} {project.locationCount === 1 ? 'location' : 'locations'}
+                  {project.listing_count} {project.listing_count === 1 ? 'listing' : 'listings'}
                 </TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    project.settingType === 'AI' 
-                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                    project.status === 'Active' 
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                   }`}>
-                    {project.settingType}
+                    {project.status}
                   </span>
+                </TableCell>
+                <TableCell>
+                  {project.created_at}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-2">
@@ -131,7 +135,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Auto Reply Project</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete "{project.projectName}"? This action cannot be undone.
+                            Are you sure you want to delete "{project.project_name}"? This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

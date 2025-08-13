@@ -3,21 +3,10 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 // Types
 export interface AutoReplyProject {
   id: string;
-  projectName: string;
-  locationCount: number;
-  settingType: 'AI' | 'Custom Template';
-  listings: string[];
-  aiSettings?: {
-    tone: string;
-    responseLength: string;
-    includePromotions: boolean;
-  };
-  customSettings?: {
-    template: string;
-    variables: string[];
-  };
-  createdAt: string;
-  updatedAt: string;
+  project_name: string;
+  status: 'Active' | 'Draft';
+  listing_count: number;
+  created_at: string;
 }
 
 export interface AutoReplyState {
@@ -46,51 +35,42 @@ export interface CreateAutoReplyRequest {
   };
 }
 
-// Mock API calls (replace with actual API endpoints)
+// API call to fetch auto reply projects
 export const fetchAutoReplyProjects = createAsyncThunk(
   'autoReply/fetchProjects',
   async (params: { page: number; limit: number; search?: string }) => {
-    // Mock data - replace with actual API call
-    const mockData = {
-      projects: [
-        {
-          id: '1',
-          projectName: 'Restaurant Responses',
-          locationCount: 5,
-          settingType: 'AI' as const,
-          listings: ['listing1', 'listing2'],
-          aiSettings: {
-            tone: 'professional',
-            responseLength: 'medium',
-            includePromotions: true
-          },
-          createdAt: '2024-01-15',
-          updatedAt: '2024-01-15'
+    try {
+      const response = await fetch('/get-bulk-auto-reply-details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          id: '2',
-          projectName: 'Retail Chain Replies',
-          locationCount: 12,
-          settingType: 'Custom Template' as const,
-          listings: ['listing3', 'listing4'],
-          customSettings: {
-            template: 'Thank you for your review! {{customerName}}',
-            variables: ['customerName']
-          },
-          createdAt: '2024-01-10',
-          updatedAt: '2024-01-12'
-        }
-      ],
-      pagination: {
-        currentPage: params.page,
-        totalPages: 1,
-        totalItems: 2,
-        hasNext: false,
-        hasPrev: false
+        body: JSON.stringify(params),
+      });
+      
+      const result = await response.json();
+      
+      if (result.code === 200) {
+        // Calculate pagination based on the data
+        const totalItems = result.data.length;
+        const totalPages = Math.ceil(totalItems / params.limit);
+        
+        return {
+          projects: result.data,
+          pagination: {
+            currentPage: params.page,
+            totalPages,
+            totalItems,
+            hasNext: params.page < totalPages,
+            hasPrev: params.page > 1
+          }
+        };
+      } else {
+        throw new Error(result.message || 'Failed to fetch projects');
       }
-    };
-    
-    return mockData;
+    } catch (error) {
+      throw new Error('Failed to fetch auto reply projects');
+    }
   }
 );
 
@@ -100,14 +80,14 @@ export const createAutoReplyProject = createAsyncThunk(
     // Mock API call - replace with actual endpoint
     const newProject: AutoReplyProject = {
       id: Date.now().toString(),
-      projectName: data.projectName,
-      locationCount: data.listings.length,
-      settingType: data.replyType === 'AI' ? 'AI' : 'Custom Template',
-      listings: data.listings,
-      aiSettings: data.aiSettings,
-      customSettings: data.customSettings,
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0]
+      project_name: data.projectName,
+      status: 'Draft' as const,
+      listing_count: data.listings.length,
+      created_at: new Date().toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
     };
     
     return newProject;
