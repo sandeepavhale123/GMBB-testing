@@ -155,6 +155,38 @@ Thank you`);
     }
   };
 
+  const handleToggleReplyToExisting = async (enabled: boolean) => {
+    try {
+      const currentProjectId = projectId || parseInt(params.projectId || "1");
+      
+      // Format reply_text with proper line breaks for API
+      const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
+      
+      const response = await saveBulkAIAutoReply({
+        projectId: currentProjectId,
+        tone: responseStyle,
+        reply_text: formattedReplyText,
+        specific_star: selectedStarRatings,
+        newStatus: 1,
+        oldStatus: enabled ? 1 : 0
+      }).unwrap();
+
+      setReplyToExistingReviews(enabled);
+
+      const locationCount = response.data?.ids?.length || 0;
+      toast({
+        title: "Success",
+        description: `Reply to existing reviews ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update reply to existing reviews setting. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -441,7 +473,7 @@ The Team`);
             </div>
             <Switch
               checked={replyToExistingReviews}
-              onCheckedChange={setReplyToExistingReviews}
+              onCheckedChange={handleToggleReplyToExisting}
               className="data-[state=checked]:bg-primary"
             />
           </div>
