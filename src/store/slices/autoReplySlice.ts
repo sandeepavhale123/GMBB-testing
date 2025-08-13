@@ -15,6 +15,7 @@ export interface AutoReplyState {
   loading: boolean;
   error: string | null;
   searchQuery: string;
+  selectedFilter: string;
   currentPage: number;
   pageSize: number;
   totalPages: number;
@@ -39,7 +40,7 @@ export interface CreateAutoReplyRequest {
 // API call to fetch auto reply projects
 export const fetchAutoReplyProjects = createAsyncThunk(
   'autoReply/fetchProjects',
-  async (params: { page: number; limit: number; search?: string }) => {
+  async (params: { page: number; limit: number; search?: string; filter?: string }) => {
     try {
       const response = await axiosInstance.post('/get-bulk-auto-reply-details', params);
       const result = response.data;
@@ -101,6 +102,7 @@ const initialState: AutoReplyState = {
   loading: false,
   error: null,
   searchQuery: '',
+  selectedFilter: 'all',
   currentPage: 1,
   pageSize: 10,
   totalPages: 0,
@@ -114,6 +116,10 @@ const autoReplySlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
       state.currentPage = 1; // Reset to first page on search
+    },
+    setSelectedFilter: (state, action: PayloadAction<string>) => {
+      state.selectedFilter = action.payload;
+      state.currentPage = 1; // Reset to first page on filter change
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
@@ -170,5 +176,5 @@ const autoReplySlice = createSlice({
   }
 });
 
-export const { setSearchQuery, setCurrentPage, clearError } = autoReplySlice.actions;
+export const { setSearchQuery, setSelectedFilter, setCurrentPage, clearError } = autoReplySlice.actions;
 export default autoReplySlice.reducer;

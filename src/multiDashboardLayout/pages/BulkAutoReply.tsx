@@ -11,6 +11,7 @@ import {
   fetchAutoReplyProjects, 
   deleteAutoReplyProject, 
   setSearchQuery, 
+  setSelectedFilter,
   setCurrentPage,
   clearError 
 } from '@/store/slices/autoReplySlice';
@@ -68,6 +69,7 @@ export const BulkAutoReply: React.FC = () => {
     loading,
     error,
     searchQuery,
+    selectedFilter,
     currentPage,
     pageSize,
     totalPages,
@@ -75,7 +77,6 @@ export const BulkAutoReply: React.FC = () => {
   } = useAppSelector(state => state.autoReply);
 
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
-  const [selectedFilter, setSelectedFilter] = useState('all');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -87,10 +88,10 @@ export const BulkAutoReply: React.FC = () => {
     dispatch(setSearchQuery(debouncedSearch));
   }, [debouncedSearch, dispatch]);
 
-  // Load projects when search or pagination changes
+  // Load projects when search, filter, or pagination changes
   useEffect(() => {
     loadProjects();
-  }, [searchQuery, currentPage]);
+  }, [searchQuery, selectedFilter, currentPage]);
 
   // Load initial data
   useEffect(() => {
@@ -101,9 +102,10 @@ export const BulkAutoReply: React.FC = () => {
     dispatch(fetchAutoReplyProjects({
       page: currentPage,
       limit: pageSize,
-      search: searchQuery
+      search: searchQuery,
+      filter: selectedFilter
     }));
-  }, [dispatch, currentPage, pageSize, searchQuery]);
+  }, [dispatch, currentPage, pageSize, searchQuery, selectedFilter]);
 
   const handleSearchChange = useCallback((value: string) => {
     setLocalSearchQuery(value);
@@ -139,10 +141,8 @@ export const BulkAutoReply: React.FC = () => {
   }, [loadProjects, toast]);
 
   const handleFilterChange = useCallback((filter: string) => {
-    setSelectedFilter(filter);
-    // You can add additional logic here to filter the data based on the selected filter
-    console.log('Filter changed to:', filter);
-  }, []);
+    dispatch(setSelectedFilter(filter));
+  }, [dispatch]);
 
   const handleViewProject = useCallback((projectId: string) => {
     navigate(`/main-dashboard/bulk-auto-reply-project-details/${projectId}`);
