@@ -88,7 +88,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projects.length === 0 ? (
+          {!Array.isArray(projects) || projects.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                 No auto reply projects found.
