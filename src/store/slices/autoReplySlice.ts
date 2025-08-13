@@ -6,6 +6,7 @@ export interface AutoReplyProject {
   id: string;
   project_name: string;
   status: 'Active' | 'Draft';
+  setting_type: string;
   listing_count: number;
   created_at: string;
 }
@@ -46,18 +47,17 @@ export const fetchAutoReplyProjects = createAsyncThunk(
       const result = response.data;
       
       if (result.code === 200) {
-        // Calculate pagination based on the data
-        const totalItems = result.data.length;
-        const totalPages = Math.ceil(totalItems / params.limit);
+        // Use API-provided pagination data
+        const { pagination, projects } = result.data;
         
         return {
-          projects: result.data,
+          projects: projects,
           pagination: {
-            currentPage: params.page,
-            totalPages,
-            totalItems,
-            hasNext: params.page < totalPages,
-            hasPrev: params.page > 1
+            currentPage: pagination.page,
+            totalPages: pagination.pages,
+            totalItems: pagination.total,
+            hasNext: pagination.has_next,
+            hasPrev: pagination.page > 1
           }
         };
       } else {
@@ -77,6 +77,7 @@ export const createAutoReplyProject = createAsyncThunk(
       id: Date.now().toString(),
       project_name: data.projectName,
       status: 'Draft' as const,
+      setting_type: data.replyType === 'AI' ? 'AI Setting' : 'Custom Setting',
       listing_count: data.listings.length,
       created_at: new Date().toLocaleDateString('en-GB', {
         day: 'numeric',
