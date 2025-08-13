@@ -205,13 +205,12 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                 {conflictingListings.map((listing, index) => {
                   const listingOption = listingOptions.find(opt => opt.name === listing.name);
                   return (
-                    <div key={index} className="flex justify-between items-center py-2 px-2 rounded hover:bg-background/50">
-                      <div className="flex-1">
-                        <span className="font-medium text-sm">{listing.name}</span>
-                        <Badge variant="secondary" className="text-xs ml-2">
-                          {listing.setting_type.toUpperCase()}
-                        </Badge>
-                      </div>
+                  <div key={index} className="flex items-center justify-between py-2 px-2 rounded hover:bg-background/50">
+                    <span className="font-medium text-sm flex-1">{listing.name}</span>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-xs">
+                        {listing.setting_type.toUpperCase()}
+                      </Badge>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -221,6 +220,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
                         <X className="h-3 w-3" />
                       </Button>
                     </div>
+                  </div>
                   );
                 })}
               </div>
