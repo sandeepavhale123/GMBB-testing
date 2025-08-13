@@ -220,6 +220,11 @@ Thank you`);
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="text-center py-8">
+            <img 
+              src="/lovable-uploads/0b0da1e0-8d90-4343-aeff-7a9a7b821ef6.png" 
+              alt="Do not respond illustration" 
+              className="mx-auto mb-4 w-32 h-auto"
+            />
             <p className="text-muted-foreground">
               This project is configured to not respond to reviews automatically.
             </p>
