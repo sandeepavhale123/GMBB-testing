@@ -212,9 +212,7 @@ Thank you`);
                   </Badge>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mt-1">
-                You have created this project for DNR (Do Not Respond).
-              </p>
+              
             </div>
           </div>
         </CardHeader>
@@ -223,8 +221,11 @@ Thank you`);
             <img 
               src="/lovable-uploads/0b0da1e0-8d90-4343-aeff-7a9a7b821ef6.png" 
               alt="Do not respond illustration" 
-              className="mx-auto mb-4 w-32 h-auto"
+              className="mx-auto mb-4 w-[200px] h-auto"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                You have created this project for DNR (Do Not Respond).
+              </p>
             <p className="text-muted-foreground">
               This project is configured to not respond to reviews automatically.
             </p>
