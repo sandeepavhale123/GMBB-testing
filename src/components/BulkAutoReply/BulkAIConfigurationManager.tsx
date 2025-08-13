@@ -44,7 +44,7 @@ export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProp
   const [saveBulkAIAutoReply] = useSaveBulkAIAutoReplyMutation();
   const [responseStyle, setResponseStyle] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
-  const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>([]);
+  const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>(["1_star", "2_star", "3_star", "4_star", "5_star"]);
   const [replyTemplate, setReplyTemplate] = useState(`Hi {full_name},
 {responsetext}
 Thank you`);
