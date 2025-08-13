@@ -81,7 +81,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
         <TableHeader>
           <TableRow>
             <TableHead>Project Name</TableHead>
-            <TableHead>No. of Listings</TableHead>
+            <TableHead>No. of Locations</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Created Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -101,7 +101,7 @@ export const BulkAutoReplyTable: React.FC<BulkAutoReplyTableProps> = ({
                   {project.project_name}
                 </TableCell>
                 <TableCell>
-                  {project.listing_count} {project.listing_count === 1 ? 'listing' : 'listings'}
+                  {project.listing_count} {project.listing_count === 1 ? 'location' : 'locations'}
                 </TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
