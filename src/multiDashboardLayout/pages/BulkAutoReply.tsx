@@ -120,7 +120,8 @@ export const BulkAutoReply: React.FC = () => {
       await dispatch(deleteAutoReplyProject(projectId)).unwrap();
       toast({
         title: "Success",
-        description: "Auto reply project deleted successfully"
+        description: "Auto reply project deleted successfully",
+        variant: "success"
       });
     } catch (error) {
       toast({

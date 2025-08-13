@@ -93,8 +93,19 @@ export const createAutoReplyProject = createAsyncThunk(
 export const deleteAutoReplyProject = createAsyncThunk(
   'autoReply/deleteProject',
   async (projectId: string) => {
-    // Mock API call - replace with actual endpoint
-    return projectId;
+    try {
+      const response = await axiosInstance.post('/delete-auto-reply-project', {
+        projectId: projectId
+      });
+      
+      if (response.data.code === 200) {
+        return projectId;
+      } else {
+        throw new Error(response.data.message || 'Failed to delete project');
+      }
+    } catch (error) {
+      throw new Error('Failed to delete project');
+    }
   }
 );
 
