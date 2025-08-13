@@ -154,7 +154,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
           {/* Reply Type Selection */}
           <div className="space-y-3">
             <Label>Reply Type</Label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2">
               <div 
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
                   replyType === 'ai' ? 'border-primary bg-primary/5' : 'border-border'
@@ -163,8 +163,8 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
               >
                 <div className="text-center space-y-2">
                   <Bot className="h-8 w-8 mx-auto text-primary" />
-                  <h3 className="font-medium">AI Generated Replies</h3>
-                  <p className="text-sm text-muted-foreground">Smart responses powered by AI</p>
+                  <h3 className="text-sm font-medium">AI Generated Replies</h3>
+                  <p className="text-sm text-muted-foreground hidden md:block">Smart responses powered by AI</p>
                 </div>
               </div>
               
@@ -176,8 +176,8 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
               >
                 <div className="text-center space-y-2">
                   <FileText className="h-8 w-8 mx-auto text-primary" />
-                  <h3 className="font-medium">Custom Template</h3>
-                  <p className="text-sm text-muted-foreground">Use your own reply template</p>
+                  <h3 className="text-sm font-medium">Custom Template</h3>
+                  <p className="text-sm text-muted-foreground hidden md:block">Use your own reply template</p>
                 </div>
               </div>
               
@@ -189,8 +189,8 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
               >
                 <div className="text-center space-y-2">
                   <Ban className="h-8 w-8 mx-auto text-primary" />
-                  <h3 className="font-medium">DNR (Do Not Respond)</h3>
-                  <p className="text-sm text-muted-foreground">Skip auto-replies for these listings</p>
+                  <h3 className="text-sm font-medium">DNR (Do Not Respond)</h3>
+                  <p className="text-sm text-muted-foreground hidden md:block">Skip auto-replies for these listings</p>
                 </div>
               </div>
             </div>
