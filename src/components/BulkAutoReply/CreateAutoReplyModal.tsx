@@ -149,6 +149,24 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     }
   };
 
+  const handleRemoveConflictListing = (listingId: string) => {
+    // Remove from selected listings
+    const updatedSelectedListings = selectedListings.filter(id => id !== listingId);
+    setSelectedListings(updatedSelectedListings);
+    
+    // Remove from conflicting listings display
+    const updatedConflictingListings = conflictingListings.filter(listing => {
+      const listingOption = listingOptions.find(opt => opt.name === listing.name);
+      return listingOption?.id !== listingId;
+    });
+    setConflictingListings(updatedConflictingListings);
+    
+    // If no more conflicts, close dialog
+    if (updatedConflictingListings.length === 0) {
+      setShowConflictDialog(false);
+    }
+  };
+
   const handleConflictContinue = async () => {
     setShowConflictDialog(false);
     await createProject();
@@ -170,7 +188,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     <>
       {/* Conflict Warning Dialog */}
       <AlertDialog open={showConflictDialog} onOpenChange={setShowConflictDialog}>
-        <AlertDialogContent className="border-destructive bg-destructive/5">
+        <AlertDialogContent className="bg-background border-border">
           <AlertDialogHeader>
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-destructive" />
@@ -178,20 +196,33 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
             </div>
             <AlertDialogDescription className="text-foreground">
               <p className="mb-3">
-                The following locations already have auto-reply settings configured:
+                The following locations already have auto-reply settings configured. You can remove individual listings or continue to override all:
               </p>
-              <div className="bg-background rounded-md border border-destructive/20 p-3 max-h-32 overflow-y-auto">
-                {conflictingListings.map((listing, index) => (
-                  <div key={index} className="flex justify-between items-center py-1">
-                    <span className="font-medium">{listing.name}</span>
-                    <Badge variant="secondary" className="text-xs">
-                      {listing.setting_type.toUpperCase()}
-                    </Badge>
-                  </div>
-                ))}
+              <div className="bg-muted rounded-md border p-3" style={{ maxHeight: '12.5rem', overflowY: 'auto' }}>
+                {conflictingListings.map((listing, index) => {
+                  const listingOption = listingOptions.find(opt => opt.name === listing.name);
+                  return (
+                    <div key={index} className="flex justify-between items-center py-2 px-2 rounded hover:bg-background/50">
+                      <div className="flex-1">
+                        <span className="font-medium text-sm">{listing.name}</span>
+                        <Badge variant="secondary" className="text-xs ml-2">
+                          {listing.setting_type.toUpperCase()}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleRemoveConflictListing(listingOption?.id)}
+                        className="h-6 w-6 p-0 hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
               <p className="mt-3 text-sm">
-                <strong>Creating this project will override the existing auto-reply settings.</strong> Do you want to continue?
+                <strong>Creating this project will override the existing auto-reply settings for the remaining locations.</strong>
               </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
