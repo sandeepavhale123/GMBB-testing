@@ -98,6 +98,29 @@ export interface UpdateBulkTemplateAutoReplyResponse {
   message: string;
 }
 
+export interface SaveBulkAIAutoReplyRequest {
+  projectId: number;
+  tone: string;
+  reply_text: string;
+  specific_star: string[];
+  newStatus: number;
+  oldStatus: number;
+}
+
+export interface SaveBulkAIAutoReplyResponse {
+  code: number;
+  message: string;
+  data: {
+    ids: {
+      id: string;
+      locationName: string;
+      zipCode: string;
+      google_account_id: string;
+      name: string;
+    }[];
+  };
+}
+
 export interface BulkReplyDetailsResponse {
   code: number;
   message: string;
@@ -138,6 +161,13 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
+    saveBulkAIAutoReply: builder.mutation<SaveBulkAIAutoReplyResponse, SaveBulkAIAutoReplyRequest>({
+      query: (data) => ({
+        url: '/save-bulk-ai-autoreply',
+        method: 'POST',
+        data,
+      }),
+    }),
   }),
 });
 
@@ -145,5 +175,6 @@ export const {
   useGetBulkReplyDetailsMutation, 
   useCreateBulkTemplateProjectMutation, 
   useGetBulkProjectDetailsMutation,
-  useUpdateBulkTemplateAutoReplyMutation 
+  useUpdateBulkTemplateAutoReplyMutation,
+  useSaveBulkAIAutoReplyMutation
 } = bulkAutoReplyApi;

@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Star, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { useUpdateBulkTemplateAutoReplyMutation } from "@/api/bulkAutoReplyApi";
+import { useSaveBulkAIAutoReplyMutation } from "@/api/bulkAutoReplyApi";
 import { useParams } from "react-router-dom";
 
 interface BulkAISettings {
@@ -41,7 +41,7 @@ export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProp
   projectId
 }) => {
   const params = useParams();
-  const [updateBulkTemplateAutoReply] = useUpdateBulkTemplateAutoReplyMutation();
+  const [saveBulkAIAutoReply] = useSaveBulkAIAutoReplyMutation();
   const [responseStyle, setResponseStyle] = useState("");
   const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [selectedStarRatings, setSelectedStarRatings] = useState<string[]>([]);
@@ -78,33 +78,37 @@ Thank you`);
   const handleSaveSettings = async () => {
     setIsSaving(true);
 
-    const payload = {
-      tone: responseStyle,
-      text_reply: replyTemplate,
-      specific_star: selectedStarRatings,
-      oldStatus: replyToExistingReviews ? "1" : "0",
-      prompt: additionalInstructions,
-    };
-
     try {
       const currentProjectId = projectId || parseInt(params.projectId || "1");
       
-      await updateBulkTemplateAutoReply({
+      // Format reply_text with proper line breaks for API
+      const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
+      
+      const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
-        type: "text",
-        status: isEnabled ? 1 : 0,
-        text: replyTemplate,
-        rating: 2 // Default rating, can be made configurable
+        tone: responseStyle,
+        reply_text: formattedReplyText,
+        specific_star: selectedStarRatings,
+        newStatus: isEnabled ? 1 : 0,
+        oldStatus: replyToExistingReviews ? 1 : 0
       }).unwrap();
 
       // Call the onSave callback if provided
       if (onSave) {
+        const payload = {
+          tone: responseStyle,
+          text_reply: formattedReplyText,
+          specific_star: selectedStarRatings,
+          oldStatus: replyToExistingReviews ? "1" : "0",
+          prompt: additionalInstructions,
+        };
         onSave(payload);
       }
 
+      const locationCount = response.data?.ids?.length || 0;
       toast({
         title: "Success",
-        description: "AI Auto Reply settings saved successfully!",
+        description: `AI Auto Reply settings saved successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
       });
     } catch (error) {
       toast({
@@ -121,21 +125,26 @@ Thank you`);
     try {
       const currentProjectId = projectId || parseInt(params.projectId || "1");
       
-      await updateBulkTemplateAutoReply({
+      // Format reply_text with proper line breaks for API
+      const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
+      
+      const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
-        type: "text",
-        status: enabled ? 1 : 0,
-        text: replyTemplate,
-        rating: 2
+        tone: responseStyle,
+        reply_text: formattedReplyText,
+        specific_star: selectedStarRatings,
+        newStatus: enabled ? 1 : 0,
+        oldStatus: replyToExistingReviews ? 1 : 0
       }).unwrap();
 
       if (onToggle) {
         onToggle(enabled);
       }
 
+      const locationCount = response.data?.ids?.length || 0;
       toast({
         title: "Success",
-        description: `AI Auto Reply ${enabled ? "enabled" : "disabled"} successfully!`,
+        description: `AI Auto Reply ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
       });
     } catch (error) {
       toast({
