@@ -172,7 +172,12 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
 
   const handleConflictContinue = async () => {
     setShowConflictDialog(false);
-    await createProject();
+    try {
+      await createProject();
+      onClose(); // Close the main modal after successful project creation
+    } catch (error) {
+      // Error is already handled in createProject
+    }
   };
 
   const resetForm = () => {
