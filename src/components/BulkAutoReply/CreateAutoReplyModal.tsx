@@ -102,10 +102,15 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       
       onSuccess();
       resetForm();
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Error creating project:', error);
+      
+      // Extract the error message from the API response
+      const errorMessage = error?.data?.message || error?.message || "Failed to create auto-reply project";
+      
       toast({
         title: "Error",
-        description: "Failed to create auto-reply project",
+        description: errorMessage,
         variant: "destructive"
       });
     }
