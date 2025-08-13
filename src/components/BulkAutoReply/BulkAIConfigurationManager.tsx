@@ -195,25 +195,9 @@ Thank you`);
       <Card className="w-full">
         <CardHeader>
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-lg">
-              <Sparkles className="w-5 h-5 text-gray-600" />
-            </div>
-            <div>
-              <div className="flex items-center gap-4">
-                <CardTitle className="text-base font-medium text-gray-900">
+                <CardTitle className="text-base font-medium text-center text-gray-900">
                   DNR Project
                 </CardTitle>
-                <div className="flex items-center gap-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-gray-600 text-white"
-                  >
-                    Do Not Respond
-                  </Badge>
-                </div>
-              </div>
-              
-            </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
