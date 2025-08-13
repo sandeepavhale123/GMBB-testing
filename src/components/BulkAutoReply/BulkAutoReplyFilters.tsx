@@ -23,7 +23,7 @@ export const BulkAutoReplyFilters: React.FC<BulkAutoReplyFiltersProps> = ({
   const filterOptions = [
     { value: 'all', label: 'All Responses' },
     { value: 'ai', label: 'AI' },
-    { value: 'custom', label: 'Custom Template' },
+    { value: 'template', label: 'Custom Template' },
     { value: 'dnr', label: 'DNR (Do not response)' }
   ];
 
