@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Search, ChevronDown, Bot, FileText, Ban } from 'lucide-react';
+import { X, Search, ChevronDown, Bot, FileText, Ban, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -40,6 +41,10 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
   const [aiResponseLength, setAiResponseLength] = useState('medium');
   const [aiIncludePromotions, setAiIncludePromotions] = useState(false);
 
+  // Conflict detection state
+  const [showConflictDialog, setShowConflictDialog] = useState(false);
+  const [conflictingListings, setConflictingListings] = useState<{name: string, setting_type: string}[]>([]);
+  const [listingOptions, setListingOptions] = useState<any[]>([]);
 
   // Listing selection state
   const [listingSearch, setListingSearch] = useState('');
@@ -62,6 +67,22 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     }
   }, [isListingDropdownOpen]);
 
+  const checkForConflicts = () => {
+    const conflicts: {name: string, setting_type: string}[] = [];
+    
+    selectedListings.forEach(listingId => {
+      const listing = listingOptions.find(opt => opt.id === listingId);
+      if (listing && listing.setting_type && listing.setting_type !== '') {
+        conflicts.push({
+          name: listing.name,
+          setting_type: listing.setting_type
+        });
+      }
+    });
+    
+    return conflicts;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -83,6 +104,18 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
       return;
     }
 
+    // Check for conflicts
+    const conflicts = checkForConflicts();
+    if (conflicts.length > 0) {
+      setConflictingListings(conflicts);
+      setShowConflictDialog(true);
+      return;
+    }
+
+    await createProject();
+  };
+
+  const createProject = async () => {
 
     try {
       const response = await createBulkTemplateProject({
@@ -116,6 +149,11 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     }
   };
 
+  const handleConflictContinue = async () => {
+    setShowConflictDialog(false);
+    await createProject();
+  };
+
   const resetForm = () => {
     setProjectName('');
     setSelectedListings([]);
@@ -124,23 +162,69 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     setAiResponseLength('medium');
     setAiIncludePromotions(false);
     setListingSearch('');
+    setConflictingListings([]);
+    setShowConflictDialog(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Create Auto Reply Project</DialogTitle>
-          <DialogDescription>
-            Set up automated replies for your listings by configuring templates and settings.
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      {/* Conflict Warning Dialog */}
+      <AlertDialog open={showConflictDialog} onOpenChange={setShowConflictDialog}>
+        <AlertDialogContent className="border-destructive bg-destructive/5">
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              <AlertDialogTitle className="text-destructive">Auto-Reply Settings Conflict</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-foreground">
+              <p className="mb-3">
+                The following locations already have auto-reply settings configured:
+              </p>
+              <div className="bg-background rounded-md border border-destructive/20 p-3 max-h-32 overflow-y-auto">
+                {conflictingListings.map((listing, index) => (
+                  <div key={index} className="flex justify-between items-center py-1">
+                    <span className="font-medium">{listing.name}</span>
+                    <Badge variant="secondary" className="text-xs">
+                      {listing.setting_type.toUpperCase()}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-sm">
+                <strong>Creating this project will override the existing auto-reply settings.</strong> Do you want to continue?
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setShowConflictDialog(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConflictContinue}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Override & Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Main Dialog */}
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create Auto Reply Project</DialogTitle>
+            <DialogDescription>
+              Set up automated replies for your listings by configuring templates and settings.
+            </DialogDescription>
+          </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Multi-select Listing Component */}
           <BulkReplyListingSelector
             selectedListings={selectedListings}
             onListingsChange={setSelectedListings}
+            onOptionsChange={setListingOptions}
             error={selectedListings.length === 0 ? "Please select at least one listing" : undefined}
           />
           
@@ -217,5 +301,6 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    </>
   );
 };

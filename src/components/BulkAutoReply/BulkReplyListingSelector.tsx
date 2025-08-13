@@ -11,6 +11,7 @@ import { toast } from '@/hooks/use-toast';
 interface BulkReplyListingSelectorProps {
   selectedListings: string[];
   onListingsChange: (listings: string[]) => void;
+  onOptionsChange?: (options: BulkReplyListingOption[]) => void;
   error?: string;
 }
 
@@ -29,6 +30,7 @@ interface BulkReplyListingOption {
 export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> = ({
   selectedListings,
   onListingsChange,
+  onOptionsChange,
   error
 }) => {
   const [open, setOpen] = useState(false);
@@ -87,7 +89,9 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
         google_account_id: location.google_account_id
       }));
 
-      setOptions([...groupOptions, ...locationOptions]);
+      const allOptions = [...groupOptions, ...locationOptions];
+      setOptions(allOptions);
+      onOptionsChange?.(allOptions);
     } catch (error) {
       toast({
         title: "Error",
