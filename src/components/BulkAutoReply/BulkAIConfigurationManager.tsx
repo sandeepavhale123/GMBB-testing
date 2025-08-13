@@ -172,7 +172,7 @@ Thank you`);
   if (projectType === "dnr") {
     return <Card className="w-full">
         <CardHeader>
-          <div className="flex items-center text-center space-x-3">
+          <div className="flex items-center text-center space-x-3 justify-center ">
                 <CardTitle className="font-bold  text-[20px] text-center text-gray-900 ">
                   DNR Project
                 </CardTitle>
