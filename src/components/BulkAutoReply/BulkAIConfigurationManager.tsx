@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -16,7 +10,6 @@ import { Sparkles, Star, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useSaveBulkAIAutoReplyMutation } from "@/api/bulkAutoReplyApi";
 import { useParams } from "react-router-dom";
-
 interface BulkAISettings {
   tone?: string;
   text_reply?: string;
@@ -24,7 +17,6 @@ interface BulkAISettings {
   oldStatus?: string;
   prompt?: string;
 }
-
 interface BulkAIConfigurationManagerProps {
   autoAiSettings?: BulkAISettings;
   onSave?: (settings: BulkAISettings) => void;
@@ -33,7 +25,6 @@ interface BulkAIConfigurationManagerProps {
   projectId?: number;
   projectType?: string;
 }
-
 export const BulkAIConfigurationManager: React.FC<BulkAIConfigurationManagerProps> = ({
   autoAiSettings,
   onSave,
@@ -76,16 +67,13 @@ Thank you`);
       }
     }
   }, [autoAiSettings]);
-
   const handleSaveSettings = async () => {
     setIsSaving(true);
-
     try {
       const currentProjectId = projectId || parseInt(params.projectId || "1");
-      
+
       // Format reply_text with proper line breaks for API
       const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
-      
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
@@ -102,34 +90,31 @@ Thank you`);
           text_reply: formattedReplyText,
           specific_star: selectedStarRatings,
           oldStatus: replyToExistingReviews ? "1" : "0",
-          prompt: additionalInstructions,
+          prompt: additionalInstructions
         };
         onSave(payload);
       }
-
       const locationCount = response.data?.ids?.length || 0;
       toast({
         title: "Success",
-        description: `AI Auto Reply settings saved successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
+        description: `AI Auto Reply settings saved successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to save AI Auto Reply settings. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSaving(false);
     }
   };
-
   const handleToggleEnabled = async (enabled: boolean) => {
     try {
       const currentProjectId = projectId || parseInt(params.projectId || "1");
-      
+
       // Format reply_text with proper line breaks for API
       const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
-      
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
@@ -138,32 +123,28 @@ Thank you`);
         newStatus: 1,
         oldStatus: replyToExistingReviews ? 1 : 0
       }).unwrap();
-
       if (onToggle) {
         onToggle(enabled);
       }
-
       const locationCount = response.data?.ids?.length || 0;
       toast({
         title: "Success",
-        description: `AI Auto Reply ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
+        description: `AI Auto Reply ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to update AI Auto Reply status. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   const handleToggleReplyToExisting = async (enabled: boolean) => {
     try {
       const currentProjectId = projectId || parseInt(params.projectId || "1");
-      
+
       // Format reply_text with proper line breaks for API
       const formattedReplyText = replyTemplate.replace(/\n/g, '\r\n');
-      
       const response = await saveBulkAIAutoReply({
         projectId: currentProjectId,
         tone: responseStyle,
@@ -172,41 +153,34 @@ Thank you`);
         newStatus: 1,
         oldStatus: enabled ? 1 : 0
       }).unwrap();
-
       setReplyToExistingReviews(enabled);
-
       const locationCount = response.data?.ids?.length || 0;
       toast({
         title: "Success",
-        description: `Reply to existing reviews ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`,
+        description: `Reply to existing reviews ${enabled ? "enabled" : "disabled"} successfully! Updated ${locationCount} location${locationCount !== 1 ? 's' : ''}.`
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to update reply to existing reviews setting. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
 
   // Show DNR placeholder if project type is "dnr"
   if (projectType === "dnr") {
-    return (
-      <Card className="w-full">
+    return <Card className="w-full">
         <CardHeader>
           <div className="flex items-center space-x-3">
-                <CardTitle className="text-base font-medium text-center text-gray-900">
+                <CardTitle className="font-bold  text-[20px] text-center text-gray-900 ">
                   DNR Project
                 </CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="text-center py-8">
-            <img 
-              src="/lovable-uploads/0b0da1e0-8d90-4343-aeff-7a9a7b821ef6.png" 
-              alt="Do not respond illustration" 
-              className="mx-auto mb-4 w-[200px] h-auto"
-            />
+            <img src="/lovable-uploads/0b0da1e0-8d90-4343-aeff-7a9a7b821ef6.png" alt="Do not respond illustration" className="mx-auto mb-4 w-[200px] h-auto" />
             <p className="text-sm text-gray-500 mt-1">
                 You have created this project for DNR (Do Not Respond).
               </p>
@@ -215,12 +189,9 @@ Thank you`);
             </p>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>;
   }
-
-  return (
-    <Card className="w-full">
+  return <Card className="w-full">
       <CardHeader>
         <div className="flex items-center space-x-3">
           <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
@@ -232,10 +203,7 @@ Thank you`);
                 AI Auto Response
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Badge
-                  variant="secondary"
-                  className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black"
-                >
+                <Badge variant="secondary" className="bg-purple-600 text-white hover:bg-purple-300 hover:text-black">
                   AI Powered
                 </Badge>
               </div>
@@ -299,17 +267,12 @@ Thank you`);
                 Advanced Options
               </label>
             </div>
-            <Switch
-              checked={showAdvanced}
-              onCheckedChange={setShowAdvanced}
-              className="data-[state=checked]:bg-primary"
-            />
+            <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} className="data-[state=checked]:bg-primary" />
           </div>
         </Card>
 
         {/* Advanced Options Content */}
-        {showAdvanced && (
-          <div className="space-y-6">
+        {showAdvanced && <div className="space-y-6">
             {/* Variables Info Card */}
             <div className="rounded-2xl p-4 bg-blue-900 text-white">
               <label className="block text-sm font-semibold text-gray-200 mb-1">
@@ -339,13 +302,7 @@ Thank you`);
                   Reply Text
                 </label>
               </div>
-              <Textarea
-                placeholder="Enter your response template..."
-                className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm"
-                rows={6}
-                value={replyTemplate}
-                onChange={(e) => setReplyTemplate(e.target.value)}
-              />
+              <Textarea placeholder="Enter your response template..." className="min-h-[120px] bg-background/80 border-border/60 hover:border-primary/50 transition-all duration-200 focus:ring-2 focus:ring-primary/20 resize-y font-mono text-sm" rows={6} value={replyTemplate} onChange={e => setReplyTemplate(e.target.value)} />
             </div>
 
             {/* Star Ratings Selection */}
@@ -357,59 +314,33 @@ Thank you`);
                 </h4>
               </div>
               <div className="grid grid-cols-3 gap-3 md:grid-cols-5">
-                {[1, 2, 3, 4, 5].map((star) => {
-                  const starKey = `${star}_star`;
-                  const isChecked = selectedStarRatings.includes(starKey);
-                  return (
-                    <Card
-                      key={star}
-                      className={`p-3 cursor-pointer border-border/60 transition-all hover:border-primary/70 ${
-                        isChecked ? "border-primary bg-primary/10" : ""
-                      }`}
-                      onClick={() => {
-                        if (isChecked) {
-                          setSelectedStarRatings((prev) =>
-                            prev.filter((s) => s !== starKey)
-                          );
-                        } else {
-                          setSelectedStarRatings((prev) => [
-                            ...prev,
-                            starKey,
-                          ]);
-                        }
-                      }}
-                    >
+                {[1, 2, 3, 4, 5].map(star => {
+              const starKey = `${star}_star`;
+              const isChecked = selectedStarRatings.includes(starKey);
+              return <Card key={star} className={`p-3 cursor-pointer border-border/60 transition-all hover:border-primary/70 ${isChecked ? "border-primary bg-primary/10" : ""}`} onClick={() => {
+                if (isChecked) {
+                  setSelectedStarRatings(prev => prev.filter(s => s !== starKey));
+                } else {
+                  setSelectedStarRatings(prev => [...prev, starKey]);
+                }
+              }}>
                       <div className="flex items-center justify-between">
-                        <label
-                          htmlFor={`checkbox-star-${star}`}
-                          className="text-sm text-foreground flex items-center gap-1 cursor-pointer"
-                        >
+                        <label htmlFor={`checkbox-star-${star}`} className="text-sm text-foreground flex items-center gap-1 cursor-pointer">
                           {star} Star
                         </label>
-                        <Checkbox
-                          id={`checkbox-star-${star}`}
-                          checked={isChecked}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSelectedStarRatings((prev) => [
-                                ...prev,
-                                starKey,
-                              ]);
-                            } else {
-                              setSelectedStarRatings((prev) =>
-                                prev.filter((s) => s !== starKey)
-                              );
-                            }
-                          }}
-                        />
+                        <Checkbox id={`checkbox-star-${star}`} checked={isChecked} onCheckedChange={checked => {
+                    if (checked) {
+                      setSelectedStarRatings(prev => [...prev, starKey]);
+                    } else {
+                      setSelectedStarRatings(prev => prev.filter(s => s !== starKey));
+                    }
+                  }} />
                       </div>
-                    </Card>
-                  );
-                })}
+                    </Card>;
+            })}
               </div>
             </div>
-          </div>
-        )}
+          </div>}
 
         {/* Generate Sample AI Response Card */}
         <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200">
@@ -429,9 +360,7 @@ Thank you`);
             <div className="bg-white p-3 rounded-lg border border-gray-200">
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                 </div>
                 <span className="text-sm font-medium text-gray-700">John Doe</span>
               </div>
@@ -441,12 +370,11 @@ Thank you`);
               </p>
             </div>
 
-            <Button
-              onClick={() => {
-                setIsGeneratingSample(true);
-                // Simulate AI response generation
-                setTimeout(() => {
-                  setSampleResponse(`Hi John Doe,
+            <Button onClick={() => {
+            setIsGeneratingSample(true);
+            // Simulate AI response generation
+            setTimeout(() => {
+              setSampleResponse(`Hi John Doe,
 
 Thank you so much for taking the time to share your ${responseStyle || 'professional'} experience with us! We're thrilled to hear that you had a great time and that our staff exceeded your expectations.
 
@@ -456,34 +384,24 @@ We appreciate your business and look forward to serving you again soon!
 
 Best regards,
 The Team`);
-                  setIsGeneratingSample(false);
-                }, 2000);
-              }}
-              disabled={isGeneratingSample}
-              variant="outline"
-              className="w-full"
-            >
-              {isGeneratingSample ? (
-                <>
+              setIsGeneratingSample(false);
+            }, 2000);
+          }} disabled={isGeneratingSample} variant="outline" className="w-full">
+              {isGeneratingSample ? <>
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
                   Generating Sample Response...
-                </>
-              ) : (
-                <>
+                </> : <>
                   <Sparkles className="h-4 w-4 mr-2" />
                   Generate Sample AI Response
-                </>
-              )}
+                </>}
             </Button>
             
-            {sampleResponse && (
-              <div className="mt-3 p-4 bg-white rounded-lg border border-gray-200">
+            {sampleResponse && <div className="mt-3 p-4 bg-white rounded-lg border border-gray-200">
                 <p className="text-sm text-muted-foreground mb-2">AI Generated Response:</p>
                 <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded border">
                   {sampleResponse}
                 </div>
-              </div>
-            )}
+              </div>}
           </CardContent>
         </Card>
 
@@ -495,11 +413,7 @@ The Team`);
                 Reply to Existing Reviews
               </label>
             </div>
-            <Switch
-              checked={replyToExistingReviews}
-              onCheckedChange={handleToggleReplyToExisting}
-              className="data-[state=checked]:bg-primary"
-            />
+            <Switch checked={replyToExistingReviews} onCheckedChange={handleToggleReplyToExisting} className="data-[state=checked]:bg-primary" />
           </div>
           <p className="text-xs text-muted-foreground mt-2">
             Enable this to automatically reply to reviews that were posted before enabling AI responses.
@@ -508,16 +422,11 @@ The Team`);
 
         {/* Save Button */}
         <div className="flex justify-end pt-4">
-          <Button 
-            onClick={handleSaveSettings}
-            disabled={isSaving}
-            className="flex items-center gap-2"
-          >
+          <Button onClick={handleSaveSettings} disabled={isSaving} className="flex items-center gap-2">
             {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
             Save AI Settings
           </Button>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
