@@ -136,7 +136,7 @@ export const CustomNotificationsTab: React.FC = () => {
                 <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
                 ...prev,
                 selectedListings: listings
-              }))} hideStatusBadges={true} />
+              }))} hideStatusBadges={true} hideGroups={true} />
               </div>
               
               
@@ -232,7 +232,7 @@ export const CustomNotificationsTab: React.FC = () => {
                             <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
                           ...prev,
                           selectedListings: listings
-                        }))} hideStatusBadges={true} />
+                        }))} hideStatusBadges={true} hideGroups={true} />
                           </div>
                           
                           <div>

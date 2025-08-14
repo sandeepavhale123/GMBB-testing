@@ -15,6 +15,7 @@ interface BulkReplyListingSelectorProps {
   error?: string;
   projectId?: string;
   hideStatusBadges?: boolean;
+  hideGroups?: boolean;
 }
 
 interface BulkReplyListingOption {
@@ -35,7 +36,8 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
   onOptionsChange,
   error,
   projectId,
-  hideStatusBadges = false
+  hideStatusBadges = false,
+  hideGroups = false
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<BulkReplyListingOption[]>([]);
@@ -254,7 +256,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                 ) : (
                   <div className="space-y-1">
                     {/* Groups Section */}
-                    {groupOptions.length > 0 && (
+                    {!hideGroups && groupOptions.length > 0 && (
                       <div>
                         <Collapsible open={groupsOpen} onOpenChange={setGroupsOpen}>
                           <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
