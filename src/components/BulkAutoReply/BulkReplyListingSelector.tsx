@@ -196,7 +196,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-medium">Select Locations & Groups</Label>
+      <Label className="text-sm font-medium">Select Locations</Label>
       
       {/* Selected items display */}
       {selectedListings.length > 0 && (
