@@ -7,7 +7,8 @@ import {
   Palette, 
   FileText, 
   Settings,
-  Menu
+  Menu,
+  Bell
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
@@ -44,6 +45,11 @@ const settingsNavItems: SettingsNavItem[] = [
     label: 'Report Branding',
     path: '/main-dashboard/settings/report-branding',
     icon: FileText
+  },
+  {
+    label: 'Notifications',
+    path: '/main-dashboard/settings/notifications',
+    icon: Bell
   },
   {
     label: 'Integrations',

@@ -17,6 +17,7 @@ import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/T
 import { SubscriptionWrapper } from "@/multiDashboardLayout/components/settings/SubscriptionWrapper";
 import { BrandingWrapper } from "@/multiDashboardLayout/components/settings/BrandingWrapper";
 import { ReportBrandingWrapper } from "@/multiDashboardLayout/components/settings/ReportBrandingWrapper";
+import { NotificationsWrapper } from "@/multiDashboardLayout/components/settings/NotificationsWrapper";
 import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/IntegrationsWrapper";
 import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
@@ -94,6 +95,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "report-branding",
             element: <ReportBrandingWrapper />,
+          },
+          {
+            path: "notifications",
+            element: <NotificationsWrapper />,
           },
           {
             path: "integrations",
