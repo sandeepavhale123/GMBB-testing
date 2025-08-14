@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Search, Plus, Trash2, X } from 'lucide-react';
+import { Search, Plus, Trash2, X, Loader2 } from 'lucide-react';
 import { useDeleteListingFromProjectMutation, useAddListingsToProjectMutation } from '@/api/bulkAutoReplyApi';
 import { toast } from '@/hooks/use-toast';
 import { BulkReplyListingSelector } from './BulkReplyListingSelector';
@@ -37,7 +37,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [deleteListingFromProject] = useDeleteListingFromProjectMutation();
-  const [addListingsToProject] = useAddListingsToProjectMutation();
+  const [addListingsToProject, { isLoading: isAddingListings }] = useAddListingsToProjectMutation();
   
   const filteredLocations = listingDetails.filter(location => location.locationName.toLowerCase().includes(searchQuery.toLowerCase()));
   const itemsPerPage = 10;
@@ -237,9 +237,16 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               </Button>
               <Button 
                 onClick={handleAddListings} 
-                disabled={selectedListings.length === 0}
+                disabled={selectedListings.length === 0 || isAddingListings}
               >
-                Add Selected ({selectedListings.length})
+                {isAddingListings ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Adding...
+                  </>
+                ) : (
+                  `Add Selected (${selectedListings.length})`
+                )}
               </Button>
             </div>
           </div>
