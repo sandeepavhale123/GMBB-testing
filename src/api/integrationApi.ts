@@ -116,6 +116,37 @@ export interface CustomEmailSettingResponse {
   data: [];
 }
 
+export interface GetCustomEmailSettingsPayload {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface CustomEmailNotification {
+  id: string;
+  locationName: string;
+  cc_email: string;
+}
+
+export interface GetCustomEmailSettingsResponse {
+  code: number;
+  message: string;
+  data: {
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
+    };
+    results: CustomEmailNotification[];
+  };
+}
+
+export const getCustomEmailSettings = async (data: GetCustomEmailSettingsPayload) => {
+  const response = await axiosInstance.post("/get-custom-email-setting", data);
+  return response.data as GetCustomEmailSettingsResponse;
+};
+
 export const updateCustomEmailSetting = async (data: CustomEmailSettingPayload) => {
   const response = await axiosInstance.post("/update-custom-email-setting", data);
   return response.data as CustomEmailSettingResponse;

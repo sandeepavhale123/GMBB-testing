@@ -1,235 +1,205 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Plus, Edit, Trash2, Search, Loader2 } from 'lucide-react';
-import { BulkReplyListingSelector } from '@/components/BulkAutoReply/BulkReplyListingSelector';
-import { updateCustomEmailSetting } from '@/api/integrationApi';
-import { useToast } from '@/hooks/use-toast';
-interface CustomNotification {
-  id: string;
+import React, { useState, useMemo } from "react";
+import { Search, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
+import { updateCustomEmailSetting, CustomEmailSettingPayload, CustomEmailNotification } from "@/api/integrationApi";
+import { useToast } from "@/hooks/use-toast";
+import { useCustomEmailSettings } from "@/hooks/useCustomEmailSettings";
+import { useQueryClient } from "@tanstack/react-query";
+
+// Interface definitions
+interface FormData {
   selectedListings: string[];
   reportType: string;
-  frequency: 'daily' | 'when-updated';
-  recipients: string[];
-  status: 'active' | 'paused';
-  lastSent?: string;
+  frequency: string;
+  recipients: string;
 }
-const CUSTOM_NOTIFICATIONS: CustomNotification[] = [{
-  id: '1',
-  selectedListings: ['listing-downtown', 'listing-main'],
-  reportType: 'GMB Health Report',
-  frequency: 'daily',
-  recipients: ['manager@downtown.com', 'owner@company.com'],
-  status: 'active',
-  lastSent: '2024-01-15 09:00'
-}, {
-  id: '2',
-  selectedListings: ['group-mall-locations'],
-  reportType: 'Review Report',
-  frequency: 'when-updated',
-  recipients: ['mall-manager@company.com'],
-  status: 'active',
-  lastSent: '2024-01-14 16:30'
-}, {
-  id: '3',
-  selectedListings: ['listing-airport', 'group-regional'],
-  reportType: 'Insight Report',
-  frequency: 'daily',
-  recipients: ['airport@company.com', 'analytics@company.com'],
-  status: 'paused'
-}];
-const REPORT_TYPES = ['GMB Health Report', 'Review Report', 'Post Report', 'Insight Report', 'GEO Ranking Report', 'Citation Audit Report'];
+
+const REPORT_TYPES = [
+  "GMB Posts",
+  "GMB Reviews", 
+  "Geo Ranking",
+  "All Reports"
+];
+
 export const CustomNotificationsTab: React.FC = () => {
-  const [notifications, setNotifications] = useState<CustomNotification[]>(CUSTOM_NOTIFICATIONS);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editingNotification, setEditingNotification] = useState<CustomNotification | null>(null);
+  const [editingNotification, setEditingNotification] = useState<CustomEmailNotification | null>(null);
   const [isAddingNotification, setIsAddingNotification] = useState(false);
   const { toast } = useToast();
-
-  // Form state
-  const [formData, setFormData] = useState({
-    selectedListings: [] as string[],
-    reportType: '',
-    frequency: 'daily' as 'daily' | 'when-updated',
-    recipients: ''
+  const queryClient = useQueryClient();
+  
+  const [formData, setFormData] = useState<FormData>({
+    selectedListings: [],
+    reportType: "",
+    frequency: "",
+    recipients: "",
   });
-  const filteredNotifications = notifications.filter(notification => notification.recipients.some(email => email.toLowerCase().includes(searchTerm.toLowerCase())) || notification.reportType.toLowerCase().includes(searchTerm.toLowerCase()));
-  // Helper functions for API integration
+
+  const limit = 10;
+
+  // Fetch custom email settings
+  const { data, isLoading, error, refetch } = useCustomEmailSettings({
+    page: currentPage,
+    limit,
+    search: searchTerm,
+  });
+
+  const notifications = data?.data?.results || [];
+  const pagination = data?.data?.pagination;
+
+  // Helper functions
   const transformSelectedListingsToLocationIds = (selectedListings: string[]): number[] => {
     return selectedListings
-      .filter(listing => !listing.startsWith('group-')) // Filter out groups
-      .map(listing => parseInt(listing, 10))
-      .filter(id => !isNaN(id)); // Filter out invalid numbers
+      .map(id => parseInt(id.replace('listing-', ''), 10))
+      .filter(id => !isNaN(id));
   };
 
-  const formatEmailsForApi = (emails: string): string => {
-    return emails
+  const formatEmailsForApi = (emailString: string): string => {
+    return emailString
       .split(',')
       .map(email => email.trim())
       .filter(email => email.length > 0)
-      .join(' , '); // API expects space before and after comma
+      .join(',');
   };
 
   const handleAddNotification = async () => {
+    if (!formData.selectedListings.length || !formData.recipients) {
+      toast({
+        title: "Validation Error",
+        description: "Please select at least one listing and provide email recipients.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsAddingNotification(true);
     
     try {
-      // Transform data for API
-      const locationIds = transformSelectedListingsToLocationIds(formData.selectedListings);
-      const formattedEmails = formatEmailsForApi(formData.recipients);
-      
-      // Validate data
-      if (locationIds.length === 0) {
-        toast({
-          title: "Error",
-          description: "Please select at least one location (groups are not supported).",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      if (!formattedEmails) {
-        toast({
-          title: "Error", 
-          description: "Please enter at least one email address.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Call API
-      await updateCustomEmailSetting({
-        locationIds,
-        email: formattedEmails
-      });
-
-      // Update local state only on success
-      const newNotification: CustomNotification = {
-        id: Date.now().toString(),
-        selectedListings: formData.selectedListings,
-        reportType: formData.reportType,
-        frequency: formData.frequency,
-        recipients: formData.recipients.split(',').map(email => email.trim()),
-        status: 'active'
+      const payload: CustomEmailSettingPayload = {
+        locationIds: transformSelectedListingsToLocationIds(formData.selectedListings),
+        email: formatEmailsForApi(formData.recipients),
       };
+
+      const response = await updateCustomEmailSetting(payload);
       
-      setNotifications(prev => [...prev, newNotification]);
-      setFormData({
-        selectedListings: [],
-        reportType: '',
-        frequency: 'daily',
-        recipients: ''
-      });
-      setIsAddModalOpen(false);
-      
-      toast({
-        title: "Success",
-        description: "Custom email notification added successfully.",
-      });
-      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Custom notification added successfully!",
+        });
+        
+        setFormData({
+          selectedListings: [],
+          reportType: "",
+          frequency: "",
+          recipients: "",
+        });
+        setIsAddModalOpen(false);
+        
+        // Refetch data to update the table
+        queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
+      } else {
+        throw new Error(response.message || "Failed to add notification");
+      }
     } catch (error) {
-      console.error('Error adding custom notification:', error);
+      console.error("Error adding notification:", error);
       toast({
         title: "Error",
-        description: "Failed to add custom notification. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to add custom notification. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsAddingNotification(false);
     }
   };
-  const handleEditNotification = (notification: CustomNotification) => {
-    setEditingNotification(notification);
-    setFormData({
-      selectedListings: notification.selectedListings,
-      reportType: notification.reportType,
-      frequency: notification.frequency,
-      recipients: notification.recipients.join(', ')
-    });
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page when searching
   };
-  const handleUpdateNotification = () => {
-    if (!editingNotification) return;
-    setNotifications(prev => prev.map(notification => notification.id === editingNotification.id ? {
-      ...notification,
-      selectedListings: formData.selectedListings,
-      reportType: formData.reportType,
-      frequency: formData.frequency,
-      recipients: formData.recipients.split(',').map(email => email.trim())
-    } : notification));
-    setEditingNotification(null);
-    setFormData({
-      selectedListings: [],
-      reportType: '',
-      frequency: 'daily',
-      recipients: ''
-    });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
-  const handleDeleteNotification = (id: string) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
-  };
-  const toggleNotificationStatus = (id: string) => {
-    setNotifications(prev => prev.map(notification => notification.id === id ? {
-      ...notification,
-      status: notification.status === 'active' ? 'paused' : 'active'
-    } : notification));
-  };
-  return <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input placeholder="Search by report type or recipient..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10 w-80" />
-          </div>
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">Failed to load custom notifications.</p>
+          <Button onClick={() => refetch()} className="mt-2">
+            Try Again
+          </Button>
         </div>
-        
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Search and Add Button */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search by location name or email..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
+            <Button disabled={isAddingNotification}>
+              {isAddingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Add Custom Recipient
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Add Custom Notification</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="selectedListings">Locations & Groups</Label>
-                <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
-                ...prev,
-                selectedListings: listings
-              }))} hideStatusBadges={true} hideGroups={true} />
+                <label className="text-sm font-medium mb-2 block">Select Listings/Groups</label>
+                <BulkReplyListingSelector
+                  selectedListings={formData.selectedListings}
+                  onListingsChange={(selected) => 
+                    setFormData(prev => ({ ...prev, selectedListings: selected }))
+                  }
+                  hideStatusBadges={true}
+                  hideGroups={true}
+                />
               </div>
-              
-              
-              
-              
-              
               <div>
-                <Label htmlFor="recipients">Email Recipients</Label>
-                <Textarea id="recipients" value={formData.recipients} onChange={e => setFormData(prev => ({
-                ...prev,
-                recipients: e.target.value
-              }))} placeholder="Enter email addresses separated by commas" rows={3} />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Separate multiple email addresses with commas
-                </p>
+                <label className="text-sm font-medium mb-2 block">Email Recipients</label>
+                <Textarea
+                  placeholder="Enter email addresses separated by commas"
+                  value={formData.recipients}
+                  onChange={(e) => 
+                    setFormData(prev => ({ ...prev, recipients: e.target.value }))
+                  }
+                  rows={3}
+                />
               </div>
-              
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>
+              <div className="flex justify-end gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setIsAddModalOpen(false)}
+                >
                   Cancel
                 </Button>
                 <Button 
-                  onClick={handleAddNotification} 
+                  onClick={handleAddNotification}
                   disabled={!formData.selectedListings.length || !formData.recipients || isAddingNotification}
                 >
                   {isAddingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -241,85 +211,114 @@ export const CustomNotificationsTab: React.FC = () => {
         </Dialog>
       </div>
 
+      {/* Table */}
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Locations & Groups</TableHead>
-              <TableHead>Recipients</TableHead>
-              <TableHead className="w-32">Actions</TableHead>
+              <TableHead>Location Name</TableHead>
+              <TableHead>Email Recipients</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredNotifications.map(notification => <TableRow key={notification.id}>
-                <TableCell>
-                  <div className="flex flex-wrap gap-1">
-                    {notification.selectedListings.map((listingId, index) => <Badge key={listingId} variant="secondary" className="text-xs">
-                        {listingId.startsWith('group-') ? 'Group' : 'Location'} {index + 1}
-                      </Badge>)}
-                  </div>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto" />
+                  <p className="text-muted-foreground mt-2">Loading notifications...</p>
                 </TableCell>
-                <TableCell>
-                  <div className="text-sm">
-                    {notification.recipients.map((email, index) => <div key={index} className="text-muted-foreground">{email}</div>)}
-                  </div>
+              </TableRow>
+            ) : notifications.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                  No custom notifications found
                 </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => handleEditNotification(notification)}>
-                          <Edit className="h-3 w-3" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Edit Custom Notification</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <Label htmlFor="edit-selectedListings">Locations & Groups</Label>
-                            <BulkReplyListingSelector selectedListings={formData.selectedListings} onListingsChange={listings => setFormData(prev => ({
-                          ...prev,
-                          selectedListings: listings
-                        }))} hideStatusBadges={true} hideGroups={true} />
-                          </div>
-                          
-                          <div>
-                            <Label htmlFor="edit-recipients">Email Recipients</Label>
-                            <Textarea id="edit-recipients" value={formData.recipients} onChange={e => setFormData(prev => ({
-                          ...prev,
-                          recipients: e.target.value
-                        }))} rows={3} />
-                          </div>
-                          
-                          <div className="flex justify-end space-x-2">
-                            <Button variant="outline" onClick={() => setEditingNotification(null)}>
-                              Cancel
-                            </Button>
-                            <Button onClick={handleUpdateNotification}>
-                              Update
-                            </Button>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                    
-                    <Button variant="outline" size="sm" onClick={() => handleDeleteNotification(notification.id)} className="text-destructive hover:text-destructive">
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>)}
+              </TableRow>
+            ) : (
+              notifications.map((notification) => (
+                <TableRow key={notification.id}>
+                  <TableCell>
+                    <div className="font-medium">
+                      {notification.locationName}
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-xs">
+                    <div className="text-sm">
+                      {notification.cc_email}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setEditingNotification(notification)}
+                      >
+                        Edit
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
 
-      {filteredNotifications.length === 0 && <div className="text-center py-12">
-          <p className="text-muted-foreground">No custom notifications found.</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {searchTerm ? 'Try adjusting your search terms.' : 'Add your first custom notification above.'}
-          </p>
-        </div>}
-    </div>;
+      {/* Pagination */}
+      {pagination && pagination.pages > 1 && (
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-muted-foreground">
+            Showing {(currentPage - 1) * limit + 1} to {Math.min(currentPage * limit, pagination.total)} of {pagination.total} results
+          </div>
+          <Pagination>
+            <PaginationContent>
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
+                </PaginationItem>
+              )}
+              
+              {Array.from({ length: pagination.pages }, (_, i) => i + 1)
+                .filter(page => 
+                  page === 1 || 
+                  page === pagination.pages || 
+                  Math.abs(page - currentPage) <= 1
+                )
+                .map((page, index, array) => (
+                  <React.Fragment key={page}>
+                    {index > 0 && array[index - 1] !== page - 1 && (
+                      <PaginationItem>
+                        <span className="px-2">...</span>
+                      </PaginationItem>
+                    )}
+                    <PaginationItem>
+                      <PaginationLink
+                        onClick={() => handlePageChange(page)}
+                        isActive={currentPage === page}
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  </React.Fragment>
+                ))}
+              
+              {currentPage < pagination.pages && (
+                <PaginationItem>
+                  <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
+    </div>
+  );
 };
