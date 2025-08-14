@@ -141,6 +141,12 @@ export interface DeleteListingFromProjectResponse {
   data: any[];
 }
 
+export interface AddListingToProjectResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export const bulkAutoReplyApi = createApi({
   reducerPath: 'bulkAutoReplyApi',
   baseQuery: axiosBaseQuery(),
@@ -187,9 +193,9 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
-    addListingsToProject: builder.mutation<void, { projectId: number; listingIds: string[] }>({
+    addListingsToProject: builder.mutation<AddListingToProjectResponse, { projectId: number; listingIds: number[] }>({
       query: ({ projectId, listingIds }) => ({
-        url: '/add-listings-to-project',
+        url: '/add-listing-for-project',
         method: 'POST',
         data: { projectId, listingIds },
       }),

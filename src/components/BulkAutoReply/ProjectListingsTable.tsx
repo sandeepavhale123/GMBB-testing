@@ -89,14 +89,14 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
     }
 
     try {
-      await addListingsToProject({
+      const response = await addListingsToProject({
         projectId: parseInt(projectId),
-        listingIds: selectedListings
+        listingIds: selectedListings.map(id => parseInt(id))
       }).unwrap();
       
       toast({
         title: "Success",
-        description: `${selectedListings.length} listing(s) added to project successfully`,
+        description: response.message || `${selectedListings.length} listing(s) added to project successfully`,
         variant: "default"
       });
       
