@@ -196,7 +196,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-medium">Select Listings & Groups</Label>
+      <Label className="text-sm font-medium">Select Locations & Groups</Label>
       
       {/* Selected items display */}
       {selectedListings.length > 0 && (
@@ -227,7 +227,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
             onClick={() => setOpen(!open)}
           >
             {selectedListings.length === 0 
-              ? (isLoading ? "Loading..." : "Select listings and groups...") 
+              ? (isLoading ? "Loading..." : "Select locations and groups...") 
               : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`
             }
             <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -240,7 +240,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Search listings and groups..." 
+                  placeholder="Search locations and groups..." 
                   value={searchTerm} 
                   onChange={e => setSearchTerm(e.target.value)} 
                   className="pl-8 w-full" 
@@ -251,7 +251,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
               <div className="mt-3 max-h-60 overflow-y-auto">
                 {filteredOptions.length === 0 ? (
                   <div className="py-6 text-center text-sm text-muted-foreground">
-                    {isLoading ? "Loading..." : "No listings found."}
+                    {isLoading ? "Loading..." : "No location found."}
                   </div>
                 ) : (
                   <div className="space-y-1">
@@ -283,7 +283,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                                    <span>{option.name}</span>
                                    {!hideStatusBadges && option.locCount && (
                                      <div className="flex items-center">
-                                       <span className="text-xs text-muted-foreground mr-1">Listings</span>
+                                       <span className="text-xs text-muted-foreground mr-1">Locations</span>
                                        <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
                                          {option.locCount}
                                        </span>
@@ -351,7 +351,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
       
       {selectedListings.length === 0 && !error && (
         <p className="text-xs text-muted-foreground">
-          Select at least one listing or group to continue
+          Select at least one location or group to continue
         </p>
       )}
       
