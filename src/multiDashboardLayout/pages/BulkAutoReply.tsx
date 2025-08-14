@@ -172,7 +172,7 @@ export const BulkAutoReply: React.FC = () => {
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="gap-2">
           <Plus className="w-4 h-4" />
-          Create Auto Reply
+          Create Project
         </Button>
       </div>
 
