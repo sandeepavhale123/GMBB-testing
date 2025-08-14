@@ -153,10 +153,6 @@ export const ReportNotificationsTab: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-           
-            <label htmlFor="select-all" className="text-sm font-medium">
-              Select All Reports
-            </label>
           </div>
         </div>
         <Button className="flex items-center gap-2">
@@ -169,7 +165,7 @@ export const ReportNotificationsTab: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">
+              <TableHead className="w-12 flex items-center gap-2">
                  <Checkbox 
               id="select-all"
               checked={selectAll}
@@ -178,7 +174,6 @@ export const ReportNotificationsTab: React.FC = () => {
                 Select
               </TableHead>
               <TableHead>Report Type</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead>Frequency</TableHead>
               <TableHead className="w-24">Actions</TableHead>
             </TableRow>
@@ -214,14 +209,6 @@ export const ReportNotificationsTab: React.FC = () => {
                         </TooltipProvider>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="secondary" 
-                      className={report.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}
-                    >
-                      {report.status}
-                    </Badge>
                   </TableCell>
                   <TableCell>
                     <Select 
