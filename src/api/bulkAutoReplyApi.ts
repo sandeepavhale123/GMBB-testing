@@ -186,6 +186,13 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
+    addListingsToProject: builder.mutation<void, { projectId: number; listingIds: string[] }>({
+      query: ({ projectId, listingIds }) => ({
+        url: '/add-listings-to-project',
+        method: 'POST',
+        data: { projectId, listingIds },
+      }),
+    }),
   }),
 });
 
@@ -195,5 +202,6 @@ export const {
   useGetBulkProjectDetailsMutation,
   useUpdateBulkTemplateAutoReplyMutation,
   useSaveBulkAIAutoReplyMutation,
-  useDeleteListingFromProjectMutation
+  useDeleteListingFromProjectMutation,
+  useAddListingsToProjectMutation
 } = bulkAutoReplyApi;

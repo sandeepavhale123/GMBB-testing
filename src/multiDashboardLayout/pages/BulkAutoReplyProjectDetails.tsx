@@ -86,8 +86,6 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             {/* Column 2: Locations Table */}
             <div className="space-y-6">
               <ProjectListingsTable 
-                showAddModal={showAddLocationModal} 
-                onCloseAddModal={() => setShowAddLocationModal(false)} 
                 listingDetails={projectData?.data?.listingDetails} 
                 projectId={projectId}
                 onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}
@@ -106,8 +104,6 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             
             {/* Locations Table */}
             <ProjectListingsTable 
-              showAddModal={showAddLocationModal} 
-              onCloseAddModal={() => setShowAddLocationModal(false)} 
               listingDetails={projectData?.data?.listingDetails} 
               projectId={projectId}
               onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}
@@ -125,8 +121,6 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
             
             {/* Locations Table */}
             <ProjectListingsTable 
-              showAddModal={showAddLocationModal} 
-              onCloseAddModal={() => setShowAddLocationModal(false)} 
               listingDetails={projectData?.data?.listingDetails} 
               projectId={projectId}
               onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}

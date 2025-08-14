@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
-import { Search, Plus, Trash2 } from 'lucide-react';
-import { useDeleteListingFromProjectMutation } from '@/api/bulkAutoReplyApi';
+import { Search, Plus, Trash2, X } from 'lucide-react';
+import { useDeleteListingFromProjectMutation, useAddListingsToProjectMutation } from '@/api/bulkAutoReplyApi';
 import { toast } from '@/hooks/use-toast';
+import { BulkReplyListingSelector } from './BulkReplyListingSelector';
+
 interface Location {
   id: string;
   locationName: string;
@@ -18,24 +19,24 @@ interface Location {
   setting: string;
   setting_type: string;
 }
+
 interface ProjectListingsTableProps {
-  showAddModal: boolean;
-  onCloseAddModal: () => void;
   listingDetails?: Location[];
   projectId?: string;
   onListingDeleted?: () => void;
 }
+
 export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
-  showAddModal,
-  onCloseAddModal,
   listingDetails = [],
   projectId,
   onListingDeleted
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [showAddSelector, setShowAddSelector] = useState(false);
+  const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [deleteListingFromProject] = useDeleteListingFromProjectMutation();
+  const [addListingsToProject] = useAddListingsToProjectMutation();
   
   const filteredLocations = listingDetails.filter(location => location.locationName.toLowerCase().includes(searchQuery.toLowerCase()));
   const itemsPerPage = 10;
@@ -49,7 +50,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
       toast({
         title: "Error",
         description: "Project ID is required to delete listing",
-        variant: "error"
+        variant: "destructive"
       });
       return;
     }
@@ -63,24 +64,60 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
       toast({
         title: "Success",
         description: "Listing removed from project successfully",
-        variant: "success"
+        variant: "default"
       });
       
-      // Trigger refresh of project details
       onListingDeleted?.();
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to remove listing from project",
-        variant: "error"
+        variant: "destructive"
       });
     }
   };
-  const handleAddLocation = (selectedLocations: string[]) => {
-    console.log('Adding locations:', selectedLocations);
-    onCloseAddModal();
+
+  const handleAddListings = async () => {
+    if (!projectId || selectedListings.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please select at least one listing to add",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      await addListingsToProject({
+        projectId: parseInt(projectId),
+        listingIds: selectedListings
+      }).unwrap();
+      
+      toast({
+        title: "Success",
+        description: `${selectedListings.length} listing(s) added to project successfully`,
+        variant: "default"
+      });
+      
+      setSelectedListings([]);
+      setShowAddSelector(false);
+      onListingDeleted?.();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add listings to project",
+        variant: "destructive"
+      });
+    }
   };
-  return <>
+
+  const handleCancelAdd = () => {
+    setSelectedListings([]);
+    setShowAddSelector(false);
+  };
+
+  return (
+    <>
       <Card>
         <CardContent className="mt-[20px]">
           {/* Filters */}
@@ -89,11 +126,49 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input placeholder="Search locations..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
             </div>
-            <Button onClick={() => {}} variant="outline" className="flex items-center gap-2">
+            <Button 
+              onClick={() => setShowAddSelector(!showAddSelector)} 
+              variant="outline" 
+              className="flex items-center gap-2"
+            >
               <Plus className="h-4 w-4" />
               Add Location
             </Button>
           </div>
+
+          {/* Add Listings Selector */}
+          {showAddSelector && (
+            <div className="mb-6 p-4 border rounded-lg bg-muted/20">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-medium">Add Listings to Project</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleCancelAdd}
+                  className="h-6 w-6 p-0"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <BulkReplyListingSelector
+                selectedListings={selectedListings}
+                onListingsChange={setSelectedListings}
+              />
+              
+              <div className="flex justify-end gap-2 mt-4">
+                <Button variant="outline" onClick={handleCancelAdd}>
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleAddListings} 
+                  disabled={selectedListings.length === 0}
+                >
+                  Add Selected ({selectedListings.length})
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Table */}
           <div className="border rounded-lg">
@@ -106,11 +181,15 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {currentLocations.length === 0 ? <TableRow>
+                {currentLocations.length === 0 ? (
+                  <TableRow>
                     <TableCell colSpan={3} className="text-center py-8 text-gray-500">
                       No locations found
                     </TableCell>
-                  </TableRow> : currentLocations.map(location => <TableRow key={location.id}>
+                  </TableRow>
+                ) : (
+                  currentLocations.map(location => (
+                    <TableRow key={location.id}>
                       <TableCell className="font-medium">{location.locationName}</TableCell>
                       <TableCell>{location.zipCode || 'N/A'}</TableCell>
                       <TableCell className="text-right">
@@ -137,122 +216,39 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
                           </AlertDialogContent>
                         </AlertDialog>
                       </TableCell>
-                    </TableRow>)}
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && <div className="flex justify-center mt-6">
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-6">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'} />
                   </PaginationItem>
                   
-                  {Array.from({
-                length: totalPages
-              }, (_, i) => i + 1).map(page => <PaginationItem key={page}>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <PaginationItem key={page}>
                       <PaginationLink onClick={() => setCurrentPage(page)} isActive={currentPage === page} className="cursor-pointer">
                         {page}
                       </PaginationLink>
-                    </PaginationItem>)}
+                    </PaginationItem>
+                  ))}
                   
                   <PaginationItem>
                     <PaginationNext onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'} />
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
-            </div>}
+            </div>
+          )}
         </CardContent>
       </Card>
-
-      {/* Add Location Modal */}
-      <AddLocationModal open={showAddModal} onOpenChange={onCloseAddModal} onAddLocations={handleAddLocation} />
-    </>;
-};
-
-// Add Location Modal Component
-interface AddLocationModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onAddLocations: (locationIds: string[]) => void;
-}
-const AddLocationModal: React.FC<AddLocationModalProps> = ({
-  open,
-  onOpenChange,
-  onAddLocations
-}) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-
-  // Mock available locations
-  const availableLocations = [{
-    id: 'a1',
-    name: 'New Restaurant XYZ',
-    platform: 'Google'
-  }, {
-    id: 'a2',
-    name: 'Trendy Bar & Grill',
-    platform: 'Yelp'
-  }, {
-    id: 'a3',
-    name: 'Family Diner',
-    platform: 'TripAdvisor'
-  }, {
-    id: 'a4',
-    name: 'Sushi Express',
-    platform: 'Google'
-  }];
-  const filteredAvailableLocations = availableLocations.filter(location => location.name.toLowerCase().includes(searchQuery.toLowerCase()));
-  const handleToggleSelection = (locationId: string) => {
-    setSelectedLocations(prev => prev.includes(locationId) ? prev.filter(id => id !== locationId) : [...prev, locationId]);
-  };
-  const handleAdd = () => {
-    onAddLocations(selectedLocations);
-    setSelectedLocations([]);
-    setSearchQuery('');
-  };
-  return <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Add Locations to Project</DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input placeholder="Search available locations..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
-          </div>
-
-          <div className="border rounded-lg max-h-64 overflow-y-auto">
-            {filteredAvailableLocations.length === 0 ? <div className="p-4 text-center text-gray-500">
-                No locations available
-              </div> : <div className="divide-y">
-                {filteredAvailableLocations.map(location => <div key={location.id} className="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer" onClick={() => handleToggleSelection(location.id)}>
-                    <input type="checkbox" checked={selectedLocations.includes(location.id)} onChange={() => handleToggleSelection(location.id)} className="rounded" />
-                    <div className="flex-1">
-                      <p className="font-medium">{location.name}</p>
-                      <p className="text-sm text-gray-500">{location.platform}</p>
-                    </div>
-                  </div>)}
-              </div>}
-          </div>
-
-          <div className="flex justify-between items-center pt-4 border-t">
-            <p className="text-sm text-gray-600">
-              {selectedLocations.length} location(s) selected
-            </p>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleAdd} disabled={selectedLocations.length === 0}>
-                Add Selected
-              </Button>
-            </div>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>;
+    </>
+  );
 };
