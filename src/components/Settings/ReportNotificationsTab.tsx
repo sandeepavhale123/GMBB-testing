@@ -31,18 +31,7 @@ interface ReportType {
 }
 
 const REPORT_TYPES: ReportType[] = [
-  {
-    id: 'gmb-health',
-    name: 'GMB Health Report',
-    description: 'Comprehensive health check of your Google My Business listing',
-    icon: Heart,
-    enabled: true,
-    frequency: 'daily',
-    recipients: 'Default recipients',
-    lastSent: '2024-01-15 09:00',
-    nextScheduled: '2024-01-16 09:00',
-    status: 'active'
-  },
+  
   {
     id: 'review-report',
     name: 'Review Report',
@@ -64,63 +53,17 @@ const REPORT_TYPES: ReportType[] = [
     recipients: 'Default recipients',
     status: 'paused'
   },
-  {
-    id: 'insight-report',
-    name: 'Insight Report',
-    description: 'Customer interaction insights and analytics',
-    icon: BarChart3,
-    enabled: true,
-    frequency: 'daily',
-    recipients: 'Custom: admin@company.com',
-    lastSent: '2024-01-15 09:00',
-    nextScheduled: '2024-01-16 09:00',
-    status: 'active'
-  },
+  
   {
     id: 'geo-ranking',
     name: 'GEO Ranking Report',
     description: 'Local search ranking performance',
     icon: MapPin,
-    enabled: true,
-    frequency: 'daily',
+    enabled: false,
+    frequency: 'off',
     recipients: 'Default recipients',
-    lastSent: '2024-01-15 08:00',
-    nextScheduled: '2024-01-16 08:00',
-    status: 'active'
+    status: 'paused'
   },
-  {
-    id: 'citation-audit',
-    name: 'Citation Audit Report',
-    description: 'Business listing consistency across directories',
-    icon: Search,
-    enabled: true,
-    frequency: 'when-updated',
-    recipients: 'Default recipients',
-    lastSent: '2024-01-12 11:15',
-    status: 'active'
-  },
-  {
-    id: 'gmb-posts',
-    name: 'GMB Posts',
-    description: 'Notifications for new Google My Business posts',
-    icon: FileText,
-    enabled: true,
-    frequency: 'when-updated',
-    recipients: 'Default recipients',
-    lastSent: '2024-01-15 10:30',
-    status: 'active'
-  },
-  {
-    id: 'new-updated-review',
-    name: 'New/Updated Review',
-    description: 'Instant notifications for new or updated customer reviews',
-    icon: MessageSquare,
-    enabled: true,
-    frequency: 'when-updated',
-    recipients: 'Default recipients',
-    lastSent: '2024-01-15 16:45',
-    status: 'active'
-  }
 ];
 
 export const ReportNotificationsTab: React.FC = () => {
@@ -195,10 +138,10 @@ export const ReportNotificationsTab: React.FC = () => {
               checked={selectAll}
               onCheckedChange={handleSelectAll}
             />
-                Select
               </TableHead>
               <TableHead>Report Type</TableHead>
               <TableHead>Frequency</TableHead>
+              <TableHead className="w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -260,6 +203,12 @@ export const ReportNotificationsTab: React.FC = () => {
                     </Select>
                   </TableCell>
                  
+                  <TableCell>
+                    <Button variant="outline" size="sm" className="flex items-center gap-1">
+                      <Send className="h-3 w-3" />
+                      Test
+                    </Button>
+                  </TableCell>
                 </TableRow>
               );
             })}
