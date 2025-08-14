@@ -117,17 +117,6 @@ export const ReportNotificationsTab: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-          </div>
-        </div>
-        <Button className="flex items-center gap-2">
-          <Send className="h-4 w-4" />
-          Update Notifications
-        </Button>
-      </div>
-
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
@@ -141,7 +130,6 @@ export const ReportNotificationsTab: React.FC = () => {
               </TableHead>
               <TableHead>Report Type</TableHead>
               <TableHead>Frequency</TableHead>
-              <TableHead className="w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -202,28 +190,11 @@ export const ReportNotificationsTab: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                 
-                  <TableCell>
-                    <Button variant="outline" size="sm" className="flex items-center gap-1">
-                      <Send className="h-3 w-3" />
-                      Test
-                    </Button>
-                  </TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
         </Table>
-      </div>
-
-      <div className="bg-muted/50 p-4 rounded-lg">
-        <h3 className="font-medium mb-2">Activity Log</h3>
-        <div className="space-y-2 text-sm text-muted-foreground">
-          <div>• GMB Health Report sent to 3 recipients - Success (Jan 15, 2024 09:00)</div>
-          <div>• Insight Report sent to admin@company.com - Success (Jan 15, 2024 09:00)</div>
-          <div>• Review Report sent to 3 recipients - Success (Jan 14, 2024 14:30)</div>
-          <div>• Citation Audit Report sent to 3 recipients - Success (Jan 12, 2024 11:15)</div>
-        </div>
       </div>
     </div>
   );
