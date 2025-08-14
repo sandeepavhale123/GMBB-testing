@@ -172,11 +172,7 @@ export const CustomNotificationsTab: React.FC = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Locations & Groups</TableHead>
-              <TableHead>Report Type</TableHead>
-              <TableHead>Frequency</TableHead>
               <TableHead>Recipients</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Last Sent</TableHead>
               <TableHead className="w-32">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -190,29 +186,9 @@ export const CustomNotificationsTab: React.FC = () => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{notification.reportType}</span>
-                </TableCell>
-                <TableCell>
-                  <Badge variant="secondary" className={notification.frequency === 'daily' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}>
-                    {notification.frequency === 'daily' ? 'Daily' : 'When Updated'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
                   <div className="text-sm">
                     {notification.recipients.map((email, index) => <div key={index} className="text-muted-foreground">{email}</div>)}
                   </div>
-                </TableCell>
-                <TableCell>
-                  <button onClick={() => toggleNotificationStatus(notification.id)} className="cursor-pointer">
-                    <Badge variant="secondary" className={notification.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}>
-                      {notification.status}
-                    </Badge>
-                  </button>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm text-muted-foreground">
-                    {notification.lastSent || 'Never'}
-                  </span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
@@ -233,37 +209,6 @@ export const CustomNotificationsTab: React.FC = () => {
                           ...prev,
                           selectedListings: listings
                         }))} hideStatusBadges={true} hideGroups={true} />
-                          </div>
-                          
-                          <div>
-                            <Label htmlFor="edit-report-type">Report Type</Label>
-                            <Select value={formData.reportType} onValueChange={value => setFormData(prev => ({
-                          ...prev,
-                          reportType: value
-                        }))}>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {REPORT_TYPES.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          
-                          <div>
-                            <Label htmlFor="edit-frequency">Frequency</Label>
-                            <Select value={formData.frequency} onValueChange={value => setFormData(prev => ({
-                          ...prev,
-                          frequency: value as any
-                        }))}>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="daily">Daily</SelectItem>
-                                <SelectItem value="when-updated">When Updated</SelectItem>
-                              </SelectContent>
-                            </Select>
                           </div>
                           
                           <div>
