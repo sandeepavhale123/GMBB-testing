@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Edit, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -252,16 +252,16 @@ export const CustomNotificationsTab: React.FC = () => {
                     <div className="flex justify-end gap-2">
                       <Button 
                         variant="outline" 
-                        size="sm"
+                        size="icon"
                         onClick={() => setEditingNotification(notification)}
                       >
-                        Edit
+                        <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
                         variant="destructive" 
-                        size="sm"
+                        size="icon"
                       >
-                        Delete
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
