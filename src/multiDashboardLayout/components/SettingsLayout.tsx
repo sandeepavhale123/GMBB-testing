@@ -61,6 +61,11 @@ export const SettingsLayout: React.FC = () => {
   const getActivePath = (itemPath: string) => {
     const currentPath = location.pathname;
     
+    // Handle base settings path - activate Google Account by default
+    if (currentPath === '/main-dashboard/settings') {
+      return '/main-dashboard/settings/google-account';
+    }
+    
     // Handle nested routes - map them to their parent navigation items
     if (currentPath.includes('/team-members/edit/')) {
       return '/main-dashboard/settings/team-members';
