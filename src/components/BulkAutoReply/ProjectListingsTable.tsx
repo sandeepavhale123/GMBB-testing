@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Search, Plus, Trash2, X } from 'lucide-react';
 import { useDeleteListingFromProjectMutation, useAddListingsToProjectMutation } from '@/api/bulkAutoReplyApi';
 import { toast } from '@/hooks/use-toast';
@@ -33,7 +34,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [showAddSelector, setShowAddSelector] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [deleteListingFromProject] = useDeleteListingFromProjectMutation();
   const [addListingsToProject] = useAddListingsToProjectMutation();
@@ -100,7 +101,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
       });
       
       setSelectedListings([]);
-      setShowAddSelector(false);
+      setShowAddModal(false);
       onListingDeleted?.();
     } catch (error) {
       toast({
@@ -113,7 +114,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
 
   const handleCancelAdd = () => {
     setSelectedListings([]);
-    setShowAddSelector(false);
+    setShowAddModal(false);
   };
 
   return (
@@ -127,7 +128,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               <Input placeholder="Search locations..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
             </div>
             <Button 
-              onClick={() => setShowAddSelector(!showAddSelector)} 
+              onClick={() => setShowAddModal(true)} 
               variant="outline" 
               className="flex items-center gap-2"
             >
@@ -135,40 +136,6 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
               Add Location
             </Button>
           </div>
-
-          {/* Add Listings Selector */}
-          {showAddSelector && (
-            <div className="mb-6 p-4 border rounded-lg bg-muted/20">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-medium">Add Listings to Project</h3>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleCancelAdd}
-                  className="h-6 w-6 p-0"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <BulkReplyListingSelector
-                selectedListings={selectedListings}
-                onListingsChange={setSelectedListings}
-              />
-              
-              <div className="flex justify-end gap-2 mt-4">
-                <Button variant="outline" onClick={handleCancelAdd}>
-                  Cancel
-                </Button>
-                <Button 
-                  onClick={handleAddListings} 
-                  disabled={selectedListings.length === 0}
-                >
-                  Add Selected ({selectedListings.length})
-                </Button>
-              </div>
-            </div>
-          )}
 
           {/* Table */}
           <div className="border rounded-lg">
@@ -249,6 +216,34 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
           )}
         </CardContent>
       </Card>
+
+      {/* Add Listings Modal */}
+      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Add Listings to Project</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <BulkReplyListingSelector
+              selectedListings={selectedListings}
+              onListingsChange={setSelectedListings}
+            />
+            
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button variant="outline" onClick={handleCancelAdd}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleAddListings} 
+                disabled={selectedListings.length === 0}
+              >
+                Add Selected ({selectedListings.length})
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
