@@ -151,3 +151,19 @@ export const updateCustomEmailSetting = async (data: CustomEmailSettingPayload) 
   const response = await axiosInstance.post("/update-custom-email-setting", data);
   return response.data as CustomEmailSettingResponse;
 };
+
+// Delete Custom Email Notification APIs
+export interface DeleteCustomEmailSettingPayload {
+  listingIds: number[];
+}
+
+export interface DeleteCustomEmailSettingResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const deleteCustomEmailSetting = async (data: DeleteCustomEmailSettingPayload) => {
+  const response = await axiosInstance.post("/delete-custom-email-setting", data);
+  return response.data as DeleteCustomEmailSettingResponse;
+};

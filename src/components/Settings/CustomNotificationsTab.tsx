@@ -3,12 +3,13 @@ import { Search, Loader2, Edit, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
-import { updateCustomEmailSetting, CustomEmailSettingPayload, CustomEmailNotification } from "@/api/integrationApi";
+import { updateCustomEmailSetting, deleteCustomEmailSetting, CustomEmailSettingPayload, CustomEmailNotification } from "@/api/integrationApi";
 import { useToast } from "@/hooks/use-toast";
 import { useCustomEmailSettings } from "@/hooks/useCustomEmailSettings";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,6 +38,9 @@ export const CustomNotificationsTab: React.FC = () => {
   const [editEmailValue, setEditEmailValue] = useState("");
   const [isAddingNotification, setIsAddingNotification] = useState(false);
   const [isUpdatingNotification, setIsUpdatingNotification] = useState(false);
+  const [deletingNotification, setDeletingNotification] = useState<CustomEmailNotification | null>(null);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+  const [isDeletingNotification, setIsDeletingNotification] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -190,6 +194,57 @@ export const CustomNotificationsTab: React.FC = () => {
     setEditEmailValue("");
   };
 
+  const handleDeleteClick = (notification: CustomEmailNotification) => {
+    setDeletingNotification(notification);
+    setIsDeleteAlertOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deletingNotification) return;
+
+    setIsDeletingNotification(true);
+    
+    try {
+      // Convert notification ID to location ID
+      const locationId = parseInt(deletingNotification.id, 10);
+      if (isNaN(locationId)) {
+        throw new Error("Invalid location ID");
+      }
+
+      const response = await deleteCustomEmailSetting({
+        listingIds: [locationId]
+      });
+      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: response.message || "Email notifications removed successfully.",
+        });
+        
+        // Refetch data to update the table
+        queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
+      } else {
+        throw new Error(response.message || "Failed to delete notification");
+      }
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to delete notification. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeletingNotification(false);
+      setIsDeleteAlertOpen(false);
+      setDeletingNotification(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteAlertOpen(false);
+    setDeletingNotification(null);
+  };
+
   const handleSearch = (value: string) => {
     setSearchTerm(value);
     setCurrentPage(1); // Reset to first page when searching
@@ -322,6 +377,31 @@ export const CustomNotificationsTab: React.FC = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Email Notification</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete the email notification for "{deletingNotification?.locationName}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel} disabled={isDeletingNotification}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              disabled={isDeletingNotification}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isDeletingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Table */}
       <div className="border rounded-lg">
         <Table>
@@ -371,6 +451,8 @@ export const CustomNotificationsTab: React.FC = () => {
                       <Button 
                         variant="destructive" 
                         size="icon"
+                        onClick={() => handleDeleteClick(notification)}
+                        disabled={isDeletingNotification}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
