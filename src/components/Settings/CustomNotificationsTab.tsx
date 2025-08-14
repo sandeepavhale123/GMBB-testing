@@ -33,7 +33,10 @@ export const CustomNotificationsTab: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingNotification, setEditingNotification] = useState<CustomEmailNotification | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editEmailValue, setEditEmailValue] = useState("");
   const [isAddingNotification, setIsAddingNotification] = useState(false);
+  const [isUpdatingNotification, setIsUpdatingNotification] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -120,6 +123,71 @@ export const CustomNotificationsTab: React.FC = () => {
     } finally {
       setIsAddingNotification(false);
     }
+  };
+
+  const handleEditNotification = async () => {
+    if (!editingNotification || !editEmailValue.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please provide email recipients.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUpdatingNotification(true);
+    
+    try {
+      // Convert notification ID to location ID
+      const locationId = parseInt(editingNotification.id, 10);
+      if (isNaN(locationId)) {
+        throw new Error("Invalid location ID");
+      }
+
+      const payload: CustomEmailSettingPayload = {
+        locationIds: [locationId],
+        email: formatEmailsForApi(editEmailValue),
+      };
+
+      const response = await updateCustomEmailSetting(payload);
+      
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Email settings updated successfully!",
+        });
+        
+        setIsEditModalOpen(false);
+        setEditingNotification(null);
+        setEditEmailValue("");
+        
+        // Refetch data to update the table
+        queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
+      } else {
+        throw new Error(response.message || "Failed to update notification");
+      }
+    } catch (error) {
+      console.error("Error updating notification:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update email settings. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUpdatingNotification(false);
+    }
+  };
+
+  const handleEditClick = (notification: CustomEmailNotification) => {
+    setEditingNotification(notification);
+    setEditEmailValue(notification.cc_email);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setIsEditModalOpen(false);
+    setEditingNotification(null);
+    setEditEmailValue("");
   };
 
   const handleSearch = (value: string) => {
@@ -211,6 +279,49 @@ export const CustomNotificationsTab: React.FC = () => {
         </Dialog>
       </div>
 
+      {/* Edit Modal */}
+      <Dialog open={isEditModalOpen} onOpenChange={handleEditModalClose}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Email Settings</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">Location Name</label>
+              <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
+                {editingNotification?.locationName}
+              </div>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Email Recipients</label>
+              <Textarea
+                placeholder="Enter email addresses separated by commas"
+                value={editEmailValue}
+                onChange={(e) => setEditEmailValue(e.target.value)}
+                rows={3}
+                disabled={isUpdatingNotification}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button 
+                variant="outline" 
+                onClick={handleEditModalClose}
+                disabled={isUpdatingNotification}
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleEditNotification}
+                disabled={!editEmailValue.trim() || isUpdatingNotification}
+              >
+                {isUpdatingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Update
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Table */}
       <div className="border rounded-lg">
         <Table>
@@ -253,7 +364,7 @@ export const CustomNotificationsTab: React.FC = () => {
                       <Button 
                         variant="outline" 
                         size="icon"
-                        onClick={() => setEditingNotification(notification)}
+                        onClick={() => handleEditClick(notification)}
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
