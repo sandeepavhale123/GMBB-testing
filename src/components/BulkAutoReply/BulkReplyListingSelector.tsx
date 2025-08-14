@@ -14,6 +14,7 @@ interface BulkReplyListingSelectorProps {
   onOptionsChange?: (options: BulkReplyListingOption[]) => void;
   error?: string;
   projectId?: string;
+  hideStatusBadges?: boolean;
 }
 
 interface BulkReplyListingOption {
@@ -33,7 +34,8 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
   onListingsChange,
   onOptionsChange,
   error,
-  projectId
+  projectId,
+  hideStatusBadges = false
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<BulkReplyListingOption[]>([]);
@@ -275,17 +277,17 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                                 onClick={e => handleSelect(option.id, e)}
                               >
                                 <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                                <div className="flex items-center justify-between w-full">
-                                  <span>{option.name}</span>
-                                  {option.locCount && (
-                                    <div className="flex items-center">
-                                      <span className="text-xs text-muted-foreground mr-1">Listings</span>
-                                      <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                                        {option.locCount}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
+                                 <div className="flex items-center justify-between w-full">
+                                   <span>{option.name}</span>
+                                   {!hideStatusBadges && option.locCount && (
+                                     <div className="flex items-center">
+                                       <span className="text-xs text-muted-foreground mr-1">Listings</span>
+                                       <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                         {option.locCount}
+                                       </span>
+                                     </div>
+                                   )}
+                                 </div>
                               </div>
                             ))}
                           </CollapsibleContent>
@@ -322,14 +324,14 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                                     <span>{option.name}</span>
                                     {option.zipCode && <span className="text-xs text-muted-foreground">{option.zipCode}</span>}
                                   </div>
-                                  {option.setting_type && (
-                                    <Badge 
-                                      variant={getSettingTypeBadgeVariant(option.setting_type)} 
-                                      className="text-xs"
-                                    >
-                                      {option.setting_type}
-                                    </Badge>
-                                  )}
+                                   {!hideStatusBadges && option.setting_type && (
+                                     <Badge 
+                                       variant={getSettingTypeBadgeVariant(option.setting_type)} 
+                                       className="text-xs"
+                                     >
+                                       {option.setting_type}
+                                     </Badge>
+                                   )}
                                 </div>
                               </div>
                             ))}
