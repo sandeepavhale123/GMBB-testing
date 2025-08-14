@@ -153,11 +153,7 @@ export const ReportNotificationsTab: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="select-all"
-              checked={selectAll}
-              onCheckedChange={handleSelectAll}
-            />
+           
             <label htmlFor="select-all" className="text-sm font-medium">
               Select All Reports
             </label>
@@ -173,13 +169,17 @@ export const ReportNotificationsTab: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Select</TableHead>
+              <TableHead className="w-12">
+                 <Checkbox 
+              id="select-all"
+              checked={selectAll}
+              onCheckedChange={handleSelectAll}
+            />
+                Select
+              </TableHead>
               <TableHead>Report Type</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Frequency</TableHead>
-              <TableHead>Recipients</TableHead>
-              <TableHead>Last Sent</TableHead>
-              <TableHead>Next Scheduled</TableHead>
               <TableHead className="w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -249,19 +249,7 @@ export const ReportNotificationsTab: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-muted-foreground">{report.recipients}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-muted-foreground">
-                      {report.lastSent || 'Never'}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-muted-foreground">
-                      {report.nextScheduled || 'Not scheduled'}
-                    </span>
-                  </TableCell>
+                 
                   <TableCell>
                     <Button variant="outline" size="sm" className="flex items-center gap-1">
                       <Send className="h-3 w-3" />
