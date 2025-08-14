@@ -34,8 +34,8 @@ const REPORT_TYPES: ReportType[] = [
   
   {
     id: 'review-report',
-    name: 'Review Report',
-    description: 'Analysis of customer reviews and ratings',
+    name: 'New / Updated Review Report',
+    description: 'Detailed analysis of new and updated customer reviews and ratings, with report notifications sent daily or whenever updates occur.',
     icon: MessageSquare,
     enabled: true,
     frequency: 'when-updated',
@@ -45,8 +45,8 @@ const REPORT_TYPES: ReportType[] = [
   },
   {
     id: 'post-report',
-    name: 'Post Report',
-    description: 'Performance metrics for your GMB posts',
+    name: 'GMB Post Report',
+    description: 'Performance analysis of your GMB posts, with report notifications sent daily or whenever new updates are available.',
     icon: FileText,
     enabled: false,
     frequency: 'off',
@@ -57,7 +57,7 @@ const REPORT_TYPES: ReportType[] = [
   {
     id: 'geo-ranking',
     name: 'GEO Ranking Report',
-    description: 'Local search ranking performance',
+    description: 'Local search ranking performance analysis, with report notifications sent daily or whenever updates occur.',
     icon: MapPin,
     enabled: false,
     frequency: 'off',
