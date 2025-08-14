@@ -228,6 +228,7 @@ export const ProjectListingsTable: React.FC<ProjectListingsTableProps> = ({
             <BulkReplyListingSelector
               selectedListings={selectedListings}
               onListingsChange={setSelectedListings}
+              projectId={projectId}
             />
             
             <div className="flex justify-end gap-2 pt-4 border-t">

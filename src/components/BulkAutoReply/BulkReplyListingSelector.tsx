@@ -13,6 +13,7 @@ interface BulkReplyListingSelectorProps {
   onListingsChange: (listings: string[]) => void;
   onOptionsChange?: (options: BulkReplyListingOption[]) => void;
   error?: string;
+  projectId?: string;
 }
 
 interface BulkReplyListingOption {
@@ -31,7 +32,8 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
   selectedListings,
   onListingsChange,
   onOptionsChange,
-  error
+  error,
+  projectId
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<BulkReplyListingOption[]>([]);
@@ -67,7 +69,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
 
   const fetchListings = async () => {
     try {
-      const response = await getBulkReplyDetails().unwrap();
+      const response = await getBulkReplyDetails(projectId ? { projectId } : {}).unwrap();
       
       const groupOptions: BulkReplyListingOption[] = response.data.groupsLists
         .filter((group: BulkReplyGroupsList) => group.locCount > 0)

@@ -145,10 +145,11 @@ export const bulkAutoReplyApi = createApi({
   reducerPath: 'bulkAutoReplyApi',
   baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
-    getBulkReplyDetails: builder.mutation<BulkReplyDetailsResponse, void>({
-      query: () => ({
+    getBulkReplyDetails: builder.mutation<BulkReplyDetailsResponse, { projectId?: string }>({
+      query: (data) => ({
         url: '/get-bulk-reply-details',
         method: 'POST',
+        data,
       }),
     }),
     createBulkTemplateProject: builder.mutation<CreateBulkTemplateProjectResponse, CreateBulkTemplateProjectRequest>({
