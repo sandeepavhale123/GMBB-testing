@@ -86,3 +86,20 @@ export const getNotificationSettings = async () => {
   const response = await axiosInstance.post("/get-notification-setting");
   return response.data as NotificationSettingsResponse;
 };
+
+export interface UpdateNotificationSettingsPayload {
+  gmbPostType: number;
+  gmbReviewType: number;
+  geoRankingType: number;
+}
+
+export interface UpdateNotificationSettingsResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const updateNotificationSettings = async (data: UpdateNotificationSettingsPayload) => {
+  const response = await axiosInstance.post("/update-notification-setting", data);
+  return response.data as UpdateNotificationSettingsResponse;
+};

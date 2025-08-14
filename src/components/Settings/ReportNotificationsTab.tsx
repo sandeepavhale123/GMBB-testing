@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getNotificationSettings } from '@/api/integrationApi';
+import { getNotificationSettings, updateNotificationSettings, UpdateNotificationSettingsPayload } from '@/api/integrationApi';
 import { useToast } from '@/hooks/use-toast';
 
 interface ReportType {
@@ -40,6 +40,15 @@ const mapApiTypeToFrequency = (apiType: string): 'daily' | 'when-updated' | 'off
     case '1': return 'when-updated';
     case '2': return 'daily';
     default: return 'off';
+  }
+};
+
+const mapFrequencyToApiType = (frequency: string): number => {
+  switch (frequency) {
+    case 'off': return 0;
+    case 'when-updated': return 1;
+    case 'daily': return 2;
+    default: return 0;
   }
 };
 
@@ -80,6 +89,7 @@ export const ReportNotificationsTab: React.FC = () => {
   const [reportTypes, setReportTypes] = useState<ReportType[]>(getInitialReportTypes());
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Fetch notification settings on component mount
@@ -140,30 +150,68 @@ export const ReportNotificationsTab: React.FC = () => {
     })));
   };
 
-  const handleReportToggle = (reportId: string, enabled: boolean) => {
-    setReportTypes(prev => prev.map(report => 
-      report.id === reportId 
-        ? { 
-            ...report, 
-            enabled, 
-            status: enabled ? 'active' : 'paused',
-            frequency: enabled ? (report.frequency === 'off' ? 'daily' : report.frequency) : 'off'
-          }
-        : report
-    ));
+  const handleReportToggle = async (reportId: string, enabled: boolean) => {
+    const newFrequency = enabled ? 'daily' : 'off';
+    await updateNotificationSetting(reportId, newFrequency);
   };
 
-  const handleFrequencyChange = (reportId: string, frequency: 'daily' | 'when-updated' | 'off') => {
-    setReportTypes(prev => prev.map(report => 
-      report.id === reportId 
-        ? { 
-            ...report, 
-            frequency,
-            enabled: frequency !== 'off',
-            status: frequency !== 'off' ? 'active' : 'paused'
-          }
-        : report
-    ));
+  const handleFrequencyChange = async (reportId: string, frequency: 'daily' | 'when-updated' | 'off') => {
+    await updateNotificationSetting(reportId, frequency);
+  };
+
+  const updateNotificationSetting = async (reportId: string, frequency: string) => {
+    try {
+      setUpdating(reportId);
+      
+      // Build the complete payload with current state
+      const currentState = reportTypes.reduce((acc, report) => {
+        const currentFrequency = report.id === reportId ? frequency : report.frequency;
+        const apiValue = mapFrequencyToApiType(currentFrequency);
+        
+        switch (report.id) {
+          case 'post-report':
+            acc.gmbPostType = apiValue;
+            break;
+          case 'review-report':
+            acc.gmbReviewType = apiValue;
+            break;
+          case 'geo-ranking':
+            acc.geoRankingType = apiValue;
+            break;
+        }
+        return acc;
+      }, {} as UpdateNotificationSettingsPayload);
+
+      const response = await updateNotificationSettings(currentState);
+      
+      if (response.code === 200) {
+        // Update local state after successful API call
+        setReportTypes(prev => prev.map(report => 
+          report.id === reportId 
+            ? { 
+                ...report, 
+                frequency: frequency as any, 
+                enabled: frequency !== 'off', 
+                status: frequency !== 'off' ? 'active' : 'paused' 
+              }
+            : report
+        ));
+        
+        toast({
+          title: "Success",
+          description: "Notification settings updated successfully",
+        });
+      }
+    } catch (error) {
+      console.error('Failed to update notification settings:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update notification settings",
+        variant: "destructive",
+      });
+    } finally {
+      setUpdating(null);
+    }
   };
 
   const getFrequencyBadge = (frequency: string) => {
@@ -237,9 +285,14 @@ export const ReportNotificationsTab: React.FC = () => {
                     <Select 
                       value={report.frequency} 
                       onValueChange={(value) => handleFrequencyChange(report.id, value as any)}
+                      disabled={updating === report.id}
                     >
                       <SelectTrigger className="w-40">
-                        <SelectValue />
+                        {updating === report.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <SelectValue />
+                        )}
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="daily">Daily</SelectItem>
