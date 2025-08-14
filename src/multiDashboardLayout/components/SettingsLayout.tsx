@@ -7,8 +7,7 @@ import {
   Palette, 
   FileText, 
   Settings,
-  Menu,
-  Bell
+  Menu
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
@@ -45,11 +44,6 @@ const settingsNavItems: SettingsNavItem[] = [
     label: 'Report Branding',
     path: '/main-dashboard/settings/report-branding',
     icon: FileText
-  },
-  {
-    label: 'Notifications',
-    path: '/main-dashboard/settings/notifications',
-    icon: Bell
   },
   {
     label: 'Integrations',
@@ -147,7 +141,7 @@ export const SettingsLayout: React.FC = () => {
       )}
 
       {/* Content Area */}
-      <div className="flex-1 bg-white border border-border rounded-lg">
+      <div className="flex-1 bg-white border border-border rounded-lg" style={{maxWidth:'calc(100% - 270px)'}}>
         <Outlet />
       </div>
     </div>
