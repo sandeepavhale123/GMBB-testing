@@ -8,10 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Edit, Trash2, Search } from 'lucide-react';
+import { BulkReplyListingSelector } from '@/components/BulkAutoReply/BulkReplyListingSelector';
 
 interface CustomNotification {
   id: string;
-  locationName: string;
+  selectedListings: string[];
   reportType: string;
   frequency: 'daily' | 'when-updated';
   recipients: string[];
@@ -22,7 +23,7 @@ interface CustomNotification {
 const CUSTOM_NOTIFICATIONS: CustomNotification[] = [
   {
     id: '1',
-    locationName: 'Downtown Store',
+    selectedListings: ['listing-downtown', 'listing-main'],
     reportType: 'GMB Health Report',
     frequency: 'daily',
     recipients: ['manager@downtown.com', 'owner@company.com'],
@@ -31,7 +32,7 @@ const CUSTOM_NOTIFICATIONS: CustomNotification[] = [
   },
   {
     id: '2',
-    locationName: 'Mall Location',
+    selectedListings: ['group-mall-locations'],
     reportType: 'Review Report',
     frequency: 'when-updated',
     recipients: ['mall-manager@company.com'],
@@ -40,7 +41,7 @@ const CUSTOM_NOTIFICATIONS: CustomNotification[] = [
   },
   {
     id: '3',
-    locationName: 'Airport Branch',
+    selectedListings: ['listing-airport', 'group-regional'],
     reportType: 'Insight Report',
     frequency: 'daily',
     recipients: ['airport@company.com', 'analytics@company.com'],
@@ -65,21 +66,21 @@ export const CustomNotificationsTab: React.FC = () => {
   
   // Form state
   const [formData, setFormData] = useState({
-    locationName: '',
+    selectedListings: [] as string[],
     reportType: '',
     frequency: 'daily' as 'daily' | 'when-updated',
     recipients: ''
   });
 
   const filteredNotifications = notifications.filter(notification =>
-    notification.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    notification.recipients.some(email => email.toLowerCase().includes(searchTerm.toLowerCase()))
+    notification.recipients.some(email => email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    notification.reportType.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleAddNotification = () => {
     const newNotification: CustomNotification = {
       id: Date.now().toString(),
-      locationName: formData.locationName,
+      selectedListings: formData.selectedListings,
       reportType: formData.reportType,
       frequency: formData.frequency,
       recipients: formData.recipients.split(',').map(email => email.trim()),
@@ -87,14 +88,14 @@ export const CustomNotificationsTab: React.FC = () => {
     };
     
     setNotifications(prev => [...prev, newNotification]);
-    setFormData({ locationName: '', reportType: '', frequency: 'daily', recipients: '' });
+    setFormData({ selectedListings: [], reportType: '', frequency: 'daily', recipients: '' });
     setIsAddModalOpen(false);
   };
 
   const handleEditNotification = (notification: CustomNotification) => {
     setEditingNotification(notification);
     setFormData({
-      locationName: notification.locationName,
+      selectedListings: notification.selectedListings,
       reportType: notification.reportType,
       frequency: notification.frequency,
       recipients: notification.recipients.join(', ')
@@ -108,7 +109,7 @@ export const CustomNotificationsTab: React.FC = () => {
       notification.id === editingNotification.id
         ? {
             ...notification,
-            locationName: formData.locationName,
+            selectedListings: formData.selectedListings,
             reportType: formData.reportType,
             frequency: formData.frequency,
             recipients: formData.recipients.split(',').map(email => email.trim())
@@ -117,7 +118,7 @@ export const CustomNotificationsTab: React.FC = () => {
     ));
     
     setEditingNotification(null);
-    setFormData({ locationName: '', reportType: '', frequency: 'daily', recipients: '' });
+    setFormData({ selectedListings: [], reportType: '', frequency: 'daily', recipients: '' });
   };
 
   const handleDeleteNotification = (id: string) => {
@@ -139,7 +140,7 @@ export const CustomNotificationsTab: React.FC = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Search by location or recipient..."
+              placeholder="Search by report type or recipient..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 w-80"
@@ -160,12 +161,10 @@ export const CustomNotificationsTab: React.FC = () => {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="location">Location Name</Label>
-                <Input
-                  id="location"
-                  value={formData.locationName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, locationName: e.target.value }))}
-                  placeholder="Enter location name"
+                <Label htmlFor="selectedListings">Locations & Groups</Label>
+                <BulkReplyListingSelector
+                  selectedListings={formData.selectedListings}
+                  onListingsChange={(listings) => setFormData(prev => ({ ...prev, selectedListings: listings }))}
                 />
               </div>
               
@@ -220,7 +219,7 @@ export const CustomNotificationsTab: React.FC = () => {
                 <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleAddNotification} disabled={!formData.locationName || !formData.reportType || !formData.recipients}>
+                <Button onClick={handleAddNotification} disabled={!formData.selectedListings.length || !formData.reportType || !formData.recipients}>
                   Add Notification
                 </Button>
               </div>
@@ -233,7 +232,7 @@ export const CustomNotificationsTab: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Location Name</TableHead>
+              <TableHead>Locations & Groups</TableHead>
               <TableHead>Report Type</TableHead>
               <TableHead>Frequency</TableHead>
               <TableHead>Recipients</TableHead>
@@ -246,7 +245,13 @@ export const CustomNotificationsTab: React.FC = () => {
             {filteredNotifications.map((notification) => (
               <TableRow key={notification.id}>
                 <TableCell>
-                  <div className="font-medium">{notification.locationName}</div>
+                  <div className="flex flex-wrap gap-1">
+                    {notification.selectedListings.map((listingId, index) => (
+                      <Badge key={listingId} variant="secondary" className="text-xs">
+                        {listingId.startsWith('group-') ? 'Group' : 'Location'} {index + 1}
+                      </Badge>
+                    ))}
+                  </div>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm">{notification.reportType}</span>
@@ -302,11 +307,10 @@ export const CustomNotificationsTab: React.FC = () => {
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="edit-location">Location Name</Label>
-                            <Input
-                              id="edit-location"
-                              value={formData.locationName}
-                              onChange={(e) => setFormData(prev => ({ ...prev, locationName: e.target.value }))}
+                            <Label htmlFor="edit-selectedListings">Locations & Groups</Label>
+                            <BulkReplyListingSelector
+                              selectedListings={formData.selectedListings}
+                              onListingsChange={(listings) => setFormData(prev => ({ ...prev, selectedListings: listings }))}
                             />
                           </div>
                           
