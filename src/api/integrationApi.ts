@@ -68,3 +68,21 @@ export const deleteMapApiKey = async () => {
   });
   return response.data;
 };
+
+// Notification Settings APIs
+export interface NotificationSettingsResponse {
+  code: number;
+  message: string;
+  data: {
+    notification: {
+      gmbPostType: string;
+      gmbReviewType: string;
+      geoRankingType: string;
+    };
+  };
+}
+
+export const getNotificationSettings = async () => {
+  const response = await axiosInstance.post("/get-notification-setting");
+  return response.data as NotificationSettingsResponse;
+};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
@@ -12,10 +12,13 @@ import {
   MapPin, 
   Search,
   Send,
-  Info
+  Info,
+  Loader2
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getNotificationSettings } from '@/api/integrationApi';
+import { useToast } from '@/hooks/use-toast';
 
 interface ReportType {
   id: string;
@@ -30,18 +33,26 @@ interface ReportType {
   status: 'active' | 'paused';
 }
 
-const REPORT_TYPES: ReportType[] = [
-  
+// Helper functions for API mapping
+const mapApiTypeToFrequency = (apiType: string): 'daily' | 'when-updated' | 'off' => {
+  switch (apiType) {
+    case '0': return 'off';
+    case '1': return 'when-updated';
+    case '2': return 'daily';
+    default: return 'off';
+  }
+};
+
+const getInitialReportTypes = (): ReportType[] => [
   {
     id: 'review-report',
     name: 'New / Updated Review Report',
     description: 'Detailed analysis of new and updated customer reviews and ratings, with report notifications sent daily or whenever updates occur.',
     icon: MessageSquare,
-    enabled: true,
-    frequency: 'when-updated',
+    enabled: false,
+    frequency: 'off',
     recipients: 'Default recipients',
-    lastSent: '2024-01-14 14:30',
-    status: 'active'
+    status: 'paused'
   },
   {
     id: 'post-report',
@@ -53,7 +64,6 @@ const REPORT_TYPES: ReportType[] = [
     recipients: 'Default recipients',
     status: 'paused'
   },
-  
   {
     id: 'geo-ranking',
     name: 'GEO Ranking Report',
@@ -67,8 +77,58 @@ const REPORT_TYPES: ReportType[] = [
 ];
 
 export const ReportNotificationsTab: React.FC = () => {
-  const [reportTypes, setReportTypes] = useState<ReportType[]>(REPORT_TYPES);
+  const [reportTypes, setReportTypes] = useState<ReportType[]>(getInitialReportTypes());
   const [selectAll, setSelectAll] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  // Fetch notification settings on component mount
+  useEffect(() => {
+    const fetchNotificationSettings = async () => {
+      try {
+        setLoading(true);
+        const response = await getNotificationSettings();
+        
+        if (response.code === 200 && response.data?.notification) {
+          const { gmbPostType, gmbReviewType, geoRankingType } = response.data.notification;
+          
+          setReportTypes(prev => prev.map(report => {
+            let frequency: 'daily' | 'when-updated' | 'off' = 'off';
+            
+            switch (report.id) {
+              case 'post-report':
+                frequency = mapApiTypeToFrequency(gmbPostType);
+                break;
+              case 'review-report':
+                frequency = mapApiTypeToFrequency(gmbReviewType);
+                break;
+              case 'geo-ranking':
+                frequency = mapApiTypeToFrequency(geoRankingType);
+                break;
+            }
+            
+            return {
+              ...report,
+              frequency,
+              enabled: frequency !== 'off',
+              status: frequency !== 'off' ? 'active' : 'paused'
+            };
+          }));
+        }
+      } catch (error) {
+        console.error('Failed to fetch notification settings:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load notification settings",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotificationSettings();
+  }, [toast]);
 
   const handleSelectAll = (checked: boolean) => {
     setSelectAll(checked);
@@ -114,6 +174,15 @@ export const ReportNotificationsTab: React.FC = () => {
     };
     return variants[frequency as keyof typeof variants] || variants.off;
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading notification settings...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
