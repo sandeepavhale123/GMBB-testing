@@ -227,7 +227,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
             onClick={() => setOpen(!open)}
           >
             {selectedListings.length === 0 
-              ? (isLoading ? "Loading..." : "Select locations and groups...") 
+              ? (isLoading ? "Loading..." : "Select locations...") 
               : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`
             }
             <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -240,7 +240,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Search locations and groups..." 
+                  placeholder="Search locations..." 
                   value={searchTerm} 
                   onChange={e => setSearchTerm(e.target.value)} 
                   className="pl-8 w-full" 
@@ -351,7 +351,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
       
       {selectedListings.length === 0 && !error && (
         <p className="text-xs text-muted-foreground">
-          Select at least one location or group to continue
+          Select at least one location to continue
         </p>
       )}
       
