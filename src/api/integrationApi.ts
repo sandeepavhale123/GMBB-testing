@@ -103,3 +103,20 @@ export const updateNotificationSettings = async (data: UpdateNotificationSetting
   const response = await axiosInstance.post("/update-notification-setting", data);
   return response.data as UpdateNotificationSettingsResponse;
 };
+
+// Custom Email Notification APIs
+export interface CustomEmailSettingPayload {
+  locationIds: number[];
+  email: string;
+}
+
+export interface CustomEmailSettingResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const updateCustomEmailSetting = async (data: CustomEmailSettingPayload) => {
+  const response = await axiosInstance.post("/update-custom-email-setting", data);
+  return response.data as CustomEmailSettingResponse;
+};

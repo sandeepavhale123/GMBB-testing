@@ -7,8 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Edit, Trash2, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Loader2 } from 'lucide-react';
 import { BulkReplyListingSelector } from '@/components/BulkAutoReply/BulkReplyListingSelector';
+import { updateCustomEmailSetting } from '@/api/integrationApi';
+import { useToast } from '@/hooks/use-toast';
 interface CustomNotification {
   id: string;
   selectedListings: string[];
@@ -48,6 +50,8 @@ export const CustomNotificationsTab: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingNotification, setEditingNotification] = useState<CustomNotification | null>(null);
+  const [isAddingNotification, setIsAddingNotification] = useState(false);
+  const { toast } = useToast();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -57,23 +61,89 @@ export const CustomNotificationsTab: React.FC = () => {
     recipients: ''
   });
   const filteredNotifications = notifications.filter(notification => notification.recipients.some(email => email.toLowerCase().includes(searchTerm.toLowerCase())) || notification.reportType.toLowerCase().includes(searchTerm.toLowerCase()));
-  const handleAddNotification = () => {
-    const newNotification: CustomNotification = {
-      id: Date.now().toString(),
-      selectedListings: formData.selectedListings,
-      reportType: formData.reportType,
-      frequency: formData.frequency,
-      recipients: formData.recipients.split(',').map(email => email.trim()),
-      status: 'active'
-    };
-    setNotifications(prev => [...prev, newNotification]);
-    setFormData({
-      selectedListings: [],
-      reportType: '',
-      frequency: 'daily',
-      recipients: ''
-    });
-    setIsAddModalOpen(false);
+  // Helper functions for API integration
+  const transformSelectedListingsToLocationIds = (selectedListings: string[]): number[] => {
+    return selectedListings
+      .filter(listing => !listing.startsWith('group-')) // Filter out groups
+      .map(listing => parseInt(listing, 10))
+      .filter(id => !isNaN(id)); // Filter out invalid numbers
+  };
+
+  const formatEmailsForApi = (emails: string): string => {
+    return emails
+      .split(',')
+      .map(email => email.trim())
+      .filter(email => email.length > 0)
+      .join(' , '); // API expects space before and after comma
+  };
+
+  const handleAddNotification = async () => {
+    setIsAddingNotification(true);
+    
+    try {
+      // Transform data for API
+      const locationIds = transformSelectedListingsToLocationIds(formData.selectedListings);
+      const formattedEmails = formatEmailsForApi(formData.recipients);
+      
+      // Validate data
+      if (locationIds.length === 0) {
+        toast({
+          title: "Error",
+          description: "Please select at least one location (groups are not supported).",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (!formattedEmails) {
+        toast({
+          title: "Error", 
+          description: "Please enter at least one email address.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Call API
+      await updateCustomEmailSetting({
+        locationIds,
+        email: formattedEmails
+      });
+
+      // Update local state only on success
+      const newNotification: CustomNotification = {
+        id: Date.now().toString(),
+        selectedListings: formData.selectedListings,
+        reportType: formData.reportType,
+        frequency: formData.frequency,
+        recipients: formData.recipients.split(',').map(email => email.trim()),
+        status: 'active'
+      };
+      
+      setNotifications(prev => [...prev, newNotification]);
+      setFormData({
+        selectedListings: [],
+        reportType: '',
+        frequency: 'daily',
+        recipients: ''
+      });
+      setIsAddModalOpen(false);
+      
+      toast({
+        title: "Success",
+        description: "Custom email notification added successfully.",
+      });
+      
+    } catch (error) {
+      console.error('Error adding custom notification:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add custom notification. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAddingNotification(false);
+    }
   };
   const handleEditNotification = (notification: CustomNotification) => {
     setEditingNotification(notification);
@@ -158,7 +228,11 @@ export const CustomNotificationsTab: React.FC = () => {
                 <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleAddNotification} disabled={!formData.selectedListings.length || !formData.reportType || !formData.recipients}>
+                <Button 
+                  onClick={handleAddNotification} 
+                  disabled={!formData.selectedListings.length || !formData.recipients || isAddingNotification}
+                >
+                  {isAddingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Add Notification
                 </Button>
               </div>
