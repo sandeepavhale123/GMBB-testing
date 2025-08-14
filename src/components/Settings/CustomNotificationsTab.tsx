@@ -117,11 +117,17 @@ export const CustomNotificationsTab: React.FC = () => {
       } else {
         throw new Error(response.message || "Failed to add notification");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding notification:", error);
+      
+      // Extract error message from API response
+      const errorMessage = error?.response?.data?.message || 
+                          error?.message || 
+                          "Failed to add custom notification. Please try again.";
+      
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to add custom notification. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
