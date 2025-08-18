@@ -67,45 +67,20 @@ export const Reports: React.FC = () => {
         </div>
         <div className="p-6">
           <div className="space-y-4">
-            {recentReports.map((report, index) => <div key={index} className="p-6 bg-card rounded-lg border border-border hover:shadow-md transition-shadow">
-                <div className="space-y-4">
-                  {/* Project Name */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground">{report.name}</h3>
-                  </div>
-                  
-                  {/* Project Details Grid */}
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">No. of locations:</span>
-                      <p className="font-medium text-foreground">{report.listings}</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Scheduled Status:</span>
-                      <p className="font-medium text-foreground">One Time</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Last Update:</span>
-                      <p className="font-medium text-foreground">{report.date}</p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Next Update:</span>
-                      <p className="font-medium text-foreground">N/A</p>
-                    </div>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <FileText className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <TrendingUp className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive">
-                      <BarChart3 className="h-4 w-4" />
-                    </Button>
-                  </div>
+            {recentReports.map((report, index) => <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex-1">
+                  <h3 className="font-medium text-foreground">{report.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {report.type} • {report.date} • {report.listings} listings
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    {report.status}
+                  </span>
+                  <Button variant="outline" size="sm">
+                    View
+                  </Button>
                 </div>
               </div>)}
           </div>
