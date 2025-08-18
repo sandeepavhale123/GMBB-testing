@@ -12,6 +12,7 @@ import { Reports } from "@/multiDashboardLayout/pages/Reports";
 import { GenerateBulkReport } from "@/multiDashboardLayout/pages/GenerateBulkReport";
 import { BulkAutoReply } from "@/multiDashboardLayout/pages/BulkAutoReply";
 import { BulkAutoReplyProjectDetails } from "@/multiDashboardLayout/pages/BulkAutoReplyProjectDetails";
+import { BulkReportDetails } from "@/multiDashboardLayout/pages/BulkReportDetails";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
 import { ManageGoogleAccountWrapper } from "@/multiDashboardLayout/components/settings/ManageGoogleAccountWrapper";
 import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/TeamMembersWrapper";
@@ -64,6 +65,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
         {
           path: "bulk-auto-reply-project-details/:projectId",
           element: <BulkAutoReplyProjectDetails />,
+        },
+        {
+          path: "bulk-report-details/:projectId",
+          element: <BulkReportDetails />,
         },
       {
         path: "bulk-post-details/:bulkId",
