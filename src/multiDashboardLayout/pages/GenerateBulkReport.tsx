@@ -343,15 +343,6 @@ export const GenerateBulkReport: React.FC = () => {
                     <FormMessage />
                   </FormItem>} />
 
-              {watchScheduleType === "one-time" && <FormField control={form.control} name="dateRange" render={({
-              field
-            }) => <FormItem>
-                      <FormLabel>Date Range</FormLabel>
-                      <FormControl>
-                        <DateRangePicker date={field.value} onDateChange={field.onChange} placeholder="Select date range for one-time report" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} />}
 
               {(watchScheduleType === "weekly" || watchScheduleType === "monthly") && <div className="grid grid-cols-1 md:flex md:gap-4 gap-4">
                   <FormField control={form.control} name="frequency" render={({
