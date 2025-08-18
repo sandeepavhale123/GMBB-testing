@@ -193,6 +193,9 @@ export const BulkReportDetails: React.FC = () => {
           <p className="text-muted-foreground">
             Bulk report details • {project.totalLocations} locations
           </p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Recipients: {project.emailRecipients.join(', ')}
+          </p>
         </div>
       </div>
 
@@ -237,7 +240,6 @@ export const BulkReportDetails: React.FC = () => {
                 <TableHead>Report Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Delivery</TableHead>
-                <TableHead>Recipients</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -268,13 +270,6 @@ export const BulkReportDetails: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     {getDeliveryBadge(report.deliveryStatus)}
-                  </TableCell>
-                  <TableCell>
-                    <div className="max-w-48">
-                      {report.recipients.map((email, index) => <div key={index} className="text-xs text-muted-foreground truncate">
-                          {email}
-                        </div>)}
-                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 justify-end">
