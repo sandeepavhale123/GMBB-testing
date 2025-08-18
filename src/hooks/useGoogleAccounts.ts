@@ -119,6 +119,7 @@ export const useGoogleAccounts = (params: UseGoogleAccountsParams = {}) => {
     accounts: data?.accounts || [],
     totalActiveListings: data?.totalActiveListings || 0,
     totalAccounts: data?.totalAccounts || 0,
+    allowedListing: data?.allowedListing || 100,
     pagination: data?.pagination,
     loading,
     error,
