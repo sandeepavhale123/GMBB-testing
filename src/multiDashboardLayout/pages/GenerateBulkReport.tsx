@@ -265,7 +265,7 @@ export const GenerateBulkReport: React.FC = () => {
             }) => <FormItem>
                     <FormLabel>Schedule Type</FormLabel>
                     <FormControl>
-                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-3">
+                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-x-6">
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="one-time" id="one-time" />
                           <Label htmlFor="one-time">One Time</Label>
