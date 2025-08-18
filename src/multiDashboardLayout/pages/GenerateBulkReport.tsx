@@ -19,8 +19,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
-import { REPORT_SECTIONS, type ReportSectionId } from "@/types/reportTypes";
+import { type ReportSectionId } from "@/types/reportTypes";
 import { useToast } from "@/hooks/use-toast";
+
+// Specific report sections for bulk report generation
+const BULK_REPORT_SECTIONS = [
+  { id: "posts", name: "GMB Post" },
+  { id: "media", name: "Media Post" },
+  { id: "reviews", name: "Review" },
+  { id: "qa", name: "Q and A" },
+  { id: "insights", name: "Insights" },
+] as const;
 const weeklyFrequencyOptions = [{
   value: "last-week",
   label: "Last Week"
@@ -142,7 +151,7 @@ export const GenerateBulkReport: React.FC = () => {
     }
   };
   const handleSelectAllReports = () => {
-    const allSectionIds = REPORT_SECTIONS.map(section => section.id);
+    const allSectionIds = BULK_REPORT_SECTIONS.map(section => section.id);
     form.setValue("reportSections", allSectionIds);
   };
   const handleDeselectAllReports = () => {
@@ -284,7 +293,7 @@ export const GenerateBulkReport: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {REPORT_SECTIONS.map(section => <div key={section.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                  {BULK_REPORT_SECTIONS.map(section => <div key={section.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
                       <Checkbox id={section.id} checked={watchReportSections.includes(section.id)} onCheckedChange={checked => handleReportSectionChange(section.id, checked as boolean)} />
                       <Label htmlFor={section.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                         {section.name}
