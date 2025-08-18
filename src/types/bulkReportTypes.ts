@@ -22,6 +22,9 @@ export interface ReportDetail {
   errorMessage?: string;
   fileSize?: string;
   sections: string[];
+  pdfUrl?: string;
+  csvUrl?: string;
+  htmlUrl?: string | null;
 }
 
 export interface BulkReportDetailsResponse {
@@ -33,6 +36,7 @@ export interface BulkReportDetailsResponse {
     pages: number;
     limit: number;
   };
+  allInOnePdfReport?: string;
 }
 
 export interface BulkReportFilters {
@@ -70,5 +74,44 @@ export interface GetAllBulkReportsResponse {
   data: {
     reports: BulkReportItem[];
     pagination: BulkReportsPagination;
+  };
+}
+
+// New types for view-report-details API
+export interface ViewReportDetailsRequest {
+  reportId: number;
+  search: string;
+  page: number;
+  limit: number;
+}
+
+export interface ViewReportDetailsItem {
+  gloc_id: number;
+  listing_name: string;
+  city: string;
+  date: string;
+  pdf_url: string;
+  csv_url: string;
+  html_url: string | null;
+}
+
+export interface ViewReportDetailsReport {
+  report_id: string;
+  title: string;
+  schedule: 'ONETIME' | 'MONTHLY' | 'WEEKLY';
+}
+
+export interface ViewReportDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    report: ViewReportDetailsReport;
+    allInOnePdfReport: string;
+    items: ViewReportDetailsItem[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+    };
   };
 }

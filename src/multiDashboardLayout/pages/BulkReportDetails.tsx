@@ -32,6 +32,7 @@ export const BulkReportDetails: React.FC = () => {
     refresh,
     resendEmail,
     downloadReport,
+    downloadAllInOnePdf,
     bulkResendEmails
   } = useBulkReportDetails(projectId || '');
   const handleSearch = useCallback((value: string) => {
@@ -83,21 +84,37 @@ export const BulkReportDetails: React.FC = () => {
       });
     }
   }, [resendEmail]);
-  const handleDownload = useCallback(async (reportId: string) => {
-    const result = await downloadReport(reportId);
+  const handleDownload = useCallback(async (reportId: string, format: 'pdf' | 'csv' = 'pdf') => {
+    const result = await downloadReport(reportId, format);
     if (result.success) {
       toast({
         title: "Download Started",
-        description: "Report download has started."
+        description: `${format.toUpperCase()} download has started.`
       });
     } else {
       toast({
         title: "Error",
-        description: result.error || "Failed to download report",
+        description: result.error || `Failed to download ${format.toUpperCase()}`,
         variant: "destructive"
       });
     }
   }, [downloadReport]);
+
+  const handleDownloadAllPdf = useCallback(async () => {
+    const result = await downloadAllInOnePdf();
+    if (result.success) {
+      toast({
+        title: "Download Started",
+        description: "All-in-one PDF download has started."
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: result.error || "Failed to download all-in-one PDF",
+        variant: "destructive"
+      });
+    }
+  }, [downloadAllInOnePdf]);
   const handleBulkResend = useCallback(async () => {
     if (selectedReports.size === 0) return;
     const result = await bulkResendEmails(Array.from(selectedReports));
@@ -191,10 +208,20 @@ export const BulkReportDetails: React.FC = () => {
           <p className="text-muted-foreground">
             Bulk report details • {project.totalLocations} locations
           </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            Recipients: {project.emailRecipients.join(', ')}
-          </p>
+          {project.emailRecipients.length > 0 && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Recipients: {project.emailRecipients.join(', ')}
+            </p>
+          )}
         </div>
+        {data?.allInOnePdfReport && (
+          <div className="flex gap-2">
+            <Button onClick={handleDownloadAllPdf} className="flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              Download All-in-One PDF
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Project Summary */}
@@ -267,15 +294,34 @@ export const BulkReportDetails: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 justify-end">
-                      <Button size="sm" variant="outline">
-                        CSV
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        PDF
-                      </Button>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                        <ExternalLink className="w-4 h-4" />
-                      </Button>
+                      {report.csvUrl && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleDownload(report.id, 'csv')}
+                        >
+                          CSV
+                        </Button>
+                      )}
+                      {report.pdfUrl && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleDownload(report.id, 'pdf')}
+                        >
+                          PDF
+                        </Button>
+                      )}
+                      {report.htmlUrl && (
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          className="h-8 w-8 p-0"
+                          onClick={() => window.open(report.htmlUrl!, '_blank')}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </Button>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>)}

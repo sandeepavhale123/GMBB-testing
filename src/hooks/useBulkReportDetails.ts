@@ -1,72 +1,47 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BulkReportDetailsResponse, BulkReportFilters, ReportDetail } from '@/types/bulkReportTypes';
+import { BulkReportDetailsResponse, BulkReportFilters, ReportDetail, ViewReportDetailsResponse, ViewReportDetailsItem } from '@/types/bulkReportTypes';
+import { reportsApi } from '@/api/reportsApi';
+import { useDebounce } from './useDebounce';
 
-// Mock data for development - replace with actual API calls
-const mockBulkReportDetails: BulkReportDetailsResponse = {
-  project: {
-    id: 'prj-001',
-    name: 'Q1 2024 Hotel Performance Report',
-    totalLocations: 24,
-    reportSections: ['GMB Health', 'Reviews', 'Insights', 'Media'],
-    scheduleType: 'monthly',
-    status: 'active',
-    createdAt: '2024-01-15T10:00:00Z',
-    lastUpdate: '2024-01-30T15:30:00Z',
-    emailRecipients: ['manager@hotel.com', 'analytics@hotel.com']
-  },
-  reports: [
-    {
-      id: 'rpt-001',
-      locationName: 'Grand Plaza Hotel Downtown',
-      address: '123 Main St, New York, NY 10001',
-      reportDate: '2024-01-30T10:00:00Z',
-      status: 'generated',
-      deliveryStatus: 'sent',
-      recipients: ['manager@hotel.com', 'analytics@hotel.com'],
-      reportUrl: '#',
-      fileSize: '2.4 MB',
-      sections: ['GMB Health', 'Reviews', 'Insights', 'Media']
+// Transform API response to match component expectations
+const transformApiResponse = (apiResponse: ViewReportDetailsResponse): BulkReportDetailsResponse => {
+  const { data } = apiResponse;
+  
+  return {
+    project: {
+      id: data.report.report_id,
+      name: data.report.title,
+      totalLocations: data.pagination.total,
+      reportSections: ['GMB Health', 'Reviews', 'Insights', 'Media'], // Default sections
+      scheduleType: data.report.schedule.toLowerCase() as 'one-time' | 'weekly' | 'monthly',
+      status: 'active' as const,
+      createdAt: new Date().toISOString(),
+      lastUpdate: new Date().toISOString(),
+      emailRecipients: [] // Not provided by API
     },
-    {
-      id: 'rpt-002',
-      locationName: 'Boutique Hotel Midtown',
-      address: '456 Park Ave, New York, NY 10022',
-      reportDate: '2024-01-30T10:05:00Z',
-      status: 'generated',
-      deliveryStatus: 'pending',
-      recipients: ['manager@hotel.com'],
-      reportUrl: '#',
-      fileSize: '1.8 MB',
-      sections: ['GMB Health', 'Reviews', 'Insights']
+    reports: data.items.map((item: ViewReportDetailsItem): ReportDetail => ({
+      id: item.gloc_id.toString(),
+      locationName: item.listing_name,
+      address: item.city,
+      reportDate: new Date(item.date).toISOString(),
+      status: (item.pdf_url || item.csv_url) ? 'generated' : 'failed' as const,
+      deliveryStatus: 'sent' as const, // Default since API doesn't provide this
+      recipients: [], // Not provided by API
+      reportUrl: item.pdf_url || item.csv_url || '#',
+      fileSize: '2.0 MB', // Default since API doesn't provide this
+      sections: ['GMB Health', 'Reviews', 'Insights', 'Media'], // Default sections
+      pdfUrl: item.pdf_url,
+      csvUrl: item.csv_url,
+      htmlUrl: item.html_url
+    })),
+    pagination: {
+      total: data.pagination.total,
+      page: data.pagination.page,
+      pages: Math.ceil(data.pagination.total / data.pagination.limit),
+      limit: data.pagination.limit
     },
-    {
-      id: 'rpt-003',
-      locationName: 'Luxury Resort Upstate',
-      address: '789 Mountain View Rd, Albany, NY 12203',
-      reportDate: '2024-01-30T10:10:00Z',
-      status: 'failed',
-      deliveryStatus: 'failed',
-      recipients: ['manager@hotel.com'],
-      errorMessage: 'Insufficient data for insights section',
-      sections: ['GMB Health', 'Reviews']
-    },
-    {
-      id: 'rpt-004',
-      locationName: 'Business Hotel Times Square',
-      address: '321 Broadway, New York, NY 10036',
-      reportDate: '2024-01-30T10:15:00Z',
-      status: 'pending',
-      deliveryStatus: 'pending',
-      recipients: ['manager@hotel.com', 'analytics@hotel.com'],
-      sections: ['GMB Health', 'Reviews', 'Insights', 'Media']
-    }
-  ],
-  pagination: {
-    total: 24,
-    page: 1,
-    pages: 6,
-    limit: 4
-  }
+    allInOnePdfReport: data.allInOnePdfReport
+  };
 };
 
 export const useBulkReportDetails = (projectId: string) => {
@@ -80,16 +55,36 @@ export const useBulkReportDetails = (projectId: string) => {
     deliveryStatus: 'all'
   });
 
+  // Debounce search to avoid too many API calls
+  const debouncedSearch = useDebounce(filters.search, 3000);
+
   const fetchData = useCallback(async () => {
+    if (!projectId) return;
+    
     setLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const reportId = parseInt(projectId);
+      if (isNaN(reportId)) {
+        throw new Error('Invalid report ID');
+      }
+
+      const apiResponse = await reportsApi.getViewReportDetails({
+        reportId,
+        search: debouncedSearch,
+        page: currentPage,
+        limit: 10
+      });
       
-      // In real implementation, make API call here
-      // const response = await bulkReportApi.getBulkReportDetails(projectId, currentPage, filters);
+      const transformedData = transformApiResponse(apiResponse);
       
-      setData(mockBulkReportDetails);
+      // Apply client-side filtering for status since API doesn't support it
+      if (filters.status !== 'all') {
+        transformedData.reports = transformedData.reports.filter(
+          report => report.status === filters.status
+        );
+      }
+      
+      setData(transformedData);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch bulk report details');
@@ -97,7 +92,7 @@ export const useBulkReportDetails = (projectId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [projectId, currentPage, filters]);
+  }, [projectId, currentPage, debouncedSearch, filters.status]);
 
   useEffect(() => {
     if (projectId) {
@@ -134,15 +129,38 @@ export const useBulkReportDetails = (projectId: string) => {
     }
   }, []);
 
-  const downloadReport = useCallback(async (reportId: string) => {
+  const downloadReport = useCallback(async (reportId: string, format: 'pdf' | 'csv' = 'pdf') => {
     try {
-      // Simulate download
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const report = data?.reports.find(r => r.id === reportId);
+      if (!report) {
+        throw new Error('Report not found');
+      }
+
+      const downloadUrl = format === 'pdf' ? report.pdfUrl : report.csvUrl;
+      if (!downloadUrl) {
+        throw new Error(`${format.toUpperCase()} download not available`);
+      }
+
+      // Open download link in new tab
+      window.open(downloadUrl, '_blank');
       return { success: true };
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : 'Failed to download report' };
     }
-  }, []);
+  }, [data]);
+
+  const downloadAllInOnePdf = useCallback(async () => {
+    try {
+      if (!data?.allInOnePdfReport) {
+        throw new Error('All-in-one PDF not available');
+      }
+
+      window.open(data.allInOnePdfReport, '_blank');
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : 'Failed to download all-in-one PDF' };
+    }
+  }, [data]);
 
   const bulkResendEmails = useCallback(async (reportIds: string[]) => {
     try {
@@ -179,6 +197,7 @@ export const useBulkReportDetails = (projectId: string) => {
     refresh: fetchData,
     resendEmail,
     downloadReport,
+    downloadAllInOnePdf,
     bulkResendEmails
   };
 };

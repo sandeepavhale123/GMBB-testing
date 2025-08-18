@@ -5,7 +5,7 @@ import {
   Report,
   PerformanceHealthReportData,
 } from "../types/reportTypes";
-import { GetAllBulkReportsRequest, GetAllBulkReportsResponse } from "../types/bulkReportTypes";
+import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse } from "../types/bulkReportTypes";
 
 // Helper function to convert frontend data to API payload format
 const createReportPayload = (
@@ -357,6 +357,24 @@ export const reportsApi = {
       }
     } catch (error) {
       console.error("POST /delete-bulk-report failed:", error);
+      throw error;
+    }
+  },
+
+  // Get bulk report details
+  getViewReportDetails: async (params: ViewReportDetailsRequest): Promise<ViewReportDetailsResponse> => {
+    try {
+      const response = await axiosInstance.post("/view-report-details", params);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch report details"
+        );
+      }
+    } catch (error) {
+      console.error("POST /view-report-details failed:", error);
       throw error;
     }
   },
