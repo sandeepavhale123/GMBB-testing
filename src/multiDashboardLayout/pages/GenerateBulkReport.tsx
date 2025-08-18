@@ -111,8 +111,21 @@ const generateBulkReportSchema = z.object({
   emailDay: z.string().optional(),
   dateRange: z.custom<DateRange>().optional(),
   deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
-  emailTo: z.string().min(1, "Email recipient is required").email("Invalid email format"),
-  emailCc: z.string().optional(),
+  emailTo: z.string().min(1, "Email recipient is required").refine(
+    (value) => {
+      const emails = value.split(',').map(email => email.trim());
+      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    },
+    { message: "Please enter valid email addresses separated by commas" }
+  ),
+  emailCc: z.string().optional().refine(
+    (value) => {
+      if (!value || value.trim() === '') return true;
+      const emails = value.split(',').map(email => email.trim());
+      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    },
+    { message: "Please enter valid email addresses separated by commas" }
+  ),
   emailBcc: z.string().optional(),
   emailSubject: z.string().min(1, "Email subject is required"),
   emailMessage: z.string().min(1, "Email message is required")
@@ -486,7 +499,7 @@ export const GenerateBulkReport: React.FC = () => {
               }) => <FormItem>
                       <FormLabel>To *</FormLabel>
                       <FormControl>
-                        <Input placeholder="recipient@example.com" {...field} />
+                        <Input placeholder="recipient1@example.com, recipient2@example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
@@ -496,7 +509,7 @@ export const GenerateBulkReport: React.FC = () => {
               }) => <FormItem>
                       <FormLabel>CC</FormLabel>
                       <FormControl>
-                        <Input placeholder="cc@example.com" {...field} />
+                        <Input placeholder="cc1@example.com, cc2@example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>} />
