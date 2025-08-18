@@ -339,4 +339,25 @@ export const reportsApi = {
       throw error;
     }
   },
+
+  // Delete bulk report
+  deleteBulkReport: async (reportId: number): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/delete-bulk-report", {
+        reportId,
+        confirm: "delete"
+      });
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to delete report"
+        );
+      }
+    } catch (error) {
+      console.error("POST /delete-bulk-report failed:", error);
+      throw error;
+    }
+  },
 };

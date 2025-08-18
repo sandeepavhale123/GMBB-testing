@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -7,17 +8,34 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { FileText, TrendingUp, BarChart3, PieChart, Eye, Edit, Trash2, Search } from 'lucide-react';
+import { 
+  AlertDialog, 
+  AlertDialogAction, 
+  AlertDialogCancel, 
+  AlertDialogContent, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogHeader, 
+  AlertDialogTitle, 
+  AlertDialogTrigger 
+} from '@/components/ui/alert-dialog';
+import { FileText, TrendingUp, BarChart3, PieChart, Eye, Edit, Trash2, Search, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useBulkReports } from '@/hooks/useBulkReports';
 import { useDebounce } from '@/hooks/useDebounce';
+import { reportsApi } from '@/api/reportsApi';
+import { useToast } from '@/hooks/use-toast';
 
 export const Reports: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [reportType, setReportType] = useState<'all' | 'onetime' | 'monthly' | 'weekly'>('all');
-  const debouncedSearch = useDebounce(searchTerm, 300);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [reportToDelete, setReportToDelete] = useState<any>(null);
+  const debouncedSearch = useDebounce(searchTerm, 3000);
   
   const { data, isLoading, error } = useBulkReports(
     currentPage,
@@ -29,6 +47,38 @@ export const Reports: React.FC = () => {
   const reports = data?.data?.reports || [];
   const pagination = data?.data?.pagination || { total: 0, page: 1, limit: 10 };
   const totalPages = Math.ceil(pagination.total / pagination.limit);
+
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (reportId: number) => reportsApi.deleteBulkReport(reportId),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Report deleted successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
+      setDeleteDialogOpen(false);
+      setReportToDelete(null);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error?.message || "Failed to delete report",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleDeleteClick = (report: any) => {
+    setReportToDelete(report);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (reportToDelete) {
+      deleteMutation.mutate(reportToDelete.id);
+    }
+  };
 
   // Calculate quick stats from real data
   const quickStats = useMemo(() => {
@@ -242,7 +292,12 @@ export const Reports: React.FC = () => {
                         
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8 text-destructive hover:text-destructive"
+                              onClick={() => handleDeleteClick(report)}
+                            >
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </TooltipTrigger>
@@ -297,5 +352,36 @@ export const Reports: React.FC = () => {
           </Pagination>
         </div>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Report</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{reportToDelete?.title}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              onClick={() => {
+                setDeleteDialogOpen(false);
+                setReportToDelete(null);
+              }}
+              disabled={deleteMutation.isPending}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={deleteMutation.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>;
 };
