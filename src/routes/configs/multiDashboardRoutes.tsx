@@ -24,6 +24,7 @@ import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/
 import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
 import { RouteConfig } from "../routeConfig";
+import { Profile } from "@/multiDashboardLayout/pages/Profile";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -37,6 +38,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "",
         element: <MultiDashboard />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "bulk-post",
