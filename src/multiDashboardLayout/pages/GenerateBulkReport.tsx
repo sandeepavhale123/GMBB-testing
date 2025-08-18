@@ -425,33 +425,41 @@ export const GenerateBulkReport: React.FC = () => {
                         { value: "csv", label: "CSV Format", icon: File },
                         { value: "pdf", label: "PDF Format", icon: FileText },
                         { value: "html", label: "HTML Public Report", icon: Globe }
-                      ].map((format) => (
-                        <div
-                          key={format.value}
-                          className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1 cursor-pointer"
-                          onClick={() => {
-                            const currentFormats = field.value;
-                            const isChecked = currentFormats.includes(format.value as "csv" | "pdf" | "html");
-                            if (isChecked) {
-                              field.onChange(currentFormats.filter(f => f !== format.value));
-                            } else {
-                              field.onChange([...currentFormats, format.value]);
-                            }
-                          }}
-                        >
-                          <Checkbox
-                            id={format.value}
-                            checked={field.value.includes(format.value as "csv" | "pdf" | "html")}
-                            disabled
-                          />
-                          <div className="flex items-center gap-2">
-                            <format.icon className="w-4 h-4" />
-                            <Label htmlFor={format.value} className="cursor-pointer">
-                              {format.label}
-                            </Label>
+                      ].map((format) => {
+                        const isSelected = field.value.includes(format.value as "csv" | "pdf" | "html");
+                        return (
+                          <div
+                            key={format.value}
+                            className={`flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1 cursor-pointer ${
+                              isSelected ? 'bg-accent border-primary' : ''
+                            }`}
+                            onClick={() => {
+                              const currentFormats = field.value;
+                              if (isSelected) {
+                                field.onChange(currentFormats.filter(f => f !== format.value));
+                              } else {
+                                field.onChange([...currentFormats, format.value]);
+                              }
+                            }}
+                          >
+                            <div className={`w-4 h-4 border rounded flex items-center justify-center ${
+                              isSelected ? 'bg-primary border-primary' : 'border-input'
+                            }`}>
+                              {isSelected && (
+                                <svg className="w-3 h-3 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <format.icon className="w-4 h-4" />
+                              <Label className="cursor-pointer">
+                                {format.label}
+                              </Label>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </FormControl>
                   <FormMessage />
