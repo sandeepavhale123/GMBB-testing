@@ -5,6 +5,7 @@ import {
   Report,
   PerformanceHealthReportData,
 } from "../types/reportTypes";
+import { GetAllBulkReportsRequest, GetAllBulkReportsResponse } from "../types/bulkReportTypes";
 
 // Helper function to convert frontend data to API payload format
 const createReportPayload = (
@@ -312,6 +313,29 @@ export const reportsApi = {
       }
     } catch (error) {
       console.error("POST get-performance-citation failed:", error);
+      throw error;
+    }
+  },
+
+  // Get all bulk reports with pagination, search, and filtering
+  getAllBulkReports: async (params: {
+    page: number;
+    limit: number;
+    search: string;
+    report_type: 'all' | 'onetime' | 'monthly' | 'weekly';
+  }): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-all-bulk-reports", params);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch bulk reports"
+        );
+      }
+    } catch (error) {
+      console.error("POST /get-all-bulk-reports failed:", error);
       throw error;
     }
   },

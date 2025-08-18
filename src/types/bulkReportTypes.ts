@@ -40,3 +40,35 @@ export interface BulkReportFilters {
   status: 'all' | 'generated' | 'failed' | 'pending';
   deliveryStatus: 'all' | 'sent' | 'pending' | 'failed';
 }
+
+// New types for bulk reports API
+export interface GetAllBulkReportsRequest {
+  page: number;
+  limit: number;
+  search: string;
+  report_type: 'all' | 'onetime' | 'monthly' | 'weekly';
+}
+
+export interface BulkReportItem {
+  id: string;
+  title: string;
+  listing_count: number;
+  last_updated: string;
+  next_update: string;
+  schedule: 'ONETIME' | 'MONTHLY' | 'WEEKLY';
+}
+
+export interface BulkReportsPagination {
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface GetAllBulkReportsResponse {
+  code: number;
+  message: string;
+  data: {
+    reports: BulkReportItem[];
+    pagination: BulkReportsPagination;
+  };
+}

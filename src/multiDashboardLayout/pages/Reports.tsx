@@ -1,79 +1,119 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
-import { FileText, TrendingUp, BarChart3, PieChart, Eye, Edit, Trash2 } from 'lucide-react';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { FileText, TrendingUp, BarChart3, PieChart, Eye, Edit, Trash2, Search } from 'lucide-react';
 import { format } from 'date-fns';
+import { useBulkReports } from '@/hooks/useBulkReports';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export const Reports: React.FC = () => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [reportType, setReportType] = useState<'all' | 'onetime' | 'monthly' | 'weekly'>('all');
+  const debouncedSearch = useDebounce(searchTerm, 300);
   
-  const quickStats = [{
-    icon: FileText,
-    label: 'Total Reports',
-    value: '24',
-    color: 'text-blue-600'
-  }, {
-    icon: TrendingUp,
-    label: 'This Month',
-    value: '8',
-    color: 'text-green-600'
-  }, {
-    icon: BarChart3,
-    label: 'Pending',
-    value: '3',
-    color: 'text-yellow-600'
-  }, {
-    icon: PieChart,
-    label: 'Completed',
-    value: '21',
-    color: 'text-purple-600'
-  }];
-  
-  const projectData = [{
-    id: 1,
-    projectName: 'Luxury Hotel Chain Analysis',
-    locations: 12,
-    scheduledStatus: 'Monthly',
-    lastUpdate: new Date('2024-01-15'),
-    nextUpdate: new Date('2024-02-15')
-  }, {
-    id: 2,
-    projectName: 'Boutique Restaurant Reviews',
-    locations: 8,
-    scheduledStatus: 'Weekly',
-    lastUpdate: new Date('2024-01-14'),
-    nextUpdate: new Date('2024-01-21')
-  }, {
-    id: 3,
-    projectName: 'Resort Media Optimization',
-    locations: 5,
-    scheduledStatus: 'ONE TIME',
-    lastUpdate: new Date('2024-01-13'),
-    nextUpdate: null
-  }, {
-    id: 4,
-    projectName: 'Urban Property Performance',
-    locations: 15,
-    scheduledStatus: 'Monthly',
-    lastUpdate: new Date('2024-01-10'),
-    nextUpdate: new Date('2024-02-10')
-  }];
+  const { data, isLoading, error } = useBulkReports(
+    currentPage,
+    10,
+    debouncedSearch,
+    reportType
+  );
+
+  const reports = data?.data?.reports || [];
+  const pagination = data?.data?.pagination || { total: 0, page: 1, limit: 10 };
+  const totalPages = Math.ceil(pagination.total / pagination.limit);
+
+  // Calculate quick stats from real data
+  const quickStats = useMemo(() => {
+    const totalReports = pagination.total;
+    const onetimeReports = reports.filter(r => r.schedule === 'ONETIME').length;
+    const monthlyReports = reports.filter(r => r.schedule === 'MONTHLY').length;
+    const weeklyReports = reports.filter(r => r.schedule === 'WEEKLY').length;
+
+    return [
+      {
+        icon: FileText,
+        label: 'Total Reports',
+        value: totalReports.toString(),
+        color: 'text-blue-600'
+      },
+      {
+        icon: TrendingUp,
+        label: 'One Time',
+        value: onetimeReports.toString(),
+        color: 'text-green-600'
+      },
+      {
+        icon: BarChart3,
+        label: 'Monthly',
+        value: monthlyReports.toString(),
+        color: 'text-yellow-600'
+      },
+      {
+        icon: PieChart,
+        label: 'Weekly',
+        value: weeklyReports.toString(),
+        color: 'text-purple-600'
+      }
+    ];
+  }, [reports, pagination.total]);
 
   const getScheduleBadgeVariant = (status: string) => {
     switch (status) {
-      case 'ONE TIME':
+      case 'ONETIME':
         return 'secondary';
-      case 'Weekly':
+      case 'WEEKLY':
         return 'default';
-      case 'Monthly':
+      case 'MONTHLY':
         return 'outline';
       default:
         return 'secondary';
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
+            <p className="text-muted-foreground mt-1">
+              Generate and manage reports across multiple listings
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading reports...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
+            <p className="text-muted-foreground mt-1">
+              Generate and manage reports across multiple listings
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-12">
+          <p className="text-destructive">Error loading reports. Please try again.</p>
+        </div>
+      </div>
+    );
+  }
   
   return <div className="space-y-6">
       {/* Header */}
@@ -94,7 +134,45 @@ export const Reports: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {quickStats.map((stat, index) => (
+          <div key={index} className="bg-card rounded-lg border border-border p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+              </div>
+              <stat.icon className={`h-8 w-8 ${stat.color}`} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Search and Filter Controls */}
+      <div className="bg-card rounded-lg border border-border p-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search reports..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <Select value={reportType} onValueChange={(value: any) => setReportType(value)}>
+            <SelectTrigger className="w-full sm:w-48">
+              <SelectValue placeholder="Filter by type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Reports</SelectItem>
+              <SelectItem value="onetime">One Time</SelectItem>
+              <SelectItem value="monthly">Monthly</SelectItem>
+              <SelectItem value="weekly">Weekly</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       {/* Projects Table */}
       <div className="bg-card rounded-lg border border-border">
@@ -114,24 +192,24 @@ export const Reports: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {projectData.map((project) => (
-                  <TableRow key={project.id} className="hover:bg-muted/50">
+                {reports.map((report) => (
+                  <TableRow key={report.id} className="hover:bg-muted/50">
                     <TableCell className="font-semibold text-foreground">
                       <div>
-                        <div className="font-bold">{project.projectName}</div>
-                        <div className="text-sm text-muted-foreground">{project.locations} locations</div>
+                        <div className="font-bold">{report.title}</div>
+                        <div className="text-sm text-muted-foreground">{report.listing_count} locations</div>
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
-                      <Badge variant={getScheduleBadgeVariant(project.scheduledStatus)}>
-                        {project.scheduledStatus}
+                      <Badge variant={getScheduleBadgeVariant(report.schedule)}>
+                        {report.schedule}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">
-                      {format(project.lastUpdate, 'dd MMM yyyy')}
+                      {report.last_updated}
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">
-                      {project.nextUpdate ? format(project.nextUpdate, 'dd MMM yyyy') : '—'}
+                      {report.next_update !== '-' ? report.next_update : '—'}
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-2">
@@ -141,7 +219,7 @@ export const Reports: React.FC = () => {
                               variant="ghost" 
                               size="icon" 
                               className="h-8 w-8"
-                              onClick={() => navigate(`/main-dashboard/bulk-report-details/${project.id}`)}
+                              onClick={() => navigate(`/main-dashboard/bulk-report-details/${report.id}`)}
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -181,5 +259,43 @@ export const Reports: React.FC = () => {
           </TooltipProvider>
         </div>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious 
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                />
+              </PaginationItem>
+              
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const page = i + 1;
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(page)}
+                      isActive={currentPage === page}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              
+              <PaginationItem>
+                <PaginationNext 
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>;
 };
