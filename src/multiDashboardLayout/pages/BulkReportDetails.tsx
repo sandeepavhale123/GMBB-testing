@@ -229,22 +229,6 @@ export const BulkReportDetails: React.FC = () => {
         
       </Card>
 
-      {/* Bulk Actions */}
-      {selectedReports.size > 0 && <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-foreground">
-                {selectedReports.size} report{selectedReports.size > 1 ? 's' : ''} selected
-              </span>
-              <div className="flex gap-2">
-                <Button size="sm" onClick={handleBulkResend}>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Resend Emails
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>}
 
       {/* Reports Table */}
       <Card>
@@ -255,9 +239,6 @@ export const BulkReportDetails: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-12">
-                  <Checkbox checked={reports.length > 0 && selectedReports.size === reports.length} onCheckedChange={handleSelectAll} />
-                </TableHead>
                 <TableHead>Location</TableHead>
                 <TableHead>Report Date</TableHead>
                 <TableHead>Status</TableHead>
@@ -266,9 +247,6 @@ export const BulkReportDetails: React.FC = () => {
             </TableHeader>
             <TableBody>
               {reports.map(report => <TableRow key={report.id}>
-                  <TableCell>
-                    <Checkbox checked={selectedReports.has(report.id)} onCheckedChange={checked => handleSelectReport(report.id, checked as boolean)} />
-                  </TableCell>
                   <TableCell>
                     <div>
                       <div className="font-medium">{report.locationName}</div>
