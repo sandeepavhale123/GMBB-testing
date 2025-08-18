@@ -234,7 +234,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2">
-          <div ref={containerRef} className="border rounded-md bg-background shadow-sm">
+          <div ref={containerRef} className="border rounded-md bg-background shadow-lg z-50 relative">
             <div className="p-3">
               {/* Search Input */}
               <div className="relative flex-1">
