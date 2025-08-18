@@ -75,12 +75,30 @@ const weekDays = [{
   value: "sunday",
   label: "Sunday"
 }];
+
+const weekOptions = [{
+  value: "first",
+  label: "First Week"
+}, {
+  value: "second",
+  label: "Second Week"
+}, {
+  value: "third",
+  label: "Third Week"
+}, {
+  value: "fourth",
+  label: "Fourth Week"
+}, {
+  value: "last",
+  label: "Last Week"
+}];
 const generateBulkReportSchema = z.object({
   projectName: z.string().min(1, "Project name is required"),
   selectedListings: z.array(z.string()).min(1, "Select at least one location").max(20, "Maximum 20 locations allowed"),
   reportSections: z.array(z.string()).min(1, "Select at least one report type"),
   scheduleType: z.enum(["one-time", "weekly", "monthly"]),
   frequency: z.string().optional(),
+  emailWeek: z.string().optional(),
   emailDay: z.string().optional(),
   dateRange: z.custom<DateRange>().optional(),
   deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
@@ -345,6 +363,25 @@ export const GenerateBulkReport: React.FC = () => {
                         </Select>
                         <FormMessage />
                       </FormItem>} />
+
+                  {watchScheduleType === "monthly" && <FormField control={form.control} name="emailWeek" render={({
+                field
+              }) => <FormItem>
+                        <FormLabel>Send Email On This Week</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select week..." />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {weekOptions.map(week => <SelectItem key={week.value} value={week.value}>
+                                {week.label}
+                              </SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>} />}
 
                   <FormField control={form.control} name="emailDay" render={({
                 field
