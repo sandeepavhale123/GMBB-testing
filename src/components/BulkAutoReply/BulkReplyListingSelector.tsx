@@ -260,7 +260,10 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                       <div>
                         <Collapsible open={groupsOpen} onOpenChange={setGroupsOpen}>
                           <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                            <CollapsibleTrigger className="flex items-center gap-1 hover:text-foreground transition-colors">
+                            <CollapsibleTrigger 
+                              className="flex items-center gap-1 hover:text-foreground transition-colors"
+                              onClick={() => setOpen(false)}
+                            >
                               <ChevronDown className={`h-3 w-3 transition-transform ${groupsOpen ? 'rotate-180' : ''}`} />
                               <span>Groups</span>
                             </CollapsibleTrigger>
@@ -302,7 +305,10 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                       <div>
                         <Collapsible open={locationsOpen} onOpenChange={setLocationsOpen}>
                           <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                            <CollapsibleTrigger className="flex items-center gap-1 hover:text-foreground transition-colors">
+                            <CollapsibleTrigger 
+                              className="flex items-center gap-1 hover:text-foreground transition-colors"
+                              onClick={() => setOpen(false)}
+                            >
                               <ChevronDown className={`h-3 w-3 transition-transform ${locationsOpen ? 'rotate-180' : ''}`} />
                               <span>Locations</span>
                             </CollapsibleTrigger>
