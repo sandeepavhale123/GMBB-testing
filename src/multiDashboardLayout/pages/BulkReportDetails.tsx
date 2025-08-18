@@ -257,9 +257,6 @@ export const BulkReportDetails: React.FC = () => {
                     <div className="text-sm">
                       {format(new Date(report.reportDate), 'MMM dd, yyyy')}
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {format(new Date(report.reportDate), 'hh:mm a')}
-                    </div>
                   </TableCell>
                   <TableCell>
                     {getStatusBadge(report.status)}
