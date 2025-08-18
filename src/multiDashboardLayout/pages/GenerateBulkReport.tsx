@@ -77,7 +77,7 @@ const weekDays = [{
 }];
 const generateBulkReportSchema = z.object({
   projectName: z.string().min(1, "Project name is required"),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location"),
+  selectedListings: z.array(z.string()).min(1, "Select at least one location").max(20, "Maximum 20 locations allowed"),
   reportSections: z.array(z.string()).min(1, "Select at least one report type"),
   scheduleType: z.enum(["one-time", "weekly", "monthly"]),
   frequency: z.string().optional(),
@@ -114,6 +114,7 @@ export const GenerateBulkReport: React.FC = () => {
   });
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
+  const watchSelectedListings = form.watch("selectedListings");
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
@@ -202,7 +203,37 @@ export const GenerateBulkReport: React.FC = () => {
               <FormField control={form.control} name="selectedListings" render={({
               field
             }) => <FormItem>
-                    <BulkReplyListingSelector selectedListings={field.value} onListingsChange={field.onChange} hideStatusBadges={true} />
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm font-medium">Select Locations</Label>
+                        <div className="flex items-center gap-2">
+                          <Badge variant={watchSelectedListings.length >= 20 ? "destructive" : watchSelectedListings.length >= 18 ? "secondary" : "outline"} className="text-xs">
+                            {watchSelectedListings.length}/20 locations
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {watchSelectedListings.length >= 18 && watchSelectedListings.length < 20 && (
+                        <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded-md border border-amber-200">
+                          ⚠️ You're approaching the limit of 20 locations for optimal performance.
+                        </div>
+                      )}
+                      
+                      {watchSelectedListings.length >= 20 && (
+                        <div className="text-xs text-red-600 bg-red-50 p-2 rounded-md border border-red-200">
+                          🚫 Maximum limit reached. You can deselect locations to make changes.
+                        </div>
+                      )}
+                      
+                      <BulkReplyListingSelector 
+                        selectedListings={field.value} 
+                        onListingsChange={field.onChange} 
+                        hideStatusBadges={true}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        For optimal performance, bulk reports are limited to 20 locations per project.
+                      </p>
+                    </div>
                     <FormMessage />
                   </FormItem>} />
             </CardContent>
