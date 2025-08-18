@@ -201,38 +201,7 @@ export const BulkReportDetails: React.FC = () => {
 
       {/* Filters */}
       <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search by location name..." value={searchInput} onChange={e => handleSearch(e.target.value)} className="pl-10" />
-              </div>
-            </div>
-            <Select value={filters.status} onValueChange={handleStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Report Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Reports</SelectItem>
-                <SelectItem value="generated">Generated</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={filters.deliveryStatus} onValueChange={handleDeliveryFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Delivery Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Delivery</SelectItem>
-                <SelectItem value="sent">Sent</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="failed">Failed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
+        
       </Card>
 
       {/* Bulk Actions */}
