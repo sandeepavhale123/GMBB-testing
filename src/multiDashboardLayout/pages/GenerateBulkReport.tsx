@@ -114,7 +114,6 @@ export const GenerateBulkReport: React.FC = () => {
   });
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
-  const watchDeliveryFormat = form.watch("deliveryFormat");
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
@@ -131,14 +130,6 @@ export const GenerateBulkReport: React.FC = () => {
     form.setValue("reportSections", []);
   };
 
-  const handleDeliveryFormatChange = useCallback((format: string, checked: boolean) => {
-    const currentFormats = form.getValues("deliveryFormat");
-    if (checked) {
-      form.setValue("deliveryFormat", [...currentFormats, format as "csv" | "pdf" | "html"]);
-    } else {
-      form.setValue("deliveryFormat", currentFormats.filter(f => f !== format));
-    }
-  }, [form]);
   const onSubmit = async (data: GenerateBulkReportForm) => {
     setIsSubmitting(true);
     try {
@@ -357,32 +348,42 @@ export const GenerateBulkReport: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-row gap-4">
-                {[
-                  { value: "csv", label: "CSV Format", icon: File },
-                  { value: "pdf", label: "PDF Format", icon: FileText },
-                  { value: "html", label: "HTML Public Report", icon: Globe }
-                ].map((format) => (
-                  <div
-                    key={format.value}
-                    className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1"
-                  >
-                    <Checkbox
-                      id={format.value}
-                      checked={watchDeliveryFormat.includes(format.value as "csv" | "pdf" | "html")}
-                      onCheckedChange={(checked) => handleDeliveryFormatChange(format.value, checked as boolean)}
-                    />
-                    <div className="flex items-center gap-2">
-                      <format.icon className="w-4 h-4" />
-                      <Label htmlFor={format.value} className="cursor-pointer">
-                        {format.label}
-                      </Label>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <FormField control={form.control} name="deliveryFormat" render={() => (
+              <FormField control={form.control} name="deliveryFormat" render={({ field }) => (
                 <FormItem>
+                  <FormControl>
+                    <div className="flex flex-row gap-4">
+                      {[
+                        { value: "csv", label: "CSV Format", icon: File },
+                        { value: "pdf", label: "PDF Format", icon: FileText },
+                        { value: "html", label: "HTML Public Report", icon: Globe }
+                      ].map((format) => (
+                        <div
+                          key={format.value}
+                          className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1"
+                        >
+                          <Checkbox
+                            id={format.value}
+                            checked={field.value.includes(format.value as "csv" | "pdf" | "html")}
+                            onCheckedChange={(checked) => {
+                              console.log(`Checkbox ${format.value} changed to:`, checked);
+                              const currentFormats = field.value;
+                              if (checked) {
+                                field.onChange([...currentFormats, format.value]);
+                              } else {
+                                field.onChange(currentFormats.filter(f => f !== format.value));
+                              }
+                            }}
+                          />
+                          <div className="flex items-center gap-2">
+                            <format.icon className="w-4 h-4" />
+                            <Label htmlFor={format.value} className="cursor-pointer">
+                              {format.label}
+                            </Label>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
