@@ -201,7 +201,7 @@ export const GenerateBulkReport: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Project Details
+                Report Details
               </CardTitle>
               <CardDescription>
                 Give your report project a name and select locations
@@ -211,9 +211,9 @@ export const GenerateBulkReport: React.FC = () => {
               <FormField control={form.control} name="projectName" render={({
               field
             }) => <FormItem>
-                    <FormLabel>Project Name</FormLabel>
+                    <FormLabel>Report title</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter project name..." {...field} />
+                      <Input placeholder="Enter report title..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
