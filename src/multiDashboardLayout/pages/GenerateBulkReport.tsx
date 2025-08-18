@@ -83,7 +83,7 @@ const generateBulkReportSchema = z.object({
   frequency: z.string().optional(),
   emailDay: z.string().optional(),
   dateRange: z.custom<DateRange>().optional(),
-  deliveryFormat: z.enum(["csv", "pdf", "html"]),
+  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
   emailTo: z.string().min(1, "Email recipient is required").email("Invalid email format"),
   emailCc: z.string().optional(),
   emailBcc: z.string().optional(),
@@ -104,7 +104,7 @@ export const GenerateBulkReport: React.FC = () => {
       selectedListings: [],
       reportSections: [],
       scheduleType: "one-time",
-      deliveryFormat: "pdf",
+      deliveryFormat: ["pdf"],
       emailTo: "",
       emailCc: "",
       emailBcc: "",
@@ -114,6 +114,7 @@ export const GenerateBulkReport: React.FC = () => {
   });
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
+  const watchDeliveryFormat = form.watch("deliveryFormat");
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
@@ -128,6 +129,15 @@ export const GenerateBulkReport: React.FC = () => {
   };
   const handleDeselectAllReports = () => {
     form.setValue("reportSections", []);
+  };
+
+  const handleDeliveryFormatChange = (format: string, checked: boolean) => {
+    const currentFormats = form.getValues("deliveryFormat");
+    if (checked) {
+      form.setValue("deliveryFormat", [...currentFormats, format as "csv" | "pdf" | "html"]);
+    } else {
+      form.setValue("deliveryFormat", currentFormats.filter(f => f !== format));
+    }
   };
   const onSubmit = async (data: GenerateBulkReportForm) => {
     setIsSubmitting(true);
@@ -347,42 +357,36 @@ export const GenerateBulkReport: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <FormField control={form.control} name="deliveryFormat" render={({
-              field
-            }) => <FormItem>
-                    <FormControl>
-                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                          <RadioGroupItem value="csv" id="csv" />
-                          <div className="flex items-center gap-2">
-                            <File className="w-4 h-4" />
-                            <Label htmlFor="csv" className="cursor-pointer">
-                              CSV Format
-                            </Label>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                          <RadioGroupItem value="pdf" id="pdf" />
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4" />
-                            <Label htmlFor="pdf" className="cursor-pointer">
-                              PDF Format
-                            </Label>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                          <RadioGroupItem value="html" id="html" />
-                          <div className="flex items-center gap-2">
-                            <Globe className="w-4 h-4" />
-                            <Label htmlFor="html" className="cursor-pointer">
-                              HTML Public Report
-                            </Label>
-                          </div>
-                        </div>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>} />
+              <div className="flex flex-row gap-4">
+                {[
+                  { value: "csv", label: "CSV Format", icon: File },
+                  { value: "pdf", label: "PDF Format", icon: FileText },
+                  { value: "html", label: "HTML Public Report", icon: Globe }
+                ].map((format) => (
+                  <div
+                    key={format.value}
+                    className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer flex-1"
+                    onClick={() => handleDeliveryFormatChange(format.value, !watchDeliveryFormat.includes(format.value as "csv" | "pdf" | "html"))}
+                  >
+                    <Checkbox
+                      id={format.value}
+                      checked={watchDeliveryFormat.includes(format.value as "csv" | "pdf" | "html")}
+                      onCheckedChange={(checked) => handleDeliveryFormatChange(format.value, checked as boolean)}
+                    />
+                    <div className="flex items-center gap-2">
+                      <format.icon className="w-4 h-4" />
+                      <Label htmlFor={format.value} className="cursor-pointer">
+                        {format.label}
+                      </Label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <FormField control={form.control} name="deliveryFormat" render={() => (
+                <FormItem>
+                  <FormMessage />
+                </FormItem>
+              )} />
             </CardContent>
           </Card>
 
