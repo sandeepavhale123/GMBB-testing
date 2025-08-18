@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -131,14 +131,14 @@ export const GenerateBulkReport: React.FC = () => {
     form.setValue("reportSections", []);
   };
 
-  const handleDeliveryFormatChange = (format: string, checked: boolean) => {
+  const handleDeliveryFormatChange = useCallback((format: string, checked: boolean) => {
     const currentFormats = form.getValues("deliveryFormat");
     if (checked) {
       form.setValue("deliveryFormat", [...currentFormats, format as "csv" | "pdf" | "html"]);
     } else {
       form.setValue("deliveryFormat", currentFormats.filter(f => f !== format));
     }
-  };
+  }, [form]);
   const onSubmit = async (data: GenerateBulkReportForm) => {
     setIsSubmitting(true);
     try {
@@ -365,8 +365,7 @@ export const GenerateBulkReport: React.FC = () => {
                 ].map((format) => (
                   <div
                     key={format.value}
-                    className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer flex-1"
-                    onClick={() => handleDeliveryFormatChange(format.value, !watchDeliveryFormat.includes(format.value as "csv" | "pdf" | "html"))}
+                    className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1"
                   >
                     <Checkbox
                       id={format.value}
