@@ -15,7 +15,12 @@ export const UserProfileDropdown: React.FC = () => {
   const { profileData } = useProfile();
 
   const handleAccountSettings = () => {
-    navigate('/settings');
+    const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
+    if (isInMainDashboard) {
+      navigate('/main-dashboard/settings');
+    } else {
+      navigate('/settings');
+    }
   };
 
   const handleViewProfile = () => {
