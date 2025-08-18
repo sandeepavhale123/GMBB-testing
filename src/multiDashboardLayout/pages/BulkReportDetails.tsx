@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, Mail, ChevronLeft, ChevronRight, Search, RefreshCw, FileText, Users, Calendar, CheckCircle2, AlertCircle, Clock, XCircle } from 'lucide-react';
+import { ArrowLeft, Download, Mail, ChevronLeft, ChevronRight, Search, RefreshCw, FileText, Users, Calendar, CheckCircle2, AlertCircle, Clock, XCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -269,14 +269,15 @@ export const BulkReportDetails: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 justify-end">
-                      {report.status === 'generated' && <Button size="sm" variant="outline" onClick={() => handleDownload(report.id)}>
-                          <Download className="w-4 h-4 mr-1" />
-                          Download
-                        </Button>}
-                      {(report.deliveryStatus === 'failed' || report.deliveryStatus === 'pending') && <Button size="sm" variant="ghost" onClick={() => handleResendEmail(report.id)}>
-                          <Mail className="w-4 h-4 mr-1" />
-                          Resend
-                        </Button>}
+                      <Button size="sm" variant="outline">
+                        CSV
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        PDF
+                      </Button>
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>)}
