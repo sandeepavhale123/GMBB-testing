@@ -6,7 +6,10 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import { FileText, TrendingUp, BarChart3, PieChart, Eye, Edit, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
+
 export const Reports: React.FC = () => {
+  const navigate = useNavigate();
+  
   const quickStats = [{
     icon: FileText,
     label: 'Total Reports',
@@ -28,6 +31,7 @@ export const Reports: React.FC = () => {
     value: '21',
     color: 'text-purple-600'
   }];
+  
   const projectData = [{
     id: 1,
     projectName: 'Luxury Hotel Chain Analysis',
@@ -70,6 +74,7 @@ export const Reports: React.FC = () => {
         return 'secondary';
     }
   };
+  
   return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
