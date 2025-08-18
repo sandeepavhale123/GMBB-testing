@@ -204,7 +204,7 @@ export const GenerateBulkReport: React.FC = () => {
               field
             }) => <FormItem>
                     <div className="space-y-3">
-                      <Label className="text-sm font-medium">Select Locations</Label>
+                      {/* <Label className="text-sm font-medium">Select Locations</Label> */}
                       
                       <div className="space-y-3">
                         <BulkReplyListingSelector 
