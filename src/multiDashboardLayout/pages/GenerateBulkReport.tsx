@@ -22,7 +22,7 @@ import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyLi
 import { type ReportSectionId } from "@/types/reportTypes";
 import { useToast } from "@/hooks/use-toast";
 
-// Specific report sections for bulk report generation
+// Force refresh - Specific report sections for bulk report generation
 const BULK_REPORT_SECTIONS = [
   { id: "posts", name: "GMB Post" },
   { id: "media", name: "Media Post" },
