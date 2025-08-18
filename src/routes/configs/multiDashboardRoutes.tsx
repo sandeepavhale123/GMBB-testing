@@ -9,6 +9,7 @@ import { StandaloneLayout } from "@/multiDashboardLayout/layouts/StandaloneLayou
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
+import { GenerateBulkReport } from "@/multiDashboardLayout/pages/GenerateBulkReport";
 import { BulkAutoReply } from "@/multiDashboardLayout/pages/BulkAutoReply";
 import { BulkAutoReplyProjectDetails } from "@/multiDashboardLayout/pages/BulkAutoReplyProjectDetails";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
@@ -51,6 +52,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
         {
           path: "reports",
           element: <Reports />,
+        },
+        {
+          path: "generate-bulk-report",
+          element: <GenerateBulkReport />,
         },
         {
           path: "bulk-auto-reply",

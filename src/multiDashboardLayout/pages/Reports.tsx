@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
@@ -78,7 +79,10 @@ export const Reports: React.FC = () => {
             Generate and manage reports across multiple listings
           </p>
         </div>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => navigate('/main-dashboard/generate-bulk-report')}
+        >
           <FileText className="w-4 h-4 mr-2" />
           Generate Report
         </Button>
