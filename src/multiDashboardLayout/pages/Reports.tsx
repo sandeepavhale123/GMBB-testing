@@ -1,41 +1,48 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, TrendingUp, BarChart3, PieChart } from 'lucide-react';
-
 export const Reports: React.FC = () => {
-  const quickStats = [
-    { icon: FileText, label: 'Total Reports', value: '24', color: 'text-blue-600' },
-    { icon: TrendingUp, label: 'This Month', value: '8', color: 'text-green-600' },
-    { icon: BarChart3, label: 'Pending', value: '3', color: 'text-yellow-600' },
-    { icon: PieChart, label: 'Completed', value: '21', color: 'text-purple-600' },
-  ];
-
-  const recentReports = [
-    {
-      name: 'Monthly Performance Report',
-      type: 'Performance',
-      date: '2024-01-15',
-      status: 'Completed',
-      listings: 5
-    },
-    {
-      name: 'Review Analysis Report',
-      type: 'Reviews',
-      date: '2024-01-14',
-      status: 'Processing',
-      listings: 3
-    },
-    {
-      name: 'Media Optimization Report',
-      type: 'Media',
-      date: '2024-01-13',
-      status: 'Completed',
-      listings: 8
-    },
-  ];
-
-  return (
-    <div className="space-y-6">
+  const quickStats = [{
+    icon: FileText,
+    label: 'Total Reports',
+    value: '24',
+    color: 'text-blue-600'
+  }, {
+    icon: TrendingUp,
+    label: 'This Month',
+    value: '8',
+    color: 'text-green-600'
+  }, {
+    icon: BarChart3,
+    label: 'Pending',
+    value: '3',
+    color: 'text-yellow-600'
+  }, {
+    icon: PieChart,
+    label: 'Completed',
+    value: '21',
+    color: 'text-purple-600'
+  }];
+  const recentReports = [{
+    name: 'Monthly Performance Report',
+    type: 'Performance',
+    date: '2024-01-15',
+    status: 'Completed',
+    listings: 5
+  }, {
+    name: 'Review Analysis Report',
+    type: 'Reviews',
+    date: '2024-01-14',
+    status: 'Processing',
+    listings: 3
+  }, {
+    name: 'Media Optimization Report',
+    type: 'Media',
+    date: '2024-01-13',
+    status: 'Completed',
+    listings: 8
+  }];
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -51,21 +58,7 @@ export const Reports: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {quickStats.map((stat, index) => (
-          <div key={index} className="bg-card rounded-lg p-6 border border-border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              </div>
-              <div className={`p-3 rounded-full bg-muted ${stat.color}`}>
-                <stat.icon className="w-6 h-6" />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      
 
       {/* Recent Reports */}
       <div className="bg-card rounded-lg border border-border">
@@ -74,8 +67,7 @@ export const Reports: React.FC = () => {
         </div>
         <div className="p-6">
           <div className="space-y-4">
-            {recentReports.map((report, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+            {recentReports.map((report, index) => <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div className="flex-1">
                   <h3 className="font-medium text-foreground">{report.name}</h3>
                   <p className="text-sm text-muted-foreground">
@@ -83,22 +75,16 @@ export const Reports: React.FC = () => {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    report.status === 'Completed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                     {report.status}
                   </span>
                   <Button variant="outline" size="sm">
                     View
                   </Button>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
