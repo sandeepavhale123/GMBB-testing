@@ -239,7 +239,6 @@ export const BulkReportDetails: React.FC = () => {
                 <TableHead>Location</TableHead>
                 <TableHead>Report Date</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Delivery</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -267,9 +266,6 @@ export const BulkReportDetails: React.FC = () => {
                     {report.errorMessage && <div className="text-xs text-red-600 mt-1">
                         {report.errorMessage}
                       </div>}
-                  </TableCell>
-                  <TableCell>
-                    {getDeliveryBadge(report.deliveryStatus)}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 justify-end">
