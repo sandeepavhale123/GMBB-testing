@@ -442,15 +442,7 @@ export const GenerateBulkReport: React.FC = () => {
                           <Checkbox
                             id={format.value}
                             checked={field.value.includes(format.value as "csv" | "pdf" | "html")}
-                            onCheckedChange={(checked) => {
-                              console.log(`Checkbox ${format.value} changed to:`, checked);
-                              const currentFormats = field.value;
-                              if (checked) {
-                                field.onChange([...currentFormats, format.value]);
-                              } else {
-                                field.onChange(currentFormats.filter(f => f !== format.value));
-                              }
-                            }}
+                            disabled
                           />
                           <div className="flex items-center gap-2">
                             <format.icon className="w-4 h-4" />
