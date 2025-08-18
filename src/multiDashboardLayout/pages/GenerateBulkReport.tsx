@@ -428,7 +428,16 @@ export const GenerateBulkReport: React.FC = () => {
                       ].map((format) => (
                         <div
                           key={format.value}
-                          className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1"
+                          className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1 cursor-pointer"
+                          onClick={() => {
+                            const currentFormats = field.value;
+                            const isChecked = currentFormats.includes(format.value as "csv" | "pdf" | "html");
+                            if (isChecked) {
+                              field.onChange(currentFormats.filter(f => f !== format.value));
+                            } else {
+                              field.onChange([...currentFormats, format.value]);
+                            }
+                          }}
                         >
                           <Checkbox
                             id={format.value}
