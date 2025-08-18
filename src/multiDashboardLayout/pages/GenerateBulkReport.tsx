@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
-import { ArrowLeft, FileText, File, Globe, Mail, Calendar, Clock, Send } from "lucide-react";
+import { ArrowLeft, FileText, File, Globe, Mail, Clock, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,14 +13,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { DateRange } from "react-day-picker";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon, Calendar as CalendarLucide } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
 import { type ReportSectionId } from "@/types/reportTypes";
 import { useToast } from "@/hooks/use-toast";
+import { reportsApi } from "@/api/reportsApi";
 
 // Force refresh - Specific report sections for bulk report generation
 const BULK_REPORT_SECTIONS = [
@@ -109,7 +112,8 @@ const generateBulkReportSchema = z.object({
   frequency: z.string().optional(),
   emailWeek: z.string().optional(),
   emailDay: z.string().optional(),
-  dateRange: z.custom<DateRange>().optional(),
+  fromDate: z.date().optional(),
+  toDate: z.date().optional(),
   deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
   emailTo: z.string().min(1, "Email recipient is required").refine(
     (value) => {
@@ -129,6 +133,21 @@ const generateBulkReportSchema = z.object({
   emailBcc: z.string().optional(),
   emailSubject: z.string().min(1, "Email subject is required"),
   emailMessage: z.string().min(1, "Email message is required")
+}).refine((data) => {
+  // Validate required fields based on schedule type
+  if (data.scheduleType === "one-time") {
+    return data.fromDate && data.toDate;
+  }
+  if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
+    return data.frequency && data.emailDay;
+  }
+  if (data.scheduleType === "monthly") {
+    return data.emailWeek;
+  }
+  return true;
+}, {
+  message: "Required fields missing for selected schedule type",
+  path: ["scheduleType"]
 });
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
@@ -174,17 +193,37 @@ export const GenerateBulkReport: React.FC = () => {
   const onSubmit = async (data: GenerateBulkReportForm) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Transform form data to API format
+      const apiPayload = {
+        reportTitle: data.projectName,
+        selectedListings: data.selectedListings,
+        reportSections: data.reportSections,
+        scheduleType: data.scheduleType === "one-time" ? "ONETIME" : 
+                     data.scheduleType === "weekly" ? "WEEKLY" : "MONTHLY",
+        frequency: data.frequency,
+        emailWeek: data.emailWeek,
+        emailDay: data.emailDay,
+        formDate: data.fromDate ? format(data.fromDate, "yyyy-MM-dd") : undefined,
+        toDate: data.toDate ? format(data.toDate, "yyyy-MM-dd") : undefined,
+        deliveryFormat: data.deliveryFormat,
+        emailTo: data.emailTo,
+        emailCc: data.emailCc,
+        emailBcc: data.emailBcc,
+        emailSubject: data.emailSubject,
+        emailMessage: data.emailMessage
+      };
+
+      const response = await reportsApi.createBulkReport(apiPayload);
+      
       toast({
         title: "Report Project Created",
-        description: `${data.projectName} has been successfully created and scheduled.`
+        description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`
       });
       navigate("/main-dashboard/reports");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to create report project. Please try again.",
+        description: error.message || "Failed to create report project. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -325,7 +364,7 @@ export const GenerateBulkReport: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
+                <CalendarLucide className="w-5 h-5" />
                 Schedule Configuration
               </CardTitle>
               <CardDescription>
@@ -358,24 +397,88 @@ export const GenerateBulkReport: React.FC = () => {
 
 
               {watchScheduleType === "one-time" && (
-                <FormField
-                  control={form.control}
-                  name="dateRange"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Select Date Range</FormLabel>
-                      <FormControl>
-                        <DateRangePicker
-                          date={field.value}
-                          onDateChange={field.onChange}
-                          placeholder="Select date range for report data"
-                          className="w-full"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="fromDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>From Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick start date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) => date > new Date()}
+                              initialFocus
+                              className={cn("p-3 pointer-events-auto")}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="toDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>To Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick end date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) => date > new Date()}
+                              initialFocus
+                              className={cn("p-3 pointer-events-auto")}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               )}
 
               {(watchScheduleType === "weekly" || watchScheduleType === "monthly") && <div className="grid grid-cols-1 md:flex md:gap-4 gap-4">

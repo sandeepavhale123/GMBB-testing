@@ -77,6 +77,33 @@ export interface GetAllBulkReportsResponse {
   };
 }
 
+// New types for create-bulk-report API
+export interface CreateBulkReportRequest {
+  reportTitle: string;
+  selectedListings: string[];
+  reportSections: string[];
+  scheduleType: string;
+  frequency?: string;
+  emailWeek?: string;
+  emailDay?: string;
+  formDate?: string;
+  toDate?: string;
+  deliveryFormat: string[];
+  emailTo: string;
+  emailCc?: string;
+  emailBcc?: string;
+  emailSubject: string;
+  emailMessage: string;
+}
+
+export interface CreateBulkReportResponse {
+  code: number;
+  message: string;
+  data: {
+    projectId: number;
+  };
+}
+
 // New types for view-report-details API
 export interface ViewReportDetailsRequest {
   reportId: number;

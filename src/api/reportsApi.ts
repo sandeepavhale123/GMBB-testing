@@ -5,7 +5,7 @@ import {
   Report,
   PerformanceHealthReportData,
 } from "../types/reportTypes";
-import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse } from "../types/bulkReportTypes";
+import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse, CreateBulkReportRequest, CreateBulkReportResponse } from "../types/bulkReportTypes";
 
 // Helper function to convert frontend data to API payload format
 const createReportPayload = (
@@ -357,6 +357,24 @@ export const reportsApi = {
       }
     } catch (error) {
       console.error("POST /delete-bulk-report failed:", error);
+      throw error;
+    }
+  },
+
+  // Create bulk report
+  createBulkReport: async (data: CreateBulkReportRequest): Promise<CreateBulkReportResponse> => {
+    try {
+      const response = await axiosInstance.post("/create-bulk-report", data);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to create bulk report"
+        );
+      }
+    } catch (error) {
+      console.error("POST /create-bulk-report failed:", error);
       throw error;
     }
   },
