@@ -204,9 +204,19 @@ export const GenerateBulkReport: React.FC = () => {
               field
             }) => <FormItem>
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium">Select Locations</Label>
-                        <div className="flex items-center gap-2">
+                      <Label className="text-sm font-medium">Select Locations</Label>
+                      
+                      <div className="space-y-3">
+                        <BulkReplyListingSelector 
+                          selectedListings={field.value} 
+                          onListingsChange={field.onChange} 
+                          hideStatusBadges={true}
+                        />
+                        
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-muted-foreground">
+                            For optimal performance, bulk reports are limited to 20 locations per project.
+                          </p>
                           <Badge variant={watchSelectedListings.length >= 20 ? "destructive" : watchSelectedListings.length >= 18 ? "secondary" : "outline"} className="text-xs">
                             {watchSelectedListings.length}/20 locations
                           </Badge>
@@ -224,15 +234,6 @@ export const GenerateBulkReport: React.FC = () => {
                           🚫 Maximum limit reached. You can deselect locations to make changes.
                         </div>
                       )}
-                      
-                      <BulkReplyListingSelector 
-                        selectedListings={field.value} 
-                        onListingsChange={field.onChange} 
-                        hideStatusBadges={true}
-                      />
-                      <p className="text-xs text-muted-foreground">
-                        For optimal performance, bulk reports are limited to 20 locations per project.
-                      </p>
                     </div>
                     <FormMessage />
                   </FormItem>} />
