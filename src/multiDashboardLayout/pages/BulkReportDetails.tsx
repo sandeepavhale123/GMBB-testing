@@ -223,15 +223,6 @@ export const BulkReportDetails: React.FC = () => {
         )}
       </div>
 
-      {/* Project Summary */}
-      
-
-      {/* Filters */}
-      <Card>
-        
-      </Card>
-
-
       {/* Reports Table or Empty State */}
       <Card>
         {reports.length > 0 ? (
