@@ -45,6 +45,7 @@ export interface GoogleAccountResponse {
     }>;
     totalActiveListings: number;
     totalAccounts: number;
+    allowedListing: number;
     pagination: GoogleAccountPagination;
   };
 }

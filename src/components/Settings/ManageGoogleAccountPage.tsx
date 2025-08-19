@@ -68,6 +68,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
     accounts: apiAccounts,
     totalActiveListings,
     totalAccounts,
+    allowedListing,
     pagination,
     loading,
     error,
@@ -208,7 +209,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
 
             {/* Active Listings Badge */}
             <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 w-fit">
-              Active Listings: {totalActiveListings}/100
+              Active Listings: {totalActiveListings}/{allowedListing}
             </Badge>
           </div>
 
