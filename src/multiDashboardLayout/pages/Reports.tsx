@@ -227,7 +227,7 @@ export const Reports: React.FC = () => {
       {/* Projects Table */}
       <div className="bg-card rounded-lg border border-border">
         <div className="p-6 border-b border-border">
-          <h2 className="text-xl font-semibold text-foreground">Project Management</h2>
+          <h2 className="text-xl font-semibold text-foreground">Total report : {pagination.total}</h2>
         </div>
         <div className="p-0">
           <TooltipProvider>
