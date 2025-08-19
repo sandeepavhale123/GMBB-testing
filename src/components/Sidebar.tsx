@@ -326,7 +326,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-4 pt-0">
           <ScrollArea className="px-3 py-4 ">
             <nav className="space-y-2">
-              {menuItems.filter(item => !(item.id === "settings" && shouldHideForRole())).filter(item => !(item.id === "main-dashboard" && profileData?.dashboardType === 0)).filter(item => (item.id === "settings" && profileData?.dashboardType === 0)).map(item => {
+              {menuItems.filter(item => !(item.id === "settings" && shouldHideForRole())).filter(item => !(item.id === "main-dashboard" && profileData?.dashboardType === 0)).filter(item => !(item.id === "settings" && profileData?.dashboardType === 1)).map(item => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               const hasSubItems = item.subItems && item.subItems.length > 0;
