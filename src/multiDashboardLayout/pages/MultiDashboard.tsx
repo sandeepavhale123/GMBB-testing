@@ -341,9 +341,9 @@ export const MultiDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h3 className="text-lg font-semibold">{dashboardType === 'post' ? 'Posts' : 'GMB Listings'}</h3>
             <div className="w-full flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Select value={dashboardType} onValueChange={handleDashboardTypeChange} disabled={isUpdatingDashboard}>
-                  <SelectTrigger className="w-48">
+                  <SelectTrigger className="w-full sm:w-48">
                     <SelectValue placeholder="Dashboard Type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -359,7 +359,7 @@ export const MultiDashboard: React.FC = () => {
               
               {/* Review Filter Dropdown - Only show for review dashboard */}
               {dashboardType === 'review' && <Select value={reviewFilter} onValueChange={handleReviewFilterChange}>
-                  <SelectTrigger className="w-52">
+                  <SelectTrigger className="w-full sm:w-52">
                     <SelectValue placeholder="Review Filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -376,7 +376,7 @@ export const MultiDashboard: React.FC = () => {
               {/* Post Filters - Only show for post dashboard */}
               {dashboardType === 'post' && <>
                   <Select value={postStatus} onValueChange={handlePostStatusChange}>
-                    <SelectTrigger className="w-48">
+                    <SelectTrigger className="w-full sm:w-48">
                       <SelectValue placeholder="Post status" />
                     </SelectTrigger>
                     <SelectContent>
