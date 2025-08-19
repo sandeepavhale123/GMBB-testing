@@ -209,6 +209,7 @@ export const GenerateBulkReport: React.FC = () => {
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
   const watchSelectedListings = form.watch("selectedListings");
+  const watchProjectName = form.watch("projectName");
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
@@ -865,7 +866,10 @@ export const GenerateBulkReport: React.FC = () => {
             }) => <FormItem>
                     <FormLabel>Subject *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter email subject..." {...field} />
+                      <Input 
+                        placeholder={`Your Generated Reports - ${watchProjectName || "Report Title"}`}
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
