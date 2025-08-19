@@ -525,34 +525,33 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
           </div>
 
           {/* Sticky Footer */}
-          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
-            <div className="order-2 sm:order-1">
-              {/* Preview button - only visible on mobile/tablet */}
+          <div className="flex justify-center sm:justify-between items-center gap-3 p-4 sm:p-6 border-t bg-white shrink-0">
+            {/* Cancel button - only visible on desktop */}
+            <Button
+              variant="outline"
+              onClick={() => {
+                clearSelection();
+                onClose();
+              }}
+              className="hidden sm:block"
+            >
+              Cancel
+            </Button>
+            
+            {/* Mobile: Preview and Create buttons in single row */}
+            <div className="flex gap-3 sm:hidden w-full">
               <Button
                 variant="outline"
                 onClick={() => setIsPreviewOpen(true)}
-                className="lg:hidden w-full sm:w-auto"
+                className="flex-shrink-0"
               >
-                <Eye className="w-4 h-4 mr-2" />
-                Preview
-              </Button>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  clearSelection();
-                  onClose();
-                }}
-                className="w-full sm:w-auto"
-              >
-                Cancel
+                <Eye className="w-4 h-4" />
               </Button>
               <Button
                 type="submit"
                 onClick={handleSubmit}
                 disabled={!isCreatePostEnabled}
-                className="bg-primary hover:bg-primary/90 px-6 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-primary hover:bg-primary/90 flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {createLoading
                   ? isCloning
@@ -563,6 +562,22 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   : "Create Post"}
               </Button>
             </div>
+
+            {/* Desktop: Create button only */}
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={!isCreatePostEnabled}
+              className="hidden sm:block bg-primary hover:bg-primary/90 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {createLoading
+                ? isCloning
+                  ? "Cloning..."
+                  : "Creating..."
+                : isCloning
+                ? "Clone Post"
+                : "Create Post"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
