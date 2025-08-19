@@ -167,15 +167,15 @@ export const Reports: React.FC = () => {
   
   return <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Reports Management</h1>
           <p className="text-muted-foreground mt-1">
             Generate and manage reports across multiple listings
           </p>
         </div>
         <Button 
-          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 self-start sm:self-auto"
           onClick={() => navigate('/main-dashboard/generate-bulk-report')}
         >
           <FileText className="w-4 h-4 mr-2" />
