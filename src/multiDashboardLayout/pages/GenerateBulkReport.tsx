@@ -758,7 +758,7 @@ export const GenerateBulkReport: React.FC = () => {
               <FormField control={form.control} name="deliveryFormat" render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex flex-col md:flex-row gap-4">
                       {[
                         { value: "csv", label: "CSV Format", icon: File },
                         { value: "pdf", label: "PDF Format", icon: FileText },
