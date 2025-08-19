@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -156,6 +156,13 @@ export const GenerateBulkReport: React.FC = () => {
     toast
   } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Section refs for auto-scrolling
+  const reportDetailsRef = useRef<HTMLDivElement>(null);
+  const reportTypesRef = useRef<HTMLDivElement>(null);
+  const scheduleConfigRef = useRef<HTMLDivElement>(null);
+  const deliveryFormatRef = useRef<HTMLDivElement>(null);
+  const emailComposerRef = useRef<HTMLDivElement>(null);
   const form = useForm<GenerateBulkReportForm>({
     resolver: zodResolver(generateBulkReportSchema),
     defaultValues: {
@@ -190,7 +197,61 @@ export const GenerateBulkReport: React.FC = () => {
     form.setValue("reportSections", []);
   };
 
+  // Field to section mapping for auto-scroll
+  const fieldToSectionMap: Record<string, React.RefObject<HTMLDivElement>> = {
+    projectName: reportDetailsRef,
+    selectedListings: reportDetailsRef,
+    reportSections: reportTypesRef,
+    scheduleType: scheduleConfigRef,
+    fromDate: scheduleConfigRef,
+    toDate: scheduleConfigRef,
+    frequency: scheduleConfigRef,
+    emailWeek: scheduleConfigRef,
+    emailDay: scheduleConfigRef,
+    deliveryFormat: deliveryFormatRef,
+    emailTo: emailComposerRef,
+    emailSubject: emailComposerRef,
+    emailMessage: emailComposerRef,
+  };
+
+  const scrollToFirstError = async () => {
+    // Trigger validation to get current errors
+    const isValid = await form.trigger();
+    if (isValid) return;
+
+    const errors = form.formState.errors;
+    const errorFields = Object.keys(errors);
+    
+    if (errorFields.length > 0) {
+      const firstErrorField = errorFields[0];
+      const targetSection = fieldToSectionMap[firstErrorField];
+      
+      if (targetSection?.current) {
+        targetSection.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+        
+        // Add a small delay to account for smooth scrolling
+        setTimeout(() => {
+          // Find the first input/element with error in that section and focus it
+          const firstInput = targetSection.current?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
+          if (firstInput) {
+            firstInput.focus();
+          }
+        }, 500);
+      }
+    }
+  };
+
   const onSubmit = async (data: GenerateBulkReportForm) => {
+    // Check for validation errors and scroll to first error if any
+    const isValid = await form.trigger();
+    if (!isValid) {
+      scrollToFirstError();
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // Transform form data to API format
@@ -257,8 +318,8 @@ export const GenerateBulkReport: React.FC = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Project Details */}
-          <Card>
+          {/* Report Details */}
+          <Card ref={reportDetailsRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -320,7 +381,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Report Types */}
-          <Card>
+          <Card ref={reportTypesRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <File className="w-5 h-5" />
@@ -361,7 +422,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Schedule Configuration */}
-          <Card>
+          <Card ref={scheduleConfigRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CalendarLucide className="w-5 h-5" />
@@ -543,7 +604,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Delivery Format */}
-          <Card>
+          <Card ref={deliveryFormatRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -606,7 +667,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Email Composer */}
-          <Card>
+          <Card ref={emailComposerRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="w-5 h-5" />
