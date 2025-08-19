@@ -202,9 +202,9 @@ export const BulkReportDetails: React.FC = () => {
   } = data;
   return <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">{project.name}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{project.name}</h1>
           <p className="text-muted-foreground">
             Bulk report details • {project.totalLocations} locations
           </p>
@@ -215,9 +215,10 @@ export const BulkReportDetails: React.FC = () => {
           )}
         </div>
         {data?.allInOnePdfReport && reports.length > 0 && (
-          <Button onClick={handleDownloadAllPdf} className="flex items-center gap-2">
+          <Button onClick={handleDownloadAllPdf} className="flex items-center gap-2 self-start sm:self-auto">
             <Download className="w-4 h-4" />
-            Download All-in-One PDF
+            <span className="hidden sm:inline">Download All-in-One PDF</span>
+            <span className="sm:hidden">Download PDF</span>
           </Button>
         )}
       </div>
