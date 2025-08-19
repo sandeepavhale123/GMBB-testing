@@ -824,7 +824,7 @@ export const MultiDashboard: React.FC = () => {
                 <div className="flex items-center justify-center sm:justify-end gap-2">
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || isDashboardLoading}>
                     <ChevronLeft className="w-4 h-4" />
-                    Previous
+                    <span className="hidden sm:inline">Previous</span>
                   </Button>
                   
                   <div className="flex items-center gap-1">
@@ -856,7 +856,7 @@ export const MultiDashboard: React.FC = () => {
                   </div>
                   
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))} disabled={currentPage === pagination.totalPages || isDashboardLoading}>
-                    Next
+                    <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
