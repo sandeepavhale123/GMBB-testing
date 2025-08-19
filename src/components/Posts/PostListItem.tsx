@@ -195,7 +195,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   return <>
       <div className="relative border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
         {/* Date positioned at top right, avoiding action buttons */}
-        <div className="absolute top-1 right-1 flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
+        <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
           <Calendar className="w-3 h-3 mr-1" />
           {formatScheduledDate(post.publishDate)}
         </div>
