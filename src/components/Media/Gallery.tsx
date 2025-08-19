@@ -798,9 +798,9 @@ export const Gallery: React.FC<GalleryProps> = ({
                 <h2 className="text-xl font-semibold text-foreground">Generate AI Images</h2>
                 
                 <div className="flex flex-col sm:flex-row gap-4 items-center">
-                  <Input type="text" placeholder="Describe the image you want to generate..." value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} maxLength={200} className="flex-1 h-10 bg-background border-border" />
+                  <Input type="text" placeholder="Describe the image you want to generate..." value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} maxLength={200} className="w-full sm:flex-1 h-10 bg-background border-border" />
                   
-                  <select value={aiStyle} onChange={e => setAiStyle(e.target.value)} className="h-10 px-3 bg-background border border-border rounded-md text-sm min-w-[120px]">
+                  <select value={aiStyle} onChange={e => setAiStyle(e.target.value)} className="w-full sm:min-w-[120px] sm:w-auto h-10 px-3 bg-background border border-border rounded-md text-sm">
                     <option value="" disabled>Select Style</option>
                     <option value="realistic">Realistic</option>
                     <option value="artistic">Artistic</option>
@@ -811,7 +811,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                     <option value="modern">Modern</option>
                   </select>
                   
-                  <select value={aiVariants.toString()} onChange={e => setAiVariants(parseInt(e.target.value))} className="h-10 px-3 bg-background border border-border rounded-md text-sm min-w-[140px]">
+                  <select value={aiVariants.toString()} onChange={e => setAiVariants(parseInt(e.target.value))} className="w-full sm:min-w-[140px] sm:w-auto h-10 px-3 bg-background border border-border rounded-md text-sm">
                     <option value="" disabled>No. of Variants</option>
                     <option value="1">1 variant</option>
                     <option value="2">2 variants</option>
@@ -819,7 +819,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                     <option value="4">4 variants</option>
                   </select>
                   
-                  <Button onClick={handleGenerate} disabled={!aiPrompt.trim() || isGenerating} className="h-10 px-6 bg-primary hover:bg-primary/90 whitespace-nowrap">
+                  <Button onClick={handleGenerate} disabled={!aiPrompt.trim() || isGenerating} className="w-full sm:w-auto h-10 px-6 bg-primary hover:bg-primary/90 whitespace-nowrap">
                     {isGenerating ? 'Generating...' : 'Generate'}
                   </Button>
                 </div>
