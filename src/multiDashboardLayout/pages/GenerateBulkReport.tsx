@@ -546,7 +546,11 @@ export const GenerateBulkReport: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {BULK_REPORT_SECTIONS.map(section => <div key={section.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                  {BULK_REPORT_SECTIONS.map(section => <div 
+                      key={section.id} 
+                      className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() => handleReportSectionChange(section.id, !watchReportSections.includes(section.id))}
+                    >
                       <Checkbox id={section.id} checked={watchReportSections.includes(section.id)} onCheckedChange={checked => handleReportSectionChange(section.id, checked as boolean)} />
                       <Label htmlFor={section.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                         {section.name}
