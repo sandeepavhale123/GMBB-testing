@@ -198,8 +198,8 @@ export const GenerateBulkReport: React.FC = () => {
         reportTitle: data.projectName,
         selectedListings: data.selectedListings,
         reportSections: data.reportSections,
-        scheduleType: data.scheduleType === "one-time" ? "ONETIME" : 
-                     data.scheduleType === "weekly" ? "WEEKLY" : "MONTHLY",
+        scheduleType: data.scheduleType === "one-time" ? "one-time" : 
+                     data.scheduleType === "weekly" ? "weekly" : "monthly",
         frequency: data.frequency,
         emailWeek: data.emailWeek,
         emailDay: data.emailDay,
