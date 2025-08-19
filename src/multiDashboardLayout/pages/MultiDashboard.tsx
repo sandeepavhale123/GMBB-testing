@@ -340,7 +340,7 @@ export const MultiDashboard: React.FC = () => {
         <div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
             <h3 className="text-lg font-semibold">{dashboardType === 'post' ? 'Posts' : 'GMB Listings'}</h3>
-            <div className="w-full flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Select value={dashboardType} onValueChange={handleDashboardTypeChange} disabled={isUpdatingDashboard}>
                   <SelectTrigger className="w-full sm:w-48">
