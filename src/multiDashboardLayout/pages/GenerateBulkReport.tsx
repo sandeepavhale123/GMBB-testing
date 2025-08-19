@@ -877,16 +877,13 @@ export const GenerateBulkReport: React.FC = () => {
             <Button type="button" variant="outline" onClick={() => navigate("/main-dashboard/reports")}>
               Cancel
             </Button>
-            <Button type="button" variant="secondary" disabled={isSubmitting}>
-              Save Draft
-            </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? <>
-                  <Clock className="w-4 h-4 mr-2 animate-spin" />
+                  <Send className="w-4 h-4 mr-2" />
                   Creating...
                 </> : <>
                   <Send className="w-4 h-4 mr-2" />
-                  Create Project
+                  Create report 
                 </>}
             </Button>
           </div>
