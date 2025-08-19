@@ -215,11 +215,29 @@ axiosInstance.interceptors.response.use(
           isRefreshing = false;
         }
       } else {
-        // For other 401 errors, show toast and reject without clearing tokens
+        // For other 401 errors, show specific toast messages based on the error
         // console.log("⚠️ 401 error with message:", errorMessage);
+        
+        let title = "Access Denied";
+        let description = "You don't have permission to perform this action";
+        
+        // Customize message based on specific error types
+        if (errorMessage?.toLowerCase().includes("expired")) {
+          title = "Session Expired";
+          description = "Your session has expired. Please log in again.";
+        } else if (errorMessage?.toLowerCase().includes("insufficient")) {
+          title = "Insufficient Permissions";
+          description = "You don't have the required permissions for this action.";
+        } else if (errorMessage?.toLowerCase().includes("token")) {
+          title = "Authentication Error";
+          description = "There was an issue with your authentication. Please try logging in again.";
+        } else if (errorMessage) {
+          description = errorMessage;
+        }
+        
         toast({
-          title: "Error",
-          description: errorMessage || "Unauthorized request",
+          title,
+          description,
           variant: "destructive",
         });
         return Promise.reject(error);

@@ -9,18 +9,22 @@ import { StandaloneLayout } from "@/multiDashboardLayout/layouts/StandaloneLayou
 import { BulkMedia } from "@/multiDashboardLayout/pages/BulkMedia";
 import { BulkReview } from "@/multiDashboardLayout/pages/BulkReview";
 import { Reports } from "@/multiDashboardLayout/pages/Reports";
+import { GenerateBulkReport } from "@/multiDashboardLayout/pages/GenerateBulkReport";
 import { BulkAutoReply } from "@/multiDashboardLayout/pages/BulkAutoReply";
 import { BulkAutoReplyProjectDetails } from "@/multiDashboardLayout/pages/BulkAutoReplyProjectDetails";
+import { BulkReportDetails } from "@/multiDashboardLayout/pages/BulkReportDetails";
 import { SettingsLayout } from "@/multiDashboardLayout/components/SettingsLayout";
 import { ManageGoogleAccountWrapper } from "@/multiDashboardLayout/components/settings/ManageGoogleAccountWrapper";
 import { TeamMembersWrapper } from "@/multiDashboardLayout/components/settings/TeamMembersWrapper";
 import { SubscriptionWrapper } from "@/multiDashboardLayout/components/settings/SubscriptionWrapper";
 import { BrandingWrapper } from "@/multiDashboardLayout/components/settings/BrandingWrapper";
 import { ReportBrandingWrapper } from "@/multiDashboardLayout/components/settings/ReportBrandingWrapper";
+import { NotificationsWrapper } from "@/multiDashboardLayout/components/settings/NotificationsWrapper";
 import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/IntegrationsWrapper";
 import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
 import { RouteConfig } from "../routeConfig";
+import { Profile } from "@/multiDashboardLayout/pages/Profile";
 
 export const multiDashboardRoutes: RouteConfig[] = [
   {
@@ -34,6 +38,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
       {
         path: "",
         element: <MultiDashboard />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "bulk-post",
@@ -52,12 +60,20 @@ export const multiDashboardRoutes: RouteConfig[] = [
           element: <Reports />,
         },
         {
+          path: "generate-bulk-report",
+          element: <GenerateBulkReport />,
+        },
+        {
           path: "bulk-auto-reply",
           element: <BulkAutoReply />,
         },
         {
           path: "bulk-auto-reply-project-details/:projectId",
           element: <BulkAutoReplyProjectDetails />,
+        },
+        {
+          path: "bulk-report-details/:projectId",
+          element: <BulkReportDetails />,
         },
       {
         path: "bulk-post-details/:bulkId",
@@ -94,6 +110,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "report-branding",
             element: <ReportBrandingWrapper />,
+          },
+          {
+            path: "notifications",
+            element: <NotificationsWrapper />,
           },
           {
             path: "integrations",

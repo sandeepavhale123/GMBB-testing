@@ -11,7 +11,11 @@ import { toast } from '@/hooks/use-toast';
 interface BulkReplyListingSelectorProps {
   selectedListings: string[];
   onListingsChange: (listings: string[]) => void;
+  onOptionsChange?: (options: BulkReplyListingOption[]) => void;
   error?: string;
+  projectId?: string;
+  hideStatusBadges?: boolean;
+  hideGroups?: boolean;
 }
 
 interface BulkReplyListingOption {
@@ -29,7 +33,11 @@ interface BulkReplyListingOption {
 export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> = ({
   selectedListings,
   onListingsChange,
-  error
+  onOptionsChange,
+  error,
+  projectId,
+  hideStatusBadges = false,
+  hideGroups = false
 }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<BulkReplyListingOption[]>([]);
@@ -65,7 +73,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
 
   const fetchListings = async () => {
     try {
-      const response = await getBulkReplyDetails().unwrap();
+      const response = await getBulkReplyDetails(projectId ? { projectId } : {}).unwrap();
       
       const groupOptions: BulkReplyListingOption[] = response.data.groupsLists
         .filter((group: BulkReplyGroupsList) => group.locCount > 0)
@@ -87,7 +95,9 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
         google_account_id: location.google_account_id
       }));
 
-      setOptions([...groupOptions, ...locationOptions]);
+      const allOptions = [...groupOptions, ...locationOptions];
+      setOptions(allOptions);
+      onOptionsChange?.(allOptions);
     } catch (error) {
       toast({
         title: "Error",
@@ -186,7 +196,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-medium">Select Listings & Groups</Label>
+      <Label className="text-sm font-medium">Select Locations</Label>
       
       {/* Selected items display */}
       {selectedListings.length > 0 && (
@@ -217,20 +227,20 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
             onClick={() => setOpen(!open)}
           >
             {selectedListings.length === 0 
-              ? (isLoading ? "Loading..." : "Select listings and groups...") 
+              ? (isLoading ? "Loading..." : "Select locations...") 
               : `${selectedListings.length} item${selectedListings.length === 1 ? '' : 's'} selected`
             }
             <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-2">
-          <div ref={containerRef} className="border rounded-md bg-background shadow-sm">
+          <div ref={containerRef} className="border rounded-md bg-background shadow-lg z-50 relative">
             <div className="p-3">
               {/* Search Input */}
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Search listings and groups..." 
+                  placeholder="Search locations..." 
                   value={searchTerm} 
                   onChange={e => setSearchTerm(e.target.value)} 
                   className="pl-8 w-full" 
@@ -241,16 +251,19 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
               <div className="mt-3 max-h-60 overflow-y-auto">
                 {filteredOptions.length === 0 ? (
                   <div className="py-6 text-center text-sm text-muted-foreground">
-                    {isLoading ? "Loading..." : "No listings found."}
+                    {isLoading ? "Loading..." : "No location found."}
                   </div>
                 ) : (
                   <div className="space-y-1">
                     {/* Groups Section */}
-                    {groupOptions.length > 0 && (
+                    {!hideGroups && groupOptions.length > 0 && (
                       <div>
                         <Collapsible open={groupsOpen} onOpenChange={setGroupsOpen}>
                           <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                            <CollapsibleTrigger className="flex items-center gap-1 hover:text-foreground transition-colors">
+                            <CollapsibleTrigger 
+                              className="flex items-center gap-1 hover:text-foreground transition-colors"
+                              onClick={() => setOpen(false)}
+                            >
                               <ChevronDown className={`h-3 w-3 transition-transform ${groupsOpen ? 'rotate-180' : ''}`} />
                               <span>Groups</span>
                             </CollapsibleTrigger>
@@ -269,17 +282,17 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                                 onClick={e => handleSelect(option.id, e)}
                               >
                                 <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                                <div className="flex items-center justify-between w-full">
-                                  <span>{option.name}</span>
-                                  {option.locCount && (
-                                    <div className="flex items-center">
-                                      <span className="text-xs text-muted-foreground mr-1">Listings</span>
-                                      <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                                        {option.locCount}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
+                                 <div className="flex items-center justify-between w-full">
+                                   <span>{option.name}</span>
+                                   {!hideStatusBadges && option.locCount && (
+                                     <div className="flex items-center">
+                                       <span className="text-xs text-muted-foreground mr-1">Locations</span>
+                                       <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                         {option.locCount}
+                                       </span>
+                                     </div>
+                                   )}
+                                 </div>
                               </div>
                             ))}
                           </CollapsibleContent>
@@ -292,7 +305,10 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                       <div>
                         <Collapsible open={locationsOpen} onOpenChange={setLocationsOpen}>
                           <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                            <CollapsibleTrigger className="flex items-center gap-1 hover:text-foreground transition-colors">
+                            <CollapsibleTrigger 
+                              className="flex items-center gap-1 hover:text-foreground transition-colors"
+                              onClick={() => setOpen(false)}
+                            >
                               <ChevronDown className={`h-3 w-3 transition-transform ${locationsOpen ? 'rotate-180' : ''}`} />
                               <span>Locations</span>
                             </CollapsibleTrigger>
@@ -316,14 +332,14 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
                                     <span>{option.name}</span>
                                     {option.zipCode && <span className="text-xs text-muted-foreground">{option.zipCode}</span>}
                                   </div>
-                                  {option.setting_type && (
-                                    <Badge 
-                                      variant={getSettingTypeBadgeVariant(option.setting_type)} 
-                                      className="text-xs"
-                                    >
-                                      {option.setting_type}
-                                    </Badge>
-                                  )}
+                                   {!hideStatusBadges && option.setting_type && (
+                                     <Badge 
+                                       variant={getSettingTypeBadgeVariant(option.setting_type)} 
+                                       className="text-xs"
+                                     >
+                                       {option.setting_type}
+                                     </Badge>
+                                   )}
                                 </div>
                               </div>
                             ))}
@@ -341,7 +357,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
       
       {selectedListings.length === 0 && !error && (
         <p className="text-xs text-muted-foreground">
-          Select at least one listing or group to continue
+          Select at least one location to continue
         </p>
       )}
       

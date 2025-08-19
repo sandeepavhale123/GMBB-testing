@@ -45,11 +45,7 @@ import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
 
 // Lazy load heavy components for better performance
-const TrafficSourcesChart = lazy(() =>
-  import("./TrafficSourcesChart").then((module) => ({
-    default: module.TrafficSourcesChart,
-  }))
-);
+const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
 const CreatePostCard = lazy(() =>
   import("./CreatePostCard").then((module) => ({
     default: module.CreatePostCard,

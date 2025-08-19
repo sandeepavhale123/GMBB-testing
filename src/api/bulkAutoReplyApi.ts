@@ -130,14 +130,32 @@ export interface BulkReplyDetailsResponse {
   };
 }
 
+export interface DeleteListingFromProjectRequest {
+  projectId: number;
+  listingIds: number[];
+}
+
+export interface DeleteListingFromProjectResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
+export interface AddListingToProjectResponse {
+  code: number;
+  message: string;
+  data: any[];
+}
+
 export const bulkAutoReplyApi = createApi({
   reducerPath: 'bulkAutoReplyApi',
   baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
-    getBulkReplyDetails: builder.mutation<BulkReplyDetailsResponse, void>({
-      query: () => ({
+    getBulkReplyDetails: builder.mutation<BulkReplyDetailsResponse, { projectId?: string }>({
+      query: (data) => ({
         url: '/get-bulk-reply-details',
         method: 'POST',
+        data,
       }),
     }),
     createBulkTemplateProject: builder.mutation<CreateBulkTemplateProjectResponse, CreateBulkTemplateProjectRequest>({
@@ -168,6 +186,20 @@ export const bulkAutoReplyApi = createApi({
         data,
       }),
     }),
+    deleteListingFromProject: builder.mutation<DeleteListingFromProjectResponse, DeleteListingFromProjectRequest>({
+      query: (data) => ({
+        url: '/delete-listing-from-project',
+        method: 'POST',
+        data,
+      }),
+    }),
+    addListingsToProject: builder.mutation<AddListingToProjectResponse, { projectId: number; listingIds: number[] }>({
+      query: ({ projectId, listingIds }) => ({
+        url: '/add-listing-for-project',
+        method: 'POST',
+        data: { projectId, listingIds },
+      }),
+    }),
   }),
 });
 
@@ -176,5 +208,7 @@ export const {
   useCreateBulkTemplateProjectMutation, 
   useGetBulkProjectDetailsMutation,
   useUpdateBulkTemplateAutoReplyMutation,
-  useSaveBulkAIAutoReplyMutation
+  useSaveBulkAIAutoReplyMutation,
+  useDeleteListingFromProjectMutation,
+  useAddListingsToProjectMutation
 } = bulkAutoReplyApi;

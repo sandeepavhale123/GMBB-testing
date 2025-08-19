@@ -131,11 +131,15 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
         title: "Success",
         description: `Template ${enabled ? 'enabled' : 'disabled'} successfully`,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating template:', error);
+      
+      // Extract the error message from the API response
+      const errorMessage = error?.data?.message || error?.message || "Failed to update template status";
+      
       toast({
         title: "Error",
-        description: "Failed to update template status",
+        description: errorMessage,
         variant: "destructive",
       });
     }
@@ -235,11 +239,15 @@ export const BulkTemplateManager: React.FC<BulkTemplateManagerProps> = ({ autoSe
               description: "Template saved successfully",
             });
             setShowManageModal(false);
-          } catch (error) {
+          } catch (error: any) {
             console.error('Error saving template:', error);
+            
+            // Extract the error message from the API response
+            const errorMessage = error?.data?.message || error?.message || "Failed to save template";
+            
             toast({
               title: "Error",
-              description: "Failed to save template",
+              description: errorMessage,
               variant: "destructive",
             });
           }

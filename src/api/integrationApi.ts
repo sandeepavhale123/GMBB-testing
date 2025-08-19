@@ -68,3 +68,102 @@ export const deleteMapApiKey = async () => {
   });
   return response.data;
 };
+
+// Notification Settings APIs
+export interface NotificationSettingsResponse {
+  code: number;
+  message: string;
+  data: {
+    notification: {
+      gmbPostType: string;
+      gmbReviewType: string;
+      geoRankingType: string;
+    };
+  };
+}
+
+export const getNotificationSettings = async () => {
+  const response = await axiosInstance.post("/get-notification-setting");
+  return response.data as NotificationSettingsResponse;
+};
+
+export interface UpdateNotificationSettingsPayload {
+  gmbPostType: number;
+  gmbReviewType: number;
+  geoRankingType: number;
+}
+
+export interface UpdateNotificationSettingsResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const updateNotificationSettings = async (data: UpdateNotificationSettingsPayload) => {
+  const response = await axiosInstance.post("/update-notification-setting", data);
+  return response.data as UpdateNotificationSettingsResponse;
+};
+
+// Custom Email Notification APIs
+export interface CustomEmailSettingPayload {
+  locationIds: number[];
+  email: string;
+}
+
+export interface CustomEmailSettingResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export interface GetCustomEmailSettingsPayload {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface CustomEmailNotification {
+  id: string;
+  locationName: string;
+  cc_email: string;
+}
+
+export interface GetCustomEmailSettingsResponse {
+  code: number;
+  message: string;
+  data: {
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      pages: number;
+    };
+    results: CustomEmailNotification[];
+  };
+}
+
+export const getCustomEmailSettings = async (data: GetCustomEmailSettingsPayload) => {
+  const response = await axiosInstance.post("/get-custom-email-setting", data);
+  return response.data as GetCustomEmailSettingsResponse;
+};
+
+export const updateCustomEmailSetting = async (data: CustomEmailSettingPayload) => {
+  const response = await axiosInstance.post("/update-custom-email-setting", data);
+  return response.data as CustomEmailSettingResponse;
+};
+
+// Delete Custom Email Notification APIs
+export interface DeleteCustomEmailSettingPayload {
+  listingIds: number[];
+}
+
+export interface DeleteCustomEmailSettingResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
+export const deleteCustomEmailSetting = async (data: DeleteCustomEmailSettingPayload) => {
+  const response = await axiosInstance.post("/delete-custom-email-setting", data);
+  return response.data as DeleteCustomEmailSettingResponse;
+};

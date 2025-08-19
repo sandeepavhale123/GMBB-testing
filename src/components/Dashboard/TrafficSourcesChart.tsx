@@ -7,7 +7,7 @@ type TrafficSourcesChartProps = {
   failed: number;
 };
 
-export const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
+const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
   live,
   failed,
 }) => {
@@ -61,3 +61,5 @@ export const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
     </Card>
   );
 };
+
+export default TrafficSourcesChart;

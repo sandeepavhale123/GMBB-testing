@@ -7,7 +7,8 @@ import {
   Palette, 
   FileText, 
   Settings,
-  Menu
+  Menu,
+  Bell
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
@@ -46,6 +47,11 @@ const settingsNavItems: SettingsNavItem[] = [
     icon: FileText
   },
   {
+    label: 'Notifications',
+    path: '/main-dashboard/settings/notifications',
+    icon: Bell
+  },
+  {
     label: 'Integrations',
     path: '/main-dashboard/settings/integrations',
     icon: Settings
@@ -60,6 +66,11 @@ export const SettingsLayout: React.FC = () => {
   // Function to determine active path for navigation highlighting
   const getActivePath = (itemPath: string) => {
     const currentPath = location.pathname;
+    
+    // Handle base settings path - activate Google Account by default
+    if (currentPath === '/main-dashboard/settings') {
+      return '/main-dashboard/settings/google-account';
+    }
     
     // Handle nested routes - map them to their parent navigation items
     if (currentPath.includes('/team-members/edit/')) {

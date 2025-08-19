@@ -85,15 +85,46 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
 
             {/* Column 2: Locations Table */}
             <div className="space-y-6">
-              <ProjectListingsTable showAddModal={showAddLocationModal} onCloseAddModal={() => setShowAddLocationModal(false)} listingDetails={projectData?.data?.listingDetails} />
+              <ProjectListingsTable 
+                listingDetails={projectData?.data?.listingDetails} 
+                projectId={projectId}
+                onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}
+              />
             </div>
           </div>) : projectType === 'ai' ? (/* AI Project: 2-Column Layout */
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* AI Configuration Manager */}
-            <BulkAIConfigurationManager autoAiSettings={projectData?.data?.autoSettings} onSave={handleAISettingsSave} isEnabled={aiEnabled} onToggle={setAiEnabled} />
+            <BulkAIConfigurationManager 
+              autoAiSettings={projectData?.data?.autoSettings} 
+              onSave={handleAISettingsSave} 
+              isEnabled={aiEnabled} 
+              onToggle={setAiEnabled}
+              projectType={projectType}
+            />
             
             {/* Locations Table */}
-            <ProjectListingsTable showAddModal={showAddLocationModal} onCloseAddModal={() => setShowAddLocationModal(false)} listingDetails={projectData?.data?.listingDetails} />
+            <ProjectListingsTable 
+              listingDetails={projectData?.data?.listingDetails} 
+              projectId={projectId}
+              onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}
+            />
+          </div>) : projectType === 'dnr' ? (/* DNR Project: 2-Column Layout */
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* DNR Configuration Manager */}
+            <BulkAIConfigurationManager 
+              autoAiSettings={projectData?.data?.autoSettings} 
+              onSave={handleAISettingsSave} 
+              isEnabled={aiEnabled} 
+              onToggle={setAiEnabled}
+              projectType={projectType}
+            />
+            
+            {/* Locations Table */}
+            <ProjectListingsTable 
+              listingDetails={projectData?.data?.listingDetails} 
+              projectId={projectId}
+              onListingDeleted={() => projectId && getBulkProjectDetails({ projectId })}
+            />
           </div>) : (/* Fallback for unknown project types */
     <div className="text-center py-12">
             <p className="text-gray-600">Unsupported project type: {projectType}</p>

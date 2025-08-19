@@ -5,6 +5,7 @@ import {
   Report,
   PerformanceHealthReportData,
 } from "../types/reportTypes";
+import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse, CreateBulkReportRequest, CreateBulkReportResponse } from "../types/bulkReportTypes";
 
 // Helper function to convert frontend data to API payload format
 const createReportPayload = (
@@ -312,6 +313,86 @@ export const reportsApi = {
       }
     } catch (error) {
       console.error("POST get-performance-citation failed:", error);
+      throw error;
+    }
+  },
+
+  // Get all bulk reports with pagination, search, and filtering
+  getAllBulkReports: async (params: {
+    page: number;
+    limit: number;
+    search: string;
+    report_type: 'all' | 'onetime' | 'monthly' | 'weekly';
+  }): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/get-all-bulk-reports", params);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch bulk reports"
+        );
+      }
+    } catch (error) {
+      console.error("POST /get-all-bulk-reports failed:", error);
+      throw error;
+    }
+  },
+
+  // Delete bulk report
+  deleteBulkReport: async (reportId: number): Promise<any> => {
+    try {
+      const response = await axiosInstance.post("/delete-bulk-report", {
+        reportId,
+        confirm: "delete"
+      });
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to delete report"
+        );
+      }
+    } catch (error) {
+      console.error("POST /delete-bulk-report failed:", error);
+      throw error;
+    }
+  },
+
+  // Create bulk report
+  createBulkReport: async (data: CreateBulkReportRequest): Promise<CreateBulkReportResponse> => {
+    try {
+      const response = await axiosInstance.post("/create-bulk-report", data);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to create bulk report"
+        );
+      }
+    } catch (error) {
+      console.error("POST /create-bulk-report failed:", error);
+      throw error;
+    }
+  },
+
+  // Get bulk report details
+  getViewReportDetails: async (params: ViewReportDetailsRequest): Promise<ViewReportDetailsResponse> => {
+    try {
+      const response = await axiosInstance.post("/view-report-details", params);
+
+      if (response.data?.code === 200) {
+        return response.data;
+      } else {
+        throw new Error(
+          response.data?.message || "Failed to fetch report details"
+        );
+      }
+    } catch (error) {
+      console.error("POST /view-report-details failed:", error);
       throw error;
     }
   },

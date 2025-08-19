@@ -4,17 +4,32 @@ import { User, LogOut, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useProfile } from '../../hooks/useProfile';
 
 export const UserProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuthRedux();
   const { profileData } = useProfile();
 
   const handleAccountSettings = () => {
-    navigate('/settings');
+    const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
+    if (isInMainDashboard) {
+      navigate('/main-dashboard/settings');
+    } else {
+      navigate('/settings');
+    }
+  };
+
+  const handleViewProfile = () => {
+    const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
+    if (isInMainDashboard) {
+      navigate('/main-dashboard/profile');
+    } else {
+      navigate('/profile');
+    }
   };
 
   // Helper function to check if user role should be restricted
@@ -49,7 +64,7 @@ export const UserProfileDropdown: React.FC = () => {
             <p className="font-medium text-gray-900">{userName}</p>
             <p className="text-sm text-gray-500">{userEmail.length > 20? userEmail.slice(0,19)+'...' : userEmail}</p>
           </div>
-          <DropdownMenuItem onClick={() => navigate('/profile')} className="cursor-pointer">
+          <DropdownMenuItem onClick={handleViewProfile} className="cursor-pointer">
             <User className="w-4 h-4 mr-2" />
             View Profile
           </DropdownMenuItem>
