@@ -614,13 +614,13 @@ export const Gallery: React.FC<GalleryProps> = ({
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Uploaded Images</h2>
               <div className="flex flex-col sm:flex-row gap-4 items-center">
-                <div className="relative flex-1">
+                <div className="relative w-full sm:flex-1">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input type="text" placeholder="Search media" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-background border-border" />
                 </div>
                 
                 <Select value={sortOrder} onValueChange={value => setSortOrder(value as 'desc' | 'asc')}>
-                  <SelectTrigger className="w-[140px]">
+                  <SelectTrigger className="w-full sm:w-[140px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
@@ -631,7 +631,7 @@ export const Gallery: React.FC<GalleryProps> = ({
                 
                 {showUpload && <>
                     <input type="file" multiple accept="image/*,video/*" onChange={handleFileUpload} className="hidden" id="file-upload" disabled={isUploading} />
-                    <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" onClick={() => document.getElementById('file-upload')?.click()} disabled={isUploading}>
+                    <Button className="w-full sm:w-auto flex items-center gap-2 bg-primary hover:bg-primary/90 whitespace-nowrap" onClick={() => document.getElementById('file-upload')?.click()} disabled={isUploading}>
                       <Upload className="h-4 w-4" />
                       {isUploading ? 'Uploading...' : 'Upload Media'}
                     </Button>
