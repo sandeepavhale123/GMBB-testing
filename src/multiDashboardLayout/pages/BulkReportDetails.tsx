@@ -12,6 +12,7 @@ import { toast } from '@/hooks/use-toast';
 import { useBulkReportDetails } from '@/hooks/useBulkReportDetails';
 import { format } from 'date-fns';
 import { ReportDetail } from '@/types/bulkReportTypes';
+import { ReportsEmptyState } from '@/components/Reports/ReportsEmptyState';
 export const BulkReportDetails: React.FC = () => {
   const {
     projectId
@@ -213,7 +214,7 @@ export const BulkReportDetails: React.FC = () => {
             </p>
           )}
         </div>
-        {data?.allInOnePdfReport && (
+        {data?.allInOnePdfReport && reports.length > 0 && (
           <Button onClick={handleDownloadAllPdf} className="flex items-center gap-2">
             <Download className="w-4 h-4" />
             Download All-in-One PDF
@@ -230,76 +231,84 @@ export const BulkReportDetails: React.FC = () => {
       </Card>
 
 
-      {/* Reports Table */}
+      {/* Reports Table or Empty State */}
       <Card>
-        <CardHeader>
-          <CardTitle>Report Details</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Location</TableHead>
-                <TableHead>Report Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {reports.map(report => <TableRow key={report.id}>
-                  <TableCell>
-                    <div>
-                      <div className="font-medium">{report.locationName}</div>
-                      <div className="text-sm text-muted-foreground">{report.address}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="text-sm">
-                      {format(new Date(report.reportDate), 'MMM dd, yyyy')}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getStatusBadge(report.status)}
-                    {report.errorMessage && <div className="text-xs text-red-600 mt-1">
-                        {report.errorMessage}
-                      </div>}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2 justify-end">
-                      {report.csvUrl && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleDownload(report.id, 'csv')}
-                        >
-                          CSV
-                        </Button>
-                      )}
-                      {report.pdfUrl && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleDownload(report.id, 'pdf')}
-                        >
-                          PDF
-                        </Button>
-                      )}
-                      {report.htmlUrl && (
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          className="h-8 w-8 p-0"
-                          onClick={() => window.open(report.htmlUrl!, '_blank')}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </CardContent>
+        {reports.length > 0 ? (
+          <>
+            <CardHeader>
+              <CardTitle>Report Details</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Report Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {reports.map(report => <TableRow key={report.id}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{report.locationName}</div>
+                          <div className="text-sm text-muted-foreground">{report.address}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          {format(new Date(report.reportDate), 'MMM dd, yyyy')}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {getStatusBadge(report.status)}
+                        {report.errorMessage && <div className="text-xs text-red-600 mt-1">
+                            {report.errorMessage}
+                          </div>}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 justify-end">
+                          {report.csvUrl && (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleDownload(report.id, 'csv')}
+                            >
+                              CSV
+                            </Button>
+                          )}
+                          {report.pdfUrl && (
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleDownload(report.id, 'pdf')}
+                            >
+                              PDF
+                            </Button>
+                          )}
+                          {report.htmlUrl && (
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="h-8 w-8 p-0"
+                              onClick={() => window.open(report.htmlUrl!, '_blank')}
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>)}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </>
+        ) : (
+          <CardContent>
+            <ReportsEmptyState onRefresh={refresh} />
+          </CardContent>
+        )}
       </Card>
 
       {/* Pagination */}
