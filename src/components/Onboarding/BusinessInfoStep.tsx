@@ -92,11 +92,11 @@ const BusinessInfoStep = ({
   const mapAgencyTypeToBusinessType = (agencyType: string) => {
     switch (agencyType) {
       case "multi_owner":
-        return "Multi-location Business Manager";
+        return "Multi listing Dashboard";
       case "agency_owner":
         return "Agency Owner / SEO Freelancer";
       case "local_business":
-        return "Local Business Owner";
+        return "Single listing Dashboard";
       default:
         return "";
     }
@@ -144,8 +144,8 @@ const BusinessInfoStep = ({
 
   const businessTypes = [
     "Agency Owner / SEO Freelancer",
-    "Local Business Owner",
-    "Multi-location Business Manager",
+    "Single listing dashboard",
+    "Multi listing Dashboard",
   ];
 
   const locationRanges = [

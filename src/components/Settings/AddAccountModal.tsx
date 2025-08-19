@@ -24,10 +24,29 @@ export const AddAccountModal: React.FC<AddAccountModalProps> = ({
   const handleConnect = async () => {
     setIsConnecting(true);
     try {
-      const authUrl = await `${
-        import.meta.env.VITE_BASE_URL
-      }/google-auth?domain=${localdomain}/settings`;
-      window.location.href = authUrl;
+      const isMultiDashboard =
+        window.location.pathname.startsWith("/main-dashboard");
+
+      // Save state in localStorage
+      localStorage.setItem(
+        "oauth_origin",
+        isMultiDashboard ? "multi" : "single"
+      );
+      const state = localStorage.getItem("oauth_origin");
+      if (state == "multi") {
+        const authUrl = `${
+          import.meta.env.VITE_BASE_URL
+        }/google-auth?domain=${localdomain}/main-dashboard/settings`;
+
+        window.location.href = authUrl; // Redirect to backend OAuth start
+      } else {
+        const authUrl = `${
+          import.meta.env.VITE_BASE_URL
+        }/google-auth?domain=${localdomain}/settings`;
+
+        window.location.href = authUrl; // Redirect to backend OAuth start
+      }
+
       setIsConnecting(false);
     } catch (err) {
       // console.log("error", err);

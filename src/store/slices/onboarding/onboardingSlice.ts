@@ -42,6 +42,7 @@ export interface OnboardingState {
     email: string;
     timezone: string;
     businessType: string;
+    dashboardType: string;
     locationCount: string;
     goals: string[];
     googleConnected: boolean;
@@ -125,11 +126,11 @@ const mapFormDataToBusinessPayload = (
   // Map business type back to agency type
   const mapBusinessTypeToAgencyType = (businessType: string) => {
     switch (businessType) {
-      case "Multi-location Business Manager":
+      case "Multi listing Dashboard":
         return "multi_owner";
       case "Agency Owner / SEO Freelancer":
         return "agency_owner";
-      case "Local Business Owner":
+      case "Single listing Dashboard":
         return "local_business";
       default:
         return "local_business";
@@ -182,6 +183,7 @@ export const saveBusinessDetails = createAsyncThunk(
     const state = getState() as { onboarding: OnboardingState };
     const payload = mapFormDataToBusinessPayload(state.onboarding.formData);
     const result = await updateBusinessDetails(payload);
+    console.log("payload for business", payload);
     return result;
   }
 );

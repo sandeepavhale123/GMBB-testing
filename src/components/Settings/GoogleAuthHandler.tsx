@@ -81,18 +81,25 @@ const GoogleAuthHandler = () => {
           description: "Google account connected successfully.",
         });
 
-        // Clean up URL parameters
+        // ✅ Decide where to go first
+        const oauthOrigin = localStorage.getItem("oauth_origin");
+
+        // ✅ Clear before navigating (prevents re-runs)
+        localStorage.removeItem("oauth_origin");
+
+        // ✅ Clean up URL params before navigate
         const url = new URL(window.location.href);
         url.searchParams.delete("code");
-        url.searchParams.delete("state");
         window.history.replaceState({}, document.title, url.toString());
 
-        // Navigate to the listings management page
-        // console.log(
-        //   "GoogleAuthHandler: Navigating to listings page",
-        //   `/main-dashboard/settings/listings/${accountId}`
-        // );
-        navigate(`/main-dashboard/settings/listings/${accountId}`, { replace: true });
+        // ✅ Navigate once
+        if (oauthOrigin === "multi") {
+          navigate(`/main-dashboard/settings/listings/${accountId}`, {
+            replace: true,
+          });
+        } else {
+          navigate(`/settings/listings/${accountId}`, { replace: true });
+        }
       } catch (error) {
         console.error("GoogleAuthHandler: Authentication error", error);
 
@@ -111,8 +118,18 @@ const GoogleAuthHandler = () => {
         // Clean up URL parameters
         const url = new URL(window.location.href);
         url.searchParams.delete("code");
-        url.searchParams.delete("state");
         window.history.replaceState({}, document.title, url.toString());
+
+        const oauthOrigin = localStorage.getItem("oauth_origin");
+        localStorage.removeItem("oauth_origin");
+
+        if (oauthOrigin === "multi") {
+          navigate("/main-dashboard/settings/google-account", {
+            replace: true,
+          });
+        } else {
+          navigate("/settings/google-account", { replace: true });
+        }
 
         // Don't navigate immediately if there's an error - let user see the error state
       } finally {
@@ -135,9 +152,17 @@ const GoogleAuthHandler = () => {
           </h3>
           <p className="text-gray-600 text-sm mb-4">{error}</p>
           <Button
-            onClick={() =>
-              navigate("/main-dashboard/settings/google-account", { replace: true })
-            }
+            onClick={() => {
+              const oauthOrigin = localStorage.getItem("oauth_origin");
+              if (oauthOrigin === "multi") {
+                navigate("/main-dashboard/settings/google-account", {
+                  replace: true,
+                });
+              } else {
+                navigate("/settings/google-account", { replace: true });
+              }
+              localStorage.removeItem("oauth_origin");
+            }}
             className="w-full"
           >
             Back to Account Settings
