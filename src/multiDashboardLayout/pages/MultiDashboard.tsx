@@ -386,7 +386,7 @@ export const MultiDashboard: React.FC = () => {
                       <SelectItem value="failed">Failed Post</SelectItem>
                     </SelectContent>
                   </Select>
-                  <DateRangePicker date={dateRange} onDateChange={handleDateRangeChange} />
+                  <DateRangePicker date={dateRange} onDateChange={handleDateRangeChange} className="w-full sm:w-auto" />
                 </>}
 
               <ToggleGroup type="single" value={viewMode} onValueChange={value => value && setViewMode(value)}>
