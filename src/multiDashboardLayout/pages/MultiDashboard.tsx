@@ -815,11 +815,11 @@ export const MultiDashboard: React.FC = () => {
             </div>}
             
             {/* Pagination */}
-            {pagination && pagination.totalPages > 1 && <div className="flex items-center justify-between mt-6">
-                <div className="text-sm text-muted-foreground">
+            {pagination && pagination.totalPages > 1 && <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
+                <div className="text-sm text-muted-foreground text-center sm:text-left">
                   {dashboardType === 'post' ? `Showing ${(pagination.currentPage - 1) * itemsPerPage + 1} to ${Math.min(pagination.currentPage * itemsPerPage, (pagination as any).totalPosts)} of ${(pagination as any).totalPosts} posts` : `Showing ${(pagination.currentPage - 1) * (pagination as any).resultsPerPage + 1} to ${Math.min(pagination.currentPage * (pagination as any).resultsPerPage, (pagination as any).totalResults)} of ${(pagination as any).totalResults} listings`}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center sm:justify-end gap-2">
                   <Button variant="outline" size="sm" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1 || isDashboardLoading}>
                     <ChevronLeft className="w-4 h-4" />
                     Previous
