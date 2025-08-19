@@ -133,21 +133,49 @@ const generateBulkReportSchema = z.object({
   emailBcc: z.string().optional(),
   emailSubject: z.string().min(1, "Email subject is required"),
   emailMessage: z.string().min(1, "Email message is required")
-}).refine((data) => {
-  // Validate required fields based on schedule type
+}).superRefine((data, ctx) => {
+  // Individual field validation based on schedule type
   if (data.scheduleType === "one-time") {
-    return data.fromDate && data.toDate;
+    if (!data.fromDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Start date is required for one-time reports",
+        path: ["fromDate"]
+      });
+    }
+    if (!data.toDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "End date is required for one-time reports",
+        path: ["toDate"]
+      });
+    }
   }
+  
   if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
-    return data.frequency && data.emailDay;
+    if (!data.frequency) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Frequency is required for recurring reports",
+        path: ["frequency"]
+      });
+    }
+    if (!data.emailDay) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Email day is required for recurring reports",
+        path: ["emailDay"]
+      });
+    }
   }
-  if (data.scheduleType === "monthly") {
-    return data.emailWeek;
+  
+  if (data.scheduleType === "monthly" && !data.emailWeek) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Email week is required for monthly reports",
+      path: ["emailWeek"]
+    });
   }
-  return true;
-}, {
-  message: "Required fields missing for selected schedule type",
-  path: ["scheduleType"]
 });
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
@@ -214,24 +242,54 @@ export const GenerateBulkReport: React.FC = () => {
     emailMessage: emailComposerRef,
   };
 
-  const scrollToFirstError = async () => {
-    // Trigger validation to get current errors
-    const isValid = await form.trigger();
+  const scrollToFirstError = () => {
+    const { isValid } = form.formState;
     if (isValid) return;
 
     const errors = form.formState.errors;
     console.log('Form errors:', errors); // Debug log
     
-    // Define field priority order to scroll to most important fields first
+    // Dynamic field-to-section mapping based on schedule type
+    const currentScheduleType = watchScheduleType;
+    
+    const getFieldToSectionMap = () => {
+      const baseMap: Record<string, React.RefObject<HTMLDivElement>> = {
+        'projectName': reportDetailsRef,
+        'selectedListings': reportDetailsRef,
+        'reportSections': reportTypesRef,
+        'deliveryFormat': deliveryFormatRef,
+        'emailTo': emailComposerRef,
+        'emailCc': emailComposerRef,
+        'emailBcc': emailComposerRef,
+        'emailSubject': emailComposerRef,
+        'emailMessage': emailComposerRef
+      };
+
+      // Add schedule-specific field mappings
+      if (currentScheduleType === "one-time") {
+        baseMap['fromDate'] = scheduleConfigRef;
+        baseMap['toDate'] = scheduleConfigRef;
+      } else if (currentScheduleType === "weekly" || currentScheduleType === "monthly") {
+        baseMap['frequency'] = scheduleConfigRef;
+        baseMap['emailDay'] = scheduleConfigRef;
+        if (currentScheduleType === "monthly") {
+          baseMap['emailWeek'] = scheduleConfigRef;
+        }
+      }
+
+      return baseMap;
+    };
+
+    const dynamicFieldToSectionMap = getFieldToSectionMap();
+
+    // Define field priority order based on form flow
     const fieldPriority = [
       'projectName',
       'selectedListings', 
       'reportSections',
-      'fromDate',
-      'toDate',
-      'frequency',
-      'emailDay',
-      'emailWeek',
+      ...(currentScheduleType === "one-time" ? ['fromDate', 'toDate'] : []),
+      ...(currentScheduleType === "weekly" || currentScheduleType === "monthly" ? ['frequency', 'emailDay'] : []),
+      ...(currentScheduleType === "monthly" ? ['emailWeek'] : []),
       'deliveryFormat',
       'emailTo',
       'emailSubject',
@@ -247,21 +305,31 @@ export const GenerateBulkReport: React.FC = () => {
       }
     }
 
-    // If no priority field found, use any error field
+    // If no priority field found, check all error fields
     if (!firstErrorField) {
       const errorFields = Object.keys(errors);
       if (errorFields.length > 0) {
-        firstErrorField = errorFields[0];
+        // Try to find a field that maps to a section
+        for (const field of errorFields) {
+          if (dynamicFieldToSectionMap[field]) {
+            firstErrorField = field;
+            break;
+          }
+        }
+        // Fallback to first error field
+        if (!firstErrorField) {
+          firstErrorField = errorFields[0];
+        }
       }
     }
 
     if (firstErrorField) {
-      console.log('Scrolling to field:', firstErrorField); // Debug log
-      const targetSection = fieldToSectionMap[firstErrorField];
+      console.log('Scrolling to field:', firstErrorField, 'Schedule type:', currentScheduleType); // Debug log
+      const targetSection = dynamicFieldToSectionMap[firstErrorField];
       
       if (targetSection?.current) {
         // Scroll with proper offset for headers
-        const headerOffset = 100;
+        const headerOffset = 120;
         const elementPosition = targetSection.current.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -270,25 +338,48 @@ export const GenerateBulkReport: React.FC = () => {
           behavior: 'smooth'
         });
         
-        // Add visual indicator and focus
+        // Add visual feedback and focus
         setTimeout(() => {
-          // Add temporary highlight
-          targetSection.current?.classList.add('ring-2', 'ring-destructive', 'ring-opacity-50');
+          // Add temporary highlight to the section
+          targetSection.current?.classList.add('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
           setTimeout(() => {
-            targetSection.current?.classList.remove('ring-2', 'ring-destructive', 'ring-opacity-50');
-          }, 2000);
+            targetSection.current?.classList.remove('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
+          }, 2500);
 
-          // Find and focus the first input with error
-          const errorInput = targetSection.current?.querySelector('[aria-invalid="true"], .text-destructive') as HTMLElement;
-          if (errorInput) {
-            const focusableElement = errorInput.closest('.space-y-2')?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
-            if (focusableElement) {
+          // Find and focus the specific field with error
+          const fieldSelector = `[name="${firstErrorField}"], [data-field="${firstErrorField}"]`;
+          let focusableElement = targetSection.current?.querySelector(fieldSelector) as HTMLElement;
+          
+          // Fallback: find any input with error in this section
+          if (!focusableElement) {
+            focusableElement = targetSection.current?.querySelector('[aria-invalid="true"]') as HTMLElement;
+          }
+          
+          // Fallback: find first focusable element in section
+          if (!focusableElement) {
+            focusableElement = targetSection.current?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
+          }
+          
+          if (focusableElement) {
+            // For select components, look for the trigger button
+            if (focusableElement.getAttribute('role') === 'combobox' || focusableElement.tagName === 'SELECT') {
+              const trigger = focusableElement.closest('[role="combobox"]') || focusableElement;
+              (trigger as HTMLElement)?.focus();
+            } else {
               focusableElement.focus();
             }
           }
-        }, 300);
+        }, 400);
       } else {
         console.log('Target section not found for field:', firstErrorField); // Debug log
+        // Fallback: scroll to first available section with errors
+        const allSections = [reportDetailsRef, reportTypesRef, scheduleConfigRef, deliveryFormatRef, emailComposerRef];
+        for (const section of allSections) {
+          if (section.current && section.current.querySelector('[aria-invalid="true"], .text-destructive')) {
+            section.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            break;
+          }
+        }
       }
     }
   };
