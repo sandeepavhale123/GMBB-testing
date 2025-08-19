@@ -705,23 +705,25 @@ export const MultiDashboard: React.FC = () => {
                 </div>)}
             </div> : <div className="space-y-2">
               {listings.map(listing => <div key={listing.listingId || listing.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
-                  <div className="flex items-center gap-4">
-                    {/* Logo */}
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
-                    </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="flex items-center gap-4 min-w-0 flex-1">
+                      {/* Logo */}
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                        {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
+                      </div>
 
-                    {/* Basic Info */}
-                    <div className="min-w-0 flex-1">
-                      <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
-                      <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
-                      {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                        {listing.storeCode}
-                      </span>}
+                      {/* Basic Info */}
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
+                        <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
+                        {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                          {listing.storeCode}
+                        </span>}
+                      </div>
                     </div>
 
                     {/* Dashboard Type Specific Data */}
-                    <div className="flex items-center gap-6 text-xs">
+                    <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">
                       {dashboardType === 'insight' ? <>
                           <div className="text-center">
                             <div className="font-semibold text-blue-600">{listing.visibility?.search_views || 0}</div>
