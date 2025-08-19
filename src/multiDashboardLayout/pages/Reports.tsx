@@ -184,7 +184,7 @@ export const Reports: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 hidden">
         {quickStats.map((stat, index) => (
           <div key={index} className="bg-card rounded-lg border border-border p-6">
             <div className="flex items-center justify-between">
