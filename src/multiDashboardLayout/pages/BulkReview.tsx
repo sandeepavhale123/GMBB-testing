@@ -156,7 +156,7 @@ export const BulkReview: React.FC = () => {
     dispatch(setCurrentPage(page));
   };
   return <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-column md:flex-row justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Review Management</h1>
           <p className="text-muted-foreground">Manage reviews across all your listings</p>
