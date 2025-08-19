@@ -156,12 +156,12 @@ export const BulkReview: React.FC = () => {
     dispatch(setCurrentPage(page));
   };
   return <div className="space-y-6">
-      <div className="flex flex-column md:flex-row justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Review Management</h1>
           <p className="text-muted-foreground">Manage reviews across all your listings</p>
         </div>
-        <Button onClick={() => navigate('/main-dashboard/bulk-auto-reply')} className="">
+        <Button onClick={() => navigate('/main-dashboard/bulk-auto-reply')} className="self-start sm:self-auto">
           <MessageCircle className="w-4 h-4 mr-2" />
           Configure Auto Reply 
         </Button>

@@ -204,7 +204,7 @@ export const BulkReportDetails: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{project.name}</h1>
+          <h1 className="text-2xl font-bold text-foreground">{project.name}</h1>
           <p className="text-muted-foreground">
             Bulk report details • {project.totalLocations} locations
           </p>
