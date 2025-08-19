@@ -279,7 +279,7 @@ export const Reports: React.FC = () => {
                           </TooltipContent>
                         </Tooltip>
                         
-                        <Tooltip>
+                        {/* <Tooltip>
                           <TooltipTrigger asChild>
                             <Button variant="ghost" size="icon" className="h-8 w-8">
                               <Edit className="h-4 w-4" />
@@ -288,7 +288,7 @@ export const Reports: React.FC = () => {
                           <TooltipContent>
                             <p>Edit project</p>
                           </TooltipContent>
-                        </Tooltip>
+                        </Tooltip> */}
                         
                         <Tooltip>
                           <TooltipTrigger asChild>
