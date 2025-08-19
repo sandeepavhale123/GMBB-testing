@@ -195,40 +195,42 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   return <>
       <div className="relative border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
         {/* Date positioned at top right, avoiding action buttons */}
-        <div className="absolute top-1 right-1 flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
+        <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
           <Calendar className="w-3 h-3 mr-1" />
           {formatScheduledDate(post.publishDate)}
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Selection Checkbox */}
-          {isSelectionMode && onSelectionChange && <Checkbox checked={isSelected} onCheckedChange={checked => onSelectionChange(post.id, !!checked)} className="flex-shrink-0" />}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center gap-4">
+            {/* Selection Checkbox */}
+            {isSelectionMode && onSelectionChange && <Checkbox checked={isSelected} onCheckedChange={checked => onSelectionChange(post.id, !!checked)} className="flex-shrink-0" />}
 
-          {/* Thumbnail */}
-          <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-            {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white text-xs font-medium">IMG</span>}
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 min-w-0 pr-20">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-medium text-foreground truncate">
-                {post.title || "Untitled Post"}
-              </h3>
-              <Badge className={getStatusColor(post.status)}>
-                {getStatusText(post.status)}
-              </Badge>
+            {/* Thumbnail */}
+            <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+              {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white text-xs font-medium">IMG</span>}
             </div>
-            <p className="text-sm text-muted-foreground line-clamp-1 mb-1">
-              {post.content}
-            </p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              {post.tags && <span className="text-primary">{post.tags}</span>}
+
+            {/* Content */}
+            <div className="flex-1 min-w-0 sm:pr-20">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-medium text-foreground truncate">
+                  {post.title || "Untitled Post"}
+                </h3>
+                <Badge className={getStatusColor(post.status)}>
+                  {getStatusText(post.status)}
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1 mb-1">
+                {post.content}
+              </p>
+              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                {post.tags && <span className="text-primary">{post.tags}</span>}
+              </div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-1 flex-shrink-0">
+          <div className="flex gap-1 flex-shrink-0 justify-end sm:justify-start">
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setIsViewModalOpen(true)}>
               <Eye className="w-3 h-3" />
             </Button>

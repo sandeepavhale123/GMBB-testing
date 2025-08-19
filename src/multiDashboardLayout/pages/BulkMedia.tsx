@@ -106,13 +106,13 @@ export const BulkMedia: React.FC = () => {
     }
   };
   return <div className="space-y-6">
-      <div className="flex justify-start md:justify-between items-center mb-10 flex-col-reverse md:flex-row">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Media Management</h1>
           <p className="text-muted-foreground">Upload and organize media across multiple listings</p>
         </div>
-        <Button onClick={() => setShowUploadModal(true)}>
-          <Upload className="w-4 h-4 mr-2" />
+        <Button onClick={() => setShowUploadModal(true)} className='self-start sm:self-auto'>
+          <Upload className="w-4 h-4 mr-2 " />
           Upload Media
         </Button>
       </div>

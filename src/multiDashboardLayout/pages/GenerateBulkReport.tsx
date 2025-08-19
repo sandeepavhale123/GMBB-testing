@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -133,21 +133,49 @@ const generateBulkReportSchema = z.object({
   emailBcc: z.string().optional(),
   emailSubject: z.string().min(1, "Email subject is required"),
   emailMessage: z.string().min(1, "Email message is required")
-}).refine((data) => {
-  // Validate required fields based on schedule type
+}).superRefine((data, ctx) => {
+  // Individual field validation based on schedule type
   if (data.scheduleType === "one-time") {
-    return data.fromDate && data.toDate;
+    if (!data.fromDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Start date is required for one-time reports",
+        path: ["fromDate"]
+      });
+    }
+    if (!data.toDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "End date is required for one-time reports",
+        path: ["toDate"]
+      });
+    }
   }
+  
   if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
-    return data.frequency && data.emailDay;
+    if (!data.frequency) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Frequency is required for recurring reports",
+        path: ["frequency"]
+      });
+    }
+    if (!data.emailDay) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Email day is required for recurring reports",
+        path: ["emailDay"]
+      });
+    }
   }
-  if (data.scheduleType === "monthly") {
-    return data.emailWeek;
+  
+  if (data.scheduleType === "monthly" && !data.emailWeek) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Email week is required for monthly reports",
+      path: ["emailWeek"]
+    });
   }
-  return true;
-}, {
-  message: "Required fields missing for selected schedule type",
-  path: ["scheduleType"]
 });
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
@@ -156,6 +184,13 @@ export const GenerateBulkReport: React.FC = () => {
     toast
   } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Section refs for auto-scrolling
+  const reportDetailsRef = useRef<HTMLDivElement>(null);
+  const reportTypesRef = useRef<HTMLDivElement>(null);
+  const scheduleConfigRef = useRef<HTMLDivElement>(null);
+  const deliveryFormatRef = useRef<HTMLDivElement>(null);
+  const emailComposerRef = useRef<HTMLDivElement>(null);
   const form = useForm<GenerateBulkReportForm>({
     resolver: zodResolver(generateBulkReportSchema),
     defaultValues: {
@@ -174,6 +209,17 @@ export const GenerateBulkReport: React.FC = () => {
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
   const watchSelectedListings = form.watch("selectedListings");
+  const watchProjectName = form.watch("projectName");
+
+  // Update email subject when project name changes
+  useEffect(() => {
+    const currentSubject = form.getValues("emailSubject");
+    if (watchProjectName && watchProjectName.trim() !== "") {
+      // Update the subject to include the new project name
+      const newSubject = `Your Generated Reports - ${watchProjectName}`;
+      form.setValue("emailSubject", newSubject);
+    }
+  }, [watchProjectName, form]);
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
@@ -190,7 +236,173 @@ export const GenerateBulkReport: React.FC = () => {
     form.setValue("reportSections", []);
   };
 
+  // Field to section mapping for auto-scroll
+  const fieldToSectionMap: Record<string, React.RefObject<HTMLDivElement>> = {
+    projectName: reportDetailsRef,
+    selectedListings: reportDetailsRef,
+    reportSections: reportTypesRef,
+    scheduleType: scheduleConfigRef,
+    fromDate: scheduleConfigRef,
+    toDate: scheduleConfigRef,
+    frequency: scheduleConfigRef,
+    emailWeek: scheduleConfigRef,
+    emailDay: scheduleConfigRef,
+    deliveryFormat: deliveryFormatRef,
+    emailTo: emailComposerRef,
+    emailSubject: emailComposerRef,
+    emailMessage: emailComposerRef,
+  };
+
+  const scrollToFirstError = () => {
+    const { isValid } = form.formState;
+    if (isValid) return;
+
+    const errors = form.formState.errors;
+    console.log('Form errors:', errors); // Debug log
+    
+    // Dynamic field-to-section mapping based on schedule type
+    const currentScheduleType = watchScheduleType;
+    
+    const getFieldToSectionMap = () => {
+      const baseMap: Record<string, React.RefObject<HTMLDivElement>> = {
+        'projectName': reportDetailsRef,
+        'selectedListings': reportDetailsRef,
+        'reportSections': reportTypesRef,
+        'deliveryFormat': deliveryFormatRef,
+        'emailTo': emailComposerRef,
+        'emailCc': emailComposerRef,
+        'emailBcc': emailComposerRef,
+        'emailSubject': emailComposerRef,
+        'emailMessage': emailComposerRef
+      };
+
+      // Add schedule-specific field mappings
+      if (currentScheduleType === "one-time") {
+        baseMap['fromDate'] = scheduleConfigRef;
+        baseMap['toDate'] = scheduleConfigRef;
+      } else if (currentScheduleType === "weekly" || currentScheduleType === "monthly") {
+        baseMap['frequency'] = scheduleConfigRef;
+        baseMap['emailDay'] = scheduleConfigRef;
+        if (currentScheduleType === "monthly") {
+          baseMap['emailWeek'] = scheduleConfigRef;
+        }
+      }
+
+      return baseMap;
+    };
+
+    const dynamicFieldToSectionMap = getFieldToSectionMap();
+
+    // Define field priority order based on form flow
+    const fieldPriority = [
+      'projectName',
+      'selectedListings', 
+      'reportSections',
+      ...(currentScheduleType === "one-time" ? ['fromDate', 'toDate'] : []),
+      ...(currentScheduleType === "weekly" || currentScheduleType === "monthly" ? ['frequency', 'emailDay'] : []),
+      ...(currentScheduleType === "monthly" ? ['emailWeek'] : []),
+      'deliveryFormat',
+      'emailTo',
+      'emailSubject',
+      'emailMessage'
+    ];
+
+    // Find the first error field based on priority
+    let firstErrorField = null;
+    for (const field of fieldPriority) {
+      if (errors[field as keyof typeof errors]) {
+        firstErrorField = field;
+        break;
+      }
+    }
+
+    // If no priority field found, check all error fields
+    if (!firstErrorField) {
+      const errorFields = Object.keys(errors);
+      if (errorFields.length > 0) {
+        // Try to find a field that maps to a section
+        for (const field of errorFields) {
+          if (dynamicFieldToSectionMap[field]) {
+            firstErrorField = field;
+            break;
+          }
+        }
+        // Fallback to first error field
+        if (!firstErrorField) {
+          firstErrorField = errorFields[0];
+        }
+      }
+    }
+
+    if (firstErrorField) {
+      console.log('Scrolling to field:', firstErrorField, 'Schedule type:', currentScheduleType); // Debug log
+      const targetSection = dynamicFieldToSectionMap[firstErrorField];
+      
+      if (targetSection?.current) {
+        // Scroll with proper offset for headers
+        const headerOffset = 120;
+        const elementPosition = targetSection.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Add visual feedback and focus
+        setTimeout(() => {
+          // Add temporary highlight to the section
+          targetSection.current?.classList.add('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
+          setTimeout(() => {
+            targetSection.current?.classList.remove('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
+          }, 2500);
+
+          // Find and focus the specific field with error
+          const fieldSelector = `[name="${firstErrorField}"], [data-field="${firstErrorField}"]`;
+          let focusableElement = targetSection.current?.querySelector(fieldSelector) as HTMLElement;
+          
+          // Fallback: find any input with error in this section
+          if (!focusableElement) {
+            focusableElement = targetSection.current?.querySelector('[aria-invalid="true"]') as HTMLElement;
+          }
+          
+          // Fallback: find first focusable element in section
+          if (!focusableElement) {
+            focusableElement = targetSection.current?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
+          }
+          
+          if (focusableElement) {
+            // For select components, look for the trigger button
+            if (focusableElement.getAttribute('role') === 'combobox' || focusableElement.tagName === 'SELECT') {
+              const trigger = focusableElement.closest('[role="combobox"]') || focusableElement;
+              (trigger as HTMLElement)?.focus();
+            } else {
+              focusableElement.focus();
+            }
+          }
+        }, 400);
+      } else {
+        console.log('Target section not found for field:', firstErrorField); // Debug log
+        // Fallback: scroll to first available section with errors
+        const allSections = [reportDetailsRef, reportTypesRef, scheduleConfigRef, deliveryFormatRef, emailComposerRef];
+        for (const section of allSections) {
+          if (section.current && section.current.querySelector('[aria-invalid="true"], .text-destructive')) {
+            section.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            break;
+          }
+        }
+      }
+    }
+  };
+
   const onSubmit = async (data: GenerateBulkReportForm) => {
+    // Check for validation errors and scroll to first error if any
+    const isValid = await form.trigger();
+    if (!isValid) {
+      scrollToFirstError();
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // Transform form data to API format
@@ -257,8 +469,8 @@ export const GenerateBulkReport: React.FC = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Project Details */}
-          <Card>
+          {/* Report Details */}
+          <Card ref={reportDetailsRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -320,7 +532,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Report Types */}
-          <Card>
+          <Card ref={reportTypesRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <File className="w-5 h-5" />
@@ -345,9 +557,19 @@ export const GenerateBulkReport: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {BULK_REPORT_SECTIONS.map(section => <div key={section.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                      <Checkbox id={section.id} checked={watchReportSections.includes(section.id)} onCheckedChange={checked => handleReportSectionChange(section.id, checked as boolean)} />
-                      <Label htmlFor={section.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
+                  {BULK_REPORT_SECTIONS.map(section => <div 
+                      key={section.id} 
+                      className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() => handleReportSectionChange(section.id, !watchReportSections.includes(section.id))}
+                    >
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <Checkbox id={section.id} checked={watchReportSections.includes(section.id)} onCheckedChange={checked => handleReportSectionChange(section.id, checked as boolean)} />
+                      </div>
+                      <Label 
+                        htmlFor={section.id} 
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {section.name}
                       </Label>
                     </div>)}
@@ -361,7 +583,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Schedule Configuration */}
-          <Card>
+          <Card ref={scheduleConfigRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CalendarLucide className="w-5 h-5" />
@@ -543,7 +765,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Delivery Format */}
-          <Card>
+          <Card ref={deliveryFormatRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -557,7 +779,7 @@ export const GenerateBulkReport: React.FC = () => {
               <FormField control={form.control} name="deliveryFormat" render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex flex-col md:flex-row gap-4">
                       {[
                         { value: "csv", label: "CSV Format", icon: File },
                         { value: "pdf", label: "PDF Format", icon: FileText },
@@ -606,7 +828,7 @@ export const GenerateBulkReport: React.FC = () => {
           </Card>
 
           {/* Email Composer */}
-          <Card>
+          <Card ref={emailComposerRef}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="w-5 h-5" />
@@ -654,7 +876,10 @@ export const GenerateBulkReport: React.FC = () => {
             }) => <FormItem>
                     <FormLabel>Subject *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter email subject..." {...field} />
+                      <Input 
+                        placeholder={`Your Generated Reports - ${watchProjectName || "Report Title"}`}
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>} />
@@ -676,16 +901,13 @@ export const GenerateBulkReport: React.FC = () => {
             <Button type="button" variant="outline" onClick={() => navigate("/main-dashboard/reports")}>
               Cancel
             </Button>
-            <Button type="button" variant="secondary" disabled={isSubmitting}>
-              Save Draft
-            </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? <>
-                  <Clock className="w-4 h-4 mr-2 animate-spin" />
+                  <Send className="w-4 h-4 mr-2" />
                   Creating...
                 </> : <>
                   <Send className="w-4 h-4 mr-2" />
-                  Create Project
+                  Create report 
                 </>}
             </Button>
           </div>

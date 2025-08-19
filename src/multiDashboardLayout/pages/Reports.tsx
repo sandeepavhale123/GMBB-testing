@@ -165,17 +165,17 @@ export const Reports: React.FC = () => {
     );
   }
   
-  return <div className="space-y-6">
+  return <div className="space-y-6"> 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
+          <h1 className="text-2xl font-bold text-foreground">Reports Management</h1>
           <p className="text-muted-foreground mt-1">
             Generate and manage reports across multiple listings
           </p>
         </div>
         <Button 
-          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 self-start sm:self-auto"
           onClick={() => navigate('/main-dashboard/generate-bulk-report')}
         >
           <FileText className="w-4 h-4 mr-2" />
@@ -184,7 +184,7 @@ export const Reports: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 hidden">
         {quickStats.map((stat, index) => (
           <div key={index} className="bg-card rounded-lg border border-border p-6">
             <div className="flex items-center justify-between">
@@ -227,7 +227,7 @@ export const Reports: React.FC = () => {
       {/* Projects Table */}
       <div className="bg-card rounded-lg border border-border">
         <div className="p-6 border-b border-border">
-          <h2 className="text-xl font-semibold text-foreground">Project Management</h2>
+          <h2 className="text-xl font-semibold text-foreground">Total report : {pagination.total}</h2>
         </div>
         <div className="p-0">
           <TooltipProvider>
@@ -279,7 +279,7 @@ export const Reports: React.FC = () => {
                           </TooltipContent>
                         </Tooltip>
                         
-                        <Tooltip>
+                        {/* <Tooltip>
                           <TooltipTrigger asChild>
                             <Button variant="ghost" size="icon" className="h-8 w-8">
                               <Edit className="h-4 w-4" />
@@ -288,7 +288,7 @@ export const Reports: React.FC = () => {
                           <TooltipContent>
                             <p>Edit project</p>
                           </TooltipContent>
-                        </Tooltip>
+                        </Tooltip> */}
                         
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -323,7 +323,7 @@ export const Reports: React.FC = () => {
               <PaginationItem>
                 <PaginationPrevious 
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={`${currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'} [&>span]:hidden`}
                 />
               </PaginationItem>
               
@@ -345,7 +345,7 @@ export const Reports: React.FC = () => {
               <PaginationItem>
                 <PaginationNext 
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={`${currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'} [&>span]:hidden`}
                 />
               </PaginationItem>
             </PaginationContent>

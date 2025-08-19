@@ -51,11 +51,11 @@ export const AIImagePreview: React.FC<AIImagePreviewProps> = ({
     }
   };
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
       {images.map((imageUrl, index) => (
         <div
           key={index}
-          className="relative w-[200px] h-[200px] rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all group"
+          className="relative w-full aspect-square rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300 transition-all group"
         >
           <img 
             src={imageUrl} 
