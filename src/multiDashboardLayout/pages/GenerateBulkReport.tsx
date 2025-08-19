@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -210,6 +210,16 @@ export const GenerateBulkReport: React.FC = () => {
   const watchReportSections = form.watch("reportSections");
   const watchSelectedListings = form.watch("selectedListings");
   const watchProjectName = form.watch("projectName");
+
+  // Update email subject when project name changes
+  useEffect(() => {
+    const currentSubject = form.getValues("emailSubject");
+    if (watchProjectName && watchProjectName.trim() !== "") {
+      // Update the subject to include the new project name
+      const newSubject = `Your Generated Reports - ${watchProjectName}`;
+      form.setValue("emailSubject", newSubject);
+    }
+  }, [watchProjectName, form]);
   const handleReportSectionChange = (sectionId: string, checked: boolean) => {
     const currentSections = form.getValues("reportSections");
     if (checked) {
