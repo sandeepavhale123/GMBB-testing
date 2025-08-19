@@ -305,7 +305,7 @@ export const AIDescriptionModal: React.FC<AIDescriptionModalProps> = ({
           <Button
             variant="outline"
             onClick={onClose}
-            className="w-full sm:w-auto min-h-[44px]"
+            className="hidden sm:block min-h-[44px]"
           >
             Close
           </Button>
