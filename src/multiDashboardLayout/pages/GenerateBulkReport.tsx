@@ -220,26 +220,75 @@ export const GenerateBulkReport: React.FC = () => {
     if (isValid) return;
 
     const errors = form.formState.errors;
-    const errorFields = Object.keys(errors);
+    console.log('Form errors:', errors); // Debug log
     
-    if (errorFields.length > 0) {
-      const firstErrorField = errorFields[0];
+    // Define field priority order to scroll to most important fields first
+    const fieldPriority = [
+      'projectName',
+      'selectedListings', 
+      'reportSections',
+      'fromDate',
+      'toDate',
+      'frequency',
+      'emailDay',
+      'emailWeek',
+      'deliveryFormat',
+      'emailTo',
+      'emailSubject',
+      'emailMessage'
+    ];
+
+    // Find the first error field based on priority
+    let firstErrorField = null;
+    for (const field of fieldPriority) {
+      if (errors[field as keyof typeof errors]) {
+        firstErrorField = field;
+        break;
+      }
+    }
+
+    // If no priority field found, use any error field
+    if (!firstErrorField) {
+      const errorFields = Object.keys(errors);
+      if (errorFields.length > 0) {
+        firstErrorField = errorFields[0];
+      }
+    }
+
+    if (firstErrorField) {
+      console.log('Scrolling to field:', firstErrorField); // Debug log
       const targetSection = fieldToSectionMap[firstErrorField];
       
       if (targetSection?.current) {
-        targetSection.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+        // Scroll with proper offset for headers
+        const headerOffset = 100;
+        const elementPosition = targetSection.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
         });
         
-        // Add a small delay to account for smooth scrolling
+        // Add visual indicator and focus
         setTimeout(() => {
-          // Find the first input/element with error in that section and focus it
-          const firstInput = targetSection.current?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
-          if (firstInput) {
-            firstInput.focus();
+          // Add temporary highlight
+          targetSection.current?.classList.add('ring-2', 'ring-destructive', 'ring-opacity-50');
+          setTimeout(() => {
+            targetSection.current?.classList.remove('ring-2', 'ring-destructive', 'ring-opacity-50');
+          }, 2000);
+
+          // Find and focus the first input with error
+          const errorInput = targetSection.current?.querySelector('[aria-invalid="true"], .text-destructive') as HTMLElement;
+          if (errorInput) {
+            const focusableElement = errorInput.closest('.space-y-2')?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
+            if (focusableElement) {
+              focusableElement.focus();
+            }
           }
-        }, 500);
+        }, 300);
+      } else {
+        console.log('Target section not found for field:', firstErrorField); // Debug log
       }
     }
   };
