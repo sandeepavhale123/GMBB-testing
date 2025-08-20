@@ -4,7 +4,7 @@ import { fetchEditLogs, setCurrentPage, setCurrentSearch } from '../../store/sli
 import { transformEditLogs } from '../../utils/editLogTransform';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Search, Calendar, Tag } from 'lucide-react';
+import { Search, Calendar } from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
@@ -112,7 +112,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
             >
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <Tag className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">Category:</span>
                   <span className="font-medium text-sm bg-secondary text-secondary-foreground px-2 py-1 rounded">
                     {log.category}
                   </span>
@@ -131,7 +131,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
       ) : (
         <div className="text-center py-12">
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-            <Tag className="w-6 h-6 text-muted-foreground" />
+            <Calendar className="w-6 h-6 text-muted-foreground" />
           </div>
           <p className="text-muted-foreground">
             {currentSearch ? 'No edit logs found for your search' : 'No edit history available'}
