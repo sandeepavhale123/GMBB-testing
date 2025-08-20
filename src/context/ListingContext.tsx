@@ -290,6 +290,9 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
           // For other excluded routes, navigate to location dashboard
           navigate(`/location-dashboard/${listing.id}`);
         }
+      } else if (baseRoute === "main-dashboard") {
+        // Special case: when on main-dashboard, always redirect to single location dashboard
+        navigate(`/location-dashboard/${listing.id}`);
       } else {
         // For regular routes, use the existing baseRoute logic
         navigate(`/${baseRoute}/${listing.id}`);
