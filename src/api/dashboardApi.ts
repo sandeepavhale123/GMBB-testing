@@ -181,6 +181,7 @@ interface ReviewDashboardListing {
   arAiActive: boolean;
   autoReplyStatus: string;
   replyCount: number;
+  isSync: number;
   sentiment: {
     positive: number;
     neutral: number;
