@@ -133,7 +133,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
                 <div className="flex-1 pb-8">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                      {log.formattedTime}
+                      {log.formattedDate}
                     </span>
                     <span className="text-xs text-muted-foreground">•</span>
                     <span className={`text-xs font-medium ${log.categoryTextColor}`}>
