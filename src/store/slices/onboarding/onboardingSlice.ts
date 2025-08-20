@@ -95,7 +95,6 @@ const initialState: OnboardingState = {
     email: "",
     timezone: "",
     businessType: "",
-    dashboardType: "",
     locationCount: "",
     goals: [],
     googleConnected: false,

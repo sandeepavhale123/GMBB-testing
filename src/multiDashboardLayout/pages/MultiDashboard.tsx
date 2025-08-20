@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, BarChart3, MapPin, TrendingUp, AlertTriangle, Star, Eye, Phone, ExternalLink, Grid3X3, List, FileText, ChevronLeft, ChevronRight, MessageSquare, Building2, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useListingContext } from '@/context/ListingContext';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -37,21 +36,9 @@ const DASHBOARD_ID_TO_TYPE_MAPPING = {
 } as const;
 export const MultiDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { switchListing } = useListingContext();
   const {
     toast
   } = useToast();
-
-  // Helper function to convert listing data to BusinessListing format
-  const convertToBusinessListing = (listing: any) => ({
-    id: listing.listingId || listing.id,
-    name: listing.locationName || listing.listingName,
-    isVerified: listing.isVerified || "0",
-    address: listing.address || "",
-    type: listing.category || listing.type || "",
-    zipcode: listing.zipcode || listing.zipCode || "",
-    active: listing.isActive || listing.active || "1",
-  });
   const {
     profileData,
     isLoading: profileLoading
@@ -710,7 +697,7 @@ export const MultiDashboard: React.FC = () => {
 
                   {/* Action Button */}
                   <div className="flex justify-end mt-auto">
-                    <Button variant="default" size="sm" onClick={() => switchListing(convertToBusinessListing(listing))} className="w-full gap-2">
+                    <Button variant="default" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)} className="w-full gap-2">
                       View Details
                       <ExternalLink className="w-4 h-4" />
                     </Button>
@@ -820,7 +807,7 @@ export const MultiDashboard: React.FC = () => {
 
                     {/* Action Button */}
                     <div className="flex-shrink-0">
-                      <Button variant="outline" size="sm" onClick={() => switchListing(convertToBusinessListing(listing))}>
+                      <Button variant="outline" size="sm" onClick={() => navigate(`/location-dashboard/${listing.listingId || listing.id}`)}>
                         View Details
                         <ExternalLink className="w-3 h-3 ml-2" />
                       </Button>
