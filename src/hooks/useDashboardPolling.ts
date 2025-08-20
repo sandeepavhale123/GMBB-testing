@@ -31,6 +31,7 @@ export const useDashboardPolling = ({
   const [isSyncing, setIsSyncing] = useState(false);
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
+  const wasEnabledRef = useRef(enabled);
 
   // Get the correct ID field based on dashboard type
   const getListingId = useCallback((listing: DashboardListing): string => {
@@ -170,12 +171,24 @@ export const useDashboardPolling = ({
 
   // Stop polling
   const stopPolling = useCallback(() => {
-    console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Stopping polling`);
-    clearPollingInterval();
-    setIsPolling(false);
-    setSyncingListings([]);
-    setIsSyncing(false);
-  }, [dashboardType, clearPollingInterval]);
+    // Only log and execute if currently polling to avoid spam
+    if (isPolling || pollingIntervalRef.current) {
+      console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Stopping polling`);
+      clearPollingInterval();
+      setIsPolling(false);
+      setSyncingListings([]);
+      setIsSyncing(false);
+    }
+  }, [dashboardType, clearPollingInterval, isPolling]);
+
+  // Effect to handle enabled state changes
+  useEffect(() => {
+    // If enabled state changed from true to false, stop polling
+    if (wasEnabledRef.current && !enabled) {
+      stopPolling();
+    }
+    wasEnabledRef.current = enabled;
+  }, [enabled, stopPolling]);
 
   // Effect for initial sync check and cleanup
   useEffect(() => {
@@ -185,14 +198,12 @@ export const useDashboardPolling = ({
       // Small delay to ensure data is loaded
       const timer = setTimeout(checkInitialSyncStatus, 100);
       return () => clearTimeout(timer);
-    } else {
-      stopPolling();
     }
 
     return () => {
       isMountedRef.current = false;
     };
-  }, [enabled, params, data, checkInitialSyncStatus, stopPolling]);
+  }, [enabled, params, data, checkInitialSyncStatus]);
 
   // Cleanup on unmount
   useEffect(() => {

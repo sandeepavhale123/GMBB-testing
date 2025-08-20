@@ -198,8 +198,8 @@ export const MultiDashboard: React.FC = () => {
       category: selectedCategory,
       state: selectedState
     },
-     enabled: dashboardType === 'location'
-   });
+    enabled: dashboardType === 'location'
+  });
 
   // Get the current active query
   const getCurrentQuery = () => {
