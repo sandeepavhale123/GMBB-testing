@@ -40,10 +40,20 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {
-      // Modal is closing - force cleanup
+      // Modal is closing - force cleanup with multiple attempts
+      comprehensiveCleanup(); // Immediate cleanup
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 0);
       setTimeout(() => {
         comprehensiveCleanup();
       }, 50);
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 200);
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 500);
     }
     onOpenChange(newOpen);
   };
@@ -54,26 +64,48 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
       // Modal is opening - start monitoring
       startBodyStyleObserver();
     } else {
-      // Modal is closing - cleanup
+      // Modal is closing - aggressive cleanup with multiple timing attempts
       stopBodyStyleObserver();
-      // Force cleanup with multiple attempts to ensure it works
+      
+      // Immediate cleanup
+      comprehensiveCleanup();
+      
+      // Multiple cleanup attempts with different timing
       requestAnimationFrame(() => {
-        forceBodyStylesReset();
-        // Additional cleanup after a short delay
-        setTimeout(() => {
-          forceBodyStylesReset();
-        }, 100);
+        comprehensiveCleanup();
       });
+      
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 50);
+      
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 200);
+      
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 500);
     }
 
     // Cleanup on unmount or when modal closes
     return () => {
       if (open) {
         stopBodyStyleObserver();
-        forceBodyStylesReset();
+        comprehensiveCleanup();
       }
     };
   }, [open]);
+
+  // Additional cleanup when isDeleting state changes
+  useEffect(() => {
+    if (!isDeleting && !open) {
+      // Deletion completed and modal should be closed - force cleanup
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 100);
+    }
+  }, [isDeleting, open]);
 
   // Emergency cleanup on component unmount
   useEffect(() => {
