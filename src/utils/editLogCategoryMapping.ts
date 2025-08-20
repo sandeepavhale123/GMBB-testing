@@ -1,7 +1,7 @@
 import {
   Building,
   MapPin,
-  MapPin2,
+  Mail,
   Map,
   Globe,
   ExternalLink,
@@ -34,7 +34,7 @@ export const categoryMappings: Record<string, CategoryMapping> = {
   },
   city: {
     label: 'Postal Code',
-    icon: MapPin2,
+    icon: Mail,
     color: 'hsl(var(--accent))'
   },
   state: {
