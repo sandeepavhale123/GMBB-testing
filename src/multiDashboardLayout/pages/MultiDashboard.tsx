@@ -13,6 +13,7 @@ import type { DateRange } from 'react-day-picker';
 import { useTrendsData } from '@/api/trendsApi';
 import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, usePostsDashboardData, useCategoryAndStateData, setDashboard } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useReviewDashboardPolling } from '@/hooks/useReviewDashboardPolling';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { useProfile } from '@/hooks/useProfile';
@@ -113,6 +114,20 @@ export const MultiDashboard: React.FC = () => {
     state: selectedState,
     review: reviewFilter
   }, dashboardType === 'review');
+
+  // Review dashboard polling - only active when on review dashboard
+  const reviewPolling = useReviewDashboardPolling(
+    {
+      page: currentPage,
+      limit: itemsPerPage,
+      search: debouncedSearchTerm,
+      category: selectedCategory,
+      state: selectedState,
+      review: reviewFilter
+    },
+    reviewDashboardQuery.refetch,
+    dashboardType === 'review'
+  );
   const listingDashboardQuery = useListingDashboardData({
     page: currentPage,
     limit: itemsPerPage,
