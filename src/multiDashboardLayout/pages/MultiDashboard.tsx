@@ -14,6 +14,7 @@ import { useTrendsData } from '@/api/trendsApi';
 import { useDashboardData, useInsightsDashboardData, useReviewDashboardData, useListingDashboardData, useLocationDashboardData, usePostsDashboardData, useCategoryAndStateData, setDashboard } from '@/api/dashboardApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useReviewDashboardPolling } from '@/hooks/useReviewDashboardPolling';
+import { useDashboardPolling } from '@/hooks/useDashboardPolling';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { useProfile } from '@/hooks/useProfile';
@@ -114,20 +115,6 @@ export const MultiDashboard: React.FC = () => {
     state: selectedState,
     review: reviewFilter
   }, dashboardType === 'review');
-
-  // Review dashboard polling - only active when on review dashboard
-  const reviewPolling = useReviewDashboardPolling(
-    {
-      page: currentPage,
-      limit: itemsPerPage,
-      search: debouncedSearchTerm,
-      category: selectedCategory,
-      state: selectedState,
-      review: reviewFilter
-    },
-    reviewDashboardQuery.refetch,
-    dashboardType === 'review'
-  );
   const listingDashboardQuery = useListingDashboardData({
     page: currentPage,
     limit: itemsPerPage,
@@ -154,6 +141,65 @@ export const MultiDashboard: React.FC = () => {
     },
     postStatus: postStatus === 'all' ? '' : postStatus
   }, dashboardType === 'post');
+
+  // Review dashboard polling - only active when on review dashboard
+  const reviewPolling = useReviewDashboardPolling(
+    {
+      page: currentPage,
+      limit: itemsPerPage,
+      search: debouncedSearchTerm,
+      category: selectedCategory,
+      state: selectedState,
+      review: reviewFilter
+    },
+    reviewDashboardQuery.refetch,
+    dashboardType === 'review'
+  );
+
+  // Default dashboard polling - only active when on default dashboard
+  const defaultPolling = useDashboardPolling({
+    dashboardType: 'default',
+    refetch: defaultDashboardQuery.refetch,
+    data: defaultDashboardQuery.data,
+    params: {
+      page: currentPage,
+      limit: itemsPerPage,
+      search: debouncedSearchTerm,
+      category: selectedCategory,
+      state: selectedState
+    },
+    enabled: dashboardType === 'default'
+  });
+
+  // Insights dashboard polling - only active when on insight dashboard
+  const insightsPolling = useDashboardPolling({
+    dashboardType: 'insight',
+    refetch: insightsDashboardQuery.refetch,
+    data: insightsDashboardQuery.data,
+    params: {
+      page: currentPage,
+      limit: itemsPerPage,
+      search: debouncedSearchTerm,
+      category: selectedCategory,
+      state: selectedState
+    },
+    enabled: dashboardType === 'insight'
+  });
+
+  // Location dashboard polling - only active when on location dashboard
+  const locationPolling = useDashboardPolling({
+    dashboardType: 'location',
+    refetch: locationDashboardQuery.refetch,
+    data: locationDashboardQuery.data,
+    params: {
+      page: currentPage,
+      limit: itemsPerPage,
+      search: debouncedSearchTerm,
+      category: selectedCategory,
+      state: selectedState
+    },
+     enabled: dashboardType === 'location'
+   });
 
   // Get the current active query
   const getCurrentQuery = () => {
