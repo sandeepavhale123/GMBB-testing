@@ -452,27 +452,38 @@ export const MultiDashboard: React.FC = () => {
                        {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full " /> : <Building2 className="w-6 h-6 text-primary" />}
                      </div>
                      <div className="flex-1 min-w-0">
-                       <Tooltip>
-                         <TooltipTrigger asChild>
-                           <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.locationName || listing.listingName}</h4>
-                         </TooltipTrigger>
-                         <TooltipContent>
-                           <p>{listing.locationName || listing.listingName}</p>
-                         </TooltipContent>
-                       </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">
+                              {listing.isSync === 1 ? (
+                                <span className="flex items-center gap-2">
+                                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                                  Fetching listing data...
+                                </span>
+                              ) : (
+                                listing.locationName || listing.listingName
+                              )}
+                            </h4>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              {listing.isSync === 1 
+                                ? "Fetching listing data..." 
+                                : listing.locationName || listing.listingName
+                              }
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
                        <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
                        {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>}
                        {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && <p className="text-xs text-muted-foreground">City: {listing.city}</p>}
                        {dashboardType === 'insight' && listing.category && <p className="text-xs text-muted-foreground">{listing.category}</p>}
                      </div>
-                     <div className="flex items-center gap-2">
-                       {listing.isSync === 1 && (
-                         <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                       )}
-                       {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                           {listing.storeCode}
-                         </span>}
-                     </div>
+                      <div className="flex items-center gap-2">
+                        {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                            {listing.storeCode}
+                          </span>}
+                      </div>
                    </div>
                   
                   {dashboardType === 'insight' ?
@@ -719,12 +730,18 @@ export const MultiDashboard: React.FC = () => {
 
                        {/* Basic Info */}
                        <div className="min-w-0 flex-1">
-                         <div className="flex items-center gap-2">
-                           <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
-                           {listing.isSync === 1 && (
-                             <Loader2 className="w-3 h-3 animate-spin text-primary" />
-                           )}
-                         </div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-semibold text-foreground text-sm truncate">
+                              {listing.isSync === 1 ? (
+                                <span className="flex items-center gap-2">
+                                  <Loader2 className="w-3 h-3 animate-spin text-primary" />
+                                  Fetching listing data...
+                                </span>
+                              ) : (
+                                listing.locationName || listing.listingName
+                              )}
+                            </h4>
+                          </div>
                          <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
                          {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
                            {listing.storeCode}
