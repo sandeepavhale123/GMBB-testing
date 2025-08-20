@@ -115,19 +115,16 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
                 {/* Timeline Icon */}
                 <div className="flex flex-col items-center">
                   <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center border-2 border-background shadow-sm"
-                    style={{ backgroundColor: `${log.categoryColor}15`, borderColor: log.categoryColor }}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm ${log.categoryBgColor} ${log.categoryBorderColor}`}
                   >
                     <IconComponent 
-                      className="w-4 h-4" 
-                      style={{ color: log.categoryColor }}
+                      className={`w-4 h-4 ${log.categoryIconColor}`}
                     />
                   </div>
                   {/* Connecting Line */}
                   {index < transformedLogs.length - 1 && (
                     <div 
-                      className="w-px h-12 mt-4" 
-                      style={{ backgroundColor: `${log.categoryColor}30` }}
+                      className={`w-px h-12 mt-4 ${log.categoryBorderColor}`}
                     ></div>
                   )}
                 </div>
@@ -139,7 +136,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
                       {log.formattedTime}
                     </span>
                     <span className="text-xs text-muted-foreground">•</span>
-                    <span className="text-xs font-medium" style={{ color: log.categoryColor }}>
+                    <span className={`text-xs font-medium ${log.categoryTextColor}`}>
                       {log.categoryLabel}
                     </span>
                   </div>

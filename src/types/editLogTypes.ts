@@ -34,7 +34,10 @@ export interface TransformedEditLogItem {
   category: string;
   categoryLabel: string;
   categoryIcon: any;
-  categoryColor: string;
+  categoryBgColor: string;
+  categoryIconColor: string;
+  categoryBorderColor: string;
+  categoryTextColor: string;
   reason: string;
   date: string;
   formattedDate: string;
