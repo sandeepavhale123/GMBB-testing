@@ -253,6 +253,13 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     async (listing: BusinessListing) => {
       if (listing.id === selectedListing?.id) return;
 
+      console.log("🔄 switchListing called:", {
+        listingId: listing.id,
+        listingName: listing.name,
+        currentPath: location.pathname,
+        baseRoute,
+      });
+
       setIsLoading(true);
 
       const existsInListings = listings.some((l) => l.id === listing.id);
@@ -280,21 +287,27 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       dispatch(setSelectedBusiness(listing.id));
 
       // Handle navigation based on current route
+      console.log("🔄 Navigation logic:", { baseRoute, currentPath: location.pathname });
+      
       if (baseRoute === null) {
         // For settings, profile, and other excluded routes, stay on current page structure
         const pathParts = location.pathname.split("/");
         if (pathParts[1] === "settings" || pathParts[1] === "profile") {
           // Stay on settings or profile, just update the listing context
           // No navigation needed as these pages don't use listing IDs in URL
+          console.log("🔄 Staying on settings/profile page");
         } else {
           // For other excluded routes, navigate to location dashboard
+          console.log("🔄 Navigating to location dashboard from excluded route");
           navigate(`/location-dashboard/${listing.id}`);
         }
       } else if (baseRoute === "main-dashboard") {
         // Special case: when on main-dashboard, always redirect to single location dashboard
+        console.log("🔄 Navigating from main-dashboard to location-dashboard");
         navigate(`/location-dashboard/${listing.id}`);
       } else {
         // For regular routes, use the existing baseRoute logic
+        console.log("🔄 Using baseRoute logic:", `/${baseRoute}/${listing.id}`);
         navigate(`/${baseRoute}/${listing.id}`);
       }
 
