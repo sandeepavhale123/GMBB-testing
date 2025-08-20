@@ -127,7 +127,7 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2">
                         <span className={`text-sm font-medium ${log.categoryTextColor}`}>
-                          {log.categoryLabel}
+                          Changed : {log.categoryLabel}
                         </span>
                       </div>
                       <span className="text-xs text-muted-foreground">
