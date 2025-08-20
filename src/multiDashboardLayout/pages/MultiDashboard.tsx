@@ -476,10 +476,11 @@ export const MultiDashboard: React.FC = () => {
 
                 {listing.isSync === 1 ?
                   (
-                       <div className="flex flex-col items-center justify-center h-[200px] bg-gray-100 rounded-lg   ">
+                       <div className="flex flex-col items-center justify-center h-[200px] bg-gray-100 rounded-lg mb-4  ">
                             {/* <Loader className="w-4 h-4" /> */}
-                        <h3 className="mb-4">Fetching Listing Data...</h3>
-                        <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                            <img src="/lovable-uploads/sync-icon.png" alt="" className="animate-spin-slow mb-3" />
+                        <h4 className="mb-4">Fetching listing data...</h4>
+                        {/* <Loader2 className="w-4 h-4 animate-spin text-primary" /> */}
                       </div>
                   )
                   :
