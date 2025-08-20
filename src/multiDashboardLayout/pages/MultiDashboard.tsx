@@ -446,29 +446,34 @@ export const MultiDashboard: React.FC = () => {
             })}
                 </div> : viewMode === 'grid' ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {listings.map(listing => <div key={listing.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20 flex flex-col">
-                  {/* Header with Logo and Title */}
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                      {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full " /> : <Building2 className="w-6 h-6 text-primary" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.locationName || listing.listingName}</h4>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{listing.locationName || listing.listingName}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                      <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
-                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>}
-                      {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && <p className="text-xs text-muted-foreground">City: {listing.city}</p>}
-                      {dashboardType === 'insight' && listing.category && <p className="text-xs text-muted-foreground">{listing.category}</p>}
-                    </div>
-                    {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                        {listing.storeCode}
-                      </span>}
-                  </div>
+                   {/* Header with Logo and Title */}
+                   <div className="flex items-start gap-4 mb-4 relative">
+                     <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                       {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full " /> : <Building2 className="w-6 h-6 text-primary" />}
+                     </div>
+                     <div className="flex-1 min-w-0">
+                       <Tooltip>
+                         <TooltipTrigger asChild>
+                           <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">{listing.locationName || listing.listingName}</h4>
+                         </TooltipTrigger>
+                         <TooltipContent>
+                           <p>{listing.locationName || listing.listingName}</p>
+                         </TooltipContent>
+                       </Tooltip>
+                       <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
+                       {(dashboardType === 'insight' || dashboardType === 'review') && listing.zipCode && <p className="text-xs text-muted-foreground">Zip: {listing.zipCode}</p>}
+                       {(dashboardType === 'insight' || dashboardType === 'review') && listing.city && <p className="text-xs text-muted-foreground">City: {listing.city}</p>}
+                       {dashboardType === 'insight' && listing.category && <p className="text-xs text-muted-foreground">{listing.category}</p>}
+                     </div>
+                     <div className="flex items-center gap-2">
+                       {listing.isSync === 1 && (
+                         <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                       )}
+                       {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                           {listing.storeCode}
+                         </span>}
+                     </div>
+                   </div>
                   
                   {dashboardType === 'insight' ?
               // Insights Dashboard Content
@@ -705,22 +710,27 @@ export const MultiDashboard: React.FC = () => {
                 </div>)}
             </div> : <div className="space-y-2">
               {listings.map(listing => <div key={listing.listingId || listing.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                    <div className="flex items-center gap-4 min-w-0 flex-1">
-                      {/* Logo */}
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
-                        {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
-                      </div>
+                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 relative">
+                     <div className="flex items-center gap-4 min-w-0 flex-1">
+                       {/* Logo */}
+                       <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                         {listing.profilePhoto ? <img src={listing.profilePhoto} alt={listing.locationName || listing.listingName} className="w-full h-full object-cover" /> : <Building2 className="w-5 h-5 text-primary" />}
+                       </div>
 
-                      {/* Basic Info */}
-                      <div className="min-w-0 flex-1">
-                        <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
-                        <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
-                        {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                          {listing.storeCode}
-                        </span>}
-                      </div>
-                    </div>
+                       {/* Basic Info */}
+                       <div className="min-w-0 flex-1">
+                         <div className="flex items-center gap-2">
+                           <h4 className="font-semibold text-foreground text-sm truncate">{listing.locationName || listing.listingName}</h4>
+                           {listing.isSync === 1 && (
+                             <Loader2 className="w-3 h-3 animate-spin text-primary" />
+                           )}
+                         </div>
+                         <p className="text-xs text-muted-foreground">ID: {listing.listingId || listing.id}</p>
+                         {listing.storeCode && <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                           {listing.storeCode}
+                         </span>}
+                       </div>
+                     </div>
 
                     {/* Dashboard Type Specific Data */}
                     <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">

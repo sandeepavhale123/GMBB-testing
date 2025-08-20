@@ -65,6 +65,7 @@ interface DashboardListing {
   rating: string;
   qa: string;
   profilePhoto: string;
+  isSync: number;
 }
 
 interface DashboardPagination {
