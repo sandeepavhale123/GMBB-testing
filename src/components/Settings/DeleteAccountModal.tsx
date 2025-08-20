@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,6 +10,12 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { AlertTriangle, Loader2 } from "lucide-react";
+import { 
+  forceBodyStylesReset, 
+  startBodyStyleObserver, 
+  stopBodyStyleObserver,
+  comprehensiveCleanup 
+} from "../../utils/domUtils";
 
 interface DeleteAccountModalProps {
   open: boolean;
@@ -32,8 +38,53 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
     onConfirmDelete();
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      // Modal is closing - force cleanup
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 50);
+    }
+    onOpenChange(newOpen);
+  };
+
+  // Effect to handle modal lifecycle
+  useEffect(() => {
+    if (open) {
+      // Modal is opening - start monitoring
+      startBodyStyleObserver();
+    } else {
+      // Modal is closing - cleanup
+      stopBodyStyleObserver();
+      // Force cleanup with multiple attempts to ensure it works
+      requestAnimationFrame(() => {
+        forceBodyStylesReset();
+        // Additional cleanup after a short delay
+        setTimeout(() => {
+          forceBodyStylesReset();
+        }, 100);
+      });
+    }
+
+    // Cleanup on unmount or when modal closes
+    return () => {
+      if (open) {
+        stopBodyStyleObserver();
+        forceBodyStylesReset();
+      }
+    };
+  }, [open]);
+
+  // Emergency cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      stopBodyStyleObserver();
+      comprehensiveCleanup();
+    };
+  }, []);
+
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <div className="flex items-center space-x-2">
