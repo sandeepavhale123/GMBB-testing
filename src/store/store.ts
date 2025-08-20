@@ -10,6 +10,7 @@ import profileReducer from "./slices/profileSlice";
 import insightsReducer from "./slices/insightsSlice";
 import qaReducer from "./slices/qaSlice";
 import businessInfoReducer from "./slices/businessInfoSlice";
+import editLogReducer from "./slices/editLogSlice";
 import teamReducer from "./slices/teamSlice";
 import { RESET_STORE } from "./actions/globalActions";
 import onboardingReducer from "./slices/onboarding/onboardingSlice";
@@ -32,6 +33,7 @@ const appReducer = combineReducers({
   insights: insightsReducer,
   qa: qaReducer,
   businessInfo: businessInfoReducer,
+  editLog: editLogReducer,
   team: teamReducer,
   onboarding: onboardingReducer,
   autoReply: autoReplyReducer,

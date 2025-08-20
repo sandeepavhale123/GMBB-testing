@@ -11,8 +11,8 @@ import { EditableBusinessHours } from "./EditableBusinessHours";
 import {
   transformBusinessInfo,
   transformWorkingHours,
-  transformEditLogs,
 } from "../../utils/businessDataTransform";
+import { EditLogTab } from '../EditLog/EditLogTab';
 import { Alert, AlertDescription } from "../ui/alert";
 import { AlertTriangle, ExternalLink } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
@@ -62,12 +62,10 @@ export const BusinessManagement: React.FC = () => {
   const businessInfo = data?.business_info || null;
   const statistics = data?.statistics || null;
   const workingHours = data?.working_hours || [];
-  const editLogs = data?.edit_logs || [];
   const transformedBusinessInfo = businessInfo
     ? transformBusinessInfo(businessInfo)
     : null;
   const transformedWorkingHours = transformWorkingHours(workingHours);
-  const transformedEditLogs = transformEditLogs(editLogs);
   const handleWorkingHoursSave = (hours: any) => {
     // console.log("Saving working hours:", hours);
     setEditMode(false);
@@ -273,52 +271,7 @@ export const BusinessManagement: React.FC = () => {
 
         {activeTab === "edit-log" && (
           <div className="p-6">
-            {isLoading ? (
-              <div className="space-y-4">
-                {[...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="animate-pulse border-b border-gray-200 pb-4"
-                  >
-                    <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/6"></div>
-                  </div>
-                ))}
-              </div>
-            ) : transformedEditLogs.length > 0 ? (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold mb-4">Recent Changes</h3>
-                {transformedEditLogs.map((log, index) => (
-                  <div
-                    key={index}
-                    className="border-b border-gray-200 pb-4 last:border-b-0"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {log.action}
-                        </p>
-                        <p className="text-sm text-gray-600">{log.date}</p>
-                      </div>
-                      <span
-                        className={`px-2 py-1 text-xs rounded-full ${
-                          log.status === "Published"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {log.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No edit history available</p>
-              </div>
-            )}
+            {listingId && <EditLogTab listingId={parseInt(listingId)} />}
           </div>
         )}
       </div>
