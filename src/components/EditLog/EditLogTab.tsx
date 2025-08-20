@@ -107,42 +107,37 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
           ))}
         </div>
       ) : transformedLogs.length > 0 ? (
-        <div className="space-y-0">
-          {transformedLogs.map((log, index) => {
+        <div className="space-y-4">
+          {transformedLogs.map((log) => {
             const IconComponent = log.categoryIcon;
             return (
-              <div key={log.id} className="flex gap-4 group">
-                {/* Timeline Icon */}
-                <div className="flex flex-col items-center">
+              <div key={log.id} className="border border-border rounded-lg p-4 bg-card hover:bg-accent/50 transition-colors shadow-sm">
+                <div className="flex items-start gap-3">
+                  {/* Category Icon */}
                   <div 
-                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm ${log.categoryBgColor} ${log.categoryBorderColor}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm flex-shrink-0 ${log.categoryBgColor} ${log.categoryBorderColor}`}
                   >
                     <IconComponent 
                       className={`w-4 h-4 ${log.categoryIconColor}`}
                     />
                   </div>
-                  {/* Connecting Line */}
-                  {index < transformedLogs.length - 1 && (
-                    <div 
-                      className={`w-px h-12 mt-4 ${log.categoryBorderColor}`}
-                    ></div>
-                  )}
-                </div>
-                
-                {/* Content */}
-                <div className="flex-1 pb-8">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                      {log.formattedDate}
-                    </span>
-                    <span className="text-xs text-muted-foreground">•</span>
-                    <span className={`text-xs font-medium ${log.categoryTextColor}`}>
-                      {log.categoryLabel}
-                    </span>
+                  
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-sm font-medium ${log.categoryTextColor}`}>
+                          {log.categoryLabel}
+                        </span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {log.formattedDate}
+                      </span>
+                    </div>
+                    <p className="text-sm text-foreground leading-relaxed">
+                      {log.reason}
+                    </p>
                   </div>
-                  <p className="text-sm text-foreground leading-relaxed">
-                    {log.reason}
-                  </p>
                 </div>
               </div>
             );
