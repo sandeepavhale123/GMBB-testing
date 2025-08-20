@@ -76,7 +76,21 @@ export const useDashboardPolling = ({
       
       if (!isMountedRef.current) return;
 
-      const listings = result?.data?.data?.listings || [];
+      // Debug: Log the actual API response structure
+      console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] API Response:`, result);
+
+      // Try different possible response structures
+      let listings = [];
+      if (result?.data?.data?.listings) {
+        listings = result.data.data.listings;
+      } else if (result?.data?.listings) {
+        listings = result.data.listings;
+      } else if (result?.listings) {
+        listings = result.listings;
+      }
+
+      console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Extracted listings:`, listings);
+
       const syncingIds = listings
         .filter((listing: DashboardListing) => listing.isSync === 1)
         .map((listing: DashboardListing) => getListingId(listing));
@@ -95,23 +109,45 @@ export const useDashboardPolling = ({
 
       setIsSyncing(true);
 
-      // Ensure polling is active
-      if (!pollingIntervalRef.current) {
-        startPolling();
-      }
-
       console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Found ${syncingIds.length} syncing listings:`, syncingIds);
     } catch (error) {
       console.error(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Error checking sync status:`, error);
     }
   }, [dashboardType, enabled, refetch, getListingId, handleNoSyncingListings]);
 
+  // Start polling
+  const startPolling = useCallback(() => {
+    if (!enabled || pollingIntervalRef.current) return;
+
+    console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Starting polling every ${pollingInterval}ms`);
+    setIsPolling(true);
+    
+    pollingIntervalRef.current = setInterval(checkSyncStatus, pollingInterval);
+  }, [enabled, dashboardType, pollingInterval, checkSyncStatus]);
+
   // Check initial sync status
   const checkInitialSyncStatus = useCallback(async () => {
-    if (!enabled || !data?.data?.listings || !isMountedRef.current) return;
+    if (!enabled || !data || !isMountedRef.current) return;
 
     try {
-      const listings = data.data.listings;
+      // Debug: Log the initial data structure
+      console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial data:`, data);
+
+      // Try different possible data structures
+      let listings = [];
+      if (data?.data?.listings) {
+        listings = data.data.listings;
+      } else if (data?.listings) {
+        listings = data.listings;
+      }
+
+      console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Initial extracted listings:`, listings);
+
+      if (!listings || listings.length === 0) {
+        console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] No listings found in initial data`);
+        return;
+      }
+
       const syncingIds = listings
         .filter((listing: DashboardListing) => listing.isSync === 1)
         .map((listing: DashboardListing) => getListingId(listing));
@@ -130,17 +166,7 @@ export const useDashboardPolling = ({
     } catch (error) {
       console.error(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Error in initial sync check:`, error);
     }
-  }, [enabled, data, dashboardType, getListingId]);
-
-  // Start polling
-  const startPolling = useCallback(() => {
-    if (!enabled || pollingIntervalRef.current) return;
-
-    console.log(`[${dashboardType.toUpperCase()} DASHBOARD POLLING] Starting polling every ${pollingInterval}ms`);
-    setIsPolling(true);
-    
-    pollingIntervalRef.current = setInterval(checkSyncStatus, pollingInterval);
-  }, [enabled, dashboardType, pollingInterval, checkSyncStatus]);
+  }, [enabled, data, dashboardType, getListingId, startPolling]);
 
   // Stop polling
   const stopPolling = useCallback(() => {
@@ -155,7 +181,7 @@ export const useDashboardPolling = ({
   useEffect(() => {
     isMountedRef.current = true;
     
-    if (enabled && params) {
+    if (enabled && params && data) {
       // Small delay to ensure data is loaded
       const timer = setTimeout(checkInitialSyncStatus, 100);
       return () => clearTimeout(timer);
@@ -166,7 +192,7 @@ export const useDashboardPolling = ({
     return () => {
       isMountedRef.current = false;
     };
-  }, [enabled, params, checkInitialSyncStatus, stopPolling]);
+  }, [enabled, params, data, checkInitialSyncStatus, stopPolling]);
 
   // Cleanup on unmount
   useEffect(() => {
