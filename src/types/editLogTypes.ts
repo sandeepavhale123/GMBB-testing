@@ -32,7 +32,11 @@ export interface EditLogResponse {
 export interface TransformedEditLogItem {
   id: number;
   category: string;
+  categoryLabel: string;
+  categoryIcon: any;
+  categoryColor: string;
   reason: string;
   date: string;
   formattedDate: string;
+  formattedTime: string;
 }

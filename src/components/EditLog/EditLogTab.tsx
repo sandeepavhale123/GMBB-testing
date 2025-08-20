@@ -91,42 +91,65 @@ export const EditLogTab: React.FC<EditLogTabProps> = ({ listingId }) => {
 
       {/* Edit Logs List */}
       {isLoading ? (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="animate-pulse border-b border-border pb-4"
-            >
-              <div className="h-4 bg-muted rounded w-1/4 mb-2"></div>
-              <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-muted rounded w-1/6"></div>
+            <div key={i} className="flex gap-4 animate-pulse">
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 bg-muted rounded-full"></div>
+                {i < 4 && <div className="w-px h-12 bg-muted mt-4"></div>}
+              </div>
+              <div className="flex-1 pb-8">
+                <div className="h-4 bg-muted rounded w-16 mb-2"></div>
+                <div className="h-3 bg-muted rounded w-24 mb-3"></div>
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+              </div>
             </div>
           ))}
         </div>
       ) : transformedLogs.length > 0 ? (
-        <div className="space-y-4">
-          {transformedLogs.map((log) => (
-            <div
-              key={log.id}
-              className="border border-border rounded-lg p-4 bg-card hover:bg-accent/50 transition-colors"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground">Category:</span>
-                  <span className="font-medium text-sm bg-secondary text-secondary-foreground px-2 py-1 rounded">
-                    {log.category}
-                  </span>
+        <div className="space-y-0">
+          {transformedLogs.map((log, index) => {
+            const IconComponent = log.categoryIcon;
+            return (
+              <div key={log.id} className="flex gap-4 group">
+                {/* Timeline Icon */}
+                <div className="flex flex-col items-center">
+                  <div 
+                    className="w-10 h-10 rounded-full flex items-center justify-center border-2 border-background shadow-sm"
+                    style={{ backgroundColor: `${log.categoryColor}15`, borderColor: log.categoryColor }}
+                  >
+                    <IconComponent 
+                      className="w-4 h-4" 
+                      style={{ color: log.categoryColor }}
+                    />
+                  </div>
+                  {/* Connecting Line */}
+                  {index < transformedLogs.length - 1 && (
+                    <div 
+                      className="w-px h-12 mt-4" 
+                      style={{ backgroundColor: `${log.categoryColor}30` }}
+                    ></div>
+                  )}
                 </div>
-                <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                  <Calendar className="h-3 w-3" />
-                  {log.formattedDate}
+                
+                {/* Content */}
+                <div className="flex-1 pb-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      {log.formattedTime}
+                    </span>
+                    <span className="text-xs text-muted-foreground">•</span>
+                    <span className="text-xs font-medium" style={{ color: log.categoryColor }}>
+                      {log.categoryLabel}
+                    </span>
+                  </div>
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {log.reason}
+                  </p>
                 </div>
               </div>
-              <p className="text-sm text-foreground leading-relaxed">
-                {log.reason}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="text-center py-12">
