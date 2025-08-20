@@ -84,7 +84,7 @@ const BusinessInfoStep = ({
       website: formData.website || "",
       email: formData.email || "",
       timezone: formData.timezone || "",
-      businessType: formData.businessType || "",
+      businessType: formData.businessType || "Multi listing Dashboard",
       locationCount: formData.locationCount || "",
     });
   }, [formData]);
@@ -93,8 +93,6 @@ const BusinessInfoStep = ({
     switch (agencyType) {
       case "multi_owner":
         return "Multi listing Dashboard";
-      case "agency_owner":
-        return "Agency Owner / SEO Freelancer";
       case "local_business":
         return "Single listing Dashboard";
       default:
@@ -142,11 +140,7 @@ const BusinessInfoStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [businessDetails]);
 
-  const businessTypes = [
-    "Agency Owner / SEO Freelancer",
-    "Single listing dashboard",
-    "Multi listing Dashboard",
-  ];
+  const businessTypes = ["Single listing dashboard", "Multi listing Dashboard"];
 
   const locationRanges = [
     "1-10",
@@ -378,7 +372,7 @@ const BusinessInfoStep = ({
               htmlFor="businessType"
               className="text-sm sm:text-base font-semibold text-gray-900 mb-2 sm:mb-3 block"
             >
-              What best describes you? *
+              Dashboard Type *
             </Label>
             <Select
               value={localData.businessType}

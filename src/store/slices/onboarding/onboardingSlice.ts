@@ -128,8 +128,6 @@ const mapFormDataToBusinessPayload = (
     switch (businessType) {
       case "Multi listing Dashboard":
         return "multi_owner";
-      case "Agency Owner / SEO Freelancer":
-        return "agency_owner";
       case "Single listing Dashboard":
         return "local_business";
       default:

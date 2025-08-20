@@ -51,7 +51,7 @@ export const BrandingSaveActions: React.FC<BrandingSaveActionsProps> = ({
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between flex-col gap-2 sm:flex-row sm:gap-0">
       <Button
         variant="outline"
         onClick={handleReset}

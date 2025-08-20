@@ -516,7 +516,7 @@ export const EditTeamMemberSettings: React.FC = () => {
           <CardContent className="p-6">
             <div className="space-y-6">
               {/* Filter Section */}
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-4 items-center flex-wrap">
                 {/* Account Dropdown (80% width) */}
                 <div className="flex-1 relative">
                   <Label className="text-sm font-medium">Google Account</Label>
@@ -655,7 +655,7 @@ export const EditTeamMemberSettings: React.FC = () => {
 
               {/* API-driven Pagination */}
               {displayListings.length > 0 && !listingsLoading && (
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">
                       Page {currentApiPage} of {totalApiPages} •{" "}
@@ -663,7 +663,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 flex-col sm:flex-row">
                     {/* Page Size Selector */}
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">
