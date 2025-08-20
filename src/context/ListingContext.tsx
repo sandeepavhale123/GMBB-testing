@@ -97,41 +97,73 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     }
   }, [user?.userId, isInitialized, dispatch]);
 
-  const initializeSelectedListing = useCallback(() => {
-    // console.log("🔄 ListingContext: initializeSelectedListing called", {
-    //   listingsLoading,
-    //   listingsCount: listings.length,
-    //   hasInitialized,
-    //   isInitialized,
-    //   isAuthenticated,
-    //   selectedBusinessId,
-    //   listingId,
-    // });
+  const initializeSelectedListing = useCallback((forceListingId?: string) => {
+    const targetListingId = forceListingId || listingId;
+    
+    console.log("🔄 ListingContext: initializeSelectedListing called", {
+      listingsLoading,
+      listingsCount: listings.length,
+      hasInitialized,
+      isInitialized,
+      isAuthenticated,
+      selectedBusinessId,
+      listingId,
+      targetListingId,
+      forceListingId
+    });
 
-    if (
-      listingsLoading ||
-      hasInitialized ||
-      !isInitialized ||
-      !isAuthenticated
-    ) {
-      // console.log(
-      //   "🔄 ListingContext: Skipping initialization - conditions not met",
-      //   listingsLoading,
-      //   hasInitialized,
-      //   !isInitialized,
-      //   !isAuthenticated
-      // );
+    if (!isInitialized || !isAuthenticated) {
+      console.log("🔄 ListingContext: Skipping - not authenticated or initialized");
+      return;
+    }
+
+    // If we have a specific listing ID from URL and listings are loaded, prioritize URL over everything
+    if (targetListingId && targetListingId !== "default" && listings.length > 0) {
+      const urlListing = listings.find((l) => l.id === targetListingId);
+      if (urlListing) {
+        console.log("🔄 ListingContext: Found URL listing immediately:", urlListing.name);
+        setSelectedListing(urlListing);
+        dispatch(setSelectedBusiness(urlListing.id));
+        dispatch(moveListingToTop(urlListing.id)); // Move to top for easier access
+        setHasInitialized(true);
+        return;
+      }
+      
+      // If URL listing not found in current listings, wait a bit longer for listings to load
+      if (!listingsLoading && !hasInitialized) {
+        console.log("🔄 ListingContext: URL listing not found, waiting for more listings...");
+        // Set a shorter timeout specifically for URL-based navigation
+        if (!initTimeout) {
+          const timeout = setTimeout(() => {
+            console.log("🔄 ListingContext: URL listing timeout - proceeding with fallback");
+            const fallbackListing = listings.length > 0 ? listings[0] : null;
+            if (fallbackListing) {
+              setSelectedListing(fallbackListing);
+              dispatch(setSelectedBusiness(fallbackListing.id));
+              // Redirect to the available listing
+              if (baseRoute) {
+                navigate(`/${baseRoute}/${fallbackListing.id}`, { replace: true });
+              }
+            }
+            setHasInitialized(true);
+          }, 2000); // Shorter timeout for URL navigation
+          setInitTimeout(timeout);
+        }
+        return;
+      }
+    }
+
+    // Standard initialization logic for cases without specific URL listing
+    if (listingsLoading || hasInitialized) {
+      console.log("🔄 ListingContext: Skipping - loading or already initialized");
       return;
     }
 
     // Set a timeout to force initialization even if no listings are found
-    if (!initTimeout) {
+    if (!initTimeout && listings.length === 0) {
       const timeout = setTimeout(() => {
-        // console.log("🔄 ListingContext: Initialization timeout reached");
-        if (!hasInitialized && listings.length === 0) {
-          // console.log(
-          //   "🔄 ListingContext: No listings found after timeout, marking as initialized"
-          // );
+        console.log("🔄 ListingContext: General initialization timeout reached");
+        if (!hasInitialized) {
           setHasInitialized(true);
         }
       }, 5000); // 5 second timeout
@@ -139,7 +171,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     }
 
     if (listings.length === 0) {
-      // console.log("🔄 ListingContext: No listings available yet, waiting...");
+      console.log("🔄 ListingContext: No listings available yet, waiting...");
       return;
     }
 
@@ -149,69 +181,37 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       setInitTimeout(null);
     }
 
-    // console.log(
-    //   "🔄 ListingContext: Initializing with listings:",
-    //   listings.length
-    // );
-    // console.log(
-    //   "🔄 ListingContext: Current selectedBusinessId:",
-    //   selectedBusinessId
-    // );
-    // console.log("🔄 ListingContext: URL listingId:", listingId);
+    console.log("🔄 ListingContext: Initializing with listings:", listings.length);
+    console.log("🔄 ListingContext: Current selectedBusinessId:", selectedBusinessId);
 
     let targetListing: BusinessListing | null = null;
 
-    // 1. Try to use listing from URL if valid
-    if (listingId && listingId !== "default") {
-      targetListing = listings.find((l) => l.id === listingId) || null;
-      // console.log(
-      //   "🔄 ListingContext: Found listing from URL:",
-      //   targetListing?.name
-      // );
-    }
-
-    // 2. Try to use stored selectedBusinessId if URL doesn't have valid listing
-    if (!targetListing && selectedBusinessId) {
+    // 1. Try to use listing from stored selectedBusinessId first
+    if (selectedBusinessId) {
       targetListing = listings.find((l) => l.id === selectedBusinessId) || null;
-      // console.log(
-      //   "🔄 ListingContext: Found listing from stored ID:",
-      //   targetListing?.name
-      // );
+      console.log("🔄 ListingContext: Found listing from stored ID:", targetListing?.name);
     }
 
-    // 3. Default to first available listing if nothing else works
+    // 2. Default to first available listing if nothing else works
     if (!targetListing && listings.length > 0) {
       targetListing = listings[0];
-      // console.log(
-      //   "🔄 ListingContext: Using first available listing:",
-      //   targetListing?.name
-      // );
+      console.log("🔄 ListingContext: Using first available listing:", targetListing?.name);
     }
 
     if (targetListing) {
-      // console.log(
-      //   "🔄 ListingContext: Setting selected listing:",
-      //   targetListing.name
-      // );
+      console.log("🔄 ListingContext: Setting selected listing:", targetListing.name);
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
       // Redirect if necessary and baseRoute is valid (not excluded)
-      const shouldRedirect =
-        baseRoute &&
-        (!listingId ||
-          listingId === "default" ||
-          !listings.find((l) => l.id === listingId));
+      const shouldRedirect = baseRoute && (!targetListingId || targetListingId === "default");
 
       if (shouldRedirect) {
-        // console.log(
-        //   "🔄 ListingContext: Redirecting to:",
-        //   `/${baseRoute}/${targetListing.id}`
-        // );
+        console.log("🔄 ListingContext: Redirecting to:", `/${baseRoute}/${targetListing.id}`);
         navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
       }
     } else {
-      // console.log("🔄 ListingContext: No listings available");
+      console.log("🔄 ListingContext: No listings available");
     }
 
     setHasInitialized(true);
@@ -240,9 +240,25 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     };
   }, [initializeSelectedListing]);
 
+  // Re-initialize when URL listingId changes (crucial for pagination navigation)
+  useEffect(() => {
+    if (listingId && listingId !== "default" && isInitialized && isAuthenticated) {
+      console.log("🔄 ListingContext: URL listingId changed, re-initializing:", listingId);
+      setHasInitialized(false); // Force re-initialization
+      initializeSelectedListing(listingId);
+    }
+  }, [listingId, isInitialized, isAuthenticated, initializeSelectedListing]);
+
   const switchListing = useCallback(
     async (listing: BusinessListing) => {
       if (listing.id === selectedListing?.id) return;
+
+      console.log("🔄 switchListing called:", {
+        listingId: listing.id,
+        listingName: listing.name,
+        currentPath: location.pathname,
+        baseRoute,
+      });
 
       setIsLoading(true);
 
@@ -271,18 +287,27 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       dispatch(setSelectedBusiness(listing.id));
 
       // Handle navigation based on current route
+      console.log("🔄 Navigation logic:", { baseRoute, currentPath: location.pathname });
+      
       if (baseRoute === null) {
         // For settings, profile, and other excluded routes, stay on current page structure
         const pathParts = location.pathname.split("/");
         if (pathParts[1] === "settings" || pathParts[1] === "profile") {
           // Stay on settings or profile, just update the listing context
           // No navigation needed as these pages don't use listing IDs in URL
+          console.log("🔄 Staying on settings/profile page");
         } else {
           // For other excluded routes, navigate to location dashboard
+          console.log("🔄 Navigating to location dashboard from excluded route");
           navigate(`/location-dashboard/${listing.id}`);
         }
+      } else if (baseRoute === "main-dashboard") {
+        // Special case: when on main-dashboard, always redirect to single location dashboard
+        console.log("🔄 Navigating from main-dashboard to location-dashboard");
+        navigate(`/location-dashboard/${listing.id}`);
       } else {
         // For regular routes, use the existing baseRoute logic
+        console.log("🔄 Using baseRoute logic:", `/${baseRoute}/${listing.id}`);
         navigate(`/${baseRoute}/${listing.id}`);
       }
 
