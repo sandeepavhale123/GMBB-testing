@@ -107,7 +107,7 @@ const weekOptions = [{
 }];
 const generateBulkReportSchema = z.object({
   projectName: z.string().min(1, "Project name is required."),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location.").max(20, "Maximum 20 locations allowed"),
+  selectedListings: z.array(z.string()).min(1, "Select at least one location."),
   reportSections: z.array(z.string()).min(1, "Select at least one report type."),
   scheduleType: z.enum(["one-time", "weekly", "monthly"]),
   frequency: z.string().optional(),
@@ -510,27 +510,12 @@ export const GenerateBulkReport: React.FC = () => {
                           hideStatusBadges={true}
                         />
                         
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-muted-foreground">
-                            For optimal performance, bulk reports are limited to 20 locations per project.
-                          </p>
-                          <Badge variant={watchSelectedListings.length >= 20 ? "destructive" : watchSelectedListings.length >= 18 ? "secondary" : "outline"} className="text-xs">
-                            {watchSelectedListings.length}/20 locations
+                        <div className="flex items-center justify-end">
+                          <Badge variant="outline" className="text-xs">
+                            {watchSelectedListings.length} locations selected
                           </Badge>
                         </div>
                       </div>
-                      
-                      {watchSelectedListings.length >= 18 && watchSelectedListings.length < 20 && (
-                        <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded-md border border-amber-200">
-                          ⚠️ You're approaching the limit of 20 locations for optimal performance.
-                        </div>
-                      )}
-                      
-                      {watchSelectedListings.length >= 20 && (
-                        <div className="text-xs text-red-600 bg-red-50 p-2 rounded-md border border-red-200">
-                          🚫 Maximum limit reached. You can deselect locations to make changes.
-                        </div>
-                      )}
                     </div>
                     <FormMessage />
                   </FormItem>} />
@@ -780,7 +765,7 @@ export const GenerateBulkReport: React.FC = () => {
               <CardDescription>
                 {watchSelectedListings.length === 1 
                   ? "Choose how you want to receive your report. You can select multiple formats."
-                  : `Choose how you want to receive your reports. You can select only one format when generating reports for ${watchSelectedListings.length} listings.`
+                  : "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance."
                 }
               </CardDescription>
             </CardHeader>
