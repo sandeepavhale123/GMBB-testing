@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isTablet = false
 }) => {
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const {
     listingId
   } = useParams();
@@ -324,7 +324,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Navigation Menu */}
         <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-4 pt-0">
-          <ScrollArea className="px-3 py-4 ">
+          <ScrollArea className="px-0 py-4 ">
             <nav className="space-y-2">
               {menuItems.filter(item => !(item.id === "settings" && shouldHideForRole())).filter(item => !(item.id === "main-dashboard" && profileData?.dashboardType === 0)).filter(item => !(item.id === "settings" && profileData?.dashboardType === 1)).map(item => {
               const Icon = item.icon;
