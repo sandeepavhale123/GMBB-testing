@@ -22,10 +22,10 @@ export const businessListingsService = {
     };
 
     try {
-      // console.log(
-      //   "🌐 businessListingsService.getActiveListings: Making request with payload:",
-      //   payload
-      // );
+      console.log(
+        "🌐 businessListingsService.getActiveListings: Making request with payload:",
+        payload
+      );
 
       const response = await axiosInstance.post<BusinessListingsApiResponse>(
         "/get-active-listings",

@@ -1,5 +1,5 @@
 import React from "react";
-import { MoreVertical, Edit, Trash2, RefreshCw } from "lucide-react";
+import { MoreVertical, Edit, Trash2, RefreshCw, BookKey } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -19,6 +19,7 @@ interface ConnectedListing {
 }
 
 interface GoogleAccount {
+  isDisabled: boolean;
   id: string;
   name: string;
   email: string;
@@ -37,6 +38,7 @@ interface GoogleAccount {
 interface GoogleAccountListViewProps {
   account: GoogleAccount;
   onManageListings?: (accountId: string) => void;
+  onReauth?: (e) => void;
   onDeleteAccount?: (
     accountId: string,
     accountName: string,
@@ -49,6 +51,7 @@ interface GoogleAccountListViewProps {
 export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
   account,
   onManageListings,
+  onReauth,
   onDeleteAccount,
   onRefreshAccount,
   isRefreshing,
@@ -57,6 +60,10 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
     onManageListings?.(account.id);
   };
 
+  const handleReauth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onReauth(e);
+  };
   const handleRefresh = (e: React.MouseEvent) => {
     e.stopPropagation();
     // console.log("Refresh account:", account.id);
@@ -83,6 +90,13 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
             </h3>
             <p className="text-gray-500 text-xs truncate">{account.email}</p>
           </div>
+          {account.isDisabled ? (
+            <div className="bg-red-200 rounded-xl font-medium text-red-500 px-2 py-1 text-[9px] flex-shrink-0">
+              Re-Authorization
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </TableCell>
       <TableCell className="text-center">
@@ -111,6 +125,15 @@ export const GoogleAccountListView: React.FC<GoogleAccountListViewProps> = ({
                 <Edit className="h-4 w-4 mr-2" />
                 Manage Listings
               </DropdownMenuItem>
+              {account.isDisabled ? (
+                <DropdownMenuItem onClick={handleReauth}>
+                  <BookKey className="h-4 w-4 mr-2" />
+                  Re-Authorization
+                </DropdownMenuItem>
+              ) : (
+                ""
+              )}
+
               <DropdownMenuItem onClick={handleRefresh} disabled={isRefreshing}>
                 <RefreshCw
                   className={`h-4 w-4 mr-2 ${

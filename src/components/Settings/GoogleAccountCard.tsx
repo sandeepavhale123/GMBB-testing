@@ -19,6 +19,7 @@ interface GoogleAccount {
   activeListings: number;
   lastSynced: string;
   isEnabled: boolean;
+  isDisabled: boolean;
   visibilityScore: number;
   reviewResponseRate: number;
   keywordsTracked: number;
@@ -30,6 +31,7 @@ interface GoogleAccountCardProps {
   account: GoogleAccount;
   viewMode: "grid" | "list";
   onManageListings?: (accountId: string) => void;
+  onReauth: (e: React.MouseEvent) => void;
   onDeleteAccount?: (
     accountId: string,
     accountName: string,
@@ -43,6 +45,7 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
   account,
   viewMode,
   onManageListings,
+  onReauth,
   onDeleteAccount,
   onRefreshAccount,
   isRefreshing,
@@ -52,6 +55,7 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
       <GoogleAccountListView
         account={account}
         onManageListings={onManageListings}
+        onReauth={onReauth}
         onDeleteAccount={onDeleteAccount}
         onRefreshAccount={onRefreshAccount}
         isRefreshing={isRefreshing}
@@ -63,6 +67,7 @@ export const GoogleAccountCard: React.FC<GoogleAccountCardProps> = ({
     <GoogleAccountGridView
       account={account}
       onManageListings={onManageListings}
+      onReauth={onReauth}
       onDeleteAccount={onDeleteAccount}
       onRefreshAccount={onRefreshAccount}
       isRefreshing={isRefreshing}

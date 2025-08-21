@@ -88,7 +88,8 @@ export const Dashboard: React.FC = () => {
   const [insightsDateRange, setInsightsDateRange] = useState("30");
   const navigate = useNavigate();
   const { listings } = useListingContext();
-  const { selectedMedia, shouldOpenCreatePost, clearSelection } = useMediaContext();
+  const { selectedMedia, shouldOpenCreatePost, clearSelection } =
+    useMediaContext();
 
   const {
     data: setupData,
@@ -106,6 +107,8 @@ export const Dashboard: React.FC = () => {
   const { summary, visibilityTrends, isLoadingSummary, isLoadingVisibility } =
     useAppSelector((state) => state.insights);
 
+  console.log("listingid", selectedListing?.id);
+  console.log("listings", listings);
   // Fetch insights data when insights tab is active and listing is selected
   React.useEffect(() => {
     if (activeTab === "insights" && selectedListing?.id) {
@@ -125,15 +128,18 @@ export const Dashboard: React.FC = () => {
 
   // Handle media context - open modal when image is selected from gallery
   useEffect(() => {
-    console.log('🎯 Dashboard media context changed:', { shouldOpenCreatePost, selectedMedia });
+    console.log("🎯 Dashboard media context changed:", {
+      shouldOpenCreatePost,
+      selectedMedia,
+    });
     if (shouldOpenCreatePost && selectedMedia) {
-      console.log('🎯 Opening create post modal from media context');
+      console.log("🎯 Opening create post modal from media context");
       setIsCreateModalOpen(true);
     }
   }, [shouldOpenCreatePost, selectedMedia]);
 
   const handleApprovePost = (post: any) => {
-    console.log('🎯 Dashboard handleApprovePost called with:', post);
+    console.log("🎯 Dashboard handleApprovePost called with:", post);
     setSelectedPost(post);
     setIsPreviewModalOpen(true);
   };
@@ -356,7 +362,9 @@ export const Dashboard: React.FC = () => {
           </DialogHeader>
           {selectedPost && (
             <div>
-              <p className="text-sm text-gray-500 mb-4">Previewing post: {selectedPost.title}</p>
+              <p className="text-sm text-gray-500 mb-4">
+                Previewing post: {selectedPost.title}
+              </p>
               <PostPreviewErrorBoundary
                 fallback={
                   <div className="p-4 text-center text-red-600 bg-red-50 rounded-lg border border-red-200">

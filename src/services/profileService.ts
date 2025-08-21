@@ -1,4 +1,3 @@
-
 import axiosInstance from "../api/axiosInstance";
 
 export interface ProfileData {
@@ -37,15 +36,81 @@ export interface VerifyPasswordData {
   currentPassword: string;
 }
 
+let cachedProfile: any | null = null; // 👈 cache variable
+let inProgressRequest: Promise<any> | null = null; // 👈 handle race conditions
+let cachedTimezones: any | null = null;
+let inProgressTimezonesRequest: Promise<any> | null = null;
+
 export const profileService = {
-  getUserProfile: async (): Promise<ProfileData> => {
-    const response = await axiosInstance.get("/get-user-profile");
-    return response.data.data.profileDetails;
+  // getUserProfile: async (): Promise<ProfileData> => {
+  //   const response = await axiosInstance.get("/get-user-profile");
+  //   return response.data.data.profileDetails;
+  // },
+
+  getUserProfile: async () => {
+    // ✅ Return cached profile if available
+    if (cachedProfile) {
+      return cachedProfile;
+    }
+
+    // ✅ If a request is already in progress, wait for it instead of firing another
+    if (inProgressRequest) {
+      return inProgressRequest;
+    }
+
+    // ✅ Otherwise, make the API request
+    inProgressRequest = axiosInstance
+      .get("/get-user-profile")
+      .then((res) => {
+        cachedProfile = res.data?.data?.profileDetails || res.data; // store result
+        inProgressRequest = null; // reset after completion
+        return cachedProfile;
+      })
+      .catch((err) => {
+        inProgressRequest = null; // reset on error too
+        throw err;
+      });
+
+    return inProgressRequest;
   },
 
+  // Optional: if you need to force refresh later
+  refreshUserProfile: async () => {
+    cachedProfile = null;
+    return await profileService.getUserProfile();
+  },
+
+  // getTimezones: async (): Promise<TimezoneOption> => {
+  //   const response = await axiosInstance.get("/get-timezone");
+  //   return response.data.data.timezones;
+  // },
+
   getTimezones: async (): Promise<TimezoneOption> => {
-    const response = await axiosInstance.get("/get-timezone");
-    return response.data.data.timezones;
+    // ✅ Return cached if available
+    if (cachedTimezones) return cachedTimezones;
+
+    // ✅ If already fetching, reuse that promise
+    if (inProgressTimezonesRequest) return inProgressTimezonesRequest;
+
+    // Otherwise fetch
+    inProgressTimezonesRequest = axiosInstance
+      .get("/get-timezone")
+      .then((res) => {
+        cachedTimezones = res.data.data.timezones;
+        inProgressTimezonesRequest = null;
+        return cachedTimezones;
+      })
+      .catch((err) => {
+        inProgressTimezonesRequest = null;
+        throw err;
+      });
+
+    return inProgressTimezonesRequest;
+  },
+
+  refreshTimezones: async () => {
+    cachedTimezones = null;
+    return await profileService.getTimezones();
   },
 
   updateProfile: async (profileData: UpdateProfileData): Promise<void> => {

@@ -109,6 +109,30 @@ export const ManageGoogleAccountPage: React.FC = () => {
       navigate(`/settings/listings/${accountId}`);
     }
   };
+  const handleReAuth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const localdomain = window.location.host;
+    const isMultiDashboard =
+      window.location.pathname.startsWith("/main-dashboard");
+
+    // Save state in localStorage
+    // Save state in localStorage
+    localStorage.setItem("oauth_origin", isMultiDashboard ? "multi" : "single");
+    const state = localStorage.getItem("oauth_origin");
+    if (state == "multi") {
+      const authUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }/google-auth?domain=${localdomain}/main-dashboard/settings`;
+
+      window.location.href = authUrl; // Redirect to backend OAuth start
+    } else {
+      const authUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }/google-auth?domain=${localdomain}/settings`;
+
+      window.location.href = authUrl; // Redirect to backend OAuth start
+    }
+  };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -417,6 +441,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
                       key={account.id}
                       account={account}
                       onManageListings={handleManageListings}
+                      onReauth={handleReAuth}
                       onDeleteAccount={handleDeleteAccount}
                       onRefreshAccount={handleRefreshAccount}
                       isRefreshing={isRefreshing}
@@ -433,6 +458,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
                   account={account}
                   viewMode={viewMode}
                   onManageListings={handleManageListings}
+                  onReauth={handleReAuth}
                   onDeleteAccount={handleDeleteAccount}
                   onRefreshAccount={handleRefreshAccount}
                   isRefreshing={isRefreshing}

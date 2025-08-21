@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2, RefreshCw, Eye } from "lucide-react";
+import { Trash2, RefreshCw, Eye, BookKey } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { GoogleAccountAvatar } from "./GoogleAccountAvatar";
@@ -13,6 +13,7 @@ interface ConnectedListing {
 }
 
 interface GoogleAccount {
+  isDisabled: boolean;
   id: string;
   name: string;
   email: string;
@@ -31,6 +32,7 @@ interface GoogleAccount {
 interface GoogleAccountGridViewProps {
   account: GoogleAccount;
   onManageListings?: (accountId: string) => void;
+  onReauth?: (e) => void;
   onDeleteAccount?: (
     accountId: string,
     accountName: string,
@@ -43,12 +45,17 @@ interface GoogleAccountGridViewProps {
 export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
   account,
   onManageListings,
+  onReauth,
   onDeleteAccount,
   onRefreshAccount,
   isRefreshing,
 }) => {
   const handleCardClick = () => {
     onManageListings?.(account.id);
+  };
+  const handleReauth = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onReauth(e);
   };
 
   const handleRefresh = (e: React.MouseEvent) => {
@@ -101,6 +108,19 @@ export const GoogleAccountGridView: React.FC<GoogleAccountGridViewProps> = ({
             >
               <Eye className="h-4 w-4" />
             </Button>
+            {account.isDisabled ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
+                onClick={handleReauth}
+              >
+                <BookKey className="h-4 w-4" />
+              </Button>
+            ) : (
+              ""
+            )}
+
             <Button
               variant="ghost"
               size="sm"

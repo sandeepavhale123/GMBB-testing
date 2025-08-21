@@ -1,22 +1,34 @@
-import React, { useEffect } from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Star, MessageSquare, Clock, Bot, User, TrendingUp, AlertCircle } from 'lucide-react';
-import { Progress } from '../ui/progress';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { Skeleton } from '../ui/skeleton';
-import { Button } from '../ui/button';
-import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
-import { fetchBulkReviewStats } from '../../store/slices/reviews/thunks';
+import React, { useEffect } from "react";
+import { Card, CardContent } from "../ui/card";
+import {
+  Star,
+  MessageSquare,
+  Clock,
+  Bot,
+  User,
+  TrendingUp,
+  AlertCircle,
+} from "lucide-react";
+import { Progress } from "../ui/progress";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { Skeleton } from "../ui/skeleton";
+import { Button } from "../ui/button";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { fetchBulkReviewStats } from "../../store/slices/reviews/thunks";
 
 export const BulkReviewSummary: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { summaryCards, starDistribution, sentimentAnalysis, summaryLoading, summaryError } = useAppSelector(
-    (state) => state.reviews
-  );
+  const {
+    summaryCards,
+    starDistribution,
+    sentimentAnalysis,
+    summaryLoading,
+    summaryError,
+  } = useAppSelector((state) => state.reviews);
 
-  useEffect(() => {
-    dispatch(fetchBulkReviewStats());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchBulkReviewStats());
+  // }, [dispatch]);
 
   // Handle error state
   if (summaryError) {
@@ -28,8 +40,8 @@ export const BulkReviewSummary: React.FC = () => {
             <span>Error loading summary data</span>
           </div>
           <div className="mt-4 text-center">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => dispatch(fetchBulkReviewStats())}
             >
               Retry
@@ -91,70 +103,117 @@ export const BulkReviewSummary: React.FC = () => {
   }
 
   // Activity data for doughnut chart
-  const activityData = [{
-    name: 'AI Replies',
-    value: summaryCards.ai_replies,
-    color: '#10B981',
-    percentage: Math.round(summaryCards.ai_replies / (summaryCards.ai_replies + summaryCards.manual_replies + summaryCards.pending_replies) * 100)
-  }, {
-    name: 'Manual Replies',
-    value: summaryCards.manual_replies,
-    color: '#8B5CF6',
-    percentage: Math.round(summaryCards.manual_replies / (summaryCards.ai_replies + summaryCards.manual_replies + summaryCards.pending_replies) * 100)
-  }, {
-    name: 'Pending',
-    value: summaryCards.pending_replies,
-    color: '#F59E0B',
-    percentage: Math.round(summaryCards.pending_replies / (summaryCards.ai_replies + summaryCards.manual_replies + summaryCards.pending_replies) * 100)
-  }];
+  const activityData = [
+    {
+      name: "AI Replies",
+      value: summaryCards.ai_replies,
+      color: "#10B981",
+      percentage: Math.round(
+        (summaryCards.ai_replies /
+          (summaryCards.ai_replies +
+            summaryCards.manual_replies +
+            summaryCards.pending_replies)) *
+          100
+      ),
+    },
+    {
+      name: "Manual Replies",
+      value: summaryCards.manual_replies,
+      color: "#8B5CF6",
+      percentage: Math.round(
+        (summaryCards.manual_replies /
+          (summaryCards.ai_replies +
+            summaryCards.manual_replies +
+            summaryCards.pending_replies)) *
+          100
+      ),
+    },
+    {
+      name: "Pending",
+      value: summaryCards.pending_replies,
+      color: "#F59E0B",
+      percentage: Math.round(
+        (summaryCards.pending_replies /
+          (summaryCards.ai_replies +
+            summaryCards.manual_replies +
+            summaryCards.pending_replies)) *
+          100
+      ),
+    },
+  ];
   const renderStars = (rating: number) => {
-    return Array.from({
-      length: 5
-    }, (_, index) => <Star key={index} className={`w-4 h-4 ${index < Math.floor(rating) ? 'text-yellow-400 fill-current' : index < rating ? 'text-yellow-400 fill-current opacity-50' : 'text-gray-300'}`} />);
+    return Array.from(
+      {
+        length: 5,
+      },
+      (_, index) => (
+        <Star
+          key={index}
+          className={`w-4 h-4 ${
+            index < Math.floor(rating)
+              ? "text-yellow-400 fill-current"
+              : index < rating
+              ? "text-yellow-400 fill-current opacity-50"
+              : "text-gray-300"
+          }`}
+        />
+      )
+    );
   };
 
   // Convert star distribution to array for rendering
-  const starDistributionArray = Object.entries(starDistribution).map(([stars, data]) => ({
-    stars: parseInt(stars),
-    count: data.count,
-    percentage: data.percentage
-  })).sort((a, b) => b.stars - a.stars);
+  const starDistributionArray = Object.entries(starDistribution)
+    .map(([stars, data]) => ({
+      stars: parseInt(stars),
+      count: data.count,
+      percentage: data.percentage,
+    }))
+    .sort((a, b) => b.stars - a.stars);
 
   // Stats data for the summary cards
-  const stats = [{
-    title: 'Total Reviews',
-    value: summaryCards.total_reviews.toString(),
-    icon: MessageSquare,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100'
-  }, {
-    title: 'Pending Replies',
-    value: summaryCards.pending_replies.toString(),
-    icon: Clock,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100'
-  }, {
-    title: 'AI Replies',
-    value: summaryCards.ai_replies.toString(),
-    icon: Bot,
-    color: 'text-green-600',
-    bgColor: 'bg-green-100'
-  }, {
-    title: 'Manual Replies',
-    value: summaryCards.manual_replies.toString(),
-    icon: User,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100'
-  }];
-  return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  const stats = [
+    {
+      title: "Total Reviews",
+      value: summaryCards.total_reviews.toString(),
+      icon: MessageSquare,
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+    },
+    {
+      title: "Pending Replies",
+      value: summaryCards.pending_replies.toString(),
+      icon: Clock,
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
+    },
+    {
+      title: "AI Replies",
+      value: summaryCards.ai_replies.toString(),
+      icon: Bot,
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+    },
+    {
+      title: "Manual Replies",
+      value: summaryCards.manual_replies.toString(),
+      icon: User,
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+    },
+  ];
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* First Column - Stats Cards (4 cards in 2x2 grid) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {stats.map(stat => {
-        const Icon = stat.icon;
-        return <Card key={stat.title} className="bg-card border border-border">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.title} className="bg-card border border-border">
               <CardContent className="p-4">
                 <div className="text-center">
-                  <div className={`p-3 rounded-lg ${stat.bgColor} inline-flex mb-3`}>
+                  <div
+                    className={`p-3 rounded-lg ${stat.bgColor} inline-flex mb-3`}
+                  >
                     <Icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
                   <p className="text-2xl font-bold text-foreground mb-1">
@@ -165,15 +224,18 @@ export const BulkReviewSummary: React.FC = () => {
                   </p>
                 </div>
               </CardContent>
-            </Card>;
-      })}
+            </Card>
+          );
+        })}
       </div>
 
       {/* Second Column - Overall Rating Card */}
       <Card className="bg-card border border-border">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-medium text-muted-foreground">Overall Rating</p>
+            <p className="text-sm font-medium text-muted-foreground">
+              Overall Rating
+            </p>
             <div className="p-2 rounded-lg bg-yellow-100 flex-shrink-0">
               <Star className="w-5 h-5 text-yellow-600" />
             </div>
@@ -194,7 +256,8 @@ export const BulkReviewSummary: React.FC = () => {
 
           {/* Star Distribution with Progress Bars */}
           <div className="space-y-3">
-            {starDistributionArray.map(item => <div key={item.stars} className="flex items-center gap-3">
+            {starDistributionArray.map((item) => (
+              <div key={item.stars} className="flex items-center gap-3">
                 <div className="flex items-center gap-1 w-12">
                   <span className="text-sm font-medium">{item.stars}</span>
                   <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -205,11 +268,11 @@ export const BulkReviewSummary: React.FC = () => {
                 <span className="text-xs text-muted-foreground w-8 text-right">
                   {item.count}
                 </span>
-              </div>)}
+              </div>
+            ))}
           </div>
 
           {/* Response Rate Display */}
-          
         </CardContent>
       </Card>
 
@@ -230,10 +293,25 @@ export const BulkReviewSummary: React.FC = () => {
             <div className="h-32 mb-4">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={activityData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} paddingAngle={2} dataKey="value">
-                    {activityData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                  <Pie
+                    data={activityData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={30}
+                    outerRadius={60}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {activityData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
                   </Pie>
-                  <Tooltip formatter={(value, name, props) => [`${value} (${props.payload.percentage}%)`, name]} />
+                  <Tooltip
+                    formatter={(value, name, props) => [
+                      `${value} (${props.payload.percentage}%)`,
+                      name,
+                    ]}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -243,32 +321,42 @@ export const BulkReviewSummary: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="text-sm text-muted-foreground">AI Responses</span>
+                  <span className="text-sm text-muted-foreground">
+                    AI Responses
+                  </span>
                 </div>
-                <span className="text-sm font-medium">{summaryCards.ai_replies} ({activityData[0].percentage}%)</span>
+                <span className="text-sm font-medium">
+                  {summaryCards.ai_replies} ({activityData[0].percentage}%)
+                </span>
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-purple-500" />
-                  <span className="text-sm text-muted-foreground">Manual Responses</span>
+                  <span className="text-sm text-muted-foreground">
+                    Manual Responses
+                  </span>
                 </div>
-                <span className="text-sm font-medium">{summaryCards.manual_replies} ({activityData[1].percentage}%)</span>
+                <span className="text-sm font-medium">
+                  {summaryCards.manual_replies} ({activityData[1].percentage}%)
+                </span>
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-orange-500" />
                   <span className="text-sm text-muted-foreground">Pending</span>
                 </div>
-                <span className="text-sm font-medium">{summaryCards.pending_replies} ({activityData[2].percentage}%)</span>
+                <span className="text-sm font-medium">
+                  {summaryCards.pending_replies} ({activityData[2].percentage}%)
+                </span>
               </div>
             </div>
 
             {/* Progress Bar */}
-            
           </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };

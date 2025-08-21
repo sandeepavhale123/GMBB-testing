@@ -39,22 +39,24 @@ export const useBusinessListingsWithRedux =
       try {
         setLoading(true);
         setError(null);
-        // console.log('📋🔄 useBusinessListingsWithRedux: Fetching API business listings...');
-        // console.log("📋🔄 Auth state:", {
-        //   accessToken: !!accessToken,
-        //   isAuthenticated,
-        //   hasAttemptedRefresh,
-        //   isInitialized,
-        // });
+        console.log(
+          "📋🔄 useBusinessListingsWithRedux: Fetching API business listings..."
+        );
+        console.log("📋🔄 Auth state:", {
+          accessToken: !!accessToken,
+          isAuthenticated,
+          hasAttemptedRefresh,
+          isInitialized,
+        });
 
         const data = await businessListingsService.getActiveListings({
-          limit: 10,
+          limit: 1000,
         });
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Received",
-        //   data.length,
-        //   "API listings"
-        // );
+        console.log(
+          "📋🔄 useBusinessListingsWithRedux: Received",
+          data.length,
+          "API listings"
+        );
 
         setApiListings(data);
         // console.log(

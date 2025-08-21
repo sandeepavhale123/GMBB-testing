@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { BulkAutoReplyFilters } from '@/components/BulkAutoReply/BulkAutoReplyFilters';
-import { BulkAutoReplyTable } from '@/components/BulkAutoReply/BulkAutoReplyTable';
-import { CreateAutoReplyModal } from '@/components/BulkAutoReply/CreateAutoReplyModal';
-import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import { useDebounce } from '@/hooks/useDebounce';
-import { 
-  fetchAutoReplyProjects, 
-  deleteAutoReplyProject, 
-  setSearchQuery, 
+import React, { useState, useEffect, useCallback } from "react";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { BulkAutoReplyFilters } from "@/components/BulkAutoReply/BulkAutoReplyFilters";
+import { BulkAutoReplyTable } from "@/components/BulkAutoReply/BulkAutoReplyTable";
+import { CreateAutoReplyModal } from "@/components/BulkAutoReply/CreateAutoReplyModal";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { useDebounce } from "@/hooks/useDebounce";
+import {
+  fetchAutoReplyProjects,
+  deleteAutoReplyProject,
+  setSearchQuery,
   setSelectedFilter,
   setCurrentPage,
-  clearError 
-} from '@/store/slices/autoReplySlice';
-import { useToast } from '@/hooks/use-toast';
+  clearError,
+} from "@/store/slices/autoReplySlice";
+import { useToast } from "@/hooks/use-toast";
 
 // Memoized Filter Section
 const MemoizedFilters = React.memo<{
@@ -44,26 +44,39 @@ const MemoizedTable = React.memo<{
   onPageChange: (page: number) => void;
   onDeleteProject: (id: string) => void;
   onViewProject: (id: string) => void;
-}>(({ projects, loading, error, currentPage, totalPages, totalItems, pageSize, onPageChange, onDeleteProject, onViewProject }) => (
-  <BulkAutoReplyTable
-    projects={projects}
-    loading={loading}
-    error={error}
-    currentPage={currentPage}
-    totalPages={totalPages}
-    totalItems={totalItems}
-    pageSize={pageSize}
-    onPageChange={onPageChange}
-    onDeleteProject={onDeleteProject}
-    onViewProject={onViewProject}
-  />
-));
+}>(
+  ({
+    projects,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    totalItems,
+    pageSize,
+    onPageChange,
+    onDeleteProject,
+    onViewProject,
+  }) => (
+    <BulkAutoReplyTable
+      projects={projects}
+      loading={loading}
+      error={error}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      totalItems={totalItems}
+      pageSize={pageSize}
+      onPageChange={onPageChange}
+      onDeleteProject={onDeleteProject}
+      onViewProject={onViewProject}
+    />
+  )
+);
 
 export const BulkAutoReply: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const {
     projects,
     loading,
@@ -73,8 +86,8 @@ export const BulkAutoReply: React.FC = () => {
     currentPage,
     pageSize,
     totalPages,
-    totalItems
-  } = useAppSelector(state => state.autoReply);
+    totalItems,
+  } = useAppSelector((state) => state.autoReply);
 
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -94,60 +107,74 @@ export const BulkAutoReply: React.FC = () => {
   }, [searchQuery, selectedFilter, currentPage]);
 
   // Load initial data
-  useEffect(() => {
-    loadProjects();
-  }, []);
+  // useEffect(() => {
+  //   loadProjects();
+  // }, []);
 
   const loadProjects = useCallback(() => {
-    dispatch(fetchAutoReplyProjects({
-      page: currentPage,
-      limit: pageSize,
-      search: searchQuery,
-      filter: selectedFilter
-    }));
+    dispatch(
+      fetchAutoReplyProjects({
+        page: currentPage,
+        limit: pageSize,
+        search: searchQuery,
+        filter: selectedFilter,
+      })
+    );
   }, [dispatch, currentPage, pageSize, searchQuery, selectedFilter]);
 
   const handleSearchChange = useCallback((value: string) => {
     setLocalSearchQuery(value);
   }, []);
 
-  const handlePageChange = useCallback((page: number) => {
-    dispatch(setCurrentPage(page));
-  }, [dispatch]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      dispatch(setCurrentPage(page));
+    },
+    [dispatch]
+  );
 
-  const handleDeleteProject = useCallback(async (projectId: string) => {
-    try {
-      await dispatch(deleteAutoReplyProject(projectId)).unwrap();
-      toast({
-        title: "Success",
-        description: "Auto reply project deleted successfully",
-        variant: "success"
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete project",
-        variant: "destructive"
-      });
-    }
-  }, [dispatch, toast]);
+  const handleDeleteProject = useCallback(
+    async (projectId: string) => {
+      try {
+        await dispatch(deleteAutoReplyProject(projectId)).unwrap();
+        toast({
+          title: "Success",
+          description: "Auto reply project deleted successfully",
+          variant: "success",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete project",
+          variant: "destructive",
+        });
+      }
+    },
+    [dispatch, toast]
+  );
 
   const handleCreateSuccess = useCallback(() => {
     setIsCreateModalOpen(false);
     loadProjects();
     toast({
       title: "Success",
-      description: "Auto reply project created successfully"
+      description: "Auto reply project created successfully",
     });
   }, [loadProjects, toast]);
 
-  const handleFilterChange = useCallback((filter: string) => {
-    dispatch(setSelectedFilter(filter));
-  }, [dispatch]);
+  const handleFilterChange = useCallback(
+    (filter: string) => {
+      dispatch(setSelectedFilter(filter));
+    },
+    [dispatch]
+  );
 
-  const handleViewProject = useCallback((projectId: string) => {
-    navigate(`/main-dashboard/bulk-auto-reply-project-details/${projectId}`);
-  }, [navigate]);
+  const handleViewProject = useCallback(
+    (projectId: string) => {
+      navigate(`/main-dashboard/bulk-auto-reply-project-details/${projectId}`);
+    },
+    [navigate]
+  );
 
   const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
@@ -167,8 +194,12 @@ export const BulkAutoReply: React.FC = () => {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Bulk Auto Reply Management</h1>
-          <p className="text-muted-foreground">Manage automated reply settings for your locations</p>
+          <h1 className="text-2xl font-bold text-foreground">
+            Bulk Auto Reply Management
+          </h1>
+          <p className="text-muted-foreground">
+            Manage automated reply settings for your locations
+          </p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="gap-2">
           <Plus className="w-4 h-4" />

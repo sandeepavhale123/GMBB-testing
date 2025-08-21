@@ -7,7 +7,10 @@ interface DashboardTypeGuardProps {
   requiredDashboardType: number; // 0 for location dashboard, 1 for main dashboard
 }
 
-export const DashboardTypeGuard = ({ children, requiredDashboardType }: DashboardTypeGuardProps) => {
+export const DashboardTypeGuard = ({
+  children,
+  requiredDashboardType,
+}: DashboardTypeGuardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | null>(null);
@@ -18,25 +21,30 @@ export const DashboardTypeGuard = ({ children, requiredDashboardType }: Dashboar
       try {
         console.log("DashboardTypeGuard: Checking dashboard type", {
           currentPath: location.pathname,
-          requiredDashboardType
+          requiredDashboardType,
         });
 
         const profile = await profileService.getUserProfile();
         console.log("DashboardTypeGuard: User profile:", profile);
-        console.log("DashboardTypeGuard: User dashboard type:", profile.dashboardType);
+        console.log(
+          "DashboardTypeGuard: User dashboard type:",
+          profile.dashboardType
+        );
 
         // Check if user is on the wrong dashboard type
         if (profile.dashboardType !== requiredDashboardType) {
           console.log("DashboardTypeGuard: Wrong dashboard type, redirecting");
           setShouldRedirect(true);
-          
+
           if (profile.dashboardType === 1) {
             setRedirectPath("/main-dashboard");
           } else {
             setRedirectPath("/location-dashboard/default");
           }
         } else {
-          console.log("DashboardTypeGuard: Correct dashboard type, allowing access");
+          console.log(
+            "DashboardTypeGuard: Correct dashboard type, allowing access"
+          );
           setShouldRedirect(false);
         }
       } catch (error) {
@@ -56,9 +64,7 @@ export const DashboardTypeGuard = ({ children, requiredDashboardType }: Dashboar
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">
-            Verifying dashboard access...
-          </p>
+          <p className="text-muted-foreground">Verifying dashboard access...</p>
         </div>
       </div>
     );

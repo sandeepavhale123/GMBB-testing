@@ -64,13 +64,14 @@ export const BulkReview: React.FC = () => {
   // Load initial data
   useEffect(() => {
     dispatch(fetchBulkReviewStats());
-    loadBulkReviews();
+    // loadBulkReviews();
   }, []);
 
   // Reload when filters change
   useEffect(() => {
     loadBulkReviews();
   }, [filter, searchQuery, sortBy, sentimentFilter, dateRange, currentPage]);
+
   const loadBulkReviews = useCallback(() => {
     const params = {
       pagination: {
