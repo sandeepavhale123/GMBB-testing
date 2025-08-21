@@ -21,6 +21,7 @@ import { useGoogleAccounts } from "../../hooks/useGoogleAccounts";
 import GoogleAuthHandler from "./GoogleAuthHandler";
 import { toast } from "@/hooks/use-toast";
 import { RefreshAccountModal } from "./RefreshAccountModal";
+import { comprehensiveCleanup } from "../../utils/domUtils";
 
 // Transform API data to match component expectations
 const transformGoogleAccount = (apiAccount: any) => ({
@@ -232,6 +233,11 @@ export const ManageGoogleAccountPage: React.FC = () => {
         });
         setAccountToDelete(null);
         setShowDeleteModal(false);
+        
+        // Force cleanup after successful delete to remove pointer-events: none
+        setTimeout(() => {
+          comprehensiveCleanup();
+        }, 100);
       } catch (error) {
         console.error("Error deleting account:", error);
         toast({
@@ -245,6 +251,22 @@ export const ManageGoogleAccountPage: React.FC = () => {
       }
     }
   };
+
+  // Monitor showDeleteModal state changes for cleanup
+  useEffect(() => {
+    if (!showDeleteModal) {
+      // Modal closed - force cleanup with multiple attempts
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 0);
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 200);
+      setTimeout(() => {
+        comprehensiveCleanup();
+      }, 500);
+    }
+  }, [showDeleteModal]);
 
   // If we have a code and haven't processed it yet, show the auth handler
   if (code && !hasProcessedCode.current) {

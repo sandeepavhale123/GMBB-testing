@@ -122,7 +122,10 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
-				'scale-in': 'scale-in 0.2s ease-out'
+				'scale-in': 'scale-in 0.2s ease-out',
+				'spin-slow': 'spin 3s linear infinite',
+				'spin-medium': 'spin 1.5s linear infinite',
+				'spin-fast': 'spin 0.5s linear infinite',
 			},
 			boxShadow: {
 				'soft': '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06)',

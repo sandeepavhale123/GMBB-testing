@@ -66,14 +66,14 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
       <CardContent className="p-6">
         {/* Header Section */}
         <div className="flex flex-col-reverse gap-3 justify-between mb-6 lg:flex-row lg:items-center lg:gap-0">
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col md:flex-row items-start gap-4">
             {/* Business Logo/Avatar - Updated with shadow and better image handling */}
             <div className="w-24 h-24 rounded-lg overflow-hidden shadow-md border border-gray-200">
               {businessInfo?.profile_photo ? (
                 <img
                   src={businessInfo.profile_photo}
                   alt={`${businessInfo.name} profile`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     // Fallback to default avatar if image fails to load
                     const target = e.target as HTMLImageElement;

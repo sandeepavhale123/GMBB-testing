@@ -5,6 +5,10 @@ import type {
   RefreshBusinessInfoRequest,
   RefreshBusinessInfoResponse,
 } from "../types/businessInfoTypes";
+import type {
+  EditLogRequest,
+  EditLogResponse,
+} from "../types/editLogTypes";
 
 export interface BusinessDetails {
   companyName: string;
@@ -93,6 +97,24 @@ export const refreshBusinessInfo = async (
     return result.data;
   } catch (error) {
     console.error("Failed to refresh business info:", error);
+    throw error;
+  }
+};
+
+export const getEditLogs = async (
+  payload: EditLogRequest
+): Promise<EditLogResponse> => {
+  try {
+    const result = await axiosInstance({
+      url: "/get-edit-logs",
+      method: "POST",
+      data: payload,
+    });
+
+    // console.log("Edit logs API response:", result.data);
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch edit logs:", error);
     throw error;
   }
 };

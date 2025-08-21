@@ -65,6 +65,7 @@ interface DashboardListing {
   rating: string;
   qa: string;
   profilePhoto: string;
+  isSync: number;
 }
 
 interface DashboardPagination {
@@ -91,13 +92,18 @@ const getDashboardData = async (params: DashboardRequest): Promise<DashboardResp
 
 // Custom hook
 export const useDashboardData = (params: DashboardRequest, enabled: boolean = true) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['dashboard-data', params],
     queryFn: () => getDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
   });
+
+  return {
+    ...query,
+    refetch: query.refetch,
+  };
 };
 
 // Insights Dashboard Types
@@ -117,6 +123,7 @@ interface InsightsDashboardListing {
   storeCode: string;
   category: string;
   state: string;
+  isSync: number;
   visibility: {
     search_views: number;
     maps_views: number;
@@ -147,13 +154,18 @@ const getInsightsDashboardData = async (params: InsightsDashboardRequest): Promi
 
 // Custom hook for insights dashboard
 export const useInsightsDashboardData = (params: InsightsDashboardRequest, enabled: boolean = true) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['insights-dashboard-data', params],
     queryFn: () => getInsightsDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
   });
+
+  return {
+    ...query,
+    refetch: query.refetch,
+  };
 };
 
 // Review Dashboard Types
@@ -180,6 +192,7 @@ interface ReviewDashboardListing {
   arAiActive: boolean;
   autoReplyStatus: string;
   replyCount: number;
+  isSync: number;
   sentiment: {
     positive: number;
     neutral: number;
@@ -204,13 +217,18 @@ const getReviewDashboardData = async (params: ReviewDashboardRequest): Promise<R
 
 // Custom hook for review dashboard
 export const useReviewDashboardData = (params: ReviewDashboardRequest, enabled: boolean = true) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['review-dashboard-data', params],
     queryFn: () => getReviewDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
   });
+
+  return {
+    ...query,
+    refetch: query.refetch,
+  };
 };
 
 // Listing Dashboard Types
@@ -283,6 +301,7 @@ interface LocationDashboardListing {
   category: string;
   rating: string;
   openInfo: string;
+  isSync: number;
 }
 
 interface LocationDashboardResponse {
@@ -302,13 +321,18 @@ const getLocationDashboardData = async (params: LocationDashboardRequest): Promi
 
 // Custom hook for location dashboard
 export const useLocationDashboardData = (params: LocationDashboardRequest, enabled: boolean = true) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: ['location-dashboard-data', params],
     queryFn: () => getLocationDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
   });
+
+  return {
+    ...query,
+    refetch: query.refetch,
+  };
 };
 
 // Post Dashboard Types
