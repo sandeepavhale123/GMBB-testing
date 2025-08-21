@@ -43,8 +43,8 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
     if (!config) return null;
 
     return (
-      <Badge variant={config.variant} className="ml-2">
-        {config.text}
+      <Badge variant={config.variant} className="ml-2" style={{backgroundColor:"#f9a300",color:"white"}}>
+        Activated auto reply setting : {config.text}
       </Badge>
     );
   };
