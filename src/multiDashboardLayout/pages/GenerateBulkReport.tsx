@@ -772,7 +772,10 @@ export const GenerateBulkReport: React.FC = () => {
                 Delivery Format
               </CardTitle>
               <CardDescription>
-                Choose how you want to receive your reports.
+                {watchSelectedListings.length === 1 
+                  ? "Choose how you want to receive your report. You can select multiple formats."
+                  : `Choose how you want to receive your reports. You can select only one format when generating reports for ${watchSelectedListings.length} listings.`
+                }
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -797,7 +800,13 @@ export const GenerateBulkReport: React.FC = () => {
                               if (isSelected) {
                                 field.onChange(currentFormats.filter(f => f !== format.value));
                               } else {
-                                field.onChange([...currentFormats, format.value]);
+                                // If multiple listings selected, only allow one format at a time
+                                if (watchSelectedListings.length > 1) {
+                                  field.onChange([format.value]);
+                                } else {
+                                  // Single listing: allow multiple formats
+                                  field.onChange([...currentFormats, format.value]);
+                                }
                               }
                             }}
                           >
