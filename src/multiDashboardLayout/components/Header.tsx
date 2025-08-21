@@ -1,14 +1,16 @@
 import React from 'react';
-import { Plus, Bell } from 'lucide-react';
+import { Plus, Bell , ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 import { ModulesMegaMenu } from './ModulesMegaMenu';
 import { useThemeLogo } from '@/hooks/useThemeLogo';
 import { useAppSelector } from '@/hooks/useRedux';
+import { useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const logoData = useThemeLogo();
   const theme = useAppSelector(state => state.theme);
+  const navigate = useNavigate();
   
   return (
     <header 
@@ -25,14 +27,14 @@ export const Header: React.FC = () => {
 
         {/* Right Section - Action Buttons */}
         <div className="flex items-center gap-2">
-          <Button variant="secondary" size="sm" className="bg-white text-foreground hover:bg-gray-50">
-            <Plus className="w-4 h-4 " />
-            <span className="hidden md:block ml-1">Add Listing</span>
+          <Button variant="secondary" size="sm" className="bg-white text-foreground hover:bg-gray-50" onClick={() => window.location.href = 'https://member.gmbbriefcase.com/login'}>
+            <span className="hidden md:block ml-1">Back to old version </span> 
+            <ExternalLink className="w-4 h-4" />
           </Button>
           
           <ModulesMegaMenu />
           
-          <Button variant="ghost" size="icon" className="text-white  hover:text-black relative">
+          <Button variant="ghost" size="icon" className="text-white  hover:text-black relative" >
             <Bell className="w-4 h-4" />
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></div>
           </Button>

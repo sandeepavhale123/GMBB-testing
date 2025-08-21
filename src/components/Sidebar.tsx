@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isTablet = false
 }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
   const {
     listingId
   } = useParams();
