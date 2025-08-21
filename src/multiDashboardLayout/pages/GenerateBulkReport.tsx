@@ -5,6 +5,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { ArrowLeft, FileText, File, Globe, Mail, Clock, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -180,6 +181,7 @@ const generateBulkReportSchema = z.object({
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const {
     toast
   } = useToast();
@@ -431,6 +433,10 @@ export const GenerateBulkReport: React.FC = () => {
         title: "Report Project Created",
         description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`
       });
+      
+      // Invalidate bulk reports query to refresh the reports table
+      queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
+      
       navigate("/main-dashboard/reports");
     } catch (error: any) {
       toast({
