@@ -48,7 +48,7 @@ export const useTeam = () => {
   } = useAppSelector((state) => state.team);
   const initializedRef = useRef(false);
   const debouncedSearch = useDebounce(searchTerm, 400);
-  // Fetch team members when parameters change
+  // Initial fetch on mount
   useEffect(() => {
     if (!initializedRef.current) {
       initializedRef.current = true;
@@ -62,6 +62,20 @@ export const useTeam = () => {
       );
     }
   }, []);
+
+  // Fetch team members when parameters change (after initial mount)
+  useEffect(() => {
+    if (initializedRef.current) {
+      dispatch(
+        fetchTeamMembers({
+          page: currentPage,
+          limit: itemsPerPage,
+          search: debouncedSearch,
+          role: roleFilter === "all" ? "" : roleFilter,
+        })
+      );
+    }
+  }, [debouncedSearch, roleFilter, currentPage, itemsPerPage, dispatch]);
 
   const updateSearchTerm = (search: string) => {
     dispatch(setSearchTerm(search));
@@ -121,11 +135,11 @@ export const useTeam = () => {
       fetchTeamMembers({
         page: currentPage,
         limit: itemsPerPage,
-        search: searchTerm,
+        search: debouncedSearch,
         role: roleFilter === "all" ? "" : roleFilter,
       })
     );
-  }, [dispatch, currentPage, itemsPerPage, searchTerm, roleFilter]);
+  }, [dispatch, currentPage, itemsPerPage, debouncedSearch, roleFilter]);
 
   const addTeamMember = async (memberData: AddTeamMemberRequest) => {
     const result = await dispatch(addTeamMemberThunk(memberData));
