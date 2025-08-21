@@ -5,6 +5,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { ArrowLeft, FileText, File, Globe, Mail, Clock, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -105,22 +106,22 @@ const weekOptions = [{
   label: "Last Week"
 }];
 const generateBulkReportSchema = z.object({
-  projectName: z.string().min(1, "Project name is required"),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location").max(20, "Maximum 20 locations allowed"),
-  reportSections: z.array(z.string()).min(1, "Select at least one report type"),
+  projectName: z.string().min(1, "Project name is required."),
+  selectedListings: z.array(z.string()).min(1, "Select at least one location."),
+  reportSections: z.array(z.string()).min(1, "Select at least one report type."),
   scheduleType: z.enum(["one-time", "weekly", "monthly"]),
   frequency: z.string().optional(),
   emailWeek: z.string().optional(),
   emailDay: z.string().optional(),
   fromDate: z.date().optional(),
   toDate: z.date().optional(),
-  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
-  emailTo: z.string().min(1, "Email recipient is required").refine(
+  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format."),
+  emailTo: z.string().min(1, "Email recipient is required.").refine(
     (value) => {
       const emails = value.split(',').map(email => email.trim());
       return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     },
-    { message: "Please enter valid email addresses separated by commas" }
+    { message: "Please enter valid email addresses separated by commas." }
   ),
   emailCc: z.string().optional().refine(
     (value) => {
@@ -128,25 +129,25 @@ const generateBulkReportSchema = z.object({
       const emails = value.split(',').map(email => email.trim());
       return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     },
-    { message: "Please enter valid email addresses separated by commas" }
+    { message: "Please enter valid email addresses separated by commas." }
   ),
   emailBcc: z.string().optional(),
-  emailSubject: z.string().min(1, "Email subject is required"),
-  emailMessage: z.string().min(1, "Email message is required")
+  emailSubject: z.string().min(1, "Email subject is required."),
+  emailMessage: z.string().min(1, "Email message is required.")
 }).superRefine((data, ctx) => {
   // Individual field validation based on schedule type
   if (data.scheduleType === "one-time") {
     if (!data.fromDate) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Start date is required for one-time reports",
+        message: "Start date is required for one-time reports.",
         path: ["fromDate"]
       });
     }
     if (!data.toDate) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "End date is required for one-time reports",
+        message: "End date is required for one-time reports.",
         path: ["toDate"]
       });
     }
@@ -156,14 +157,14 @@ const generateBulkReportSchema = z.object({
     if (!data.frequency) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Frequency is required for recurring reports",
+        message: "Frequency is required for recurring reports.",
         path: ["frequency"]
       });
     }
     if (!data.emailDay) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Email day is required for recurring reports",
+        message: "Email day is required for recurring reports.",
         path: ["emailDay"]
       });
     }
@@ -172,7 +173,7 @@ const generateBulkReportSchema = z.object({
   if (data.scheduleType === "monthly" && !data.emailWeek) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: "Email week is required for monthly reports",
+      message: "Email week is required for monthly reports.",
       path: ["emailWeek"]
     });
   }
@@ -180,6 +181,7 @@ const generateBulkReportSchema = z.object({
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const {
     toast
   } = useToast();
@@ -203,7 +205,7 @@ export const GenerateBulkReport: React.FC = () => {
       emailCc: "",
       emailBcc: "",
       emailSubject: "Your Generated Reports - {projectName}",
-      emailMessage: "Please find your generated reports attached.\n\nBest regards,\nYour Team"
+      emailMessage: "As requested, we’ve generated the following Google My Business (GMB) reports."
     }
   });
   const watchScheduleType = form.watch("scheduleType");
@@ -431,6 +433,10 @@ export const GenerateBulkReport: React.FC = () => {
         title: "Report Project Created",
         description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`
       });
+      
+      // Invalidate bulk reports query to refresh the reports table
+      queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
+      
       navigate("/main-dashboard/reports");
     } catch (error: any) {
       toast({
@@ -463,7 +469,7 @@ export const GenerateBulkReport: React.FC = () => {
         
         <div>
           <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report</h1>
-          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations</p>
+          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations.</p>
         </div>
       </div>
 
@@ -477,7 +483,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Report Details
               </CardTitle>
               <CardDescription>
-                Give your report project a name and select locations
+                Give your report project a name and select locations.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -504,27 +510,12 @@ export const GenerateBulkReport: React.FC = () => {
                           hideStatusBadges={true}
                         />
                         
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-muted-foreground">
-                            For optimal performance, bulk reports are limited to 20 locations per project.
-                          </p>
-                          <Badge variant={watchSelectedListings.length >= 20 ? "destructive" : watchSelectedListings.length >= 18 ? "secondary" : "outline"} className="text-xs">
-                            {watchSelectedListings.length}/20 locations
+                        <div className="flex items-center justify-end">
+                          <Badge variant="outline" className="text-xs">
+                            {watchSelectedListings.length} locations selected
                           </Badge>
                         </div>
                       </div>
-                      
-                      {watchSelectedListings.length >= 18 && watchSelectedListings.length < 20 && (
-                        <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded-md border border-amber-200">
-                          ⚠️ You're approaching the limit of 20 locations for optimal performance.
-                        </div>
-                      )}
-                      
-                      {watchSelectedListings.length >= 20 && (
-                        <div className="text-xs text-red-600 bg-red-50 p-2 rounded-md border border-red-200">
-                          🚫 Maximum limit reached. You can deselect locations to make changes.
-                        </div>
-                      )}
                     </div>
                     <FormMessage />
                   </FormItem>} />
@@ -539,7 +530,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Report Types
               </CardTitle>
               <CardDescription>
-                Select which reports to include in your project
+                Select which reports to include in your project.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -590,7 +581,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Schedule Configuration
               </CardTitle>
               <CardDescription>
-                Configure when and how often reports should be generated
+                Configure when and how often reports should be generated.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -772,7 +763,10 @@ export const GenerateBulkReport: React.FC = () => {
                 Delivery Format
               </CardTitle>
               <CardDescription>
-                Choose how you want to receive your reports
+                {watchSelectedListings.length === 1 
+                  ? "Choose how you want to receive your report. You can select multiple formats."
+                  : "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance."
+                }
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -797,7 +791,13 @@ export const GenerateBulkReport: React.FC = () => {
                               if (isSelected) {
                                 field.onChange(currentFormats.filter(f => f !== format.value));
                               } else {
-                                field.onChange([...currentFormats, format.value]);
+                                // If multiple listings selected, only allow one format at a time
+                                if (watchSelectedListings.length > 1) {
+                                  field.onChange([format.value]);
+                                } else {
+                                  // Single listing: allow multiple formats
+                                  field.onChange([...currentFormats, format.value]);
+                                }
                               }
                             }}
                           >
@@ -818,12 +818,28 @@ export const GenerateBulkReport: React.FC = () => {
                             </div>
                           </div>
                         );
-                      })}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
+                       })}
+                     </div>
+                   </FormControl>
+                   {/* Selection behavior note */}
+                   <div className="mt-3 p-3 bg-muted/50 rounded-md border-l-4 border-primary/30">
+                     <div className="flex items-start gap-2">
+                       <svg className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                       </svg>
+                       <div className="text-sm text-muted-foreground">
+                         <strong className="text-foreground">Selection Guide:</strong>
+                         {watchSelectedListings.length === 1 ? (
+                           <span> You can select multiple delivery formats for your single listing report.</span>
+                         ) : (
+                           <span> When generating reports for multiple listings, you can only select one delivery format to optimize performance.</span>
+                         )}
+                       </div>
+                     </div>
+                   </div>
+                   <FormMessage />
+                 </FormItem>
+               )} />
             </CardContent>
           </Card>
 
@@ -835,7 +851,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Email Composer
               </CardTitle>
               <CardDescription>
-                Configure how reports will be sent via email
+                Configure how reports will be sent via email.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

@@ -17,7 +17,7 @@ export const useCreateReport = () => {
     mutationFn: (data: CreateReportRequest) => reportsApi.createReport(data),
     onSuccess: ({ report, message, reportId, domain }, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["reports", variables.listingId],
+        queryKey: ["all-reports", variables.listingId],
       });
 
       // console.log(reportId, domain, "usereport");

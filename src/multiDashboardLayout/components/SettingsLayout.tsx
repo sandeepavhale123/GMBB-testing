@@ -116,7 +116,7 @@ export const SettingsLayout: React.FC = () => {
         <div className="flex items-center justify-between p-4 bg-white border border-border rounded-lg lg:hidden">
           <div>
             <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-            <p className="text-sm text-muted-foreground">Manage your account and preferences</p>
+            <p className="text-sm text-muted-foreground">Manage your account and preferences.</p>
           </div>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -127,7 +127,7 @@ export const SettingsLayout: React.FC = () => {
             <SheetContent side="left" className="w-64">
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-                <p className="text-sm text-muted-foreground">Manage your account and preferences</p>
+                <p className="text-sm text-muted-foreground">Manage your account and preferences.</p>
               </div>
               <SettingsNav />
             </SheetContent>
@@ -140,7 +140,7 @@ export const SettingsLayout: React.FC = () => {
         <div className="w-64 bg-white border border-border rounded-lg p-4">
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-foreground">Settings</h3>
-            <p className="text-sm text-muted-foreground">Manage your account and preferences</p>
+            <p className="text-sm text-muted-foreground">Manage your account and preferences.</p>
           </div>
           <SettingsNav />
         </div>

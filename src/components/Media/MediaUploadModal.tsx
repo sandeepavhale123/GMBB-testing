@@ -383,7 +383,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                     <MultiListingSelector
                       selectedListings={selectedListings}
                       onListingsChange={setSelectedListings}
-                      error={selectedListings.length === 0 ? "Please select at least one listing or group" : undefined}
+                      error={selectedListings.length === 0 ? "Please select at least one listing or group." : undefined}
                     />
                   </div>
                 )}

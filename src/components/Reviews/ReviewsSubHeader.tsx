@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { Badge } from "../ui/badge";
+import { useAppSelector } from "../../hooks/useRedux";
+import { useListingContext } from "../../context/ListingContext";
 interface ReviewsSubHeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -11,6 +14,8 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   onTabChange,
 }) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { selectedListing } = useListingContext();
+  const { summaryCards } = useAppSelector((state) => state.reviews);
   const tabs = [
     {
       id: "summary",
@@ -23,6 +28,25 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
   ];
   const isActiveTab = (tabId: string) => {
     return activeTab === tabId;
+  };
+
+  const getReplySettingBadge = () => {
+    if (!summaryCards?.reply_setting) return null;
+
+    const badgeConfig = {
+      AI: { text: "AI Reply", variant: "default" as const },
+      CUSTOM: { text: "Custom Template", variant: "secondary" as const },
+      DNR: { text: "Do Not Respond", variant: "destructive" as const },
+    };
+
+    const config = badgeConfig[summaryCards.reply_setting as keyof typeof badgeConfig];
+    if (!config) return null;
+
+    return (
+      <Badge variant={config.variant} className="ml-2">
+        {config.text}
+      </Badge>
+    );
   };
   return (
     <div className="px-0   py-4">
@@ -45,11 +69,14 @@ export const ReviewsSubHeader: React.FC<ReviewsSubHeaderProps> = ({
         </div>
 
         <div className="flex items-center justify-end sm:justify-end ml-auto">
+          {/* Reply Setting Badge */}
+          {getReplySettingBadge()}
+          
           {/* Mobile Menu Toggle */}
           <Button
             variant="ghost"
             size="sm"
-            className="sm:hidden"
+            className="sm:hidden ml-2"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
           >
             {showMobileMenu ? (

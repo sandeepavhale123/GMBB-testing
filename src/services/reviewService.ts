@@ -10,6 +10,7 @@ export interface SummaryCards {
   ai_replies: number;
   manual_replies: number;
   overall_rating: number;
+  reply_setting?: string;
 }
 
 export interface StarDistribution {

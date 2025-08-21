@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Grid3X3, TrendingUp, Users, Star, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 const modules = [
@@ -63,7 +64,15 @@ export const ModulesMegaMenu: React.FC = () => {
           className="absolute right-0 top-full mt-2 w-80 bg-background border border-border rounded-lg shadow-lg z-50"
         >
           <div className="p-4">
-            <h3 className="text-sm font-medium text-foreground mb-3">Modules</h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-foreground">Modules</h3>
+              <Badge 
+                variant="secondary" 
+                className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-xs"
+              >
+                Coming Soon
+              </Badge>
+            </div>
             <div className="space-y-2">
               {modules.map((module) => {
                 const IconComponent = module.icon;

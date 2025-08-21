@@ -198,7 +198,7 @@ export const BulkAutoReply: React.FC = () => {
             Bulk Auto Reply Management
           </h1>
           <p className="text-muted-foreground">
-            Manage automated reply settings for your locations
+            Manage automated reply settings for your locations.
           </p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className="gap-2">

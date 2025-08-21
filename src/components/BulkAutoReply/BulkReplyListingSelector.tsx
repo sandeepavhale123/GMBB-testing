@@ -357,7 +357,7 @@ export const BulkReplyListingSelector: React.FC<BulkReplyListingSelectorProps> =
       
       {selectedListings.length === 0 && !error && (
         <p className="text-xs text-muted-foreground">
-          Select at least one location to continue
+          Select at least one location to continue.
         </p>
       )}
       

@@ -99,7 +99,7 @@ export const PublishOptionsSection: React.FC<PublishOptionsSectionProps> = ({
               onCheckedChange={checked => onFormDataChange(prev => ({ ...prev, siloPost: checked as boolean }))}
             />
             <Label htmlFor="silo-post" className="text-sm text-gray-600">
-              Add previous post tag url by this post (Silo post)
+              Add previous post tag url by this post (Silo post).
             </Label>
           </div>
         )}
