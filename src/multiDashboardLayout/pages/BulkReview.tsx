@@ -193,7 +193,7 @@ export const BulkReview: React.FC = () => {
             Bulk Review Management
           </h1>
           <p className="text-muted-foreground">
-            Manage reviews across all your listings
+            Manage reviews across all your listings.
           </p>
         </div>
         <Button

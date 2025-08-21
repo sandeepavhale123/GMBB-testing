@@ -250,7 +250,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
       </Collapsible>
       
       {selectedListings.length === 0 && !error && <p className="text-xs text-muted-foreground">
-          Select at least one listing or group to continue
+          Select at least one listing or group to continue.
         </p>}
       
       {error && <p className="text-xs text-destructive font-medium">

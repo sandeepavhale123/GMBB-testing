@@ -105,22 +105,22 @@ const weekOptions = [{
   label: "Last Week"
 }];
 const generateBulkReportSchema = z.object({
-  projectName: z.string().min(1, "Project name is required"),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location").max(20, "Maximum 20 locations allowed"),
-  reportSections: z.array(z.string()).min(1, "Select at least one report type"),
+  projectName: z.string().min(1, "Project name is required."),
+  selectedListings: z.array(z.string()).min(1, "Select at least one location.").max(20, "Maximum 20 locations allowed"),
+  reportSections: z.array(z.string()).min(1, "Select at least one report type."),
   scheduleType: z.enum(["one-time", "weekly", "monthly"]),
   frequency: z.string().optional(),
   emailWeek: z.string().optional(),
   emailDay: z.string().optional(),
   fromDate: z.date().optional(),
   toDate: z.date().optional(),
-  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format"),
-  emailTo: z.string().min(1, "Email recipient is required").refine(
+  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format."),
+  emailTo: z.string().min(1, "Email recipient is required.").refine(
     (value) => {
       const emails = value.split(',').map(email => email.trim());
       return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     },
-    { message: "Please enter valid email addresses separated by commas" }
+    { message: "Please enter valid email addresses separated by commas." }
   ),
   emailCc: z.string().optional().refine(
     (value) => {
@@ -128,25 +128,25 @@ const generateBulkReportSchema = z.object({
       const emails = value.split(',').map(email => email.trim());
       return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     },
-    { message: "Please enter valid email addresses separated by commas" }
+    { message: "Please enter valid email addresses separated by commas." }
   ),
   emailBcc: z.string().optional(),
-  emailSubject: z.string().min(1, "Email subject is required"),
-  emailMessage: z.string().min(1, "Email message is required")
+  emailSubject: z.string().min(1, "Email subject is required."),
+  emailMessage: z.string().min(1, "Email message is required.")
 }).superRefine((data, ctx) => {
   // Individual field validation based on schedule type
   if (data.scheduleType === "one-time") {
     if (!data.fromDate) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Start date is required for one-time reports",
+        message: "Start date is required for one-time reports.",
         path: ["fromDate"]
       });
     }
     if (!data.toDate) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "End date is required for one-time reports",
+        message: "End date is required for one-time reports.",
         path: ["toDate"]
       });
     }
@@ -156,14 +156,14 @@ const generateBulkReportSchema = z.object({
     if (!data.frequency) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Frequency is required for recurring reports",
+        message: "Frequency is required for recurring reports.",
         path: ["frequency"]
       });
     }
     if (!data.emailDay) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Email day is required for recurring reports",
+        message: "Email day is required for recurring reports.",
         path: ["emailDay"]
       });
     }
@@ -172,7 +172,7 @@ const generateBulkReportSchema = z.object({
   if (data.scheduleType === "monthly" && !data.emailWeek) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: "Email week is required for monthly reports",
+      message: "Email week is required for monthly reports.",
       path: ["emailWeek"]
     });
   }
@@ -463,7 +463,7 @@ export const GenerateBulkReport: React.FC = () => {
         
         <div>
           <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report</h1>
-          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations</p>
+          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations.</p>
         </div>
       </div>
 
@@ -477,7 +477,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Report Details
               </CardTitle>
               <CardDescription>
-                Give your report project a name and select locations
+                Give your report project a name and select locations.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -539,7 +539,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Report Types
               </CardTitle>
               <CardDescription>
-                Select which reports to include in your project
+                Select which reports to include in your project.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -590,7 +590,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Schedule Configuration
               </CardTitle>
               <CardDescription>
-                Configure when and how often reports should be generated
+                Configure when and how often reports should be generated.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -772,7 +772,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Delivery Format
               </CardTitle>
               <CardDescription>
-                Choose how you want to receive your reports
+                Choose how you want to receive your reports.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -835,7 +835,7 @@ export const GenerateBulkReport: React.FC = () => {
                 Email Composer
               </CardTitle>
               <CardDescription>
-                Configure how reports will be sent via email
+                Configure how reports will be sent via email.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

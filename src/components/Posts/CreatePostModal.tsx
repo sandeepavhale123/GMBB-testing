@@ -172,7 +172,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
     // Listings validation for multi-dashboard context (bulk posting)
     if (isMultiDashboard && formData.listings.length === 0) {
-      errors.listings = "Please select at least one listing or group";
+      errors.listings = "Please select at least one listing or group.";
     }
 
     setValidationErrors(errors);

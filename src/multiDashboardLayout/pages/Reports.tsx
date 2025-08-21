@@ -135,7 +135,7 @@ export const Reports: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
             <p className="text-muted-foreground mt-1">
-              Generate and manage reports across multiple listings
+              Generate and manage reports across multiple listings.
             </p>
           </div>
         </div>
@@ -154,7 +154,7 @@ export const Reports: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold text-foreground">Reports Management</h1>
             <p className="text-muted-foreground mt-1">
-              Generate and manage reports across multiple listings
+              Generate and manage reports across multiple listings.
             </p>
           </div>
         </div>
@@ -171,7 +171,7 @@ export const Reports: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Reports Management</h1>
           <p className="text-muted-foreground mt-1">
-            Generate and manage reports across multiple listings
+            Generate and manage reports across multiple listings.
           </p>
         </div>
         <Button 

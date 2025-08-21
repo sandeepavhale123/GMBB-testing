@@ -96,7 +96,7 @@ export const BulkPost: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Post Management</h1>
-          <p className="text-muted-foreground">Create and schedule posts across multiple listings</p>
+          <p className="text-muted-foreground">Create and schedule posts across multiple listings.</p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)} className='self-start sm:self-auto'>
           <Plus className="w-4 h-4 mr-2" />

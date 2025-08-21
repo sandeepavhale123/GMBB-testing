@@ -109,7 +109,7 @@ export const BulkMedia: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Bulk Media Management</h1>
-          <p className="text-muted-foreground">Upload and organize media across multiple listings</p>
+          <p className="text-muted-foreground">Upload and organize media across multiple listings.</p>
         </div>
         <Button onClick={() => setShowUploadModal(true)} className='self-start sm:self-auto'>
           <Upload className="w-4 h-4 mr-2 " />
