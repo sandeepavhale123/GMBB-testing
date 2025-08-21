@@ -267,29 +267,32 @@ export const BulkReportDetails: React.FC = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2 justify-end">
-                          {report.csvUrl && (
+                          {(report.csvUrl || report.status === 'pending') && (
                             <Button 
                               size="sm" 
                               variant="outline"
+                              disabled={report.status === 'pending'}
                               onClick={() => handleDownload(report.id, 'csv')}
                             >
                               CSV
                             </Button>
                           )}
-                          {report.pdfUrl && (
+                          {(report.pdfUrl || report.status === 'pending') && (
                             <Button 
                               size="sm" 
                               variant="outline"
+                              disabled={report.status === 'pending'}
                               onClick={() => handleDownload(report.id, 'pdf')}
                             >
                               PDF
                             </Button>
                           )}
-                          {report.htmlUrl && (
+                          {(report.htmlUrl || report.status === 'pending') && (
                             <Button 
                               size="sm" 
                               variant="ghost" 
                               className="h-8 w-8 p-0"
+                              disabled={report.status === 'pending'}
                               onClick={() => window.open(report.htmlUrl!, '_blank')}
                             >
                               <ExternalLink className="w-4 h-4" />
