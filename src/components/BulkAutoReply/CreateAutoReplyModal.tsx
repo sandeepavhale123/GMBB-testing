@@ -98,7 +98,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
     if (selectedListings.length === 0) {
       toast({
         title: "Error", 
-        description: "Please select at least one listing",
+        description: "Please select at least one listing.",
         variant: "destructive"
       });
       return;
@@ -264,7 +264,7 @@ export const CreateAutoReplyModal: React.FC<CreateAutoReplyModalProps> = ({
             selectedListings={selectedListings}
             onListingsChange={setSelectedListings}
             onOptionsChange={setListingOptions}
-            error={selectedListings.length === 0 ? "Please select at least one listing" : undefined}
+            error={selectedListings.length === 0 ? "Please select at least one listing." : undefined}
           />
           
           {/* Project Name */}

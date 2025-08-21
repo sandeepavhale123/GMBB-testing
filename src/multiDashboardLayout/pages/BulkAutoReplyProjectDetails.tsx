@@ -69,7 +69,7 @@ export const BulkAutoReplyProjectDetails: React.FC = () => {
               {projectData?.data?.project?.projectName || 'Project Details'}
             </h1>
             <p className="text-gray-600 mt-1">
-              Manage auto-reply templates and locations for this project
+              Manage auto-reply templates and locations for this project.
             </p>
           </div>
           
