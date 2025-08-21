@@ -205,7 +205,7 @@ export const GenerateBulkReport: React.FC = () => {
       emailCc: "",
       emailBcc: "",
       emailSubject: "Your Generated Reports - {projectName}",
-      emailMessage: "Please find your generated reports attached.\n\nBest regards,\nYour Team"
+      emailMessage: "As requested, we’ve generated the following Google My Business (GMB) reports."
     }
   });
   const watchScheduleType = form.watch("scheduleType");
