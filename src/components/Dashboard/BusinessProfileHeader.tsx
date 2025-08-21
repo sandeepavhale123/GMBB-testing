@@ -81,9 +81,13 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                     {getTimeBasedGreeting()}, {userFirstName} 👋
                   </h2>
                 </div>
-                <p className="text-sm sm:text-base text-purple-100">
+                <p className="text-sm sm:text-base text-purple-100 mb-2">
                   Here's the summary for: "{listingName}"
                 </p>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
+                  <span className="text-purple-100">{listingAddress}</span>
+                </div>
               </div>
             </div>
 
@@ -125,13 +129,6 @@ export const BusinessProfileHeader: React.FC<BusinessProfileHeaderProps> = ({
                   <span className="sm:hidden">Reports</span>
                 </Button>
               </div>
-            </div>
-          </div>
-          {/* Status indicators - Responsive layout */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-purple-200" />
-              <span className="text-purple-100">{listingAddress}</span>
             </div>
           </div>
         </CardContent>

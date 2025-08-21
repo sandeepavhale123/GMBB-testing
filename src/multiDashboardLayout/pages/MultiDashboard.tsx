@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Search,
   Filter,
@@ -132,60 +132,78 @@ export const MultiDashboard: React.FC = () => {
     error: categoryStateError,
   } = useCategoryAndStateData();
 
-  // Conditionally call the appropriate hook based on dashboard type
-  const defaultDashboardQuery = useDashboardData(
-    {
+  const defaultParams = useMemo(
+    () => ({
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
-    },
-    dashboardType === "default"
+    }),
+    [
+      currentPage,
+      itemsPerPage,
+      debouncedSearchTerm,
+      selectedCategory,
+      selectedState,
+    ]
   );
-  const insightsDashboardQuery = useInsightsDashboardData(
-    {
+
+  const insightsParams = useMemo(
+    () => ({
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
-    },
-    dashboardType === "insight"
+    }),
+    [
+      currentPage,
+      itemsPerPage,
+      debouncedSearchTerm,
+      selectedCategory,
+      selectedState,
+    ]
   );
-  const reviewDashboardQuery = useReviewDashboardData(
-    {
+
+  const reviewParams = useMemo(
+    () => ({
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
       review: reviewFilter,
-    },
-    dashboardType === "review"
+    }),
+    [
+      currentPage,
+      itemsPerPage,
+      debouncedSearchTerm,
+      selectedCategory,
+      selectedState,
+      reviewFilter,
+    ]
   );
-  const listingDashboardQuery = useListingDashboardData(
-    {
+
+  const locationParams = useMemo(
+    () => ({
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
-    },
-    dashboardType === "listing"
+    }),
+    [
+      currentPage,
+      itemsPerPage,
+      debouncedSearchTerm,
+      selectedCategory,
+      selectedState,
+    ]
   );
-  const locationDashboardQuery = useLocationDashboardData(
-    {
-      page: currentPage,
-      limit: itemsPerPage,
-      search: debouncedSearchTerm,
-      category: selectedCategory,
-      state: selectedState,
-    },
-    dashboardType === "location"
-  );
-  const postDashboardQuery = usePostsDashboardData(
-    {
+
+  const postParams = useMemo(
+    () => ({
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
@@ -198,22 +216,122 @@ export const MultiDashboard: React.FC = () => {
         endDate: dateRange?.to ? dateRange.to.toISOString().split("T")[0] : "",
       },
       postStatus: postStatus === "all" ? "" : postStatus,
-    },
-    dashboardType === "post"
+    }),
+    [
+      currentPage,
+      itemsPerPage,
+      debouncedSearchTerm,
+      selectedCategory,
+      selectedState,
+      dateRange,
+      postStatus,
+    ]
   );
 
-  // Review dashboard polling - only active when on review dashboard
-  const reviewPolling = useReviewDashboardPolling(
+  // Conditionally call the appropriate hook based on dashboard type
+  // const defaultDashboardQuery = useDashboardData(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     state: selectedState,
+  //   },
+  //   dashboardType === "default"
+  // );
+  // const insightsDashboardQuery = useInsightsDashboardData(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     state: selectedState,
+  //   },
+  //   dashboardType === "insight"
+  // );
+  // const reviewDashboardQuery = useReviewDashboardData(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     state: selectedState,
+  //     review: reviewFilter,
+  //   },
+  //   dashboardType === "review"
+  // );
+  const listingDashboardQuery = useListingDashboardData(
     {
       page: currentPage,
       limit: itemsPerPage,
       search: debouncedSearchTerm,
       category: selectedCategory,
       state: selectedState,
-      review: reviewFilter,
     },
-    reviewDashboardQuery.refetch,
+    dashboardType === "listing"
+  );
+  // const locationDashboardQuery = useLocationDashboardData(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     state: selectedState,
+  //   },
+  //   dashboardType === "location"
+  // );
+  // const postDashboardQuery = usePostsDashboardData(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     city: selectedState,
+  //     dateRange: {
+  //       startDate: dateRange?.from
+  //         ? dateRange.from.toISOString().split("T")[0]
+  //         : "",
+  //       endDate: dateRange?.to ? dateRange.to.toISOString().split("T")[0] : "",
+  //     },
+  //     postStatus: postStatus === "all" ? "" : postStatus,
+  //   },
+  //   dashboardType === "post"
+  // );
+
+  // Review dashboard polling - only active when on review dashboard
+  // const reviewPolling = useReviewDashboardPolling(
+  //   {
+  //     page: currentPage,
+  //     limit: itemsPerPage,
+  //     search: debouncedSearchTerm,
+  //     category: selectedCategory,
+  //     state: selectedState,
+  //     review: reviewFilter,
+  //   },
+  //   reviewDashboardQuery.refetch,
+  //   dashboardType === "review"
+  // );
+
+  // Use the memoized params everywhere:
+  const defaultDashboardQuery = useDashboardData(
+    defaultParams,
+    dashboardType === "default"
+  );
+  const insightsDashboardQuery = useInsightsDashboardData(
+    insightsParams,
+    dashboardType === "insight"
+  );
+  const reviewDashboardQuery = useReviewDashboardData(
+    reviewParams,
     dashboardType === "review"
+  );
+  const locationDashboardQuery = useLocationDashboardData(
+    locationParams,
+    dashboardType === "location"
+  );
+  const postDashboardQuery = usePostsDashboardData(
+    postParams,
+    dashboardType === "post"
   );
 
   // Default dashboard polling - only active when on default dashboard
@@ -221,13 +339,14 @@ export const MultiDashboard: React.FC = () => {
     dashboardType: "default",
     refetch: defaultDashboardQuery.refetch,
     data: defaultDashboardQuery.data,
-    params: {
-      page: currentPage,
-      limit: itemsPerPage,
-      search: debouncedSearchTerm,
-      category: selectedCategory,
-      state: selectedState,
-    },
+    // params: {
+    //   page: currentPage,
+    //   limit: itemsPerPage,
+    //   search: debouncedSearchTerm,
+    //   category: selectedCategory,
+    //   state: selectedState,
+    // },
+    params: defaultParams,
     enabled: dashboardType === "default",
   });
 
@@ -236,13 +355,14 @@ export const MultiDashboard: React.FC = () => {
     dashboardType: "insight",
     refetch: insightsDashboardQuery.refetch,
     data: insightsDashboardQuery.data,
-    params: {
-      page: currentPage,
-      limit: itemsPerPage,
-      search: debouncedSearchTerm,
-      category: selectedCategory,
-      state: selectedState,
-    },
+    // params: {
+    //   page: currentPage,
+    //   limit: itemsPerPage,
+    //   search: debouncedSearchTerm,
+    //   category: selectedCategory,
+    //   state: selectedState,
+    // },
+    params: insightsParams,
     enabled: dashboardType === "insight",
   });
 
@@ -251,13 +371,14 @@ export const MultiDashboard: React.FC = () => {
     dashboardType: "location",
     refetch: locationDashboardQuery.refetch,
     data: locationDashboardQuery.data,
-    params: {
-      page: currentPage,
-      limit: itemsPerPage,
-      search: debouncedSearchTerm,
-      category: selectedCategory,
-      state: selectedState,
-    },
+    // params: {
+    //   page: currentPage,
+    //   limit: itemsPerPage,
+    //   search: debouncedSearchTerm,
+    //   category: selectedCategory,
+    //   state: selectedState,
+    // },
+    params: locationParams,
     enabled: dashboardType === "location",
   });
 

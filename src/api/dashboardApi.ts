@@ -13,8 +13,10 @@ export interface SetDashboardResponse {
 }
 
 // Dashboard Settings API function
-const setDashboard = async (dashboard: string): Promise<SetDashboardResponse> => {
-  const response = await axiosInstance.post('/set-dashboard', { dashboard });
+const setDashboard = async (
+  dashboard: string
+): Promise<SetDashboardResponse> => {
+  const response = await axiosInstance.post("/set-dashboard", { dashboard });
   return response.data;
 };
 
@@ -32,14 +34,14 @@ export interface CategoryAndStateResponse {
 
 // Category and State API function
 const getCategoryAndStateData = async (): Promise<CategoryAndStateResponse> => {
-  const response = await axiosInstance.post('/get-categoryandstate', {});
+  const response = await axiosInstance.post("/get-categoryandstate", {});
   return response.data;
 };
 
 // Custom hook for category and state data
 export const useCategoryAndStateData = () => {
   return useQuery({
-    queryKey: ['category-state-data'],
+    queryKey: ["category-state-data"],
     queryFn: () => getCategoryAndStateData(),
     staleTime: 10 * 60 * 1000, // 10 minutes
     retry: 2,
@@ -85,19 +87,25 @@ interface DashboardResponse {
 }
 
 // API function
-const getDashboardData = async (params: DashboardRequest): Promise<DashboardResponse> => {
-  const response = await axiosInstance.post('/get-default-dashboard', params);
+const getDashboardData = async (
+  params: DashboardRequest
+): Promise<DashboardResponse> => {
+  const response = await axiosInstance.post("/get-default-dashboard", params);
   return response.data;
 };
 
 // Custom hook
-export const useDashboardData = (params: DashboardRequest, enabled: boolean = true) => {
+export const useDashboardData = (
+  params: DashboardRequest,
+  enabled: boolean = true
+) => {
   const query = useQuery({
-    queryKey: ['dashboard-data', params],
+    queryKey: ["dashboard-data", params],
     queryFn: () => getDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
+    refetchOnWindowFocus: false,
   });
 
   return {
@@ -147,19 +155,25 @@ interface InsightsDashboardResponse {
 }
 
 // Insights Dashboard API function
-const getInsightsDashboardData = async (params: InsightsDashboardRequest): Promise<InsightsDashboardResponse> => {
-  const response = await axiosInstance.post('/get-insight-dashboard', params);
+const getInsightsDashboardData = async (
+  params: InsightsDashboardRequest
+): Promise<InsightsDashboardResponse> => {
+  const response = await axiosInstance.post("/get-insight-dashboard", params);
   return response.data;
 };
 
 // Custom hook for insights dashboard
-export const useInsightsDashboardData = (params: InsightsDashboardRequest, enabled: boolean = true) => {
+export const useInsightsDashboardData = (
+  params: InsightsDashboardRequest,
+  enabled: boolean = true
+) => {
   const query = useQuery({
-    queryKey: ['insights-dashboard-data', params],
+    queryKey: ["insights-dashboard-data", params],
     queryFn: () => getInsightsDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
     enabled,
+    refetchOnWindowFocus: false,
   });
 
   return {
@@ -210,15 +224,20 @@ interface ReviewDashboardResponse {
 }
 
 // Review Dashboard API function
-const getReviewDashboardData = async (params: ReviewDashboardRequest): Promise<ReviewDashboardResponse> => {
-  const response = await axiosInstance.post('/get-review-dashboard', params);
+const getReviewDashboardData = async (
+  params: ReviewDashboardRequest
+): Promise<ReviewDashboardResponse> => {
+  const response = await axiosInstance.post("/get-review-dashboard", params);
   return response.data;
 };
 
 // Custom hook for review dashboard
-export const useReviewDashboardData = (params: ReviewDashboardRequest, enabled: boolean = true) => {
+export const useReviewDashboardData = (
+  params: ReviewDashboardRequest,
+  enabled: boolean = true
+) => {
   const query = useQuery({
-    queryKey: ['review-dashboard-data', params],
+    queryKey: ["review-dashboard-data", params],
     queryFn: () => getReviewDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -261,15 +280,20 @@ interface ListingDashboardResponse {
 }
 
 // Listing Dashboard API function
-const getListingDashboardData = async (params: ListingDashboardRequest): Promise<ListingDashboardResponse> => {
-  const response = await axiosInstance.post('/get-listing-dashboard', params);
+const getListingDashboardData = async (
+  params: ListingDashboardRequest
+): Promise<ListingDashboardResponse> => {
+  const response = await axiosInstance.post("/get-listing-dashboard", params);
   return response.data;
 };
 
 // Custom hook for listing dashboard
-export const useListingDashboardData = (params: ListingDashboardRequest, enabled: boolean = true) => {
+export const useListingDashboardData = (
+  params: ListingDashboardRequest,
+  enabled: boolean = true
+) => {
   return useQuery({
-    queryKey: ['listing-dashboard-data', params],
+    queryKey: ["listing-dashboard-data", params],
     queryFn: () => getListingDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -314,15 +338,20 @@ interface LocationDashboardResponse {
 }
 
 // Location Dashboard API function
-const getLocationDashboardData = async (params: LocationDashboardRequest): Promise<LocationDashboardResponse> => {
-  const response = await axiosInstance.post('/get-location-dashboard', params);
+const getLocationDashboardData = async (
+  params: LocationDashboardRequest
+): Promise<LocationDashboardResponse> => {
+  const response = await axiosInstance.post("/get-location-dashboard", params);
   return response.data;
 };
 
 // Custom hook for location dashboard
-export const useLocationDashboardData = (params: LocationDashboardRequest, enabled: boolean = true) => {
+export const useLocationDashboardData = (
+  params: LocationDashboardRequest,
+  enabled: boolean = true
+) => {
   const query = useQuery({
-    queryKey: ['location-dashboard-data', params],
+    queryKey: ["location-dashboard-data", params],
     queryFn: () => getLocationDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -383,15 +412,20 @@ interface PostDashboardResponse {
 }
 
 // Post Dashboard API function
-const getPostsDashboardData = async (params: PostDashboardRequest): Promise<PostDashboardResponse> => {
-  const response = await axiosInstance.post('/get-posts-dashboard', params);
+const getPostsDashboardData = async (
+  params: PostDashboardRequest
+): Promise<PostDashboardResponse> => {
+  const response = await axiosInstance.post("/get-posts-dashboard", params);
   return response.data;
 };
 
 // Custom hook for post dashboard
-export const usePostsDashboardData = (params: PostDashboardRequest, enabled: boolean = true) => {
+export const usePostsDashboardData = (
+  params: PostDashboardRequest,
+  enabled: boolean = true
+) => {
   return useQuery({
-    queryKey: ['posts-dashboard-data', params],
+    queryKey: ["posts-dashboard-data", params],
     queryFn: () => getPostsDashboardData(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
@@ -402,11 +436,11 @@ export const usePostsDashboardData = (params: PostDashboardRequest, enabled: boo
 // Export API functions
 export { setDashboard };
 
-export type { 
-  DashboardListing, 
-  DashboardPagination, 
-  DashboardRequest, 
-  InsightsDashboardListing, 
+export type {
+  DashboardListing,
+  DashboardPagination,
+  DashboardRequest,
+  InsightsDashboardListing,
   InsightsDashboardRequest,
   ReviewDashboardListing,
   ReviewDashboardRequest,
@@ -415,5 +449,5 @@ export type {
   LocationDashboardListing,
   LocationDashboardRequest,
   PostDashboardPost,
-  PostDashboardRequest
+  PostDashboardRequest,
 };

@@ -65,6 +65,7 @@ export const PublicReportDashboardLayout: React.FC<
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
   const { lightLogo } = useThemeLogo();
+  console.log("use theme logo", lightLogo);
 
   const allEmptyExceptLogo = branding
     ? Object.entries(branding)
@@ -158,19 +159,19 @@ export const PublicReportDashboardLayout: React.FC<
         >
           {/* Favicon at Top */}
           <div className="mb-4 sm:mb-6 lg:mb-8">
-            {branding?.company_logo ? (
+            {/* {branding?.company_logo ? (
               <img
                 src={branding?.company_logo}
                 alt="Company Logo"
                 className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
               />
-            ) : (
-              <img
-                src={lightLogo}
-                alt="Default Logo"
-                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
-              />
-            )}
+            ) : ( */}
+            <img
+              src={lightLogo}
+              alt="Default Logo"
+              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
+            />
+            {/* )} */}
           </div>
 
           {/* Navigation Icons - Only show visible sections */}
@@ -343,7 +344,7 @@ export const PublicReportDashboardLayout: React.FC<
                       >
                         {branding?.company_logo ? (
                           <img
-                            src={branding?.company_logo}
+                            src={lightLogo}
                             alt="Company Logo"
                             className="w-20 h-20 rounded-lg object-cover"
                           />
