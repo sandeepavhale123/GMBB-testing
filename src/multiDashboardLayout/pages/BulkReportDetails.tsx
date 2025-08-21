@@ -267,36 +267,43 @@ export const BulkReportDetails: React.FC = () => {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2 justify-end">
-                          {(report.csvUrl || report.status === 'pending') && (
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              disabled={report.status === 'pending'}
-                              onClick={() => handleDownload(report.id, 'csv')}
-                            >
-                              CSV
-                            </Button>
-                          )}
-                          {(report.pdfUrl || report.status === 'pending') && (
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              disabled={report.status === 'pending'}
-                              onClick={() => handleDownload(report.id, 'pdf')}
-                            >
-                              PDF
-                            </Button>
-                          )}
-                          {(report.htmlUrl || report.status === 'pending') && (
-                            <Button 
-                              size="sm" 
-                              variant="ghost" 
-                              className="h-8 w-8 p-0"
-                              disabled={report.status === 'pending'}
-                              onClick={() => window.open(report.htmlUrl!, '_blank')}
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                            </Button>
+                          {report.status === 'pending' ? (
+                            <>
+                              <div className="h-8 w-12 bg-muted rounded-md"></div>
+                              <div className="h-8 w-12 bg-muted rounded-md"></div>
+                              <div className="h-8 w-8 bg-muted rounded-md"></div>
+                            </>
+                          ) : (
+                            <>
+                              {report.csvUrl && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => handleDownload(report.id, 'csv')}
+                                >
+                                  CSV
+                                </Button>
+                              )}
+                              {report.pdfUrl && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline"
+                                  onClick={() => handleDownload(report.id, 'pdf')}
+                                >
+                                  PDF
+                                </Button>
+                              )}
+                              {report.htmlUrl && (
+                                <Button 
+                                  size="sm" 
+                                  variant="ghost" 
+                                  className="h-8 w-8 p-0"
+                                  onClick={() => window.open(report.htmlUrl!, '_blank')}
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                </Button>
+                              )}
+                            </>
                           )}
                         </div>
                       </TableCell>
