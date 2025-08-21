@@ -158,7 +158,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       (formData.postType === "event" || formData.postType === "offer") &&
       !formData.title.trim()
     ) {
-      errors.title = "Title is required for event and offer posts";
+      errors.title = "Title is required for event and offer posts.";
     }
 
     // CTA URL validation when CTA button is enabled and not CALL type
@@ -167,7 +167,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       formData.ctaButton !== "CALL" &&
       !formData.ctaUrl.trim()
     ) {
-      errors.ctaUrl = "URL is required when CTA button is enabled";
+      errors.ctaUrl = "URL is required when CTA button is enabled.";
     }
 
     // Listings validation for multi-dashboard context (bulk posting)
@@ -188,7 +188,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       if (validationErrors.listings) {
         toast({
           title: "Listing Required",
-          description: "Please select at least one listing",
+          description: "Please select at least one listing.",
           variant: "destructive",
         });
       } else if (validationErrors.title) {
@@ -348,8 +348,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
       // Show success message
       const successTitle = isBulkPosting 
-        ? (isCloning ? "Bulk Post Cloned Successfully" : "Bulk Post Created Successfully")
-        : (isCloning ? "Post Cloned Successfully" : "Post Created Successfully");
+        ? (isCloning ? "Bulk Post Cloned Successfully" : "Bulk Post Created Successfully.")
+        : (isCloning ? "Post Cloned Successfully" : "Post Created Successfully.");
       
       const successDescription = isBulkPosting
         ? `Bulk post ${isCloning ? "cloned" : "created"} for ${formData.listings.length} listings.`
@@ -402,8 +402,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       console.error("Error creating post:", error);
       toast({
         title: isBulkPosting 
-          ? (isCloning ? "Failed to Clone Bulk Post" : "Failed to Create Bulk Post")
-          : (isCloning ? "Failed to Clone Post" : "Failed to Create Post"),
+          ? (isCloning ? "Failed to Clone Bulk Post" : "Failed to Create Bulk Post.")
+          : (isCloning ? "Failed to Clone Post" : "Failed to Create Post."),
         description:
           error instanceof Error
             ? (error as any)?.response?.data?.message || error.message
