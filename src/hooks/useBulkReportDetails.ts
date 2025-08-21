@@ -19,21 +19,36 @@ const transformApiResponse = (apiResponse: ViewReportDetailsResponse): BulkRepor
       lastUpdate: new Date().toISOString(),
       emailRecipients: [] // Not provided by API
     },
-    reports: data.items.map((item: ViewReportDetailsItem): ReportDetail => ({
-      id: item.gloc_id.toString(),
-      locationName: item.listing_name,
-      address: item.city,
-      reportDate: new Date(item.date).toISOString(),
-      status: (item.pdf_url || item.csv_url) ? 'generated' : 'failed' as const,
-      deliveryStatus: 'sent' as const, // Default since API doesn't provide this
-      recipients: [], // Not provided by API
-      reportUrl: item.pdf_url || item.csv_url || '#',
-      fileSize: '2.0 MB', // Default since API doesn't provide this
-      sections: ['GMB Health', 'Reviews', 'Insights', 'Media'], // Default sections
-      pdfUrl: item.pdf_url,
-      csvUrl: item.csv_url,
-      htmlUrl: item.html_url
-    })),
+    reports: data.items.map((item: ViewReportDetailsItem): ReportDetail => {
+      // Map API status to component status
+      const mapStatus = (apiStatus: string): ReportDetail['status'] => {
+        switch (apiStatus) {
+          case 'Completed': return 'completed';
+          case 'Processing': return 'processing';
+          case 'Failed': return 'failed';
+          default: return 'pending';
+        }
+      };
+
+      // Handle date - if it's "-", use current date
+      const reportDate = item.date === '-' ? new Date().toISOString() : new Date(item.date).toISOString();
+
+      return {
+        id: item.gloc_id.toString(),
+        locationName: item.listing_name,
+        address: item.city,
+        reportDate,
+        status: mapStatus(item.status),
+        deliveryStatus: 'sent' as const, // Default since API doesn't provide this
+        recipients: [], // Not provided by API
+        reportUrl: item.pdf_url || item.csv_url || '#',
+        fileSize: '2.0 MB', // Default since API doesn't provide this
+        sections: ['GMB Health', 'Reviews', 'Insights', 'Media'], // Default sections
+        pdfUrl: item.pdf_url,
+        csvUrl: item.csv_url,
+        htmlUrl: item.html_url
+      };
+    }),
     pagination: {
       total: data.pagination.total,
       page: data.pagination.page,

@@ -15,7 +15,7 @@ export interface ReportDetail {
   locationName: string;
   address: string;
   reportDate: string;
-  status: 'generated' | 'failed' | 'pending';
+  status: 'generated' | 'completed' | 'failed' | 'pending' | 'processing';
   deliveryStatus: 'sent' | 'pending' | 'failed';
   recipients: string[];
   reportUrl?: string;
@@ -41,7 +41,7 @@ export interface BulkReportDetailsResponse {
 
 export interface BulkReportFilters {
   search: string;
-  status: 'all' | 'generated' | 'failed' | 'pending';
+  status: 'all' | 'generated' | 'completed' | 'failed' | 'pending' | 'processing';
   deliveryStatus: 'all' | 'sent' | 'pending' | 'failed';
 }
 
@@ -120,6 +120,7 @@ export interface ViewReportDetailsItem {
   pdf_url: string;
   csv_url: string;
   html_url: string | null;
+  status: 'Completed' | 'Processing' | 'Failed';
 }
 
 export interface ViewReportDetailsReport {
