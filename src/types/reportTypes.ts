@@ -98,3 +98,20 @@ export const REPORT_SECTIONS = [
 ] as const;
 
 export type ReportSectionId = (typeof REPORT_SECTIONS)[number]["id"];
+
+// Response interface for getAllReports API
+export interface GetAllReportsResponse {
+  code: number;
+  message: string;
+  data: {
+    reports: Report[];
+    isCitation: 0 | 1;
+    isGeo: 0 | 1;
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+    };
+  };
+}
