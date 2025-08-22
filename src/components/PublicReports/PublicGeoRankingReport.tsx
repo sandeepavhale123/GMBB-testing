@@ -52,7 +52,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     usePerformanceGeoKeywords(reportId);
   // console.log("georanking keywords data....", keywordData);
 
-  const { data: geoRankingData, isLoading: isGeoLoading, refetch: refetchGeoRanking } =
+  const { data: geoRankingData, isLoading: isGeoLoading } =
     usePerformanceGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
   // console.log("geo ranking report data", geoRankingData);
 
@@ -447,16 +447,9 @@ export const PublicGeoRankingReport: React.FC = () => {
                       (k) => k.id.toString() === id
                     );
                     if (selected) {
-                      const isReselecting = selectedKeywordId === Number(selected.id);
-                      
                       setSelectedKeywordId(Number(selected.id));
                       setSelectedKeywordLabel(selected.keyword);
                       setFrequency(selected.frequency);
-                      
-                      // If re-selecting the same keyword, force a refetch
-                      if (isReselecting) {
-                        refetchGeoRanking();
-                      }
                     }
                   }}
                 >
