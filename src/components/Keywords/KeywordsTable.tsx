@@ -9,6 +9,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from '../ui/checkbox';
 import { MoreVertical, Eye, Trash, RefreshCw, Info } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import { useListingContext } from '../../context/ListingContext';
 
 interface Keyword {
   id: string;
@@ -50,6 +51,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   deleteLoading = false
 }) => {
   const navigate = useNavigate();
+    const {
+      selectedListing
+    } = useListingContext();
+
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
@@ -174,11 +179,7 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button onClick={onRefresh} variant="outline" className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4" />
-              Search Keywords
-            </Button>
-            <Button onClick={onRefresh} className="flex items-center gap-2">
+            <Button onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)} className="flex items-center gap-2">
               <Eye className="w-4 h-4" />
               Add Search Keywords
             </Button>
