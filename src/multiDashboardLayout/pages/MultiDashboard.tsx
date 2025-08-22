@@ -720,7 +720,7 @@ export const MultiDashboard: React.FC = () => {
                         <SelectItem value="scheduled">
                           Scheduled Post
                         </SelectItem>
-                        <SelectItem value="published">Live Post</SelectItem>
+                        <SelectItem value="live">Live Post</SelectItem>
                         <SelectItem value="failed">Failed Post</SelectItem>
                       </SelectContent>
                     </Select>
