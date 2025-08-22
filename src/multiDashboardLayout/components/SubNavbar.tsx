@@ -19,6 +19,16 @@ export const SubNavbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
+  const shouldHideSubNavbar = () => {
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
+  
+  // Hide entire SubNavbar for staff and client users
+  if (shouldHideSubNavbar()) {
+    return null;
+  }
+  
   // Show custom back button header for bulk post details page
   if (location.pathname.includes('/bulk-post-details/')) {
     return (
