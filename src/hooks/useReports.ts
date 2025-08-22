@@ -218,6 +218,39 @@ export const usePerformanceGeoRankingReport = (
   });
 };
 
+// Public version with no caching for fresh data on re-selection
+export const usePublicGeoRankingReport = (
+  reportId: string,
+  keywordId: number
+) => {
+  return useQuery({
+    queryKey: ["public-geo-ranking", reportId, keywordId],
+    queryFn: async () => {
+      try {
+        const data = await reportsApi.getPerformanceGeoRankingReport(
+          reportId,
+          keywordId
+        );
+        return data;
+      } catch (error: any) {
+        toast({
+          title: "Error Loading GEO Report",
+          description:
+            error?.message ||
+            error?.response?.data?.message ||
+            "Failed to fetch GEO ranking report.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+    },
+    enabled: !!reportId && !!keywordId,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+  });
+};
+
 export const useAllReports = (
   listingId: number | string,
   page: number,

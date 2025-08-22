@@ -16,7 +16,7 @@ import { CircularProgress } from "@/components/ui/circular-progress";
 import L from "leaflet";
 import {
   usePerformanceGeoKeywords,
-  usePerformanceGeoRankingReport,
+  usePublicGeoRankingReport,
 } from "@/hooks/useReports"; // Adjust path as needed
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
@@ -53,7 +53,7 @@ export const PublicGeoRankingReport: React.FC = () => {
   // console.log("georanking keywords data....", keywordData);
 
   const { data: geoRankingData, isLoading: isGeoLoading } =
-    usePerformanceGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
+    usePublicGeoRankingReport(reportId, Number(selectedKeywordId) || 0);
   // console.log("geo ranking report data", geoRankingData);
 
   const reportType = geoRankingData?.data.reportType.toLowerCase();
