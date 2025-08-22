@@ -1,8 +1,9 @@
 import React from "react";
-import { Plus, Bell, ExternalLink } from "lucide-react";
+import { Plus, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserProfileDropdown } from "@/components/Header/UserProfileDropdown";
 import { ModulesMegaMenu } from "./ModulesMegaMenu";
+import { NotificationsMegaMenu } from "./NotificationsMegaMenu";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { useAppSelector } from "@/hooks/useRedux";
 import { useNavigate } from "react-router-dom";
@@ -41,14 +42,7 @@ export const Header: React.FC = () => {
 
           <ModulesMegaMenu />
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-white  hover:text-black relative"
-          >
-            <Bell className="w-4 h-4" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></div>
-          </Button>
+          <NotificationsMegaMenu />
 
           <UserProfileDropdown />
         </div>
