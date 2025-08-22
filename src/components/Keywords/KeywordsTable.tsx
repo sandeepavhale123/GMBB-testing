@@ -9,6 +9,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from '../ui/checkbox';
 import { MoreVertical, Eye, Trash, RefreshCw, Info } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import { useListingContext } from '../../context/ListingContext';
 
 interface Keyword {
   id: string;
@@ -50,6 +51,10 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   deleteLoading = false
 }) => {
   const navigate = useNavigate();
+    const {
+      selectedListing
+    } = useListingContext();
+
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
@@ -156,11 +161,30 @@ export const KeywordsTable: React.FC<KeywordsTableProps> = ({
   if (keywords.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 mb-4">No keywords found</p>
-        <Button onClick={onRefresh} variant="outline">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="flex justify-center">
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+              <Eye className="h-8 w-8 text-muted-foreground" />
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-foreground">
+              Start tracking your keywords
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Monitor your local search rankings by adding keywords relevant to your business. 
+              Track how your business appears in search results across different locations.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button onClick={() => navigate(`/keywords/${selectedListing?.id}/add`)} className="flex items-center gap-2">
+              <Eye className="w-4 h-4" />
+              Add Search Keywords
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }

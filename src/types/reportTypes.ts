@@ -1,9 +1,13 @@
 export interface Report {
   id: string;
+  report_id?: string;
   name: string;
+  title?: string;
   type: "Individual" | "Compare";
   reportSections: ReportSection[];
+  sections_visible?: string[];
   dateRange: DateRange | CompareDateRange;
+  date_range?: DateRange | CompareDateRange;
   createdAt: string;
   status: "generating" | "completed" | "failed";
 }
@@ -98,3 +102,23 @@ export const REPORT_SECTIONS = [
 ] as const;
 
 export type ReportSectionId = (typeof REPORT_SECTIONS)[number]["id"];
+
+// Response interface for getAllReports API
+export interface GetAllReportsResponse {
+  code: number;
+  message: string;
+  data: {
+    reports: Report[];
+    isCitation: 0 | 1;
+    isGeo: 0 | 1;
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+      total_pages: number;
+      has_prev: boolean;
+      has_next: boolean;
+    };
+  };
+}

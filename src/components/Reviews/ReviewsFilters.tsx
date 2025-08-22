@@ -83,8 +83,9 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         <SelectContent>
           <SelectItem value="newest">Newest First</SelectItem>
           <SelectItem value="oldest">Oldest First</SelectItem>
-          <SelectItem value="rating-high">Highest Rating</SelectItem>
-          <SelectItem value="rating-low">Lowest Rating</SelectItem>
+          <SelectItem value="rating-low">Highest Rating</SelectItem>
+          <SelectItem value="rating-high">Lowest Rating</SelectItem>
+          
         </SelectContent>
       </Select>
 

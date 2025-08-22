@@ -15,9 +15,22 @@ import {
 export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
   const isMobile = useIsMobile(768);
-  const { profileData } = useProfile();
+  const { profileData, isLoading } = useProfile();
   const location = useLocation();
   const navigate = useNavigate();
+  
+  const shouldHideSubNavbar = () => {
+    // Hide while loading to prevent flash
+    if (isLoading) return true;
+    
+    const userRole = profileData?.role?.toLowerCase();
+    return userRole === 'staff' || userRole === 'client';
+  };
+  
+  // Hide entire SubNavbar for staff and client users
+  if (shouldHideSubNavbar()) {
+    return null;
+  }
   
   // Show custom back button header for bulk post details page
   if (location.pathname.includes('/bulk-post-details/')) {

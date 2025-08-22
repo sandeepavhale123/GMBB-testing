@@ -72,9 +72,9 @@ export const ReviewsList: React.FC = () => {
   const fetchReviewsWithFilters = () => {
     if (selectedListing?.id && isInitialized) {
       // Determine the correct sortOrder based on sortBy
-      let apiSortOrder: "asc" | "desc" = "asc";
+      let apiSortOrder: "desc" | "asc" = "desc";
       if (sortBy === "oldest" || sortBy === "rating-low") {
-        apiSortOrder = "desc";
+        apiSortOrder = "asc";
       }
 
       const params = {
@@ -140,8 +140,12 @@ export const ReviewsList: React.FC = () => {
 
     // Determine the correct sortOrder based on sortBy
     let apiSortOrder: "asc" | "desc" = "desc";
-    if (sortBy === "oldest" || sortBy === "rating-low") {
+    if (sortBy === "oldest" ) {
       apiSortOrder = "asc";
+    }
+    else if(sortBy === "rating-low")
+    {
+      apiSortOrder = "desc";
     }
 
     const reviewParams = {

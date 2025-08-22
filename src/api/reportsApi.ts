@@ -4,6 +4,7 @@ import {
   CreateReportPayload,
   Report,
   PerformanceHealthReportData,
+  GetAllReportsResponse,
 } from "../types/reportTypes";
 import { GetAllBulkReportsRequest, GetAllBulkReportsResponse, ViewReportDetailsRequest, ViewReportDetailsResponse, CreateBulkReportRequest, CreateBulkReportResponse } from "../types/bulkReportTypes";
 
@@ -276,7 +277,7 @@ export const reportsApi = {
     listingId: number | string,
     page: number,
     limit: number = 10
-  ): Promise<any> => {
+  ): Promise<GetAllReportsResponse> => {
     try {
       const response = await axiosInstance.post("/get-all-reports", {
         listingId,

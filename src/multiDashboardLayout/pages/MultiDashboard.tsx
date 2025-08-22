@@ -58,6 +58,7 @@ import { useDashboardPolling } from "@/hooks/useDashboardPolling";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useProfile } from "@/hooks/useProfile";
+import { formatDateForBackend } from "@/utils/dateUtils";
 
 // Dashboard type mapping for API
 const DASHBOARD_TYPE_MAPPING = {
@@ -211,9 +212,9 @@ export const MultiDashboard: React.FC = () => {
       city: selectedState,
       dateRange: {
         startDate: dateRange?.from
-          ? dateRange.from.toISOString().split("T")[0]
+          ? formatDateForBackend(dateRange.from)
           : "",
-        endDate: dateRange?.to ? dateRange.to.toISOString().split("T")[0] : "",
+        endDate: dateRange?.to ? formatDateForBackend(dateRange.to) : "",
       },
       postStatus: postStatus === "all" ? "" : postStatus,
     }),
@@ -720,7 +721,7 @@ export const MultiDashboard: React.FC = () => {
                         <SelectItem value="scheduled">
                           Scheduled Post
                         </SelectItem>
-                        <SelectItem value="published">Live Post</SelectItem>
+                        <SelectItem value="live">Live Post</SelectItem>
                         <SelectItem value="failed">Failed Post</SelectItem>
                       </SelectContent>
                     </Select>

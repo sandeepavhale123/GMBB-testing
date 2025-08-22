@@ -20,6 +20,7 @@ import {
   CreatePostFormData,
 } from "../../utils/postCloneUtils";
 import { Post } from "../../types/postTypes";
+import { formatDateForBackend } from "../../utils/dateUtils";
 
 export const PostsPage = () => {
   const dispatch = useAppDispatch();
@@ -51,10 +52,10 @@ export const PostsPage = () => {
             search: searchQuery,
             dateRange: {
               startDate: dateRange?.from
-                ? dateRange.from.toISOString().split("T")[0]
+                ? formatDateForBackend(dateRange.from)
                 : "",
               endDate: dateRange?.to
-                ? dateRange.to.toISOString().split("T")[0]
+                ? formatDateForBackend(dateRange.to)
                 : "",
             },
           },
@@ -127,10 +128,10 @@ export const PostsPage = () => {
           search: searchQuery,
           dateRange: {
             startDate: dateRange?.from
-              ? dateRange.from.toISOString().split("T")[0]
+              ? formatDateForBackend(dateRange.from)
               : "",
             endDate: dateRange?.to
-              ? dateRange.to.toISOString().split("T")[0]
+              ? formatDateForBackend(dateRange.to)
               : "",
           },
         },

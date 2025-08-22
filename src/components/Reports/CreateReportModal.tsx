@@ -11,9 +11,11 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useListingContext } from "@/context/ListingContext";
-import { useCreateReport } from "@/hooks/useReports";
+import { useCreateReport, useAllReports } from "@/hooks/useReports";
 import { REPORT_SECTIONS, ReportSectionId } from "@/types/reportTypes";
 import { DateRange } from "react-day-picker";
+import { useNavigate } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 
 interface CreateReportModalProps {
   open: boolean;
@@ -26,6 +28,14 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
 }) => {
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();
+  const navigate = useNavigate();
+  
+  // Get citation and geo report status
+  const { data: reportsData } = useAllReports(
+    selectedListing?.id || "",
+    1,
+    1
+  );
 
   const [reportName, setReportName] = useState("");
   const [reportType, setReportType] = useState<"Individual" | "Compare">(
@@ -46,12 +56,49 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const [period2Date, setPeriod2Date] = useState<DateRange | undefined>();
   const formatDateForAPI = (date: Date) => format(date, "yyyy-MM-dd");
 
+  // Get report availability flags
+  const isCitationAvailable = reportsData?.data?.isCitation === 1;
+  const isGeoAvailable = reportsData?.data?.isGeo === 1;
+
+  // Remove unavailable sections from selected sections automatically
+  useEffect(() => {
+    if (reportsData?.data) {
+      setSelectedSections(prev => 
+        prev.filter(sectionId => {
+          if (sectionId === "citation" && !isCitationAvailable) return false;
+          if (sectionId === "geo-ranking" && !isGeoAvailable) return false;
+          return true;
+        })
+      );
+    }
+  }, [isCitationAvailable, isGeoAvailable, reportsData]);
+
   const handleSectionToggle = (sectionId: ReportSectionId) => {
+    // Prevent toggling disabled sections
+    if (
+      (sectionId === "citation" && !isCitationAvailable) ||
+      (sectionId === "geo-ranking" && !isGeoAvailable)
+    ) {
+      return;
+    }
+    
     setSelectedSections((prev) =>
       prev.includes(sectionId)
         ? prev.filter((id) => id !== sectionId)
         : [...prev, sectionId]
     );
+  };
+
+  const handleNavigateToReport = (reportType: "citation" | "geo-ranking") => {
+    const listingId = selectedListing?.id;
+    if (!listingId) return;
+    
+    if (reportType === "citation") {
+      navigate(`/citation/${listingId}`);
+    } else if (reportType === "geo-ranking") {
+      navigate(`/geo-ranking-report/${listingId}`);
+    }
+    onOpenChange(false);
   };
 
   // Track previous type
@@ -182,7 +229,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
           </div>
 
           {/* Report Type Toggle */}
-          <div className="space-y-2">
+          <div className="flex items-center justify-between">
             <Label className="text-sm font-medium">Report Type</Label>
             <div className="flex items-center space-x-2">
               <Switch
@@ -341,19 +388,46 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
           {showSections && (
             <div className="space-y-3">
               <Label className="text-sm font-medium">Report Sections</Label>
-              <div className="grid grid-cols-2 gap-3">
-                {REPORT_SECTIONS.map((section) => (
-                  <div key={section.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={section.id}
-                      checked={selectedSections.includes(section.id)}
-                      onCheckedChange={() => handleSectionToggle(section.id)}
-                    />
-                    <Label htmlFor={section.id} className="text-sm">
-                      {section.name}
-                    </Label>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 gap-3">
+                {REPORT_SECTIONS.map((section) => {
+                  const isDisabled = 
+                    (section.id === "citation" && !isCitationAvailable) ||
+                    (section.id === "geo-ranking" && !isGeoAvailable);
+                  
+                  return (
+                    <div key={section.id} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id={section.id}
+                          checked={selectedSections.includes(section.id)}
+                          onCheckedChange={() => handleSectionToggle(section.id)}
+                          disabled={isDisabled}
+                        />
+                        <Label 
+                          htmlFor={section.id} 
+                          className={cn(
+                            "text-sm",
+                            isDisabled && "text-muted-foreground"
+                          )}
+                        >
+                          {section.name}
+                        </Label>
+                      </div>
+                      
+                      {isDisabled && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleNavigateToReport(section.id as "citation" | "geo-ranking")}
+                          className="text-xs h-7"
+                        >
+                          <ExternalLink className="w-3 h-3 mr-1" />
+                          Generate Report
+                        </Button>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

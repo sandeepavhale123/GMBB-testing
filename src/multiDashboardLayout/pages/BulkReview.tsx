@@ -24,6 +24,7 @@ import {
   setCurrentPage,
 } from "@/store/slices/reviews/reviewsSlice";
 import { useToast } from "@/hooks/use-toast";
+import { formatDateForBackend } from "@/utils/dateUtils";
 export const BulkReview: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -117,12 +118,12 @@ export const BulkReview: React.FC = () => {
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setLocalDateRange(range);
     if (range?.from && range?.to) {
-      dispatch(
-        setDateRange({
-          startDate: range.from.toISOString().split("T")[0],
-          endDate: range.to.toISOString().split("T")[0],
-        })
-      );
+        dispatch(
+          setDateRange({
+            startDate: formatDateForBackend(range.from),
+            endDate: formatDateForBackend(range.to),
+          })
+        );
     }
   };
   const handleGenerateReply = (reviewId: string) => {
