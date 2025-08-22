@@ -15,11 +15,14 @@ import {
 export const SubNavbar: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
   const isMobile = useIsMobile(768);
-  const { profileData } = useProfile();
+  const { profileData, isLoading } = useProfile();
   const location = useLocation();
   const navigate = useNavigate();
   
   const shouldHideSubNavbar = () => {
+    // Hide while loading to prevent flash
+    if (isLoading) return true;
+    
     const userRole = profileData?.role?.toLowerCase();
     return userRole === 'staff' || userRole === 'client';
   };

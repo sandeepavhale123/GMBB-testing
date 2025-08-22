@@ -9,9 +9,12 @@ interface MainBodyProps {
 export const MainBody: React.FC<MainBodyProps> = ({
   children
 }) => {
-  const { profileData } = useProfile();
+  const { profileData, isLoading } = useProfile();
   
   const shouldHideSubNavbar = () => {
+    // Hide while loading to prevent layout shift
+    if (isLoading) return true;
+    
     const userRole = profileData?.role?.toLowerCase();
     return userRole === 'staff' || userRole === 'client';
   };
