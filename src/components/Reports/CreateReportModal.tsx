@@ -229,7 +229,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
           </div>
 
           {/* Report Type Toggle */}
-          <div className="space-y-2">
+          <div className="flex items-center justify-between">
             <Label className="text-sm font-medium">Report Type</Label>
             <div className="flex items-center space-x-2">
               <Switch
