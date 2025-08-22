@@ -152,12 +152,9 @@ export const SubNavbar: React.FC = () => {
     );
   }
   
-  // Menu items that should be hidden for staff and client roles
-  const RESTRICTED_MENU_ITEMS = ['Bulk Posts', 'Bulk Media', 'Bulk Review', 'Reports', 'Settings'];
-  
-  const shouldHideMenuItem = (menuLabel: string) => {
+  const shouldHideSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
-    return (userRole === 'staff' || userRole === 'client') && RESTRICTED_MENU_ITEMS.includes(menuLabel);
+    return userRole === 'staff' || userRole === 'client';
   };
   
   const navItems = [{
@@ -184,7 +181,12 @@ export const SubNavbar: React.FC = () => {
     label: 'Settings',
     path: '/main-dashboard/settings',
     icon: Settings
-  }].filter(item => !shouldHideMenuItem(item.label));
+  }].filter(item => {
+    if (item.label === 'Settings' && shouldHideSettings()) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
