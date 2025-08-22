@@ -248,6 +248,7 @@ export const PublicReviewsReport: React.FC = () => {
       logo={reviewsData?.data?.companyLogo}
       visibleSections={visibleSections}
       token={reportId}
+      compareDate={reviewsData?.data?.compareDate}
     >
       <div className="space-y-6">
         {/* Overview Stats */}
@@ -1242,7 +1243,7 @@ export const PublicReviewsReport: React.FC = () => {
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex-1 space-y-2">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between gap-4">
                               <div className="flex items-center space-x-2">
                                 <span className="font-medium text-sm">
                                   {review.display_name}

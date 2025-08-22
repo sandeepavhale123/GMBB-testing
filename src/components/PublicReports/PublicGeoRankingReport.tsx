@@ -85,10 +85,9 @@ export const PublicGeoRankingReport: React.FC = () => {
   // Get rank color for map markers (hex colors)
   const getRankColorHex = (rank: string): string => {
     const rankNum = rank === "20+" ? 21 : parseInt(rank);
-    console.log("rank color selection", rank, rankNum);
     if (rankNum <= 3) return "#22c55e"; // Green
-    if (rankNum <= 6) return "#f59e0b"; // Yellow
-    if (rankNum <= 11) return "#f97316";
+    if (rankNum <= 10) return "#f59e0b"; // Yellow
+    if (rankNum <= 15) return "#f97316"; // Orange
     return "#ef4444"; // Red
   };
 
@@ -399,7 +398,7 @@ export const PublicGeoRankingReport: React.FC = () => {
     }, 200);
 
     return () => clearTimeout(updateMarkers);
-  }, [selectedKeyword, reportType]);
+  }, [selectedKeywordId, geoData, comparisonData, reportType]);
 
   // Extract visible sections from API response
   const visibleSections = Object.entries(keywordData?.data.visibleSection || {})
@@ -429,6 +428,7 @@ export const PublicGeoRankingReport: React.FC = () => {
       date={geoRankingData?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
+      compareDate={keywordData?.data?.compareDate}
     >
       <div className="space-y-6">
         {/* First Row - Control Panel */}

@@ -43,6 +43,7 @@ interface PublicReportDashboardLayoutProps {
   visibleSections?: string[];
   token: string;
   date: string;
+  compareDate?: string; // ✅ optional
 }
 
 export const PublicReportDashboardLayout: React.FC<
@@ -58,14 +59,17 @@ export const PublicReportDashboardLayout: React.FC<
   visibleSections = [],
   token,
   date,
+  compareDate, // ✅ optional
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { data: brandingData, isLoading } = usePerformanceBrandingReport(token);
   const branding = brandingData?.data || null;
-  const { lightLogo } = useThemeLogo();
+  const { lightLogo, darkLogo } = useThemeLogo();
   console.log("use theme logo", lightLogo);
+  console.log("use theme darklogo", useThemeLogo());
+  console.log("start date", compareDate);
 
   const allEmptyExceptLogo = branding
     ? Object.entries(branding)
@@ -152,26 +156,18 @@ export const PublicReportDashboardLayout: React.FC<
         {/* Fixed Icon Sidebar */}
         <aside
           className={`
-          fixed left-0 top-0 h-full bg-white/95 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-4 sm:py-8 px-2 transition-transform duration-300
+          fixed left-0 top-0 h-full bg-white/95 backdrop-blur-sm border-r border-gray-100 shadow-sm z-50 flex flex-col items-center py-4 sm:py-8 px-2 transition-transform duration-300 w-16 md:w-16 lg:w-24
           ${isMobile ? "w-16" : "w-24"}
           ${isMobile && !sidebarOpen ? "-translate-x-full" : "translate-x-0"}
         `}
         >
           {/* Favicon at Top */}
           <div className="mb-4 sm:mb-6 lg:mb-8">
-            {/* {branding?.company_logo ? (
-              <img
-                src={branding?.company_logo}
-                alt="Company Logo"
-                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
-              />
-            ) : ( */}
             <img
               src={lightLogo}
               alt="Default Logo"
               className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
             />
-            {/* )} */}
           </div>
 
           {/* Navigation Icons - Only show visible sections */}
@@ -209,12 +205,13 @@ export const PublicReportDashboardLayout: React.FC<
         {/* Main Content Area */}
         <div
           className={`flex-1 flex flex-col transition-all duration-300 ${
-            isMobile ? "ml-0" : "ml-16 sm:ml-24 lg:ml-24"
+            isMobile ? "ml-0" : "ml-16 sm:ml-16 lg:ml-24"
           }`}
         >
           {/* Dark Header */}
           <header
-            className="text-white h-[350px] z-10 relative sm:h-[250px]"
+            className={`text-white  z-10 relative h-[350px] md:h-[300px] lg:h-[250px]
+            `}
             style={{
               background: `linear-gradient(135deg, hsl(var(--primary-gradient-from)), hsl(var(--primary-gradient-via)), hsl(var(--primary-gradient-from) / 0.8))`,
             }}
@@ -232,11 +229,18 @@ export const PublicReportDashboardLayout: React.FC<
                 )}
               </button>
             )}
+            {compareDate ? (
+              <div className="absolute right-1 top-2 bg-black rounded-2xl px-3 py-2">
+                <p className={`text-white  text-[10px]`}>{compareDate}</p>
+              </div>
+            ) : (
+              ""
+            )}
 
             <h2
               className="text-xl sm:text-2xl lg:text-3xl  font-bold text-white"
               style={{
-                marginTop: isMobile ? "60px" : "30px",
+                marginTop: isMobile ? "60px" : "40px",
                 textAlign: "center",
               }}
             >
@@ -244,7 +248,7 @@ export const PublicReportDashboardLayout: React.FC<
             </h2>
             <div
               className={`container mx-auto flex items-center justify-between px-4 md:px-8 ${
-                isMobile ? "flex-col space-y-4" : ""
+                isMobile ? "flex-col space-y-4 " : ""
               }`}
               style={{
                 paddingTop: "20px",
@@ -300,10 +304,16 @@ export const PublicReportDashboardLayout: React.FC<
               {!isMobile && <div className="flex-1 text-center"></div>}
 
               {/* Right: Report Date */}
-              <div className={`${isMobile ? "text-center" : "text-right"}`}>
+              <div
+                className={` ${compareDate ? "min-w-56" : ""} ${
+                  isMobile ? "text-center" : "text-right"
+                }`}
+              >
                 <p className="text-sm text-white">Report Date</p>
                 <p
-                  className={`text-white ${isMobile ? "text-base" : "text-lg"}`}
+                  className={`text-white min-w-max ${
+                    isMobile ? "text-base" : "text-lg"
+                  }`}
                 >
                   {date}
                 </p>
@@ -313,7 +323,7 @@ export const PublicReportDashboardLayout: React.FC<
 
           {/* Main Content */}
           <main
-            className="flex-1 overflow-auto relative z-40"
+            className="flex-1 overflow-auto relative z-40 "
             style={{
               marginTop: "-100px",
             }}
@@ -344,7 +354,7 @@ export const PublicReportDashboardLayout: React.FC<
                       >
                         {branding?.company_logo ? (
                           <img
-                            src={lightLogo}
+                            src={darkLogo}
                             alt="Company Logo"
                             className="w-20 h-20 rounded-lg object-cover"
                           />

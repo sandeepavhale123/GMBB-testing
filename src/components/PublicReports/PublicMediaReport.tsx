@@ -128,6 +128,7 @@ export const PublicMediaReport: React.FC = () => {
       date={mediaReport?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
+      compareDate={mediaReport?.data?.compareDate}
     >
       <div className="space-y-6">
         {/* Overview Stats */}
@@ -221,7 +222,7 @@ export const PublicMediaReport: React.FC = () => {
                       <Line
                         type="monotone"
                         dataKey="previousUploads"
-                        stroke="#94a3b8"
+                        stroke="#f97316"
                         strokeWidth={2}
                         strokeDasharray="5 5"
                         name="Previous Period Uploads"

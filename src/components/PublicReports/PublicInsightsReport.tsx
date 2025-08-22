@@ -163,6 +163,7 @@ export const PublicInsightsReport: React.FC = () => {
       date={insightData?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
+      compareDate={insightData?.data?.compareDate}
     >
       <div className="space-y-6">
         {/* Enhanced Summary Cards */}
@@ -593,10 +594,17 @@ export const PublicInsightsReport: React.FC = () => {
                           dataKey="label"
                           fontSize={isMobile ? 10 : 12}
                           interval={isMobile ? 1 : 0}
+                          angle={-45} // tilt 45 degrees
+                          textAnchor="end"
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend fontSize={isMobile ? 10 : 12} />
+                        <Legend
+                          fontSize={isMobile ? 10 : 12}
+                          wrapperStyle={{
+                            paddingTop: "3.5rem",
+                          }}
+                        />
                         {Object.keys(chartConfig).map((key) => (
                           <Bar
                             key={key}
