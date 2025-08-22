@@ -164,15 +164,15 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
             </TableHeader>
             <TableBody>
               {reports.map((report) => (
-                <TableRow key={report.report_id} className="hover:bg-gray-50">
+                <TableRow key={report.report_id || report.id} className="hover:bg-gray-50">
                   <TableCell>
                     <div className="font-medium text-gray-900">
-                      {report.title}
+                      {report.title || report.name}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {report.sections_visible.map((sectionId) => (
+                      {(report.sections_visible || []).map((sectionId) => (
                         <Badge
                           key={sectionId}
                           variant={getReportTypeBadgeVariant(sectionId)}
@@ -193,7 +193,7 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                   </TableCell>
                   <TableCell className="min-w-[200px]">
                     <div className="text-gray-600">
-                      {formatDateRange(report.date_range, report.type)}
+                      {formatDateRange(report.date_range || report.dateRange, report.type)}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
@@ -203,8 +203,8 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
                       className="flex items-center justify-center w-10 h-10 p-0 text-gray-400 hover:text-gray-600"
                       onClick={() =>
                         handleViewReport(
-                          report.report_id,
-                          report.sections_visible
+                          report.report_id || report.id,
+                          report.sections_visible || []
                         )
                       }
                     >
@@ -219,19 +219,19 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
       </div>
 
       {/* Pagination */}
-      {pagination.total_pages > 1 && (
+      {(pagination.total_pages || pagination.totalPages || 0) > 1 && (
         <div className="flex items-center justify-center space-x-2 mt-8">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={!pagination.has_prev}
+            disabled={!(pagination.has_prev ?? (pagination.page > 1))}
           >
             Previous
           </Button>
 
           <span className="text-sm text-gray-600">
-            Page {pagination.page} of {pagination.total_pages}
+            Page {pagination.page} of {pagination.total_pages || pagination.totalPages}
           </span>
 
           <Button
@@ -239,10 +239,10 @@ export const ReportsTable: React.FC<ReportsTableProps> = ({ listingId }) => {
             size="sm"
             onClick={() =>
               setCurrentPage((prev) =>
-                Math.min(prev + 1, pagination.total_pages)
+                Math.min(prev + 1, pagination.total_pages || pagination.totalPages || 1)
               )
             }
-            disabled={!pagination.has_next}
+            disabled={!(pagination.has_next ?? (pagination.page < (pagination.total_pages || pagination.totalPages || 1)))}
           >
             Next
           </Button>
