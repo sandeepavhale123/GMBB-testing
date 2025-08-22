@@ -694,7 +694,7 @@ export const GenerateBulkReport: React.FC = () => {
                 </div>
               )}
 
-              {(watchScheduleType === "weekly" || watchScheduleType === "monthly") && <div className="flex gap-4 w-full [&>*]:flex-1">
+              {(watchScheduleType === "weekly" || watchScheduleType === "monthly") && <div className="flex flex-col md:flex-row gap-4 w-full md:[&>*]:flex-1">
                   <FormField control={form.control} name="frequency" render={({
                 field
               }) => <FormItem>
