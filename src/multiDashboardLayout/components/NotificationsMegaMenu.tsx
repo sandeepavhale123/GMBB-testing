@@ -27,7 +27,7 @@ export const NotificationsMegaMenu: React.FC = () => {
 
   const handleViewAllFeatures = () => {
     setIsOpen(false);
-    navigate('/main-dashboard/features');
+    window.open('https://docs.google.com/spreadsheets/d/19_eBpk-PvKqU9Q_vn83GfYLBZT3zsIM2IBJPU-uTdNQ/edit?gid=0#gid=0', '_blank');
   };
 
   return (
