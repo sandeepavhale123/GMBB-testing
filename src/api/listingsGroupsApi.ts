@@ -111,6 +111,34 @@ export interface GetGroupsListingResponse {
   };
 }
 
+export interface AvailableGroupListingsRequest {
+  groupId: number;
+}
+
+export interface AvailableListingLocation {
+  id: string;
+  locationName: string;
+  zipCode: string;
+  google_account_id: string;
+  name: string;
+  alreadyAdded: boolean;
+}
+
+export interface AvailableGroupListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    locationGroups: {
+      [email: string]: AvailableListingLocation[];
+    };
+  };
+}
+
+export interface AddListingsToGroupRequest {
+  groupId: number;
+  listingIds: number[];
+}
+
 export interface GroupResponse {
   code: number;
   message: string;
@@ -176,6 +204,21 @@ export const listingsGroupsApi = createApi({
       }),
       invalidatesTags: ['Groups'],
     }),
+    getAvailableGroupListings: builder.mutation<AvailableGroupListingsResponse, AvailableGroupListingsRequest>({
+      query: (data) => ({
+        url: '/availalble-group-listings',
+        method: 'POST',
+        data,
+      }),
+    }),
+    addListingsToGroup: builder.mutation<GroupResponse, AddListingsToGroupRequest>({
+      query: (data) => ({
+        url: '/add-listings-to-group',
+        method: 'POST',
+        data,
+      }),
+      invalidatesTags: ['Groups'],
+    }),
   }),
 });
 
@@ -186,5 +229,7 @@ export const {
   useCreateGroupMutation,
   useUpdateGroupMutation,
   useDeleteGroupMutation,
-  useDeleteGroupsMutation
+  useDeleteGroupsMutation,
+  useGetAvailableGroupListingsMutation,
+  useAddListingsToGroupMutation
 } = listingsGroupsApi;

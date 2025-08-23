@@ -1,29 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, Search, Trash2, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { LocationGroup } from '@/api/listingsGroupsApi';
+import { axiosBaseQuery } from '@/api/axiosBaseQuery';
 import { toast } from '@/hooks/use-toast';
+import { AddListingToGroupModal } from '@/components/Groups/AddListingToGroupModal';
 import axiosInstance from '@/api/axiosInstance';
 
 interface GroupDetailsData {
@@ -47,6 +33,7 @@ export const GroupDetails: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [groupDetailsData, setGroupDetailsData] = useState<GroupDetailsData | null>(null);
+  const [isAddListingModalOpen, setIsAddListingModalOpen] = useState(false);
 
   const limit = 10;
 
@@ -159,7 +146,16 @@ export const GroupDetails: React.FC = () => {
           <span>Back to Groups</span>
         </Button>
 
-        <h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
+        <div className="flex items-center justify-between flex-1">
+          <h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
+          <Button
+            onClick={() => setIsAddListingModalOpen(true)}
+            className="flex items-center space-x-2"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Add Listing</span>
+          </Button>
+        </div>
       </div>
 
       {/* Search */}
@@ -271,6 +267,15 @@ export const GroupDetails: React.FC = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Add Listing Modal */}
+      <AddListingToGroupModal
+        isOpen={isAddListingModalOpen}
+        onClose={() => setIsAddListingModalOpen(false)}
+        groupId={parseInt(groupId || '0')}
+        groupName={groupName || ''}
+        onSuccess={fetchGroupDetails}
+      />
     </div>
   );
 };
