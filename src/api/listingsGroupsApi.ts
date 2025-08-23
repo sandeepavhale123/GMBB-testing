@@ -48,13 +48,13 @@ export interface GetGroupsResponse {
 
 export interface CreateGroupRequest {
   groupName: string;
-  locationIds: string[];
+  google_locid: number[];
 }
 
 export interface UpdateGroupRequest {
   groupId: string;
   groupName: string;
-  locationIds: string[];
+  google_locid: number[];
 }
 
 export interface DeleteGroupRequest {

@@ -66,7 +66,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         await updateGroup({
           groupId: editingGroup.id,
           groupName,
-          locationIds: selectedListings
+          google_locid: selectedListings.map(id => parseInt(id, 10))
         }).unwrap();
         toast({
           title: "Success",
@@ -76,7 +76,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         // Create new group
         await createGroup({
           groupName,
-          locationIds: selectedListings
+          google_locid: selectedListings.map(id => parseInt(id, 10))
         }).unwrap();
         toast({
           title: "Success", 
