@@ -105,7 +105,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-50">
               <TableHead className="font-semibold">Groups</TableHead>
               <TableHead className="font-semibold">No. of Locations</TableHead>
               <TableHead className="font-semibold w-[100px]">Actions</TableHead>
