@@ -35,6 +35,11 @@ export interface SentimentAnalysis {
   };
 }
 
+export interface QAData {
+  totalQuestion: number;
+  totalAnswer: number;
+}
+
 export interface ReviewSummaryResponse {
   code: number;
   message: string;
@@ -42,6 +47,7 @@ export interface ReviewSummaryResponse {
     summary_cards: SummaryCards;
     star_distribution: StarDistribution;
     sentiment_analysis: SentimentAnalysis;
+    qadata: QAData;
   };
 }
 

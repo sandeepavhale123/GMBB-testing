@@ -14,6 +14,7 @@ export interface ReviewsState {
   summaryCards: SummaryCards | null;
   starDistribution: StarDistribution | null;
   sentimentAnalysis: SentimentAnalysis | null;
+  qaData: { totalQuestion: number; totalAnswer: number; } | null;
   summaryLoading: boolean;
   summaryError: string | null;
 

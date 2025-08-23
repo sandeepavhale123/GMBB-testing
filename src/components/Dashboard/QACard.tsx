@@ -3,19 +3,24 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { CheckCircle, Clock, MessageSquare } from 'lucide-react';
-import { useAppSelector } from '../../hooks/useRedux';
-import { useListingContext } from '@/context/ListingContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useOverviewData } from '../../api/overviewApi';
 import { Skeleton } from '../ui/skeleton';
+import { useListingContext } from '@/context/ListingContext';
+import { useReviewSummaryWithQA } from '../../hooks/useReviewSummaryWithQA';
 
 export const QACard: React.FC = () => {
-  const { qaStats } = useAppSelector((state) => state.dashboard);
   const { selectedListing } = useListingContext();
   const { listingId } = useParams();
   const navigate = useNavigate();
   
-  const { data: overviewData, loading } = useOverviewData(
+  const { 
+    totalQuestions, 
+    totalAnswers, 
+    pendingQuestions, 
+    responseRate, 
+    loading, 
+    error 
+  } = useReviewSummaryWithQA(
     selectedListing?.id ? parseInt(selectedListing.id) : null
   );
 
@@ -30,11 +35,6 @@ export const QACard: React.FC = () => {
       navigate(`/qa/${listingId}`);
     }
   };
-
-  const totalQuestions = overviewData?.totalQuestion || 0;
-  const totalAnswers = overviewData?.totalAnswer || 0;
-  const pendingQuestions = totalQuestions - totalAnswers;
-  const responseRate = totalQuestions > 0 ? Math.round((totalAnswers / totalQuestions) * 100) : 0;
 
   return (
     <Card>
