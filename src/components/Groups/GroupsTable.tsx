@@ -64,8 +64,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [isBulkDelete, setIsBulkDelete] = useState(false);
   
-  const [deleteGroup, { isLoading: isDeleting }] = useDeleteGroupMutation();
-  const [deleteGroups, { isLoading: isBulkDeleting }] = useDeleteGroupsMutation();
+  const [deleteGroups, { isLoading: isDeleting }] = useDeleteGroupsMutation();
 
   const handleSelectGroup = (groupId: string, checked: boolean) => {
     setSelectedGroups(prev => 
@@ -104,7 +103,9 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
         onBulkDelete?.(selectedGroups);
         setSelectedGroups([]);
       } else if (groupToDelete) {
-        await deleteGroup({ groupId: groupToDelete.id }).unwrap();
+        // Use the same array format for individual delete
+        const groupIds = [parseInt(groupToDelete.id)];
+        const response = await deleteGroups({ groupIds }).unwrap();
         toast({
           title: "Success",
           description: "Group deleted successfully"
@@ -301,10 +302,10 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmDelete}
-              disabled={isDeleting || isBulkDeleting}
+              disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {(isDeleting || isBulkDeleting) 
+              {isDeleting 
                 ? 'Deleting...' 
                 : isBulkDelete 
                   ? `Delete ${selectedGroups.length} Group${selectedGroups.length > 1 ? 's' : ''}` 
