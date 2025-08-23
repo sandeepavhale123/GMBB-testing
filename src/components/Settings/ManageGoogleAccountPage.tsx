@@ -365,7 +365,7 @@ export const ManageGoogleAccountPage: React.FC = () => {
       {/* Loading State */}
       {loading && accounts.length === 0 ? (
         <div className="space-y-4">
-          {viewMode === "list" ? (
+          {viewMode === "list" ? ( 
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               <Table>
                 <TableHeader>

@@ -8,7 +8,8 @@ import {
   FileText, 
   Settings,
   Menu,
-  Bell
+  Bell,
+  FolderOpen
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
@@ -25,6 +26,11 @@ const settingsNavItems: SettingsNavItem[] = [
     label: 'Google Account',
     path: '/main-dashboard/settings/google-account',
     icon: User
+  },
+  {
+    label: 'Manage Groups',
+    path: '/main-dashboard/settings/manage-groups',
+    icon: FolderOpen
   },
   {
     label: 'Team Members',

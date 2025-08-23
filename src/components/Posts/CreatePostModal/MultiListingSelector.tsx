@@ -57,18 +57,22 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   const fetchListings = async () => {
     try {
       const response = await getAllListings().unwrap();
-      const groupOptions: ListingOption[] = response.data.groupsLists.filter((group: GroupsList) => group.locCount > 0).map((group: GroupsList) => ({
-        id: group.id,
-        name: group.labelName,
-        type: 'group',
-        locCount: group.locCount
-      }));
-      const locationOptions: ListingOption[] = response.data.locationLists.map((location: LocationsList) => ({
-        id: location.id,
-        name: location.locationName,
-        type: 'location',
-        zipCode: location.zipCode
-      }));
+      const groupOptions: ListingOption[] = response.data.groupsLists
+        .filter((group: GroupsList) => group.locCount > 0 && group.groupName)
+        .map((group: GroupsList) => ({
+          id: group.id,
+          name: group.groupName || 'Unnamed Group',
+          type: 'group',
+          locCount: group.locCount
+        }));
+      const locationOptions: ListingOption[] = response.data.locationLists
+        .filter((location: LocationsList) => location.locationName)
+        .map((location: LocationsList) => ({
+          id: location.id,
+          name: location.locationName || 'Unnamed Location',
+          type: 'location',
+          zipCode: location.zipCode
+        }));
       setOptions([...groupOptions, ...locationOptions]);
     } catch (error) {
       toast({
@@ -94,7 +98,10 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
   const getSelectedOptions = () => {
     return options.filter(option => selectedListings.includes(option.id));
   };
-  const filteredOptions = options.filter(option => option.name.toLowerCase().includes(searchTerm.toLowerCase()) || option.zipCode && option.zipCode.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredOptions = options.filter(option => 
+    (option.name && option.name.toLowerCase().includes(searchTerm.toLowerCase())) || 
+    (option.zipCode && option.zipCode.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
   const groupOptions = filteredOptions.filter(option => option.type === 'group');
   const locationOptions = filteredOptions.filter(option => option.type === 'location');
 

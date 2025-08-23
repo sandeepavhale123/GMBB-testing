@@ -19,6 +19,7 @@ const initialState: ReviewsState = {
   summaryCards: null,
   starDistribution: null,
   sentimentAnalysis: null,
+  qaData: null,
   summaryLoading: false,
   summaryError: null,
 
@@ -188,6 +189,7 @@ const reviewsSlice = createSlice({
         state.summaryCards = action.payload.summary_cards;
         state.starDistribution = action.payload.star_distribution;
         state.sentimentAnalysis = action.payload.sentiment_analysis;
+        state.qaData = action.payload.qadata;
       })
       .addCase(fetchReviewSummary.rejected, (state, action) => {
         state.summaryLoading = false;

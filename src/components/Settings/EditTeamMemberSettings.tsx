@@ -181,8 +181,13 @@ export const EditTeamMemberSettings: React.FC = () => {
         password: currentEditMember.password || "",
         role: currentEditMember.role || "",
       });
+      
+      // Switch to profile tab if user was on listing tab but role is Moderator
+      if (activeTab === "listing" && currentEditMember.role?.toLowerCase() === "moderator") {
+        setActiveTab("profile");
+      }
     }
-  }, [currentEditMember]);
+  }, [currentEditMember, activeTab]);
 
   // Clear errors and reset fetch ref when component unmounts
   useEffect(() => {
@@ -368,16 +373,18 @@ export const EditTeamMemberSettings: React.FC = () => {
               >
                 Profile
               </button>
-              <button
-                onClick={() => setActiveTab("listing")}
-                className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === "listing"
-                    ? "border-primary text-primary"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                Listing
-              </button>
+              {currentEditMember?.role?.toLowerCase() !== "moderator" && (
+                <button
+                  onClick={() => setActiveTab("listing")}
+                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === "listing"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  }`}
+                >
+                  Listing
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -508,7 +515,7 @@ export const EditTeamMemberSettings: React.FC = () => {
         </Card>
       )}
 
-      {activeTab === "listing" && (
+      {activeTab === "listing" && currentEditMember?.role?.toLowerCase() !== "moderator" && (
         <Card>
           <CardHeader>
             <CardTitle>Listing Management</CardTitle>
