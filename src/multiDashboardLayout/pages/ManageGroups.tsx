@@ -7,7 +7,7 @@ import { GroupsTable } from '@/components/Groups/GroupsTable';
 import { CreateGroupModal } from '@/components/Groups/CreateGroupModal';
 import { GroupsList } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
-import axios from 'axios';
+import axiosInstance from '@/api/axiosInstance';
 
 export const ManageGroups: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,7 +32,7 @@ export const ManageGroups: React.FC = () => {
   const fetchGroups = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post('/get-groups', {
+      const response = await axiosInstance.post('/get-groups', {
         page: currentPage,
         limit,
         search: searchTerm
