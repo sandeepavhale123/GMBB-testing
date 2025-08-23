@@ -21,6 +21,7 @@ interface ListingOption {
   zipCode?: string;
   google_account_id?: string;
   name_full?: string;
+  userEmail?: string;
 }
 
 export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
@@ -65,7 +66,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
         const locationOptions: ListingOption[] = [];
         
         // Transform the nested email-grouped structure to flat array
-        Object.values(response.data.locationGroups).forEach(locations => {
+        Object.entries(response.data.locationGroups).forEach(([email, locations]) => {
           locations.forEach(location => {
             locationOptions.push({
               id: location.id,
@@ -74,6 +75,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
               zipCode: location.zipCode,
               google_account_id: location.google_account_id,
               name_full: location.name,
+              userEmail: email,
             });
           });
         });
@@ -220,11 +222,17 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
                               onClick={(e) => handleSelect(option.id, e)}
                             >
                               <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                              <div className="flex flex-col">
+                              <div className="flex flex-col flex-1">
                                 <span>{option.name}</span>
-                                {option.zipCode && (
-                                  <span className="text-xs text-muted-foreground">{option.zipCode}</span>
-                                )}
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                  {option.zipCode && <span>{option.zipCode}</span>}
+                                  {option.userEmail && (
+                                    <>
+                                      {option.zipCode && <span>•</span>}
+                                      <span className="text-blue-600">{option.userEmail}</span>
+                                    </>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           ))}
