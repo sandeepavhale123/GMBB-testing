@@ -93,13 +93,15 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
 
   const handleSelect = (optionId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    event.preventDefault();
+    console.log('handleSelect called:', { optionId, currentSelected: selectedListings });
+    
     const isSelected = selectedListings.includes(optionId);
-    if (isSelected) {
-      onListingsChange(selectedListings.filter(id => id !== optionId));
-    } else {
-      onListingsChange([...selectedListings, optionId]);
-    }
+    const newSelections = isSelected 
+      ? selectedListings.filter(id => id !== optionId)
+      : [...selectedListings, optionId];
+    
+    console.log('Updating selections:', { isSelected, newSelections });
+    onListingsChange(newSelections);
   };
 
   const handleRemove = (optionId: string) => {
@@ -236,8 +238,14 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
                                   className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground ml-2" 
                                   onClick={(e) => handleSelect(option.id, e)}
                                 >
-                                  <div className="flex items-center justify-center w-4 h-4 border rounded-sm border-input">
-                                    <Check className={`h-3 w-3 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                                  <div className={`flex items-center justify-center w-4 h-4 border rounded-sm transition-colors ${
+                                    selectedListings.includes(option.id) 
+                                      ? "bg-primary border-primary text-primary-foreground" 
+                                      : "border-input bg-background"
+                                  }`}>
+                                    <Check className={`h-3 w-3 transition-opacity ${
+                                      selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"
+                                    }`} />
                                   </div>
                                   <div className="flex flex-col flex-1">
                                     <span>{option.name}</span>
