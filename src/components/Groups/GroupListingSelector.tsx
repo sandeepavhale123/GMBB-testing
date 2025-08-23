@@ -115,6 +115,16 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
     (option.zipCode && option.zipCode.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Group filtered options by user email
+  const groupedOptions = filteredOptions.reduce((groups, option) => {
+    const email = option.userEmail || 'Unknown';
+    if (!groups[email]) {
+      groups[email] = [];
+    }
+    groups[email].push(option);
+    return groups;
+  }, {} as Record<string, ListingOption[]>);
+
   // Helper functions for select/deselect all functionality
   const handleSelectAllLocations = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -178,7 +188,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
         </CollapsibleTrigger>
         
         <CollapsibleContent className="mt-2">
-          <div ref={containerRef} className="border rounded-md bg-background shadow-sm">
+          <div ref={containerRef} className="border rounded-md bg-popover shadow-lg z-50">
             <div className="p-3">
               {/* Search Input */}
               <div className="relative flex-1">
@@ -215,25 +225,26 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
                           </button>
                         </div>
                         <CollapsibleContent>
-                          {filteredOptions.map(option => (
-                            <div 
-                              key={option.id} 
-                              className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" 
-                              onClick={(e) => handleSelect(option.id, e)}
-                            >
-                              <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
-                              <div className="flex flex-col flex-1">
-                                <span>{option.name}</span>
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                  {option.zipCode && <span>{option.zipCode}</span>}
-                                  {option.userEmail && (
-                                    <>
-                                      {option.zipCode && <span>•</span>}
-                                      <span className="text-blue-600">{option.userEmail}</span>
-                                    </>
-                                  )}
-                                </div>
+                          {Object.entries(groupedOptions).map(([email, userOptions]) => (
+                            <div key={email} className="mb-3">
+                              <div className="px-2 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-sm border-l-2 border-blue-200">
+                                {email}
                               </div>
+                              {userOptions.map(option => (
+                                <div 
+                                  key={option.id} 
+                                  className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground ml-2" 
+                                  onClick={(e) => handleSelect(option.id, e)}
+                                >
+                                  <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                                  <div className="flex flex-col flex-1">
+                                    <span>{option.name}</span>
+                                    {option.zipCode && (
+                                      <span className="text-xs text-muted-foreground">{option.zipCode}</span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           ))}
                         </CollapsibleContent>
