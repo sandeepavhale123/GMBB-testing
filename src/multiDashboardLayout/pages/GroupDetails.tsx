@@ -146,25 +146,25 @@ export const GroupDetails: React.FC = () => {
   const pagination = groupDetailsData?.pagination;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 py-4 px-6">
       {/* Header with back button and title */}
-      <div className="flex items-center space-x-4">
+      <div className=" space-x-4">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => navigate('/main-dashboard/settings/manage-groups')}
-          className="flex items-center space-x-2"
+          className="justify-start "
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Groups</span>
         </Button>
-        <div className="h-6 border-l border-border"></div>
+
         <h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
       </div>
 
       {/* Search */}
       <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1 ">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search locations..."
@@ -176,20 +176,17 @@ export const GroupDetails: React.FC = () => {
       </div>
 
       {/* Locations Table */}
-      <Card>
-        <CardHeader>
-          <h2 className="text-lg font-medium">Locations</h2>
-        </CardHeader>
-        <CardContent>
+      <Card >
+        <CardContent className="p-0">
           {locations.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               {search ? 'No locations found matching your search.' : 'No locations in this group.'}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="">
               <Table>
-                <TableHeader>
-                  <TableRow>
+                <TableHeader >
+                  <TableRow className="bg-gray-50">
                     <TableHead>Location Name</TableHead>
                     <TableHead>Zip Code</TableHead>
                     <TableHead>Email</TableHead>
