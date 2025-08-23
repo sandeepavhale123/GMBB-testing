@@ -34,7 +34,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const { data: reportsData } = useAllReports(
     selectedListing?.id || "",
     1,
-    1
+    10
   );
 
   const [reportName, setReportName] = useState("");
