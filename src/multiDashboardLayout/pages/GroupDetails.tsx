@@ -92,15 +92,31 @@ export const GroupDetails: React.FC = () => {
   };
 
   const confirmDeleteLocation = async () => {
-    if (locationToDelete) {
-      // TODO: Implement location delete API call
-      toast({
-        title: "Location deleted",
-        description: `${locationToDelete.locationName} has been removed from the group.`,
-      });
-      setDeleteDialogOpen(false);
-      setLocationToDelete(null);
-      fetchGroupDetails();
+    if (locationToDelete && groupId) {
+      try {
+        const response = await axiosInstance.post('/remove-listing-from-group', {
+          groupId: Number(groupId),
+          listingIds: [Number(locationToDelete.id)]
+        });
+
+        if (response.data.code === 200) {
+          toast({
+            title: "Success",
+            description: `${locationToDelete.locationName} has been removed from the group.`,
+          });
+          setDeleteDialogOpen(false);
+          setLocationToDelete(null);
+          fetchGroupDetails();
+        } else {
+          throw new Error(response.data.message || 'Failed to remove location');
+        }
+      } catch (error: any) {
+        toast({
+          title: "Error",
+          description: error?.response?.data?.message || error?.message || "Failed to remove location from group",
+          variant: "destructive"
+        });
+      }
     }
   };
 
