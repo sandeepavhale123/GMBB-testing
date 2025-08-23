@@ -136,7 +136,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                       variant="ghost"
                       size="icon"
                       onClick={() => handleDeleteClick(group)}
-                      className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
+                      className="h-8 w-8 text-destructive hover:bg-destructive/10"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
