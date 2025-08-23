@@ -70,7 +70,7 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[85vh] overflow-y-auto bg-background border shadow-xl z-50">
+      <DialogContent className="sm:max-w-[700px] bg-background border shadow-xl z-50">
         <DialogHeader>
           <DialogTitle>Add Listings to {groupName}</DialogTitle>
         </DialogHeader>

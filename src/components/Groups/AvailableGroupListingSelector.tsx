@@ -177,7 +177,7 @@ export const AvailableGroupListingSelector: React.FC<AvailableGroupListingSelect
         )}
 
         {open && (
-          <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-96 overflow-hidden">
+          <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-hidden">
             <div className="p-3 border-b border-border">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -190,7 +190,7 @@ export const AvailableGroupListingSelector: React.FC<AvailableGroupListingSelect
               </div>
             </div>
 
-            <div className="max-h-80 overflow-y-auto">
+            <div className="max-h-48 overflow-y-auto">
               {isLoading ? (
                 <div className="p-3 text-center text-muted-foreground">Loading...</div>
               ) : Object.keys(groupedOptions).length === 0 ? (
