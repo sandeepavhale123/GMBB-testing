@@ -65,16 +65,25 @@ export const ManageGroups: React.FC = () => {
 
   const handleDeleteGroup = async (groupId: string) => {
     try {
-      // TODO: Add delete API call
-      toast({
-        title: "Success",
-        description: "Group deleted successfully"
-      });
+      // Single delete is handled by GroupsTable component
       fetchGroups();
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to delete group",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleBulkDeleteGroup = async (groupIds: string[]) => {
+    try {
+      // Bulk delete is handled by GroupsTable component
+      fetchGroups();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete groups",
         variant: "destructive"
       });
     }
@@ -119,6 +128,7 @@ export const ManageGroups: React.FC = () => {
           isLoading={isLoading}
           onEdit={handleEditGroup}
           onDelete={handleDeleteGroup}
+          onBulkDelete={handleBulkDeleteGroup}
           pagination={pagination}
           currentPage={currentPage}
           onPageChange={handlePageChange}

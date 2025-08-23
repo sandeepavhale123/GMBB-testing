@@ -61,6 +61,18 @@ export interface DeleteGroupRequest {
   groupId: string;
 }
 
+export interface DeleteGroupsRequest {
+  groupIds: number[];
+}
+
+export interface DeleteGroupsResponse {
+  code: number;
+  message: string;
+  data: {
+    deletedCount: number;
+  };
+}
+
 export interface LocationGroup {
   id: string;
   locationName: string;
@@ -136,6 +148,14 @@ export const listingsGroupsApi = createApi({
       }),
       invalidatesTags: ['Groups'],
     }),
+    deleteGroups: builder.mutation<DeleteGroupsResponse, DeleteGroupsRequest>({
+      query: (data) => ({
+        url: '/delete-groups',
+        method: 'POST',
+        data,
+      }),
+      invalidatesTags: ['Groups'],
+    }),
   }),
 });
 
@@ -145,5 +165,6 @@ export const {
   // useGetGroupsQuery,
   useCreateGroupMutation,
   useUpdateGroupMutation,
-  useDeleteGroupMutation
+  useDeleteGroupMutation,
+  useDeleteGroupsMutation
 } = listingsGroupsApi;
