@@ -146,6 +146,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const handleGenerate = async () => {
     // console.log("generate is clicked with id", selectedListing?.id);
     if (!selectedListing?.id) return;
+    if (selectedSections.length === 0) return;
 
     let dateRange;
     if (reportType === "Individual") {
@@ -439,7 +440,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
             </Button>
             <Button
               onClick={handleGenerate}
-              disabled={isPending || !selectedListing?.id || !reportName.trim()}
+              disabled={isPending || !selectedListing?.id || !reportName.trim() || selectedSections.length === 0}
             >
               {isPending ? "Generating..." : "Generate"}
             </Button>
