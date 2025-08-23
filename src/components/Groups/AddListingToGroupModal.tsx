@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { AvailableGroupListingSelector } from './AvailableGroupListingSelector';
-import { useAddListingsToGroupMutation } from '@/api/listingsGroupsApi';
+import { useUpdateGroupListingsMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
@@ -22,7 +22,7 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
   onSuccess
 }) => {
   const [selectedListings, setSelectedListings] = useState<number[]>([]);
-  const [addListingsToGroup, { isLoading }] = useAddListingsToGroupMutation();
+  const [updateGroupListings, { isLoading }] = useUpdateGroupListingsMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,21 +36,21 @@ export const AddListingToGroupModal: React.FC<AddListingToGroupModalProps> = ({
     }
 
     try {
-      const response = await addListingsToGroup({
+      const response = await updateGroupListings({
         groupId,
-        listingIds: selectedListings
+        google_locid: selectedListings
       }).unwrap();
 
       if (response.code === 200) {
         toast.success({
           title: 'Success',
-          description: `Successfully added ${selectedListings.length} listing${selectedListings.length !== 1 ? 's' : ''} to ${groupName}.`,
+          description: `Successfully added ${selectedListings.length} listing${selectedListings.length !== 1 ? 's' : ''} to ${groupName}. Total listings: ${response.data.totalListings}`,
         });
         onSuccess();
         onClose();
         setSelectedListings([]);
       } else {
-        throw new Error(response.message || 'Failed to add listings');
+        throw new Error(response.message || 'Failed to update group listings');
       }
     } catch (error: any) {
       console.error('Error adding listings to group:', error);

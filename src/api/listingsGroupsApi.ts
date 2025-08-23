@@ -136,7 +136,16 @@ export interface AvailableGroupListingsResponse {
 
 export interface AddListingsToGroupRequest {
   groupId: number;
-  listingIds: number[];
+  google_locid: number[];
+}
+
+export interface UpdateGroupListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    groupId: number;
+    totalListings: number;
+  };
 }
 
 export interface GroupResponse {
@@ -211,9 +220,9 @@ export const listingsGroupsApi = createApi({
         data,
       }),
     }),
-    addListingsToGroup: builder.mutation<GroupResponse, AddListingsToGroupRequest>({
+    updateGroupListings: builder.mutation<UpdateGroupListingsResponse, AddListingsToGroupRequest>({
       query: (data) => ({
-        url: '/add-listings-to-group',
+        url: '/update-group-listings',
         method: 'POST',
         data,
       }),
@@ -231,5 +240,5 @@ export const {
   useDeleteGroupMutation,
   useDeleteGroupsMutation,
   useGetAvailableGroupListingsMutation,
-  useAddListingsToGroupMutation
+  useUpdateGroupListingsMutation
 } = listingsGroupsApi;
