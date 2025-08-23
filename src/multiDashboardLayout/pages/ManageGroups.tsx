@@ -58,10 +58,6 @@ export const ManageGroups: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleEditGroup = (group: GroupsList) => {
-    setEditingGroup(group);
-    setIsModalOpen(true);
-  };
 
   const handleDeleteGroup = async (groupId: string) => {
     try {
@@ -126,7 +122,6 @@ export const ManageGroups: React.FC = () => {
         <GroupsTable
           groups={groups}
           isLoading={isLoading}
-          onEdit={handleEditGroup}
           onDelete={handleDeleteGroup}
           onBulkDelete={handleBulkDeleteGroup}
           pagination={pagination}

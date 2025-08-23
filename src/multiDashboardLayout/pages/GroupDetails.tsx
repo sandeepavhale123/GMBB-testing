@@ -1,0 +1,230 @@
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Search, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useGetGroupDetailsQuery } from '@/api/listingsGroupsApi';
+import { GroupDetailsLocation } from '@/api/listingsGroupsApi';
+import { toast } from '@/hooks/use-toast';
+
+export const GroupDetails: React.FC = () => {
+  const { groupId } = useParams<{ groupId: string }>();
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [locationToDelete, setLocationToDelete] = useState<GroupDetailsLocation | null>(null);
+
+  const limit = 10;
+
+  const {
+    data: groupDetailsData,
+    isLoading,
+    error,
+    refetch
+  } = useGetGroupDetailsQuery({
+    groupId: Number(groupId),
+    page,
+    limit,
+    search,
+  });
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setPage(1); // Reset to first page when searching
+  };
+
+  const handleDeleteLocation = (location: GroupDetailsLocation) => {
+    setLocationToDelete(location);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteLocation = async () => {
+    if (locationToDelete) {
+      // TODO: Implement location delete API call
+      toast({
+        title: "Location deleted",
+        description: `${locationToDelete.locationName} has been removed from the group.`,
+      });
+      setDeleteDialogOpen(false);
+      setLocationToDelete(null);
+      refetch();
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 space-y-4">
+        <p className="text-destructive">Failed to load group details</p>
+        <Button onClick={() => refetch()}>Retry</Button>
+      </div>
+    );
+  }
+
+  const groupName = groupDetailsData?.data?.groupName || 'Group Details';
+  const locations = groupDetailsData?.data?.listings || [];
+  const pagination = groupDetailsData?.data?.pagination;
+
+  return (
+    <div className="space-y-6">
+      {/* Header with back button and title */}
+      <div className="flex items-center space-x-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/main-dashboard/settings/manage-groups')}
+          className="flex items-center space-x-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Back to Groups</span>
+        </Button>
+        <div className="h-6 border-l border-border"></div>
+        <h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
+      </div>
+
+      {/* Search */}
+      <div className="flex items-center space-x-4">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search locations..."
+            value={search}
+            onChange={handleSearchChange}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
+      {/* Locations Table */}
+      <Card>
+        <CardHeader>
+          <h2 className="text-lg font-medium">Locations</h2>
+        </CardHeader>
+        <CardContent>
+          {locations.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {search ? 'No locations found matching your search.' : 'No locations in this group.'}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Location Name</TableHead>
+                    <TableHead>Zip Code</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {locations.map((location) => (
+                    <TableRow key={location.id}>
+                      <TableCell className="font-medium">
+                        {location.locationName}
+                      </TableCell>
+                      <TableCell>{location.zipCode}</TableCell>
+                      <TableCell>{location.email}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteLocation(location)}
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+              {/* Pagination */}
+              {pagination && pagination.pages > 1 && (
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, pagination.total)} of {pagination.total} locations
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(page - 1)}
+                      disabled={page <= 1}
+                    >
+                      Previous
+                    </Button>
+                    <span className="text-sm">
+                      Page {page} of {pagination.pages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(page + 1)}
+                      disabled={page >= pagination.pages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Location</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to remove "{locationToDelete?.locationName}" from this group? 
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteLocation}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+};

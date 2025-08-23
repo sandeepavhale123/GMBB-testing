@@ -24,6 +24,7 @@ import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/
 import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
 import { ManageGroupsWrapper } from "@/multiDashboardLayout/components/settings/ManageGroupsWrapper";
+import { GroupDetailsWrapper } from "@/multiDashboardLayout/components/settings/GroupDetailsWrapper";
 import { RouteConfig } from "../routeConfig";
 import { Profile } from "@/multiDashboardLayout/pages/Profile";
 
@@ -99,6 +100,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "manage-groups",
             element: <ManageGroupsWrapper />,
+          },
+          {
+            path: "manage-groups/:groupId",
+            element: <GroupDetailsWrapper />,
           },
           {
             path: "team-members",
