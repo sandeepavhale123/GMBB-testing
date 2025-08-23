@@ -3,7 +3,9 @@ import { axiosBaseQuery } from './axiosBaseQuery';
 
 export interface GroupsList {
   id: string;
-  labelName: string;
+  groupName: string;
+  google_locid: string;
+  created_at: string;
   locCount: number;
 }
 
@@ -19,6 +21,28 @@ export interface ListingsGroupsResponse {
   data: {
     groupsLists: GroupsList[];
     locationLists: LocationsList[];
+  };
+}
+
+export interface GetGroupsRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface PaginationData {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
+export interface GetGroupsResponse {
+  code: number;
+  message: string;
+  data: {
+    groupsLists: GroupsList[];
+    pagination: PaginationData;
   };
 }
 
@@ -55,6 +79,14 @@ export const listingsGroupsApi = createApi({
       }),
       invalidatesTags: ['Groups'],
     }),
+    getGroups: builder.query<GetGroupsResponse, GetGroupsRequest>({
+      query: (data) => ({
+        url: '/get-groups',
+        method: 'POST',
+        data,
+      }),
+      providesTags: ['Groups'],
+    }),
     createGroup: builder.mutation<GroupResponse, CreateGroupRequest>({
       query: (data) => ({
         url: '/create-group',
@@ -84,6 +116,7 @@ export const listingsGroupsApi = createApi({
 
 export const { 
   useGetAllListingsMutation,
+  // useGetGroupsQuery,
   useCreateGroupMutation,
   useUpdateGroupMutation,
   useDeleteGroupMutation

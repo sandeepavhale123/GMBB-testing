@@ -59,7 +59,7 @@ export const MultiListingSelector: React.FC<MultiListingSelectorProps> = ({
       const response = await getAllListings().unwrap();
       const groupOptions: ListingOption[] = response.data.groupsLists.filter((group: GroupsList) => group.locCount > 0).map((group: GroupsList) => ({
         id: group.id,
-        name: group.labelName,
+        name: group.groupName,
         type: 'group',
         locCount: group.locCount
       }));

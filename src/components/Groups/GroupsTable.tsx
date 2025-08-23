@@ -18,22 +18,43 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { Edit2, Trash2 } from 'lucide-react';
 import { GroupsList, useDeleteGroupMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
+
+interface PaginationProps {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
 
 interface GroupsTableProps {
   groups: GroupsList[];
   isLoading: boolean;
   onEdit: (group: GroupsList) => void;
   onDelete: (groupId: string) => void;
+  pagination?: PaginationProps;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export const GroupsTable: React.FC<GroupsTableProps> = ({
   groups,
   isLoading,
   onEdit,
-  onDelete
+  onDelete,
+  pagination,
+  currentPage = 1,
+  onPageChange
 }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState<GroupsList | null>(null);
@@ -115,7 +136,7 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
             {groups.map((group) => (
               <TableRow key={group.id} className="hover:bg-muted/50">
                 <TableCell className="font-medium">
-                  {group.labelName}
+                  {group.groupName}
                 </TableCell>
                 <TableCell>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
@@ -148,13 +169,48 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
         </Table>
       </div>
 
+      {/* Pagination */}
+      {pagination && pagination.pages > 1 && (
+        <div className="flex justify-center mt-4">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious 
+                  onClick={() => onPageChange?.(Math.max(1, currentPage - 1))}
+                  className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+              
+              {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    onClick={() => onPageChange?.(page)}
+                    isActive={page === currentPage}
+                    className="cursor-pointer"
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              
+              <PaginationItem>
+                <PaginationNext 
+                  onClick={() => onPageChange?.(Math.min(pagination.pages, currentPage + 1))}
+                  className={currentPage >= pagination.pages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
+
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Group</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the group "{groupToDelete?.labelName}"? 
+              Are you sure you want to delete the group "{groupToDelete?.groupName}"? 
               This action cannot be undone and will remove the group from all associated listings.
             </AlertDialogDescription>
           </AlertDialogHeader>

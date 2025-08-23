@@ -37,7 +37,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
 
   useEffect(() => {
     if (editingGroup) {
-      setGroupName(editingGroup.labelName);
+      setGroupName(editingGroup.groupName);
       // TODO: Load existing group's listings
       setSelectedListings([]);
     } else {

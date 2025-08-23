@@ -5,30 +5,51 @@ import { Input } from '@/components/ui/input';
 import { Plus, Search } from 'lucide-react';
 import { GroupsTable } from '@/components/Groups/GroupsTable';
 import { CreateGroupModal } from '@/components/Groups/CreateGroupModal';
-import { useGetAllListingsMutation, GroupsList } from '@/api/listingsGroupsApi';
+import { GroupsList } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
+import axios from 'axios';
 
 export const ManageGroups: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [groups, setGroups] = useState<GroupsList[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingGroup, setEditingGroup] = useState<GroupsList | null>(null);
-  const [getAllListings, { isLoading }] = useGetAllListingsMutation();
+  const [groups, setGroups] = useState<GroupsList[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState<{
+    total: number;
+    page: number;
+    limit: number;
+    pages: number;
+  } | undefined>(undefined);
+  
+  const limit = 10;
 
   useEffect(() => {
     fetchGroups();
-  }, []);
+  }, [currentPage, searchTerm]);
 
   const fetchGroups = async () => {
+    setIsLoading(true);
     try {
-      const response = await getAllListings().unwrap();
-      setGroups(response.data.groupsLists);
+      const response = await axios.post('/get-groups', {
+        page: currentPage,
+        limit,
+        search: searchTerm
+      });
+      
+      if (response.data.code === 200) {
+        setGroups(response.data.data.groupsLists);
+        setPagination(response.data.data.pagination);
+      }
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to fetch groups",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -65,9 +86,9 @@ export const ManageGroups: React.FC = () => {
     fetchGroups();
   };
 
-  const filteredGroups = groups.filter(group =>
-    group.labelName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -94,10 +115,13 @@ export const ManageGroups: React.FC = () => {
 
         {/* Groups Table */}
         <GroupsTable
-          groups={filteredGroups}
+          groups={groups}
           isLoading={isLoading}
           onEdit={handleEditGroup}
           onDelete={handleDeleteGroup}
+          pagination={pagination}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
         />
 
         {/* Create/Edit Group Modal */}
