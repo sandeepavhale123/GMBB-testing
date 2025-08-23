@@ -73,14 +73,7 @@ export interface DeleteGroupsResponse {
   };
 }
 
-export interface GroupDetailsLocation {
-  id: string;
-  locationName: string;
-  zipCode: string;
-  google_account_id: string;
-  name: string;
-  email: string;
-}
+// Remove GroupDetailsLocation and use LocationGroup instead
 
 export interface GetGroupDetailsRequest {
   groupId: number;
@@ -94,13 +87,8 @@ export interface GetGroupDetailsResponse {
   message: string;
   data: {
     groupName: string;
-    listings: GroupDetailsLocation[];
-    pagination: {
-      total: number;
-      page: number;
-      limit: number;
-      pages: number;
-    };
+    listings: LocationGroup[];
+    pagination: PaginationData;
   };
 }
 
@@ -110,6 +98,7 @@ export interface LocationGroup {
   zipCode: string;
   google_account_id: string;
   name: string;
+  email?: string;
 }
 
 export interface GetGroupsListingResponse {
@@ -187,14 +176,6 @@ export const listingsGroupsApi = createApi({
       }),
       invalidatesTags: ['Groups'],
     }),
-    getGroupDetails: builder.query<GetGroupDetailsResponse, GetGroupDetailsRequest>({
-      query: (data) => ({
-        url: '/get-group-details',
-        method: 'POST',
-        data,
-      }),
-      providesTags: ['Groups'],
-    }),
   }),
 });
 
@@ -205,6 +186,5 @@ export const {
   useCreateGroupMutation,
   useUpdateGroupMutation,
   useDeleteGroupMutation,
-  useDeleteGroupsMutation,
-  useGetGroupDetailsQuery
+  useDeleteGroupsMutation
 } = listingsGroupsApi;

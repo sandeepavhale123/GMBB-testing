@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,9 +22,20 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { useGetGroupDetailsQuery } from '@/api/listingsGroupsApi';
-import { GroupDetailsLocation } from '@/api/listingsGroupsApi';
+import { LocationGroup } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
+import axiosInstance from '@/api/axiosInstance';
+
+interface GroupDetailsData {
+  groupName: string;
+  listings: LocationGroup[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    pages: number;
+  };
+}
 
 export const GroupDetails: React.FC = () => {
   const { groupId } = useParams<{ groupId: string }>();
@@ -32,28 +43,50 @@ export const GroupDetails: React.FC = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [locationToDelete, setLocationToDelete] = useState<GroupDetailsLocation | null>(null);
+  const [locationToDelete, setLocationToDelete] = useState<LocationGroup | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [groupDetailsData, setGroupDetailsData] = useState<GroupDetailsData | null>(null);
 
   const limit = 10;
 
-  const {
-    data: groupDetailsData,
-    isLoading,
-    error,
-    refetch
-  } = useGetGroupDetailsQuery({
-    groupId: Number(groupId),
-    page,
-    limit,
-    search,
-  });
+  useEffect(() => {
+    fetchGroupDetails();
+  }, [groupId, page, search]);
+
+  const fetchGroupDetails = async () => {
+    if (!groupId) return;
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await axiosInstance.post('/get-group-details', {
+        groupId: Number(groupId),
+        page,
+        limit,
+        search,
+      });
+      
+      if (response.data.code === 200) {
+        setGroupDetailsData(response.data.data);
+      } else {
+        setError('Failed to load group details');
+      }
+    } catch (err) {
+      setError('Failed to load group details');
+      console.error('Error fetching group details:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     setPage(1); // Reset to first page when searching
   };
 
-  const handleDeleteLocation = (location: GroupDetailsLocation) => {
+  const handleDeleteLocation = (location: LocationGroup) => {
     setLocationToDelete(location);
     setDeleteDialogOpen(true);
   };
@@ -67,7 +100,7 @@ export const GroupDetails: React.FC = () => {
       });
       setDeleteDialogOpen(false);
       setLocationToDelete(null);
-      refetch();
+      fetchGroupDetails();
     }
   };
 
@@ -86,15 +119,15 @@ export const GroupDetails: React.FC = () => {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-64 space-y-4">
-        <p className="text-destructive">Failed to load group details</p>
-        <Button onClick={() => refetch()}>Retry</Button>
+        <p className="text-destructive">{error}</p>
+        <Button onClick={fetchGroupDetails}>Retry</Button>
       </div>
     );
   }
 
-  const groupName = groupDetailsData?.data?.groupName || 'Group Details';
-  const locations = groupDetailsData?.data?.listings || [];
-  const pagination = groupDetailsData?.data?.pagination;
+  const groupName = groupDetailsData?.groupName || 'Group Details';
+  const locations = groupDetailsData?.listings || [];
+  const pagination = groupDetailsData?.pagination;
 
   return (
     <div className="space-y-6">
@@ -154,7 +187,7 @@ export const GroupDetails: React.FC = () => {
                         {location.locationName}
                       </TableCell>
                       <TableCell>{location.zipCode}</TableCell>
-                      <TableCell>{location.email}</TableCell>
+                      <TableCell>{location.email || 'N/A'}</TableCell>
                       <TableCell>
                         <Button
                           variant="ghost"
