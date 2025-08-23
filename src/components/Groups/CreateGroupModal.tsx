@@ -100,8 +100,14 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     onClose();
   };
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      handleClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
@@ -119,9 +125,13 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               id="groupName"
               type="text"
               value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
+              onChange={(e) => {
+                console.log('Group name input changed:', e.target.value);
+                setGroupName(e.target.value);
+              }}
               placeholder="Enter group name"
               className={hasFieldError('groupName') ? 'border-destructive' : ''}
+              autoComplete="off"
             />
             {hasFieldError('groupName') && (
               <p className="text-xs text-destructive font-medium">

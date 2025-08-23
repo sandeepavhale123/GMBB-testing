@@ -190,7 +190,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
         </CollapsibleTrigger>
         
         <CollapsibleContent className="mt-2">
-          <div ref={containerRef} className="border rounded-md bg-popover shadow-lg z-50">
+          <div ref={containerRef} className="relative border rounded-md bg-popover text-popover-foreground shadow-lg z-50">
             <div className="p-3">
               {/* Search Input */}
               <div className="relative flex-1">
