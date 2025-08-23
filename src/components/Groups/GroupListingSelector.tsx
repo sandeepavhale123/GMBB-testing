@@ -1,0 +1,241 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Check, ChevronDown, X, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { useGetAllListingsMutation, LocationsList } from '@/api/listingsGroupsApi';
+import { toast } from '@/hooks/use-toast';
+
+interface GroupListingSelectorProps {
+  selectedListings: string[];
+  onListingsChange: (listings: string[]) => void;
+  error?: string;
+}
+
+interface ListingOption {
+  id: string;
+  name: string;
+  type: 'location';
+  zipCode?: string;
+}
+
+export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
+  selectedListings,
+  onListingsChange,
+  error
+}) => {
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState<ListingOption[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [locationsOpen, setLocationsOpen] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const [getAllListings, { isLoading }] = useGetAllListingsMutation();
+  
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
+
+  const fetchListings = async () => {
+    try {
+      const response = await getAllListings().unwrap();
+      // Only show locations for group creation, not existing groups
+      const locationOptions: ListingOption[] = response.data.locationLists.map((location: LocationsList) => ({
+        id: location.id,
+        name: location.locationName,
+        type: 'location',
+        zipCode: location.zipCode
+      }));
+      setOptions(locationOptions);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch listings",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleSelect = (optionId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    const isSelected = selectedListings.includes(optionId);
+    if (isSelected) {
+      onListingsChange(selectedListings.filter(id => id !== optionId));
+    } else {
+      onListingsChange([...selectedListings, optionId]);
+    }
+  };
+
+  const handleRemove = (optionId: string) => {
+    onListingsChange(selectedListings.filter(id => id !== optionId));
+  };
+
+  const getSelectedOptions = () => {
+    return options.filter(option => selectedListings.includes(option.id));
+  };
+
+  const filteredOptions = options.filter(option => 
+    option.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (option.zipCode && option.zipCode.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  // Helper functions for select/deselect all functionality
+  const handleSelectAllLocations = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const locationIds = filteredOptions.map(option => option.id);
+    const newSelections = [...selectedListings];
+    locationIds.forEach(id => {
+      if (!newSelections.includes(id)) {
+        newSelections.push(id);
+      }
+    });
+    onListingsChange(newSelections);
+  };
+
+  const handleDeselectAllLocations = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const locationIds = filteredOptions.map(option => option.id);
+    const newSelections = selectedListings.filter(id => !locationIds.includes(id));
+    onListingsChange(newSelections);
+  };
+
+  // Check if all items are selected
+  const areAllLocationsSelected = filteredOptions.length > 0 && filteredOptions.every(option => selectedListings.includes(option.id));
+
+  return (
+    <div className="space-y-3">
+      <Label className="text-sm font-medium">Select Listings *</Label>
+      
+      {/* Selected items display */}
+      {selectedListings.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {getSelectedOptions().map(option => (
+            <Badge key={option.id} variant="secondary" className="px-2 py-1">
+              <span className="text-xs">
+                {option.name} {option.zipCode && `(${option.zipCode})`}
+              </span>
+              <X 
+                className="w-3 h-3 ml-1 cursor-pointer hover:text-destructive" 
+                onClick={() => handleRemove(option.id)} 
+              />
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      <Collapsible open={open} onOpenChange={setOpen}>
+        <CollapsibleTrigger asChild>
+          <Button 
+            variant="outline" 
+            className="w-full justify-between" 
+            disabled={isLoading}
+            onClick={() => setOpen(!open)}
+          >
+            {selectedListings.length === 0 
+              ? (isLoading ? "Loading..." : "Select listings...") 
+              : `${selectedListings.length} listing${selectedListings.length === 1 ? '' : 's'} selected`
+            }
+            <ChevronDown className={`ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform ${open ? 'rotate-180' : ''}`} />
+          </Button>
+        </CollapsibleTrigger>
+        
+        <CollapsibleContent className="mt-2">
+          <div ref={containerRef} className="border rounded-md bg-background shadow-sm">
+            <div className="p-3">
+              {/* Search Input */}
+              <div className="relative flex-1">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search listings..." 
+                  value={searchTerm} 
+                  onChange={(e) => setSearchTerm(e.target.value)} 
+                  className="pl-8 w-full" 
+                />
+              </div> 
+              
+              {/* Options List */}
+              <div className="mt-3 max-h-60 overflow-y-auto">
+                {filteredOptions.length === 0 ? (
+                  <div className="py-6 text-center text-sm text-muted-foreground">
+                    {isLoading ? "Loading..." : "No listings found."}
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    {/* Locations Section */}
+                    <div>
+                      <Collapsible open={locationsOpen} onOpenChange={setLocationsOpen}>
+                        <div className="flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                          <CollapsibleTrigger className="flex items-center gap-1 hover:text-foreground transition-colors">
+                            <ChevronDown className={`h-3 w-3 transition-transform ${locationsOpen ? 'rotate-180' : ''}`} />
+                            <span>Locations</span>
+                          </CollapsibleTrigger>
+                          <button 
+                            onClick={areAllLocationsSelected ? handleDeselectAllLocations : handleSelectAllLocations} 
+                            className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
+                          >
+                            {areAllLocationsSelected ? 'Deselect All' : 'Select All'}
+                          </button>
+                        </div>
+                        <CollapsibleContent>
+                          {filteredOptions.map(option => (
+                            <div 
+                              key={option.id} 
+                              className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground" 
+                              onClick={(e) => handleSelect(option.id, e)}
+                            >
+                              <Check className={`h-4 w-4 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                              <div className="flex flex-col">
+                                <span>{option.name}</span>
+                                {option.zipCode && (
+                                  <span className="text-xs text-muted-foreground">{option.zipCode}</span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+      
+      {selectedListings.length === 0 && !error && (
+        <p className="text-xs text-muted-foreground">
+          Select at least one listing to continue.
+        </p>
+      )}
+      
+      {error && (
+        <p className="text-xs text-destructive font-medium">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};

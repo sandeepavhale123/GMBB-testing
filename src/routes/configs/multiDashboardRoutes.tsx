@@ -23,6 +23,7 @@ import { NotificationsWrapper } from "@/multiDashboardLayout/components/settings
 import { IntegrationsWrapper } from "@/multiDashboardLayout/components/settings/IntegrationsWrapper";
 import { EditTeamMemberWrapper } from "@/multiDashboardLayout/components/settings/EditTeamMemberWrapper";
 import { ListingManagementWrapper } from "@/multiDashboardLayout/components/settings/ListingManagementWrapper";
+import { ManageGroupsWrapper } from "@/multiDashboardLayout/components/settings/ManageGroupsWrapper";
 import { RouteConfig } from "../routeConfig";
 import { Profile } from "@/multiDashboardLayout/pages/Profile";
 
@@ -94,6 +95,10 @@ export const multiDashboardRoutes: RouteConfig[] = [
           {
             path: "google-account",
             element: <ManageGoogleAccountWrapper />,
+          },
+          {
+            path: "manage-groups",
+            element: <ManageGroupsWrapper />,
           },
           {
             path: "team-members",
