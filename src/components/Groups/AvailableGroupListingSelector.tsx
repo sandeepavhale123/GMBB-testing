@@ -160,7 +160,7 @@ export const AvailableGroupListingSelector: React.FC<AvailableGroupListingSelect
         </Button>
 
         {selectedListings.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2">
+          <div className="flex flex-wrap gap-1 mt-2 hidden">
             {getSelectedOptions().map((option) => (
               <Badge key={option.id} variant="secondary" className="text-xs">
                 {option.name}

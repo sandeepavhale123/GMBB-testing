@@ -158,7 +158,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
       
       {/* Selected items display */}
       {selectedListings.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 hidden">
           {getSelectedOptions().map(option => (
             <Badge key={option.id} variant="secondary" className="px-2 py-1">
               <span className="text-xs">
