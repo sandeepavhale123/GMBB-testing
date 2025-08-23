@@ -5,7 +5,6 @@ import { Label } from '@/components/ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useGetGroupsListingMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
 
@@ -237,11 +236,9 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
                                   className="flex items-center space-x-2 rounded-sm px-2 py-1.5 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground ml-2" 
                                   onClick={(e) => handleSelect(option.id, e)}
                                 >
-                                  <Checkbox 
-                                    checked={selectedListings.includes(option.id)}
-                                    onChange={() => {}}
-                                    className="pointer-events-none"
-                                  />
+                                  <div className="flex items-center justify-center w-4 h-4 border rounded-sm border-input">
+                                    <Check className={`h-3 w-3 ${selectedListings.includes(option.id) ? "opacity-100" : "opacity-0"}`} />
+                                  </div>
                                   <div className="flex flex-col flex-1">
                                     <span>{option.name}</span>
                                     {option.zipCode && (
