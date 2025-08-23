@@ -42,13 +42,13 @@ export const useGetCitationReport = (
   });
 
   useEffect(() => {
-    if (query.isSuccess && query.data?.data?.report_id) {
+    if (query.isSuccess) {
       toast({
         title: "Success",
         description: query.data?.message || "Citation audit data fetched",
       });
     }
-  }, [query.isSuccess, query.data]);
+  }, [query.isSuccess]);
 
   useEffect(() => {
     if (query.isError) {
