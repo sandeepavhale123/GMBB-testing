@@ -70,7 +70,7 @@ export const ManageGroups: React.FC = () => {
   );
 
   return (
-    <MainBody>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -108,6 +108,6 @@ export const ManageGroups: React.FC = () => {
           editingGroup={editingGroup}
         />
       </div>
-    </MainBody>
+    </>
   );
 };
