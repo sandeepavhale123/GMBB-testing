@@ -45,7 +45,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       setSelectedListings([]);
     }
     clearErrors();
-  }, [editingGroup, isOpen, clearErrors]);
+  }, [editingGroup, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
