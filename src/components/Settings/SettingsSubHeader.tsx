@@ -20,11 +20,6 @@ export const SettingsSubHeader: React.FC<SettingsSubHeaderProps> = ({
       path: "/settings/google-account",
     },
     {
-      id: "manage-groups",
-      label: "Manage Groups",
-      path: "/settings/manage-groups",
-    },
-    {
       id: "team-members",
       label: "Team Members",
       path: "/settings/team-members",
