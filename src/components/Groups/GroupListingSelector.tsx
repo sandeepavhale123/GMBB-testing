@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { useGetAllListingsMutation, LocationsList } from '@/api/listingsGroupsApi';
+import { useGetGroupsListingMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
 
 interface GroupListingSelectorProps {
@@ -19,6 +19,8 @@ interface ListingOption {
   name: string;
   type: 'location';
   zipCode?: string;
+  google_account_id?: string;
+  name_full?: string;
 }
 
 export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
@@ -32,7 +34,7 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
   const [locationsOpen, setLocationsOpen] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  const [getAllListings, { isLoading }] = useGetAllListingsMutation();
+  const [getGroupsListing, { isLoading }] = useGetGroupsListingMutation();
   
   useEffect(() => {
     fetchListings();
@@ -57,15 +59,27 @@ export const GroupListingSelector: React.FC<GroupListingSelectorProps> = ({
 
   const fetchListings = async () => {
     try {
-      const response = await getAllListings().unwrap();
-      // Only show locations for group creation, not existing groups
-      const locationOptions: ListingOption[] = response.data.locationLists.map((location: LocationsList) => ({
-        id: location.id,
-        name: location.locationName,
-        type: 'location',
-        zipCode: location.zipCode
-      }));
-      setOptions(locationOptions);
+      const response = await getGroupsListing().unwrap();
+      
+      if (response.code === 200) {
+        const locationOptions: ListingOption[] = [];
+        
+        // Transform the nested email-grouped structure to flat array
+        Object.values(response.data.locationGroups).forEach(locations => {
+          locations.forEach(location => {
+            locationOptions.push({
+              id: location.id,
+              name: location.locationName,
+              type: 'location' as const,
+              zipCode: location.zipCode,
+              google_account_id: location.google_account_id,
+              name_full: location.name,
+            });
+          });
+        });
+        
+        setOptions(locationOptions);
+      }
     } catch (error) {
       toast({
         title: "Error",

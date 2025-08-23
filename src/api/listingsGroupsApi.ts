@@ -61,6 +61,24 @@ export interface DeleteGroupRequest {
   groupId: string;
 }
 
+export interface LocationGroup {
+  id: string;
+  locationName: string;
+  zipCode: string;
+  google_account_id: string;
+  name: string;
+}
+
+export interface GetGroupsListingResponse {
+  code: number;
+  message: string;
+  data: {
+    locationGroups: {
+      [email: string]: LocationGroup[];
+    };
+  };
+}
+
 export interface GroupResponse {
   code: number;
   message: string;
@@ -75,6 +93,13 @@ export const listingsGroupsApi = createApi({
     getAllListings: builder.mutation<ListingsGroupsResponse, void>({
       query: () => ({
         url: '/get-all-listings',
+        method: 'POST',
+      }),
+      invalidatesTags: ['Groups'],
+    }),
+    getGroupsListing: builder.mutation<GetGroupsListingResponse, void>({
+      query: () => ({
+        url: '/get-groups-listing',
         method: 'POST',
       }),
       invalidatesTags: ['Groups'],
@@ -116,6 +141,7 @@ export const listingsGroupsApi = createApi({
 
 export const { 
   useGetAllListingsMutation,
+  useGetGroupsListingMutation,
   // useGetGroupsQuery,
   useCreateGroupMutation,
   useUpdateGroupMutation,
