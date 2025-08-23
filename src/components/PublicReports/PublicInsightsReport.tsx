@@ -326,9 +326,16 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <Legend
                           verticalAlign="bottom"
-                          height={36}
-                          width={450}
-                          wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
+                          align="center"
+                          wrapperStyle={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flexWrap: "wrap",
+                            paddingTop: "1rem",
+                            fontSize: isMobile ? "12px" : "14px",
+                            lineHeight: "20px",
+                            textAlign: "center",
+                          }}
                           formatter={(value, entry) => (
                             <span style={{ color: entry.color }}>{value}</span>
                           )}
@@ -408,9 +415,16 @@ export const PublicInsightsReport: React.FC = () => {
                         />
                         <Legend
                           verticalAlign="bottom"
-                          height={36}
-                          width={450}
-                          wrapperStyle={isMobile ? { left: -80 } : { left: 50 }}
+                          align="center"
+                          wrapperStyle={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flexWrap: "wrap",
+                            paddingTop: "1rem",
+                            fontSize: isMobile ? "12px" : "14px",
+                            lineHeight: "20px",
+                            textAlign: "center",
+                          }}
                           formatter={(value, entry) => (
                             <span style={{ color: entry.color }}>{value}</span>
                           )}
@@ -478,13 +492,15 @@ export const PublicInsightsReport: React.FC = () => {
                       />
                       <Legend
                         verticalAlign="bottom"
-                        height={60}
+                        align="center"
                         wrapperStyle={{
-                          textAlign: "center",
                           display: "flex",
                           justifyContent: "center",
                           flexWrap: "wrap",
                           paddingTop: "1rem",
+                          fontSize: isMobile ? "12px" : "14px",
+                          lineHeight: "20px",
+                          textAlign: "center",
                         }}
                         formatter={(value, entry) => (
                           <span style={{ color: entry.color }}>{value}</span>
@@ -540,10 +556,31 @@ export const PublicInsightsReport: React.FC = () => {
                           dataKey="label"
                           fontSize={isMobile ? 10 : 12}
                           interval={isMobile ? 1 : 0}
+                          angle={
+                            (insightData?.data?.periodOne?.bar_chart?.length ||
+                              0) > 6
+                              ? -45
+                              : 0
+                          }
+                          textAnchor={
+                            (insightData?.data?.periodOne?.bar_chart?.length ||
+                              0) > 6
+                              ? "end"
+                              : "middle"
+                          }
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Legend fontSize={isMobile ? 10 : 12} />
+                        <Legend
+                          fontSize={isMobile ? 10 : 12}
+                          wrapperStyle={{
+                            paddingTop:
+                              (insightData?.data?.periodOne?.bar_chart
+                                ?.length || 0) > 6
+                                ? "3.5rem" // tilted → add extra space
+                                : "1rem", // normal
+                          }}
+                        />
                         {Object.keys(chartConfig).map((key) => (
                           <Bar
                             key={key}
@@ -594,15 +631,29 @@ export const PublicInsightsReport: React.FC = () => {
                           dataKey="label"
                           fontSize={isMobile ? 10 : 12}
                           interval={isMobile ? 1 : 0}
-                          angle={-45} // tilt 45 degrees
-                          textAnchor="end"
+                          angle={
+                            (insightData?.data?.periodTwo?.bar_chart?.length ||
+                              0) > 6
+                              ? -45
+                              : 0
+                          }
+                          textAnchor={
+                            (insightData?.data?.periodTwo?.bar_chart?.length ||
+                              0) > 6
+                              ? "end"
+                              : "middle"
+                          }
                         />
                         <YAxis fontSize={isMobile ? 10 : 12} />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Legend
                           fontSize={isMobile ? 10 : 12}
                           wrapperStyle={{
-                            paddingTop: "3.5rem",
+                            paddingTop:
+                              (insightData?.data?.periodTwo?.bar_chart
+                                ?.length || 0) > 6
+                                ? "3.5rem" // tilted → add extra space
+                                : "1rem", // normal
                           }}
                         />
                         {Object.keys(chartConfig).map((key) => (
@@ -644,10 +695,31 @@ export const PublicInsightsReport: React.FC = () => {
                         dataKey="label"
                         fontSize={isMobile ? 10 : 12}
                         interval={isMobile ? 1 : 0}
+                        angle={
+                          (insightData?.data?.periodOne?.bar_chart?.length ||
+                            0) > 6
+                            ? -45
+                            : 0
+                        }
+                        textAnchor={
+                          (insightData?.data?.periodOne?.bar_chart?.length ||
+                            0) > 6
+                            ? "end"
+                            : "middle"
+                        }
                       />
                       <YAxis fontSize={isMobile ? 10 : 12} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend fontSize={isMobile ? 10 : 12} />
+                      <Legend
+                        fontSize={isMobile ? 10 : 12}
+                        wrapperStyle={{
+                          paddingTop:
+                            (insightData?.data?.periodOne?.bar_chart?.length ||
+                              0) > 6
+                              ? "3.5rem" // tilted → add extra space
+                              : "1rem", // normal
+                        }}
+                      />
                       {Object.keys(chartConfig).map((key) => (
                         <Bar
                           key={key}

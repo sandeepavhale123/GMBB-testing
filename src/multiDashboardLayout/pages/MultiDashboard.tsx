@@ -211,9 +211,7 @@ export const MultiDashboard: React.FC = () => {
       category: selectedCategory,
       city: selectedState,
       dateRange: {
-        startDate: dateRange?.from
-          ? formatDateForBackend(dateRange.from)
-          : "",
+        startDate: dateRange?.from ? formatDateForBackend(dateRange.from) : "",
         endDate: dateRange?.to ? formatDateForBackend(dateRange.to) : "",
       },
       postStatus: postStatus === "all" ? "" : postStatus,
@@ -998,7 +996,7 @@ export const MultiDashboard: React.FC = () => {
                           <div className="grid grid-cols-2 text-sm">
                             <div className="text-center border-r border-gray-300">
                               <span className="text-muted-foreground font-medium">
-                                Reviews / Reply
+                                Reviews / Replies
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.reviewCount || 0} /{" "}
@@ -1208,7 +1206,7 @@ export const MultiDashboard: React.FC = () => {
                           <div className="text-sm">
                             <div className="text-center">
                               <span className="text-muted-foreground font-medium">
-                                Reviews / Reply
+                                Reviews / Replies
                               </span>
                               <p className="font-semibold text-foreground">
                                 {listing.reviewReply}

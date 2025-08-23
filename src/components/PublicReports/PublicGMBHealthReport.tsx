@@ -196,7 +196,7 @@ export const PublicGMBHealthReport: React.FC = () => {
     >
       <div className="space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 w-full md:grid-cols-5 gap-4">
           {/* GMB Health Score */}
           <Card className="text-center">
             <CardContent className="p-6">
@@ -647,7 +647,7 @@ export const PublicGMBHealthReport: React.FC = () => {
             </div>
 
             {/* Competitor Table */}
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full">
                 <thead>
                   <tr className="bg-green-200">
@@ -815,7 +815,7 @@ export const PublicGMBHealthReport: React.FC = () => {
             </div>
 
             {/* Citation Table */}
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full">
                 <thead>
                   <tr className="bg-green-200">

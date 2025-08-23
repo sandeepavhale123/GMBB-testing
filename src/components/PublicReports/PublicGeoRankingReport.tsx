@@ -425,7 +425,7 @@ export const PublicGeoRankingReport: React.FC = () => {
       listingName={geoRankingData?.data.locationName}
       logo={geoRankingData?.data.companyLogo}
       address={geoRankingData?.data.address}
-      date={geoRankingData?.data?.reportDate}
+      date={keywordData?.data?.reportDate}
       visibleSections={visibleSections}
       token={reportId}
       compareDate={keywordData?.data?.compareDate}

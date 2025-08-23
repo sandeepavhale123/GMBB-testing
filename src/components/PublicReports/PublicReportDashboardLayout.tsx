@@ -163,11 +163,19 @@ export const PublicReportDashboardLayout: React.FC<
         >
           {/* Favicon at Top */}
           <div className="mb-4 sm:mb-6 lg:mb-8">
-            <img
-              src={lightLogo}
-              alt="Default Logo"
-              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
-            />
+            {branding?.company_logo ? (
+              <img
+                src={branding?.company_logo}
+                alt="Default Logo"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg shadow-lg object-cover"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">
+                <span className="text-lg font-bold text-white">
+                  {branding?.company_name?.charAt(0) || "C"}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Navigation Icons - Only show visible sections */}
@@ -204,7 +212,7 @@ export const PublicReportDashboardLayout: React.FC<
 
         {/* Main Content Area */}
         <div
-          className={`flex-1 flex flex-col transition-all duration-300 ${
+          className={`flex-1 flex flex-col transition-all duration-300 w-svw ${
             isMobile ? "ml-0" : "ml-16 sm:ml-16 lg:ml-24"
           }`}
         >
@@ -328,7 +336,9 @@ export const PublicReportDashboardLayout: React.FC<
               marginTop: "-100px",
             }}
           >
-            <div className={`container mx-auto p-4 lg:p-8`}>{children}</div>
+            <div className={`container mx-auto p-2 md:p-4 lg:p-8`}>
+              {children}
+            </div>
           </main>
 
           {/* CTA Section */}
@@ -354,9 +364,9 @@ export const PublicReportDashboardLayout: React.FC<
                       >
                         {branding?.company_logo ? (
                           <img
-                            src={darkLogo}
+                            src={branding?.company_logo}
                             alt="Company Logo"
-                            className="w-20 h-20 rounded-lg object-cover"
+                            className="w-20 h-20 rounded-lg object-cover bg-white"
                           />
                         ) : (
                           <div className="w-20 h-20 bg-white/20 rounded-lg flex items-center justify-center">

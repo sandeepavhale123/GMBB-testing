@@ -186,9 +186,9 @@ Thank you`);
 
       {/* Configuration Panel */}
       {enabled && (
-        <div className="space-y-8 bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in sm:p-6">
-          <div className="grid sm:grid-1 2xl:grid-cols-2">
-            <div className="p-4">
+        <div className=" bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in p-2 sm:p-6">
+          <div className=" sm:grid 2xl:grid-cols-2">
+            <div className="p-4 w-fit">
               {/* AI Response Style */}
               <div className="space-y-3 group mb-4">
                 <div className="flex items-center gap-2">
@@ -211,19 +211,13 @@ Thank you`);
                       </div>
                     </SelectItem>
                     <SelectItem value="friendly" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">
-                        Friendly
-                      </div>
+                      <div className="flex items-center gap-2">Friendly</div>
                     </SelectItem>
                     <SelectItem value="casual" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">
-                        Casual
-                      </div>
+                      <div className="flex items-center gap-2">Casual</div>
                     </SelectItem>
                     <SelectItem value="formal" className="hover:bg-muted/80">
-                      <div className="flex items-center gap-2">
-                        Formal
-                      </div>
+                      <div className="flex items-center gap-2">Formal</div>
                     </SelectItem>
                     <SelectItem
                       value="empathetic"
@@ -240,20 +234,20 @@ Thank you`);
 
               {/* Advanced Options Toggle */}
               <div className="space-y-3 group mb-4">
-                 <Card className="bg-gray-50 border border-gray-200 p-4 ">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm font-semibold text-foreground">
-                      Advanced Options
-                    </label>
+                <Card className="bg-gray-50 border border-gray-200 p-4 ">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-semibold text-foreground">
+                        Advanced Options
+                      </label>
+                    </div>
+                    <Switch
+                      checked={showAdvanced}
+                      onCheckedChange={setShowAdvanced}
+                      className="data-[state=checked]:bg-primary"
+                    />
                   </div>
-                  <Switch
-                    checked={showAdvanced}
-                    onCheckedChange={setShowAdvanced}
-                    className="data-[state=checked]:bg-primary"
-                  />
-                </div>
-                 </Card>
+                </Card>
               </div>
 
               {/* Apply For Section - Advanced */}
@@ -386,7 +380,7 @@ Thank you`);
 
                     <div className="space-y-4">
                       {/* User Profile Section */}
-                      <div className="flex items-start gap-4 p-4 bg-background/60 rounded-lg border border-border/40">
+                      <div className="flex items-start gap-4 p-4 bg-background/60 rounded-lg border border-border/40 flex-wrap">
                         <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-md">
                           <img src={review?.pro_photo} alt="profile" />
                         </div>
@@ -462,7 +456,7 @@ Thank you`);
             </div>
           </div>
           {/* Save Button */}
-          <div className="flex justify-end pt-4 border-t border-border/30">
+          <div className="flex justify-end  border-t border-border/30 mb-2">
             <Button
               className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8"
               onClick={handleSaveSettings}

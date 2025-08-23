@@ -4,23 +4,36 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Upload, Building, X, Star, TrendingUp, Users, Calendar, Loader2, Trash2 } from "lucide-react";
+import {
+  Upload,
+  Building,
+  X,
+  Star,
+  TrendingUp,
+  Users,
+  Calendar,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useGetReportBranding, useUpdateReportBranding, useDeleteReportBranding } from "@/hooks/useReportBranding";
+import {
+  useGetReportBranding,
+  useUpdateReportBranding,
+  useDeleteReportBranding,
+} from "@/hooks/useReportBranding";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { reportBrandingSchema, type ReportBrandingFormData } from "@/schemas/authSchemas";
+import {
+  reportBrandingSchema,
+  type ReportBrandingFormData,
+} from "@/schemas/authSchemas";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
 export const ReportBrandingPage: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
 
   // API hooks
-  const {
-    data: brandingData,
-    isLoading: isFetchingBranding
-  } = useGetReportBranding();
+  const { data: brandingData, isLoading: isFetchingBranding } =
+    useGetReportBranding();
   const updateBrandingMutation = useUpdateReportBranding();
   const deleteBrandingMutation = useDeleteReportBranding();
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -31,7 +44,7 @@ export const ReportBrandingPage: React.FC = () => {
     companyEmail: "",
     companyWebsite: "",
     companyPhone: "",
-    companyAddress: ""
+    companyAddress: "",
   });
   const validation = useFormValidation(reportBrandingSchema);
 
@@ -45,14 +58,17 @@ export const ReportBrandingPage: React.FC = () => {
         companyEmail: data.company_email || "",
         companyWebsite: data.company_website || "",
         companyPhone: data.company_phone || "",
-        companyAddress: data.company_address || ""
+        companyAddress: data.company_address || "",
       });
     }
   }, [brandingData]);
-  const handleInputChange = (field: keyof ReportBrandingFormData, value: string) => {
-    setFormData(prev => ({
+  const handleInputChange = (
+    field: keyof ReportBrandingFormData,
+    value: string
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +82,7 @@ export const ReportBrandingPage: React.FC = () => {
       toast({
         title: "File too large",
         description: "Logo file must be less than 2MB",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -74,14 +90,14 @@ export const ReportBrandingPage: React.FC = () => {
       toast({
         title: "Invalid file type",
         description: "Please upload an image file (PNG, JPG, SVG)",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
     setLogoFile(file);
     toast({
       title: "Report logo uploaded",
-      description: `${file.name} ready for use`
+      description: `${file.name} ready for use`,
     });
   };
   const handleDrop = (e: React.DragEvent) => {
@@ -103,7 +119,7 @@ export const ReportBrandingPage: React.FC = () => {
     setLogoFile(null);
     toast({
       title: "Report logo removed",
-      description: "Logo has been removed successfully"
+      description: "Logo has been removed successfully",
     });
   };
   const handleSaveChanges = async () => {
@@ -112,7 +128,7 @@ export const ReportBrandingPage: React.FC = () => {
       toast({
         title: "Error",
         description: "Please fix the validation errors",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -125,8 +141,8 @@ export const ReportBrandingPage: React.FC = () => {
         company_phone: validationResult.data!.companyPhone,
         company_address: validationResult.data!.companyAddress,
         ...(logoFile && {
-          company_logo: logoFile
-        })
+          company_logo: logoFile,
+        }),
       };
 
       // Console logging for debugging
@@ -155,26 +171,37 @@ export const ReportBrandingPage: React.FC = () => {
         companyEmail: "",
         companyWebsite: "",
         companyPhone: "",
-        companyAddress: ""
+        companyAddress: "",
       });
       setLogoFile(null);
     } catch (error) {
       // Error is handled by the mutation hook
     }
   };
-  return <div className="p-4 sm:p-6 max-w-6xl mx-auto ">
+  return (
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto ">
       <div className="flex items-center justify-between mb-6 flex-col gap-4 md:flex-row md:gap-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
             Report Branding
           </h1>
-          <p className="text-muted-foreground">Customize your company branding for the generated reports.</p>
+          <p className="text-muted-foreground">
+            Customize your company branding for the generated reports.
+          </p>
         </div>
         <div className="flex items-center gap-2">
-          {brandingData?.data && Object.keys(brandingData.data).length > 0 && <Button variant="outline" size="sm" onClick={() => setShowDeleteDialog(true)} className="text-destructive hover:text-destructive hover:bg-destructive/5" disabled={deleteBrandingMutation.isPending}>
+          {brandingData?.data && Object.keys(brandingData.data).length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowDeleteDialog(true)}
+              className="text-destructive hover:text-destructive hover:bg-destructive/5"
+              disabled={deleteBrandingMutation.isPending}
+            >
               <Trash2 className="w-4 h-4 mr-1" />
               Delete Branding
-            </Button>}
+            </Button>
+          )}
           <Badge variant="outline" className="text-primary border-primary/20">
             White Label
           </Badge>
@@ -195,78 +222,159 @@ export const ReportBrandingPage: React.FC = () => {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="company-name" className="text-sm font-medium">
+                      <Label
+                        htmlFor="company-name"
+                        className="text-sm font-medium"
+                      >
                         Company Name
                       </Label>
-                      <Input id="company-name" placeholder="Enter company name" value={formData.companyName} onChange={e => {
-                      handleInputChange("companyName", e.target.value);
-                      if (validation.hasFieldError("companyName")) {
-                        validation.clearFieldError("companyName");
-                      }
-                    }} className={validation.hasFieldError("companyName") ? "border-destructive" : ""} disabled={updateBrandingMutation.isPending} />
-                      {validation.hasFieldError("companyName") && <p className="text-xs text-destructive">
+                      <Input
+                        id="company-name"
+                        placeholder="Enter company name"
+                        value={formData.companyName}
+                        onChange={(e) => {
+                          handleInputChange("companyName", e.target.value);
+                          if (validation.hasFieldError("companyName")) {
+                            validation.clearFieldError("companyName");
+                          }
+                        }}
+                        className={
+                          validation.hasFieldError("companyName")
+                            ? "border-destructive"
+                            : ""
+                        }
+                        disabled={updateBrandingMutation.isPending}
+                      />
+                      {validation.hasFieldError("companyName") && (
+                        <p className="text-xs text-destructive">
                           {validation.getFieldError("companyName")}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company-email" className="text-sm font-medium">
+                      <Label
+                        htmlFor="company-email"
+                        className="text-sm font-medium"
+                      >
                         Company Email
                       </Label>
-                      <Input id="company-email" type="email" placeholder="company@example.com" value={formData.companyEmail} onChange={e => {
-                      handleInputChange("companyEmail", e.target.value);
-                      if (validation.hasFieldError("companyEmail")) {
-                        validation.clearFieldError("companyEmail");
-                      }
-                    }} className={validation.hasFieldError("companyEmail") ? "border-destructive" : ""} disabled={updateBrandingMutation.isPending} />
-                      {validation.hasFieldError("companyEmail") && <p className="text-xs text-destructive">
+                      <Input
+                        id="company-email"
+                        type="email"
+                        placeholder="company@example.com"
+                        value={formData.companyEmail}
+                        onChange={(e) => {
+                          handleInputChange("companyEmail", e.target.value);
+                          if (validation.hasFieldError("companyEmail")) {
+                            validation.clearFieldError("companyEmail");
+                          }
+                        }}
+                        className={
+                          validation.hasFieldError("companyEmail")
+                            ? "border-destructive"
+                            : ""
+                        }
+                        disabled={updateBrandingMutation.isPending}
+                      />
+                      {validation.hasFieldError("companyEmail") && (
+                        <p className="text-xs text-destructive">
                           {validation.getFieldError("companyEmail")}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company-website" className="text-sm font-medium">
+                      <Label
+                        htmlFor="company-website"
+                        className="text-sm font-medium"
+                      >
                         Company Website
                       </Label>
-                      <Input id="company-website" placeholder="https://www.company.com" value={formData.companyWebsite} onChange={e => {
-                      handleInputChange("companyWebsite", e.target.value);
-                      if (validation.hasFieldError("companyWebsite")) {
-                        validation.clearFieldError("companyWebsite");
-                      }
-                    }} className={validation.hasFieldError("companyWebsite") ? "border-destructive" : ""} disabled={updateBrandingMutation.isPending} />
-                      {validation.hasFieldError("companyWebsite") && <p className="text-xs text-destructive">
+                      <Input
+                        id="company-website"
+                        placeholder="https://www.company.com"
+                        value={formData.companyWebsite}
+                        onChange={(e) => {
+                          handleInputChange("companyWebsite", e.target.value);
+                          if (validation.hasFieldError("companyWebsite")) {
+                            validation.clearFieldError("companyWebsite");
+                          }
+                        }}
+                        className={
+                          validation.hasFieldError("companyWebsite")
+                            ? "border-destructive"
+                            : ""
+                        }
+                        disabled={updateBrandingMutation.isPending}
+                      />
+                      {validation.hasFieldError("companyWebsite") && (
+                        <p className="text-xs text-destructive">
                           {validation.getFieldError("companyWebsite")}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company-phone" className="text-sm font-medium">
+                      <Label
+                        htmlFor="company-phone"
+                        className="text-sm font-medium"
+                      >
                         Company Phone
                       </Label>
-                      <Input id="company-phone" placeholder="+1 (555) 123-4567" value={formData.companyPhone} onChange={e => {
-                      handleInputChange("companyPhone", e.target.value);
-                      if (validation.hasFieldError("companyPhone")) {
-                        validation.clearFieldError("companyPhone");
-                      }
-                    }} className={validation.hasFieldError("companyPhone") ? "border-destructive" : ""} disabled={updateBrandingMutation.isPending} />
-                      {validation.hasFieldError("companyPhone") && <p className="text-xs text-destructive">
+                      <Input
+                        id="company-phone"
+                        placeholder="+1 (555) 123-4567"
+                        value={formData.companyPhone}
+                        onChange={(e) => {
+                          handleInputChange("companyPhone", e.target.value);
+                          if (validation.hasFieldError("companyPhone")) {
+                            validation.clearFieldError("companyPhone");
+                          }
+                        }}
+                        className={
+                          validation.hasFieldError("companyPhone")
+                            ? "border-destructive"
+                            : ""
+                        }
+                        disabled={updateBrandingMutation.isPending}
+                      />
+                      {validation.hasFieldError("companyPhone") && (
+                        <p className="text-xs text-destructive">
                           {validation.getFieldError("companyPhone")}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company-address" className="text-sm font-medium">
+                      <Label
+                        htmlFor="company-address"
+                        className="text-sm font-medium"
+                      >
                         Company Address
                       </Label>
-                      <Input id="company-address" placeholder="123 Business St, City, State 12345" value={formData.companyAddress} onChange={e => {
-                      handleInputChange("companyAddress", e.target.value);
-                      if (validation.hasFieldError("companyAddress")) {
-                        validation.clearFieldError("companyAddress");
-                      }
-                    }} className={validation.hasFieldError("companyAddress") ? "border-destructive" : ""} disabled={updateBrandingMutation.isPending} />
-                      {validation.hasFieldError("companyAddress") && <p className="text-xs text-destructive">
+                      <Input
+                        id="company-address"
+                        placeholder="123 Business St, City, State 12345"
+                        value={formData.companyAddress}
+                        onChange={(e) => {
+                          handleInputChange("companyAddress", e.target.value);
+                          if (validation.hasFieldError("companyAddress")) {
+                            validation.clearFieldError("companyAddress");
+                          }
+                        }}
+                        className={
+                          validation.hasFieldError("companyAddress")
+                            ? "border-destructive"
+                            : ""
+                        }
+                        disabled={updateBrandingMutation.isPending}
+                      />
+                      {validation.hasFieldError("companyAddress") && (
+                        <p className="text-xs text-destructive">
                           {validation.getFieldError("companyAddress")}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     {/* Logo Upload Section */}
@@ -275,29 +383,77 @@ export const ReportBrandingPage: React.FC = () => {
                         <Label className="text-sm font-medium">
                           Company Logo
                         </Label>
-                        {logoFile && <Button variant="ghost" size="sm" onClick={removeLogo} className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" disabled={updateBrandingMutation.isPending}>
+                        {logoFile && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={removeLogo}
+                            className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                            disabled={updateBrandingMutation.isPending}
+                          >
                             <X className="w-4 h-4" />
-                          </Button>}
+                          </Button>
+                        )}
                       </div>
 
                       <div className="flex items-start gap-4">
-                        <div className={`w-20 h-20 border-2 border-dashed rounded-lg flex items-center justify-center transition-colors ${dragOver ? "border-primary bg-primary/5" : "border-border bg-muted/50"}`} onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
-                          {logoFile ? <img src={URL.createObjectURL(logoFile)} alt="Report logo preview" className="w-full h-full object-contain rounded p-1" /> : brandingData?.data?.company_logo ? <img src={brandingData.data.company_logo} alt="Current company logo" className="w-full h-full object-contain rounded p-1" /> : <Building className="w-6 h-6 text-muted-foreground" />}
+                        <div
+                          className={`w-20 h-20 border-2 border-dashed rounded-lg flex items-center justify-center transition-colors ${
+                            dragOver
+                              ? "border-primary bg-primary/5"
+                              : "border-border bg-muted/50"
+                          }`}
+                          onDrop={handleDrop}
+                          onDragOver={handleDragOver}
+                          onDragLeave={handleDragLeave}
+                        >
+                          {logoFile ? (
+                            <img
+                              src={URL.createObjectURL(logoFile)}
+                              alt="Report logo preview"
+                              className="w-full h-full object-contain rounded p-1"
+                            />
+                          ) : brandingData?.data?.company_logo ? (
+                            <img
+                              src={brandingData.data.company_logo}
+                              alt="Current company logo"
+                              className="w-full h-full object-contain rounded p-1"
+                            />
+                          ) : (
+                            <Building className="w-6 h-6 text-muted-foreground" />
+                          )}
                         </div>
 
                         <div className="flex-1">
                           <p className="text-xs text-muted-foreground mb-3">
-                            PNG, JPG, SVG up to 2MB. Recommended: 200x80px
+                            PNG, JPG, SVG up to 2MB. Recommended: 200 x 200px
                           </p>
 
-                          <input id="report-logo-upload" type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+                          <input
+                            id="report-logo-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleLogoUpload}
+                            className="hidden"
+                          />
 
-                          <Button variant="outline" size="sm" onClick={() => document.getElementById("report-logo-upload")?.click()} className="w-full" disabled={updateBrandingMutation.isPending}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              document
+                                .getElementById("report-logo-upload")
+                                ?.click()
+                            }
+                            className="w-full"
+                            disabled={updateBrandingMutation.isPending}
+                          >
                             <Upload className="w-4 h-4 mr-2" />
                             Choose Logo
                           </Button>
 
-                          {logoFile && <div className="text-sm text-muted-foreground mt-2">
+                          {logoFile && (
+                            <div className="text-sm text-muted-foreground mt-2">
                               <div className="flex items-center justify-between">
                                 <span className="truncate mr-2">
                                   Selected: {logoFile.name}
@@ -306,32 +462,47 @@ export const ReportBrandingPage: React.FC = () => {
                                   ✓ Ready
                                 </span>
                               </div>
-                            </div>}
+                            </div>
+                          )}
 
-                          {brandingData?.data?.company_logo && !logoFile && <div className="text-sm text-muted-foreground mt-2">
+                          {brandingData?.data?.company_logo && !logoFile && (
+                            <div className="text-sm text-muted-foreground mt-2">
                               <span className="text-xs text-blue-600">
                                 ✓ Current logo uploaded
                               </span>
-                            </div>}
+                            </div>
+                          )}
                         </div>
                       </div>
 
-                      {dragOver && <div className="text-center p-2 bg-primary/5 border border-primary/20 rounded">
+                      {dragOver && (
+                        <div className="text-center p-2 bg-primary/5 border border-primary/20 rounded">
                           <p className="text-sm text-primary">
                             Drop logo here to upload
                           </p>
-                        </div>}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-end">
-                <Button onClick={handleSaveChanges} disabled={updateBrandingMutation.isPending || isFetchingBranding} className="min-w-[120px]">
-                  {updateBrandingMutation.isPending ? <>
+                <Button
+                  onClick={handleSaveChanges}
+                  disabled={
+                    updateBrandingMutation.isPending || isFetchingBranding
+                  }
+                  className="min-w-[120px]"
+                >
+                  {updateBrandingMutation.isPending ? (
+                    <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Saving...
-                    </> : "Save Changes"}
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </Button>
               </div>
             </div>
@@ -347,9 +518,23 @@ export const ReportBrandingPage: React.FC = () => {
                     <div className="border-b pb-4">
                       <div className="flex items-start justify-between mb-2 flex-col gap-4 xxl:item-center xxl:flex-row xxl:gap-0">
                         <div className="flex items-center gap-3 flex-col xl:flex-row">
-                          {logoFile ? <img src={URL.createObjectURL(logoFile)} alt="Company logo" className="h-12 object-contain" /> : brandingData?.data?.company_logo ? <img src={brandingData.data.company_logo} alt="Company logo" className="h-12 object-contain" /> : <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
+                          {logoFile ? (
+                            <img
+                              src={URL.createObjectURL(logoFile)}
+                              alt="Company logo"
+                              className="h-12 object-contain"
+                            />
+                          ) : brandingData?.data?.company_logo ? (
+                            <img
+                              src={brandingData.data.company_logo}
+                              alt="Company logo"
+                              className="h-12 object-contain"
+                            />
+                          ) : (
+                            <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
                               <Building className="w-6 h-6 text-muted-foreground" />
-                            </div>}
+                            </div>
+                          )}
                           <div>
                             <h3 className="font-semibold text-lg">
                               {formData.companyName || "Your Company Name"}
@@ -397,10 +582,16 @@ export const ReportBrandingPage: React.FC = () => {
                         Performance Chart
                       </p>
                       <div className="h-24 bg-gradient-to-r from-blue-100 to-green-100 rounded flex items-end justify-center space-x-1 p-2">
-                        {[40, 60, 45, 80, 65, 85, 75].map((height, index) => <div key={index} className="bg-blue-500 rounded-t" style={{
-                        height: `${height}%`,
-                        width: "12px"
-                      }} />)}
+                        {[40, 60, 45, 80, 65, 85, 75].map((height, index) => (
+                          <div
+                            key={index}
+                            className="bg-blue-500 rounded-t"
+                            style={{
+                              height: `${height}%`,
+                              width: "12px",
+                            }}
+                          />
+                        ))}
                       </div>
                     </div>
 
@@ -415,7 +606,8 @@ export const ReportBrandingPage: React.FC = () => {
                         </div>
                         <div className="text-right">
                           <p>
-                            {formData.companyAddress || "123 Business St, City, State"}
+                            {formData.companyAddress ||
+                              "123 Business St, City, State"}
                           </p>
                           <p className="flex items-center gap-1 justify-end mt-1">
                             <Calendar className="w-3 h-3" />
@@ -448,17 +640,30 @@ export const ReportBrandingPage: React.FC = () => {
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button variant="outline" onClick={() => setShowDeleteDialog(false)} disabled={deleteBrandingMutation.isPending}>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+              disabled={deleteBrandingMutation.isPending}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDeleteBranding} disabled={deleteBrandingMutation.isPending}>
-              {deleteBrandingMutation.isPending ? <>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteBranding}
+              disabled={deleteBrandingMutation.isPending}
+            >
+              {deleteBrandingMutation.isPending ? (
+                <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Deleting...
-                </> : "Delete Branding"}
+                </>
+              ) : (
+                "Delete Branding"
+              )}
             </Button>
           </div>
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };

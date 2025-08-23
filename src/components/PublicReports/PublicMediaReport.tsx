@@ -224,7 +224,6 @@ export const PublicMediaReport: React.FC = () => {
                         dataKey="previousUploads"
                         stroke="#f97316"
                         strokeWidth={2}
-                        strokeDasharray="5 5"
                         name="Previous Period Uploads"
                       />
                     )}
