@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { PublicMultiDashboardLayout } from "./PublicMultiDashboardLayout";
 import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 import { usePublicMultiDashboard } from "@/hooks/usePublicMultiDashboard";
+import { useDebounce } from "@/hooks/useDebounce";
 import {
   Search,
   BarChart3,
@@ -15,6 +16,9 @@ import {
   List,
   MapPin,
   Phone,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +30,67 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { PostCard } from "@/components/Posts/PostCard";
+import { PostListItem } from "@/components/Posts/PostListItem";
+import { transformPostDashboardPost } from "@/types/postTypes";
+import type { DateRange } from "react-day-picker";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+// Dummy data
+const DUMMY_CATEGORIES = ["Restaurant", "Retail", "Healthcare", "Automotive", "Professional Services"];
+const DUMMY_STATES = ["California", "Texas", "Florida", "New York", "Illinois"];
+
+const DUMMY_LISTINGS = Array.from({ length: 24 }, (_, i) => ({
+  id: i + 1,
+  listingId: `GMB${String(i + 1).padStart(3, '0')}`,
+  locationName: `Business Location ${i + 1}`,
+  category: DUMMY_CATEGORIES[i % DUMMY_CATEGORIES.length],
+  address: `${100 + i} Main St, City ${i + 1}`,
+  city: `City ${i + 1}`,
+  state: DUMMY_STATES[i % DUMMY_STATES.length],
+  zipCode: `${10000 + i}`,
+  phone: `(555) ${String(i + 100).slice(-3)}-${String((i * 1234) % 10000).padStart(4, '0')}`,
+  rating: (3.5 + (i % 3) * 0.5).toFixed(1),
+  reviewCount: 50 + (i * 13) % 200,
+  replyCount: 30 + (i * 7) % 150,
+  reviewReply: `${50 + (i * 13) % 200} / ${30 + (i * 7) % 150}`,
+  lastPost: ["Yesterday", "2 days ago", "1 week ago", "2 weeks ago"][i % 4],
+  upcomingPost: ["Today", "Tomorrow", "Next week", "Next month"][i % 4],
+  status: "Active",
+  visibility: {
+    search_views: 1000 + (i * 127) % 2000,
+    maps_views: 500 + (i * 89) % 1500,
+    total_views: 1500 + (i * 216) % 3500
+  },
+  customer_actions: {
+    phone_calls: 10 + (i * 7) % 50,
+    website_clicks: 20 + (i * 11) % 100,
+    direction_requests: 15 + (i * 5) % 75
+  },
+  sentiment: {
+    positive: 40 + (i * 3) % 80,
+    neutral: 5 + (i * 2) % 20,
+    negative: 2 + i % 10
+  },
+  autoReplyStatus: i % 2 === 0 ? "ON" : "OFF",
+  photoCount: 10 + (i * 3) % 50,
+  isSync: i % 5 === 0 ? 1 : 0
+}));
+
+const DUMMY_POSTS = Array.from({ length: 12 }, (_, i) => ({
+  id: i + 1,
+  content: `Post content ${i + 1} - Sample post text for demonstration`,
+  status: ["live", "scheduled", "failed"][i % 3],
+  scheduledDate: new Date(Date.now() + (i * 24 * 60 * 60 * 1000)).toISOString().split('T')[0],
+  location: `Business Location ${(i % 6) + 1}`,
+  media: []
+}));
 
 export const PublicMultiDashboardReport: React.FC = () => {
   const { token } = useParams<{ token: string }>();
