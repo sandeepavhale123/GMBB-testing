@@ -10,6 +10,12 @@ export const ComingSoonPage: React.FC = () => {
         <p className="text-lg text-muted-foreground">
           We're working hard to bring you this exciting new feature.
         </p>
+        <button
+          onClick={() => window.location.href = 'https://old.gmbbriefcase.com/login'}
+          className="mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+        >
+          Back to Old version
+        </button>
       </div>
     </div>
   );
