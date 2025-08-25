@@ -13,6 +13,8 @@ import {
   Loader2,
   Grid3X3,
   List,
+  MapPin,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -232,7 +234,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
             </div>
 
             {/* Listing Cards */}
-            <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+            <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}`}>
               {[
                 {
                   id: 1,
@@ -242,7 +244,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 128,
                   category: "Restaurant",
                   status: "Active",
-                  phone: "(555) 123-4567"
+                  phone: "(555) 123-4567",
+                  listingId: "GMB001",
+                  storeCode: "DTR-001",
+                  profilePhoto: null,
+                  totalListings: 15,
+                  lastPost: "2 days ago",
+                  upcomingPost: "Tomorrow",
+                  visibility: 4250,
+                  completeness: 95
                 },
                 {
                   id: 2,
@@ -252,7 +262,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 89,
                   category: "Cafe",
                   status: "Active",
-                  phone: "(555) 987-6543"
+                  phone: "(555) 987-6543",
+                  listingId: "GMB002",
+                  storeCode: "CCC-002",
+                  profilePhoto: null,
+                  totalListings: 8,
+                  lastPost: "1 day ago",
+                  upcomingPost: "Today",
+                  visibility: 3150,
+                  completeness: 88
                 },
                 {
                   id: 3,
@@ -262,7 +280,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 45,
                   category: "Service",
                   status: "Active",
-                  phone: "(555) 456-7890"
+                  phone: "(555) 456-7890",
+                  listingId: "GMB003",
+                  storeCode: "TSH-003",
+                  profilePhoto: null,
+                  totalListings: 12,
+                  lastPost: "3 days ago",
+                  upcomingPost: "Next week",
+                  visibility: 2890,
+                  completeness: 92
                 },
                 {
                   id: 4,
@@ -272,7 +298,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 167,
                   category: "Healthcare",
                   status: "Active",
-                  phone: "(555) 234-5678"
+                  phone: "(555) 234-5678",
+                  listingId: "GMB004",
+                  storeCode: "WSC-004",
+                  profilePhoto: null,
+                  totalListings: 6,
+                  lastPost: "4 days ago",
+                  upcomingPost: "This week",
+                  visibility: 3750,
+                  completeness: 97
                 },
                 {
                   id: 5,
@@ -282,7 +316,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 92,
                   category: "Retail",
                   status: "Active",
-                  phone: "(555) 345-6789"
+                  phone: "(555) 345-6789",
+                  listingId: "GMB005",
+                  storeCode: "FB-005",
+                  profilePhoto: null,
+                  totalListings: 9,
+                  lastPost: "1 week ago",
+                  upcomingPost: "Next month",
+                  visibility: 2234,
+                  completeness: 85
                 },
                 {
                   id: 6,
@@ -292,56 +334,201 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   reviews: 73,
                   category: "Service",
                   status: "Active",
-                  phone: "(555) 678-9012"
+                  phone: "(555) 678-9012",
+                  listingId: "GMB006",
+                  storeCode: "ARS-006",
+                  profilePhoto: null,
+                  totalListings: 11,
+                  lastPost: "5 days ago",
+                  upcomingPost: "End of month",
+                  visibility: 1980,
+                  completeness: 78
                 }
-              ].map((listing) => (
-                <div
-                  key={listing.id}
-                  className="bg-card border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-foreground mb-1">
-                        {listing.name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {listing.category}
-                      </p>
+              ].map((listing) => 
+                viewMode === 'grid' ? (
+                  <div
+                    key={listing.id}
+                    className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-primary/20 flex flex-col"
+                  >
+                    {/* Header with Logo and Title */}
+                    <div className="flex items-start gap-4 mb-4 relative">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                        <Building2 className="w-6 h-6 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-foreground text-lg leading-tight mb-1 truncate">
+                          {listing.name}
+                        </h4>
+                        <p className="text-xs text-muted-foreground">
+                          ID: {listing.listingId}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {listing.storeCode && (
+                          <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                            {listing.storeCode}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      listing.status === 'Active' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {listing.status}
-                    </span>
-                  </div>
-                  
-                  <div className="space-y-2 mb-4">
-                    <p className="text-sm text-muted-foreground flex items-center">
-                      <Building2 className="w-4 h-4 mr-2" />
-                      {listing.address}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {listing.phone}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                      <span className="text-sm font-medium">{listing.rating}</span>
-                      <span className="text-sm text-muted-foreground ml-1">
-                        ({listing.reviews} reviews)
-                      </span>
+
+                    {/* Address & Contact */}
+                    <div className="mb-4 space-y-3">
+                      <div className="flex items-start gap-3">
+                        <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-foreground font-medium">
+                            {listing.address}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span className="text-sm text-foreground font-medium">
+                            {listing.phone}
+                          </span>
+                        </div>
+                        <span className="text-xs text-muted-foreground font-medium bg-muted/50 px-2 py-1 rounded">
+                          {listing.category}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <MessageSquare className="w-4 h-4 mr-1" />
-                      View Details
+
+                    {/* Stats Grid */}
+                    <div className="mb-4 grid grid-cols-2 gap-3">
+                      <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 rounded-lg p-3 text-center">
+                        <div className="text-lg font-bold text-blue-700 dark:text-blue-300">
+                          {listing.reviews}
+                        </div>
+                        <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                          Reviews
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 rounded-lg p-3 text-center">
+                        <div className="text-lg font-bold text-green-700 dark:text-green-300">
+                          {listing.rating}
+                        </div>
+                        <div className="text-xs text-green-600 dark:text-green-400 font-medium">
+                          Rating
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Additional Stats */}
+                    <div className="mb-5 space-y-2">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground font-medium">
+                          Visibility:
+                        </span>
+                        <span className="text-foreground font-medium">
+                          {listing.visibility.toLocaleString()} views
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground font-medium">
+                          Complete:
+                        </span>
+                        <span className="text-foreground font-medium">
+                          {listing.completeness}%
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Footer Action */}
+                    <div className="mt-auto pt-4 border-t border-border">
+                      <div className="flex items-center justify-between gap-3 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                          <span className="font-semibold text-green-600">
+                            {listing.rating}
+                          </span>
+                        </div>
+                        <div className="text-center min-w-0">
+                          <div className="font-semibold text-foreground">
+                            {listing.reviews}
+                          </div>
+                          <div className="text-muted-foreground">
+                            Reviews
+                          </div>
+                        </div>
+                        <div className="text-center min-w-0">
+                          <div className="font-semibold text-foreground truncate">
+                            {listing.lastPost}
+                          </div>
+                          <div className="text-muted-foreground">
+                            Last Post
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ) : (
+                  // List View
+                  <div
+                    key={listing.id}
+                    className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-4 flex items-center gap-4">
+                      {/* Logo */}
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/20">
+                        <Building2 className="w-6 h-6 text-primary" />
+                      </div>
+
+                      {/* Basic Info */}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold text-foreground text-sm truncate">
+                            {listing.name}
+                          </h4>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          ID: {listing.listingId}
+                        </p>
+                        {listing.storeCode && (
+                          <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                            {listing.storeCode}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Dashboard Stats */}
+                      <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">
+                        <div className="flex items-center gap-2">
+                          <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                          <span className="font-semibold text-green-600">
+                            {listing.rating}
+                          </span>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-semibold text-foreground">
+                            {listing.reviews}
+                          </div>
+                          <div className="text-muted-foreground">
+                            Reviews
+                          </div>
+                        </div>
+                        <div className="text-center min-w-0">
+                          <div className="font-semibold text-foreground truncate">
+                            {listing.lastPost}
+                          </div>
+                          <div className="text-muted-foreground">
+                            Last Post
+                          </div>
+                        </div>
+                        <div className="text-center min-w-0">
+                          <div className="font-semibold text-foreground truncate">
+                            {listing.upcomingPost}
+                          </div>
+                          <div className="text-muted-foreground">
+                            Upcoming
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
