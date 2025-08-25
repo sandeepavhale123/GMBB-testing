@@ -24,8 +24,12 @@ export const UserProfileDropdown: React.FC = () => {
   };
 
   const handleViewProfile = () => {
+    const isDashboardType2 = profileData?.dashboardType === 2;
     const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
-    if (isInMainDashboard) {
+    
+    if (isDashboardType2) {
+      navigate('/geo-ranking-dashboard/profile');
+    } else if (isInMainDashboard) {
       navigate('/main-dashboard/profile');
     } else {
       navigate('/profile');
@@ -35,7 +39,8 @@ export const UserProfileDropdown: React.FC = () => {
   // Helper function to check if user role should be restricted
   const shouldHideAccountSettings = () => {
     const userRole = profileData?.role?.toLowerCase();
-    return userRole === 'staff' || userRole === 'client';
+    const isDashboardType2 = profileData?.dashboardType === 2;
+    return userRole === 'staff' || userRole === 'client' || isDashboardType2;
   };
 
   // Get user info from profile data

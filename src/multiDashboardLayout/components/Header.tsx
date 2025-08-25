@@ -7,11 +7,19 @@ import { NotificationsMegaMenu } from "./NotificationsMegaMenu";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
 import { useAppSelector } from "@/hooks/useRedux";
 import { useNavigate } from "react-router-dom";
+import { useProfile } from "@/hooks/useProfile";
 
 export const Header: React.FC = () => {
   const logoData = useThemeLogo();
   const theme = useAppSelector((state) => state.theme);
   const navigate = useNavigate();
+  const { profileData } = useProfile();
+
+  const getBackToOldVersionUrl = () => {
+    return profileData?.dashboardType === 2 
+      ? "https://old.gmbbriefcase.com/login"
+      : "https://member.gmbbriefcase.com/login";
+  };
 
   return (
     <header
@@ -32,9 +40,7 @@ export const Header: React.FC = () => {
             variant="secondary"
             size="sm"
             className="bg-white text-foreground hover:bg-gray-50"
-            onClick={() =>
-              (window.location.href = "https://member.gmbbriefcase.com/login")
-            }
+            onClick={() => (window.location.href = getBackToOldVersionUrl())}
           >
             <span className="hidden md:block ml-1">Back to old version </span>
             <ExternalLink className="w-4 h-4" />

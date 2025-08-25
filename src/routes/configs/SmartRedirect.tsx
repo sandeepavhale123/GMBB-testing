@@ -63,6 +63,9 @@ export const SmartRedirect = () => {
           if (profile.dashboardType === 1) {
             console.log("SmartRedirect: Redirecting to main-dashboard");
             setRedirectPath("/main-dashboard");
+          } else if (profile.dashboardType === 2) {
+            console.log("SmartRedirect: Redirecting to geo-ranking-dashboard");
+            setRedirectPath("/geo-ranking-dashboard");
           } else {
             console.log("SmartRedirect: Redirecting to location-dashboard");
             // dashboardType === 0 or default case

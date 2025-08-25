@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { useProfile } from "../../hooks/useProfile";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import {
@@ -42,7 +43,11 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
   onInputChange,
 }) => {
   const [timezoneOpen, setTimezoneOpen] = useState(false);
+  const { profileData } = useProfile();
+  
   const isAdmin = userRole === "admin";
+  const currentDashboardType = profileData?.dashboardType || parseInt(formData.dashboardType);
+  const shouldShowDashboardType = isAdmin && (currentDashboardType === 0 || currentDashboardType === 1);
 
   return (
     <Card className="shadow-lg border-0">
@@ -54,7 +59,7 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
       <CardContent className="space-y-4">
         <div
           className={`grid grid-cols-1 gap-4 ${
-            isAdmin ? "md:grid-cols-2" : "md:grid-cols-1"
+            shouldShowDashboardType ? "md:grid-cols-2" : "md:grid-cols-1"
           }`}
         >
           {/* Timezone with Search */}
@@ -110,8 +115,8 @@ export const ProfilePreferencesForm: React.FC<ProfilePreferencesFormProps> = ({
             </Popover>
           </div>
 
-          {/* Dashboard Type - Only show for admin users */}
-          {isAdmin && (
+          {/* Dashboard Type - Only show for admin users with dashboard type 0 or 1 */}
+          {shouldShowDashboardType && (
             <div>
               <Label
                 htmlFor="dashboardType"

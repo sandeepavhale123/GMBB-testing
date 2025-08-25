@@ -5,6 +5,7 @@ import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/NotFound";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { RoleProtectedRoute } from "@/routes/RoleProtectedRoute";
+import { DashboardTypeGuard } from "@/routes/guards/DashboardTypeGuard";
 import { RouteConfig } from "../routeConfig";
 import { ManageGoogleAccountPage } from "@/components/Settings/ManageGoogleAccountPage";
 import { SubscriptionPage } from "@/components/Settings/SubscriptionPage";
@@ -22,9 +23,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/profile",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <Profile />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <Profile />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -32,9 +35,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/profile/:listingId", // 🔥 Add this dynamic route
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <Profile />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <Profile />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -42,9 +47,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/reports",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <ReportsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <ReportsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -52,9 +59,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/reports/:listingId",
     element: (
       <ProtectedRoute>
-        <ListingProvider>
-          <ReportsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <ReportsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -62,7 +71,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/analytics",
     element: (
       <ProtectedRoute>
-        <AnalyticsPage />
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <AnalyticsPage />
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -70,7 +81,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/team",
     element: (
       <ProtectedRoute>
-        <TeamPage />
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <TeamPage />
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -78,9 +91,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -88,9 +103,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/google-account",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -98,9 +115,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/subscription",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -108,9 +127,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/theme-customization",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -118,9 +139,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/report-branding",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -128,7 +151,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <SettingsPage />
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
@@ -136,9 +161,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/integrations",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -146,9 +173,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/team-members",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -156,9 +185,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/listings/:accountId",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -166,9 +197,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/team-members/edit/:memberId",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -176,9 +209,11 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/:listingId",
     element: (
       <RoleProtectedRoute>
-        <ListingProvider>
-          <SettingsPage />
-        </ListingProvider>
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <ListingProvider>
+            <SettingsPage />
+          </ListingProvider>
+        </DashboardTypeGuard>
       </RoleProtectedRoute>
     ),
   },
@@ -202,7 +237,9 @@ export const generalRoutes: RouteConfig[] = [
     path: "/gmb-health",
     element: (
       <ProtectedRoute>
-        <GMBHealthPage />
+        <DashboardTypeGuard requiredDashboardType={0}>
+          <GMBHealthPage />
+        </DashboardTypeGuard>
       </ProtectedRoute>
     ),
   },
