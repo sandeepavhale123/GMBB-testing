@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAppSelector } from '@/hooks/useRedux';
 import { useThemeLogo } from '@/hooks/useThemeLogo';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 interface PublicMultiDashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -9,13 +11,26 @@ export const PublicMultiDashboardLayout: React.FC<PublicMultiDashboardLayoutProp
 }) => {
   const theme = useAppSelector(state => state.theme);
   const logoData = useThemeLogo();
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
   return <div className="min-h-screen flex flex-col" >
       {/* Simplified Header - Only Logo */}
       <header className="w-full px-4 py-3 border-b border-border" style={{
     backgroundColor: theme.bg_color || 'hsl(var(--background))'
   }}>
-        <div className="max-w-7xl mx-auto flex items-center">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <img src={logoData.darkLogo} alt="Logo" className="h-10 w-auto" />
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleLoginClick}
+            className="ml-4"
+          >
+            Login
+          </Button>
         </div>
       </header>
 
