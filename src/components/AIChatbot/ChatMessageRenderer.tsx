@@ -1,6 +1,10 @@
-
-import React from 'react';
-import { parseChatMessage, hasMarkdownTable, parseMarkdownTable, ContentSection } from '../../utils/chatMessageParser';
+import React from "react";
+import {
+  parseChatMessage,
+  hasMarkdownTable,
+  parseMarkdownTable,
+  ContentSection,
+} from "../../utils/chatMessageParser";
 
 interface ChatMessageRendererProps {
   content: string;
@@ -40,24 +44,27 @@ const renderTable = (tableData: string[][], index: number) => (
   </div>
 );
 
-export const ChatMessageRenderer: React.FC<ChatMessageRendererProps> = ({ 
-  content, 
-  className = "" 
+export const ChatMessageRenderer: React.FC<ChatMessageRendererProps> = ({
+  content,
+  className = "",
 }) => {
   const parsedContent = parseChatMessage(content);
-  
+
   // Check if content has markdown tables
   if (hasMarkdownTable(parsedContent)) {
     const sections = parseMarkdownTable(parsedContent);
-    
+
     return (
       <div className={`whitespace-pre-wrap ${className}`}>
         {sections.map((section, index) => {
-          if (section.type === 'table' && section.tableData) {
+          if (section.type === "table" && section.tableData) {
             return renderTable(section.tableData, index);
           } else {
             return (
-              <div key={`text-${index}`} className={index > 0 ? "mt-4" : ""}>
+              <div
+                key={`text-${index}`}
+                className={index > 0 ? "mt-4 break-all" : ""}
+              >
                 {section.content}
               </div>
             );
@@ -66,11 +73,9 @@ export const ChatMessageRenderer: React.FC<ChatMessageRendererProps> = ({
       </div>
     );
   }
-  
+
   // For non-table content, render normally with preserved formatting
   return (
-    <div className={`whitespace-pre-wrap ${className}`}>
-      {parsedContent}
-    </div>
+    <div className={`whitespace-pre-wrap ${className}`}>{parsedContent}</div>
   );
 };
