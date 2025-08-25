@@ -828,18 +828,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
                         </>
                       )}
 
-                      {/* Action Button */}
-                      <div className="flex justify-end mt-auto">
-                        <Button
-                          variant="default"
-                          size="sm"
-                          disabled
-                          className="w-full gap-2 opacity-50 cursor-not-allowed"
-                        >
-                          View Details
-                          <ExternalLink className="w-4 h-4" />
-                        </Button>
-                      </div>
                     </div>
                   ))}
                 </div>
@@ -995,19 +983,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
                               </div>
                             </>
                           )}
-                        </div>
-
-                        {/* Action Button */}
-                        <div className="flex-shrink-0">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            disabled
-                            className="opacity-50 cursor-not-allowed"
-                          >
-                            View Details
-                            <ExternalLink className="w-3 h-3 ml-2" />
-                          </Button>
                         </div>
                       </div>
                     </div>
