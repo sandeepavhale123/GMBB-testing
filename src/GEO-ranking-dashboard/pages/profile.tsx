@@ -16,7 +16,7 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6 py-5">
       {/* Page Title and Subtext */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
