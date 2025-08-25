@@ -24,8 +24,12 @@ export const UserProfileDropdown: React.FC = () => {
   };
 
   const handleViewProfile = () => {
+    const isDashboardType2 = profileData?.dashboardType === 2;
     const isInMainDashboard = location.pathname.startsWith('/main-dashboard');
-    if (isInMainDashboard) {
+    
+    if (isDashboardType2) {
+      navigate('/geo-ranking-dashboard/profile');
+    } else if (isInMainDashboard) {
       navigate('/main-dashboard/profile');
     } else {
       navigate('/profile');
