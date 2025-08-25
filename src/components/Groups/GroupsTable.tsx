@@ -27,8 +27,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Edit2, Trash2 } from 'lucide-react';
-import { GroupsList, useDeleteGroupMutation, useDeleteGroupsMutation } from '@/api/listingsGroupsApi';
+import { Eye, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { GroupsList, useDeleteGroupsMutation } from '@/api/listingsGroupsApi';
 import { toast } from '@/hooks/use-toast';
 
 interface PaginationProps {
@@ -41,7 +42,6 @@ interface PaginationProps {
 interface GroupsTableProps {
   groups: GroupsList[];
   isLoading: boolean;
-  onEdit: (group: GroupsList) => void;
   onDelete: (groupId: string) => void;
   onBulkDelete?: (groupIds: string[]) => void;
   pagination?: PaginationProps;
@@ -52,13 +52,13 @@ interface GroupsTableProps {
 export const GroupsTable: React.FC<GroupsTableProps> = ({
   groups,
   isLoading,
-  onEdit,
   onDelete,
   onBulkDelete,
   pagination,
   currentPage = 1,
   onPageChange
 }) => {
+  const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState<GroupsList | null>(null);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
@@ -226,10 +226,10 @@ export const GroupsTable: React.FC<GroupsTableProps> = ({
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => onEdit(group)}
+                      onClick={() => navigate(`/main-dashboard/settings/manage-groups/${group.id}`)}
                       className="h-8 w-8 hover:bg-accent"
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <Eye className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"

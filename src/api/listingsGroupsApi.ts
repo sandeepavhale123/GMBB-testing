@@ -73,12 +73,32 @@ export interface DeleteGroupsResponse {
   };
 }
 
+// Remove GroupDetailsLocation and use LocationGroup instead
+
+export interface GetGroupDetailsRequest {
+  groupId: number;
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface GetGroupDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    groupName: string;
+    listings: LocationGroup[];
+    pagination: PaginationData;
+  };
+}
+
 export interface LocationGroup {
   id: string;
   locationName: string;
   zipCode: string;
   google_account_id: string;
   name: string;
+  email?: string;
 }
 
 export interface GetGroupsListingResponse {
@@ -88,6 +108,43 @@ export interface GetGroupsListingResponse {
     locationGroups: {
       [email: string]: LocationGroup[];
     };
+  };
+}
+
+export interface AvailableGroupListingsRequest {
+  groupId: number;
+}
+
+export interface AvailableListingLocation {
+  id: string;
+  locationName: string;
+  zipCode: string;
+  google_account_id: string;
+  name: string;
+  alreadyAdded: boolean;
+}
+
+export interface AvailableGroupListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    locationGroups: {
+      [email: string]: AvailableListingLocation[];
+    };
+  };
+}
+
+export interface AddListingsToGroupRequest {
+  groupId: number;
+  google_locid: number[];
+}
+
+export interface UpdateGroupListingsResponse {
+  code: number;
+  message: string;
+  data: {
+    groupId: number;
+    totalListings: number;
   };
 }
 
@@ -156,6 +213,21 @@ export const listingsGroupsApi = createApi({
       }),
       invalidatesTags: ['Groups'],
     }),
+    getAvailableGroupListings: builder.mutation<AvailableGroupListingsResponse, AvailableGroupListingsRequest>({
+      query: (data) => ({
+        url: '/availalble-group-listings',
+        method: 'POST',
+        data,
+      }),
+    }),
+    updateGroupListings: builder.mutation<UpdateGroupListingsResponse, AddListingsToGroupRequest>({
+      query: (data) => ({
+        url: '/update-group-listings',
+        method: 'POST',
+        data,
+      }),
+      invalidatesTags: ['Groups'],
+    }),
   }),
 });
 
@@ -166,5 +238,7 @@ export const {
   useCreateGroupMutation,
   useUpdateGroupMutation,
   useDeleteGroupMutation,
-  useDeleteGroupsMutation
+  useDeleteGroupsMutation,
+  useGetAvailableGroupListingsMutation,
+  useUpdateGroupListingsMutation
 } = listingsGroupsApi;
