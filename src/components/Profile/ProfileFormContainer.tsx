@@ -100,12 +100,13 @@ export const ProfileFormContainer: React.FC = () => {
       });
 
       // Check if we need to redirect to multi-dashboard
-      const shouldRedirect = 
-        initialDashboardType === "0" && 
-        formData.dashboardType === "1";
+      const shouldRedirect =
+        initialDashboardType === "0" && formData.dashboardType === "1";
 
       if (shouldRedirect) {
         navigate("/main-dashboard");
+      } else {
+        navigate("/location-dashboard");
       }
     } catch (error) {
       toast({

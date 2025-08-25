@@ -31,6 +31,7 @@ import {
   MapPin,
   TrendingUp,
   Loader2,
+  X,
 } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 import { useListingContext } from "@/context/ListingContext";
@@ -43,6 +44,13 @@ import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
 import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
+import { FaComments, FaEdit, FaQuestion } from "react-icons/fa";
+
+declare global {
+  interface Window {
+    $crisp: any;
+  }
+}
 
 // Lazy load heavy components for better performance
 const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
@@ -109,6 +117,7 @@ export const Dashboard: React.FC = () => {
 
   console.log("listingid", selectedListing?.id);
   console.log("listings", listings);
+
   // Fetch insights data when insights tab is active and listing is selected
   React.useEffect(() => {
     if (activeTab === "insights" && selectedListing?.id) {
@@ -137,6 +146,49 @@ export const Dashboard: React.FC = () => {
       setIsCreateModalOpen(true);
     }
   }, [shouldOpenCreatePost, selectedMedia]);
+
+  useEffect(() => {
+    if (window.$crisp) {
+      window.$crisp.push(["do", "chat:hide"]); // Hide on dashboard
+    }
+
+    return () => {
+      if (window.$crisp) {
+        window.$crisp.push(["do", "chat:show"]); // Restore when leaving
+      }
+    };
+  }, []);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [open, setOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+
+  // Open Crisp chat
+  const openChat = () => {
+    console.log("on click chat", chatOpen);
+    if (!chatOpen) {
+      window.$crisp?.push(["do", "chat:show"]);
+      window.$crisp.push(["do", "chat:open"]);
+      setChatOpen(true);
+    }
+  };
+
+  // Close Crisp chat
+  const closeChat = () => {
+    if (chatOpen) {
+      window.$crisp.push(["do", "chat:close"]);
+      setChatOpen(false);
+    }
+  };
+
+  const toggleMainFab = () => {
+    if (open) {
+      setOpen(false);
+      closeChat();
+    } else {
+      setOpen(true);
+    }
+  };
 
   const handleApprovePost = (post: any) => {
     console.log("🎯 Dashboard handleApprovePost called with:", post);
@@ -397,6 +449,33 @@ export const Dashboard: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <div className="fixed bottom-6 right-6 flex flex-col items-end space-y-3">
+        {/* Small action buttons */}
+        {open && (
+          <div className="flex flex-col items-end space-y-3 mb-2">
+            <button
+              onClick={openChat}
+              className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700"
+            >
+              <FaComments size={18} />
+            </button>
+            <button
+              onClick={() => window.open("/posts")}
+              className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700"
+            >
+              <FaEdit size={18} />
+            </button>
+          </div>
+        )}
+
+        <button
+          onClick={toggleMainFab}
+          className="bg-blue-600 text-white p-3 rounded-full shadow-xl hover:bg-blue-700 transition-transform transform hover:scale-110"
+        >
+          {open ? <X size={18} /> : <FaQuestion size={18} />}
+        </button>
+      </div>
     </div>
   );
 };
