@@ -148,15 +148,12 @@ export const SubNavbar: React.FC = () => {
   
   // Show custom back button header for profile page
   if (location.pathname.includes('/profile')) {
-    const isGeoRankingProfile = location.pathname === '/geo-ranking-dashboard/profile';
-    const backPath = isGeoRankingProfile ? '/geo-ranking-dashboard' : '/main-dashboard';
-    
     return (
       <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-start py-3">
             <button
-              onClick={() => navigate(backPath)}
+              onClick={() => navigate('/main-dashboard')}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
