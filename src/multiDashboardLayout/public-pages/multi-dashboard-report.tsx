@@ -231,13 +231,117 @@ export const PublicMultiDashboardReport: React.FC = () => {
               </div>
             </div>
 
-            {/* Placeholder for dashboard content */}
-            <div className="text-center py-8">
-              <BarChart3 className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-lg font-semibold mb-2">Dashboard Content</h3>
-              <p className="text-muted-foreground">
-                This is a read-only public view of the multi-dashboard.
-              </p>
+            {/* Listing Cards */}
+            <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+              {[
+                {
+                  id: 1,
+                  name: "Downtown Restaurant",
+                  address: "123 Main St, New York, NY 10001",
+                  rating: 4.5,
+                  reviews: 128,
+                  category: "Restaurant",
+                  status: "Active",
+                  phone: "(555) 123-4567"
+                },
+                {
+                  id: 2,
+                  name: "Coffee Corner Cafe",
+                  address: "456 Oak Ave, Los Angeles, CA 90210",
+                  rating: 4.8,
+                  reviews: 89,
+                  category: "Cafe",
+                  status: "Active",
+                  phone: "(555) 987-6543"
+                },
+                {
+                  id: 3,
+                  name: "Tech Solutions Hub",
+                  address: "789 Tech Blvd, San Francisco, CA 94105",
+                  rating: 4.2,
+                  reviews: 45,
+                  category: "Service",
+                  status: "Active",
+                  phone: "(555) 456-7890"
+                },
+                {
+                  id: 4,
+                  name: "Wellness Spa Center",
+                  address: "321 Wellness Way, Miami, FL 33101",
+                  rating: 4.7,
+                  reviews: 167,
+                  category: "Healthcare",
+                  status: "Active",
+                  phone: "(555) 234-5678"
+                },
+                {
+                  id: 5,
+                  name: "Fashion Boutique",
+                  address: "654 Style St, Chicago, IL 60601",
+                  rating: 4.3,
+                  reviews: 92,
+                  category: "Retail",
+                  status: "Active",
+                  phone: "(555) 345-6789"
+                },
+                {
+                  id: 6,
+                  name: "Auto Repair Shop",
+                  address: "987 Garage Rd, Houston, TX 77001",
+                  rating: 4.1,
+                  reviews: 73,
+                  category: "Service",
+                  status: "Active",
+                  phone: "(555) 678-9012"
+                }
+              ].map((listing) => (
+                <div
+                  key={listing.id}
+                  className="bg-card border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h4 className="text-lg font-semibold text-foreground mb-1">
+                        {listing.name}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {listing.category}
+                      </p>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      listing.status === 'Active' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {listing.status}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-2 mb-4">
+                    <p className="text-sm text-muted-foreground flex items-center">
+                      <Building2 className="w-4 h-4 mr-2" />
+                      {listing.address}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {listing.phone}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Star className="w-4 h-4 text-yellow-500 mr-1" />
+                      <span className="text-sm font-medium">{listing.rating}</span>
+                      <span className="text-sm text-muted-foreground ml-1">
+                        ({listing.reviews} reviews)
+                      </span>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <MessageSquare className="w-4 h-4 mr-1" />
+                      View Details
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
