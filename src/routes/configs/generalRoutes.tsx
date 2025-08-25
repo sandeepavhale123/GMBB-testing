@@ -23,7 +23,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/profile",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <Profile />
           </ListingProvider>
@@ -35,7 +35,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/profile/:listingId", // 🔥 Add this dynamic route
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <Profile />
           </ListingProvider>
@@ -47,7 +47,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/reports",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <ReportsPage />
           </ListingProvider>
@@ -59,7 +59,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/reports/:listingId",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <ReportsPage />
           </ListingProvider>
@@ -71,7 +71,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/analytics",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <AnalyticsPage />
         </DashboardTypeGuard>
       </ProtectedRoute>
@@ -81,7 +81,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/team",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <TeamPage />
         </DashboardTypeGuard>
       </ProtectedRoute>
@@ -91,7 +91,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -103,7 +103,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/google-account",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -115,7 +115,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/subscription",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -127,7 +127,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/theme-customization",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -139,7 +139,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/report-branding",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -151,7 +151,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/genie-subscription",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <SettingsPage />
         </DashboardTypeGuard>
       </ProtectedRoute>
@@ -161,7 +161,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/integrations",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -173,7 +173,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/team-members",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -185,7 +185,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/listings/:accountId",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -197,7 +197,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/team-members/edit/:memberId",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -209,7 +209,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/settings/:listingId",
     element: (
       <RoleProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <ListingProvider>
             <SettingsPage />
           </ListingProvider>
@@ -237,7 +237,7 @@ export const generalRoutes: RouteConfig[] = [
     path: "/gmb-health",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={0}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1]}>
           <GMBHealthPage />
         </DashboardTypeGuard>
       </ProtectedRoute>

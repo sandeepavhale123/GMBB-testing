@@ -4,12 +4,12 @@ import { profileService } from "@/services/profileService";
 
 interface DashboardTypeGuardProps {
   children: React.ReactNode;
-  requiredDashboardType: number; // 0 for location dashboard, 1 for main dashboard
+  allowedDashboardTypes: number[]; // Array of allowed dashboard types
 }
 
 export const DashboardTypeGuard = ({
   children,
-  requiredDashboardType,
+  allowedDashboardTypes,
 }: DashboardTypeGuardProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -21,7 +21,7 @@ export const DashboardTypeGuard = ({
       try {
         console.log("DashboardTypeGuard: Checking dashboard type", {
           currentPath: location.pathname,
-          requiredDashboardType,
+          allowedDashboardTypes,
         });
 
         const profile = await profileService.getUserProfile();
@@ -31,9 +31,9 @@ export const DashboardTypeGuard = ({
           profile.dashboardType
         );
 
-        // Check if user is on the wrong dashboard type
-        if (profile.dashboardType !== requiredDashboardType) {
-          console.log("DashboardTypeGuard: Wrong dashboard type, redirecting");
+        // Check if user's dashboard type is allowed
+        if (!allowedDashboardTypes.includes(profile.dashboardType)) {
+          console.log("DashboardTypeGuard: Dashboard type not allowed, redirecting");
           setShouldRedirect(true);
 
           if (profile.dashboardType === 1) {
@@ -45,7 +45,7 @@ export const DashboardTypeGuard = ({
           }
         } else {
           console.log(
-            "DashboardTypeGuard: Correct dashboard type, allowing access"
+            "DashboardTypeGuard: Dashboard type allowed, allowing access"
           );
           setShouldRedirect(false);
         }
@@ -59,7 +59,7 @@ export const DashboardTypeGuard = ({
     };
 
     checkDashboardType();
-  }, [location.pathname, requiredDashboardType]);
+  }, [location.pathname, allowedDashboardTypes]);
 
   if (isLoading) {
     return (

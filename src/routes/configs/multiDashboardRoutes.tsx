@@ -33,7 +33,7 @@ export const multiDashboardRoutes: RouteConfig[] = [
     path: "/main-dashboard",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard requiredDashboardType={1}>
+        <DashboardTypeGuard allowedDashboardTypes={[1]}>
           <MultiDashboardLayout />
         </DashboardTypeGuard>
       </ProtectedRoute>
