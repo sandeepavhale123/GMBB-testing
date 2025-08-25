@@ -49,11 +49,11 @@ const TrafficSourcesChart: React.FC<TrafficSourcesChartProps> = ({
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>{live} Success post</span>
+              <span>{live} Success posts</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-              <span>{failed} Failed post</span>
+              <span>{failed} Failed posts</span>
             </div>
           </div>
         </div>
