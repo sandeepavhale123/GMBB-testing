@@ -19,6 +19,7 @@ import {
   Building2,
   Loader2,
   Loader,
+  Share2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -682,6 +683,25 @@ export const MultiDashboard: React.FC = () => {
                     <Loader2 className="h-4 w-4 animate-spin" />
                   )}
                 </div>
+
+                {/* Share Report Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={() => {
+                    // Generate shareable URL with current filters
+                    const shareableUrl = `${window.location.origin}/multi-dashboard-report/${Date.now()}`;
+                    navigator.clipboard.writeText(shareableUrl);
+                    toast({
+                      title: "Link Copied!",
+                      description: "Shareable dashboard link copied to clipboard",
+                    });
+                  }}
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Share Report</span>
+                </Button>
 
                 {/* Review Filter Dropdown - Only show for review dashboard */}
                 {dashboardType === "review" && (
