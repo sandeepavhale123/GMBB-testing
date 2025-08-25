@@ -9,13 +9,11 @@ export const PublicMultiDashboardLayout: React.FC<PublicMultiDashboardLayoutProp
 }) => {
   const theme = useAppSelector(state => state.theme);
   const logoData = useThemeLogo();
-  return <div className="min-h-screen flex flex-col" style={{
-    backgroundColor: theme.bg_color || 'hsl(var(--background))'
-  }}>
+  return <div className="min-h-screen flex flex-col" >
       {/* Simplified Header - Only Logo */}
       <header className="w-full px-4 py-3 border-b border-border" style={{
-      backgroundColor: theme.bg_color || "hsl(var(--background))"
-    }}>
+    backgroundColor: theme.bg_color || 'hsl(var(--background))'
+  }}>
         <div className="max-w-7xl mx-auto flex items-center">
           <img src={logoData.darkLogo} alt="Logo" className="h-10 w-auto" />
         </div>
