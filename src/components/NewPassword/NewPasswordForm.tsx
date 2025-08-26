@@ -103,7 +103,7 @@ export const NewPasswordForm = () => {
       {/* Mobile Logo */}
       <div className="flex justify-center lg:hidden mb-8">
         <img
-          src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+          src="https://old.gmbbriefcase.com/content/dist/assets/images/logo.png"
           alt="GMB Briefcase Logo"
           className="w-16 h-16 object-contain"
         />
