@@ -1,0 +1,117 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  getShareableDefaultData,
+  getShareableInsightData,
+  getShareableReviewData,
+  getShareableLocationData,
+  getShareablePostsData,
+  ShareableReportRequest,
+  ShareableDefaultResponse,
+  ShareableInsightResponse,
+  ShareableReviewResponse,
+  ShareableLocationResponse,
+  ShareablePostResponse,
+} from '@/api/publicDashboardApi';
+import { getDashboardFilterType } from '@/utils/dashboardMappings';
+
+interface UsePublicDashboardDataParams {
+  reportId: string;
+  dashboardType: string;
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  city: string;
+  dateRange?: {
+    startDate: string;
+    endDate: string;
+  };
+  postStatus?: string;
+}
+
+type ShareableResponse = 
+  | ShareableDefaultResponse 
+  | ShareableInsightResponse 
+  | ShareableReviewResponse 
+  | ShareableLocationResponse 
+  | ShareablePostResponse;
+
+export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
+  const {
+    reportId,
+    dashboardType,
+    page,
+    limit,
+    search,
+    category,
+    city,
+    dateRange,
+    postStatus,
+  } = params;
+
+  const dashboardFilterType = getDashboardFilterType(dashboardType);
+
+  const request: ShareableReportRequest = {
+    reportId,
+    dashboardFilterType,
+    page,
+    limit,
+    search,
+    category,
+    city,
+    ...(dateRange && { dateRange }),
+    ...(postStatus && { postStatus }),
+  };
+
+  return useQuery({
+    queryKey: ['publicDashboard', reportId, dashboardType, page, limit, search, category, city, dateRange, postStatus],
+    queryFn: async (): Promise<ShareableResponse> => {
+      switch (dashboardType) {
+        case 'insight':
+          return await getShareableInsightData(request);
+        case 'review':
+          return await getShareableReviewData(request);
+        case 'location':
+          return await getShareableLocationData(request);
+        case 'post':
+          return await getShareablePostsData(request);
+        case 'default':
+        default:
+          return await getShareableDefaultData(request);
+      }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+};
+
+// Helper hook for getting metrics/stats data
+export const usePublicDashboardStats = (reportId: string) => {
+  const { data, isLoading, error } = usePublicDashboardData({
+    reportId,
+    dashboardType: 'default',
+    page: 1,
+    limit: 1,
+    search: '',
+    category: '',
+    city: '',
+  });
+
+  // Extract stats from the response
+  const stats = data?.data ? {
+    totalListings: 'pagination' in data.data 
+      ? ('totalResults' in data.data.pagination ? data.data.pagination.totalResults : data.data.pagination.totalPosts)
+      : 0,
+    avgRating: '4.3', // This would need to be calculated from API response
+    totalPosts: 0, // This would come from a separate endpoint
+    totalReviews: 0, // This would come from a separate endpoint
+  } : null;
+
+  return {
+    data: stats ? { data: { stats } } : null,
+    isLoading,
+    error,
+    trendsData: stats ? { data: { stats } } : null,
+  };
+};

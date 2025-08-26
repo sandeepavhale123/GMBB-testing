@@ -1,0 +1,25 @@
+// Dashboard type to filter ID mapping for shareable reports
+export const DASHBOARD_FILTER_TYPE_MAPPING: Record<string, number> = {
+  'default': 1,
+  'insight': 3,
+  'review': 4,
+  'location': 8,
+  'post': 9,
+};
+
+// Reverse mapping for converting filter type back to dashboard type
+export const FILTER_TYPE_TO_DASHBOARD_MAPPING: Record<number, string> = {
+  1: 'default',
+  3: 'insight',
+  4: 'review',
+  8: 'location',
+  9: 'post',
+};
+
+export const getDashboardFilterType = (dashboardType: string): number => {
+  return DASHBOARD_FILTER_TYPE_MAPPING[dashboardType] || 1;
+};
+
+export const getDashboardType = (filterType: number): string => {
+  return FILTER_TYPE_TO_DASHBOARD_MAPPING[filterType] || 'default';
+};
