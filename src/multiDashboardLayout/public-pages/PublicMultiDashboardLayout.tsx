@@ -44,7 +44,7 @@ export const PublicMultiDashboardLayout: React.FC<PublicMultiDashboardLayoutProp
       {/* Optional Footer */}
       <footer className="py-4 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
-          Public Multi-Dashboard Report
+          {/* Public Multi-Dashboard Report */}
         </div>
       </footer>
     </div>;

@@ -253,7 +253,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
 
        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-               <h3 className="text-lg font-semibold mb-2">GMB listing {(dashboardType === "review" ? "review" : dashboardType === "insight" ? "insight": dashboardType === "location" ? "location": dashboardType === "post" ? "post": "default") } dashboard</h3>
+               <h3 className="text-lg font-semibold mb-2">GMB Listing – {(dashboardType === "review" ? "Review" : dashboardType === "insight" ? "Insight": dashboardType === "location" ? "Location": dashboardType === "post" ? "Post": "Default") } dashboard</h3>
               <div className="flex flex-col sm:flex-row gap-4">
                <Select value={dashboardType} onValueChange={handleDashboardTypeChange}>
                 <SelectTrigger className="sm:w-[250px]">
@@ -371,9 +371,9 @@ export const PublicMultiDashboardReport: React.FC = () => {
         {/* Content Display */}
         <Card className="p-6">
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">
+            {/* <h3 className="text-lg font-semibold mb-2">
               {dashboardType === "post" ? "Posts" : "Listings"}
-            </h3>
+            </h3> */}
             <p className="text-sm text-muted-foreground">
               Showing {paginatedData.length} of {totalItems} {dashboardType === "post" ? "posts" : "listings"}
             </p>
