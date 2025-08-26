@@ -1613,7 +1613,7 @@ export const MultiDashboard: React.FC = () => {
         dashboardFilterType={parseInt(DASHBOARD_TYPE_MAPPING[dashboardType] || "1")}
         onReportGenerated={(reportId) => {
           setShowShareModal(false);
-          setGeneratedReportUrl(`${window.location.origin}/${reportId}`);
+          setGeneratedReportUrl(`${window.location.origin}/multi-dashboard-report/${reportId}`);
           setShowCopyUrlModal(true);
         }}
       />
