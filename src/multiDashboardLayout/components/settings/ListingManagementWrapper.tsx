@@ -1,10 +1,11 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { ListingManagementPage } from '@/components/Settings/ListingManagementPage';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { ListingProvider } from "@/context/ListingContext"; // ADD THIS IMPORT
+import { ListingManagementPage } from "@/components/Settings/ListingManagementPage";
 
 export const ListingManagementWrapper: React.FC = () => {
   const { accountId } = useParams<{ accountId: string }>();
-  
+
   if (!accountId) {
     return (
       <div className="p-6">
@@ -16,10 +17,12 @@ export const ListingManagementWrapper: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      <div className="[&>div]:!p-0 [&>div]:!max-w-none [&>div]:!mx-0">
-        <ListingManagementPage accountId={accountId} />
+    <ListingProvider>
+      <div className="p-6">
+        <div className="[&>div]:!p-0 [&>div]:!max-w-none [&>div]:!mx-0">
+          <ListingManagementPage accountId={accountId} />
+        </div>
       </div>
-    </div>
+    </ListingProvider>
   );
 };
