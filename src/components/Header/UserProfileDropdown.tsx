@@ -8,7 +8,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useProfile } from '../../hooks/useProfile';
 
-export const UserProfileDropdown: React.FC = () => {
+interface UserProfileDropdownProps {
+  className?: string;
+}
+
+export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ className }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuthRedux();
@@ -52,7 +56,7 @@ export const UserProfileDropdown: React.FC = () => {
   const userProfilePic = profileData?.profilePic || "/lovable-uploads/e82c6af8-dd5a-48b6-bc12-9663e5ab24eb.png";
 
   return (
-    <div className="flex items-center gap-2 ml-1 sm:ml-2">
+    <div className={`flex items-center gap-2 ml-1 sm:ml-2 ${className || ''}`}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="p-0 rounded-full hover:bg-gray-100">
