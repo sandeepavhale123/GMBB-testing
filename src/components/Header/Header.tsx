@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, ExternalLink } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { toggleTheme } from '../../store/slices/themeSlice';
@@ -46,6 +46,15 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right section */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="bg-white text-foreground hover:bg-gray-50"
+              onClick={() => (window.location.href = "https://old.gmbbriefcase.com/login")}
+            >
+              <span className="hidden md:block ml-1">Back to old version </span>
+              <ExternalLink className="w-4 h-4" />
+            </Button>
             <MobileBusinessSelector />
             <BusinessListingSelector />
             <HeaderActions />
