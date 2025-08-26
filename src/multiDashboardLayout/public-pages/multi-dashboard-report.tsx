@@ -72,14 +72,14 @@ export const PublicMultiDashboardReport: React.FC = () => {
   // Fetch stats data for metrics cards
   const { data: trendsData } = usePublicDashboardStats(token || "");
 
+  // Process API data immediately after fetching
+  const apiData = data?.data;
+  const isPostDashboard = dashboardType === "post";
+
   // Update Select values to show "all" when empty
   const displayCategory = selectedCategory || "all";
   const displayState = selectedState || "all";
   const displayPostStatus = postStatus || "all";
-  
-  // Process API data
-  const apiData = data?.data;
-  const isPostDashboard = dashboardType === "post";
   
   // Extract unique categories and states from API data for filters
   const availableCategories = useMemo(() => {
