@@ -619,7 +619,9 @@ export const MultiDashboard: React.FC = () => {
                   )}
                 </div>
 
-                {/* Share Report Button */}
+               <div className="flex gap-4">
+
+                 {/* Share Report Button */}
                 <Button
                   variant="outline"
                   size="sm"
@@ -644,6 +646,7 @@ export const MultiDashboard: React.FC = () => {
                     <List className="h-4 w-4" />
                   </ToggleGroupItem>
                 </ToggleGroup>
+               </div>
               </div>
             </div>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
