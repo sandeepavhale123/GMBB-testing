@@ -27,6 +27,7 @@ interface UsePublicDashboardDataParams {
     endDate: string;
   };
   postStatus?: string;
+  reviewFilter?: string;
 }
 
 type ShareableResponse = 
@@ -47,6 +48,7 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     city,
     dateRange,
     postStatus,
+    reviewFilter,
   } = params;
 
   const dashboardFilterType = getDashboardFilterType(dashboardType);
@@ -61,10 +63,11 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     city,
     ...(dateRange && { dateRange }),
     ...(postStatus && { postStatus }),
+    ...(reviewFilter && { review: reviewFilter }),
   };
 
   return useQuery({
-    queryKey: ['publicDashboard', reportId, dashboardType, page, limit, search, category, city, dateRange, postStatus],
+    queryKey: ['publicDashboard', reportId, dashboardType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
     queryFn: async (): Promise<ShareableResponse> => {
       switch (dashboardType) {
         case 'insight':

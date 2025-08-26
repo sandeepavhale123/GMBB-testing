@@ -68,6 +68,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
     city: selectedState,
     dateRange: dateRange.startDate && dateRange.endDate ? dateRange : undefined,
     postStatus: postStatus || undefined,
+    reviewFilter,
   });
 
   // Fetch stats data for metrics cards

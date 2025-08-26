@@ -14,6 +14,7 @@ export interface ShareableReportRequest {
     endDate: string;
   };
   postStatus?: string;
+  review?: string;
 }
 
 export interface ShareablePagination {
