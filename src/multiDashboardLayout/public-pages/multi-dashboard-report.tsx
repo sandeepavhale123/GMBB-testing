@@ -20,6 +20,7 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  Calendar,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,7 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -386,35 +387,111 @@ export const PublicMultiDashboardReport: React.FC = () => {
             ) : (
               <>
                 {dashboardType === "post" ? (
-                  <div className="grid gap-4">
-                    {(paginatedData as ShareablePost[]).map((post: ShareablePost, index) => (
-                      <Card key={post.id || index} className="p-4">
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-start">
-                            <h3 className="font-semibold">{post.title}</h3>
-                            <Badge variant={post.status === "LIVE" ? "default" : "secondary"}>
-                              {post.status}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {post.content}</p>
-                          <div className="flex justify-between text-xs text-muted-foreground">
-                            <span>{post.listingName}</span>
-                            <span>{post.publishDate}</span>
-                          </div>
-                          {post.media?.images && (
-                            <div className="mt-2">
+                  viewMode === "grid" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {(paginatedData as ShareablePost[]).map((post: ShareablePost, index) => (
+                        <Card key={post.id || index} className="overflow-hidden hover:shadow-md transition-shadow relative flex flex-col h-full">
+                          {/* Post Image */}
+                          <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
+                            {post.media?.images ? (
                               <img 
                                 src={post.media.images} 
                                 alt="Post media" 
-                                className="w-full h-32 object-cover rounded"
+                                className="w-full h-full object-cover"
                               />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                <span className="text-gray-500 text-sm font-medium">
+                                  Image not available
+                                </span>
+                              </div>
+                            )}
+                          </div>
+
+                          <CardContent className="p-4">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-semibold text-gray-900 line-clamp-2">
+                                  {post.title || "Untitled Post"}
+                                </h3>
+                                {post.listingName && (
+                                  <p className="text-sm text-muted-foreground mt-1 font-medium">
+                                    {post.listingName}
+                                  </p>
+                                )}
+                              </div>
+                              <Badge variant={post.status === "LIVE" ? "default" : "secondary"}>
+                                {post.status}
+                              </Badge>
                             </div>
-                          )}
+
+                            <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                              {post.content}
+                            </p>
+                          </CardContent>
+
+                          <CardFooter className="p-4 pt-0 flex justify-between mt-auto">
+                            <div className="flex items-center text-xs text-gray-500">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {post.publishDate}
+                            </div>
+                          </CardFooter>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {(paginatedData as ShareablePost[]).map((post: ShareablePost, index) => (
+                        <div
+                          key={post.id || index}
+                          className="border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20"
+                        >
+                          {/* Date positioned at top right */}
+                          <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {post.publishDate}
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <div className="flex items-center gap-4">
+                              {/* Thumbnail */}
+                              <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                {post.media?.images ? (
+                                  <img 
+                                    src={post.media.images} 
+                                    alt="Post media" 
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <span className="text-white text-xs font-medium">IMG</span>
+                                )}
+                              </div>
+
+                              {/* Content */}
+                              <div className="flex-1 min-w-0 sm:pr-20">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <h3 className="font-medium text-foreground truncate">
+                                    {post.title || "Untitled Post"}
+                                  </h3>
+                                  <Badge variant={post.status === "LIVE" ? "default" : "secondary"}>
+                                    {post.status}
+                                  </Badge>
+                                </div>
+                                <p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1 mb-1">
+                                  {post.content}
+                                </p>
+                                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                                  {post.listingName && (
+                                    <span className="text-primary">{post.listingName}</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </Card>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )
                 ) : (
                   <div className={`grid gap-4 ${
                     viewMode === "grid" 
@@ -721,17 +798,8 @@ export const PublicMultiDashboardReport: React.FC = () => {
                              </>
                            )}
 
-                           {/* View Details Button */}
-                           <div className="flex justify-end mt-auto">
-                             <Button
-                               variant="default"
-                               size="sm"
-                               className="w-full gap-2"
-                             >
-                               View Details
-                               <ExternalLink className="w-4 h-4" />
-                             </Button>
-                           </div>
+                           {/* View Details Button - Hidden for public report */}
+                           {/* No button needed for public dashboard */}
                          </div>
                        ))
                      ) : (
@@ -855,13 +923,8 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                )}
                              </div>
 
-                             {/* View Details Button - List View */}
-                             <div className="flex justify-end">
-                               <Button variant="outline" size="sm" className="gap-2">
-                                 View Details
-                                 <ExternalLink className="w-3 h-3" />
-                               </Button>
-                             </div>
+                             {/* View Details Button - Hidden for public report */}
+                             {/* No button needed for public dashboard */}
                            </div>
                          </div>
                        ))
