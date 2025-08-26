@@ -120,7 +120,7 @@ const Onboarding = () => {
         {/* Logo */}
         <div className="p-4 xl:p-6 border-b border-white/20">
           <img
-            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+            src="https://old.gmbbriefcase.com/content/dist/assets/images/logo.png"
             alt="GMB Briefcase Logo"
             className="h-6 xl:h-8 object-contain brightness-0 invert"
           />
@@ -210,7 +210,7 @@ const Onboarding = () => {
       <div className="lg:hidden w-full bg-gradient-to-r from-blue-500 via-blue-600 to-purple-700 p-3 sm:p-4 fixed top-0 left-0 z-20">
         <div className="flex items-center justify-between">
           <img
-            src="https://member.gmbbriefcase.com/content/dist/assets/images/logo.png"
+            src="https://old.gmbbriefcase.com/content/dist/assets/images/logo.png"
             alt="GMB Briefcase Logo"
             className="h-5 sm:h-6 object-contain brightness-0 invert"
           />
