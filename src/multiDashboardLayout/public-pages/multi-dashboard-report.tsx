@@ -252,9 +252,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
             {/* Dashboard Type Selector */}
 
 
-  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+               <h3 className="text-lg font-semibold mb-2">GMB listing {(dashboardType === "review" ? "review" : dashboardType === "insight" ? "insight": dashboardType === "location" ? "location": dashboardType === "post" ? "post": "default") } dashboard</h3>
               <div className="flex flex-col sm:flex-row gap-4">
-              <Select value={dashboardType} onValueChange={handleDashboardTypeChange}>
+               <Select value={dashboardType} onValueChange={handleDashboardTypeChange}>
                 <SelectTrigger className="sm:w-[250px]">
                   <SelectValue placeholder="Select Dashboard Type" />
                 </SelectTrigger>
@@ -266,43 +267,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   <SelectItem value="post">Post Dashboard</SelectItem> 
                 </SelectContent>
               </Select>
-              {dashboardType === "review" && (
-                  <Select
-                    value={reviewFilter}
-                    onValueChange={handleReviewFilterChange}
-                  >
-                    <SelectTrigger className="w-full sm:w-52">
-                      <SelectValue placeholder="Review Filter" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="0">All Reviews</SelectItem>
-                      <SelectItem value="1">Un - Responded Review</SelectItem>
-                      <SelectItem value="2">Un - Responded ARE</SelectItem>
-                      <SelectItem value="3">Un - Responded DNR</SelectItem>
-                      <SelectItem value="4">Exclude ARE Review</SelectItem>
-                      <SelectItem value="5">Exclude DNR Review</SelectItem>
-                      <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              {/* Additional Filters for Post Dashboard */}
-              {dashboardType === "post" && (
-                <div className="flex gap-2">
-                  <Select value={displayPostStatus} onValueChange={(value) => setPostStatus(value === "all" ? "" : value)}>
-                    <SelectTrigger className="w-[200px]">
-                      <SelectValue placeholder="Post Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="LIVE">Live</SelectItem>
-                      <SelectItem value="SCHEDULED">Scheduled</SelectItem>
-                      <SelectItem value="FAILED">Failed</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              </div>  
               <ToggleGroup
                 type="single"
                 value={viewMode}
@@ -315,6 +279,8 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   <List className="h-4 w-4" />
                 </ToggleGroupItem>
               </ToggleGroup>
+              </div>  
+              
             </div>
 
             {/* Search and Filters Row */}
@@ -357,6 +323,42 @@ export const PublicMultiDashboardReport: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
+
+                 {dashboardType === "review" && (
+                  <Select
+                    value={reviewFilter}
+                    onValueChange={handleReviewFilterChange}
+                  >
+                    <SelectTrigger className="w-full sm:w-52">
+                      <SelectValue placeholder="Review Filter" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">All Reviews</SelectItem>
+                      <SelectItem value="1">Un - Responded Review</SelectItem>
+                      <SelectItem value="2">Un - Responded ARE</SelectItem>
+                      <SelectItem value="3">Un - Responded DNR</SelectItem>
+                      <SelectItem value="4">Exclude ARE Review</SelectItem>
+                      <SelectItem value="5">Exclude DNR Review</SelectItem>
+                      <SelectItem value="6">Exclude ARE/DNR Review</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              {/* Additional Filters for Post Dashboard */}
+              {dashboardType === "post" && (
+                <div className="flex gap-2">
+                  <Select value={displayPostStatus} onValueChange={(value) => setPostStatus(value === "all" ? "" : value)}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Post Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="LIVE">Live</SelectItem>
+                      <SelectItem value="SCHEDULED">Scheduled</SelectItem>
+                      <SelectItem value="FAILED">Failed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               </div>
             </div>
 
