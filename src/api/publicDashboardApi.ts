@@ -164,7 +164,26 @@ export interface ShareablePostResponse {
   };
 }
 
+// Category and State API
+export interface ShareableCategoryAndStateRequest {
+  reportId: string;
+}
+
+export interface ShareableCategoryAndStateResponse {
+  code: number;
+  message: string;
+  data: {
+    categories: string[];
+    states: string[];
+  };
+}
+
 // API Functions
+export const getShareableCategoryAndState = async (request: ShareableCategoryAndStateRequest): Promise<ShareableCategoryAndStateResponse> => {
+  const response = await publicAxiosInstance.post('/get-shareable-categoryandstate', request);
+  return response.data;
+};
+
 export const getShareableDefaultData = async (request: ShareableReportRequest): Promise<ShareableDefaultResponse> => {
   const response = await publicAxiosInstance.post('/get-shareable-default-data', request);
   return response.data;

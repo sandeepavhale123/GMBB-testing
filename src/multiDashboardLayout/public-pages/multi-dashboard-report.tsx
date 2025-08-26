@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { PublicMultiDashboardLayout } from "./PublicMultiDashboardLayout";
 import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 import { usePublicDashboardData, usePublicDashboardStats } from "@/hooks/usePublicDashboardData";
+import { usePublicCategoryAndState } from "@/hooks/usePublicCategoryAndState";
 import { ShareableDefaultListing, ShareableInsightListing, ShareableReviewListing, ShareableLocationListing, ShareablePost } from "@/api/publicDashboardApi";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
@@ -74,6 +75,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
   // Fetch stats data for metrics cards
   const { data: trendsData } = usePublicDashboardStats(token || "");
 
+  // Fetch categories and states for filters
+  const { data: categoryStateData, isLoading: categoryStateLoading } = usePublicCategoryAndState(token || "");
+  
+  const availableCategories = categoryStateData?.data?.categories || [];
+  const availableStates = categoryStateData?.data?.states || [];
+
   // Process API data immediately after fetching
   const apiData = data?.data;
   const isPostDashboard = dashboardType === "post";
@@ -82,42 +89,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
   const displayCategory = selectedCategory || "all";
   const displayState = selectedState || "all";
   const displayPostStatus = postStatus || "all";
-
-  // Extract unique categories and states from API data for filters
-  const availableCategories = useMemo(() => {
-    if (!apiData) return [];
-    const categories = new Set<string>();
-
-    if ('listings' in apiData) {
-      apiData.listings.forEach((listing: any) => {
-        if (listing.category) categories.add(listing.category);
-      });
-    } else if ('posts' in apiData) {
-      apiData.posts.forEach((post: ShareablePost) => {
-        if (post.category) categories.add(post.category);
-      });
-    }
-
-    return Array.from(categories).sort();
-  }, [apiData]);
-
-  const availableStates = useMemo(() => {
-    if (!apiData) return [];
-    const states = new Set<string>();
-
-    if ('listings' in apiData) {
-      apiData.listings.forEach((listing: any) => {
-        if ('state' in listing && listing.state) states.add(listing.state);
-        if (listing.zipCode) states.add(listing.zipCode); // Using zipCode as city/location
-      });
-    } else if ('posts' in apiData) {
-      apiData.posts.forEach((post: ShareablePost) => {
-        if (post.zipcode) states.add(post.zipcode);
-      });
-    }
-
-    return Array.from(states).sort();
-  }, [apiData]);
 
   // Get pagination from API response
   const pagination = apiData?.pagination;
