@@ -72,6 +72,11 @@ export const PublicMultiDashboardReport: React.FC = () => {
   // Fetch stats data for metrics cards
   const { data: trendsData } = usePublicDashboardStats(token || "");
 
+  // Update Select values to show "all" when empty
+  const displayCategory = selectedCategory || "all";
+  const displayState = selectedState || "all";
+  const displayPostStatus = postStatus || "all";
+  
   // Process API data
   const apiData = data?.data;
   const isPostDashboard = dashboardType === "post";
@@ -313,12 +318,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
               </div>
               
               <div className="flex gap-2">
-                <Select value={selectedCategory} onValueChange={(value) => handleFilterChange("category", value)}>
+                <Select value={displayCategory} onValueChange={(value) => handleFilterChange("category", value === "all" ? "" : value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     {availableCategories.map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
@@ -327,12 +332,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   </SelectContent>
                 </Select>
 
-                <Select value={selectedState} onValueChange={(value) => handleFilterChange("state", value)}>
+                <Select value={displayState} onValueChange={(value) => handleFilterChange("state", value === "all" ? "" : value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="All Locations" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                     {availableStates.map((state) => (
                       <SelectItem key={state} value={state}>
                         {state}
@@ -346,12 +351,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
             {/* Additional Filters for Post Dashboard */}
             {dashboardType === "post" && (
               <div className="flex gap-2">
-                <Select value={postStatus} onValueChange={handlePostStatusChange}>
+                <Select value={displayPostStatus} onValueChange={(value) => setPostStatus(value === "all" ? "" : value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Post Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Status</SelectItem>
+                    <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="LIVE">Live</SelectItem>
                     <SelectItem value="SCHEDULED">Scheduled</SelectItem>
                     <SelectItem value="FAILED">Failed</SelectItem>
