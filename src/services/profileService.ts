@@ -115,6 +115,8 @@ export const profileService = {
 
   updateProfile: async (profileData: UpdateProfileData): Promise<void> => {
     await axiosInstance.post("/update-profile", profileData);
+    cachedProfile = null;
+    return await profileService.getUserProfile();
   },
 
   verifyCurrentPassword: async (
