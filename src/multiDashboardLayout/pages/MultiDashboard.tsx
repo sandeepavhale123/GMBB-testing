@@ -592,8 +592,62 @@ export const MultiDashboard: React.FC = () => {
 
         {/* Search and Filters */}
         <div className="bg-card rounded-lg border border-border p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+                <h3 className="text-lg font-semibold mb-2">GMB Listing – {(dashboardType === "review" ? "Review" : dashboardType === "insight" ? "Insight": dashboardType === "location" ? "Location": dashboardType === "post" ? "Post": "Default") } dashboard</h3>
+              <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <Select
+                    value={dashboardType}
+                    onValueChange={handleDashboardTypeChange}
+                    disabled={isUpdatingDashboard}
+                  >
+                    <SelectTrigger className="w-full sm:w-48">
+                      <SelectValue placeholder="Dashboard Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="default">Default Dashboard</SelectItem>
+                      <SelectItem value="insight">Insight Dashboard</SelectItem>
+                      <SelectItem value="review">Review Dashboard</SelectItem>
+                      <SelectItem value="location">
+                        Location Dashboard
+                      </SelectItem>
+                      <SelectItem value="post">Post Dashboard</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {isUpdatingDashboard && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  )}
+                </div>
+
+                {/* Share Report Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={() => setShowShareModal(true)}
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Share Report</span>
+                </Button>
+
+               
+
+                <ToggleGroup
+                  type="single"
+                  value={viewMode}
+                  onValueChange={(value) => value && setViewMode(value)}
+                >
+                  <ToggleGroupItem value="grid" aria-label="Grid view">
+                    <Grid3X3 className="h-4 w-4" />
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="list" aria-label="List view">
+                    <List className="h-4 w-4" />
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
-            <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full">
+            <div className="flex flex-col md:flex-row gap-4 flex-1 w-full">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <input
@@ -654,53 +708,7 @@ export const MultiDashboard: React.FC = () => {
                       ))}
                   </SelectContent>
                 </Select>
-              </div>
-            </div>
-          </div>
-
-          {/* GMB Listings */}
-          <div>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-              <h3 className="text-lg font-semibold">
-                {dashboardType === "post" ? "Posts" : "GMB Listings"}
-              </h3>
-              <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <Select
-                    value={dashboardType}
-                    onValueChange={handleDashboardTypeChange}
-                    disabled={isUpdatingDashboard}
-                  >
-                    <SelectTrigger className="w-full sm:w-48">
-                      <SelectValue placeholder="Dashboard Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="default">Default Dashboard</SelectItem>
-                      <SelectItem value="insight">Insight Dashboard</SelectItem>
-                      <SelectItem value="review">Review Dashboard</SelectItem>
-                      <SelectItem value="location">
-                        Location Dashboard
-                      </SelectItem>
-                      <SelectItem value="post">Post Dashboard</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {isUpdatingDashboard && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  )}
-                </div>
-
-                {/* Share Report Button */}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                  onClick={() => setShowShareModal(true)}
-                >
-                  <Share2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">Share Report</span>
-                </Button>
-
-                {/* Review Filter Dropdown - Only show for review dashboard */}
+                 {/* Review Filter Dropdown - Only show for review dashboard */}
                 {dashboardType === "review" && (
                   <Select
                     value={reviewFilter}
@@ -747,21 +755,13 @@ export const MultiDashboard: React.FC = () => {
                     />
                   </>
                 )}
-
-                <ToggleGroup
-                  type="single"
-                  value={viewMode}
-                  onValueChange={(value) => value && setViewMode(value)}
-                >
-                  <ToggleGroupItem value="grid" aria-label="Grid view">
-                    <Grid3X3 className="h-4 w-4" />
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="list" aria-label="List view">
-                    <List className="h-4 w-4" />
-                  </ToggleGroupItem>
-                </ToggleGroup>
               </div>
             </div>
+          </div>
+
+          {/* GMB Listings */}
+          <div>
+            
 
             {/* Display counts */}
             <div className="mb-4">
