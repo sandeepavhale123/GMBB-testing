@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right section */}
           <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            <Button variant="secondary" size="sm" onClick={() => window.location.href = "https://old.gmbbriefcase.com/login"} className="bg-white text-foreground hover:bg-gray-50 rounded-sm border-2 ">
+            <Button variant="secondary" size="sm" onClick={() => window.location.href = "https://old.gmbbriefcase.com/login"} className="bg-white text-foreground hover:bg-gray-50 rounded-sm">
               <span className="hidden md:block ml-1">Back to old version </span>
               <ExternalLink className="w-4 h-4" />
             </Button>
