@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
             <MobileBusinessSelector />
             <BusinessListingSelector />
             <HeaderActions />
-            <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2 " />
+            <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
           </div>
         </div>
       </div>
