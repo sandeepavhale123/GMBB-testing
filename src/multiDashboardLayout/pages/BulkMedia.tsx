@@ -248,13 +248,26 @@ export const BulkMedia: React.FC = () => {
                         <PaginationPrevious onClick={prevPage} className={!pagination.hasPrevious ? "pointer-events-none opacity-50" : "cursor-pointer"} />
                       </PaginationItem>
                       
-                      {Array.from({
-                  length: pagination.totalPages
-                }, (_, i) => i + 1).map(pageNum => <PaginationItem key={pageNum}>
-                          <PaginationLink onClick={() => goToPage(pageNum)} isActive={pageNum === pagination.currentPage} className="cursor-pointer">
-                            {pageNum}
-                          </PaginationLink>
-                        </PaginationItem>)}
+                      {(() => {
+                        const maxButtons = 5;
+                        const totalPages = pagination.totalPages;
+                        const currentPage = pagination.currentPage;
+                        
+                        let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+                        let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+                        
+                        if (endPage - startPage + 1 < maxButtons) {
+                          startPage = Math.max(1, endPage - maxButtons + 1);
+                        }
+                        
+                        return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map(pageNum => (
+                          <PaginationItem key={pageNum}>
+                            <PaginationLink onClick={() => goToPage(pageNum)} isActive={pageNum === currentPage} className="cursor-pointer">
+                              {pageNum}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ));
+                      })()}
                       
                       <PaginationItem>
                         <PaginationNext onClick={nextPage} className={!pagination.hasNext ? "pointer-events-none opacity-50" : "cursor-pointer"} />

@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
   const getBackToOldVersionUrl = () => {
     return profileData?.dashboardType === 2 
       ? "https://old.gmbbriefcase.com/login"
-      : "https://member.gmbbriefcase.com/login";
+      : "https://old.gmbbriefcase.com/login";
   };
 
   return (

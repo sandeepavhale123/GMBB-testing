@@ -8,8 +8,8 @@ export const useThemeLogo = () => {
     lightLogo: string;
     hasCustomLogo: boolean;
   }>({
-    darkLogo: "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png",
-    lightLogo: "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png", 
+    darkLogo: "https://old.gmbbriefcase.com/content/dist/assets/images/logo.png",
+    lightLogo: "https://old.gmbbriefcase.com/content/dist/assets/images/logo.png", 
     hasCustomLogo: false
   });
 
@@ -18,7 +18,7 @@ export const useThemeLogo = () => {
   useEffect(() => {
     const getLogoFromStorage = () => {
       try {
-        const defaultLogo = "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png";
+        const defaultLogo = "https://old.gmbbriefcase.com/content/dist/assets/images/logo.png";
         
         // Check localStorage first
         const storedTheme = localStorage.getItem('theme_customization');
@@ -40,7 +40,7 @@ export const useThemeLogo = () => {
       } catch (error) {
         console.error('Error reading theme customization from localStorage:', error);
         // Fallback to Redux state only
-        const defaultLogo = "https://member.gmbbriefcase.com/content/dist/assets/images/logo.png";
+        const defaultLogo = "https://old.gmbbriefcase.com/content/dist/assets/images/logo.png";
         setLogoUrls({
           darkLogo: themeState.dark_logo_url || defaultLogo,
           lightLogo: themeState.light_logo_url || defaultLogo,

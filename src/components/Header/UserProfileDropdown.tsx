@@ -8,7 +8,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
 import { useProfile } from '../../hooks/useProfile';
 
-export const UserProfileDropdown: React.FC = () => {
+interface UserProfileDropdownProps {
+  className?: string;
+}
+
+export const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({ className }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuthRedux();
@@ -55,7 +59,7 @@ export const UserProfileDropdown: React.FC = () => {
     <div className="flex items-center gap-2 ml-1 sm:ml-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="p-0 rounded-full hover:bg-gray-100">
+          <Button variant="ghost" className={`p-0 rounded-full hover:bg-gray-100 ${className || ''}`}>
             <Avatar className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer">
               <AvatarImage src={userProfilePic} />
               <AvatarFallback className="bg-blue-600 text-white font-semibold text-xs">
