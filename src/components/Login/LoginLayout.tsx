@@ -21,7 +21,7 @@ export const LoginLayout = () => {
           onClick={() => window.location.href = "https://old.gmbbriefcase.com/login"} 
           className="absolute top-4 right-4 bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
         >
-          <span className="text-sm">Back to old version</span>
+          <span className="hidden md:block ml-1">Back to old version </span>
           <ExternalLink className="w-4 h-4 ml-1" />
         </Button>
         
