@@ -250,23 +250,23 @@ export const PublicMultiDashboardReport: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {metricsCards.map((metric, index) => {
             const Icon = metric.icon;
-            const gradientColors = [
-              'bg-gradient-to-br from-blue-500 to-blue-600',
-              'bg-gradient-to-br from-orange-500 to-orange-600', 
-              'bg-gradient-to-br from-green-500 to-green-600',
-              'bg-gradient-to-br from-purple-500 to-purple-600'
-            ];
-            
             return (
-              <Card key={index} className={`${gradientColors[index]} p-4`}>
-                <div className="flex justify-end">
-                  <Icon className="size-6 text-white" />
-                </div>
-                <div>
-                  <div className="text-2xl font-semibold text-white mb-1 mt-6">
-                    {metric.value}
+              <Card key={index} className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-medium text-muted-foreground">
+                      {metric.title}
+                    </h3>
+                    <div className="text-3xl font-bold text-foreground">
+                      {metric.value}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {metric.subtitle}
+                    </p>
                   </div>
-                  <h3 className="text-xs text-white mt-2">{metric.subtitle}</h3>
+                  <div className="rounded-lg p-3 bg-primary/10">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
                 </div>
               </Card>
             );
