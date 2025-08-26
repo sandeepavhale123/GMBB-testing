@@ -60,6 +60,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useProfile } from "@/hooks/useProfile";
 import { formatDateForBackend } from "@/utils/dateUtils";
+import { ShareReportModal } from "@/components/Dashboard/ShareReportModal";
+import { CopyUrlModal } from "@/components/Dashboard/CopyUrlModal";
 
 // Dashboard type mapping for API
 const DASHBOARD_TYPE_MAPPING = {
@@ -94,6 +96,9 @@ export const MultiDashboard: React.FC = () => {
   const [postStatus, setPostStatus] = useState("all");
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [isUpdatingDashboard, setIsUpdatingDashboard] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showCopyUrlModal, setShowCopyUrlModal] = useState(false);
+  const [generatedReportUrl, setGeneratedReportUrl] = useState("");
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 3000);
 
@@ -689,15 +694,7 @@ export const MultiDashboard: React.FC = () => {
                   variant="outline"
                   size="sm"
                   className="flex items-center gap-2"
-                  onClick={() => {
-                    // Generate shareable URL with current filters
-                    const shareableUrl = `${window.location.origin}/multi-dashboard-report/${Date.now()}`;
-                    navigator.clipboard.writeText(shareableUrl);
-                    toast({
-                      title: "Link Copied!",
-                      description: "Shareable dashboard link copied to clipboard",
-                    });
-                  }}
+                  onClick={() => setShowShareModal(true)}
                 >
                   <Share2 className="h-4 w-4" />
                   <span className="hidden sm:inline">Share Report</span>
@@ -1608,6 +1605,25 @@ export const MultiDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Share Report Modal */}
+      <ShareReportModal
+        open={showShareModal}
+        onOpenChange={setShowShareModal}
+        dashboardFilterType={parseInt(DASHBOARD_TYPE_MAPPING[dashboardType] || "1")}
+        onReportGenerated={(reportId) => {
+          setShowShareModal(false);
+          setGeneratedReportUrl(`${window.location.origin}/${reportId}`);
+          setShowCopyUrlModal(true);
+        }}
+      />
+      
+      {/* Copy URL Modal */}
+      <CopyUrlModal
+        open={showCopyUrlModal}
+        onOpenChange={setShowCopyUrlModal}
+        reportUrl={generatedReportUrl}
+      />
     </TooltipProvider>
   );
 };

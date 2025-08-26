@@ -433,6 +433,28 @@ export const usePostsDashboardData = (
   });
 };
 
+// Generate Shareable Report API Types
+export interface GenerateShareableReportRequest {
+  listingId: string[];
+  dashbaordFilterType: number;
+}
+
+export interface GenerateShareableReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+  };
+}
+
+// Generate Shareable Report API function
+export const generateShareableReport = async (
+  request: GenerateShareableReportRequest
+): Promise<GenerateShareableReportResponse> => {
+  const response = await axiosInstance.post("/generate-shareable-report", request);
+  return response.data;
+};
+
 // Export API functions
 export { setDashboard };
 
