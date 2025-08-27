@@ -442,7 +442,11 @@ export const CustomNotificationsTab: React.FC = () => {
                   </TableCell>
                   <TableCell className="max-w-xs">
                     <div className="text-sm">
-                      {notification.cc_email}
+                      {notification.cc_email?.split(',').map((email, index) => (
+                        <div key={index} className="leading-relaxed">
+                          {email.trim()}
+                        </div>
+                      ))}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
