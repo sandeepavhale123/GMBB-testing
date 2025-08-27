@@ -1,21 +1,58 @@
 import React from 'react';
+import { ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/hooks/useRedux';
+import { useThemeLogo } from '@/hooks/useThemeLogo';
+import { useProfile } from '@/hooks/useProfile';
+import { useNavigate } from 'react-router-dom';
+import { ModulesMegaMenu } from '@/multiDashboardLayout/components/ModulesMegaMenu';
+import { NotificationsMegaMenu } from '@/multiDashboardLayout/components/NotificationsMegaMenu';
+import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 
 export const Header: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
+  const { lightLogo, darkLogo } = useThemeLogo();
+  const { profileData } = useProfile();
+  const navigate = useNavigate();
+
+  const currentLogo = theme.isDark ? darkLogo : lightLogo;
 
   return (
     <header 
-      className="h-16 border-b border-border/20 flex items-center px-6"
+      className="fixed top-0 left-0 right-0 h-16 border-b border-border/20 flex items-center px-6 z-40"
       style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
     >
-      <div className="flex items-center space-x-4">
-        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-          <span className="text-primary font-semibold text-sm">GR</span>
+      <div className="flex items-center justify-between w-full">
+        {/* Left section - Logo and Title */}
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
+            <img 
+              src={currentLogo} 
+              alt="Company Logo" 
+              className="h-8 w-auto object-contain"
+            />
+            <div className="border-l border-border/30 pl-3">
+              <h1 className="text-xl font-semibold text-foreground">GEO Ranking Tool</h1>
+              <p className="text-sm text-muted-foreground">Manage your local search rankings</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-semibold text-foreground">GEO Ranking Tool</h1>
-          <p className="text-sm text-muted-foreground">Manage your local search rankings</p>
+
+        {/* Right section - Actions */}
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => window.location.href = "https://old.gmbbriefcase.com/login"}
+            className="bg-white text-foreground border-2 hover:bg-gray-50 rounded-sm"
+          >
+            <span className="hidden md:block mr-2">Back to old version</span>
+            <ExternalLink className="w-4 h-4" />
+          </Button>
+          
+          <ModulesMegaMenu />
+          <NotificationsMegaMenu />
+          <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
         </div>
       </div>
     </header>
