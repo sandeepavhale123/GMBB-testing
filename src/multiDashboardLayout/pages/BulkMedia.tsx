@@ -205,84 +205,28 @@ export const BulkMedia: React.FC = () => {
                     {/* Right Image */}
                     <div className="flex-shrink-0">
                       <div className="bg-muted rounded-lg overflow-hidden relative group" style={{ height: '190px', width: '337px' }}>
-                        {media.url ? (() => {
-                          // Enhanced video detection utility function
-                          const isVideoContent = (url: string, mediaType?: string) => {
-                            // Debug logging
-                            console.log('Media detection:', { url, mediaType, item: media });
-                            
-                            // Check explicit mediaType first
-                            if (mediaType === 'video') return true;
-                            
-                            // Check file extension (more comprehensive)
-                            const videoExtensions = /\.(mp4|webm|ogg|ogv|mov|avi|wmv|flv|mkv|m4v|3gp|3g2|asf|rm|rmvb|vob|ts|mts|m2ts|mpg|mpeg|mp2|mpe|mpv|m2v|m4v|f4v|f4p|f4a|f4b)(\?.*)?$/i;
-                            if (videoExtensions.test(url)) return true;
-                            
-                            // Check for data URLs with video MIME types
-                            if (url.startsWith('data:video/')) return true;
-                            
-                            // Check for blob URLs (might be video)
-                            if (url.startsWith('blob:') && mediaType?.toLowerCase().includes('video')) return true;
-                            
-                            return false;
-                          };
-
-                          const isVideo = isVideoContent(media.url, media.mediaType);
-                          
-                          return isVideo ? (
-                            <div className="relative w-full h-full">
-                              <video 
-                                src={media.url}
-                                className="w-full h-[190px] object-cover"
-                                style={{ aspectRatio: '16/9' }}
-                                controls={false}
-                                muted
-                                preload="metadata"
-                                playsInline
-                                onError={e => {
-                                  console.error('Video load error:', { url: media.url, mediaType: media.mediaType });
-                                  const target = e.target as HTMLVideoElement;
-                                  target.style.display = 'none';
-                                  const parent = target.parentElement;
-                                  if (parent) {
-                                    parent.innerHTML = '<div class="w-full h-full bg-muted rounded-lg flex items-center justify-center"><span class="text-xs text-muted-foreground text-center px-2">Video not available</span></div>';
-                                  }
-                                }}
-                                onLoadedMetadata={() => {
-                                  console.log('Video loaded successfully:', media.url);
-                                }}
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="bg-black/50 rounded-full p-2">
-                                  <Play className="w-6 h-6 text-white" />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
+                        {media.url ? <>
                             <img 
                               src={media.url} 
                               alt={`${media.category} media`} 
                               className="w-full h-[190px] object-cover transition-all duration-300" 
                               style={{ aspectRatio: '16/9' }}
                               onError={e => {
-                                console.error('Image load error:', { url: media.url, mediaType: media.mediaType });
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                                const parent = target.parentElement;
-                                if (parent) {
-                                  parent.innerHTML = '<div class="w-full h-full bg-muted rounded-lg flex items-center justify-center"><span class="text-xs text-muted-foreground text-center px-2">Image not available</span></div>';
-                                }
-                              }}
-                              onLoad={() => {
-                                console.log('Image loaded successfully:', media.url);
-                              }}
-                            />
-                          );
-                        })() : (
-                          <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
-                            <span className="text-xs text-muted-foreground text-center px-2">No media</span>
-                          </div>
-                        )}
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = '<div class="w-full h-full bg-muted rounded-lg flex items-center justify-center"><span class="text-xs text-muted-foreground text-center px-2">No image</span></div>';
+                      }
+                    }} />
+                            {media.mediaType === 'video' && <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="bg-black/50 rounded-full p-2">
+                                  <Play className="w-6 h-6 text-white" />
+                                </div>
+                              </div>}
+                          </> : <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
+                            <span className="text-xs text-muted-foreground text-center px-2">No image</span>
+                          </div>}
                       </div>
                     </div>
                   </div>
