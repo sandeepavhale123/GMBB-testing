@@ -158,7 +158,7 @@ export const SubNavbar: React.FC = () => {
             >
               <ArrowLeft className="h-4 w-4" />
               Back
-            </button>
+            </button> 
           </div>
         </div>
       </nav>

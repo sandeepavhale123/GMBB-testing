@@ -11,11 +11,11 @@ const navItems = [
 
 export const SubNavBar: React.FC = () => {
   const location = useLocation();
-
+ 
   return (
-    <nav className="border-b border-border/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex space-x-8 overflow-x-auto">
+        <div className="flex items-center justify-center md:justify-end gap-1 md:gap-6 flex-wrap">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             

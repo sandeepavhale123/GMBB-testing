@@ -19,10 +19,10 @@ export const Header: React.FC = () => {
 
   return (
     <header 
-      className="fixed top-0 left-0 right-0 h-16 border-b border-border/20 flex items-center px-6 z-40"
+      className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-3 border-b border-border"
       style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
     >
-      <div className="flex items-center justify-between w-full">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
@@ -52,7 +52,7 @@ export const Header: React.FC = () => {
           
           <ModulesMegaMenu />
           <NotificationsMegaMenu />
-          <UserProfileDropdown className="rounded-sm text-slate-900 font-medium border-2" />
+          <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
         </div>
       </div>
     </header>
