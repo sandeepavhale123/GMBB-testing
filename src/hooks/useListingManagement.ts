@@ -6,10 +6,12 @@ import { useListingStatusToggle } from "./useListingStatusToggle";
 
 export interface UseListingManagementParams {
   accountId: string;
+  onListingStatusChange?: () => Promise<void>; // ADD THIS LINE
 }
 
 export const useListingManagement = ({
   accountId,
+  onListingStatusChange, // ADD THIS PARAMETER
 }: UseListingManagementParams) => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -96,6 +98,28 @@ export const useListingManagement = ({
     [navigate, listings, toast]
   );
 
+  // const handleToggleListing = useCallback(
+  //   async (listingId: string, isActive: boolean) => {
+  //     try {
+  //       await toggleListingStatus(
+  //         listingId,
+  //         parseInt(accountId),
+  //         isActive,
+  //         (data) => {
+  //           // Refetch both filtered data and summary statistics
+  //           refetch();
+  //           refetchSummary();
+  //           // console.log('Updated active listings count:', data.activeListings);
+  //         }
+  //       );
+  //     } catch (error) {
+  //       // Error handling is done in the hook
+  //       console.error("Failed to toggle listing:", error);
+  //     }
+  //   },
+  //   [toggleListingStatus, accountId, refetch, refetchSummary]
+  // );
+
   const handleToggleListing = useCallback(
     async (listingId: string, isActive: boolean) => {
       try {
@@ -103,10 +127,27 @@ export const useListingManagement = ({
           listingId,
           parseInt(accountId),
           isActive,
-          (data) => {
+          async (data) => {
+            // MAKE THIS ASYNC
             // Refetch both filtered data and summary statistics
             refetch();
             refetchSummary();
+
+            // Trigger business listings refresh for dropdown sync
+            if (onListingStatusChange) {
+              try {
+                await onListingStatusChange();
+                console.log(
+                  "🔄 ListingManagement: Business listings refreshed after status change"
+                );
+              } catch (error) {
+                console.error(
+                  "🔄 ListingManagement: Failed to refresh business listings:",
+                  error
+                );
+              }
+            }
+
             // console.log('Updated active listings count:', data.activeListings);
           }
         );
@@ -115,7 +156,13 @@ export const useListingManagement = ({
         console.error("Failed to toggle listing:", error);
       }
     },
-    [toggleListingStatus, accountId, refetch, refetchSummary]
+    [
+      toggleListingStatus,
+      accountId,
+      refetch,
+      refetchSummary,
+      onListingStatusChange,
+    ]
   );
 
   return {

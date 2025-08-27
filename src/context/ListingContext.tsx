@@ -25,6 +25,7 @@ interface ListingContextType {
   switchListing: (listing: BusinessListing) => void;
   setSelectedListing: (listing: BusinessListing | null) => void;
   initializeSelectedListing: (id?: string) => void;
+  refetchListings: () => Promise<void>; // ADD THIS LINE
 }
 
 const ListingContext = createContext<ListingContextType>({
@@ -35,6 +36,7 @@ const ListingContext = createContext<ListingContextType>({
   switchListing: () => {},
   setSelectedListing: () => {},
   initializeSelectedListing(id) {},
+  refetchListings: async () => {}, // ADD THIS LINE
 });
 
 export const useListingContext = () => {
@@ -56,6 +58,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     listings,
     loading: listingsLoading,
     addNewListing,
+    refetch,
   } = useBusinessListingsWithRedux();
   const { selectedBusinessId } = useAppSelector(
     (state) => state.businessListings
@@ -301,6 +304,11 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     ]
   );
 
+  const refetchListings = useCallback(async () => {
+    console.log("🔄 ListingContext: Manually triggering listings refetch");
+    await refetch();
+  }, [refetch]);
+
   const contextValue = useMemo(
     () => ({
       selectedListing,
@@ -310,6 +318,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       switchListing,
       setSelectedListing,
       initializeSelectedListing,
+      refetchListings,
     }),
     [
       selectedListing,
@@ -318,6 +327,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       listings,
       switchListing,
       initializeSelectedListing,
+      refetchListings,
     ]
   );
 

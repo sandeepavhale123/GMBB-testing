@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BusinessListing } from "@/components/Header/types";
 import { businessListingsService } from "@/services/businessListingsService";
 import { useAuthRedux } from "@/store/slices/auth/useAuthRedux";
@@ -19,6 +19,8 @@ export const useBusinessListingsWithRedux =
     const [apiListings, setApiListings] = useState<BusinessListing[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const lastFetchRef = useRef<number>(0); // ADD THIS LINE
+
     const {
       accessToken,
       isInitialized,
@@ -39,8 +41,12 @@ export const useBusinessListingsWithRedux =
       try {
         setLoading(true);
         setError(null);
+        const currentTime = Date.now();
+        lastFetchRef.current = currentTime; // ADD THIS LINE
+
         console.log(
-          "📋🔄 useBusinessListingsWithRedux: Fetching API business listings..."
+          "📋🔄 useBusinessListingsWithRedux: Fetching API business listings...",
+          { timestamp: currentTime } // ADD TIMESTAMP LOGGING
         );
         console.log("📋🔄 Auth state:", {
           accessToken: !!accessToken,
@@ -59,9 +65,10 @@ export const useBusinessListingsWithRedux =
         );
 
         setApiListings(data);
-        // console.log(
-        //   "📋🔄 useBusinessListingsWithRedux: Successfully updated API listings state"
-        // );
+        console.log(
+          "📋🔄 useBusinessListingsWithRedux: Successfully updated API listings state",
+          { timestamp: currentTime, count: data.length } // ADD THIS LOGGING
+        );
       } catch (err: any) {
         console.error(
           "📋🔄 useBusinessListingsWithRedux: Failed to fetch API business listings:",
