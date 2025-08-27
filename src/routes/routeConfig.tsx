@@ -7,6 +7,7 @@ import { rootRoutes } from "./configs/rootRoutes";
 import { publicReportRoutes } from "./configs/publicReportRoutes";
 import { multiDashboardRoutes } from "./configs/multiDashboardRoutes";
 import { geoRankingDashboardRoutes } from "./configs/geoRankingDashboardRoutes";
+import { geoRankingModuleRoutes } from "./configs/geoRankingModuleRoutes";
 
 export interface RouteConfig {
   path: string;
@@ -22,5 +23,6 @@ export const routeConfigs: RouteConfig[] = [
   ...listingRoutes,
   ...publicReportRoutes,
   ...multiDashboardRoutes,
-  ...geoRankingDashboardRoutes
+  ...geoRankingDashboardRoutes,
+  ...geoRankingModuleRoutes
 ];
