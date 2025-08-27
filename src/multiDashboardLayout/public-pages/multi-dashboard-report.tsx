@@ -7,7 +7,7 @@ import { usePublicCategoryAndState } from "@/hooks/usePublicCategoryAndState";
 import { usePublicReportConfig } from "@/hooks/usePublicReportConfig";
 import { ShareableDefaultListing, ShareableInsightListing, ShareableReviewListing, ShareableLocationListing, ShareablePost } from "@/api/publicDashboardApi";
 import { useDebounce } from "@/hooks/useDebounce";
-import { getDashboardType, getDashboardDisplayName } from "@/utils/dashboardMappings";
+import { getDashboardType, getDashboardDisplayName, getDashboardFilterType } from "@/utils/dashboardMappings";
 import {
   Search,
   BarChart3,
@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 
 export const PublicMultiDashboardReport: React.FC = () => {
   const { token } = useParams<{ token: string }>();
+  const [dashboardType, setDashboardType] = useState<string>("default");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,13 +63,25 @@ export const PublicMultiDashboardReport: React.FC = () => {
   // Fetch report configuration first
   const { data: reportConfig, isLoading: configLoading, error: configError } = usePublicReportConfig(token || "");
   
-  const dashboardFilterType = reportConfig?.data?.dashboardFilterType ? parseInt(reportConfig.data.dashboardFilterType) : undefined;
-  const dashboardType = dashboardFilterType ? getDashboardType(dashboardFilterType) : 'default';
+  // Set initial dashboard type from API config, but allow user override
+  const configDashboardFilterType = reportConfig?.data?.dashboardFilterType ? parseInt(reportConfig.data.dashboardFilterType) : undefined;
+  const configDashboardType = configDashboardFilterType ? getDashboardType(configDashboardFilterType) : 'default';
+  
+  // Use user-selected dashboard type or fall back to config
+  const activeDashboardType = dashboardType;
+  const activeDashboardFilterType = getDashboardFilterType(activeDashboardType);
+  
+  // Update dashboard type when config loads (only if user hasn't changed it)
+  React.useEffect(() => {
+    if (configDashboardType && dashboardType === 'default') {
+      setDashboardType(configDashboardType);
+    }
+  }, [configDashboardType, dashboardType]);
 
   // Fetch dashboard data using the token and filters (only when config is loaded)
   const { data, isLoading, error, refetch } = usePublicDashboardData({
     reportId: token || "",
-    dashboardFilterType: dashboardFilterType || 1,
+    dashboardFilterType: activeDashboardFilterType,
     page: currentPage,
     limit: 9,
     search: debouncedSearchTerm,
@@ -80,7 +93,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
   });
 
   // Fetch stats data for metrics cards
-  const { data: trendsData } = usePublicDashboardStats(token || "", dashboardFilterType);
+  const { data: trendsData } = usePublicDashboardStats(token || "", activeDashboardFilterType);
 
   // Fetch categories and states for filters
   const { data: categoryStateData, isLoading: categoryStateLoading } = usePublicCategoryAndState(token || "");
@@ -90,7 +103,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
   // Process API data immediately after fetching
   const apiData = data?.data;
-  const isPostDashboard = dashboardType === "post";
+  const isPostDashboard = activeDashboardType === "post";
 
   // Update Select values to show "all" when empty
   const displayCategory = selectedCategory || "all";
@@ -170,10 +183,17 @@ export const PublicMultiDashboardReport: React.FC = () => {
     setCurrentPage(1);
   };
 
-  // Dashboard type is now determined by the API, so we don't need this handler
-  // const handleDashboardTypeChange = (type: string) => {
-  //   // Dashboard type is determined by backend configuration
-  // };
+  const handleDashboardTypeChange = (type: string) => {
+    setDashboardType(type);
+    setCurrentPage(1);
+    // Reset filters when changing dashboard type
+    setSearchTerm("");
+    setSelectedCategory("");
+    setSelectedState("");
+    setReviewFilter("");
+    setPostStatus("");
+    setDateRange({ startDate: "", endDate: "" });
+  };
 
   // Generate metrics cards from trends data
   const metricsCards = trendsData?.data?.stats
@@ -258,14 +278,21 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <h3 className="text-lg font-semibold mb-2">
-                  GMB Listing – {getDashboardDisplayName(dashboardType)} dashboard
+                  GMB Listing – {getDashboardDisplayName(activeDashboardType)} dashboard
                 </h3>
                <div className="flex flex-col sm:flex-row gap-4">
-                <div className="sm:w-[250px] flex items-center px-3 py-2 bg-muted rounded-md">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {getDashboardDisplayName(dashboardType)} Dashboard
-                  </span>
-                </div>
+                <Select value={activeDashboardType} onValueChange={handleDashboardTypeChange}>
+                 <SelectTrigger className="sm:w-[250px]">
+                   <SelectValue placeholder="Select Dashboard Type" />
+                 </SelectTrigger>
+                 <SelectContent>
+                   <SelectItem value="default">Default Dashboard</SelectItem>
+                   <SelectItem value="insight">Insight Dashboard</SelectItem>
+                   <SelectItem value="review">Review Dashboard</SelectItem>
+                   <SelectItem value="location">Location Dashboard</SelectItem>
+                   <SelectItem value="post">Post Dashboard</SelectItem> 
+                 </SelectContent>
+               </Select>
               <ToggleGroup
                 type="single"
                 value={viewMode}
@@ -323,7 +350,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   </SelectContent>
                 </Select>
 
-                 {dashboardType === "review" && (
+                 {activeDashboardType === "review" && (
                   <Select
                     value={reviewFilter}
                     onValueChange={handleReviewFilterChange}
@@ -343,7 +370,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                   </Select>
                 )}
               {/* Additional Filters for Post Dashboard */}
-              {dashboardType === "post" && (
+              {activeDashboardType === "post" && (
                 <div className="flex gap-2">
                   <Select value={displayPostStatus} onValueChange={(value) => setPostStatus(value === "all" ? "" : value)}>
                     <SelectTrigger className="w-[200px]">
@@ -374,7 +401,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
               {dashboardType === "post" ? "Posts" : "Listings"}
             </h3> */}
             <p className="text-sm text-muted-foreground">
-              Showing {paginatedData.length} of {totalItems} {dashboardType === "post" ? "posts" : "listings"}
+              Showing {paginatedData.length} of {totalItems} {activeDashboardType === "post" ? "posts" : "listings"}
             </p>
           </div>
 
@@ -385,7 +412,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
               </div>
             ) : (
               <>
-                {dashboardType === "post" ? (
+                {activeDashboardType === "post" ? (
                   viewMode === "grid" ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {(paginatedData as ShareablePost[]).map((post: ShareablePost, index) => (

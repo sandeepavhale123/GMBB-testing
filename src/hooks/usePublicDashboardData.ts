@@ -12,7 +12,7 @@ import {
   ShareableLocationResponse,
   ShareablePostResponse,
 } from '@/api/publicDashboardApi';
-import { getDashboardType } from '@/utils/dashboardMappings';
+import { getDashboardType, getDashboardFilterType } from '@/utils/dashboardMappings';
 
 interface UsePublicDashboardDataParams {
   reportId: string;
