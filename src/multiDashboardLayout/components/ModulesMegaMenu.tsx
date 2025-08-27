@@ -9,7 +9,7 @@ const modules = [
     name: 'GRO Ranking',
     description: 'Track and optimize your local search rankings',
     icon: TrendingUp,
-    href: '/main-dashboard/gro-ranking',
+    href: 'module/geo-ranking',
   },
   {
     name: 'Lead Management',
