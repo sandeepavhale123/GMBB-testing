@@ -204,12 +204,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
         icon: Building2,
       },
       {
-        title: "Avg. Health Score",
-        value: `${reportConfig.data.stats.avgHealthScore}%`,
-        subtitle: "Overall performance",
-        icon: Heart,
-      },
-      {
         title: "Avg. Rating",
         value: reportConfig.data.stats.avgRating,
         subtitle: "Across all listings",
@@ -230,7 +224,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
     ]
     : [
       { title: "Total Listings", value: "0", subtitle: "Active locations", icon: Building2 },
-      { title: "Avg. Health Score", value: "0%", subtitle: "Overall performance", icon: Heart },
       { title: "Avg. Rating", value: "0", subtitle: "Across all listings", icon: Star },
       { title: "Total Posts", value: "0", subtitle: "Published content", icon: FileText },
       { title: "Total Reviews", value: "0", subtitle: "Customer feedback", icon: MessageSquare },
@@ -250,7 +243,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
         </div> */}
 
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {metricsCards.map((metric, index) => {
             const Icon = metric.icon;
             return (
