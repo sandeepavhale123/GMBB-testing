@@ -39,7 +39,7 @@ export const DashboardTypeGuard = ({
           if (profile.dashboardType === 1) {
             setRedirectPath("/main-dashboard");
           } else if (profile.dashboardType === 2) {
-            setRedirectPath("/geo-ranking-dashboard");
+            setRedirectPath("/module/geo-ranking");
           } else {
             setRedirectPath("/location-dashboard/default");
           }
