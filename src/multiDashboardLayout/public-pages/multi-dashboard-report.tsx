@@ -417,22 +417,33 @@ export const PublicMultiDashboardReport: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {(paginatedData as ShareablePost[]).map((post: ShareablePost, index) => (
                         <Card key={post.id || index} className="overflow-hidden hover:shadow-md transition-shadow relative flex flex-col h-full">
-                          {/* Post Image */}
-                          <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
-                            {post.media?.images ? (
-                              <img
-                                src={post.media.images}
-                                alt="Post media"
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                                <span className="text-gray-500 text-sm font-medium">
-                                  Image not available
-                                </span>
-                              </div>
-                            )}
-                          </div>
+                           {/* Post Image */}
+                           <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden relative">
+                             {post.media?.images ? (
+                               <img
+                                 src={post.media.images}
+                                 alt="Post media"
+                                 className="w-full h-full object-cover"
+                               />
+                             ) : (
+                               <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                 <span className="text-gray-500 text-sm font-medium">
+                                   Image not available
+                                 </span>
+                               </div>
+                             )}
+                             
+                             {/* Arrow Button for GMB Post */}
+                             {post.searchUrl && (
+                               <button
+                                 onClick={() => window.open(post.searchUrl, '_blank')}
+                                 className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
+                                 title="View on Google My Business"
+                               >
+                                 <ExternalLink className="w-4 h-4 text-primary" />
+                               </button>
+                             )}
+                           </div>
 
                           <CardContent className="p-4">
                             <div className="flex items-start justify-between mb-2">
