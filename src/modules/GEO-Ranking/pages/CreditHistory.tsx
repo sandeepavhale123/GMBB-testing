@@ -48,7 +48,7 @@ export const CreditHistory: React.FC = () => {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Credits History</h1>
+          <h1 className="text-2xl font-bold text-foreground">Credits History</h1>
           <p className="text-muted-foreground">Track your credit usage across all ranking checks</p>
         </div>
         <Button variant="outline" size="sm">

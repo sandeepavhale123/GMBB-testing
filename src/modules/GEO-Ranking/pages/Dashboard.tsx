@@ -91,7 +91,7 @@ export const Dashboard: React.FC = () => {
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Project Management</h1>
+          <h1 className="text-2xl font-bold text-foreground">Project Management</h1>
           <p className="text-muted-foreground">Manage your GEO ranking projects</p>
         </div>
         <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>

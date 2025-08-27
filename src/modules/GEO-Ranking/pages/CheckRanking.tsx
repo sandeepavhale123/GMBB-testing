@@ -8,7 +8,7 @@ export const CheckRanking: React.FC = () => {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Check Rank</h1>
+        <h1 className="text-2xl font-bold text-foreground">Check Rank</h1>
         <p className="text-muted-foreground">Monitor your local search rankings across different locations</p>
       </div>
 

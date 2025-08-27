@@ -34,7 +34,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Manage Google Place API Key</h1>
+        <h1 className="text-2xl font-bold text-foreground">Manage Google Place API Key</h1>
         <p className="text-muted-foreground">Configure your Google Places API key for location-based ranking checks</p>
       </div>
 
