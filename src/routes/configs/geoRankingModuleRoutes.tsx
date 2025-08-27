@@ -12,7 +12,7 @@ export const geoRankingModuleRoutes: RouteConfig[] = [
     path: "/module/geo-ranking",
     element: (
       <ProtectedRoute>
-        <DashboardTypeGuard allowedDashboardTypes={[2]}>
+        <DashboardTypeGuard allowedDashboardTypes={[0, 1, 2]}>
           <GeoRankingLayout />
         </DashboardTypeGuard>
       </ProtectedRoute>
