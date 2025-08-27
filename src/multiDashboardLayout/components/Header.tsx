@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Right Section - Action Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2"> 
           <Button
             variant="secondary"
             size="sm"

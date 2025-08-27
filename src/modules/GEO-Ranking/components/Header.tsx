@@ -11,13 +11,11 @@ import { UserProfileDropdown } from '@/components/Header/UserProfileDropdown';
 
 export const Header: React.FC = () => {
   const theme = useAppSelector(state => state.theme);
-  const { lightLogo, darkLogo } = useThemeLogo();
   const { profileData } = useProfile();
   const navigate = useNavigate();
+  const logoData = useThemeLogo();
 
-  const currentLogo = theme.isDark ? darkLogo : lightLogo;
-
-  return (
+  return ( 
     <header 
       className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-3 border-b border-border"
       style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
@@ -27,7 +25,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
             <img 
-              src={currentLogo} 
+              src={logoData.darkLogo} 
               alt="Company Logo" 
               className="h-8 w-auto object-contain"
             />
