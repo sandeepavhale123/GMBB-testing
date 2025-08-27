@@ -1,4 +1,4 @@
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 import React from "react";
 import { PublicReportDashboardLayout } from "./PublicReportDashboardLayout";
 import { usePerformanceCitationReport } from "@/hooks/useReports";
@@ -31,7 +31,9 @@ export const PublicCitationReport: React.FC = () => {
   console.log("citation data", citationData);
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   // Extract visible sections from API response
   const visibleSections = Object.entries(citationData?.visibleSection || {})

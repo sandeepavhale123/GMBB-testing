@@ -28,7 +28,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { usePerformanceHealthReport } from "@/hooks/useReports";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 
 export const PublicGMBHealthReport: React.FC = () => {
   const { token } = useParams();
@@ -38,7 +38,9 @@ export const PublicGMBHealthReport: React.FC = () => {
   const reportId = isPublicLayout ? params.reportId : undefined;
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   const {
     data: publichealthData,

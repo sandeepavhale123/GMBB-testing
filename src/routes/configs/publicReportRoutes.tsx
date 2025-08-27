@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import { RouteConfig } from "../routeConfig";
 import { ThemePreloader } from "@/components/ThemePreloader";
 import { PublicGMBHealthReport } from "@/components/PublicReports/PublicGMBHealthReport";
@@ -69,6 +68,10 @@ export const publicReportRoutes: RouteConfig[] = [
   },
   {
     path: "/multi-dashboard-report/:token",
-    element: <PublicMultiDashboardReport />,
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <PublicMultiDashboardReport />
+      </ThemePreloader>
+    ),
   },
 ];

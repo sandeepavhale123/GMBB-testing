@@ -19,7 +19,7 @@ import {
   usePublicGeoRankingReport,
 } from "@/hooks/useReports"; // Adjust path as needed
 import { formatToDayMonthYear } from "@/utils/dateUtils";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 
 // Fix for default markers in Leaflet with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -46,7 +46,9 @@ export const PublicGeoRankingReport: React.FC = () => {
   const reportId = window.location.pathname.split("/").pop() || "";
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   const { data: keywordData, isLoading: isKeywordLoading } =
     usePerformanceGeoKeywords(reportId);
