@@ -181,9 +181,12 @@ export const EditTeamMemberSettings: React.FC = () => {
         password: currentEditMember.password || "",
         role: currentEditMember.role || "",
       });
-      
+
       // Switch to profile tab if user was on listing tab but role is Moderator
-      if (activeTab === "listing" && currentEditMember.role?.toLowerCase() === "moderator") {
+      if (
+        activeTab === "listing" &&
+        currentEditMember.role?.toLowerCase() === "moderator"
+      ) {
         setActiveTab("profile");
       }
     }
@@ -219,13 +222,17 @@ export const EditTeamMemberSettings: React.FC = () => {
         };
 
         const result = await updateTeamMember(updateData);
-
         if (updateEditMember.fulfilled.match(result)) {
           toast({
             title: "Success",
             description: "Team member profile updated successfully",
           });
-          navigate("/main-dashboard/settings/team-members");
+
+          if (location.pathname.startsWith("/main-dashboard")) {
+            navigate("/main-dashboard/settings/team-members");
+          } else {
+            navigate("/settings/team-members");
+          }
         }
       } else if (activeTab === "listing") {
         // Save listing assignments
@@ -253,12 +260,37 @@ export const EditTeamMemberSettings: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate("/main-dashboard/settings/team-members");
+    if (location.pathname.startsWith("/main-dashboard")) {
+      navigate("/main-dashboard/settings/team-members");
+    } else {
+      navigate("/settings/team-members");
+    }
   };
 
   // Listing management handlers
-  const handleListingToggle = (listingId: string) => {
-    toggleListingAssignment(listingId);
+  const handleListingToggle = async (listingId: string) => {
+    // Get the new assigned IDs after toggle
+    // Auto-save on toggle for listing tab
+    const toggleResult = toggleListingAssignment(listingId);
+
+    if (!toggleResult) return;
+    try {
+      // Add a small delay to ensure the toggle state is updated
+
+      await saveAssignments(toggleResult);
+      toast({
+        title: "Success",
+        description: "Listing assignment updated successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error?.message || "Failed to update listing assignment",
+        variant: "destructive",
+      });
+      // Revert the toggle if save failed
+      toggleListingAssignment(listingId);
+    }
   };
 
   const handleAccountSelect = (accountName: string) => {
@@ -515,246 +547,249 @@ export const EditTeamMemberSettings: React.FC = () => {
         </Card>
       )}
 
-      {activeTab === "listing" && currentEditMember?.role?.toLowerCase() !== "moderator" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Listing Management</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="space-y-6">
-              {/* Filter Section */}
-              <div className="flex gap-4 items-center flex-wrap">
-                {/* Account Dropdown (80% width) */}
-                <div className="flex-1 relative">
-                  <Label className="text-sm font-medium">Google Account</Label>
-                  <div className="relative mt-1">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-between"
-                      onClick={() =>
-                        setIsAccountDropdownOpen(!isAccountDropdownOpen)
-                      }
-                    >
-                      <span className="truncate">{selectedAccount}</span>
-                      <ChevronDown className="h-4 w-4 opacity-50" />
-                    </Button>
-
-                    {isAccountDropdownOpen && (
-                      <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
-                        <div className="p-2 border-b">
-                          <div className="relative">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="Search accounts..."
-                              value={accountSearchQuery}
-                              onChange={(e) =>
-                                setAccountSearchQuery(e.target.value)
-                              }
-                              className="pl-8"
-                            />
-                          </div>
-                        </div>
-                        <div className="max-h-48 overflow-y-auto">
-                          {filteredAccounts.map((account) => (
-                            <button
-                              key={account.accountId}
-                              className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center"
-                              onClick={() =>
-                                handleAccountSelect(account.accountName)
-                              }
-                            >
-                              <span>{account.accountName}</span>
-                              <span className="text-muted-foreground">
-                                ({account.totalListings || 0})
-                              </span>
-                            </button>
-                          ))}
-                          {filteredAccounts.length === 0 && (
-                            <div className="px-3 py-2 text-sm text-muted-foreground">
-                              No accounts found
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Assigned Listing Badge (20% width) */}
-                <div className="flex-shrink-0">
-                  <Label className="text-sm font-medium">
-                    Assigned Listings
-                  </Label>
-                  <div className="mt-1">
-                    <Badge variant="secondary" className="text-sm px-3 py-1">
-                      {totalAssignListings} Assigned
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-
-              {/* Listings Table */}
-              <div className="border rounded-lg">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[40%]">Business Name</TableHead>
-                      <TableHead className="w-[40%]">Account</TableHead>
-                      <TableHead className="w-[20%] text-center">
-                        Assign
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {listingsLoading ? (
-                      <TableRow>
-                        <TableCell colSpan={5} className="text-center py-8">
-                          <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
-                          <p className="text-muted-foreground">
-                            Loading listings...
-                          </p>
-                        </TableCell>
-                      </TableRow>
-                    ) : listingsError ? (
-                      <TableRow>
-                        <TableCell
-                          colSpan={5}
-                          className="text-center py-8 text-destructive"
-                        >
-                          Error loading listings: {listingsError}
-                        </TableCell>
-                      </TableRow>
-                    ) : displayListings.length === 0 ? (
-                      <TableRow>
-                        <TableCell
-                          colSpan={5}
-                          className="text-center py-8 text-muted-foreground"
-                        >
-                          No listings found for the selected account
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      displayListings.map((listing) => (
-                        <TableRow
-                          key={listing.id}
-                          className="hover:bg-muted/50"
-                        >
-                          <TableCell className="font-medium">
-                            {listing.name}
-                          </TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {listing.accountName}
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <Switch
-                              checked={listing.allocated}
-                              onCheckedChange={() =>
-                                handleListingToggle(listing.id)
-                              }
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-
-              {/* API-driven Pagination */}
-              {displayListings.length > 0 && !listingsLoading && (
-                <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      Page {currentApiPage} of {totalApiPages} •{" "}
-                      {displayListings.length} listings
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-4 flex-col sm:flex-row">
-                    {/* Page Size Selector */}
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">
-                        Show:
-                      </span>
-                      <Select
-                        value={pageSize.toString()}
-                        onValueChange={(value) =>
-                          handlePageSizeChange(parseInt(value))
+      {activeTab === "listing" &&
+        currentEditMember?.role?.toLowerCase() !== "moderator" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Listing Management</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-6">
+                {/* Filter Section */}
+                <div className="flex gap-4 items-center flex-wrap">
+                  {/* Account Dropdown (80% width) */}
+                  <div className="flex-1 relative">
+                    <Label className="text-sm font-medium">
+                      Google Account
+                    </Label>
+                    <div className="relative mt-1">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-between"
+                        onClick={() =>
+                          setIsAccountDropdownOpen(!isAccountDropdownOpen)
                         }
                       >
-                        <SelectTrigger className="h-8 w-16">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="5">5</SelectItem>
-                          <SelectItem value="10">10</SelectItem>
-                          <SelectItem value="25">25</SelectItem>
-                          <SelectItem value="50">50</SelectItem>
-                        </SelectContent>
-                      </Select>
+                        <span className="truncate">{selectedAccount}</span>
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </Button>
+
+                      {isAccountDropdownOpen && (
+                        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
+                          <div className="p-2 border-b">
+                            <div className="relative">
+                              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                              <Input
+                                placeholder="Search accounts..."
+                                value={accountSearchQuery}
+                                onChange={(e) =>
+                                  setAccountSearchQuery(e.target.value)
+                                }
+                                className="pl-8"
+                              />
+                            </div>
+                          </div>
+                          <div className="max-h-48 overflow-y-auto">
+                            {filteredAccounts.map((account) => (
+                              <button
+                                key={account.accountId}
+                                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center"
+                                onClick={() =>
+                                  handleAccountSelect(account.accountName)
+                                }
+                              >
+                                <span>{account.accountName}</span>
+                                <span className="text-muted-foreground">
+                                  ({account.totalListings || 0})
+                                </span>
+                              </button>
+                            ))}
+                            {filteredAccounts.length === 0 && (
+                              <div className="px-3 py-2 text-sm text-muted-foreground">
+                                No accounts found
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
+                  </div>
 
-                    {/* Page Navigation */}
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(currentApiPage - 1)}
-                        disabled={!prevPageToken || currentApiPage === 1}
-                      >
-                        Previous
-                      </Button>
-
-                      <div className="flex items-center gap-1">
-                        <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
-                          {currentApiPage}
-                        </span>
-                        {hasMore && (
-                          <>
-                            <span className="text-sm text-muted-foreground">
-                              of
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                              {totalApiPages}+
-                            </span>
-                          </>
-                        )}
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handlePageChange(currentApiPage + 1)}
-                        disabled={!hasMore || !nextPageToken}
-                      >
-                        Next
-                      </Button>
+                  {/* Assigned Listing Badge (20% width) */}
+                  <div className="flex-shrink-0">
+                    <Label className="text-sm font-medium">
+                      Assigned Listings
+                    </Label>
+                    <div className="mt-1">
+                      <Badge variant="secondary" className="text-sm px-3 py-1">
+                        {totalAssignListings} Assigned
+                      </Badge>
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Save Button */}
-            <div className="flex justify-end mt-8 pt-6 border-t">
-              <Button
-                onClick={handleSave}
-                className="px-8"
-                disabled={isSaving || saveLoading || !hasChanges}
-              >
-                {isSaving || saveLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
+                {/* Listings Table */}
+                <div className="border rounded-lg">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[40%]">Business Name</TableHead>
+                        <TableHead className="w-[40%]">Account</TableHead>
+                        <TableHead className="w-[20%] text-center">
+                          Assign
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {listingsLoading ? (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center py-8">
+                            <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                            <p className="text-muted-foreground">
+                              Loading listings...
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      ) : listingsError ? (
+                        <TableRow>
+                          <TableCell
+                            colSpan={5}
+                            className="text-center py-8 text-destructive"
+                          >
+                            Error loading listings: {listingsError}
+                          </TableCell>
+                        </TableRow>
+                      ) : displayListings.length === 0 ? (
+                        <TableRow>
+                          <TableCell
+                            colSpan={5}
+                            className="text-center py-8 text-muted-foreground"
+                          >
+                            No listings found for the selected account
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        displayListings.map((listing) => (
+                          <TableRow
+                            key={listing.id}
+                            className="hover:bg-muted/50"
+                          >
+                            <TableCell className="font-medium">
+                              {listing.name}
+                            </TableCell>
+                            <TableCell className="text-sm text-muted-foreground">
+                              {listing.accountName}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <Switch
+                                checked={listing.allocated}
+                                onCheckedChange={() =>
+                                  handleListingToggle(listing.id)
+                                }
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                {/* API-driven Pagination */}
+                {displayListings.length > 0 && !listingsLoading && (
+                  <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">
+                        Page {currentApiPage} of {totalApiPages} •{" "}
+                        {displayListings.length} listings
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 flex-col sm:flex-row">
+                      {/* Page Size Selector */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">
+                          Show:
+                        </span>
+                        <Select
+                          value={pageSize.toString()}
+                          onValueChange={(value) =>
+                            handlePageSizeChange(parseInt(value))
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-16">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="25">25</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* Page Navigation */}
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handlePageChange(currentApiPage - 1)}
+                          disabled={!prevPageToken || currentApiPage === 1}
+                        >
+                          Previous
+                        </Button>
+
+                        <div className="flex items-center gap-1">
+                          <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
+                            {currentApiPage}
+                          </span>
+                          {hasMore && (
+                            <>
+                              <span className="text-sm text-muted-foreground">
+                                of
+                              </span>
+                              <span className="text-sm text-muted-foreground">
+                                {totalApiPages}+
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handlePageChange(currentApiPage + 1)}
+                          disabled={!hasMore || !nextPageToken}
+                        >
+                          Next
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+              </div>
+
+              {/* Save Button */}
+              {/* <div className="flex justify-end mt-8 pt-6 border-t">
+                <Button
+                  onClick={handleSave}
+                  className="px-8"
+                  disabled={isSaving || saveLoading || !hasChanges}
+                >
+                  {isSaving || saveLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </Button>
+              </div> */}
+            </CardContent>
+          </Card>
+        )}
     </div>
   );
 };
