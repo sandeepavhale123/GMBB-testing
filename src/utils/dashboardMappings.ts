@@ -23,3 +23,15 @@ export const getDashboardFilterType = (dashboardType: string): number => {
 export const getDashboardType = (filterType: number): string => {
   return FILTER_TYPE_TO_DASHBOARD_MAPPING[filterType] || 'default';
 };
+
+// Get display name for dashboard type
+export const getDashboardDisplayName = (dashboardType: string): string => {
+  const displayNames: Record<string, string> = {
+    'default': 'Default',
+    'insight': 'Insight',
+    'review': 'Review',
+    'location': 'Location',
+    'post': 'Post',
+  };
+  return displayNames[dashboardType] || 'Default';
+};

@@ -4,8 +4,10 @@ import { PublicMultiDashboardLayout } from "./PublicMultiDashboardLayout";
 import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
 import { usePublicDashboardData, usePublicDashboardStats } from "@/hooks/usePublicDashboardData";
 import { usePublicCategoryAndState } from "@/hooks/usePublicCategoryAndState";
+import { usePublicReportConfig } from "@/hooks/usePublicReportConfig";
 import { ShareableDefaultListing, ShareableInsightListing, ShareableReviewListing, ShareableLocationListing, ShareablePost } from "@/api/publicDashboardApi";
 import { useDebounce } from "@/hooks/useDebounce";
+import { getDashboardType, getDashboardDisplayName } from "@/utils/dashboardMappings";
 import {
   Search,
   BarChart3,
@@ -40,7 +42,6 @@ import { Input } from "@/components/ui/input";
 
 export const PublicMultiDashboardReport: React.FC = () => {
   const { token } = useParams<{ token: string }>();
-  const [dashboardType, setDashboardType] = useState<string>("default");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,10 +59,16 @@ export const PublicMultiDashboardReport: React.FC = () => {
   // Apply theme
   usePublicReportTheme();
 
-  // Fetch dashboard data using the token and filters
+  // Fetch report configuration first
+  const { data: reportConfig, isLoading: configLoading, error: configError } = usePublicReportConfig(token || "");
+  
+  const dashboardFilterType = reportConfig?.data?.dashboardFilterType ? parseInt(reportConfig.data.dashboardFilterType) : undefined;
+  const dashboardType = dashboardFilterType ? getDashboardType(dashboardFilterType) : 'default';
+
+  // Fetch dashboard data using the token and filters (only when config is loaded)
   const { data, isLoading, error, refetch } = usePublicDashboardData({
     reportId: token || "",
-    dashboardType,
+    dashboardFilterType: dashboardFilterType || 1,
     page: currentPage,
     limit: 9,
     search: debouncedSearchTerm,
@@ -73,7 +80,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
   });
 
   // Fetch stats data for metrics cards
-  const { data: trendsData } = usePublicDashboardStats(token || "");
+  const { data: trendsData } = usePublicDashboardStats(token || "", dashboardFilterType);
 
   // Fetch categories and states for filters
   const { data: categoryStateData, isLoading: categoryStateLoading } = usePublicCategoryAndState(token || "");
@@ -101,25 +108,29 @@ export const PublicMultiDashboardReport: React.FC = () => {
     : (apiData && 'listings' in apiData ? apiData.listings : []);
 
   // Loading and error states
-  if (isLoading) {
+  if (configLoading || isLoading) {
     return (
       <PublicMultiDashboardLayout>
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading dashboard data...</p>
+            <p className="text-muted-foreground">
+              {configLoading ? "Loading report configuration..." : "Loading dashboard data..."}
+            </p>
           </div>
         </div>
       </PublicMultiDashboardLayout>
     );
   }
 
-  if (error) {
+  if (configError || error) {
     return (
       <PublicMultiDashboardLayout>
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
-            <p className="text-destructive mb-4">Failed to load dashboard data</p>
+            <p className="text-destructive mb-4">
+              {configError ? "Failed to load report configuration" : "Failed to load dashboard data"}
+            </p>
             <Button variant="outline" onClick={() => refetch()}>
               Try Again
             </Button>
@@ -159,17 +170,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleDashboardTypeChange = (type: string) => {
-    setDashboardType(type);
-    setCurrentPage(1);
-    // Reset filters when changing dashboard type
-    setSearchTerm("");
-    setSelectedCategory("");
-    setSelectedState("");
-    setReviewFilter("");
-    setPostStatus("");
-    setDateRange({ startDate: "", endDate: "" });
-  };
+  // Dashboard type is now determined by the API, so we don't need this handler
+  // const handleDashboardTypeChange = (type: string) => {
+  //   // Dashboard type is determined by backend configuration
+  // };
 
   // Generate metrics cards from trends data
   const metricsCards = trendsData?.data?.stats
@@ -253,20 +257,15 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
 
        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-               <h3 className="text-lg font-semibold mb-2">GMB Listing – {(dashboardType === "review" ? "Review" : dashboardType === "insight" ? "Insight": dashboardType === "location" ? "Location": dashboardType === "post" ? "Post": "Default") } dashboard</h3>
-              <div className="flex flex-col sm:flex-row gap-4">
-               <Select value={dashboardType} onValueChange={handleDashboardTypeChange}>
-                <SelectTrigger className="sm:w-[250px]">
-                  <SelectValue placeholder="Select Dashboard Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="default">Default Dashboard</SelectItem>
-                  <SelectItem value="insight">Insight Dashboard</SelectItem>
-                  <SelectItem value="review">Review Dashboard</SelectItem>
-                  <SelectItem value="location">Location Dashboard</SelectItem>
-                  <SelectItem value="post">Post Dashboard</SelectItem> 
-                </SelectContent>
-              </Select>
+                <h3 className="text-lg font-semibold mb-2">
+                  GMB Listing – {getDashboardDisplayName(dashboardType)} dashboard
+                </h3>
+               <div className="flex flex-col sm:flex-row gap-4">
+                <div className="sm:w-[250px] flex items-center px-3 py-2 bg-muted rounded-md">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {getDashboardDisplayName(dashboardType)} Dashboard
+                  </span>
+                </div>
               <ToggleGroup
                 type="single"
                 value={viewMode}

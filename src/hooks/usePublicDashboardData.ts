@@ -12,11 +12,11 @@ import {
   ShareableLocationResponse,
   ShareablePostResponse,
 } from '@/api/publicDashboardApi';
-import { getDashboardFilterType } from '@/utils/dashboardMappings';
+import { getDashboardType } from '@/utils/dashboardMappings';
 
 interface UsePublicDashboardDataParams {
   reportId: string;
-  dashboardType: string;
+  dashboardFilterType: number;
   page: number;
   limit: number;
   search: string;
@@ -40,7 +40,7 @@ type ShareableResponse =
 export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
   const {
     reportId,
-    dashboardType,
+    dashboardFilterType,
     page,
     limit,
     search,
@@ -50,8 +50,6 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     postStatus,
     reviewFilter,
   } = params;
-
-  const dashboardFilterType = getDashboardFilterType(dashboardType);
 
   const request: ShareableReportRequest = {
     reportId,
@@ -66,8 +64,11 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     ...(reviewFilter && { review: reviewFilter }),
   };
 
+  // Get dashboard type for API routing
+  const dashboardType = getDashboardType(dashboardFilterType);
+
   return useQuery({
-    queryKey: ['publicDashboard', reportId, dashboardType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
+    queryKey: ['publicDashboard', reportId, dashboardFilterType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
     queryFn: async (): Promise<ShareableResponse> => {
       switch (dashboardType) {
         case 'insight':
@@ -90,10 +91,10 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
 };
 
 // Helper hook for getting metrics/stats data
-export const usePublicDashboardStats = (reportId: string) => {
+export const usePublicDashboardStats = (reportId: string, dashboardFilterType?: number) => {
   const { data, isLoading, error } = usePublicDashboardData({
     reportId,
-    dashboardType: 'default',
+    dashboardFilterType: dashboardFilterType || 1, // Default to 1 if not provided
     page: 1,
     limit: 1,
     search: '',

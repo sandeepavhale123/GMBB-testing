@@ -178,7 +178,26 @@ export interface ShareableCategoryAndStateResponse {
   };
 }
 
+// Report Configuration API
+export interface ShareableReportConfigRequest {
+  reportId: string;
+}
+
+export interface ShareableReportConfigResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    dashboardFilterType: string;
+  };
+}
+
 // API Functions
+export const getShareableReport = async (request: ShareableReportConfigRequest): Promise<ShareableReportConfigResponse> => {
+  const response = await publicAxiosInstance.post('/get-shareable-report', request);
+  return response.data;
+};
+
 export const getShareableCategoryAndState = async (request: ShareableCategoryAndStateRequest): Promise<ShareableCategoryAndStateResponse> => {
   const response = await publicAxiosInstance.post('/get-shareable-categoryandstate', request);
   return response.data;
