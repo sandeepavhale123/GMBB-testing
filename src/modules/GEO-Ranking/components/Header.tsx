@@ -29,9 +29,9 @@ export const Header: React.FC = () => {
               alt="Company Logo" 
               className="h-8 w-auto object-contain"
             />
-            <div className="border-l border-border/30 pl-3">
-              <h1 className="text-xl font-semibold text-foreground">GEO Ranking Tool</h1>
-              <p className="text-sm text-muted-foreground">Manage your local search rankings</p>
+            <div className="border-l border-border/30 pl-3 hidden md:block ">
+              <h1 className="text-md font-semibold text-white mb-0 p-0">GEO Ranking Tool</h1>
+              <p className="text-sm text-muted-foreground mt-0 p-0">Manage your local search rankings</p>
             </div>
           </div>
         </div>
