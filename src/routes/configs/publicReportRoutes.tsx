@@ -69,10 +69,6 @@ export const publicReportRoutes: RouteConfig[] = [
   },
   {
     path: "/multi-dashboard-report/:token",
-    element: (
-      <ThemePreloader loadFromAPI={true}>
-        <PublicMultiDashboardReport />
-      </ThemePreloader>
-    ),
+    element: <PublicMultiDashboardReport />,
   },
 ];

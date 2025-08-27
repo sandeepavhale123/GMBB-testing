@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { PublicMultiDashboardLayout } from "./PublicMultiDashboardLayout";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 import { usePublicDashboardData } from "@/hooks/usePublicDashboardData";
 import { usePublicCategoryAndState } from "@/hooks/usePublicCategoryAndState";
 import { usePublicReportConfig } from "@/hooks/usePublicReportConfig";
@@ -58,8 +58,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // Apply theme
-  usePublicReportTheme();
+  // Apply theme for public report
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   // Fetch report configuration first
   const { data: reportConfig, isLoading: configLoading, error: configError } = usePublicReportConfig(token || "");
