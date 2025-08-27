@@ -16,7 +16,7 @@ export const SubNavBar: React.FC = () => {
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-center md:justify-end gap-1 md:gap-6 flex-wrap">
+        <div className="flex items-center justify-end md:justify-end gap-1 md:gap-6 flex-wrap">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             const IconComponent = item.icon;
@@ -33,7 +33,7 @@ export const SubNavBar: React.FC = () => {
                 )}
               >
                 <IconComponent size={18} />
-                <span className="hidden md:inline whitespace-nowrap">{item.label}</span>
+                <span className="hidden md:block whitespace-nowrap">{item.label}</span>
               </NavLink>
             );
           })}
