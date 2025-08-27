@@ -183,12 +183,23 @@ export interface ShareableReportConfigRequest {
   reportId: string;
 }
 
+export interface ShareableReportStats {
+  totalListings: number;
+  avgHealthScore: number;
+  avgRating: string;
+  totalPosts: number;
+  totalReviews: number;
+}
+
 export interface ShareableReportConfigResponse {
   code: number;
   message: string;
   data: {
-    reportId: string;
-    dashboardFilterType: string;
+    report: {
+      reportId: string;
+      dashboardFilterType: string;
+    };
+    stats: ShareableReportStats;
   };
 }
 
