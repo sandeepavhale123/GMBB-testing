@@ -156,8 +156,7 @@ export const Dashboard: React.FC = () => {
           if (card.title === 'Available Credits') {
             const remainingCredits = summary?.availableCredits || 0;
             const totalCredits = summary?.allowedCredits || 0;
-            const usedCredits = totalCredits - remainingCredits;
-            const progressPercentage = totalCredits > 0 ? (usedCredits / totalCredits) * 100 : 0;
+            const progressPercentage = totalCredits > 0 ? (remainingCredits / totalCredits) * 100 : 0;
             
             return (
               <Card key={card.title}>
