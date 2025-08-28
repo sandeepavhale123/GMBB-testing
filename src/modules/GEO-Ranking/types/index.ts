@@ -99,3 +99,24 @@ export interface GeoProjectsResponse {
     pagination: PaginationInfo;
   };
 }
+
+// New interfaces for Create GEO Project API
+export interface CreateGeoProjectRequest {
+  projectName: string;
+  emails: string;
+}
+
+export interface CreateGeoProjectResponse {
+  code: number;
+  message: string;
+  data: {
+    project: {
+      user_id: string;
+      project_name: string;
+      email: string;
+      created_at: string;
+      id: number;
+      encKey: string;
+    };
+  };
+}

@@ -2,8 +2,8 @@ import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { parse, format } from 'date-fns';
-import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject } from '../types';
-import { getGeoOverview, getGeoProjects } from '@/api/geoRankingApi';
+import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest } from '../types';
+import { getGeoOverview, getGeoProjects, createGeoProject } from '@/api/geoRankingApi';
 
 // Helper function to format API date
 const formatApiDate = (dateString: string): string => {
@@ -66,14 +66,26 @@ const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
   }
 };
 
-const createProject = async (projectData: Omit<GeoProject, 'id'>): Promise<GeoProject> => {
-  // TODO: Implement actual API call for creating projects
-  await new Promise(resolve => setTimeout(resolve, 800));
-  const newProject = {
-    ...projectData,
-    id: Date.now().toString(),
-  };
-  return newProject;
+const createProjectApi = async (projectData: CreateGeoProjectRequest): Promise<GeoProject> => {
+  try {
+    const response = await createGeoProject(projectData);
+    
+    // Map the API response to GeoProject format
+    const newProject: GeoProject = {
+      id: response.data.project.id.toString(),
+      name: response.data.project.project_name,
+      numberOfChecks: 0, // Default for new projects
+      createdDate: formatApiDate(response.data.project.created_at),
+      notificationEmail: response.data.project.email || 'No email provided',
+      keywords: [], // Default empty array for new projects
+      isActive: true, // Default to active
+    };
+    
+    return newProject;
+  } catch (error) {
+    console.error('Error creating GEO project:', error);
+    throw error;
+  }
 };
 
 const deleteProject = async (projectId: string): Promise<void> => {
@@ -116,7 +128,7 @@ export const useGeoProjects = () => {
   });
 
   const createMutation = useMutation({
-    mutationFn: createProject,
+    mutationFn: createProjectApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });

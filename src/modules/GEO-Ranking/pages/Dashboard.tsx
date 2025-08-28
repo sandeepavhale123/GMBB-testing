@@ -31,22 +31,15 @@ export const Dashboard: React.FC = () => {
   const [newProject, setNewProject] = useState({
     name: '',
     notificationEmail: '',
-    keywords: '',
   });
 
   const handleCreateProject = () => {
-    const keywordsArray = newProject.keywords.split(',').map(k => k.trim()).filter(k => k);
-    
     createProject({
-      name: newProject.name,
-      notificationEmail: newProject.notificationEmail,
-      keywords: keywordsArray,
-      numberOfChecks: 0,
-      createdDate: new Date().toISOString().split('T')[0],
-      isActive: true,
+      projectName: newProject.name,
+      emails: newProject.notificationEmail,
     });
 
-    setNewProject({ name: '', notificationEmail: '', keywords: '' });
+    setNewProject({ name: '', notificationEmail: '' });
     setShowCreateModal(false);
   };
 
@@ -130,16 +123,7 @@ export const Dashboard: React.FC = () => {
                   type="email"
                   value={newProject.notificationEmail}
                   onChange={(e) => setNewProject({ ...newProject, notificationEmail: e.target.value })}
-                  placeholder="Enter notification email"
-                />
-              </div>
-              <div>
-                <Label htmlFor="keywords">Keywords (comma separated)</Label>
-                <Textarea
-                  id="keywords"
-                  value={newProject.keywords}
-                  onChange={(e) => setNewProject({ ...newProject, keywords: e.target.value })}
-                  placeholder="Enter keywords separated by commas"
+                  placeholder="Enter emails separated by commas"
                 />
               </div>
               <div className="flex justify-end space-x-2">
