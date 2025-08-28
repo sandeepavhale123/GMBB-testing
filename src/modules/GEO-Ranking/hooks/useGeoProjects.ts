@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import type { GeoProject, DashboardSummary } from '../types';
+import { getGeoOverview } from '@/api/geoRankingApi';
 
 // Mock API functions - replace with actual API calls
 const mockProjects: GeoProject[] = [
@@ -32,13 +33,26 @@ const fetchProjects = async (): Promise<GeoProject[]> => {
 };
 
 const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  return {
-    totalProjects: mockProjects.length,
-    totalKeywords: mockProjects.reduce((sum, project) => sum + project.keywords.length, 0),
-    scheduledScans: 5,
-    availableCredits: 1250,
-  };
+  try {
+    const response = await getGeoOverview();
+    return {
+      totalProjects: response.data.totalProject,
+      totalKeywords: response.data.noOfKeywords,
+      scheduledScans: response.data.scheduleKeywords,
+      availableCredits: response.data.credits.remainingCredit,
+      allowedCredits: response.data.credits.allowedCredit,
+    };
+  } catch (error) {
+    console.error('Error fetching GEO overview:', error);
+    // Fallback to mock data if API fails
+    return {
+      totalProjects: mockProjects.length,
+      totalKeywords: mockProjects.reduce((sum, project) => sum + project.keywords.length, 0),
+      scheduledScans: 5,
+      availableCredits: 1250,
+      allowedCredits: 10000,
+    };
+  }
 };
 
 const createProject = async (projectData: Omit<GeoProject, 'id'>): Promise<GeoProject> => {

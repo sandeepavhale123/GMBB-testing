@@ -26,9 +26,24 @@ export interface GoogleApiKeyData {
   quotaLimit: number;
 }
 
+export interface GeoOverviewResponse {
+  code: number;
+  message: string;
+  data: {
+    noOfKeywords: number;
+    scheduleKeywords: number;
+    totalProject: number;
+    credits: {
+      allowedCredit: number;
+      remainingCredit: number;
+    };
+  };
+}
+
 export interface DashboardSummary {
   totalProjects: number;
   totalKeywords: number;
   scheduledScans: number;
   availableCredits: number;
+  allowedCredits: number;
 }

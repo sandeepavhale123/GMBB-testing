@@ -414,3 +414,23 @@ export const deleteKeywords = async (
     throw error;
   }
 };
+
+// GEO Overview API
+export interface GeoOverviewResponse {
+  code: number;
+  message: string;
+  data: {
+    noOfKeywords: number;
+    scheduleKeywords: number;
+    totalProject: number;
+    credits: {
+      allowedCredit: number;
+      remainingCredit: number;
+    };
+  };
+}
+
+export const getGeoOverview = async (): Promise<GeoOverviewResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-geo-overview");
+  return response.data;
+};
