@@ -49,7 +49,6 @@ export const CreditHistory: React.FC = () => {
       <Card>
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <CardTitle>Credit Usage History</CardTitle>
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -58,10 +57,10 @@ export const CreditHistory: React.FC = () => {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead>
+              <thead className="bg-grey-500">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Keyword</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Credit</th>
