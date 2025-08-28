@@ -309,7 +309,7 @@ const TeamMembersPage: React.FC = () => {
                       {members.map((member) => (
                         <TableRow key={member.id} className="hover:bg-gray-50">
                           <TableCell className="p-4">
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-3" onClick={() => handleEditMember(member)}>
                               <Avatar className="h-10 w-10">
                                 <AvatarImage
                                   src={getProfilePictureUrl(
