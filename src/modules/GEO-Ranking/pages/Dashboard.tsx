@@ -151,6 +151,39 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {summaryCards.map((card) => {
           const Icon = card.icon;
+          
+          // Special layout for Credits card
+          if (card.title === 'Available Credits') {
+            const remainingCredits = summary?.availableCredits || 0;
+            const totalCredits = summary?.allowedCredits || 0;
+            const usedCredits = totalCredits - remainingCredits;
+            const progressPercentage = totalCredits > 0 ? (usedCredits / totalCredits) * 100 : 0;
+            
+            return (
+              <Card key={card.title}>
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-muted-foreground">Credits</p>
+                      <Icon className={`w-5 h-5 ${card.color}`} />
+                    </div>
+                    <p className="text-2xl font-bold text-foreground">{remainingCredits.toLocaleString()} left</p>
+                    <div className="space-y-2">
+                      <div className="w-full bg-muted-foreground/20 rounded-full h-2">
+                        <div 
+                          className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                          style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                        ></div>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Daily credits used first</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          }
+          
+          // Default layout for other cards
           return (
             <Card key={card.title}>
               <CardContent className="p-6">
