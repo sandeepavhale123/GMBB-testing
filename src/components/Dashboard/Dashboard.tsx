@@ -44,7 +44,8 @@ import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
 import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
-import { FaComments, FaEdit, FaQuestion } from "react-icons/fa";
+import { FaComments, FaQuestion } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
 import { useProfile } from "@/hooks/useProfile";
 
 declare global {
@@ -501,10 +502,12 @@ export const Dashboard: React.FC = () => {
                 )}
               </button>
               <button
-                onClick={() => window.open("/posts")}
+                onClick={() =>
+                  window.open("https://support.gmbbriefcase.com/help-center")
+                }
                 className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700"
               >
-                <FaEdit size={18} />
+                <BiSupport size={18} />
               </button>
             </div>
           )}
