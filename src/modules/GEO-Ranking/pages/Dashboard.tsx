@@ -204,7 +204,7 @@ export const Dashboard: React.FC = () => {
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>Projects</CardTitle>
+           
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -218,10 +218,10 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead>
+              <thead className="bg-grey-500">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
