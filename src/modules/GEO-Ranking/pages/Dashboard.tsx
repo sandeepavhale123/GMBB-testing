@@ -174,19 +174,9 @@ export const Dashboard: React.FC = () => {
                       <p className="text-sm font-medium text-muted-foreground">Credits</p>
                       <Icon className={`w-5 h-5 ${card.color}`} />
                     </div>
-                    <p className="text-2xl font-bold text-foreground">{remainingCredits.toLocaleString()} left</p>
-                    <div className="space-y-2">
-                      <div className="w-full bg-muted-foreground/20 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${Math.min(progressPercentage, 100)}%` }}
-                        ></div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-muted-foreground">Daily credits used first</p>
-                        <p className="text-xs text-muted-foreground">{totalCredits.toLocaleString()} total</p>
-                      </div>
-                    </div>
+
+                    <h3>{remainingCredits.toLocaleString()} / {totalCredits.toLocaleString()} </h3>
+                    
                   </div>
                 </CardContent>
               </Card>
