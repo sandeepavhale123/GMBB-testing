@@ -434,3 +434,42 @@ export const getGeoOverview = async (): Promise<GeoOverviewResponse> => {
   const response = await axiosInstance.post("/geomodule/get-geo-overview");
   return response.data;
 };
+
+// GEO Projects API
+export interface GeoProjectsRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface ApiProject {
+  id: string;
+  user_id: string;
+  project_name: string;
+  email: string | null;
+  kcount: string;
+  encKey: string;
+}
+
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface GeoProjectsResponse {
+  code: number;
+  message: string;
+  data: {
+    projects: ApiProject[];
+    pagination: PaginationInfo;
+  };
+}
+
+export const getGeoProjects = async (
+  requestData: GeoProjectsRequest
+): Promise<GeoProjectsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-geo-project", requestData);
+  return response.data;
+};

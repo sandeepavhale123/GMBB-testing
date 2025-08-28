@@ -1,35 +1,31 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import type { GeoProject, DashboardSummary } from '../types';
-import { getGeoOverview } from '@/api/geoRankingApi';
+import type { GeoProject, DashboardSummary, PaginationInfo } from '../types';
+import { getGeoOverview, getGeoProjects, type GeoProjectsRequest, type ApiProject } from '@/api/geoRankingApi';
 
-// Mock API functions - replace with actual API calls
-const mockProjects: GeoProject[] = [
-  {
-    id: '1',
-    name: 'Local Restaurant Campaign',
-    numberOfChecks: 45,
-    createdDate: '2024-01-15',
-    notificationEmail: 'owner@restaurant.com',
-    keywords: ['best pizza near me', 'italian restaurant'],
-    isActive: true,
-  },
-  {
-    id: '2',
-    name: 'Medical Practice SEO',
-    numberOfChecks: 32,
-    createdDate: '2024-02-10',
-    notificationEmail: 'marketing@medpractice.com',
-    keywords: ['dentist near me', 'family doctor'],
-    isActive: true,
-  },
-];
+// Helper function to map API project to UI project
+const mapApiProjectToGeoProject = (apiProject: ApiProject): GeoProject => ({
+  id: apiProject.id,
+  name: apiProject.project_name,
+  numberOfChecks: parseInt(apiProject.kcount) || 0,
+  createdDate: new Date().toISOString().split('T')[0], // Default to today since API doesn't provide this
+  notificationEmail: apiProject.email || 'No email provided',
+  keywords: [], // Default empty array since API doesn't provide keywords here
+  isActive: true, // Default to active
+});
 
-const fetchProjects = async (): Promise<GeoProject[]> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-  return mockProjects;
+const fetchProjects = async (params: GeoProjectsRequest): Promise<{ projects: GeoProject[]; pagination: PaginationInfo }> => {
+  try {
+    const response = await getGeoProjects(params);
+    return {
+      projects: response.data.projects.map(mapApiProjectToGeoProject),
+      pagination: response.data.pagination,
+    };
+  } catch (error) {
+    console.error('Error fetching GEO projects:', error);
+    throw error;
+  }
 };
 
 const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
@@ -44,41 +40,59 @@ const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
     };
   } catch (error) {
     console.error('Error fetching GEO overview:', error);
-    // Fallback to mock data if API fails
+    // Fallback to default values if API fails
     return {
-      totalProjects: mockProjects.length,
-      totalKeywords: mockProjects.reduce((sum, project) => sum + project.keywords.length, 0),
-      scheduledScans: 5,
-      availableCredits: 1250,
-      allowedCredits: 10000,
+      totalProjects: 0,
+      totalKeywords: 0,
+      scheduledScans: 0,
+      availableCredits: 0,
+      allowedCredits: 0,
     };
   }
 };
 
 const createProject = async (projectData: Omit<GeoProject, 'id'>): Promise<GeoProject> => {
+  // TODO: Implement actual API call for creating projects
   await new Promise(resolve => setTimeout(resolve, 800));
   const newProject = {
     ...projectData,
     id: Date.now().toString(),
   };
-  mockProjects.push(newProject);
   return newProject;
 };
 
 const deleteProject = async (projectId: string): Promise<void> => {
+  // TODO: Implement actual API call for deleting projects
   await new Promise(resolve => setTimeout(resolve, 500));
-  const index = mockProjects.findIndex(p => p.id === projectId);
-  if (index > -1) {
-    mockProjects.splice(index, 1);
-  }
+  console.log('Deleting project:', projectId);
 };
 
 export const useGeoProjects = () => {
   const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Debounced search term
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  
+  // Debounce search term
+  useMemo(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1); // Reset to first page when searching
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   const projectsQuery = useQuery({
-    queryKey: ['geo-projects'],
-    queryFn: fetchProjects,
+    queryKey: ['geo-projects', currentPage, pageSize, debouncedSearch],
+    queryFn: () => fetchProjects({
+      page: currentPage,
+      limit: pageSize,
+      search: debouncedSearch,
+    }),
   });
 
   const summaryQuery = useQuery({
@@ -110,8 +124,17 @@ export const useGeoProjects = () => {
     },
   });
 
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const handleSearchChange = useCallback((search: string) => {
+    setSearchTerm(search);
+  }, []);
+
   return {
-    projects: projectsQuery.data || [],
+    projects: projectsQuery.data?.projects || [],
+    pagination: projectsQuery.data?.pagination,
     summary: summaryQuery.data,
     isLoading: projectsQuery.isLoading || summaryQuery.isLoading,
     error: projectsQuery.error || summaryQuery.error,
@@ -119,5 +142,11 @@ export const useGeoProjects = () => {
     deleteProject: deleteMutation.mutate,
     isCreating: createMutation.isPending,
     isDeleting: deleteMutation.isPending,
+    // Pagination controls
+    currentPage,
+    pageSize,
+    searchTerm,
+    handlePageChange,
+    handleSearchChange,
   };
 };

@@ -47,3 +47,35 @@ export interface DashboardSummary {
   availableCredits: number;
   allowedCredits: number;
 }
+
+// New interfaces for GEO Projects API
+export interface GeoProjectsRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface ApiProject {
+  id: string;
+  user_id: string;
+  project_name: string;
+  email: string | null;
+  kcount: string;
+  encKey: string;
+}
+
+export interface GeoProjectsResponse {
+  code: number;
+  message: string;
+  data: {
+    projects: ApiProject[];
+    pagination: PaginationInfo;
+  };
+}

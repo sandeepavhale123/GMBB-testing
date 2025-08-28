@@ -8,23 +8,31 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Search, Plus, MoreVertical, Eye, Edit, Share, Trash2, Users, Target, Calendar, CreditCard } from 'lucide-react';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination';
 import { useGeoProjects } from '../hooks/useGeoProjects';
 import type { GeoProject } from '../types';
 
 export const Dashboard: React.FC = () => {
-  const { projects, summary, isLoading, createProject, deleteProject, isCreating } = useGeoProjects();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { 
+    projects, 
+    pagination, 
+    summary, 
+    isLoading, 
+    createProject, 
+    deleteProject, 
+    isCreating,
+    currentPage,
+    searchTerm,
+    handlePageChange,
+    handleSearchChange
+  } = useGeoProjects();
+  
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newProject, setNewProject] = useState({
     name: '',
     notificationEmail: '',
     keywords: '',
   });
-
-  const filteredProjects = projects.filter(project =>
-    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.notificationEmail.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleCreateProject = () => {
     const keywordsArray = newProject.keywords.split(',').map(k => k.trim()).filter(k => k);
@@ -213,7 +221,7 @@ export const Dashboard: React.FC = () => {
                 <Input
                   placeholder="Search projects..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-10 w-64"
                 />
               </div>
@@ -233,54 +241,133 @@ export const Dashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProjects.map((project) => (
-                  <tr key={project.id} className="border-b border-border/50">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-medium text-foreground">{project.name}</span>
-                        {project.isActive && (
-                          <Badge variant="secondary" className="text-xs">Active</Badge>
-                        )}
+                {projects.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center">
+                      <div className="text-muted-foreground">
+                        {isLoading ? 'Loading projects...' : 'No projects found'}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-foreground">{project.numberOfChecks}</td>
-                    <td className="py-3 px-4 text-muted-foreground">{project.createdDate}</td>
-                    <td className="py-3 px-4 text-muted-foreground">{project.notificationEmail}</td>
-                    <td className="py-3 px-4">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreVertical className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
-                            <Eye className="w-4 h-4 mr-2" />
-                            View
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Edit className="w-4 h-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Share className="w-4 h-4 mr-2" />
-                            Shareable Link
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="text-destructive"
-                            onClick={() => deleteProject(project.id)}
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
                   </tr>
-                ))}
+                ) : (
+                  projects.map((project) => (
+                    <tr key={project.id} className="border-b border-border/50">
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-medium text-foreground">{project.name}</span>
+                          {project.isActive && (
+                            <Badge variant="secondary" className="text-xs">Active</Badge>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-foreground">{project.numberOfChecks}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{project.createdDate}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{project.notificationEmail}</td>
+                      <td className="py-3 px-4">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreVertical className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem>
+                              <Eye className="w-4 h-4 mr-2" />
+                              View
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Share className="w-4 h-4 mr-2" />
+                              Shareable Link
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onClick={() => deleteProject(project.id)}
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
+          
+          {/* Pagination */}
+          {pagination && pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
+              <div className="text-sm text-muted-foreground">
+                Showing {((currentPage - 1) * pagination.limit) + 1} to {Math.min(currentPage * pagination.limit, pagination.total)} of {pagination.total} projects
+              </div>
+              
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                  </PaginationItem>
+                  
+                  {/* Page numbers */}
+                  {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                    let pageNum: number;
+                    if (pagination.totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= pagination.totalPages - 2) {
+                      pageNum = pagination.totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          onClick={() => handlePageChange(pageNum)}
+                          isActive={currentPage === pageNum}
+                          className="cursor-pointer"
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                  
+                  {pagination.totalPages > 5 && currentPage < pagination.totalPages - 2 && (
+                    <>
+                      <PaginationItem>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink
+                          onClick={() => handlePageChange(pagination.totalPages)}
+                          className="cursor-pointer"
+                        >
+                          {pagination.totalPages}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </>
+                  )}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className={currentPage >= pagination.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
