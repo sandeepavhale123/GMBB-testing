@@ -174,7 +174,10 @@ export const Dashboard: React.FC = () => {
                           style={{ width: `${Math.min(progressPercentage, 100)}%` }}
                         ></div>
                       </div>
-                      <p className="text-xs text-muted-foreground">Daily credits used first</p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-muted-foreground">Daily credits used first</p>
+                        <p className="text-xs text-muted-foreground">{totalCredits.toLocaleString()} total</p>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
