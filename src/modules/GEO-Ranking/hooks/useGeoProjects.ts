@@ -134,7 +134,8 @@ export const useGeoProjects = () => {
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
       toast.success('Project created successfully');
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error('Create project error:', error);
       toast.error('Failed to create project');
     },
   });
