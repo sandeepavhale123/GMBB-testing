@@ -1,4 +1,11 @@
 import axiosInstance from "./axiosInstance";
+import type { 
+  GeoOverviewResponse,
+  GeoProjectsRequest,
+  GeoProjectsResponse,
+  CreditHistoryRequest,
+  CreditHistoryResponse
+} from '@/modules/GEO-Ranking/types';
 
 // Types for API requests and responses
 export interface DeleteKeywordRequest {
@@ -415,61 +422,21 @@ export const deleteKeywords = async (
   }
 };
 
-// GEO Overview API
-export interface GeoOverviewResponse {
-  code: number;
-  message: string;
-  data: {
-    noOfKeywords: number;
-    scheduleKeywords: number;
-    totalProject: number;
-    credits: {
-      allowedCredit: number;
-      remainingCredit: number;
-    };
-  };
-}
-
 export const getGeoOverview = async (): Promise<GeoOverviewResponse> => {
   const response = await axiosInstance.post("/geomodule/get-geo-overview");
   return response.data;
 };
 
-// GEO Projects API
-export interface GeoProjectsRequest {
-  page: number;
-  limit: number;
-  search: string;
-}
-
-export interface ApiProject {
-  id: string;
-  user_id: string;
-  project_name: string;
-  email: string | null;
-  kcount: string;
-  encKey: string;
-}
-
-export interface PaginationInfo {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface GeoProjectsResponse {
-  code: number;
-  message: string;
-  data: {
-    projects: ApiProject[];
-    pagination: PaginationInfo;
-  };
-}
-
 export const getGeoProjects = async (
   requestData: GeoProjectsRequest
 ): Promise<GeoProjectsResponse> => {
   const response = await axiosInstance.post("/geomodule/get-geo-project", requestData);
+  return response.data;
+};
+
+export const getGeoCreditHistory = async (
+  requestData: CreditHistoryRequest
+): Promise<CreditHistoryResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-geo-credit-history", requestData);
   return response.data;
 };

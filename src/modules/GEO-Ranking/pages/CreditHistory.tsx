@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Search, Download, Calendar, CreditCard } from 'lucide-react';
 import { useCreditHistory } from '../hooks/useCreditHistory';
 
 export const CreditHistory: React.FC = () => {
-  const { creditHistory, isLoading } = useCreditHistory();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [rankTypeFilter, setRankTypeFilter] = useState<string>('all');
-
-  const filteredHistory = creditHistory.filter(item => {
-    const matchesSearch = item.keyword.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (item.projectName && item.projectName.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesFilter = rankTypeFilter === 'all' || item.rankType === rankTypeFilter;
-    return matchesSearch && matchesFilter;
-  });
+  const { 
+    creditHistory, 
+    isLoading, 
+    currentPage, 
+    searchTerm, 
+    handlePageChange, 
+    handleSearchChange 
+  } = useCreditHistory();
 
   const totalCreditsUsed = creditHistory.reduce((sum, item) => sum + item.credit, 0);
 
@@ -107,22 +104,12 @@ export const CreditHistory: React.FC = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Search keywords or projects..."
+                  placeholder="Search keywords..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-10 w-full sm:w-64"
                 />
               </div>
-              <Select value={rankTypeFilter} onValueChange={setRankTypeFilter}>
-                <SelectTrigger className="w-full sm:w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Rank Types</SelectItem>
-                  <SelectItem value="local">Local Rankings</SelectItem>
-                  <SelectItem value="organic">Organic Rankings</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
         </CardHeader>
@@ -132,43 +119,29 @@ export const CreditHistory: React.FC = () => {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Keyword</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Rank Type</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Credit</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredHistory.map((item) => (
+                {creditHistory.map((item) => (
                   <tr key={item.id} className="border-b border-border/50 hover:bg-muted/50">
                     <td className="py-3 px-4">
                       <span className="font-medium text-foreground">{item.keyword}</span>
                     </td>
                     <td className="py-3 px-4">
-                      <Badge variant={item.rankType === 'local' ? 'default' : 'secondary'}>
-                        {item.rankType === 'local' ? 'Local' : 'Organic'}
-                      </Badge>
-                    </td>
-                    <td className="py-3 px-4">
                       <span className="font-semibold text-foreground">{item.credit}</span>
                     </td>
                     <td className="py-3 px-4 text-muted-foreground">{item.date}</td>
-                    <td className="py-3 px-4">
-                      {item.projectName ? (
-                        <span className="text-sm text-muted-foreground">{item.projectName}</span>
-                      ) : (
-                        <span className="text-sm text-muted-foreground italic">No project</span>
-                      )}
-                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             
-            {filteredHistory.length === 0 && (
+            {creditHistory.length === 0 && !isLoading && (
               <div className="text-center py-8">
                 <p className="text-muted-foreground">No credit history found</p>
-                <p className="text-sm text-muted-foreground">Try adjusting your search or filters</p>
+                <p className="text-sm text-muted-foreground">Try adjusting your search</p>
               </div>
             )}
           </div>

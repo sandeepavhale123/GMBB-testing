@@ -1,57 +1,55 @@
+import { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { CreditHistoryItem } from '../types';
+import { format } from 'date-fns';
+import { getGeoCreditHistory } from '@/api/geoRankingApi';
+import type { CreditHistoryItem, CreditHistoryRequest } from '../types';
+import { useDebounce } from '@/hooks/useDebounce';
 
-// Mock data - replace with actual API calls
-const mockCreditHistory: CreditHistoryItem[] = [
-  {
-    id: '1',
-    keyword: 'best pizza near me',
-    rankType: 'local',
-    credit: 5,
-    date: '2024-01-20',
-    projectName: 'Local Restaurant Campaign',
-  },
-  {
-    id: '2',
-    keyword: 'italian restaurant',
-    rankType: 'organic',
-    credit: 3,
-    date: '2024-01-19',
-    projectName: 'Local Restaurant Campaign',
-  },
-  {
-    id: '3',
-    keyword: 'dentist near me',
-    rankType: 'local',
-    credit: 5,
-    date: '2024-01-18',
-    projectName: 'Medical Practice SEO',
-  },
-  {
-    id: '4',
-    keyword: 'family doctor',
-    rankType: 'local',
-    credit: 5,
-    date: '2024-01-17',
-    projectName: 'Medical Practice SEO',
-  },
-];
-
-const fetchCreditHistory = async (): Promise<CreditHistoryItem[]> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 400));
-  return mockCreditHistory;
-};
+const mapApiCreditHistoryItem = (item: any, index: number): CreditHistoryItem => ({
+  id: `${index + 1}`,
+  keyword: item.keyword,
+  credit: parseInt(item.credit, 10),
+  date: format(new Date(item.created_at), 'MMM dd, yyyy'),
+});
 
 export const useCreditHistory = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [pageSize] = useState(10);
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  const fetchCreditHistory = useCallback(async (params: CreditHistoryRequest) => {
+    const response = await getGeoCreditHistory(params);
+    return response.data.creditHistory.map(mapApiCreditHistoryItem);
+  }, []);
+
   const query = useQuery({
-    queryKey: ['credit-history'],
-    queryFn: fetchCreditHistory,
+    queryKey: ['credit-history', currentPage, debouncedSearchTerm, pageSize],
+    queryFn: () => fetchCreditHistory({
+      page: currentPage,
+      limit: pageSize,
+      search: debouncedSearchTerm,
+    }),
   });
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const handleSearchChange = useCallback((search: string) => {
+    setSearchTerm(search);
+    setCurrentPage(1); // Reset to first page when searching
+  }, []);
 
   return {
     creditHistory: query.data || [],
     isLoading: query.isLoading,
     error: query.error,
+    currentPage,
+    pageSize,
+    searchTerm,
+    handlePageChange,
+    handleSearchChange,
   };
 };

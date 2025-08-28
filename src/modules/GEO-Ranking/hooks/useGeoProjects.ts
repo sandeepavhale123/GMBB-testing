@@ -1,8 +1,8 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import type { GeoProject, DashboardSummary, PaginationInfo } from '../types';
-import { getGeoOverview, getGeoProjects, type GeoProjectsRequest, type ApiProject } from '@/api/geoRankingApi';
+import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject } from '../types';
+import { getGeoOverview, getGeoProjects } from '@/api/geoRankingApi';
 
 // Helper function to map API project to UI project
 const mapApiProjectToGeoProject = (apiProject: ApiProject): GeoProject => ({

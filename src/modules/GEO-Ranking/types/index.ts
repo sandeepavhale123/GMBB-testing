@@ -11,10 +11,29 @@ export interface GeoProject {
 export interface CreditHistoryItem {
   id: string;
   keyword: string;
-  rankType: 'local' | 'organic';
   credit: number;
   date: string;
-  projectName?: string;
+}
+
+export interface ApiCreditHistoryItem {
+  created_at: string;
+  type: string;
+  credit: string;
+  keyword: string;
+}
+
+export interface CreditHistoryRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface CreditHistoryResponse {
+  code: number;
+  message: string;
+  data: {
+    creditHistory: ApiCreditHistoryItem[];
+  };
 }
 
 export interface GoogleApiKeyData {
