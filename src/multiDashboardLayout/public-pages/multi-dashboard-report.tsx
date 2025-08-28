@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { PublicMultiDashboardLayout } from "./PublicMultiDashboardLayout";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
-import { usePublicDashboardData, usePublicDashboardStats } from "@/hooks/usePublicDashboardData";
+import { applyStoredTheme } from "@/utils/themeUtils";
+import { usePublicDashboardData } from "@/hooks/usePublicDashboardData";
 import { usePublicCategoryAndState } from "@/hooks/usePublicCategoryAndState";
 import { usePublicReportConfig } from "@/hooks/usePublicReportConfig";
 import { ShareableDefaultListing, ShareableInsightListing, ShareableReviewListing, ShareableLocationListing, ShareablePost } from "@/api/publicDashboardApi";
@@ -24,6 +24,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar,
+  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,14 +58,16 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // Apply theme
-  usePublicReportTheme();
+  // Apply theme for public report
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   // Fetch report configuration first
   const { data: reportConfig, isLoading: configLoading, error: configError } = usePublicReportConfig(token || "");
   
   // Set initial dashboard type from API config, but allow user override
-  const configDashboardFilterType = reportConfig?.data?.dashboardFilterType ? parseInt(reportConfig.data.dashboardFilterType) : undefined;
+  const configDashboardFilterType = reportConfig?.data?.report?.dashboardFilterType ? parseInt(reportConfig.data.report.dashboardFilterType) : undefined;
   const configDashboardType = configDashboardFilterType ? getDashboardType(configDashboardFilterType) : 'default';
   
   // Use user-selected dashboard type or fall back to config
@@ -92,8 +95,6 @@ export const PublicMultiDashboardReport: React.FC = () => {
     reviewFilter,
   });
 
-  // Fetch stats data for metrics cards
-  const { data: trendsData } = usePublicDashboardStats(token || "", activeDashboardFilterType);
 
   // Fetch categories and states for filters
   const { data: categoryStateData, isLoading: categoryStateLoading } = usePublicCategoryAndState(token || "");
@@ -195,39 +196,39 @@ export const PublicMultiDashboardReport: React.FC = () => {
     setDateRange({ startDate: "", endDate: "" });
   };
 
-  // Generate metrics cards from trends data
-  const metricsCards = trendsData?.data?.stats
+  // Generate metrics cards from report config stats
+  const metricsCards = reportConfig?.data?.stats
     ? [
       {
         title: "Total Listings",
-        value: trendsData.data.stats.totalListings.toLocaleString(),
+        value: reportConfig.data.stats.totalListings.toLocaleString(),
         subtitle: "Active locations",
         icon: Building2,
       },
       {
         title: "Avg. Rating",
-        value: trendsData.data.stats.avgRating,
+        value: reportConfig.data.stats.avgRating,
         subtitle: "Across all listings",
         icon: Star,
       },
       {
-        title: "Total Reviews",
-        value: trendsData.data.stats.totalReviews.toLocaleString(),
-        subtitle: "Customer feedback",
-        icon: MessageSquare,
-      },
-      {
         title: "Total Posts",
-        value: trendsData.data.stats.totalPosts.toLocaleString(),
+        value: reportConfig.data.stats.totalPosts.toLocaleString(),
         subtitle: "Published content",
         icon: FileText,
+      },
+      {
+        title: "Total Reviews",
+        value: reportConfig.data.stats.totalReviews.toLocaleString(),
+        subtitle: "Customer feedback",
+        icon: MessageSquare,
       },
     ]
     : [
       { title: "Total Listings", value: "0", subtitle: "Active locations", icon: Building2 },
       { title: "Avg. Rating", value: "0", subtitle: "Across all listings", icon: Star },
-      { title: "Total Reviews", value: "0", subtitle: "Customer feedback", icon: MessageSquare },
       { title: "Total Posts", value: "0", subtitle: "Published content", icon: FileText },
+      { title: "Total Reviews", value: "0", subtitle: "Customer feedback", icon: MessageSquare },
     ];
 
   return (
@@ -314,7 +315,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Search listings, posts..."
+                  placeholder="Search by listing name or Zip code."
                   className="pl-10"
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}

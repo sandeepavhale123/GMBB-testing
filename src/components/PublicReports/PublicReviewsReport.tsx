@@ -38,14 +38,16 @@ import {
 } from "recharts";
 import { usePerformanceReviewReport } from "@/hooks/useReports";
 import { formatToDayMonthYear } from "@/utils/dateUtils";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 
 export const PublicReviewsReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   // Fetch review report
   const {

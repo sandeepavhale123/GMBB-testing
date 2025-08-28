@@ -44,7 +44,9 @@ import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
 import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
-import { FaComments, FaEdit, FaQuestion } from "react-icons/fa";
+import { FaComments, FaQuestion } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
+import { useProfile } from "@/hooks/useProfile";
 
 // declare global {
 //   interface Window {
@@ -159,16 +161,49 @@ export const Dashboard: React.FC = () => {
   //   };
   // }, []);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [open, setOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
+  // // eslint-disable-next-line react-hooks/rules-of-hooks
+  // const [open, setOpen] = useState(false);
+  // const [chatOpen, setChatOpen] = useState(false);
+  // const [unreadCount, setUnreadCount] = useState(0);
+  // const { profileData } = useProfile();
+  // const isAdmin = profileData?.role?.toLowerCase() === "admin";
+
+  // useEffect(() => {
+  //   if (!isAdmin) return;
+  //   // Handle new message from Crisp
+  //   const onMessageReceived = () => {
+  //     setUnreadCount((c) => c + 1);
+  //   };
+
+  //   // Handle chat opened (clear unread count)
+  //   const onChatOpened = () => {
+  //     setUnreadCount(0);
+  //     window.$crisp?.push(["do", "message:read"]); // tell Crisp to clear unread
+  //   };
+
+  //   // Register events
+  //   window.$crisp?.push(["on", "message:received", onMessageReceived]);
+  //   window.$crisp?.push(["on", "chat:opened", onChatOpened]);
+
+  //   // Initialize unread count when dashboard loads
+  //   try {
+  //     const initial = window.$crisp?.get?.("chat:unread:count") ?? 0;
+  //     setUnreadCount(initial);
+  //   } catch {
+  //     // Crisp not ready yet
+  //   }
+
+  //   // Cleanup on unmount
+  //   return () => {
+  //     window.$crisp?.push(["off", "message:received", onMessageReceived]);
+  //     window.$crisp?.push(["off", "chat:opened", onChatOpened]);
+  //   };
+  // }, [isAdmin]);
 
   // // Open Crisp chat
   // const openChat = () => {
-  //   console.log("on click chat", chatOpen);
   //   if (!chatOpen) {
-  //     window.$crisp?.push(["do", "chat:show"]);
-  //     window.$crisp.push(["do", "chat:open"]);
+  //     window.$crisp?.push(["do", "chat:open"]);
   //     setChatOpen(true);
   //   }
   // };

@@ -27,7 +27,7 @@ import {
 } from "recharts";
 import { usePerformancePostsReport } from "@/hooks/useReports";
 import { PostImage } from "./PostImage";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 import { formatToDDMMYY } from "@/utils/dateUtils";
 export const PublicPostPerformanceReport: React.FC = () => {
   const [isComparison, setIsComparison] = useState(false);
@@ -35,7 +35,9 @@ export const PublicPostPerformanceReport: React.FC = () => {
   const reportId = window.location.pathname.split("/").pop() || "";
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   // Fetch review report
   const {

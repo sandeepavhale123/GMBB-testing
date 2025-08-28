@@ -14,14 +14,16 @@ import {
   Legend,
 } from "recharts";
 import { usePerformanceMediaReport } from "@/hooks/useReports";
-import { usePublicReportTheme } from "@/hooks/usePublicReportTheme";
+import { applyStoredTheme } from "@/utils/themeUtils";
 
 export const PublicMediaReport: React.FC = () => {
   // Extract reportId from URL
   const reportId = window.location.pathname.split("/").pop() || "";
 
   // Load theme for public report
-  usePublicReportTheme();
+  React.useEffect(() => {
+    applyStoredTheme();
+  }, []);
 
   const {
     data: mediaReport,

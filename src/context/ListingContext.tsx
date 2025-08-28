@@ -60,15 +60,17 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     addNewListing,
     refetch,
   } = useBusinessListingsWithRedux();
+
   const { selectedBusinessId } = useAppSelector(
     (state) => state.businessListings
   );
   const { user, isInitialized, isAuthenticated } = useAuthRedux();
+
   const [selectedListing, setSelectedListing] =
     useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasInitialized, setHasInitialized] = useState(false);
-  const [initTimeout, setInitTimeout] = useState<NodeJS.Timeout | null>(null);
+  // const [hasInitialized, setHasInitialized] = useState(false);
+  // const [initTimeout, setInitTimeout] = useState<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const { listingId } = useParams<{ listingId?: string }>();
   const location = useLocation();
@@ -95,62 +97,64 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
         // console.log("🔄 ListingContext: User session change detected");
         dispatch(updateUserSession(user.userId));
         localStorage.setItem("current_user_session", user.userId);
-        setHasInitialized(false); // Force re-initialization
+        // setHasInitialized(false); // Force re-initialization
       }
     }
   }, [user?.userId, isInitialized, dispatch]);
 
   const initializeSelectedListing = useCallback(() => {
-    // console.log("🔄 ListingContext: initializeSelectedListing called", {
-    //   listingsLoading,
-    //   listingsCount: listings.length,
-    //   hasInitialized,
-    //   isInitialized,
-    //   isAuthenticated,
-    //   selectedBusinessId,
-    //   listingId,
-    // });
+    console.log("🔄 ListingContext: initializeSelectedListing called", {
+      listingsLoading,
+      listingsCount: listings.length,
+      // hasInitialized,
+      isInitialized,
+      isAuthenticated,
+      selectedBusinessId,
+      listingId,
+    });
 
     if (
       listingsLoading ||
-      hasInitialized ||
+      // hasInitialized ||
       !isInitialized ||
       !isAuthenticated
     ) {
-      // console.log(
-      //   "🔄 ListingContext: Skipping initialization - conditions not met",
-      //   listingsLoading,
-      //   hasInitialized,
-      //   !isInitialized,
-      //   !isAuthenticated
-      // );
+      console.log(
+        "🔄 ListingContext: Skipping initialization - conditions not met",
+        listingsLoading,
+        // hasInitialized,
+        !isInitialized,
+        !isAuthenticated
+      );
       return;
     }
 
     // Set a timeout to force initialization even if no listings are found
-    if (!initTimeout) {
-      const timeout = setTimeout(() => {
-        // console.log("🔄 ListingContext: Initialization timeout reached");
-        if (!hasInitialized && listings.length === 0) {
-          // console.log(
-          //   "🔄 ListingContext: No listings found after timeout, marking as initialized"
-          // );
-          setHasInitialized(true);
-        }
-      }, 5000); // 5 second timeout
-      setInitTimeout(timeout);
-    }
+    // if (!initTimeout) {
+    //   const timeout = setTimeout(() => {
+    //     // console.log("🔄 ListingContext: Initialization timeout reached");
+    //     if (!hasInitialized && listings.length === 0) {
+    //       // console.log(
+    //       //   "🔄 ListingContext: No listings found after timeout, marking as initialized"
+    //       // );
+    //       setHasInitialized(true);
+    //     }
+    //   }, 5000); // 5 second timeout
+    //   setInitTimeout(timeout);
+    // }
 
     if (listings.length === 0) {
-      // console.log("🔄 ListingContext: No listings available yet, waiting...");
+      console.log("🔄 ListingContext: No listings available yet, waiting...");
+      setSelectedListing(null);
+      dispatch(setSelectedBusiness(null));
       return;
     }
 
     // Clear timeout if we have listings
-    if (initTimeout) {
-      clearTimeout(initTimeout);
-      setInitTimeout(null);
-    }
+    // if (initTimeout) {
+    //   clearTimeout(initTimeout);
+    //   setInitTimeout(null);
+    // }
 
     console.log(
       "🔄 ListingContext: Initializing with listings:",
@@ -196,51 +200,61 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
         "🔄 ListingContext: Setting selected listing:",
         targetListing.name
       );
+      console.log("target lsiting consist of ...", targetListing);
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
-      // Redirect if necessary and baseRoute is valid (not excluded)
-      const shouldRedirect =
-        baseRoute &&
-        (!listingId ||
+      const isSettingsPath = location.pathname.includes("/settings/listings");
+
+      //   // Redirect if necessary and baseRoute is valid (not excluded)
+      // const shouldRedirect =
+      //   baseRoute &&
+      //   (!listingId ||
+      //     listingId === "default" ||
+      //     !listings.find((l) => l.id === listingId));
+
+      // if (shouldRedirect) {
+      //   console.log(
+      //     "🔄 ListingContext: Redirecting to:",
+      //     `/${baseRoute}/${targetListing.id}`
+      //   );
+      //   navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
+      // }
+      if (!isSettingsPath && baseRoute) {
+        // only redirect if NOT on settings
+        const shouldRedirect =
+          !listingId ||
           listingId === "default" ||
-          !listings.find((l) => l.id === listingId));
+          !listings.find((l) => l.id === listingId);
 
-      if (shouldRedirect) {
-        console.log(
-          "🔄 ListingContext: Redirecting to:",
-          `/${baseRoute}/${targetListing.id}`
-        );
-        navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
+        if (shouldRedirect) {
+          navigate(`/${baseRoute}/${targetListing.id}`, { replace: true });
+        }
       }
-    } else {
-      // console.log("🔄 ListingContext: No listings available");
     }
-
-    setHasInitialized(true);
   }, [
     listings,
     listingsLoading,
     listingId,
     selectedBusinessId,
-    hasInitialized,
+    // hasInitialized,
     isInitialized,
     isAuthenticated,
     navigate,
     baseRoute,
     dispatch,
-    initTimeout,
+    // initTimeout,
   ]);
 
   useEffect(() => {
     initializeSelectedListing();
 
     // Cleanup timeout on unmount
-    return () => {
-      if (initTimeout) {
-        clearTimeout(initTimeout);
-      }
-    };
+    // return () => {
+    //   if (initTimeout) {
+    //     clearTimeout(initTimeout);
+    //   }
+    // };
   }, [initializeSelectedListing]);
 
   const switchListing = useCallback(
@@ -258,16 +272,16 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
         // );
         addNewListing(listing);
       } else {
-        const isInUserListings = listings
-          .slice(0, listings.length)
-          .some((l) => l.id === listing.id);
-        if (isInUserListings) {
-          // console.log(
-          //   "🔝 ListingContext: Moving existing listing to top:",
-          //   listing.name
-          // );
-          dispatch(moveListingToTop(listing.id));
-        }
+        // const isInUserListings = listings
+        //   .slice(0, listings.length)
+        //   .some((l) => l.id === listing.id);
+        // if (isInUserListings) {
+        // console.log(
+        //   "🔝 ListingContext: Moving existing listing to top:",
+        //   listing.name
+        // );
+        dispatch(moveListingToTop(listing.id));
+        // }
       }
 
       setSelectedListing(listing);

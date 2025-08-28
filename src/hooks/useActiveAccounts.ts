@@ -114,56 +114,119 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
   );
 
   // Helper function to toggle listing assignment
+  // const toggleListingAssignment = useCallback(
+  //   (listingId: string): number[] | null => {
+  //     const currentData = selectedAccountId ? accountData : data;
+  //     console.log("currentData", currentData);
+  //     if (!currentData) return;
+
+  //     let newAssignedIds: number[] = [];
+
+  //     if (selectedAccountId && accountData) {
+  //       console.log("account data", accountData);
+  //       // Update account-specific data
+  //       const updatedListings = accountData.listings.map((listing) =>
+  //         listing.id === listingId
+  //           ? { ...listing, allocated: !listing.allocated }
+  //           : listing
+  //       );
+
+  //       // Calculate new assigned IDs for account-specific data
+  //       newAssignedIds = updatedListings
+  //         .filter((listing) => listing.allocated)
+  //         .map((listing) => parseInt(listing.id, 10));
+
+  //       setAccountData((prevData) => {
+  //         if (!prevData) return null;
+  //         return {
+  //           ...prevData,
+  //           listings: updatedListings,
+  //         };
+  //       });
+  //     } else if (data) {
+  //       // Update general data
+  //       const isCurrentlyAssigned = data.assignListingIds.includes(
+  //         parseInt(listingId)
+  //       );
+
+  //       console.log("iscurrentlyassigned", isCurrentlyAssigned);
+
+  //       const updatedAssignListingIds = isCurrentlyAssigned
+  //         ? data.assignListingIds.filter((id) => id !== parseInt(listingId))
+  //         : [...data.assignListingIds, parseInt(listingId)];
+
+  //       newAssignedIds = updatedAssignListingIds;
+
+  //       const updatedListings = data.listings.map((listing) =>
+  //         listing.id === listingId
+  //           ? { ...listing, allocated: !isCurrentlyAssigned }
+  //           : listing
+  //       );
+
+  //       setData((prevData) => {
+  //         if (!prevData) return null;
+  //         return {
+  //           ...prevData,
+  //           totalAssignListings: updatedAssignListingIds.length,
+  //           assignListingIds: updatedAssignListingIds,
+  //           listings: updatedListings,
+  //         };
+  //       });
+  //     }
+  //     return newAssignedIds;
+  //   },
+  //   [data, accountData, selectedAccountId]
+  // );
+
   const toggleListingAssignment = useCallback(
-    (listingId: string) => {
+    (listingId: string): { id: string; isActive: number } | null => {
       const currentData = selectedAccountId ? accountData : data;
-      if (!currentData) return;
+      if (!currentData) return null;
+
+      let isActive = 0;
 
       if (selectedAccountId && accountData) {
-        // Update account-specific data
-        setAccountData((prevData) => {
-          if (!prevData) return null;
-
-          const updatedListings = prevData.listings.map((listing) =>
-            listing.id === listingId
-              ? { ...listing, allocated: !listing.allocated }
-              : listing
-          );
-
-          return {
-            ...prevData,
-            listings: updatedListings,
-          };
+        const updatedListings = accountData.listings.map((listing) => {
+          if (listing.id === listingId) {
+            const newAllocated = !listing.allocated;
+            isActive = newAllocated ? 1 : 0;
+            return { ...listing, allocated: newAllocated };
+          }
+          return listing;
         });
+
+        setAccountData((prevData) =>
+          prevData ? { ...prevData, listings: updatedListings } : null
+        );
       } else if (data) {
-        // Update general data
         const isCurrentlyAssigned = data.assignListingIds.includes(
           parseInt(listingId)
         );
+        isActive = isCurrentlyAssigned ? 0 : 1;
 
-        setData((prevData) => {
-          if (!prevData) return null;
+        const updatedAssignListingIds = isCurrentlyAssigned
+          ? data.assignListingIds.filter((id) => id !== parseInt(listingId))
+          : [...data.assignListingIds, parseInt(listingId)];
 
-          const updatedAssignListingIds = isCurrentlyAssigned
-            ? prevData.assignListingIds.filter(
-                (id) => id !== parseInt(listingId)
-              )
-            : [...prevData.assignListingIds, parseInt(listingId)];
+        const updatedListings = data.listings.map((listing) =>
+          listing.id === listingId
+            ? { ...listing, allocated: !isCurrentlyAssigned }
+            : listing
+        );
 
-          const updatedListings = prevData.listings.map((listing) =>
-            listing.id === listingId
-              ? { ...listing, allocated: !isCurrentlyAssigned }
-              : listing
-          );
-
-          return {
-            ...prevData,
-            totalAssignListings: updatedAssignListingIds.length,
-            assignListingIds: updatedAssignListingIds,
-            listings: updatedListings,
-          };
-        });
+        setData((prevData) =>
+          prevData
+            ? {
+                ...prevData,
+                totalAssignListings: updatedAssignListingIds.length,
+                assignListingIds: updatedAssignListingIds,
+                listings: updatedListings,
+              }
+            : null
+        );
       }
+
+      return { id: listingId, isActive };
     },
     [data, accountData, selectedAccountId]
   );
@@ -233,35 +296,74 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
       .map((listing: any) => parseInt(listing.id, 10));
   }, [getCurrentListings]);
 
-  const saveAssignments = useCallback(async (): Promise<void> => {
-    if (!employeeId) {
-      throw new Error("Employee ID is required");
-    }
+  // const saveAssignments = useCallback(
+  //   async (specificListingIds?: number[]): Promise<void> => {
+  //     if (!employeeId) {
+  //       throw new Error("Employee ID is required");
+  //     }
 
-    setSaveLoading(true);
-    setSaveError(null);
+  //     setSaveLoading(true);
+  //     setSaveError(null);
 
-    try {
-      const assignedIds = getAssignedListingIds();
-      const payload = {
-        id: employeeId,
-        listId: assignedIds,
-      };
+  //     try {
+  //       // Use provided IDs or get current assigned IDs
+  //       const assignedIds = specificListingIds || getAssignedListingIds();
+  //       console.log("assignedids", assignedIds);
+  //       const payload = {
+  //         id: employeeId,
+  //         listId: assignedIds,
+  //       };
 
-      await saveAssignListings(payload);
+  //       await saveAssignListings(payload);
 
-      // Update original assigned IDs after successful save
-      setOriginalAssignedIds(assignedIds.map((id) => id.toString()));
+  //       // Update original assigned IDs after successful save
+  //       setOriginalAssignedIds(assignedIds.map((id) => id.toString()));
 
-      // Refresh data to reflect server state
-      await fetchActiveAccounts();
-    } catch (error: any) {
-      setSaveError(error.message || "Failed to save listing assignments");
-      throw error;
-    } finally {
-      setSaveLoading(false);
-    }
-  }, [employeeId, getAssignedListingIds, fetchActiveAccounts]);
+  //       // Refresh data to reflect server state
+  //       // await fetchActiveAccounts();
+  //     } catch (error: any) {
+  //       setSaveError(error.message || "Failed to save listing assignments");
+  //       throw error;
+  //     } finally {
+  //       setSaveLoading(false);
+  //     }
+  //   },
+  //   [employeeId, getAssignedListingIds, fetchActiveAccounts]
+  // );
+
+  const saveAssignments = useCallback(
+    async (listingUpdate?: { id: string; isActive: number }): Promise<void> => {
+      if (!employeeId) throw new Error("Employee ID is required");
+
+      setSaveLoading(true);
+      setSaveError(null);
+
+      try {
+        let payload;
+        if (listingUpdate) {
+          payload = {
+            id: employeeId,
+            listId: [parseInt(listingUpdate.id, 10)],
+            isActive: listingUpdate.isActive,
+          };
+        } else {
+          // fallback: full save (not used on toggle, but safe for manual Save button)
+          payload = {
+            id: employeeId,
+            listId: getAssignedListingIds(),
+          };
+        }
+
+        await saveAssignListings(payload);
+      } catch (error: any) {
+        setSaveError(error.message || "Failed to save listing assignments");
+        throw error;
+      } finally {
+        setSaveLoading(false);
+      }
+    },
+    [employeeId, getAssignedListingIds]
+  );
 
   const hasUnsavedChanges = useCallback((): boolean => {
     const currentAssignedIds = getAssignedListingIds()
@@ -269,11 +371,12 @@ export const useActiveAccounts = (params: UseActiveAccountsParams) => {
       .sort();
     const originalIds = [...originalAssignedIds].sort();
 
-    // console.log('hasUnsavedChanges comparison:', {
-    //   currentAssignedIds,
-    //   originalIds,
-    //   areEqual: JSON.stringify(currentAssignedIds) === JSON.stringify(originalIds)
-    // });
+    console.log("hasUnsavedChanges comparison:", {
+      currentAssignedIds,
+      originalIds,
+      areEqual:
+        JSON.stringify(currentAssignedIds) === JSON.stringify(originalIds),
+    });
 
     return JSON.stringify(currentAssignedIds) !== JSON.stringify(originalIds);
   }, [getAssignedListingIds, originalAssignedIds]);
