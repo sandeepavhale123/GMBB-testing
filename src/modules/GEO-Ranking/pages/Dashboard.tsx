@@ -221,8 +221,8 @@ export const Dashboard: React.FC = () => {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-grey-500">
-                <tr className="border-b border-border">
+              <thead className="">
+                <tr className="border-b border-border bg-grey-500">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
@@ -245,9 +245,7 @@ export const Dashboard: React.FC = () => {
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-2">
                           <span className="font-medium text-foreground">{project.name}</span>
-                          {project.isActive && (
-                            <Badge variant="secondary" className="text-xs">Active</Badge>
-                          )}
+                          
                         </div>
                       </td>
                       <td className="py-3 px-4 text-foreground">{project.numberOfChecks}</td>
