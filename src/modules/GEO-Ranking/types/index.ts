@@ -120,3 +120,20 @@ export interface CreateGeoProjectResponse {
     };
   };
 }
+
+// New interfaces for Update GEO Project API
+export interface UpdateGeoProjectRequest {
+  projectId: number;
+  projectName: string;
+  emails: string;
+}
+
+export interface UpdateGeoProjectResponse {
+  code: number;
+  message: string;
+  data: {
+    projectId: number;
+    projectName: string;
+    emails: string;
+  };
+}

@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Search, Plus, MoreVertical, Eye, Edit, Share, Trash2, Users, Target, Calendar, CreditCard } from 'lucide-react';
+import { Search, Plus, MoreVertical, Eye, Edit, Share, Trash2, Users, Target, Calendar, CreditCard, Loader2 } from 'lucide-react';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination';
 import { useGeoProjects } from '../hooks/useGeoProjects';
 import type { GeoProject } from '../types';
@@ -19,8 +19,10 @@ export const Dashboard: React.FC = () => {
     summary, 
     isLoading, 
     createProject, 
+    updateProject,
     deleteProject, 
     isCreating,
+    isUpdating,
     currentPage,
     searchTerm,
     handlePageChange,
@@ -28,19 +30,47 @@ export const Dashboard: React.FC = () => {
   } = useGeoProjects();
   
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingProject, setEditingProject] = useState<GeoProject | null>(null);
   const [newProject, setNewProject] = useState({
     name: '',
     notificationEmail: '',
   });
 
   const handleCreateProject = () => {
-    createProject({
-      projectName: newProject.name,
-      emails: newProject.notificationEmail,
-    });
-
+    if (isEditMode && editingProject) {
+      updateProject({
+        projectId: parseInt(editingProject.id),
+        projectName: newProject.name,
+        emails: newProject.notificationEmail,
+      });
+    } else {
+      createProject({
+        projectName: newProject.name,
+        emails: newProject.notificationEmail,
+      });
+    }
     setNewProject({ name: '', notificationEmail: '' });
     setShowCreateModal(false);
+    setIsEditMode(false);
+    setEditingProject(null);
+  };
+
+  const handleEditProject = (project: GeoProject) => {
+    setEditingProject(project);
+    setNewProject({
+      name: project.name,
+      notificationEmail: project.notificationEmail,
+    });
+    setIsEditMode(true);
+    setShowCreateModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+    setIsEditMode(false);
+    setEditingProject(null);
+    setNewProject({ name: '', notificationEmail: '' });
   };
 
   const summaryCards = [
@@ -95,7 +125,7 @@ export const Dashboard: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">Project Management</h1>
           <p className="text-muted-foreground">Manage your GEO ranking projects</p>
         </div>
-        <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+        <Dialog open={showCreateModal} onOpenChange={handleCloseModal}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
@@ -104,7 +134,13 @@ export const Dashboard: React.FC = () => {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Project</DialogTitle>
+              <DialogTitle>{isEditMode ? 'Edit Project' : 'Create New Project'}</DialogTitle>
+              <DialogDescription>
+                {isEditMode 
+                  ? 'Update the details for your GEO ranking project.'
+                  : 'Enter the details for your new GEO ranking project.'
+                }
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
@@ -126,14 +162,15 @@ export const Dashboard: React.FC = () => {
                   placeholder="Enter emails separated by commas"
                 />
               </div>
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setShowCreateModal(false)}>
+              <DialogFooter className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={handleCloseModal}>
                   Cancel
                 </Button>
-                <Button onClick={handleCreateProject} disabled={isCreating}>
-                  {isCreating ? 'Creating...' : 'Create Project'}
+                <Button onClick={handleCreateProject} disabled={!newProject.name || !newProject.notificationEmail || isCreating || isUpdating}>
+                  {(isCreating || isUpdating) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isEditMode ? 'Update Project' : 'Create Project'}
                 </Button>
-              </div>
+              </DialogFooter>
             </div>
           </DialogContent>
         </Dialog>
@@ -247,7 +284,7 @@ export const Dashboard: React.FC = () => {
                               <Eye className="w-4 h-4 mr-2" />
                               View
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleEditProject(project)}>
                               <Edit className="w-4 h-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
@@ -345,3 +382,5 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+
+export default Dashboard;

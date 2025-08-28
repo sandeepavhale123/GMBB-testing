@@ -2,8 +2,8 @@ import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { parse, format } from 'date-fns';
-import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest } from '../types';
-import { getGeoOverview, getGeoProjects, createGeoProject } from '@/api/geoRankingApi';
+import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest, UpdateGeoProjectRequest } from '../types';
+import { getGeoOverview, getGeoProjects, createGeoProject, updateGeoProject } from '@/api/geoRankingApi';
 
 // Helper function to format API date
 const formatApiDate = (dateString: string): string => {
@@ -88,6 +88,28 @@ const createProjectApi = async (projectData: CreateGeoProjectRequest): Promise<G
   }
 };
 
+const updateProjectApi = async (projectData: UpdateGeoProjectRequest): Promise<GeoProject> => {
+  try {
+    const response = await updateGeoProject(projectData);
+    
+    // Map the API response to GeoProject format
+    const updatedProject: GeoProject = {
+      id: response.data.projectId.toString(),
+      name: response.data.projectName,
+      numberOfChecks: 0, // Keep existing or default
+      createdDate: new Date().toISOString().split('T')[0], // Keep existing or use current
+      notificationEmail: response.data.emails || 'No email provided',
+      keywords: [], // Keep existing or default
+      isActive: true, // Keep existing or default
+    };
+    
+    return updatedProject;
+  } catch (error) {
+    console.error('Error updating GEO project:', error);
+    throw error;
+  }
+};
+
 const deleteProject = async (projectId: string): Promise<void> => {
   // TODO: Implement actual API call for deleting projects
   await new Promise(resolve => setTimeout(resolve, 500));
@@ -140,6 +162,19 @@ export const useGeoProjects = () => {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: updateProjectApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
+      queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
+      toast.success('Project updated successfully');
+    },
+    onError: (error: any) => {
+      console.error('Update project error:', error);
+      toast.error('Failed to update project');
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: deleteProject,
     onSuccess: () => {
@@ -167,8 +202,10 @@ export const useGeoProjects = () => {
     isLoading: projectsQuery.isLoading || summaryQuery.isLoading,
     error: projectsQuery.error || summaryQuery.error,
     createProject: createMutation.mutate,
+    updateProject: updateMutation.mutate,
     deleteProject: deleteMutation.mutate,
     isCreating: createMutation.isPending,
+    isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
     // Pagination controls
     currentPage,

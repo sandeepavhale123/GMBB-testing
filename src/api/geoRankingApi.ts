@@ -6,7 +6,9 @@ import type {
   CreditHistoryRequest,
   CreditHistoryResponse,
   CreateGeoProjectRequest,
-  CreateGeoProjectResponse
+  CreateGeoProjectResponse,
+  UpdateGeoProjectRequest,
+  UpdateGeoProjectResponse
 } from '@/modules/GEO-Ranking/types';
 
 // Types for API requests and responses
@@ -447,5 +449,12 @@ export const createGeoProject = async (
   requestData: CreateGeoProjectRequest
 ): Promise<CreateGeoProjectResponse> => {
   const response = await axiosInstance.post("/geomodule/create-geo-project", requestData);
+  return response.data;
+};
+
+export const updateGeoProject = async (
+  requestData: UpdateGeoProjectRequest
+): Promise<UpdateGeoProjectResponse> => {
+  const response = await axiosInstance.post("/geomodule/update-geo-project-details", requestData);
   return response.data;
 };
