@@ -452,6 +452,7 @@ export const createGeoProject = async (
   return response.data;
 };
 
+// Update GEO Project API - Force refresh
 export const updateGeoProject = async (
   requestData: UpdateGeoProjectRequest
 ): Promise<UpdateGeoProjectResponse> => {
