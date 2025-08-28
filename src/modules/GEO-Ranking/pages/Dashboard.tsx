@@ -63,7 +63,7 @@ export const Dashboard: React.FC = () => {
     },
     {
       title: 'Available Credits',
-      value: summary ? `${summary.availableCredits.toLocaleString()} / ${summary.allowedCredits.toLocaleString()}` : '0 / 0',
+      value: summary ? `${summary.availableCredits.toLocaleString()} remaining of ${summary.allowedCredits.toLocaleString()} total` : '0 remaining of 0 total',
       icon: CreditCard,
       color: 'text-purple-500',
     },
