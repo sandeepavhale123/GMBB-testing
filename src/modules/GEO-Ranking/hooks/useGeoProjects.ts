@@ -1,15 +1,30 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { parse, format } from 'date-fns';
 import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject } from '../types';
 import { getGeoOverview, getGeoProjects } from '@/api/geoRankingApi';
+
+// Helper function to format API date
+const formatApiDate = (dateString: string): string => {
+  try {
+    // Parse the API date format "DD-MM-YYYY HH:mm:ss"
+    const parsedDate = parse(dateString, 'dd-MM-yyyy HH:mm:ss', new Date());
+    // Format to "yyyy-MM-dd" for display
+    return format(parsedDate, 'yyyy-MM-dd');
+  } catch (error) {
+    console.warn('Failed to parse date:', dateString);
+    // Fallback to today's date
+    return new Date().toISOString().split('T')[0];
+  }
+};
 
 // Helper function to map API project to UI project
 const mapApiProjectToGeoProject = (apiProject: ApiProject): GeoProject => ({
   id: apiProject.id,
   name: apiProject.project_name,
   numberOfChecks: parseInt(apiProject.kcount) || 0,
-  createdDate: new Date().toISOString().split('T')[0], // Default to today since API doesn't provide this
+  createdDate: formatApiDate(apiProject.created_at),
   notificationEmail: apiProject.email || 'No email provided',
   keywords: [], // Default empty array since API doesn't provide keywords here
   isActive: true, // Default to active
