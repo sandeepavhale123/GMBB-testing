@@ -48,11 +48,11 @@ import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { useProfile } from "@/hooks/useProfile";
 
-declare global {
-  interface Window {
-    $crisp: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     $crisp: any;
+//   }
+// }
 
 // Lazy load heavy components for better performance
 const TrafficSourcesChart = lazy(() => import("./TrafficSourcesChart"));
@@ -161,69 +161,69 @@ export const Dashboard: React.FC = () => {
   //   };
   // }, []);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [open, setOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const { profileData } = useProfile();
-  const isAdmin = profileData?.role?.toLowerCase() === "admin";
+  // // eslint-disable-next-line react-hooks/rules-of-hooks
+  // const [open, setOpen] = useState(false);
+  // const [chatOpen, setChatOpen] = useState(false);
+  // const [unreadCount, setUnreadCount] = useState(0);
+  // const { profileData } = useProfile();
+  // const isAdmin = profileData?.role?.toLowerCase() === "admin";
 
-  useEffect(() => {
-    if (!isAdmin) return;
-    // Handle new message from Crisp
-    const onMessageReceived = () => {
-      setUnreadCount((c) => c + 1);
-    };
+  // useEffect(() => {
+  //   if (!isAdmin) return;
+  //   // Handle new message from Crisp
+  //   const onMessageReceived = () => {
+  //     setUnreadCount((c) => c + 1);
+  //   };
 
-    // Handle chat opened (clear unread count)
-    const onChatOpened = () => {
-      setUnreadCount(0);
-      window.$crisp?.push(["do", "message:read"]); // tell Crisp to clear unread
-    };
+  //   // Handle chat opened (clear unread count)
+  //   const onChatOpened = () => {
+  //     setUnreadCount(0);
+  //     window.$crisp?.push(["do", "message:read"]); // tell Crisp to clear unread
+  //   };
 
-    // Register events
-    window.$crisp?.push(["on", "message:received", onMessageReceived]);
-    window.$crisp?.push(["on", "chat:opened", onChatOpened]);
+  //   // Register events
+  //   window.$crisp?.push(["on", "message:received", onMessageReceived]);
+  //   window.$crisp?.push(["on", "chat:opened", onChatOpened]);
 
-    // Initialize unread count when dashboard loads
-    try {
-      const initial = window.$crisp?.get?.("chat:unread:count") ?? 0;
-      setUnreadCount(initial);
-    } catch {
-      // Crisp not ready yet
-    }
+  //   // Initialize unread count when dashboard loads
+  //   try {
+  //     const initial = window.$crisp?.get?.("chat:unread:count") ?? 0;
+  //     setUnreadCount(initial);
+  //   } catch {
+  //     // Crisp not ready yet
+  //   }
 
-    // Cleanup on unmount
-    return () => {
-      window.$crisp?.push(["off", "message:received", onMessageReceived]);
-      window.$crisp?.push(["off", "chat:opened", onChatOpened]);
-    };
-  }, [isAdmin]);
+  //   // Cleanup on unmount
+  //   return () => {
+  //     window.$crisp?.push(["off", "message:received", onMessageReceived]);
+  //     window.$crisp?.push(["off", "chat:opened", onChatOpened]);
+  //   };
+  // }, [isAdmin]);
 
-  // Open Crisp chat
-  const openChat = () => {
-    if (!chatOpen) {
-      window.$crisp?.push(["do", "chat:open"]);
-      setChatOpen(true);
-    }
-  };
+  // // Open Crisp chat
+  // const openChat = () => {
+  //   if (!chatOpen) {
+  //     window.$crisp?.push(["do", "chat:open"]);
+  //     setChatOpen(true);
+  //   }
+  // };
 
-  // Close Crisp chat
-  const closeChat = () => {
-    if (chatOpen) {
-      window.$crisp.push(["do", "chat:close"]);
-      setChatOpen(false);
-    }
-  };
+  // // Close Crisp chat
+  // const closeChat = () => {
+  //   if (chatOpen) {
+  //     window.$crisp.push(["do", "chat:close"]);
+  //     setChatOpen(false);
+  //   }
+  // };
 
-  const toggleMainFab = () => {
-    if (open) {
-      setOpen(false);
-      closeChat();
-    } else {
-      setOpen(true);
-    }
-  };
+  // const toggleMainFab = () => {
+  //   if (open) {
+  //     setOpen(false);
+  //     closeChat();
+  //   } else {
+  //     setOpen(true);
+  //   }
+  // };
 
   const handleApprovePost = (post: any) => {
     console.log("🎯 Dashboard handleApprovePost called with:", post);
@@ -484,50 +484,6 @@ export const Dashboard: React.FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {isAdmin && (
-        <div className="fixed bottom-6 right-6 flex flex-col items-end space-y-3">
-          {/* Small action buttons */}
-          {open && (
-            <div className="flex flex-col items-end space-y-3 mb-2">
-              <button
-                onClick={openChat}
-                className="bg-blue-600 relative text-white p-3 rounded-full shadow-lg hover:bg-blue-700"
-              >
-                <FaComments size={18} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() =>
-                  window.open("https://support.gmbbriefcase.com/help-center")
-                }
-                className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700"
-              >
-                <BiSupport size={18} />
-              </button>
-            </div>
-          )}
-
-          <button
-            onClick={toggleMainFab}
-            className="relative bg-blue-600 text-white p-3 rounded-full shadow-xl hover:bg-blue-700 transition-transform transform hover:scale-110"
-          >
-            {open ? <X size={18} /> : <FaQuestion size={18} />}
-
-            {open
-              ? ""
-              : unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </span>
-                )}
-          </button>
-        </div>
-      )}
     </div>
   );
 };

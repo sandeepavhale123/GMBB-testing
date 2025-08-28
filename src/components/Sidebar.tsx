@@ -30,6 +30,10 @@ import {
 import { useProfile } from "../hooks/useProfile";
 import { isSubscriptionExpired } from "@/utils/subscriptionUtil";
 import { useAppSelector } from "../hooks/useRedux";
+import { FaComments, FaQuestion } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { BiSupport } from "react-icons/bi";
+import { X } from "lucide-react";
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -38,6 +42,12 @@ interface SidebarProps {
   isMobile?: boolean;
   sidebarOpen?: boolean;
   isTablet?: boolean;
+}
+
+declare global {
+  interface Window {
+    $crisp: any;
+  }
 }
 interface MenuItem {
   id: string;
@@ -364,298 +374,410 @@ export const Sidebar: React.FC<SidebarProps> = ({
   //     };
   //   }
   // }, [isAdmin, profileData?.username]);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [open, setOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  // const { profileData } = useProfile();
+  // const isAdmin = profileData?.role?.toLowerCase() === "admin";
+
+  useEffect(() => {
+    if (!isAdmin) return;
+    // Handle new message from Crisp
+    const onMessageReceived = () => {
+      setUnreadCount((c) => c + 1);
+    };
+
+    // Handle chat opened (clear unread count)
+    const onChatOpened = () => {
+      setUnreadCount(0);
+      window.$crisp?.push(["do", "message:read"]); // tell Crisp to clear unread
+    };
+
+    // Register events
+    window.$crisp?.push(["on", "message:received", onMessageReceived]);
+    window.$crisp?.push(["on", "chat:opened", onChatOpened]);
+
+    // Initialize unread count when dashboard loads
+    try {
+      const initial = window.$crisp?.get?.("chat:unread:count") ?? 0;
+      setUnreadCount(initial);
+    } catch {
+      // Crisp not ready yet
+    }
+
+    // Cleanup on unmount
+    return () => {
+      window.$crisp?.push(["off", "message:received", onMessageReceived]);
+      window.$crisp?.push(["off", "chat:opened", onChatOpened]);
+    };
+  }, [isAdmin]);
+
+  // Open Crisp chat
+  const openChat = () => {
+    if (!chatOpen) {
+      window.$crisp?.push(["do", "chat:open"]);
+      setChatOpen(true);
+    }
+  };
+
+  // Close Crisp chat
+  const closeChat = () => {
+    if (chatOpen) {
+      window.$crisp.push(["do", "chat:close"]);
+      setChatOpen(false);
+    }
+  };
+
+  const toggleMainFab = () => {
+    if (open) {
+      setOpen(false);
+      closeChat();
+    } else {
+      setOpen(true);
+    }
+  };
+
   return (
-    <div
-      className={cn(
-        "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
-        // Mobile behavior (phones) - overlay from left
-        isMobile &&
-          (sidebarOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"),
-        // Tablet behavior - persistent like desktop but responsive
-        isTablet && (collapsed ? "w-16" : "w-64"),
-        // Desktop behavior
-        !isMobile && !isTablet && (collapsed ? "w-16" : "w-64"),
-        // Higher z-index for mobile overlay only
-        isMobile && "z-50"
-      )}
-      style={{
-        backgroundColor: "var(--sidebar-bg, #111827)",
-        borderColor: "var(--sidebar-border, #374151)",
-      }}
-    >
-      <div className="flex h-full flex-col max-h-screen">
-        {/* Logo Section */}
-        <div
-          className="flex h-20 items-center justify-between border-b px-4"
-          style={{
-            borderColor: "#0000001c",
-            height: "107px",
-          }}
-        >
-          {!(collapsed && !isMobile && !isTablet) ? (
-            <div className="flex items-center space-x-2">
-              <img
-                src={getDarkLogoUrl()}
-                alt="GMB Genie Logo"
-                className=" w-auto object-contain"
-                style={{
-                  height: "60px",
-                  maxWidth: "220px",
-                }}
-              />
-            </div>
-          ) : (
-            <img
-              src={getFaviconUrl()}
-              alt="GMB Genie Logo"
-              className="w-8 h-8 object-contain"
-            />
-          )}
-        </div>
-
-        {/* Navigation Menu */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-4 pt-0">
-          <ScrollArea className="px-0 py-4 ">
-            <nav className="space-y-2">
-              {menuItems
-                .filter(
-                  (item) => !(item.id === "settings" && shouldHideForRole())
-                )
-                .filter(
-                  (item) =>
-                    !(
-                      item.id === "main-dashboard" &&
-                      profileData?.dashboardType === 0
-                    )
-                )
-                .filter(
-                  (item) =>
-                    !(
-                      item.id === "settings" && profileData?.dashboardType === 1
-                    )
-                )
-                .map((item) => {
-                  const Icon = item.icon;
-                  const isActive = activeTab === item.id;
-                  const hasSubItems = item.subItems && item.subItems.length > 0;
-                  const isExpanded = expandedMenus.has(item.id);
-                  return (
-                    <div key={item.id}>
-                      <Button
-                        variant={isActive ? "default" : "ghost"}
-                        className={cn(
-                          "w-full justify-start h-10",
-                          collapsed && !isMobile && !isTablet
-                            ? "px-2 justify-center"
-                            : "px-3"
-                        )}
-                        style={{
-                          backgroundColor: isActive
-                            ? "var(--sidebar-active-bg, #2563eb)"
-                            : "transparent",
-                          color: isActive
-                            ? "var(--sidebar-active-text, #ffffff)"
-                            : "var(--sidebar-text, #d1d5db)",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isActive) {
-                            e.currentTarget.style.backgroundColor =
-                              "var(--sidebar-hover-bg, #374151)";
-                            e.currentTarget.style.color = "#ffffff";
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (!isActive) {
-                            e.currentTarget.style.backgroundColor =
-                              "transparent";
-                            e.currentTarget.style.color =
-                              "var(--sidebar-text, #d1d5db)";
-                          }
-                        }}
-                        onClick={() => {
-                          if (hasSubItems) {
-                            if (!(collapsed && !isMobile && !isTablet)) {
-                              toggleSubMenu(item.id);
-                            }
-                          } else if (item.path) {
-                            handleTabChange(item.id, item.path);
-                          }
-                        }}
-                        title={
-                          collapsed && !isMobile && !isTablet
-                            ? item.label
-                            : undefined
-                        }
-                      >
-                        <Icon
-                          className={cn(
-                            "h-5 w-5",
-                            collapsed && !isMobile && !isTablet
-                              ? "mx-auto"
-                              : "mr-3"
-                          )}
-                        />
-                        {!(collapsed && !isMobile && !isTablet) && (
-                          <>
-                            <span className="text-sm font-medium flex-1 text-left">
-                              {item.label}
-                            </span>
-                            {hasSubItems && (
-                              <div className="ml-2">
-                                {isExpanded ? (
-                                  <ChevronDown className="h-4 w-4" />
-                                ) : (
-                                  <ChevronRight className="h-4 w-4" />
-                                )}
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </Button>
-
-                      {/* Sub-menu items */}
-                      {hasSubItems &&
-                        isExpanded &&
-                        !(collapsed && !isMobile && !isTablet) && (
-                          <div className="ml-4 mt-1 space-y-1">
-                            {item.subItems?.map((subItem) => {
-                              const SubIcon = subItem.icon;
-                              const isSubActive = activeTab === subItem.id;
-                              return (
-                                <Button
-                                  key={subItem.id}
-                                  variant={isSubActive ? "default" : "ghost"}
-                                  className="w-full justify-start h-8 text-xs pl-6"
-                                  style={{
-                                    backgroundColor: isSubActive
-                                      ? "var(--sidebar-active-bg, #2563eb)"
-                                      : "transparent",
-                                    color: isSubActive
-                                      ? "var(--sidebar-active-text, #ffffff)"
-                                      : "var(--sidebar-text, #d1d5db)",
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    if (!isSubActive) {
-                                      e.currentTarget.style.backgroundColor =
-                                        "var(--sidebar-hover-bg, #374151)";
-                                      e.currentTarget.style.color = "#ffffff";
-                                    }
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    if (!isSubActive) {
-                                      e.currentTarget.style.backgroundColor =
-                                        "transparent";
-                                      e.currentTarget.style.color =
-                                        "var(--sidebar-text, #d1d5db)";
-                                    }
-                                  }}
-                                  onClick={() =>
-                                    handleTabChange(subItem.id, subItem.path)
-                                  }
-                                >
-                                  <SubIcon className="h-4 w-4 mr-2" />
-                                  <span className="text-xs font-medium">
-                                    {subItem.label}
-                                  </span>
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        )}
-                    </div>
-                  );
-                })}
-            </nav>
-          </ScrollArea>
-        </div>
-
-        {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
-        {!isPlanExpired &&
-          !(collapsed && !isMobile && !isTablet) &&
-          !isEnterprisePlan &&
-          !shouldHideForRole() &&
-          trialPlan && (
-            <div className="px-3 pb-4">
-              <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Crown className="h-5 w-5 text-yellow-400" />
-                    <span className="text-sm font-semibold text-white">
-                      {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
-                    </span>
-                  </div>
-                  <p className="text-xs text-blue-100 mb-3">
-                    {isPlanExpired
-                      ? "Your plan has expired. Renew to continue accessing features"
-                      : "Unlock premium features and get unlimited access"}
-                  </p>
-                  <Button
-                    size="sm"
-                    className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
-                    onClick={() => navigate("/settings/subscription")}
-                  >
-                    <Sparkles className="h-3 w-3 mr-1" />
-                    {isPlanExpired ? "Renew Now" : "Upgrade Now"}
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-
-        {/* User Profile Section */}
-        <div
-          className="border-t p-4 shrink-0"
-          style={{
-            borderColor: "#0000001c",
-          }}
-        >
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start h-12",
-              collapsed && !isMobile && !isTablet
-                ? "px-2 justify-center"
-                : "px-3"
-            )}
+    <>
+      <div
+        className={cn(
+          "fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r",
+          // Mobile behavior (phones) - overlay from left
+          isMobile &&
+            (sidebarOpen ? "w-64 translate-x-0" : "w-64 -translate-x-full"),
+          // Tablet behavior - persistent like desktop but responsive
+          isTablet && (collapsed ? "w-16" : "w-64"),
+          // Desktop behavior
+          !isMobile && !isTablet && (collapsed ? "w-16" : "w-64"),
+          // Higher z-index for mobile overlay only
+          isMobile && "z-50"
+        )}
+        style={{
+          backgroundColor: "var(--sidebar-bg, #111827)",
+          borderColor: "var(--sidebar-border, #374151)",
+        }}
+      >
+        <div className="flex h-full flex-col max-h-screen">
+          {/* Logo Section */}
+          <div
+            className="flex h-20 items-center justify-between border-b px-4"
             style={{
-              color: "var(--sidebar-text, #d1d5db)",
+              borderColor: "#0000001c",
+              height: "107px",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor =
-                "var(--sidebar-hover-bg, #374151)";
-              e.currentTarget.style.color = "#ffffff";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
-            }}
-            onClick={() => navigate("/profile")}
-            title={collapsed && !isMobile && !isTablet ? userName : undefined}
           >
-            <Avatar
-              className={cn(
-                "w-8 h-8",
-                collapsed && !isMobile && !isTablet ? "mx-auto" : "mr-3"
-              )}
-            >
-              <AvatarImage src={userProfilePic} />
-              <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
-                {userInitials}
-              </AvatarFallback>
-            </Avatar>
-            {!(collapsed && !isMobile && !isTablet) && (
-              <div className="flex-1 text-left">
-                <p className="text-sm font-medium text-white">{userName}</p>
-                <p className="text-xs text-white">
-                  {userEmail.length > 20
-                    ? userEmail.slice(0, 19) + "..."
-                    : userEmail}
-                </p>
+            {!(collapsed && !isMobile && !isTablet) ? (
+              <div className="flex items-center space-x-2">
+                <img
+                  src={getDarkLogoUrl()}
+                  alt="GMB Genie Logo"
+                  className=" w-auto object-contain"
+                  style={{
+                    height: "60px",
+                    maxWidth: "220px",
+                  }}
+                />
+              </div>
+            ) : (
+              <img
+                src={getFaviconUrl()}
+                alt="GMB Genie Logo"
+                className="w-8 h-8 object-contain"
+              />
+            )}
+          </div>
+
+          {/* Navigation Menu */}
+          <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-4 pt-0">
+            <ScrollArea className="px-0 py-4 ">
+              <nav className="space-y-2">
+                {menuItems
+                  .filter(
+                    (item) => !(item.id === "settings" && shouldHideForRole())
+                  )
+                  .filter(
+                    (item) =>
+                      !(
+                        item.id === "main-dashboard" &&
+                        profileData?.dashboardType === 0
+                      )
+                  )
+                  .filter(
+                    (item) =>
+                      !(
+                        item.id === "settings" &&
+                        profileData?.dashboardType === 1
+                      )
+                  )
+                  .map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
+                    const hasSubItems =
+                      item.subItems && item.subItems.length > 0;
+                    const isExpanded = expandedMenus.has(item.id);
+                    return (
+                      <div key={item.id}>
+                        <Button
+                          variant={isActive ? "default" : "ghost"}
+                          className={cn(
+                            "w-full justify-start h-10",
+                            collapsed && !isMobile && !isTablet
+                              ? "px-2 justify-center"
+                              : "px-3"
+                          )}
+                          style={{
+                            backgroundColor: isActive
+                              ? "var(--sidebar-active-bg, #2563eb)"
+                              : "transparent",
+                            color: isActive
+                              ? "var(--sidebar-active-text, #ffffff)"
+                              : "var(--sidebar-text, #d1d5db)",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isActive) {
+                              e.currentTarget.style.backgroundColor =
+                                "var(--sidebar-hover-bg, #374151)";
+                              e.currentTarget.style.color = "#ffffff";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isActive) {
+                              e.currentTarget.style.backgroundColor =
+                                "transparent";
+                              e.currentTarget.style.color =
+                                "var(--sidebar-text, #d1d5db)";
+                            }
+                          }}
+                          onClick={() => {
+                            if (hasSubItems) {
+                              if (!(collapsed && !isMobile && !isTablet)) {
+                                toggleSubMenu(item.id);
+                              }
+                            } else if (item.path) {
+                              handleTabChange(item.id, item.path);
+                            }
+                          }}
+                          title={
+                            collapsed && !isMobile && !isTablet
+                              ? item.label
+                              : undefined
+                          }
+                        >
+                          <Icon
+                            className={cn(
+                              "h-5 w-5",
+                              collapsed && !isMobile && !isTablet
+                                ? "mx-auto"
+                                : "mr-3"
+                            )}
+                          />
+                          {!(collapsed && !isMobile && !isTablet) && (
+                            <>
+                              <span className="text-sm font-medium flex-1 text-left">
+                                {item.label}
+                              </span>
+                              {hasSubItems && (
+                                <div className="ml-2">
+                                  {isExpanded ? (
+                                    <ChevronDown className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronRight className="h-4 w-4" />
+                                  )}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </Button>
+
+                        {/* Sub-menu items */}
+                        {hasSubItems &&
+                          isExpanded &&
+                          !(collapsed && !isMobile && !isTablet) && (
+                            <div className="ml-4 mt-1 space-y-1">
+                              {item.subItems?.map((subItem) => {
+                                const SubIcon = subItem.icon;
+                                const isSubActive = activeTab === subItem.id;
+                                return (
+                                  <Button
+                                    key={subItem.id}
+                                    variant={isSubActive ? "default" : "ghost"}
+                                    className="w-full justify-start h-8 text-xs pl-6"
+                                    style={{
+                                      backgroundColor: isSubActive
+                                        ? "var(--sidebar-active-bg, #2563eb)"
+                                        : "transparent",
+                                      color: isSubActive
+                                        ? "var(--sidebar-active-text, #ffffff)"
+                                        : "var(--sidebar-text, #d1d5db)",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      if (!isSubActive) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "var(--sidebar-hover-bg, #374151)";
+                                        e.currentTarget.style.color = "#ffffff";
+                                      }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      if (!isSubActive) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "transparent";
+                                        e.currentTarget.style.color =
+                                          "var(--sidebar-text, #d1d5db)";
+                                      }
+                                    }}
+                                    onClick={() =>
+                                      handleTabChange(subItem.id, subItem.path)
+                                    }
+                                  >
+                                    <SubIcon className="h-4 w-4 mr-2" />
+                                    <span className="text-xs font-medium">
+                                      {subItem.label}
+                                    </span>
+                                  </Button>
+                                );
+                              })}
+                            </div>
+                          )}
+                      </div>
+                    );
+                  })}
+              </nav>
+            </ScrollArea>
+          </div>
+
+          {/* Upgrade Plan Card - Show if no plan date or plan is expired and not enterprise plan */}
+          {!isPlanExpired &&
+            !(collapsed && !isMobile && !isTablet) &&
+            !isEnterprisePlan &&
+            !shouldHideForRole() &&
+            trialPlan && (
+              <div className="px-3 pb-4">
+                <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Crown className="h-5 w-5 text-yellow-400" />
+                      <span className="text-sm font-semibold text-white">
+                        {isPlanExpired ? "Plan Expired" : "Upgrade Plan"}
+                      </span>
+                    </div>
+                    <p className="text-xs text-blue-100 mb-3">
+                      {isPlanExpired
+                        ? "Your plan has expired. Renew to continue accessing features"
+                        : "Unlock premium features and get unlimited access"}
+                    </p>
+                    <Button
+                      size="sm"
+                      className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
+                      onClick={() => navigate("/settings/subscription")}
+                    >
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      {isPlanExpired ? "Renew Now" : "Upgrade Now"}
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
             )}
-          </Button>
+
+          {/* User Profile Section */}
+          <div
+            className="border-t p-4 shrink-0"
+            style={{
+              borderColor: "#0000001c",
+            }}
+          >
+            <Button
+              variant="ghost"
+              className={cn(
+                "w-full justify-start h-12",
+                collapsed && !isMobile && !isTablet
+                  ? "px-2 justify-center"
+                  : "px-3"
+              )}
+              style={{
+                color: "var(--sidebar-text, #d1d5db)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  "var(--sidebar-hover-bg, #374151)";
+                e.currentTarget.style.color = "#ffffff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "var(--sidebar-text, #d1d5db)";
+              }}
+              onClick={() => navigate("/profile")}
+              title={collapsed && !isMobile && !isTablet ? userName : undefined}
+            >
+              <Avatar
+                className={cn(
+                  "w-8 h-8",
+                  collapsed && !isMobile && !isTablet ? "mx-auto" : "mr-3"
+                )}
+              >
+                <AvatarImage src={userProfilePic} />
+                <AvatarFallback className="bg-gray-600 text-gray-200 text-sm font-medium">
+                  {userInitials}
+                </AvatarFallback>
+              </Avatar>
+              {!(collapsed && !isMobile && !isTablet) && (
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-medium text-white">{userName}</p>
+                  <p className="text-xs text-white">
+                    {userEmail.length > 20
+                      ? userEmail.slice(0, 19) + "..."
+                      : userEmail}
+                  </p>
+                </div>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+      {isAdmin && (
+        <div className="fixed bottom-6 right-6 flex flex-col items-end space-y-3 z-50">
+          {/* Small action buttons */}
+          {open && (
+            <div className="flex flex-col items-end space-y-3 mb-2">
+              <button
+                onClick={openChat}
+                className="bg-blue-600 relative text-white p-3 rounded-full shadow-lg hover:bg-blue-700"
+              >
+                <FaComments size={18} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={() =>
+                  window.open("https://support.gmbbriefcase.com/help-center")
+                }
+                className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700"
+              >
+                <BiSupport size={18} />
+              </button>
+            </div>
+          )}
+
+          <button
+            onClick={toggleMainFab}
+            className="relative bg-blue-600 text-white p-3 rounded-full shadow-xl hover:bg-blue-700 transition-transform transform hover:scale-110"
+          >
+            {open ? <X size={18} /> : <FaQuestion size={18} />}
+
+            {open
+              ? ""
+              : unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
+          </button>
+        </div>
+      )}
+    </>
   );
 };
