@@ -149,10 +149,10 @@ export interface DefaultCoordinatesResponse {
 
 // API functions
 export const getKeywords = async (
-  listingId: number
+  projectId: number
 ): Promise<KeywordsListResponse> => {
   const response = await axiosInstance.post("/get-keywords", {
-    listingId,
+    projectId,
   });
   return response.data;
 };

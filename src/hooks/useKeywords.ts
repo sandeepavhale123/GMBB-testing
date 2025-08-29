@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getKeywords, KeywordData, Credits } from '../api/geoRankingApi';
 import { useToast } from './use-toast';
 
-export const useKeywords = (listingId: number) => {
+export const useKeywords = (projectId: number) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [keywords, setKeywords] = useState<KeywordData[]>([]);
   const [selectedKeyword, setSelectedKeyword] = useState<string>('');
@@ -30,14 +30,14 @@ export const useKeywords = (listingId: number) => {
 
   // Reusable function to fetch keywords
   const fetchKeywords = async (isRefresh = false, selectKeywordId?: string): Promise<void> => {
-    if (!listingId) return;
+    if (!projectId) return;
     
     setKeywordsLoading(true);
     if (!isRefresh) setPageLoading(true);
     setError(null);
     
     try {
-      const response = await getKeywords(listingId);
+      const response = await getKeywords(projectId);
       if (response.code === 200) {
         setKeywords(response.data.keywords);
         setCredits(response.data.credits);
@@ -85,7 +85,7 @@ export const useKeywords = (listingId: number) => {
   // Fetch keywords on component mount
   useEffect(() => {
     fetchKeywords();
-  }, [listingId]);
+  }, [projectId]);
 
   return {
     keywords,
