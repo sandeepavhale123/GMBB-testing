@@ -45,6 +45,37 @@ export interface GoogleApiKeyData {
   quotaLimit: number;
 }
 
+// New interfaces for Google API Key management
+export interface UpdateApiKeyRequest {
+  apiKey: string;
+}
+
+export interface UpdateApiKeyResponse {
+  code: number;
+  message: string;
+  data: {
+    apiKey: string;
+  };
+}
+
+export interface GetMapApiKeyResponse {
+  code: number;
+  message: string;
+  data: {
+    apiKey: string;
+  };
+}
+
+export interface DeleteApiKeyRequest {
+  isDelete: string;
+}
+
+export interface DeleteApiKeyResponse {
+  code: number;
+  message: string;
+  data: [];
+}
+
 export interface GeoOverviewResponse {
   code: number;
   message: string;

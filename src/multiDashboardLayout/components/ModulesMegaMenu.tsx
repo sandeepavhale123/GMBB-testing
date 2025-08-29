@@ -3,6 +3,7 @@ import { Grid3X3, TrendingUp, Users, Star, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { profileService } from '@/services/profileService';
 
 const modules = [
   {
@@ -23,12 +24,49 @@ const modules = [
     icon: Star,
     href: '/main-dashboard/reputation',
   },
+  {
+    name: 'Manage GMB listing',
+    description: 'Manage your Google My Business listings',
+    icon: Grid3X3,
+    href: '/main-dashboard/manage-gmb',
+  },
 ];
 
 export const ModulesMegaMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dashboardType, setDashboardType] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await profileService.getUserProfile();
+        setDashboardType(profile.dashboardType);
+      } catch (error) {
+        console.error('Failed to fetch user profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const getFilteredModules = () => {
+    const baseModules = modules.filter(module => module.name !== 'Manage GMB listing');
+    
+    // Only show GMB listing if dashboardType is 0 or 1
+    if (dashboardType === 0 || dashboardType === 1) {
+      const gmbModule = {
+        name: 'Manage GMB listing',
+        description: 'Manage your Google My Business listings',
+        icon: Grid3X3,
+        href: dashboardType === 0 ? '/location-dashboard/id' : '/main-dashboard'
+      };
+      return [...baseModules, gmbModule];
+    }
+    
+    return baseModules;
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -74,7 +112,7 @@ export const ModulesMegaMenu: React.FC = () => {
               </Badge>
             </div>
             <div className="space-y-2">
-              {modules.map((module) => {
+              {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
                 return (
                   <a

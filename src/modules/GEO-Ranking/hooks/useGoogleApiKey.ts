@@ -1,35 +1,38 @@
-import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { getMapApiKey, updateApiKey, deleteApiKey } from '@/api/geoRankingApi';
 import type { GoogleApiKeyData } from '../types';
 
-// Mock API functions - replace with actual API calls
+// Real API functions
 const fetchApiKeyData = async (): Promise<GoogleApiKeyData | null> => {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  // Return null if no API key is set, or return mock data
-  return {
-    id: '1',
-    apiKey: 'AIza***************xyz',
-    isValid: true,
-    lastValidated: '2024-01-20',
-    quotaUsed: 45,
-    quotaLimit: 1000,
-  };
+  try {
+    const response = await getMapApiKey();
+    if (response.code === 200 && response.data.apiKey) {
+      return {
+        id: '1',
+        apiKey: response.data.apiKey,
+        isValid: true,
+        lastValidated: new Date().toISOString().split('T')[0],
+        quotaUsed: 0,
+        quotaLimit: 1000,
+      };
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
 };
 
 const saveApiKey = async (apiKey: string): Promise<GoogleApiKeyData> => {
-  await new Promise(resolve => setTimeout(resolve, 800));
+  const response = await updateApiKey({ apiKey });
   
-  // Mock validation - in real implementation, validate with Google API
-  const isValid = apiKey.startsWith('AIza') && apiKey.length > 20;
-  
-  if (!isValid) {
-    throw new Error('Invalid Google Places API key format');
+  if (response.code !== 200) {
+    throw new Error(response.message || 'Failed to save API key');
   }
 
   return {
     id: '1',
-    apiKey: apiKey.substring(0, 4) + '***************' + apiKey.slice(-3),
+    apiKey: response.data.apiKey,
     isValid: true,
     lastValidated: new Date().toISOString().split('T')[0],
     quotaUsed: 0,
@@ -37,10 +40,12 @@ const saveApiKey = async (apiKey: string): Promise<GoogleApiKeyData> => {
   };
 };
 
-const validateApiKey = async (apiKey: string): Promise<boolean> => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  // Mock validation logic
-  return apiKey.startsWith('AIza') && apiKey.length > 20;
+const removeApiKey = async (): Promise<void> => {
+  const response = await deleteApiKey({ isDelete: 'delete' });
+  
+  if (response.code !== 200) {
+    throw new Error(response.message || 'Failed to delete API key');
+  }
 };
 
 export const useGoogleApiKey = () => {
@@ -62,17 +67,14 @@ export const useGoogleApiKey = () => {
     },
   });
 
-  const validateMutation = useMutation({
-    mutationFn: validateApiKey,
-    onSuccess: (isValid) => {
-      if (isValid) {
-        toast.success('API key is valid');
-      } else {
-        toast.error('API key is invalid');
-      }
+  const deleteMutation = useMutation({
+    mutationFn: removeApiKey,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['google-api-key'] });
+      toast.success('Google Places API key deleted successfully');
     },
-    onError: () => {
-      toast.error('Failed to validate API key');
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to delete API key');
     },
   });
 
@@ -81,8 +83,8 @@ export const useGoogleApiKey = () => {
     isLoading: apiKeyQuery.isLoading,
     error: apiKeyQuery.error,
     saveApiKey: saveMutation.mutate,
-    validateApiKey: validateMutation.mutate,
+    deleteApiKey: deleteMutation.mutate,
     isSaving: saveMutation.isPending,
-    isValidating: validateMutation.isPending,
+    isDeleting: deleteMutation.isPending,
   };
 };
