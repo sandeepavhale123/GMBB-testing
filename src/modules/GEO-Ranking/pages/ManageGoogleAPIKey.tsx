@@ -50,10 +50,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
         </AlertDescription>
       </Alert>
 
-    <div class="grid grid-cols-12 gap-4">
-  <!-- First column (4/12) -->
-  <div class="col-span-4 bg-blue-500 p-4 text-white">
-    {/* API Key Configuration */}
+      {/* API Key Configuration */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
@@ -64,7 +61,14 @@ export const ManageGoogleAPIKey: React.FC = () => {
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="api-key">Google Places API Key</Label>
-            <Input id="api-key" type="password" value={apiKeyInput} onChange={e => setApiKeyInput(e.target.value)} placeholder="Enter your Google Places API Key" className="mt-1" />
+            <Input 
+              id="api-key" 
+              type="password" 
+              value={apiKeyInput} 
+              onChange={e => setApiKeyInput(e.target.value)} 
+              placeholder="Enter your Google Places API Key" 
+              className="mt-1" 
+            />
           </div>
           
           <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving} className="w-full">
@@ -81,20 +85,21 @@ export const ManageGoogleAPIKey: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-  </div>
-  <!-- Second column (8/12) -->
-  <div class="col-span-8 bg-green-500 p-4 text-white">
-     {/* Current API Key Status */}
+
+      {/* Current API Key Status */}
       <Card>
         <CardHeader>
           <CardTitle>Current Status</CardTitle>
         </CardHeader>
         <CardContent>
-          {isLoading ? <div className="animate-pulse space-y-4">
+          {isLoading ? (
+            <div className="animate-pulse space-y-4">
               <div className="h-4 bg-muted rounded w-3/4"></div>
               <div className="h-4 bg-muted rounded w-1/2"></div>
               <div className="h-4 bg-muted rounded w-5/6"></div>
-            </div> : apiKeyData ? <div className="space-y-4">
+            </div>
+          ) : apiKeyData ? (
+            <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
@@ -138,17 +143,18 @@ export const ManageGoogleAPIKey: React.FC = () => {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-            </div> : <div className="text-center py-8">
+            </div>
+          ) : (
+            <div className="text-center py-8">
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                 <Key className="w-8 h-8 text-muted-foreground" />
               </div>
               <p className="text-lg font-medium text-muted-foreground mb-2">No API Key Configured</p>
               <p className="text-sm text-muted-foreground">Add your Google Places API key above to get started</p>
-            </div>}
+            </div>
+          )}
         </CardContent>
       </Card>
-  </div>
-</div>
 
       {/* API Key Requirements */}
       <Card>
