@@ -309,11 +309,11 @@ export const Dashboard: React.FC = () => {
             <table className="w-full">
               <thead className="bg-grey-50">
                 <tr className="border-b border-border bg-grey-50 ">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Notification Email</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Action</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground bg-grey-50">Project Name</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground bg-grey-50">No of Checks</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground bg-grey-50">Date</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground bg-grey-50">Notification Email</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground bg-grey-50">Action</th>
                 </tr>
               </thead>
               <tbody>
