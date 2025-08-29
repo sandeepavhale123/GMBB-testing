@@ -48,21 +48,23 @@ export const CreditHistory: React.FC = () => {
       {/* Filters and Search */}
       <Card>
         <CardHeader>
-            <div className="flex justify-between items-center w-full">
-              <div className="relative w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input placeholder="Search keywords..." value={searchTerm} onChange={e => handleSearchChange(e.target.value)} className="pl-10 w-full sm:w-64" />
               </div>
             </div>
+          </div>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-500">
-                <tr className="border-b border-border bg-gray-500">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Keyword</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Credit</th>
-                  <th className="text-right py-3 px-4 font-medium text-muted-foreground ">Date</th>
+              <thead className="bg-grey-50">
+                <tr className="border-b border-border">
+                  <th className="text-left py-3 px-4 font-medium">Keyword</th>
+                  <th className="text-left py-3 px-4 font-medium">Credit</th>
+                  <th className="text-left py-3 px-4 font-medium">Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,7 +75,7 @@ export const CreditHistory: React.FC = () => {
                     <td className="py-3 px-4">
                       <span className="font-semibold text-foreground">{item.credit}</span>
                     </td>
-                    <td className="py-3 px-4 text-muted-foreground text-right">{item.date}</td>
+                    <td className="py-3 px-4 text-muted-foreground">{item.date}</td>
                   </tr>)}
               </tbody>
             </table>
