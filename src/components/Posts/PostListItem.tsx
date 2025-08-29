@@ -6,7 +6,17 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Checkbox } from "../ui/checkbox";
 import { PostViewModal } from "./PostViewModal";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { deletePost, clearDeleteError } from "../../store/slices/postsSlice";
 import { useListingContext } from "../../context/ListingContext";
@@ -26,22 +36,17 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   onClonePost,
   isSelected = false,
   onSelectionChange,
-  isSelectionMode = false
+  isSelectionMode = false,
 }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const queryClient = useQueryClient();
-  const {
-    selectedListing
-  } = useListingContext();
-  const {
-    deleteLoading,
-    deleteError
-  } = useAppSelector(state => state.posts);
+  const { selectedListing } = useListingContext();
+  const { deleteLoading, deleteError } = useAppSelector((state) => state.posts);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   // Check if we're on bulk dashboard
-  const isBulkDashboard = location.pathname.startsWith('/main-dashboard');
+  const isBulkDashboard = location.pathname.startsWith("/main-dashboard");
   const getStatusColor = (status: string) => {
     switch (status) {
       case "published":
@@ -72,31 +77,44 @@ export const PostListItem: React.FC<PostListItemProps> = ({
   };
   const handleDeletePost = async () => {
     // Get listingId from post data first, then context or URL
-    const listingId = post.listingId || selectedListing?.id || parseInt(window.location.pathname.split("/")[2]);
+    const listingId =
+      post.listingId ||
+      selectedListing?.id ||
+      parseInt(window.location.pathname.split("/")[2]);
     if (!listingId) {
       toast({
         title: "Error",
-        description: "No business listing selected. Please select a listing first.",
-        variant: "destructive"
+        description:
+          "No business listing selected. Please select a listing first.",
+        variant: "destructive",
       });
       return;
     }
 
     // Show progress toast
     const progressToast = toast({
-      title: <div className="flex items-center gap-2">
+      title: (
+        <div className="flex items-center gap-2">
           <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
           Deleting post...
-        </div>,
-      description: <div className="space-y-2">
-          <div className="text-sm text-muted-foreground">Preparing deletion...</div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-            width: '10%'
-          }} />
+        </div>
+      ),
+      description: (
+        <div className="space-y-2">
+          <div className="text-sm text-muted-foreground">
+            Preparing deletion...
           </div>
-        </div>,
-      duration: Infinity // Keep open until we dismiss it
+          <div className="w-full bg-muted rounded-full h-2">
+            <div
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{
+                width: "10%",
+              }}
+            />
+          </div>
+        </div>
+      ),
+      duration: Infinity, // Keep open until we dismiss it
     });
     try {
       // Clear any previous errors
@@ -106,56 +124,85 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">Deleting post...</div>
+          description: (
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">
+                Deleting post...
+              </div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-                width: '60%'
-              }} />
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: "60%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 300);
       setTimeout(() => {
         progressToast.update({
           id: progressToast.id,
-          description: <div className="space-y-2">
+          description: (
+            <div className="space-y-2">
               <div className="text-sm text-muted-foreground">Finalizing...</div>
               <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{
-                width: '90%'
-              }} />
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: "90%",
+                  }}
+                />
               </div>
             </div>
+          ),
         });
       }, 600);
-      await dispatch(deletePost({
-        postId: [parseInt(post.id)],
-        listingId: parseInt(listingId.toString())
-      })).unwrap();
+      await dispatch(
+        deletePost({
+          postId: [parseInt(post.id)],
+          listingId: parseInt(listingId.toString()),
+        })
+      ).unwrap();
 
       // Invalidate React Query cache to refresh data without page reload
-      queryClient.invalidateQueries({ queryKey: ['posts-dashboard-data'] });
+      queryClient.invalidateQueries({ queryKey: ["posts-dashboard-data"] });
 
       // Complete progress and show success
       progressToast.update({
         id: progressToast.id,
-        title: <div className="flex items-center gap-2">
+        title: (
+          <div className="flex items-center gap-2">
             <div className="h-4 w-4 bg-green-500 rounded-full flex items-center justify-center">
-              <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="h-2 w-2 text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             Post deleted successfully
-          </div>,
-        description: <div className="space-y-2">
+          </div>
+        ),
+        description: (
+          <div className="space-y-2">
             <div className="text-sm text-green-600">Deletion completed</div>
             <div className="w-full bg-muted rounded-full h-2">
-              <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{
-              width: '100%'
-            }} />
+              <div
+                className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: "100%",
+                }}
+              />
             </div>
           </div>
+        ),
       });
 
       // Auto-dismiss success toast after 2 seconds
@@ -171,8 +218,11 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       progressToast.dismiss();
       toast({
         title: "Failed to Delete Post",
-        description: error instanceof Error ? (error as any)?.response?.data?.message || error.message : "An unexpected error occurred. Please try again.",
-        variant: "destructive"
+        description:
+          error instanceof Error
+            ? (error as any)?.response?.data?.message || error.message
+            : "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       });
     }
   };
@@ -188,11 +238,12 @@ export const PostListItem: React.FC<PostListItemProps> = ({
       toast({
         title: "Error",
         description: deleteError,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   }, [deleteError]);
-  return <>
+  return (
+    <>
       <div className="relative border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20">
         {/* Date positioned at top right, avoiding action buttons */}
         <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
@@ -200,14 +251,30 @@ export const PostListItem: React.FC<PostListItemProps> = ({
           {formatScheduledDate(post.publishDate)}
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex flex-col justify-between sm:flex-row sm:items-center gap-4">
           <div className="flex items-center gap-4">
             {/* Selection Checkbox */}
-            {isSelectionMode && onSelectionChange && <Checkbox checked={isSelected} onCheckedChange={checked => onSelectionChange(post.id, !!checked)} className="flex-shrink-0" />}
+            {isSelectionMode && onSelectionChange && (
+              <Checkbox
+                checked={isSelected}
+                onCheckedChange={(checked) =>
+                  onSelectionChange(post.id, !!checked)
+                }
+                className="flex-shrink-0"
+              />
+            )}
 
             {/* Thumbnail */}
             <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-              {post.media?.images ? <img src={post.media.images} alt="Post" className="w-full h-full object-cover" /> : <span className="text-white text-xs font-medium">IMG</span>}
+              {post.media?.images ? (
+                <img
+                  src={post.media.images}
+                  alt="Post"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-white text-xs font-medium">IMG</span>
+              )}
             </div>
 
             {/* Content */}
@@ -231,12 +298,22 @@ export const PostListItem: React.FC<PostListItemProps> = ({
 
           {/* Actions */}
           <div className="flex gap-1 flex-shrink-0 justify-end sm:justify-start">
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setIsViewModalOpen(true)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setIsViewModalOpen(true)}
+            >
               <Eye className="w-3 h-3" />
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700" disabled={deleteLoading}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                  disabled={deleteLoading}
+                >
                   <Trash2 className="w-3 h-3" />
                 </Button>
               </AlertDialogTrigger>
@@ -244,13 +321,16 @@ export const PostListItem: React.FC<PostListItemProps> = ({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Post</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this post? This action cannot
-                    be undone.
+                    Are you sure you want to delete this post? This action
+                    cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeletePost} disabled={deleteLoading}>
+                  <AlertDialogAction
+                    onClick={handleDeletePost}
+                    disabled={deleteLoading}
+                  >
                     {deleteLoading ? "Deleting..." : "Delete"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -260,6 +340,11 @@ export const PostListItem: React.FC<PostListItemProps> = ({
         </div>
       </div>
 
-      <PostViewModal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} post={post} />
-    </>;
+      <PostViewModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        post={post}
+      />
+    </>
+  );
 };

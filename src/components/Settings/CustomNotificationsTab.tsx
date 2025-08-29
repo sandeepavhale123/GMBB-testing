@@ -2,14 +2,48 @@ import React, { useState, useMemo } from "react";
 import { Search, Loader2, Edit, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
-import { updateCustomEmailSetting, deleteCustomEmailSetting, CustomEmailSettingPayload, CustomEmailNotification } from "@/api/integrationApi";
+import {
+  updateCustomEmailSetting,
+  deleteCustomEmailSetting,
+  CustomEmailSettingPayload,
+  CustomEmailNotification,
+} from "@/api/integrationApi";
 import { useToast } from "@/hooks/use-toast";
 import { useCustomEmailSettings } from "@/hooks/useCustomEmailSettings";
 import { useQueryClient } from "@tanstack/react-query";
@@ -22,28 +56,25 @@ interface FormData {
   recipients: string;
 }
 
-const REPORT_TYPES = [
-  "GMB Posts",
-  "GMB Reviews", 
-  "Geo Ranking",
-  "All Reports"
-];
+const REPORT_TYPES = ["GMB Posts", "GMB Reviews", "Geo Ranking", "All Reports"];
 
 export const CustomNotificationsTab: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editingNotification, setEditingNotification] = useState<CustomEmailNotification | null>(null);
+  const [editingNotification, setEditingNotification] =
+    useState<CustomEmailNotification | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editEmailValue, setEditEmailValue] = useState("");
   const [isAddingNotification, setIsAddingNotification] = useState(false);
   const [isUpdatingNotification, setIsUpdatingNotification] = useState(false);
-  const [deletingNotification, setDeletingNotification] = useState<CustomEmailNotification | null>(null);
+  const [deletingNotification, setDeletingNotification] =
+    useState<CustomEmailNotification | null>(null);
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isDeletingNotification, setIsDeletingNotification] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const [formData, setFormData] = useState<FormData>({
     selectedListings: [],
     reportType: "",
@@ -64,46 +95,51 @@ export const CustomNotificationsTab: React.FC = () => {
   const pagination = data?.data?.pagination;
 
   // Helper functions
-  const transformSelectedListingsToLocationIds = (selectedListings: string[]): number[] => {
+  const transformSelectedListingsToLocationIds = (
+    selectedListings: string[]
+  ): number[] => {
     return selectedListings
-      .map(id => parseInt(id.replace('listing-', ''), 10))
-      .filter(id => !isNaN(id));
+      .map((id) => parseInt(id.replace("listing-", ""), 10))
+      .filter((id) => !isNaN(id));
   };
 
   const formatEmailsForApi = (emailString: string): string => {
     return emailString
-      .split(',')
-      .map(email => email.trim())
-      .filter(email => email.length > 0)
-      .join(',');
+      .split(",")
+      .map((email) => email.trim())
+      .filter((email) => email.length > 0)
+      .join(",");
   };
 
   const handleAddNotification = async () => {
     if (!formData.selectedListings.length || !formData.recipients) {
       toast({
         title: "Validation Error",
-        description: "Please select at least one listing and provide email recipients.",
+        description:
+          "Please select at least one listing and provide email recipients.",
         variant: "destructive",
       });
       return;
     }
 
     setIsAddingNotification(true);
-    
+
     try {
       const payload: CustomEmailSettingPayload = {
-        locationIds: transformSelectedListingsToLocationIds(formData.selectedListings),
+        locationIds: transformSelectedListingsToLocationIds(
+          formData.selectedListings
+        ),
         email: formatEmailsForApi(formData.recipients),
       };
 
       const response = await updateCustomEmailSetting(payload);
-      
+
       if (response.code === 200) {
         toast({
           title: "Success",
           description: "Custom notification added successfully!",
         });
-        
+
         setFormData({
           selectedListings: [],
           reportType: "",
@@ -111,7 +147,7 @@ export const CustomNotificationsTab: React.FC = () => {
           recipients: "",
         });
         setIsAddModalOpen(false);
-        
+
         // Refetch data to update the table
         queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
       } else {
@@ -119,12 +155,13 @@ export const CustomNotificationsTab: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Error adding notification:", error);
-      
+
       // Extract error message from API response
-      const errorMessage = error?.response?.data?.message || 
-                          error?.message || 
-                          "Failed to add custom notification. Please try again.";
-      
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to add custom notification. Please try again.";
+
       toast({
         title: "Error",
         description: errorMessage,
@@ -146,7 +183,7 @@ export const CustomNotificationsTab: React.FC = () => {
     }
 
     setIsUpdatingNotification(true);
-    
+
     try {
       // Convert notification ID to location ID
       const locationId = parseInt(editingNotification.id, 10);
@@ -160,17 +197,17 @@ export const CustomNotificationsTab: React.FC = () => {
       };
 
       const response = await updateCustomEmailSetting(payload);
-      
+
       if (response.code === 200) {
         toast({
           title: "Success",
           description: "Email settings updated successfully!",
         });
-        
+
         setIsEditModalOpen(false);
         setEditingNotification(null);
         setEditEmailValue("");
-        
+
         // Refetch data to update the table
         queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
       } else {
@@ -180,7 +217,10 @@ export const CustomNotificationsTab: React.FC = () => {
       console.error("Error updating notification:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update email settings. Please try again.",
+        description:
+          error instanceof Error
+            ? error.response.data.message || error.message
+            : "Failed to update email settings. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -209,7 +249,7 @@ export const CustomNotificationsTab: React.FC = () => {
     if (!deletingNotification) return;
 
     setIsDeletingNotification(true);
-    
+
     try {
       // Convert notification ID to location ID
       const locationId = parseInt(deletingNotification.id, 10);
@@ -218,15 +258,16 @@ export const CustomNotificationsTab: React.FC = () => {
       }
 
       const response = await deleteCustomEmailSetting({
-        listingIds: [locationId]
+        listingIds: [locationId],
       });
-      
+
       if (response.code === 200) {
         toast({
           title: "Success",
-          description: response.message || "Email notifications removed successfully.",
+          description:
+            response.message || "Email notifications removed successfully.",
         });
-        
+
         // Refetch data to update the table
         queryClient.invalidateQueries({ queryKey: ["customEmailSettings"] });
       } else {
@@ -236,7 +277,10 @@ export const CustomNotificationsTab: React.FC = () => {
       console.error("Error deleting notification:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to delete notification. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to delete notification. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -264,7 +308,9 @@ export const CustomNotificationsTab: React.FC = () => {
     return (
       <div className="space-y-6">
         <div className="text-center py-8">
-          <p className="text-muted-foreground">Failed to load custom notifications.</p>
+          <p className="text-muted-foreground">
+            Failed to load custom notifications.
+          </p>
           <Button onClick={() => refetch()} className="mt-2">
             Try Again
           </Button>
@@ -289,7 +335,9 @@ export const CustomNotificationsTab: React.FC = () => {
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
             <Button disabled={isAddingNotification}>
-              {isAddingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isAddingNotification && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Add Custom Recipient
             </Button>
           </DialogTrigger>
@@ -299,39 +347,55 @@ export const CustomNotificationsTab: React.FC = () => {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">Select Listings/Groups</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Select Listings/Groups
+                </label>
                 <BulkReplyListingSelector
                   selectedListings={formData.selectedListings}
-                  onListingsChange={(selected) => 
-                    setFormData(prev => ({ ...prev, selectedListings: selected }))
+                  onListingsChange={(selected) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      selectedListings: selected,
+                    }))
                   }
                   hideStatusBadges={true}
                   hideGroups={true}
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block">Email Recipients</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Email Recipients
+                </label>
                 <Textarea
                   placeholder="Enter email addresses separated by commas"
                   value={formData.recipients}
-                  onChange={(e) => 
-                    setFormData(prev => ({ ...prev, recipients: e.target.value }))
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      recipients: e.target.value,
+                    }))
                   }
                   rows={3}
                 />
               </div>
               <div className="flex justify-end gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => setIsAddModalOpen(false)}
                 >
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   onClick={handleAddNotification}
-                  disabled={!formData.selectedListings.length || !formData.recipients || isAddingNotification}
+                  disabled={
+                    !formData.selectedListings.length ||
+                    !formData.recipients ||
+                    isAddingNotification
+                  }
                 >
-                  {isAddingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isAddingNotification && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   Add Notification
                 </Button>
               </div>
@@ -348,13 +412,17 @@ export const CustomNotificationsTab: React.FC = () => {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Location Name</label>
+              <label className="text-sm font-medium mb-2 block">
+                Location Name
+              </label>
               <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
                 {editingNotification?.locationName}
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">Email Recipients</label>
+              <label className="text-sm font-medium mb-2 block">
+                Email Recipients
+              </label>
               <Textarea
                 placeholder="Enter email addresses separated by commas"
                 value={editEmailValue}
@@ -364,18 +432,20 @@ export const CustomNotificationsTab: React.FC = () => {
               />
             </div>
             <div className="flex justify-end gap-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleEditModalClose}
                 disabled={isUpdatingNotification}
               >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 onClick={handleEditNotification}
                 disabled={!editEmailValue.trim() || isUpdatingNotification}
               >
-                {isUpdatingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isUpdatingNotification && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Update
               </Button>
             </div>
@@ -389,19 +459,26 @@ export const CustomNotificationsTab: React.FC = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Email Notification</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete the email notification for "{deletingNotification?.locationName}"? This action cannot be undone.
+              Are you sure you want to delete the email notification for "
+              {deletingNotification?.locationName}"? This action cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleDeleteCancel} disabled={isDeletingNotification}>
+            <AlertDialogCancel
+              onClick={handleDeleteCancel}
+              disabled={isDeletingNotification}
+            >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={isDeletingNotification}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeletingNotification && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isDeletingNotification && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -423,12 +500,17 @@ export const CustomNotificationsTab: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3} className="text-center py-8">
                   <Loader2 className="h-6 w-6 animate-spin mx-auto" />
-                  <p className="text-muted-foreground mt-2">Loading notifications...</p>
+                  <p className="text-muted-foreground mt-2">
+                    Loading notifications...
+                  </p>
                 </TableCell>
               </TableRow>
             ) : notifications.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                <TableCell
+                  colSpan={3}
+                  className="text-center py-8 text-muted-foreground"
+                >
                   No custom notifications found
                 </TableCell>
               </TableRow>
@@ -442,7 +524,7 @@ export const CustomNotificationsTab: React.FC = () => {
                   </TableCell>
                   <TableCell className="max-w-xs">
                     <div className="text-sm">
-                      {notification.cc_email?.split(',').map((email, index) => (
+                      {notification.cc_email?.split(",").map((email, index) => (
                         <div key={index} className="leading-relaxed">
                           {email.trim()}
                         </div>
@@ -451,15 +533,15 @@ export const CustomNotificationsTab: React.FC = () => {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="icon"
                         onClick={() => handleEditClick(notification)}
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="destructive" 
+                      <Button
+                        variant="destructive"
                         size="icon"
                         onClick={() => handleDeleteClick(notification)}
                         disabled={isDeletingNotification}
@@ -479,21 +561,26 @@ export const CustomNotificationsTab: React.FC = () => {
       {pagination && pagination.pages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            Showing {(currentPage - 1) * limit + 1} to {Math.min(currentPage * limit, pagination.total)} of {pagination.total} results
+            Showing {(currentPage - 1) * limit + 1} to{" "}
+            {Math.min(currentPage * limit, pagination.total)} of{" "}
+            {pagination.total} results
           </div>
           <Pagination>
             <PaginationContent>
               {currentPage > 1 && (
                 <PaginationItem>
-                  <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  />
                 </PaginationItem>
               )}
-              
+
               {Array.from({ length: pagination.pages }, (_, i) => i + 1)
-                .filter(page => 
-                  page === 1 || 
-                  page === pagination.pages || 
-                  Math.abs(page - currentPage) <= 1
+                .filter(
+                  (page) =>
+                    page === 1 ||
+                    page === pagination.pages ||
+                    Math.abs(page - currentPage) <= 1
                 )
                 .map((page, index, array) => (
                   <React.Fragment key={page}>
@@ -512,10 +599,12 @@ export const CustomNotificationsTab: React.FC = () => {
                     </PaginationItem>
                   </React.Fragment>
                 ))}
-              
+
               {currentPage < pagination.pages && (
                 <PaginationItem>
-                  <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                  <PaginationNext
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  />
                 </PaginationItem>
               )}
             </PaginationContent>

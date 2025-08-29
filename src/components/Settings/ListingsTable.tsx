@@ -1,12 +1,18 @@
-
-import React from 'react';
-import { Eye } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Switch } from '../ui/switch';
-import { Skeleton } from '../ui/skeleton';
+import React from "react";
+import { Eye } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Switch } from "../ui/switch";
+import { Skeleton } from "../ui/skeleton";
 
 interface Listing {
   id: string;
@@ -14,7 +20,7 @@ interface Listing {
   store_code: string;
   group_name: string;
   state: string;
-  status: 'verified' | 'pending' | 'suspended';
+  status: "verified" | "pending" | "suspended";
   isActive: boolean;
   profile_image?: string;
   address: string;
@@ -32,27 +38,33 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
   listings,
   onViewListing,
   onToggleListing,
-  loadingStates = {}
+  loadingStates = {},
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'verified':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'suspended':
-        return 'bg-red-100 text-red-800';
+      case "verified":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "suspended":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
   const truncateAddress = (address: string, maxLength = 30) => {
-    return address.length > maxLength ? `${address.substring(0, maxLength)}...` : address;
+    return address.length > maxLength
+      ? `${address.substring(0, maxLength)}...`
+      : address;
   };
 
   const handleToggle = async (listingId: string, checked: boolean) => {
@@ -61,7 +73,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
         await onToggleListing(listingId, checked);
       } catch (error) {
         // Error is already handled in the hook, no need to do anything here
-        console.error('Toggle failed:', error);
+        console.error("Toggle failed:", error);
       }
     }
   };
@@ -69,29 +81,43 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
   if (listings.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-        <p className="text-gray-600">No listings found matching your criteria.</p>
+        <p className="text-gray-600">
+          No listings found matching your criteria.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-50">
-            <TableHead className="font-semibold text-gray-900">Business</TableHead>
-            <TableHead className="font-semibold text-gray-900">Store Code</TableHead>
-            <TableHead className="font-semibold text-gray-900">Category</TableHead>
-            <TableHead className="font-semibold text-gray-900">Location</TableHead>
-            <TableHead className="font-semibold text-gray-900">Status</TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              Business
+            </TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              Store Code
+            </TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              Category
+            </TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              Location
+            </TableHead>
+            <TableHead className="font-semibold text-gray-900">
+              Status
+            </TableHead>
             <TableHead className="font-semibold text-gray-900">State</TableHead>
-            <TableHead className="font-semibold text-gray-900 text-center">Actions</TableHead>
+            <TableHead className="font-semibold text-gray-900 text-center">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {listings.map((listing) => {
             const isLoading = loadingStates[listing.id];
-            
+
             return (
               <TableRow key={listing.id} className="hover:bg-gray-50">
                 <TableCell>
@@ -103,45 +129,69 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <p className="font-medium text-gray-900 truncate">{listing.name}</p>
-                      {listing.address && truncateAddress(listing.address) && truncateAddress(listing.address) !== 'null' && !truncateAddress(listing.address).includes('null') && (
-                        <p className="text-sm text-gray-500 truncate">
-                          {truncateAddress(listing.address)}
-                        </p>
-                      )}
+                      {listing.name &&
+                        truncateAddress(listing.name) &&
+                        truncateAddress(listing.name) !== "null" &&
+                        !truncateAddress(listing.name).includes("null") && (
+                          <p className="font-medium text-gray-900 truncate">
+                            {truncateAddress(listing.name)}
+                          </p>
+                        )}
+
+                      {listing.address &&
+                        truncateAddress(listing.address) &&
+                        truncateAddress(listing.address) !== "null" &&
+                        !truncateAddress(listing.address).includes("null") && (
+                          <p className="text-sm text-gray-500 truncate">
+                            {truncateAddress(listing.address)}
+                          </p>
+                        )}
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="font-mono text-sm text-gray-900">{listing.store_code || '-'}</span>
+                  <span className="font-mono text-sm text-gray-900">
+                    {listing.store_code || "-"}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.group_name || '-'}</span>
+                  <span className="text-sm text-gray-600">
+                    {listing.group_name || "-"}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.zipcode || '-'}</span>
+                  <span className="text-sm text-gray-600">
+                    {listing.zipcode || "-"}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    variant="secondary" 
-                    className={`${getStatusColor(listing.status)} border-0 font-medium`}
+                  <Badge
+                    variant="secondary"
+                    className={`${getStatusColor(
+                      listing.status
+                    )} border-0 font-medium`}
                   >
-                    {listing.status.charAt(0).toUpperCase() + listing.status.slice(1)}
+                    {listing.status.charAt(0).toUpperCase() +
+                      listing.status.slice(1)}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm text-gray-600">{listing.state || '-'}</span>
+                  <span className="text-sm text-gray-600">
+                    {listing.state || "-"}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center space-x-3">
                     {isLoading ? (
                       <Skeleton className="h-6 w-11 rounded-full" />
                     ) : (
-                      <Switch 
-                        checked={listing.isActive} 
-                        onCheckedChange={(checked) => handleToggle(listing.id, checked)}
+                      <Switch
+                        checked={listing.isActive}
+                        onCheckedChange={(checked) =>
+                          handleToggle(listing.id, checked)
+                        }
                         disabled={isLoading}
-                        className="data-[state=checked]:bg-blue-500" 
+                        className="data-[state=checked]:bg-blue-500"
                       />
                     )}
                   </div>
