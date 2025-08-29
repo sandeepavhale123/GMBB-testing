@@ -178,7 +178,7 @@ export const Dashboard: React.FC = () => {
       }}>
           <DialogTrigger asChild>
             <Button onClick={() => setShowCreateModal(true)}>
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4 mr-1" />
               Create Project
             </Button>
           </DialogTrigger>

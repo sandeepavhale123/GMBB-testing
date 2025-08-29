@@ -119,7 +119,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" size="sm" disabled={isDeleting}>
-                        <Trash2 className="w-4 h-4 mr-2" />
+                        <Trash2 className="w-4 h-4 mr-1" />
                         {isDeleting ? 'Deleting...' : 'Delete'}
                       </Button>
                     </AlertDialogTrigger>
