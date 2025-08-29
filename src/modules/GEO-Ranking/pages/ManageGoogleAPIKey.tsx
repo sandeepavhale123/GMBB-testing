@@ -109,7 +109,6 @@ export const ManageGoogleAPIKey: React.FC = () => {
                     <p className="text-sm text-muted-foreground">
                       Key: <code className="bg-background px-2 py-1 rounded text-xs">{maskApiKey(apiKeyData.apiKey)}</code>
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Last Updated: {apiKeyData.lastValidated}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
