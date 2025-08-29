@@ -298,7 +298,7 @@ export const Dashboard: React.FC = () => {
                   placeholder="Search projects..."
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-10 w-64"
+                  className="pl-10 w-full"
                 />
               </div>
             </div>
@@ -307,7 +307,7 @@ export const Dashboard: React.FC = () => {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="">
+              <thead className="bg-grey-50">
                 <tr className="border-b border-border bg-grey-500">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
