@@ -291,16 +291,14 @@ export const Dashboard: React.FC = () => {
         <CardHeader>
           <div className="flex justify-between items-center w-full">
            
-            <div className="flex items-center space-x-2 w-full">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  placeholder="Search projects..."
-                  value={searchTerm}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-10 w-full"
-                />
-              </div>
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="pl-10 w-full"
+              />
             </div>
           </div>
         </CardHeader>
