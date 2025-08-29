@@ -151,13 +151,14 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
   }, [navigate]);
 
   const handleCheckRank = useCallback(() => {
-    if (effectiveId) {
-      const path = isProjectMode 
-        ? `/geo-ranking-report/${effectiveId}` 
-        : `/geo-ranking-report/${effectiveId}`;
-      navigate(path);
+    if (isProjectMode) {
+      navigate('/module/geo-ranking/check-rank');
     } else {
-      navigate('/geo-ranking-report');
+      if (effectiveId) {
+        navigate(`/geo-ranking-report/${effectiveId}`);
+      } else {
+        navigate('/geo-ranking-report');
+      }
     }
   }, [navigate, effectiveId, isProjectMode]);
 
