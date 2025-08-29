@@ -276,7 +276,7 @@ export const Dashboard: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr className="border-b border-border bg-gray-50 ">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
+                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Keywords</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Notification Email</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Action</th>
