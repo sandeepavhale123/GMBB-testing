@@ -258,6 +258,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
               onDateChange={onDateChange} 
               onClone={handleClone} 
               onRefresh={handleRefreshKeyword} 
+              onCheckRank={handleCheckRank}
               isRefreshing={refreshing} 
               refreshProgress={refreshProgress} 
               loading={keywordsLoading} 
