@@ -184,9 +184,15 @@ export const Dashboard: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">Project Management</h1>
           <p className="text-muted-foreground">Manage your GEO ranking projects</p>
         </div>
-        <Dialog open={showCreateModal} onOpenChange={handleCloseModal}>
+        <Dialog open={showCreateModal} onOpenChange={(open) => {
+          if (!open) {
+            handleCloseModal();
+          } else {
+            setShowCreateModal(true);
+          }
+        }}>
           <DialogTrigger asChild>
-            <Button>
+            <Button onClick={() => setShowCreateModal(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Create Project
             </Button>
