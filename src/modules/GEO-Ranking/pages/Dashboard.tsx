@@ -307,8 +307,8 @@ export const Dashboard: React.FC = () => {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-grey-50">
-                <tr className="border-b border-border bg-grey-50 ">
+              <thead className="bg-gray-50">
+                <tr className="border-b border-border bg-gray-50 ">
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Checks</th>
                   <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
