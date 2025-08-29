@@ -376,7 +376,7 @@ export const Dashboard: React.FC = () => {
           
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border p-4">
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border p-4 max-w[200px]">
               <div className="text-sm text-muted-foreground flex-1">
                 Showing {((currentPage - 1) * pagination.limit) + 1} to {Math.min(currentPage * pagination.limit, pagination.total)} of {pagination.total} projects
               </div>
