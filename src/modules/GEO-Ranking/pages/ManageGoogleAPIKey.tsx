@@ -5,42 +5,33 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Key, CheckCircle, XCircle, ExternalLink, Info, Trash2 } from 'lucide-react';
 import { useGoogleApiKey } from '../hooks/useGoogleApiKey';
-
 export const ManageGoogleAPIKey: React.FC = () => {
-  const { apiKeyData, isLoading, saveApiKey, deleteApiKey, isSaving, isDeleting } = useGoogleApiKey();
+  const {
+    apiKeyData,
+    isLoading,
+    saveApiKey,
+    deleteApiKey,
+    isSaving,
+    isDeleting
+  } = useGoogleApiKey();
   const [apiKeyInput, setApiKeyInput] = useState('');
-
   const handleSaveApiKey = () => {
     if (apiKeyInput.trim()) {
       saveApiKey(apiKeyInput.trim());
       setApiKeyInput('');
     }
   };
-
   const handleDeleteApiKey = () => {
     deleteApiKey();
   };
-
   const maskApiKey = (key: string) => {
     if (key.length <= 8) return key;
     return key.substring(0, 4) + '***************' + key.slice(-3);
   };
-
-  return (
-    <div className="max-w-4xl mx-auto space-y-6">
+  return <div className=" mx-auto space-y-6">
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">Google Places API Key</h1>
@@ -53,12 +44,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
         <AlertDescription>
           You need a valid Google Places API key to perform location-based ranking checks. 
           Make sure your API key has the Places API and Geocoding API enabled.
-          <a 
-            href="https://developers.google.com/places/web-service/get-api-key" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center ml-2 text-primary hover:underline"
-          >
+          <a href="https://developers.google.com/places/web-service/get-api-key" target="_blank" rel="noopener noreferrer" className="inline-flex items-center ml-2 text-primary hover:underline">
             Get API Key <ExternalLink className="w-3 h-3 ml-1" />
           </a>
         </AlertDescription>
@@ -75,22 +61,11 @@ export const ManageGoogleAPIKey: React.FC = () => {
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="api-key">Google Places API Key</Label>
-            <Input
-              id="api-key"
-              type="password"
-              value={apiKeyInput}
-              onChange={(e) => setApiKeyInput(e.target.value)}
-              placeholder="Enter your Google Places API Key"
-              className="mt-1"
-            />
+            <Input id="api-key" type="password" value={apiKeyInput} onChange={e => setApiKeyInput(e.target.value)} placeholder="Enter your Google Places API Key" className="mt-1" />
           </div>
           
-          <Button 
-            onClick={handleSaveApiKey} 
-            disabled={!apiKeyInput.trim() || isSaving}
-            className="w-full"
-          >
-            {isSaving ? 'Saving...' : (apiKeyData ? 'Update API Key' : 'Add API Key')}
+          <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving} className="w-full">
+            {isSaving ? 'Saving...' : apiKeyData ? 'Update API Key' : 'Add API Key'}
           </Button>
 
           <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
@@ -110,14 +85,11 @@ export const ManageGoogleAPIKey: React.FC = () => {
           <CardTitle>Current Status</CardTitle>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
-            <div className="animate-pulse space-y-4">
+          {isLoading ? <div className="animate-pulse space-y-4">
               <div className="h-4 bg-muted rounded w-3/4"></div>
               <div className="h-4 bg-muted rounded w-1/2"></div>
               <div className="h-4 bg-muted rounded w-5/6"></div>
-            </div>
-          ) : apiKeyData ? (
-            <div className="space-y-4">
+            </div> : apiKeyData ? <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
@@ -161,16 +133,13 @@ export const ManageGoogleAPIKey: React.FC = () => {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-            </div>
-          ) : (
-            <div className="text-center py-8">
+            </div> : <div className="text-center py-8">
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                 <Key className="w-8 h-8 text-muted-foreground" />
               </div>
               <p className="text-lg font-medium text-muted-foreground mb-2">No API Key Configured</p>
               <p className="text-sm text-muted-foreground">Add your Google Places API key above to get started</p>
-            </div>
-          )}
+            </div>}
         </CardContent>
       </Card>
 
@@ -224,6 +193,5 @@ export const ManageGoogleAPIKey: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
