@@ -22,19 +22,13 @@ interface ModalData {
   }>;
   loading: boolean;
 }
-interface GeoRankingPageProps {
-  projectId?: number;
-}
-
-export const GeoRankingPage = ({ projectId }: GeoRankingPageProps = {}) => {
+export const GeoRankingPage = () => {
   const navigate = useNavigate();
   const {
     listingId
   } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Use projectId prop if provided, otherwise fall back to URL param
-  const numericListingId = projectId || (listingId ? parseInt(listingId, 10) : 0);
+  const numericListingId = listingId ? parseInt(listingId, 10) : 0;
 
   // Get URL parameters for processing state
   const isProcessing = searchParams.get('processing') === 'true';
