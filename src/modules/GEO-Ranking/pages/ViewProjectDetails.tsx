@@ -11,7 +11,7 @@ export const ViewProjectDetails: React.FC = () => {
     if (project_id) {
       // Replace the current URL with the format that GeoRankingPage expects
       const currentPath = window.location.pathname;
-      const newPath = currentPath.replace(`/view-project-details/${project_id}`, `/${project_id}`);
+      const newPath = currentPath.replace(`/view-project-details/${project_id}`, `/view-project-details//${project_id}`);
       window.history.replaceState(null, '', newPath);
     }
   }, [project_id]);
