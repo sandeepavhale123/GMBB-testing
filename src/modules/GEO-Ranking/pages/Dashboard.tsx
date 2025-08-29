@@ -236,7 +236,7 @@ export const Dashboard: React.FC = () => {
                       <Icon className={`w-5 h-5 ${card.color}`} />
                     </div>
 
-                    <h3>{remainingCredits.toLocaleString()} / {totalCredits.toLocaleString()} </h3>
+                    <h3 className="text-2xl font-bold text-foreground">{remainingCredits.toLocaleString()} </h3>
                     
                   </div>
                 </CardContent>
