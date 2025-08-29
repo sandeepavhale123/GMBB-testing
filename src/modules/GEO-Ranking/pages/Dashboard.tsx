@@ -12,7 +12,7 @@ import { Search, Plus, MoreVertical, Eye, Edit, Share, Trash2, Users, Target, Ca
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination';
 import { useGeoProjects } from '../hooks/useGeoProjects';
 import type { GeoProject } from '../types';
-import { forceBodyStylesReset } from '@/utils/domUtils';
+import { comprehensiveCleanup, startBodyStyleObserver, stopBodyStyleObserver } from '@/utils/domUtils';
 
 export const Dashboard: React.FC = () => {
   const { 
@@ -96,10 +96,12 @@ export const Dashboard: React.FC = () => {
       setShowDeleteDialog(false);
       setProjectToDelete(null);
       setDeleteConfirmText('');
-      // Additional cleanup after successful deletion
+      // Immediate cleanup after successful deletion
+      comprehensiveCleanup();
+      // Additional delayed cleanup
       setTimeout(() => {
-        forceBodyStylesReset();
-      }, 150);
+        comprehensiveCleanup();
+      }, 300);
     }
   };
 
@@ -107,20 +109,28 @@ export const Dashboard: React.FC = () => {
     setShowDeleteDialog(false);
     setProjectToDelete(null);
     setDeleteConfirmText('');
-    // Force cleanup of body styles after dialog closes
+    // Force comprehensive cleanup of body styles after dialog closes
     setTimeout(() => {
-      forceBodyStylesReset();
-    }, 100);
+      comprehensiveCleanup();
+    }, 200);
   };
 
   // Additional safety cleanup when dialog state changes
   useEffect(() => {
     if (!showDeleteDialog) {
       setTimeout(() => {
-        forceBodyStylesReset();
-      }, 50);
+        comprehensiveCleanup();
+      }, 100);
     }
   }, [showDeleteDialog]);
+
+  // Start MutationObserver as backup cleanup monitor
+  useEffect(() => {
+    startBodyStyleObserver();
+    return () => {
+      stopBodyStyleObserver();
+    };
+  }, []);
 
   const summaryCards = [
     {
@@ -430,7 +440,18 @@ export const Dashboard: React.FC = () => {
       </Card>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={handleCloseDeleteDialog}>
+      <AlertDialog 
+        open={showDeleteDialog} 
+        onOpenChange={(open) => {
+          if (!open) {
+            handleCloseDeleteDialog();
+            // Additional cleanup when dialog closes via onOpenChange
+            setTimeout(() => {
+              comprehensiveCleanup();
+            }, 250);
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Project</AlertDialogTitle>
