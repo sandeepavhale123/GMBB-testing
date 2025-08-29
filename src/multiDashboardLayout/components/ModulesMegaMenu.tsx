@@ -23,6 +23,12 @@ const modules = [
     icon: Star,
     href: '/main-dashboard/reputation',
   },
+  {
+    name: 'Manage GMB listing',
+    description: 'Manage your Google My Business listings',
+    icon: Grid3X3,
+    href: '/main-dashboard/manage-gmb',
+  },
 ];
 
 export const ModulesMegaMenu: React.FC = () => {
