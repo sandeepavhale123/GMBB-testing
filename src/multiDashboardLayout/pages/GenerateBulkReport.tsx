@@ -3,22 +3,53 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
-import { ArrowLeft, FileText, File, Globe, Mail, Clock, Send } from "lucide-react";
+import {
+  ArrowLeft,
+  FileText,
+  File,
+  Globe,
+  Mail,
+  Clock,
+  Send,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon, Calendar as CalendarLucide } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BulkReplyListingSelector } from "@/components/BulkAutoReply/BulkReplyListingSelector";
@@ -34,159 +65,218 @@ const BULK_REPORT_SECTIONS = [
   { id: "qa", name: "Q and A" },
   { id: "insights", name: "Insights" },
 ] as const;
-const weeklyFrequencyOptions = [{
-  value: "last-week",
-  label: "Last Week"
-}, {
-  value: "last-2-weeks",
-  label: "Last 2 Weeks"
-}, {
-  value: "last-3-weeks",
-  label: "Last 3 Weeks"
-}, {
-  value: "last-4-weeks",
-  label: "Last 4 Weeks"
-}, {
-  value: "last-5-weeks",
-  label: "Last 5 Weeks"
-}];
-const monthlyFrequencyOptions = [{
-  value: "last-month",
-  label: "Last Month"
-}, {
-  value: "last-2-months",
-  label: "Last 2 Months"
-}, {
-  value: "last-3-months",
-  label: "Last 3 Months"
-}, {
-  value: "last-6-months",
-  label: "Last 6 Months"
-}, {
-  value: "last-12-months",
-  label: "Last 12 Months"
-}];
-const weekDays = [{
-  value: "monday",
-  label: "Monday"
-}, {
-  value: "tuesday",
-  label: "Tuesday"
-}, {
-  value: "wednesday",
-  label: "Wednesday"
-}, {
-  value: "thursday",
-  label: "Thursday"
-}, {
-  value: "friday",
-  label: "Friday"
-}, {
-  value: "saturday",
-  label: "Saturday"
-}, {
-  value: "sunday",
-  label: "Sunday"
-}];
+const weeklyFrequencyOptions = [
+  {
+    value: "last-week",
+    label: "Last Week",
+  },
+  {
+    value: "last-2-weeks",
+    label: "Last 2 Weeks",
+  },
+  {
+    value: "last-3-weeks",
+    label: "Last 3 Weeks",
+  },
+  {
+    value: "last-4-weeks",
+    label: "Last 4 Weeks",
+  },
+  {
+    value: "last-5-weeks",
+    label: "Last 5 Weeks",
+  },
+];
+const monthlyFrequencyOptions = [
+  {
+    value: "last-month",
+    label: "Last Month",
+  },
+  {
+    value: "last-2-months",
+    label: "Last 2 Months",
+  },
+  {
+    value: "last-3-months",
+    label: "Last 3 Months",
+  },
+  {
+    value: "last-6-months",
+    label: "Last 6 Months",
+  },
+  {
+    value: "last-12-months",
+    label: "Last 12 Months",
+  },
+];
+const weekDays = [
+  {
+    value: "monday",
+    label: "Monday",
+  },
+  {
+    value: "tuesday",
+    label: "Tuesday",
+  },
+  {
+    value: "wednesday",
+    label: "Wednesday",
+  },
+  {
+    value: "thursday",
+    label: "Thursday",
+  },
+  {
+    value: "friday",
+    label: "Friday",
+  },
+  {
+    value: "saturday",
+    label: "Saturday",
+  },
+  {
+    value: "sunday",
+    label: "Sunday",
+  },
+];
 
-const weekOptions = [{
-  value: "first",
-  label: "First Week"
-}, {
-  value: "second",
-  label: "Second Week"
-}, {
-  value: "third",
-  label: "Third Week"
-}, {
-  value: "fourth",
-  label: "Fourth Week"
-}, {
-  value: "last",
-  label: "Last Week"
-}];
-const generateBulkReportSchema = z.object({
-  projectName: z.string().min(1, "Project name is required."),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location."),
-  reportSections: z.array(z.string()).min(1, "Select at least one report type."),
-  scheduleType: z.enum(["one-time", "weekly", "monthly"]),
-  frequency: z.string().optional(),
-  emailWeek: z.string().optional(),
-  emailDay: z.string().optional(),
-  fromDate: z.date().optional(),
-  toDate: z.date().optional(),
-  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format."),
-  emailTo: z.string().min(1, "Email recipient is required.").refine(
-    (value) => {
-      const emails = value.split(',').map(email => email.trim());
-      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    },
-    { message: "Please enter valid email addresses separated by commas." }
-  ),
-  emailCc: z.string().optional().refine(
-    (value) => {
-      if (!value || value.trim() === '') return true;
-      const emails = value.split(',').map(email => email.trim());
-      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    },
-    { message: "Please enter valid email addresses separated by commas." }
-  ),
-  emailBcc: z.string().optional(),
-  emailSubject: z.string().min(1, "Email subject is required."),
-  emailMessage: z.string().min(1, "Email message is required.")
-}).superRefine((data, ctx) => {
-  // Individual field validation based on schedule type
-  if (data.scheduleType === "one-time") {
-    if (!data.fromDate) {
+const weekOptions = [
+  {
+    value: "first",
+    label: "First Week",
+  },
+  {
+    value: "second",
+    label: "Second Week",
+  },
+  {
+    value: "third",
+    label: "Third Week",
+  },
+  {
+    value: "fourth",
+    label: "Fourth Week",
+  },
+  {
+    value: "last",
+    label: "Last Week",
+  },
+];
+const generateBulkReportSchema = z
+  .object({
+    projectName: z.string().min(1, "Project name is required."),
+    selectedListings: z
+      .array(z.string())
+      .min(1, "Select at least one location."),
+    reportSections: z
+      .array(z.string())
+      .min(1, "Select at least one report type."),
+    scheduleType: z.enum(["one-time", "weekly", "monthly"]),
+    frequency: z.string().optional(),
+    emailWeek: z.string().optional(),
+    emailDay: z.string().optional(),
+    fromDate: z.date().optional(),
+    toDate: z.date().optional(),
+    deliveryFormat: z
+      .array(z.enum(["csv", "pdf", "html"]))
+      .min(1, "Select at least one delivery format."),
+    emailTo: z
+      .string()
+      .min(1, "Email recipient is required.")
+      .refine(
+        (value) => {
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+    emailCc: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value || value.trim() === "") return true;
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+    // ✅ Added same logic for BCC
+    emailBcc: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value || value.trim() === "") return true;
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+
+    emailSubject: z.string().min(1, "Email subject is required."),
+    emailMessage: z.string().min(1, "Email message is required."),
+  })
+  .superRefine((data, ctx) => {
+    // Individual field validation based on schedule type
+    if (data.scheduleType === "one-time") {
+      if (!data.fromDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Start date is required for one-time reports.",
+          path: ["fromDate"],
+        });
+      }
+      if (!data.toDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "End date is required for one-time reports.",
+          path: ["toDate"],
+        });
+      }
+    }
+
+    if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
+      if (!data.frequency) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Frequency is required for recurring reports.",
+          path: ["frequency"],
+        });
+      }
+      if (!data.emailDay) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Email day is required for recurring reports.",
+          path: ["emailDay"],
+        });
+      }
+    }
+
+    if (data.scheduleType === "monthly" && !data.emailWeek) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Start date is required for one-time reports.",
-        path: ["fromDate"]
+        message: "Email week is required for monthly reports.",
+        path: ["emailWeek"],
       });
     }
-    if (!data.toDate) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "End date is required for one-time reports.",
-        path: ["toDate"]
-      });
-    }
-  }
-  
-  if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
-    if (!data.frequency) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Frequency is required for recurring reports.",
-        path: ["frequency"]
-      });
-    }
-    if (!data.emailDay) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Email day is required for recurring reports.",
-        path: ["emailDay"]
-      });
-    }
-  }
-  
-  if (data.scheduleType === "monthly" && !data.emailWeek) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Email week is required for monthly reports.",
-      path: ["emailWeek"]
-    });
-  }
-});
+  });
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
 export const GenerateBulkReport: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Section refs for auto-scrolling
   const reportDetailsRef = useRef<HTMLDivElement>(null);
   const reportTypesRef = useRef<HTMLDivElement>(null);
@@ -205,8 +295,9 @@ export const GenerateBulkReport: React.FC = () => {
       emailCc: "",
       emailBcc: "",
       emailSubject: "Your Generated Reports - {projectName}",
-      emailMessage: "As requested, we’ve generated the following Google My Business (GMB) reports."
-    }
+      emailMessage:
+        "As requested, we’ve generated the following Google My Business (GMB) reports.",
+    },
   });
   const watchScheduleType = form.watch("scheduleType");
   const watchReportSections = form.watch("reportSections");
@@ -227,11 +318,14 @@ export const GenerateBulkReport: React.FC = () => {
     if (checked) {
       form.setValue("reportSections", [...currentSections, sectionId]);
     } else {
-      form.setValue("reportSections", currentSections.filter(id => id !== sectionId));
+      form.setValue(
+        "reportSections",
+        currentSections.filter((id) => id !== sectionId)
+      );
     }
   };
   const handleSelectAllReports = () => {
-    const allSectionIds = BULK_REPORT_SECTIONS.map(section => section.id);
+    const allSectionIds = BULK_REPORT_SECTIONS.map((section) => section.id);
     form.setValue("reportSections", allSectionIds);
   };
   const handleDeselectAllReports = () => {
@@ -260,33 +354,36 @@ export const GenerateBulkReport: React.FC = () => {
     if (isValid) return;
 
     const errors = form.formState.errors;
-    console.log('Form errors:', errors); // Debug log
-    
+    console.log("Form errors:", errors); // Debug log
+
     // Dynamic field-to-section mapping based on schedule type
     const currentScheduleType = watchScheduleType;
-    
+
     const getFieldToSectionMap = () => {
       const baseMap: Record<string, React.RefObject<HTMLDivElement>> = {
-        'projectName': reportDetailsRef,
-        'selectedListings': reportDetailsRef,
-        'reportSections': reportTypesRef,
-        'deliveryFormat': deliveryFormatRef,
-        'emailTo': emailComposerRef,
-        'emailCc': emailComposerRef,
-        'emailBcc': emailComposerRef,
-        'emailSubject': emailComposerRef,
-        'emailMessage': emailComposerRef
+        projectName: reportDetailsRef,
+        selectedListings: reportDetailsRef,
+        reportSections: reportTypesRef,
+        deliveryFormat: deliveryFormatRef,
+        emailTo: emailComposerRef,
+        emailCc: emailComposerRef,
+        emailBcc: emailComposerRef,
+        emailSubject: emailComposerRef,
+        emailMessage: emailComposerRef,
       };
 
       // Add schedule-specific field mappings
       if (currentScheduleType === "one-time") {
-        baseMap['fromDate'] = scheduleConfigRef;
-        baseMap['toDate'] = scheduleConfigRef;
-      } else if (currentScheduleType === "weekly" || currentScheduleType === "monthly") {
-        baseMap['frequency'] = scheduleConfigRef;
-        baseMap['emailDay'] = scheduleConfigRef;
+        baseMap["fromDate"] = scheduleConfigRef;
+        baseMap["toDate"] = scheduleConfigRef;
+      } else if (
+        currentScheduleType === "weekly" ||
+        currentScheduleType === "monthly"
+      ) {
+        baseMap["frequency"] = scheduleConfigRef;
+        baseMap["emailDay"] = scheduleConfigRef;
         if (currentScheduleType === "monthly") {
-          baseMap['emailWeek'] = scheduleConfigRef;
+          baseMap["emailWeek"] = scheduleConfigRef;
         }
       }
 
@@ -297,16 +394,18 @@ export const GenerateBulkReport: React.FC = () => {
 
     // Define field priority order based on form flow
     const fieldPriority = [
-      'projectName',
-      'selectedListings', 
-      'reportSections',
-      ...(currentScheduleType === "one-time" ? ['fromDate', 'toDate'] : []),
-      ...(currentScheduleType === "weekly" || currentScheduleType === "monthly" ? ['frequency', 'emailDay'] : []),
-      ...(currentScheduleType === "monthly" ? ['emailWeek'] : []),
-      'deliveryFormat',
-      'emailTo',
-      'emailSubject',
-      'emailMessage'
+      "projectName",
+      "selectedListings",
+      "reportSections",
+      ...(currentScheduleType === "one-time" ? ["fromDate", "toDate"] : []),
+      ...(currentScheduleType === "weekly" || currentScheduleType === "monthly"
+        ? ["frequency", "emailDay"]
+        : []),
+      ...(currentScheduleType === "monthly" ? ["emailWeek"] : []),
+      "deliveryFormat",
+      "emailTo",
+      "emailSubject",
+      "emailMessage",
     ];
 
     // Find the first error field based on priority
@@ -337,46 +436,74 @@ export const GenerateBulkReport: React.FC = () => {
     }
 
     if (firstErrorField) {
-      console.log('Scrolling to field:', firstErrorField, 'Schedule type:', currentScheduleType); // Debug log
+      console.log(
+        "Scrolling to field:",
+        firstErrorField,
+        "Schedule type:",
+        currentScheduleType
+      ); // Debug log
       const targetSection = dynamicFieldToSectionMap[firstErrorField];
-      
+
       if (targetSection?.current) {
         // Scroll with proper offset for headers
         const headerOffset = 120;
-        const elementPosition = targetSection.current.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        const elementPosition =
+          targetSection.current.getBoundingClientRect().top;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset;
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
-        
+
         // Add visual feedback and focus
         setTimeout(() => {
           // Add temporary highlight to the section
-          targetSection.current?.classList.add('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
+          targetSection.current?.classList.add(
+            "ring-2",
+            "ring-destructive",
+            "ring-opacity-50",
+            "rounded-lg"
+          );
           setTimeout(() => {
-            targetSection.current?.classList.remove('ring-2', 'ring-destructive', 'ring-opacity-50', 'rounded-lg');
+            targetSection.current?.classList.remove(
+              "ring-2",
+              "ring-destructive",
+              "ring-opacity-50",
+              "rounded-lg"
+            );
           }, 2500);
 
           // Find and focus the specific field with error
           const fieldSelector = `[name="${firstErrorField}"], [data-field="${firstErrorField}"]`;
-          let focusableElement = targetSection.current?.querySelector(fieldSelector) as HTMLElement;
-          
+          let focusableElement = targetSection.current?.querySelector(
+            fieldSelector
+          ) as HTMLElement;
+
           // Fallback: find any input with error in this section
           if (!focusableElement) {
-            focusableElement = targetSection.current?.querySelector('[aria-invalid="true"]') as HTMLElement;
+            focusableElement = targetSection.current?.querySelector(
+              '[aria-invalid="true"]'
+            ) as HTMLElement;
           }
-          
+
           // Fallback: find first focusable element in section
           if (!focusableElement) {
-            focusableElement = targetSection.current?.querySelector('input, select, textarea, button[role="combobox"]') as HTMLElement;
+            focusableElement = targetSection.current?.querySelector(
+              'input, select, textarea, button[role="combobox"]'
+            ) as HTMLElement;
           }
-          
+
           if (focusableElement) {
             // For select components, look for the trigger button
-            if (focusableElement.getAttribute('role') === 'combobox' || focusableElement.tagName === 'SELECT') {
-              const trigger = focusableElement.closest('[role="combobox"]') || focusableElement;
+            if (
+              focusableElement.getAttribute("role") === "combobox" ||
+              focusableElement.tagName === "SELECT"
+            ) {
+              const trigger =
+                focusableElement.closest('[role="combobox"]') ||
+                focusableElement;
               (trigger as HTMLElement)?.focus();
             } else {
               focusableElement.focus();
@@ -384,12 +511,26 @@ export const GenerateBulkReport: React.FC = () => {
           }
         }, 400);
       } else {
-        console.log('Target section not found for field:', firstErrorField); // Debug log
+        console.log("Target section not found for field:", firstErrorField); // Debug log
         // Fallback: scroll to first available section with errors
-        const allSections = [reportDetailsRef, reportTypesRef, scheduleConfigRef, deliveryFormatRef, emailComposerRef];
+        const allSections = [
+          reportDetailsRef,
+          reportTypesRef,
+          scheduleConfigRef,
+          deliveryFormatRef,
+          emailComposerRef,
+        ];
         for (const section of allSections) {
-          if (section.current && section.current.querySelector('[aria-invalid="true"], .text-destructive')) {
-            section.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (
+            section.current &&
+            section.current.querySelector(
+              '[aria-invalid="true"], .text-destructive'
+            )
+          ) {
+            section.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
             break;
           }
         }
@@ -412,44 +553,55 @@ export const GenerateBulkReport: React.FC = () => {
         reportTitle: data.projectName,
         selectedListings: data.selectedListings,
         reportSections: data.reportSections,
-        scheduleType: data.scheduleType === "one-time" ? "one-time" : 
-                     data.scheduleType === "weekly" ? "weekly" : "monthly",
+        scheduleType:
+          data.scheduleType === "one-time"
+            ? "one-time"
+            : data.scheduleType === "weekly"
+            ? "weekly"
+            : "monthly",
         frequency: data.frequency,
         emailWeek: data.emailWeek,
         emailDay: data.emailDay,
-        formDate: data.fromDate ? format(data.fromDate, "yyyy-MM-dd") : undefined,
+        formDate: data.fromDate
+          ? format(data.fromDate, "yyyy-MM-dd")
+          : undefined,
         toDate: data.toDate ? format(data.toDate, "yyyy-MM-dd") : undefined,
         deliveryFormat: data.deliveryFormat,
         emailTo: data.emailTo,
         emailCc: data.emailCc,
         emailBcc: data.emailBcc,
         emailSubject: data.emailSubject,
-        emailMessage: data.emailMessage
+        emailMessage: data.emailMessage,
       };
 
       const response = await reportsApi.createBulkReport(apiPayload);
-      
+
       toast({
         title: "Report Project Created",
-        description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`
+        description: `${data.projectName} has been successfully created with project ID: ${response.data.projectId}`,
       });
-      
+
       // Invalidate bulk reports query to refresh the reports table
-      queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
-      
+      queryClient.invalidateQueries({ queryKey: ["bulk-reports"] });
+
       navigate("/main-dashboard/reports");
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to create report project. Please try again.",
-        variant: "destructive"
+        description:
+          error.response.data.message ||
+          error.message ||
+          "Failed to create report project. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
   const getFrequencyOptions = () => {
-    return watchScheduleType === "weekly" ? weeklyFrequencyOptions : monthlyFrequencyOptions;
+    return watchScheduleType === "weekly"
+      ? weeklyFrequencyOptions
+      : monthlyFrequencyOptions;
   };
   const getDeliveryFormatIcon = (format: string) => {
     switch (format) {
@@ -463,13 +615,17 @@ export const GenerateBulkReport: React.FC = () => {
         return <FileText className="w-4 h-4" />;
     }
   };
-  return <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report</h1>
-          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations.</p>
+          <h1 className="text-2xl font-bold text-foreground">
+            Generate Bulk Report
+          </h1>
+          <p className="text-muted-foreground">
+            Create and schedule automated reports for multiple locations.
+          </p>
         </div>
       </div>
 
@@ -487,29 +643,35 @@ export const GenerateBulkReport: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <FormField control={form.control} name="projectName" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="projectName"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Report title</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter report title..." {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
 
-              <FormField control={form.control} name="selectedListings" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="selectedListings"
+                render={({ field }) => (
+                  <FormItem>
                     <div className="space-y-3">
                       {/* <Label className="text-sm font-medium">Select Locations</Label> */}
-                      
+
                       <div className="space-y-3">
-                        <BulkReplyListingSelector 
-                          selectedListings={field.value} 
-                          onListingsChange={field.onChange} 
+                        <BulkReplyListingSelector
+                          selectedListings={field.value}
+                          onListingsChange={field.onChange}
                           hideStatusBadges={true}
                         />
-                        
+
                         <div className="flex items-center justify-end">
                           <Badge variant="outline" className="text-xs">
                             {watchSelectedListings.length} locations selected
@@ -518,7 +680,9 @@ export const GenerateBulkReport: React.FC = () => {
                       </div>
                     </div>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
 
@@ -536,39 +700,73 @@ export const GenerateBulkReport: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium">Available Reports</Label>
+                  <Label className="text-sm font-medium">
+                    Available Reports
+                  </Label>
                   <div className="flex gap-2">
-                    <Button type="button" variant="outline" size="sm" onClick={handleSelectAllReports}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSelectAllReports}
+                    >
                       Select All
                     </Button>
-                    <Button type="button" variant="outline" size="sm" onClick={handleDeselectAllReports}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleDeselectAllReports}
+                    >
                       Deselect All
                     </Button>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {BULK_REPORT_SECTIONS.map(section => <div 
-                      key={section.id} 
+                  {BULK_REPORT_SECTIONS.map((section) => (
+                    <div
+                      key={section.id}
                       className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
-                      onClick={() => handleReportSectionChange(section.id, !watchReportSections.includes(section.id))}
+                      onClick={() =>
+                        handleReportSectionChange(
+                          section.id,
+                          !watchReportSections.includes(section.id)
+                        )
+                      }
                     >
                       <div onClick={(e) => e.stopPropagation()}>
-                        <Checkbox id={section.id} checked={watchReportSections.includes(section.id)} onCheckedChange={checked => handleReportSectionChange(section.id, checked as boolean)} />
+                        <Checkbox
+                          id={section.id}
+                          checked={watchReportSections.includes(section.id)}
+                          onCheckedChange={(checked) =>
+                            handleReportSectionChange(
+                              section.id,
+                              checked as boolean
+                            )
+                          }
+                        />
                       </div>
-                      <Label 
-                        htmlFor={section.id} 
+                      <Label
+                        htmlFor={section.id}
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {section.name}
                       </Label>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
 
-                <FormField control={form.control} name="reportSections" render={() => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="reportSections"
+                  render={() => (
+                    <FormItem>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
               </div>
             </CardContent>
           </Card>
@@ -585,12 +783,18 @@ export const GenerateBulkReport: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <FormField control={form.control} name="scheduleType" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="scheduleType"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Schedule Type</FormLabel>
                     <FormControl>
-                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-x-6">
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-row space-x-6"
+                      >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="one-time" id="one-time" />
                           <Label htmlFor="one-time">One Time</Label>
@@ -606,8 +810,9 @@ export const GenerateBulkReport: React.FC = () => {
                       </RadioGroup>
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
-
+                  </FormItem>
+                )}
+              />
 
               {watchScheduleType === "one-time" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -694,64 +899,99 @@ export const GenerateBulkReport: React.FC = () => {
                 </div>
               )}
 
-              {(watchScheduleType === "weekly" || watchScheduleType === "monthly") && <div className="flex flex-col md:flex-row gap-4 w-full md:[&>*]:flex-1">
-                  <FormField control={form.control} name="frequency" render={({
-                field
-              }) => <FormItem>
+              {(watchScheduleType === "weekly" ||
+                watchScheduleType === "monthly") && (
+                <div className="flex flex-col md:flex-row gap-4 w-full md:[&>*]:flex-1">
+                  <FormField
+                    control={form.control}
+                    name="frequency"
+                    render={({ field }) => (
+                      <FormItem>
                         <FormLabel>Select Frequency</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select frequency..." />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {getFrequencyOptions().map(option => <SelectItem key={option.value} value={option.value}>
+                            {getFrequencyOptions().map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
                                 {option.label}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>} />
+                      </FormItem>
+                    )}
+                  />
 
-                  {watchScheduleType === "monthly" && <FormField control={form.control} name="emailWeek" render={({
-                field
-              }) => <FormItem>
-                        <FormLabel>Send Email On This Week</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select week..." />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {weekOptions.map(week => <SelectItem key={week.value} value={week.value}>
-                                {week.label}
-                              </SelectItem>)}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>} />}
+                  {watchScheduleType === "monthly" && (
+                    <FormField
+                      control={form.control}
+                      name="emailWeek"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Send Email On This Week</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select week..." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {weekOptions.map((week) => (
+                                <SelectItem key={week.value} value={week.value}>
+                                  {week.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
 
-                  <FormField control={form.control} name="emailDay" render={({
-                field
-              }) => <FormItem>
+                  <FormField
+                    control={form.control}
+                    name="emailDay"
+                    render={({ field }) => (
+                      <FormItem>
                         <FormLabel>Send Email On</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select day..." />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {weekDays.map(day => <SelectItem key={day.value} value={day.value}>
+                            {weekDays.map((day) => (
+                              <SelectItem key={day.value} value={day.value}>
                                 {day.label}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
-                      </FormItem>} />
-                </div>}
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -763,83 +1003,130 @@ export const GenerateBulkReport: React.FC = () => {
                 Delivery Format
               </CardTitle>
               <CardDescription>
-                {watchSelectedListings.length === 1 
+                {watchSelectedListings.length === 1
                   ? "Choose how you want to receive your report. You can select multiple formats."
-                  : "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance."
-                }
+                  : "Choose how you want to receive your reports. For multiple locations, you can select one format for better delivery performance."}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <FormField control={form.control} name="deliveryFormat" render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex flex-col md:flex-row gap-4">
-                      {[
-                        { value: "csv", label: "CSV Format", icon: File },
-                        { value: "pdf", label: "PDF Format", icon: FileText },
-                        { value: "html", label: "HTML Public Report", icon: Globe }
-                      ].map((format) => {
-                        const isSelected = field.value.includes(format.value as "csv" | "pdf" | "html");
-                        return (
-                          <div
-                            key={format.value}
-                            className={`flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1 cursor-pointer ${
-                              isSelected ? 'bg-accent border-primary' : ''
-                            }`}
-                            onClick={() => {
-                              const currentFormats = field.value;
-                              if (isSelected) {
-                                field.onChange(currentFormats.filter(f => f !== format.value));
-                              } else {
-                                // If multiple listings selected, only allow one format at a time
-                                if (watchSelectedListings.length > 1) {
-                                  field.onChange([format.value]);
+              <FormField
+                control={form.control}
+                name="deliveryFormat"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-col md:flex-row gap-4">
+                        {[
+                          { value: "csv", label: "CSV Format", icon: File },
+                          { value: "pdf", label: "PDF Format", icon: FileText },
+                          {
+                            value: "html",
+                            label: "HTML Public Report",
+                            icon: Globe,
+                          },
+                        ].map((format) => {
+                          const isSelected = field.value.includes(
+                            format.value as "csv" | "pdf" | "html"
+                          );
+                          return (
+                            <div
+                              key={format.value}
+                              className={`flex items-center space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors flex-1 cursor-pointer ${
+                                isSelected ? "bg-accent border-primary" : ""
+                              }`}
+                              onClick={() => {
+                                const currentFormats = field.value;
+                                if (isSelected) {
+                                  field.onChange(
+                                    currentFormats.filter(
+                                      (f) => f !== format.value
+                                    )
+                                  );
                                 } else {
-                                  // Single listing: allow multiple formats
-                                  field.onChange([...currentFormats, format.value]);
+                                  // If multiple listings selected, only allow one format at a time
+                                  if (watchSelectedListings.length > 1) {
+                                    field.onChange([format.value]);
+                                  } else {
+                                    // Single listing: allow multiple formats
+                                    field.onChange([
+                                      ...currentFormats,
+                                      format.value,
+                                    ]);
+                                  }
                                 }
-                              }
-                            }}
-                          >
-                            <div className={`w-4 h-4 border rounded flex items-center justify-center ${
-                              isSelected ? 'bg-primary border-primary' : 'border-input'
-                            }`}>
-                              {isSelected && (
-                                <svg className="w-3 h-3 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                              )}
+                              }}
+                            >
+                              <div
+                                className={`w-4 h-4 border rounded flex items-center justify-center ${
+                                  isSelected
+                                    ? "bg-primary border-primary"
+                                    : "border-input"
+                                }`}
+                              >
+                                {isSelected && (
+                                  <svg
+                                    className="w-3 h-3 text-primary-foreground"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <format.icon className="w-4 h-4" />
+                                <Label className="cursor-pointer">
+                                  {format.label}
+                                </Label>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <format.icon className="w-4 h-4" />
-                              <Label className="cursor-pointer">
-                                {format.label}
-                              </Label>
-                            </div>
-                          </div>
-                        );
-                       })}
-                     </div>
-                   </FormControl>
-                   {/* Selection behavior note */}
-                   <div className="mt-3 p-3 bg-muted/50 rounded-md border-l-4 border-primary/30">
-                     <div className="flex items-start gap-2">
-                       <svg className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                       </svg>
-                       <div className="text-sm text-muted-foreground">
-                         <strong className="text-foreground">Selection Guide:</strong>
-                         {watchSelectedListings.length === 1 ? (
-                           <span> You can select multiple delivery formats for your single listing report.</span>
-                         ) : (
-                           <span> When generating reports for multiple listings, you can only select one delivery format to optimize performance.</span>
-                         )}
-                       </div>
-                     </div>
-                   </div>
-                   <FormMessage />
-                 </FormItem>
-               )} />
+                          );
+                        })}
+                      </div>
+                    </FormControl>
+                    {/* Selection behavior note */}
+                    <div className="mt-3 p-3 bg-muted/50 rounded-md border-l-4 border-primary/30">
+                      <div className="flex items-start gap-2">
+                        <svg
+                          className="w-4 h-4 text-primary mt-0.5 flex-shrink-0"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <div className="text-sm text-muted-foreground">
+                          <strong className="text-foreground">
+                            Selection Guide:
+                          </strong>
+                          {watchSelectedListings.length === 1 ? (
+                            <span>
+                              {" "}
+                              You can select multiple delivery formats for your
+                              single listing report.
+                            </span>
+                          ) : (
+                            <span>
+                              {" "}
+                              When generating reports for multiple listings, you
+                              can only select one delivery format to optimize
+                              performance.
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
 
@@ -856,78 +1143,122 @@ export const GenerateBulkReport: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField control={form.control} name="emailTo" render={({
-                field
-              }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="emailTo"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>To *</FormLabel>
                       <FormControl>
-                        <Input placeholder="recipient1@example.com, recipient2@example.com" {...field} />
+                        <Input
+                          placeholder="recipient1@example.com, recipient2@example.com"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
 
-                <FormField control={form.control} name="emailCc" render={({
-                field
-              }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="emailCc"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>CC</FormLabel>
                       <FormControl>
-                        <Input placeholder="cc1@example.com, cc2@example.com" {...field} />
+                        <Input
+                          placeholder="cc1@example.com, cc2@example.com"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
 
-                <FormField control={form.control} name="emailBcc" render={({
-                field
-              }) => <FormItem>
+                <FormField
+                  control={form.control}
+                  name="emailBcc"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel>BCC</FormLabel>
                       <FormControl>
-                        <Input placeholder="bcc@example.com" {...field} />
+                        <Input
+                          placeholder="bcc@example.com, bcc2@example.com"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>} />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <FormField control={form.control} name="emailSubject" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="emailSubject"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Subject *</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder={`Your Generated Reports - ${watchProjectName || "Report Title"}`}
-                        {...field} 
+                      <Input
+                        placeholder={`Your Generated Reports - ${
+                          watchProjectName || "Report Title"
+                        }`}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
 
-              <FormField control={form.control} name="emailMessage" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="emailMessage"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Message *</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter your email message..." className="min-h-[100px]" {...field} />
+                      <Textarea
+                        placeholder="Enter your email message..."
+                        className="min-h-[100px]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
 
           {/* Form Actions */}
           <div className="flex items-center justify-end gap-4 pt-6">
-            <Button type="button" variant="outline" onClick={() => navigate("/main-dashboard/reports")}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate("/main-dashboard/reports")}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? <>
+              {isSubmitting ? (
+                <>
                   <Send className="w-4 h-4 mr-2" />
                   Creating...
-                </> : <>
+                </>
+              ) : (
+                <>
                   <Send className="w-4 h-4 mr-2" />
-                  Create report 
-                </>}
+                  Create report
+                </>
+              )}
             </Button>
           </div>
         </form>
       </Form>
-    </div>;
+    </div>
+  );
 };

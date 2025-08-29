@@ -6,10 +6,31 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ChevronLeft, ChevronRight, Eye, EyeOff, Loader2, Search, ChevronDown } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Loader2,
+  Search,
+  ChevronDown,
+} from "lucide-react";
 import { useTeam } from "@/hooks/useTeam";
 import { useToast } from "@/hooks/use-toast";
 import { updateEditMember } from "@/store/slices/teamSlice";
@@ -22,13 +43,9 @@ interface EditFormData {
   role: string;
 }
 export const EditTeamMemberSettings: React.FC = () => {
-  const {
-    memberId
-  } = useParams();
+  const { memberId } = useParams();
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const {
     currentEditMember,
     isLoadingEdit,
@@ -38,14 +55,14 @@ export const EditTeamMemberSettings: React.FC = () => {
     fetchEditTeamMember,
     updateTeamMember,
     clearTeamEditError,
-    clearTeamSaveError
+    clearTeamSaveError,
   } = useTeam();
   const [formData, setFormData] = useState<EditFormData>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -77,18 +94,23 @@ export const EditTeamMemberSettings: React.FC = () => {
     hasUnsavedChanges,
     saveLoading,
     saveError,
-    getAssignedListingIds
+    getAssignedListingIds,
   } = useActiveAccounts({
     employeeId: parseInt(memberId || "0"),
     page: currentPage,
-    limit: pageSize
+    limit: pageSize,
   });
 
   // Filter accounts based on search query
-  const filteredAccounts = accountsWithAll.filter(account => account.accountName.toLowerCase().includes(accountSearchQuery.toLowerCase()));
+  const filteredAccounts = accountsWithAll.filter((account) =>
+    account.accountName.toLowerCase().includes(accountSearchQuery.toLowerCase())
+  );
 
   // Filter listings based on selected account (client-side filter)
-  const displayListings = selectedAccount === "All" ? listings : listings.filter(listing => listing.accountName === selectedAccount);
+  const displayListings =
+    selectedAccount === "All"
+      ? listings
+      : listings.filter((listing) => listing.accountName === selectedAccount);
 
   // Use API pagination data
   const {
@@ -96,22 +118,29 @@ export const EditTeamMemberSettings: React.FC = () => {
     limit: currentApiLimit,
     hasMore,
     nextPageToken,
-    prevPageToken
+    prevPageToken,
   } = pagination;
 
   // Calculate total pages based on API data
   const totalApiPages = hasMore ? currentApiPage + 1 : currentApiPage;
 
   // Get assigned listings count for current filter
-  const assignedCount = selectedAccount === "All" ? totalAssignListings : displayListings.filter(listing => listing.allocated).length;
+  const assignedCount =
+    selectedAccount === "All"
+      ? totalAssignListings
+      : displayListings.filter((listing) => listing.allocated).length;
 
   // Track changes for save button
-  const hasProfileChanges = Object.keys(formData).some(key => {
+  const hasProfileChanges = Object.keys(formData).some((key) => {
     const formKey = key as keyof EditFormData;
-    return formData[formKey] !== (currentEditMember?.[formKey === "email" ? "username" : formKey] || "");
+    return (
+      formData[formKey] !==
+      (currentEditMember?.[formKey === "email" ? "username" : formKey] || "")
+    );
   });
   const hasListingChanges = hasUnsavedChanges();
-  const hasChanges = activeTab === "profile" ? hasProfileChanges : hasListingChanges;
+  const hasChanges =
+    activeTab === "profile" ? hasProfileChanges : hasListingChanges;
 
   // Add console logging for debugging
   // console.log(
@@ -126,7 +155,11 @@ export const EditTeamMemberSettings: React.FC = () => {
   const fetchedMemberIdRef = useRef<number | null>(null);
   useEffect(() => {
     const memberIdNumber = parseInt(memberId || "0");
-    if (memberId && memberIdNumber && fetchedMemberIdRef.current !== memberIdNumber) {
+    if (
+      memberId &&
+      memberIdNumber &&
+      fetchedMemberIdRef.current !== memberIdNumber
+    ) {
       fetchedMemberIdRef.current = memberIdNumber;
       fetchEditTeamMember(memberIdNumber);
     }
@@ -141,11 +174,14 @@ export const EditTeamMemberSettings: React.FC = () => {
         email: currentEditMember.username || "",
         // Map username to email
         password: currentEditMember.password || "",
-        role: currentEditMember.role || ""
+        role: currentEditMember.role || "",
       });
 
       // Switch to profile tab if user was on listing tab but role is Moderator
-      if (activeTab === "listing" && currentEditMember.role?.toLowerCase() === "moderator") {
+      if (
+        activeTab === "listing" &&
+        currentEditMember.role?.toLowerCase() === "moderator"
+      ) {
         setActiveTab("profile");
       }
     }
@@ -160,9 +196,9 @@ export const EditTeamMemberSettings: React.FC = () => {
     };
   }, [clearTeamEditError, clearTeamSaveError]);
   const handleInputChange = (field: keyof EditFormData, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
   const handleSave = async () => {
@@ -179,14 +215,14 @@ export const EditTeamMemberSettings: React.FC = () => {
           // Map email back to username
           role: formData.role,
           ...(formData.password && {
-            password: formData.password
-          }) // Only include password if provided
+            password: formData.password,
+          }), // Only include password if provided
         };
         const result = await updateTeamMember(updateData);
         if (updateEditMember.fulfilled.match(result)) {
           toast({
             title: "Success",
-            description: "Team member profile updated successfully"
+            description: "Team member profile updated successfully",
           });
           if (location.pathname.startsWith("/main-dashboard")) {
             navigate("/main-dashboard/settings/team-members");
@@ -199,14 +235,19 @@ export const EditTeamMemberSettings: React.FC = () => {
         await saveAssignments();
         toast({
           title: "Success",
-          description: "Listing assignments updated successfully"
+          description: "Listing assignments updated successfully",
         });
       }
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error?.response?.data?.message || error.message || `Failed to update ${activeTab === "profile" ? "profile" : "listing assignments"}`,
-        variant: "destructive"
+        description:
+          error?.response?.data?.message ||
+          error.message ||
+          `Failed to update ${
+            activeTab === "profile" ? "profile" : "listing assignments"
+          }`,
+        variant: "destructive",
       });
     } finally {
       setIsSaving(false);
@@ -232,13 +273,13 @@ export const EditTeamMemberSettings: React.FC = () => {
       await saveAssignments(toggleResult);
       toast({
         title: "Success",
-        description: "Listing assignment updated successfully"
+        description: "Listing assignment updated successfully",
       });
     } catch (error: any) {
       toast({
         title: "Error",
         description: error?.message || "Failed to update listing assignment",
-        variant: "destructive"
+        variant: "destructive",
       });
       // Revert the toggle if save failed
       toggleListingAssignment(listingId);
@@ -256,7 +297,9 @@ export const EditTeamMemberSettings: React.FC = () => {
       refetchListings();
     } else {
       // Find the account and trigger search
-      const account = accountsWithAll.find(acc => acc.accountName === accountName);
+      const account = accountsWithAll.find(
+        (acc) => acc.accountName === accountName
+      );
       if (account && account.accountId !== "All") {
         searchByAccount(parseInt(account.accountId));
       }
@@ -277,17 +320,20 @@ export const EditTeamMemberSettings: React.FC = () => {
 
   // Show loading state
   if (isLoadingEdit) {
-    return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    return (
+      <div className="p-4 sm:p-6 max-w-6xl mx-auto">
         <div className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin" />
           <span className="ml-2">Loading team member...</span>
         </div>
-      </div>;
+      </div>
+    );
   }
 
   // Show error state
   if (editError) {
-    return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    return (
+      <div className="p-4 sm:p-6 max-w-6xl mx-auto">
         <Card>
           <CardContent className="p-6">
             <div className="text-center">
@@ -299,10 +345,12 @@ export const EditTeamMemberSettings: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-      </div>;
+      </div>
+    );
   }
   if (!currentEditMember) {
-    return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    return (
+      <div className="p-4 sm:p-6 max-w-6xl mx-auto">
         <Card>
           <CardContent className="p-6">
             <div className="text-center">
@@ -316,60 +364,131 @@ export const EditTeamMemberSettings: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-      </div>;
+      </div>
+    );
   }
-  return <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+  return (
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
       {/* Tab Section with Back Button */}
       <div className="bg-white border-b border-gray-200 mb-6">
         <div className="px-6 py-4">
           <div className="flex items-center gap-8">
-            <Button variant="ghost" onClick={handleBack} className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="flex items-center gap-2"
+            >
               <ChevronLeft className="w-4 h-4" />
               Back
             </Button>
             <div className="flex space-x-8 -mb-[1px]">
-              <button onClick={() => setActiveTab("profile")} className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === "profile" ? "border-primary text-primary" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}`}>
+              <button
+                onClick={() => setActiveTab("profile")}
+                className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === "profile"
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
                 Profile
               </button>
-              {currentEditMember?.role?.toLowerCase() !== "moderator" && <button onClick={() => setActiveTab("listing")} className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === "listing" ? "border-primary text-primary" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"}`}>Assign listings </button>}
+              {currentEditMember?.role?.toLowerCase() !== "moderator" && (
+                <button
+                  onClick={() => setActiveTab("listing")}
+                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === "listing"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  }`}
+                >
+                  Assign listings{" "}
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
       {/* Tab Content */}
-      {activeTab === "profile" && <Card>
+      {activeTab === "profile" && (
+        <Card>
           <CardHeader>
             <CardTitle>Edit Team Member</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            {teamSaveError && <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+            {teamSaveError && (
+              <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
                 <p className="text-destructive text-sm">{teamSaveError}</p>
-              </div>}
+              </div>
+            )}
 
             {/* Form Fields */}
             <div className="grid grid-cols-2 gap-6">
               {/* First Row */}
               <div>
                 <Label htmlFor="firstName">First name</Label>
-                <Input id="firstName" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} className="mt-1" disabled={isSavingEdit} />
+                <Input
+                  id="firstName"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    handleInputChange("firstName", e.target.value)
+                  }
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
               </div>
               <div>
                 <Label htmlFor="lastName">Last name</Label>
-                <Input id="lastName" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} className="mt-1" disabled={isSavingEdit} />
+                <Input
+                  id="lastName"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    handleInputChange("lastName", e.target.value)
+                  }
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
               </div>
 
               {/* Second Row */}
               <div>
                 <Label htmlFor="email">Email Id</Label>
-                <Input id="email" type="email" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} className="mt-1" disabled={isSavingEdit} />
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  className="mt-1"
+                  disabled={isSavingEdit}
+                />
               </div>
               <div>
                 <Label htmlFor="password">Password</Label>
                 <div className="relative mt-1">
-                  <Input id="password" type={showPassword ? "text" : "password"} value={formData.password} onChange={e => handleInputChange("password", e.target.value)} className="pr-10" placeholder="Leave empty to keep current password" disabled={isSavingEdit} />
-                  <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent" onClick={() => setShowPassword(!showPassword)} disabled={isSavingEdit}>
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) =>
+                      handleInputChange("password", e.target.value)
+                    }
+                    className="pr-10"
+                    placeholder="Leave empty to keep current password"
+                    disabled={isSavingEdit}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={isSavingEdit}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -377,7 +496,11 @@ export const EditTeamMemberSettings: React.FC = () => {
               {/* Third Row */}
               <div className="col-span-1">
                 <Label htmlFor="role">Select Role</Label>
-                <Select value={formData.role} onValueChange={value => handleInputChange("role", value)} disabled={isSavingEdit}>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) => handleInputChange("role", value)}
+                  disabled={isSavingEdit}
+                >
                   <SelectTrigger className="mt-1">
                     <SelectValue />
                   </SelectTrigger>
@@ -392,17 +515,28 @@ export const EditTeamMemberSettings: React.FC = () => {
 
             {/* Save Button */}
             <div className="flex justify-end mt-8">
-              <Button onClick={handleSave} className="px-8" disabled={isSaving || !hasChanges}>
-                {isSaving ? <>
+              <Button
+                onClick={handleSave}
+                className="px-8"
+                disabled={isSaving || !hasChanges}
+              >
+                {isSaving ? (
+                  <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Saving...
-                  </> : "Save Changes"}
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </div>
           </CardContent>
-        </Card>}
+        </Card>
+      )}
 
-      {activeTab === "listing" && currentEditMember?.role?.toLowerCase() !== "moderator" && <Card>
+      {activeTab === "listing" &&
+        currentEditMember?.role?.toLowerCase() !== "moderator" && (
+          <Card>
             <CardHeader>
               <CardTitle>Listing Management</CardTitle>
             </CardHeader>
@@ -416,30 +550,55 @@ export const EditTeamMemberSettings: React.FC = () => {
                       Google Account
                     </Label>
                     <div className="relative mt-1">
-                      <Button variant="outline" className="w-full justify-between" onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-between"
+                        onClick={() =>
+                          setIsAccountDropdownOpen(!isAccountDropdownOpen)
+                        }
+                      >
                         <span className="truncate">{selectedAccount}</span>
                         <ChevronDown className="h-4 w-4 opacity-50" />
                       </Button>
 
-                      {isAccountDropdownOpen && <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
+                      {isAccountDropdownOpen && (
+                        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg">
                           <div className="p-2 border-b">
                             <div className="relative">
                               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Search accounts..." value={accountSearchQuery} onChange={e => setAccountSearchQuery(e.target.value)} className="pl-8" />
+                              <Input
+                                placeholder="Search accounts..."
+                                value={accountSearchQuery}
+                                onChange={(e) =>
+                                  setAccountSearchQuery(e.target.value)
+                                }
+                                className="pl-8"
+                              />
                             </div>
                           </div>
                           <div className="max-h-48 overflow-y-auto">
-                            {filteredAccounts.map(account => <button key={account.accountId} className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center" onClick={() => handleAccountSelect(account.accountName)}>
+                            {filteredAccounts.map((account) => (
+                              <button
+                                key={account.accountId}
+                                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex justify-between items-center"
+                                onClick={() =>
+                                  handleAccountSelect(account.accountName)
+                                }
+                              >
                                 <span>{account.accountName}</span>
                                 <span className="text-muted-foreground">
                                   ({account.totalListings || 0})
                                 </span>
-                              </button>)}
-                            {filteredAccounts.length === 0 && <div className="px-3 py-2 text-sm text-muted-foreground">
+                              </button>
+                            ))}
+                            {filteredAccounts.length === 0 && (
+                              <div className="px-3 py-2 text-sm text-muted-foreground">
                                 No accounts found
-                              </div>}
+                              </div>
+                            )}
                           </div>
-                        </div>}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -450,7 +609,7 @@ export const EditTeamMemberSettings: React.FC = () => {
                     </Label>
                     <div className="mt-1">
                       <Badge variant="secondary" className="text-sm px-3 py-1">
-                        {totalAssignListings} Assigned
+                        {assignedCount} Assigned
                       </Badge>
                     </div>
                   </div>
@@ -469,22 +628,39 @@ export const EditTeamMemberSettings: React.FC = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {listingsLoading ? <TableRow>
+                      {listingsLoading ? (
+                        <TableRow>
                           <TableCell colSpan={5} className="text-center py-8">
                             <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
                             <p className="text-muted-foreground">
                               Loading listings...
                             </p>
                           </TableCell>
-                        </TableRow> : listingsError ? <TableRow>
-                          <TableCell colSpan={5} className="text-center py-8 text-destructive">
+                        </TableRow>
+                      ) : listingsError ? (
+                        <TableRow>
+                          <TableCell
+                            colSpan={5}
+                            className="text-center py-8 text-destructive"
+                          >
                             Error loading listings: {listingsError}
                           </TableCell>
-                        </TableRow> : displayListings.length === 0 ? <TableRow>
-                          <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                        </TableRow>
+                      ) : displayListings.length === 0 ? (
+                        <TableRow>
+                          <TableCell
+                            colSpan={5}
+                            className="text-center py-8 text-muted-foreground"
+                          >
                             No listings found for the selected account
                           </TableCell>
-                        </TableRow> : displayListings.map(listing => <TableRow key={listing.id} className="hover:bg-muted/50">
+                        </TableRow>
+                      ) : (
+                        displayListings.map((listing) => (
+                          <TableRow
+                            key={listing.id}
+                            className="hover:bg-muted/50"
+                          >
                             <TableCell className="font-medium">
                               {listing.name}
                             </TableCell>
@@ -492,15 +668,23 @@ export const EditTeamMemberSettings: React.FC = () => {
                               {listing.accountName}
                             </TableCell>
                             <TableCell className="text-center">
-                              <Switch checked={listing.allocated} onCheckedChange={() => handleListingToggle(listing.id)} />
+                              <Switch
+                                checked={listing.allocated}
+                                onCheckedChange={() =>
+                                  handleListingToggle(listing.id)
+                                }
+                              />
                             </TableCell>
-                          </TableRow>)}
+                          </TableRow>
+                        ))
+                      )}
                     </TableBody>
                   </Table>
                 </div>
 
                 {/* API-driven Pagination */}
-                {displayListings.length > 0 && !listingsLoading && <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
+                {displayListings.length > 0 && !listingsLoading && (
+                  <div className="flex items-center justify-between flex-col gap-4 sm:flex-row sm:gap-0">
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">
                         Page {currentApiPage} of {totalApiPages} •{" "}
@@ -514,7 +698,12 @@ export const EditTeamMemberSettings: React.FC = () => {
                         <span className="text-sm text-muted-foreground">
                           Show:
                         </span>
-                        <Select value={pageSize.toString()} onValueChange={value => handlePageSizeChange(parseInt(value))}>
+                        <Select
+                          value={pageSize.toString()}
+                          onValueChange={(value) =>
+                            handlePageSizeChange(parseInt(value))
+                          }
+                        >
                           <SelectTrigger className="h-8 w-16">
                             <SelectValue />
                           </SelectTrigger>
@@ -529,7 +718,12 @@ export const EditTeamMemberSettings: React.FC = () => {
 
                       {/* Page Navigation */}
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handlePageChange(currentApiPage - 1)} disabled={!prevPageToken || currentApiPage === 1}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handlePageChange(currentApiPage - 1)}
+                          disabled={!prevPageToken || currentApiPage === 1}
+                        >
                           Previous
                         </Button>
 
@@ -537,22 +731,30 @@ export const EditTeamMemberSettings: React.FC = () => {
                           <span className="text-sm px-3 py-1 bg-primary text-primary-foreground rounded">
                             {currentApiPage}
                           </span>
-                          {hasMore && <>
+                          {hasMore && (
+                            <>
                               <span className="text-sm text-muted-foreground">
                                 of
                               </span>
                               <span className="text-sm text-muted-foreground">
                                 {totalApiPages}+
                               </span>
-                            </>}
+                            </>
+                          )}
                         </div>
 
-                        <Button variant="outline" size="sm" onClick={() => handlePageChange(currentApiPage + 1)} disabled={!hasMore || !nextPageToken}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handlePageChange(currentApiPage + 1)}
+                          disabled={!hasMore || !nextPageToken}
+                        >
                           Next
                         </Button>
                       </div>
                     </div>
-                  </div>}
+                  </div>
+                )}
               </div>
 
               {/* Save Button */}
@@ -573,6 +775,8 @@ export const EditTeamMemberSettings: React.FC = () => {
                 </Button>
                </div> */}
             </CardContent>
-          </Card>}
-    </div>;
+          </Card>
+        )}
+    </div>
+  );
 };
