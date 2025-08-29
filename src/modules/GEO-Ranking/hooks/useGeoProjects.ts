@@ -2,8 +2,8 @@ import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { parse, format } from 'date-fns';
-import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest, UpdateGeoProjectRequest } from '../types';
-import { getGeoOverview, getGeoProjects, createGeoProject, updateGeoProject } from '@/api/geoRankingApi';
+import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest, UpdateGeoProjectRequest, DeleteGeoProjectRequest } from '../types';
+import { getGeoOverview, getGeoProjects, createGeoProject, updateGeoProject, deleteGeoProject } from '@/api/geoRankingApi';
 
 // Helper function to format API date
 const formatApiDate = (dateString: string): string => {
@@ -110,10 +110,14 @@ const updateProjectApi = async (projectData: UpdateGeoProjectRequest): Promise<G
   }
 };
 
-const deleteProject = async (projectId: string): Promise<void> => {
-  // TODO: Implement actual API call for deleting projects
-  await new Promise(resolve => setTimeout(resolve, 500));
-  console.log('Deleting project:', projectId);
+const deleteProjectApi = async (requestData: DeleteGeoProjectRequest): Promise<void> => {
+  try {
+    await deleteGeoProject(requestData);
+    console.log('Project deleted successfully:', requestData.projectId);
+  } catch (error) {
+    console.error('Error deleting GEO project:', error);
+    throw error;
+  }
 };
 
 export const useGeoProjects = () => {
@@ -176,13 +180,14 @@ export const useGeoProjects = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteProject,
+    mutationFn: deleteProjectApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
-      toast.success('Project deleted successfully');
+      toast.success('Project and all related data deleted successfully');
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error('Delete project error:', error);
       toast.error('Failed to delete project');
     },
   });

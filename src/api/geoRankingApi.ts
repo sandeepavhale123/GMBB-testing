@@ -8,7 +8,9 @@ import type {
   CreateGeoProjectRequest,
   CreateGeoProjectResponse,
   UpdateGeoProjectRequest,
-  UpdateGeoProjectResponse
+  UpdateGeoProjectResponse,
+  DeleteGeoProjectRequest,
+  DeleteGeoProjectResponse
 } from '@/modules/GEO-Ranking/types';
 
 // Types for API requests and responses
@@ -457,5 +459,12 @@ export const updateGeoProject = async (
   requestData: UpdateGeoProjectRequest
 ): Promise<UpdateGeoProjectResponse> => {
   const response = await axiosInstance.post("/geomodule/update-geo-project-details", requestData);
+  return response.data;
+};
+
+export const deleteGeoProject = async (
+  requestData: DeleteGeoProjectRequest
+): Promise<DeleteGeoProjectResponse> => {
+  const response = await axiosInstance.post("/geomodule/delete-geo-project", requestData);
   return response.data;
 };

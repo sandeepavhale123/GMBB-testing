@@ -137,3 +137,18 @@ export interface UpdateGeoProjectResponse {
     emails: string;
   };
 }
+
+// New interfaces for Delete GEO Project API
+export interface DeleteGeoProjectRequest {
+  projectId: number;
+  confirm: string;
+}
+
+export interface DeleteGeoProjectResponse {
+  code: number;
+  message: string;
+  data: {
+    deletedProjectId: number;
+    deletedMapIds: string[];
+  };
+}

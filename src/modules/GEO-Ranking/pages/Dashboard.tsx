@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -23,6 +24,7 @@ export const Dashboard: React.FC = () => {
     deleteProject, 
     isCreating,
     isUpdating,
+    isDeleting,
     currentPage,
     searchTerm,
     handlePageChange,
@@ -36,6 +38,11 @@ export const Dashboard: React.FC = () => {
     name: '',
     notificationEmail: '',
   });
+
+  // Delete confirmation dialog state
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<GeoProject | null>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
   const handleCreateProject = () => {
     if (isEditMode && editingProject) {
@@ -71,6 +78,30 @@ export const Dashboard: React.FC = () => {
     setIsEditMode(false);
     setEditingProject(null);
     setNewProject({ name: '', notificationEmail: '' });
+  };
+
+  const handleDeleteClick = (project: GeoProject) => {
+    setProjectToDelete(project);
+    setDeleteConfirmText('');
+    setShowDeleteDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (projectToDelete && deleteConfirmText === 'delete') {
+      deleteProject({
+        projectId: parseInt(projectToDelete.id),
+        confirm: 'delete'
+      });
+      setShowDeleteDialog(false);
+      setProjectToDelete(null);
+      setDeleteConfirmText('');
+    }
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setShowDeleteDialog(false);
+    setProjectToDelete(null);
+    setDeleteConfirmText('');
   };
 
   const summaryCards = [
@@ -294,7 +325,7 @@ export const Dashboard: React.FC = () => {
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               className="text-destructive"
-                              onClick={() => deleteProject(project.id)}
+                              onClick={() => handleDeleteClick(project)}
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
                               Delete
@@ -379,6 +410,43 @@ export const Dashboard: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={handleCloseDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Project</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the project "{projectToDelete?.name}" and all its related data including keywords and map points.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="delete-confirm">Type "delete" to confirm</Label>
+              <Input
+                id="delete-confirm"
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                placeholder="delete"
+                className="mt-2"
+              />
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCloseDeleteDialog}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              disabled={deleteConfirmText !== 'delete' || isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Delete Project
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
