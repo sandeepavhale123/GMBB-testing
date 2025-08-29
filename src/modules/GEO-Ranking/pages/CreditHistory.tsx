@@ -58,7 +58,7 @@ export const CreditHistory: React.FC = () => {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-grey-50">
+              <thead className="bg-gray-50">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium">Keyword</th>
                   <th className="text-left py-3 px-4 font-medium">Credit</th>
