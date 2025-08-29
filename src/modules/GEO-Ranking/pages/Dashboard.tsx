@@ -289,7 +289,7 @@ export const Dashboard: React.FC = () => {
       {/* Projects Table */}
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center w-full">
            
             <div className="flex items-center space-x-2">
               <div className="relative">
