@@ -275,11 +275,11 @@ export const Dashboard: React.FC = () => {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr className="border-b border-border bg-gray-50 ">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Project Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">No of Keywords</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Notification Email</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Action</th>
+                  <th className="text-left py-3 px-4 font-medium ">Project Name</th>
+                  <th className="text-left py-3 px-4 font-medium ">No of Keywords</th>
+                  <th className="text-left py-3 px-4 font-medium ">Date</th>
+                  <th className="text-left py-3 px-4 font-medium ">Notification Email</th>
+                  <th className="text-left py-3 px-4 font-medium ">Action</th>
                 </tr>
               </thead>
               <tbody>
