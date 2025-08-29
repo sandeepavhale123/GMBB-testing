@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +15,7 @@ import { useGeoProjects } from '../hooks/useGeoProjects';
 import type { GeoProject } from '../types';
 import { comprehensiveCleanup, startBodyStyleObserver, stopBodyStyleObserver } from '@/utils/domUtils';
 export const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const {
     projects,
     pagination,
@@ -307,7 +309,7 @@ export const Dashboard: React.FC = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => navigate(`/module/geo-ranking/view-project-details/${project.id}`)}>
                               <Eye className="w-4 h-4 mr-2" />
                               View
                             </DropdownMenuItem>
