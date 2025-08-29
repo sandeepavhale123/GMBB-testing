@@ -50,7 +50,10 @@ export const ManageGoogleAPIKey: React.FC = () => {
         </AlertDescription>
       </Alert>
 
-      {/* API Key Configuration */}
+    <div class="grid grid-cols-12 gap-4">
+  <!-- First column (4/12) -->
+  <div class="col-span-4 bg-blue-500 p-4 text-white">
+    {/* API Key Configuration */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
@@ -78,8 +81,10 @@ export const ManageGoogleAPIKey: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-
-      {/* Current API Key Status */}
+  </div>
+  <!-- Second column (8/12) -->
+  <div class="col-span-8 bg-green-500 p-4 text-white">
+     {/* Current API Key Status */}
       <Card>
         <CardHeader>
           <CardTitle>Current Status</CardTitle>
@@ -142,6 +147,8 @@ export const ManageGoogleAPIKey: React.FC = () => {
             </div>}
         </CardContent>
       </Card>
+  </div>
+</div>
 
       {/* API Key Requirements */}
       <Card>
