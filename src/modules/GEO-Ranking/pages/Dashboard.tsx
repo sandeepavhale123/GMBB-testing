@@ -230,13 +230,14 @@ export const Dashboard: React.FC = () => {
           const progressPercentage = totalCredits > 0 ? remainingCredits / totalCredits * 100 : 0;
           return <Card key={card.title}>
                 <CardContent className="p-6">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
+                    <div className="">
                       <p className="text-sm font-medium text-muted-foreground">Available Credit</p>
-                      <Icon className={`w-5 h-5 ${card.color}`} />
+                      <h3 className="text-2xl font-bold text-foreground">{remainingCredits.toLocaleString()} </h3>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-foreground">{remainingCredits.toLocaleString()} </h3>
+                    <Icon className={`w-8 h-8 ${card.color}`} />
+                    
                     
                   </div>
                 </CardContent>
