@@ -87,8 +87,9 @@ export const useProjectGeoRanking = (projectId: number, initialKeywordId?: strin
 
   // Stable handlers
   const handleKeywordChange = useCallback((keywordId: string, isRefresh = false) => {
+    setSelectedKeyword(keywordId);
     onKeywordChange?.(keywordId, isRefresh);
-  }, [onKeywordChange]);
+  }, [setSelectedKeyword, onKeywordChange]);
 
   const handleDateChange = useCallback((dateId: string, isRefresh = false) => {
     onDateChange?.(dateId, isRefresh);
