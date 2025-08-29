@@ -61,19 +61,20 @@ export const ManageGoogleAPIKey: React.FC = () => {
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="api-key">Google Places API Key</Label>
-            <Input 
-              id="api-key" 
-              type="password" 
-              value={apiKeyInput} 
-              onChange={e => setApiKeyInput(e.target.value)} 
-              placeholder="Enter your Google Places API Key" 
-              className="mt-1" 
-            />
+            <div className="flex gap-2 mt-1">
+              <Input 
+                id="api-key" 
+                type="password" 
+                value={apiKeyInput} 
+                onChange={e => setApiKeyInput(e.target.value)} 
+                placeholder="Enter your Google Places API Key" 
+                className="flex-1" 
+              />
+              <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving}>
+                {isSaving ? 'Saving...' : apiKeyData ? 'Update' : 'Add'}
+              </Button>
+            </div>
           </div>
-          
-          <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving} className="w-full">
-            {isSaving ? 'Saving...' : apiKeyData ? 'Update API Key' : 'Add API Key'}
-          </Button>
 
           <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
             <p className="font-medium mb-2">Security Information:</p>
