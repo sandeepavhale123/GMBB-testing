@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +12,7 @@ import { Search, Plus, MoreVertical, Eye, Edit, Share, Trash2, Users, Target, Ca
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@/components/ui/pagination';
 import { useGeoProjects } from '../hooks/useGeoProjects';
 import type { GeoProject } from '../types';
+import { forceBodyStylesReset } from '@/utils/domUtils';
 
 export const Dashboard: React.FC = () => {
   const { 
@@ -95,6 +96,10 @@ export const Dashboard: React.FC = () => {
       setShowDeleteDialog(false);
       setProjectToDelete(null);
       setDeleteConfirmText('');
+      // Additional cleanup after successful deletion
+      setTimeout(() => {
+        forceBodyStylesReset();
+      }, 150);
     }
   };
 
@@ -102,7 +107,20 @@ export const Dashboard: React.FC = () => {
     setShowDeleteDialog(false);
     setProjectToDelete(null);
     setDeleteConfirmText('');
+    // Force cleanup of body styles after dialog closes
+    setTimeout(() => {
+      forceBodyStylesReset();
+    }, 100);
   };
+
+  // Additional safety cleanup when dialog state changes
+  useEffect(() => {
+    if (!showDeleteDialog) {
+      setTimeout(() => {
+        forceBodyStylesReset();
+      }, 50);
+    }
+  }, [showDeleteDialog]);
 
   const summaryCards = [
     {
