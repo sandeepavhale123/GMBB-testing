@@ -109,41 +109,38 @@ export const ManageGoogleAPIKey: React.FC = () => {
                     <p className="text-sm text-muted-foreground">
                       Key: <code className="bg-background px-2 py-1 rounded text-xs">{maskApiKey(apiKeyData.apiKey)}</code>
                     </p>
+                    <p className="text-xs text-muted-foreground mt-1">Last Updated: {apiKeyData.lastValidated}</p>
                   </div>
                 </div>
-                <Badge variant="default" className="bg-green-500">
-                  Active
-                </Badge>
+                <div className="flex items-center gap-3">
+                  <Badge variant="default" className="bg-green-500">
+                    Active
+                  </Badge>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" size="sm" disabled={isDeleting}>
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        {isDeleting ? 'Deleting...' : 'Delete'}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete API Key</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to delete your Google Places API key? This action cannot be undone 
+                          and will disable all location-based ranking checks.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteApiKey} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                          Delete API Key
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Last Updated:</span>
-                <span className="text-sm text-muted-foreground">{apiKeyData.lastValidated}</span>
-              </div>
-
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive" className="w-full" disabled={isDeleting}>
-                    <Trash2 className="w-4 h-4 mr-2" />
-                    {isDeleting ? 'Deleting...' : 'Delete API Key'}
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Delete API Key</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to delete your Google Places API key? This action cannot be undone 
-                      and will disable all location-based ranking checks.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDeleteApiKey} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                      Delete API Key
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
             </div>
           ) : (
             <div className="text-center py-8">
