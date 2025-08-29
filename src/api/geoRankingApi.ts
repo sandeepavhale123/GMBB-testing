@@ -10,7 +10,12 @@ import type {
   UpdateGeoProjectRequest,
   UpdateGeoProjectResponse,
   DeleteGeoProjectRequest,
-  DeleteGeoProjectResponse
+  DeleteGeoProjectResponse,
+  UpdateApiKeyRequest,
+  UpdateApiKeyResponse,
+  GetMapApiKeyResponse,
+  DeleteApiKeyRequest,
+  DeleteApiKeyResponse
 } from '@/modules/GEO-Ranking/types';
 
 // Types for API requests and responses
@@ -466,5 +471,25 @@ export const deleteGeoProject = async (
   requestData: DeleteGeoProjectRequest
 ): Promise<DeleteGeoProjectResponse> => {
   const response = await axiosInstance.post("/geomodule/delete-geo-project", requestData);
+  return response.data;
+};
+
+// Google API Key Management APIs
+export const getMapApiKey = async (): Promise<GetMapApiKeyResponse> => {
+  const response = await axiosInstance.post("/get-mapapi-key");
+  return response.data;
+};
+
+export const updateApiKey = async (
+  requestData: UpdateApiKeyRequest
+): Promise<UpdateApiKeyResponse> => {
+  const response = await axiosInstance.post("/update-apikey", requestData);
+  return response.data;
+};
+
+export const deleteApiKey = async (
+  requestData: DeleteApiKeyRequest
+): Promise<DeleteApiKeyResponse> => {
+  const response = await axiosInstance.post("/delete-mapapi-key", requestData);
   return response.data;
 };
