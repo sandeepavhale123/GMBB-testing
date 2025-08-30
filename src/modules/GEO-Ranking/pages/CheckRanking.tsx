@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
-import type { BusinessLocation, Project } from '@/api/businessSearchApi';
+
+// Local lightweight types to avoid cross-module type issues
+type BusinessLocationLite = {
+  name: string;
+  latitude: string;
+  longitude: string;
+  type?: number;
+  input?: string;
+};
+
+type ProjectLite = { id: string; project_name: string };
 
 export const CheckRanking: React.FC = () => {
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
 
   // Initialize the geo ranking report hook with a default listingId (will be updated when business is selected)
   const listingId = selectedBusiness ? parseInt(selectedBusiness.latitude) || 1 : 1; // Temporary mapping
@@ -33,7 +42,7 @@ export const CheckRanking: React.FC = () => {
     fetchDefaultCoordinates,
   } = useGeoRankingReport(listingId, true);
 
-  const handleBusinessSelect = (business: BusinessLocation | null) => {
+  const handleBusinessSelect = (business: BusinessLocationLite | null) => {
     setSelectedBusiness(business);
     
     // Update form data when business is selected
@@ -66,7 +75,7 @@ export const CheckRanking: React.FC = () => {
     }
   };
 
-  const handleProjectSelect = (project: Project | null) => {
+  const handleProjectSelect = (project: ProjectLite | null) => {
     setSelectedProject(project);
   };
 

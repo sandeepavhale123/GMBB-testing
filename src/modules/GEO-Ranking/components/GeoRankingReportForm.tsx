@@ -24,7 +24,17 @@ import { useFormValidation } from "@/hooks/useFormValidation";
 import { keywordsSchema } from "@/schemas/authSchemas";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
 import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
-import type { BusinessLocation, Project } from "@/api/businessSearchApi";
+
+// Local lightweight types to avoid cross-module type issues
+type BusinessLocationLite = {
+  name: string;
+  latitude: string;
+  longitude: string;
+  type?: number;
+  input?: string;
+};
+
+type ProjectLite = { id: string; project_name: string };
 
 interface FormData {
   searchBusinessType: string;
@@ -51,8 +61,8 @@ interface GeoRankingReportFormProps {
   manualCoordinates?: string[];
   onClearManualCoordinates?: () => void;
   hasResults?: boolean;
-  onBusinessSelect?: (business: BusinessLocation) => void;
-  onProjectSelect?: (project: Project | null) => void;
+  onBusinessSelect?: (business: BusinessLocationLite) => void;
+  onProjectSelect?: (project: ProjectLite | null) => void;
   disabled?: boolean;
 }
 
@@ -79,12 +89,12 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Project selection state
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projects, setProjects] = useState<ProjectLite[]>([]);
+  const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
 
   // Helper function to count keywords
@@ -173,7 +183,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   };
 
   // Business search handlers
-  const handlePlaceSelect = (business: BusinessLocation) => {
+  const handlePlaceSelect = (business: BusinessLocationLite) => {
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
     toast({
@@ -197,7 +207,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
       const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
       if (response.code === 200 && response.data) {
         const { lat, long } = parseLatLong(response.data.latlong);
-        const business: BusinessLocation = {
+        const business: BusinessLocationLite = {
           name: response.data.bname,
           latitude: lat,
           longitude: long,
@@ -238,7 +248,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
       if (response.code === 200 && response.data) {
-        const business: BusinessLocation = {
+        const business: BusinessLocationLite = {
           name: response.data.business_name,
           latitude: response.data.lat,
           longitude: response.data.long,

@@ -2,10 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
 import { getApiKeyForSearch } from '@/api/businessSearchApi';
-import type { BusinessLocation } from '@/api/businessSearchApi';
+
+// Local lightweight type to avoid cross-module type issues
+export type BusinessLocationLite = {
+  name: string;
+  latitude: string;
+  longitude: string;
+};
 
 interface BusinessGooglePlacesInputProps {
-  onPlaceSelect?: (business: BusinessLocation) => void;
+  onPlaceSelect?: (business: BusinessLocationLite) => void;
   defaultValue?: string;
   disabled?: boolean;
   placeholder?: string;
@@ -89,7 +95,7 @@ export const BusinessGooglePlacesInput: React.FC<BusinessGooglePlacesInputProps>
         const place = autocomplete.getPlace();
         
         if (place.geometry && place.geometry.location && place.name) {
-          const businessDetails: BusinessLocation = {
+          const businessDetails: BusinessLocationLite = {
             name: place.name,
             latitude: place.geometry.location.lat().toString(),
             longitude: place.geometry.location.lng().toString(),

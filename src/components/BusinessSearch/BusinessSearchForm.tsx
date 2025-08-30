@@ -9,10 +9,20 @@ import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectList
 import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { BusinessLocation, Project } from '@/api/businessSearchApi';
+
+// Local lightweight types to avoid cross-module type issues
+export type BusinessLocationLite = {
+  name: string;
+  latitude: string;
+  longitude: string;
+  type?: number;
+  input?: string;
+};
+export type ProjectLite = { id: string; project_name: string };
+
 interface BusinessSearchFormProps {
-  onBusinessSelect?: (business: BusinessLocation) => void;
-  onProjectSelect?: (project: Project | null) => void;
+  onBusinessSelect?: (business: BusinessLocationLite) => void;
+  onProjectSelect?: (project: ProjectLite | null) => void;
   disabled?: boolean;
 }
 export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
@@ -23,14 +33,13 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Project selection state
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projects, setProjects] = useState<ProjectLite[]>([]);
+  const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
-  const handlePlaceSelect = (business: BusinessLocation) => {
+  const handlePlaceSelect = (business: BusinessLocationLite) => {
     // Google Places doesn't need searchType/inputText for the geo module API
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
@@ -59,7 +68,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           lat,
           long
         } = parseLatLong(response.data.latlong);
-        const business: BusinessLocation = {
+        const business: BusinessLocationLite = {
           name: response.data.bname,
           latitude: lat,
           longitude: long,
@@ -101,7 +110,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
       if (response.code === 200 && response.data) {
-        const business: BusinessLocation = {
+        const business: BusinessLocationLite = {
           name: response.data.business_name,
           latitude: response.data.lat,
           longitude: response.data.long,
