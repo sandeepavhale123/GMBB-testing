@@ -44,6 +44,19 @@ export interface BusinessDetails {
   long: string;
 }
 
+export interface Project {
+  id: string;
+  project_name: string;
+}
+
+export interface ProjectListResponse {
+  code: number;
+  message: string;
+  data: {
+    projectLists: Project[];
+  };
+}
+
 // Get Google API key for Places search
 export const getApiKeyForSearch = async (): Promise<GetApiKeyForSearchResponse> => {
   const response = await axiosInstance.post('/geomodule/get-apikey-for-search');
@@ -73,5 +86,11 @@ export const getBusinessDetailsFromMapUrl = async (
   };
   
   const response = await axiosInstance.post('/geomodule/get-default-coordinates', requestData);
+  return response.data;
+};
+
+// Get project lists
+export const getProjectLists = async (): Promise<ProjectListResponse> => {
+  const response = await axiosInstance.post('/geomodule/get-project-lists');
   return response.data;
 };

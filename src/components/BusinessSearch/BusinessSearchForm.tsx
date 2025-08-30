@@ -5,18 +5,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { BusinessGooglePlacesInput } from './BusinessGooglePlacesInput';
-import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl } from '@/api/businessSearchApi';
+import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from '@/api/businessSearchApi';
 import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
-import type { BusinessDetails } from '@/api/businessSearchApi';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { BusinessDetails, Project } from '@/api/businessSearchApi';
 
 interface BusinessSearchFormProps {
   onBusinessSelect?: (business: BusinessDetails) => void;
+  onProjectSelect?: (project: Project | null) => void;
   disabled?: boolean;
 }
 
 export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   onBusinessSelect,
+  onProjectSelect,
   disabled = false,
 }) => {
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
@@ -24,6 +27,11 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [mapUrlInput, setMapUrlInput] = useState('');
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
+  
+  // Project selection state
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projectsLoading, setProjectsLoading] = useState(false);
 
   const handlePlaceSelect = (business: BusinessDetails) => {
     setSelectedBusiness(business);
@@ -125,13 +133,57 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     }
   };
 
+  const handleProjectSelect = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId) || null;
+    setSelectedProject(project);
+    onProjectSelect?.(project);
+    if (project) {
+      toast({
+        title: "Project Selected",
+        description: `Selected: ${project.project_name}`,
+      });
+    }
+  };
+
   const handleReset = () => {
     setSelectedBusiness(null);
+    setSelectedProject(null);
     setCidInput('');
     setMapUrlInput('');
     setSearchMethod('google');
     onBusinessSelect?.(null as any);
+    onProjectSelect?.(null);
   };
+
+  // Fetch projects on component mount
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setProjectsLoading(true);
+        const response = await getProjectLists();
+        if (response.code === 200 && response.data?.projectLists) {
+          setProjects(response.data.projectLists);
+        } else {
+          toast({
+            title: "Failed to Load Projects",
+            description: "Could not fetch project list. Please try again.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        toast({
+          title: "Error Loading Projects",
+          description: "Failed to load project list. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setProjectsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Debouncing for CID and Map URL searches
   useEffect(() => {
@@ -157,6 +209,34 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Project Selection */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Project Configuration</Label>
+          <Select
+            value={selectedProject?.id || ""}
+            onValueChange={handleProjectSelect}
+            disabled={disabled || projectsLoading}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue 
+                placeholder={projectsLoading ? "Loading projects..." : "Select a project"}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {projects.map((project) => (
+                <SelectItem key={project.id} value={project.id}>
+                  {project.project_name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {selectedProject && (
+            <p className="text-xs text-muted-foreground">
+              Selected: {selectedProject.project_name}
+            </p>
+          )}
+        </div>
+
         {/* Search Method Selection */}
         <div className="space-y-3">
           <Label className="text-sm font-medium">Search Method</Label>
