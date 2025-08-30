@@ -130,10 +130,9 @@ export const CheckRanking: React.FC = () => {
           onClearManualCoordinates={clearManualCoordinates}
         />
 
-        <div>
-          {/* <BusinessSearchForm
+        <div><BusinessSearchForm
           onBusinessSelect={handleBusinessSelect}
-        /> */}
+        />
         {/* Report Configuration Form */}
       <GeoRankingReportForm
         formData={formData}
