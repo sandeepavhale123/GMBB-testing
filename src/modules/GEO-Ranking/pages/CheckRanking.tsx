@@ -159,23 +159,6 @@ export const CheckRanking: React.FC = () => {
         />
       </div>
 
-      
-
-      {/* Status Information */}
-      {selectedBusiness && (
-        <Alert>
-          <Info className="h-4 w-4" />
-          <AlertDescription>
-            <strong>Selected Business:</strong> {selectedBusiness.name}
-            {selectedBusiness.latitude && selectedBusiness.longitude && (
-              <span className="block text-sm mt-1">
-                Location: {parseFloat(selectedBusiness.latitude).toFixed(6)}, {parseFloat(selectedBusiness.longitude).toFixed(6)}
-              </span>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
-
       {!selectedBusiness && (
         <Alert>
           <Info className="h-4 w-4" />
