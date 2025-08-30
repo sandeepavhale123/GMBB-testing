@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info, RotateCcw, MapPin, RefreshCw } from "lucide-react";
+import { Info, RotateCcw, RefreshCw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
@@ -37,7 +37,7 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: Project | null;
+  selectedProject: any;
   searchMethod: 'google' | 'cid' | 'map_url';
   cidInput: string;
   mapUrlInput: string;
@@ -95,7 +95,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   // Check if keyword limit is reached
   const keywordCount = countKeywords(formData.keywords);
   const isKeywordCountValid = keywordCount > 0 && keywordCount <= 5;
-  const isKeywordLimitReached = keywordCount >= 5;
 
   // Check if reset button should be shown (only when user has entered keywords)
   const shouldShowResetButton = formData.keywords.trim() !== "";
@@ -268,11 +267,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
 
   const handleProjectSelect = (projectId: string) => {
     const project = projects.find(p => p.id === projectId) || null;
-    // Use a custom update approach since selectedProject is an object
-    const updateEvent = {
-      target: { name: 'selectedProject', value: project }
-    };
-    // Trigger onChange for the selectedProject field
     onInputChange("selectedProject", JSON.stringify(project || null));
     onProjectSelect?.(project);
     if (project) {
@@ -334,7 +328,32 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4 lg:space-y-5 overflow-y-auto flex-1 pb-4 sm:pb-6">
-        
+        <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
+          {/* Project Selection */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Project Configuration</Label>
+            <Select 
+              value={formData.selectedProject?.id || ""} 
+              onValueChange={handleProjectSelect} 
+              disabled={projectsLoading}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
+              </SelectTrigger>
+              <SelectContent className="max-h-[200px] overflow-y-auto">
+                {projects.map(project => (
+                  <SelectItem key={project.id} value={project.id}>
+                    {project.project_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {formData.selectedProject && (
+              <p className="text-xs text-muted-foreground">
+                Selected: {formData.selectedProject.project_name}
+              </p>
+            )}
+          </div>
 
           {/* Search Method Selection */}
           <div className="space-y-3">
@@ -428,9 +447,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
               <p>Paste a Google Maps URL - search happens automatically as you type.</p>
             )}
           </div>
-        </div>
 
-        <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
           {/* Keywords */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -633,35 +650,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
             </div>
           </div>
 
-          {/* Business Search Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-4">
-          {/* Project Selection */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Project Configuration</Label>
-            <Select 
-              value={formData.selectedProject?.id || ""} 
-              onValueChange={handleProjectSelect} 
-              disabled={projectsLoading}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
-              </SelectTrigger>
-              <SelectContent className="max-h-[200px] overflow-y-auto">
-                {projects.map(project => (
-                  <SelectItem key={project.id} value={project.id}>
-                    {project.project_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {formData.selectedProject && (
-              <p className="text-xs text-muted-foreground">
-                Selected: {formData.selectedProject.project_name}
-              </p>
-            )}
-          </div>
-          
           {/* Language Selector */}
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-700">
@@ -682,7 +670,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
                 ))}
               </SelectContent>
             </Select>
-          </div>
           </div>
 
           {/* Updated buttons section - single row layout */}
