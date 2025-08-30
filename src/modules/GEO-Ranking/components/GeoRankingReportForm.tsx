@@ -348,7 +348,7 @@ export function GeoRankingReportForm({
           {/* Business Location Section */}
           <div className="">
             {/* Project Selection and Search Method in single row */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="">
               {/* Search Method Selection */}
               <div className="space-y-3 mb-4">
                 <Label className="text-sm font-medium">Search By:</Label>
