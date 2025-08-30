@@ -357,7 +357,7 @@ export function GeoRankingReportForm({
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="cid" id="cid-search" />
+                    
                     <Label htmlFor="cid-search" className="text-sm">
                       CID Lookup
                     </Label>
