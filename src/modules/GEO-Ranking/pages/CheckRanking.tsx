@@ -146,6 +146,7 @@ export const CheckRanking: React.FC = () => {
         manualCoordinates={manualCoordinates}
         onClearManualCoordinates={clearManualCoordinates}
         hasResults={false} // Will be updated when results are available
+        onBusinessSelect={handleBusinessSelect}
       />
           </div>
       </div>
