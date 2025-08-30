@@ -13,7 +13,6 @@ import {
 import { useToast } from "./use-toast";
 import { processDistanceValue } from "../utils/geoRankingUtils";
 import L from "leaflet";
-import type { Project } from "@/api/businessSearchApi";
 
 interface FormData {
   searchBusinessType: string;
@@ -26,10 +25,6 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: Project | null;
-  searchMethod: 'google' | 'cid' | 'map_url';
-  cidInput: string;
-  mapUrlInput: string;
 }
 
 const getInitialFormData = (): FormData => ({
@@ -43,10 +38,6 @@ const getInitialFormData = (): FormData => ({
   gridSize: "3",
   scheduleCheck: "onetime",
   language: "en",
-  selectedProject: null,
-  searchMethod: "google",
-  cidInput: "",
-  mapUrlInput: "",
 });
 
 export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = false) => {
@@ -379,27 +370,10 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   }, [formData.distanceUnit, cloneProcessingComplete]);
 
   const handleInputChange = (field: string, value: string) => {
-    if (field === "selectedProject") {
-      // Handle selectedProject specially since it's an object
-      try {
-        const project = JSON.parse(value);
-        setFormData((prev) => ({
-          ...prev,
-          selectedProject: project,
-        }));
-      } catch (error) {
-        // If parsing fails, set to null
-        setFormData((prev) => ({
-          ...prev,
-          selectedProject: null,
-        }));
-      }
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const handleReset = () => {

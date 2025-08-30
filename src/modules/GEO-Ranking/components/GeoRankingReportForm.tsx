@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,14 +17,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info, RotateCcw, MapPin, RefreshCw } from "lucide-react";
+import { Info, RotateCcw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { keywordsSchema } from "@/schemas/authSchemas";
-import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
-import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
-import type { BusinessDetails, Project } from "@/api/businessSearchApi";
 
 interface FormData {
   searchBusinessType: string;
@@ -37,10 +34,6 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: Project | null;
-  searchMethod: 'google' | 'cid' | 'map_url';
-  cidInput: string;
-  mapUrlInput: string;
 }
 
 interface GeoRankingReportFormProps {
@@ -55,8 +48,6 @@ interface GeoRankingReportFormProps {
   manualCoordinates?: string[];
   onClearManualCoordinates?: () => void;
   hasResults?: boolean;
-  onBusinessSelect?: (business: BusinessDetails) => void;
-  onProjectSelect?: (project: Project | null) => void;
 }
 
 export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
@@ -71,17 +62,9 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   manualCoordinates = [],
   onClearManualCoordinates,
   hasResults = false,
-  onBusinessSelect,
-  onProjectSelect,
 }) => {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
-
-  // Business search state
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [projectsLoading, setProjectsLoading] = useState(false);
 
   // Helper function to count keywords
   const countKeywords = (keywordsString: string): number => {
@@ -168,164 +151,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
     onInputChange("keywords", value);
   };
 
-  // Business search handlers
-  const handlePlaceSelect = (business: BusinessDetails) => {
-    setSelectedBusiness(business);
-    onBusinessSelect?.(business);
-    toast({
-      title: "Business Selected",
-      description: `Selected: ${business.business_name}`
-    });
-  };
-
-  const parseLatLong = (latlong: string): { lat: string; long: string } => {
-    const [lat, long] = latlong.split(',');
-    return {
-      lat: lat?.trim() || '',
-      long: long?.trim() || ''
-    };
-  };
-
-  const handleMapUrlSearch = async () => {
-    if (!formData.mapUrlInput.trim() || loading) return;
-    try {
-      setLoading(true);
-      const response = await getBusinessDetailsFromMapUrl(formData.mapUrlInput.trim());
-      if (response.code === 200 && response.data) {
-        const { lat, long } = parseLatLong(response.data.latlong);
-        const business: BusinessDetails = {
-          business_name: response.data.bname,
-          lat,
-          long,
-          searchType: 2,
-          inputText: formData.mapUrlInput.trim()
-        };
-        setSelectedBusiness(business);
-        onBusinessSelect?.(business);
-        toast({
-          title: "Business Found",
-          description: `Found: ${business.business_name}`
-        });
-      } else {
-        toast({
-          title: "Business Not Found",
-          description: "No business found for the provided map URL.",
-          variant: "destructive"
-        });
-      }
-    } catch (error) {
-      console.error('Map URL search error:', error);
-      toast({
-        title: "Search Failed",
-        description: "Failed to search business from map URL. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCIDSearch = async () => {
-    if (!formData.cidInput.trim() || loading) return;
-    if (!/^\d+$/.test(formData.cidInput.trim())) {
-      return;
-    }
-    try {
-      setLoading(true);
-      const response = await getBusinessDetailsFromCID(formData.cidInput.trim());
-      if (response.code === 200 && response.data) {
-        const business: BusinessDetails = {
-          business_name: response.data.business_name,
-          lat: response.data.lat,
-          long: response.data.long,
-          searchType: 3,
-          inputText: formData.cidInput.trim()
-        };
-        setSelectedBusiness(business);
-        onBusinessSelect?.(business);
-        toast({
-          title: "Business Found",
-          description: `Found: ${business.business_name}`
-        });
-      } else {
-        toast({
-          title: "Business Not Found",
-          description: "No business found for the provided CID.",
-          variant: "destructive"
-        });
-      }
-    } catch (error) {
-      console.error('CID search error:', error);
-      toast({
-        title: "Search Failed",
-        description: "Failed to search business by CID. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProjectSelect = (projectId: string) => {
-    const project = projects.find(p => p.id === projectId) || null;
-    // Use a custom update approach since selectedProject is an object
-    const updateEvent = {
-      target: { name: 'selectedProject', value: project }
-    };
-    // Trigger onChange for the selectedProject field
-    onInputChange("selectedProject", JSON.stringify(project || null));
-    onProjectSelect?.(project);
-    if (project) {
-      toast({
-        title: "Project Selected",
-        description: `Selected: ${project.project_name}`
-      });
-    }
-  };
-
-  // Fetch projects on component mount
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setProjectsLoading(true);
-        const response = await getProjectLists();
-        if (response.code === 200 && response.data?.projectLists) {
-          setProjects(response.data.projectLists);
-        } else {
-          toast({
-            title: "Failed to Load Projects",
-            description: "Could not fetch project list. Please try again.",
-            variant: "destructive"
-          });
-        }
-      } catch (error) {
-        console.error('Failed to fetch projects:', error);
-        toast({
-          title: "Error Loading Projects",
-          description: "Failed to load project list. Please try again.",
-          variant: "destructive"
-        });
-      } finally {
-        setProjectsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  // Debouncing for CID and Map URL searches
-  useEffect(() => {
-    if (!formData.cidInput.trim() && !formData.mapUrlInput.trim()) return;
-    const timeoutId = setTimeout(() => {
-      if (formData.searchMethod === 'cid' && formData.cidInput.trim() && /^\d+$/.test(formData.cidInput.trim())) {
-        handleCIDSearch();
-      } else if (formData.searchMethod === 'map_url' && formData.mapUrlInput.trim()) {
-        handleMapUrlSearch();
-      }
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [formData.cidInput, formData.mapUrlInput, formData.searchMethod]);
-
   return (
     <Card className="shadow-lg">
       <CardHeader className="pb-3 lg:pb-4">
@@ -334,128 +159,6 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4 lg:space-y-5 overflow-y-auto flex-1 pb-4 sm:pb-6">
-        {/* Business Search Section */}
-        <div className="space-y-4">
-          {/* Project Selection */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Project Configuration</Label>
-            <Select 
-              value={formData.selectedProject?.id || ""} 
-              onValueChange={handleProjectSelect} 
-              disabled={projectsLoading}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
-              </SelectTrigger>
-              <SelectContent className="max-h-[200px] overflow-y-auto">
-                {projects.map(project => (
-                  <SelectItem key={project.id} value={project.id}>
-                    {project.project_name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {formData.selectedProject && (
-              <p className="text-xs text-muted-foreground">
-                Selected: {formData.selectedProject.project_name}
-              </p>
-            )}
-          </div>
-
-          {/* Search Method Selection */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Search Method</Label>
-            <RadioGroup 
-              value={formData.searchMethod} 
-              onValueChange={(value) => onInputChange("searchMethod", value as 'google' | 'cid' | 'map_url')} 
-              className="flex flex-row gap-6"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="google" id="google-search" />
-                <Label htmlFor="google-search" className="text-sm">
-                  Google Auto Suggestion
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="cid" id="cid-search" />
-                <Label htmlFor="cid-search" className="text-sm">
-                  CID Lookup
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="map_url" id="map-url-search" />
-                <Label htmlFor="map-url-search" className="text-sm">
-                  Map URL
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* Search Input */}
-          <div className="space-y-2">
-            {formData.searchMethod === 'google' ? (
-              <div>
-                <Label htmlFor="business-search" className="text-sm font-medium">
-                  Business Name
-                </Label>
-                <BusinessGooglePlacesInput 
-                  onPlaceSelect={handlePlaceSelect} 
-                  placeholder="Start typing to search for a business..." 
-                />
-              </div>
-            ) : formData.searchMethod === 'cid' ? (
-              <div className="space-y-2">
-                <Label htmlFor="cid-input" className="text-sm font-medium">
-                  CID Number
-                </Label>
-                <Input 
-                  id="cid-input" 
-                  value={formData.cidInput} 
-                  onChange={(e) => onInputChange("cidInput", e.target.value)} 
-                  placeholder="Enter CID number (e.g., 2898559807244638920)" 
-                  className="w-full" 
-                />
-                {loading && formData.searchMethod === 'cid' && (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <RefreshCw className="h-3 w-3 animate-spin" />
-                    Searching...
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <Label htmlFor="map-url-input" className="text-sm font-medium">
-                  Google Maps URL
-                </Label>
-                <Input 
-                  id="map-url-input" 
-                  value={formData.mapUrlInput} 
-                  onChange={(e) => onInputChange("mapUrlInput", e.target.value)} 
-                  placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)" 
-                  className="w-full" 
-                />
-                {loading && formData.searchMethod === 'map_url' && (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <RefreshCw className="h-3 w-3 animate-spin" />
-                    Searching...
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Helper Text */}
-          <div className="text-xs text-muted-foreground">
-            {formData.searchMethod === 'google' ? (
-              <p>Use Google Places autocomplete to find and select your business location.</p>
-            ) : formData.searchMethod === 'cid' ? (
-              <p>Enter a Google CID (Customer ID) - search happens automatically as you type.</p>
-            ) : (
-              <p>Paste a Google Maps URL - search happens automatically as you type.</p>
-            )}
-          </div>
-        </div>
-
         <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
           {/* Keywords */}
           <div className="space-y-2">
