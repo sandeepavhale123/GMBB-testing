@@ -389,10 +389,13 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     link.crossOrigin = "";
     document.head.appendChild(link);
 
-    if (!mapRef.current || !defaultCoordinates) return;
+    if (!mapRef.current) return;
 
+    // Use provided coordinates or default to New York City
+    const coords = defaultCoordinates || { lat: 40.7128, lng: -74.0060 };
+    
     const map = L.map(mapRef.current).setView(
-      [defaultCoordinates.lat, defaultCoordinates.lng],
+      [coords.lat, coords.lng],
       14
     );
     mapInstanceRef.current = map;
