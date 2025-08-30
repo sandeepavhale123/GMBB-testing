@@ -343,6 +343,9 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   // Update markers based on current state
   const updateMarkers = () => {
+    // Ensure map and defaultCoordinates are available before updating markers
+    if (!mapInstanceRef.current || !defaultCoordinates) return;
+    
     clearMarkers();
     clearManualMarkers();
 
@@ -418,7 +421,7 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
 
   // Update markers when data changes
   useEffect(() => {
-    if (mapInstanceRef.current) {
+    if (mapInstanceRef.current && defaultCoordinates) {
       updateMarkers();
     }
   }, [
