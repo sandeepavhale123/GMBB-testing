@@ -13,7 +13,7 @@ import {
 import { useToast } from "./use-toast";
 import { processDistanceValue } from "../utils/geoRankingUtils";
 import L from "leaflet";
-import type { Project } from "@/api/businessSearchApi";
+// import type { Project } from "@/api/businessSearchApi"; // Temporarily commented to fix TypeScript error
 
 interface FormData {
   searchBusinessType: string;
@@ -26,8 +26,8 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: Project | null;
-  searchMethod: 'google' | 'cid' | 'map_url';
+  selectedProject: any;
+  searchMethod: string;
   cidInput: string;
   mapUrlInput: string;
 }

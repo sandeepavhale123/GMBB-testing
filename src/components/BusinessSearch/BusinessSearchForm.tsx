@@ -27,8 +27,8 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   // Project selection state
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
   const handlePlaceSelect = (business: BusinessDetails) => {
     // Google Places doesn't need searchType/inputText for the geo module API
