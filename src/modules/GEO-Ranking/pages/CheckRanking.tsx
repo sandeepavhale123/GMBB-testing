@@ -112,9 +112,24 @@ export const CheckRanking: React.FC = () => {
 
       {/* Business Search Form */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <BusinessSearchForm
+        <div><BusinessSearchForm
           onBusinessSelect={handleBusinessSelect}
         />
+        {/* Report Configuration Form */}
+      <GeoRankingReportForm
+        formData={formData}
+        onInputChange={handleInputChange}
+        onSubmit={handleFormSubmit}
+        onReset={handleReset}
+        getDistanceOptions={getDistanceOptions}
+        languageOptions={languageOptions}
+        submittingRank={submittingRank}
+        pollingKeyword={pollingKeyword}
+        manualCoordinates={manualCoordinates}
+        onClearManualCoordinates={clearManualCoordinates}
+        hasResults={false} // Will be updated when results are available
+      />
+          </div>
 
         {/* Geo Ranking Map */}
         <GeoRankingReportMap
@@ -133,20 +148,7 @@ export const CheckRanking: React.FC = () => {
         />
       </div>
 
-      {/* Report Configuration Form */}
-      <GeoRankingReportForm
-        formData={formData}
-        onInputChange={handleInputChange}
-        onSubmit={handleFormSubmit}
-        onReset={handleReset}
-        getDistanceOptions={getDistanceOptions}
-        languageOptions={languageOptions}
-        submittingRank={submittingRank}
-        pollingKeyword={pollingKeyword}
-        manualCoordinates={manualCoordinates}
-        onClearManualCoordinates={clearManualCoordinates}
-        hasResults={false} // Will be updated when results are available
-      />
+      
 
       {/* Status Information */}
       {selectedBusiness && (
