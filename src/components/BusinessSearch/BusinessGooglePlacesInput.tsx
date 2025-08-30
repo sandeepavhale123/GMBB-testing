@@ -122,7 +122,7 @@ export function BusinessGooglePlacesInput({
       ref={inputRef}
       value={inputValue}
       onChange={handleInputChange}
-      placeholder={loading ? "Loading Google Places..." : placeholder}
+      placeholder={loading ? "Loading Google Places..." : "Search for a business..."}
       disabled={disabled || loading}
       className="w-full"
     />
