@@ -1,7 +1,8 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Search, Key, History } from 'lucide-react';
+import { LayoutDashboard, Search, Key, History, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { label: 'Dashboard', path: '/module/geo-ranking', icon: LayoutDashboard },
@@ -12,6 +13,29 @@ const navItems = [
 
 export const SubNavBar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check if we're on the view project details page
+  const isViewProjectDetails = location.pathname.includes('/module/geo-ranking/view-project-details/');
+  
+  if (isViewProjectDetails) {
+    return (
+      <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-start gap-4 py-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/module/geo-ranking')}
+              className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft size={18} />
+              <span>Back</span>
+            </Button>
+          </div>
+        </div>
+      </nav>
+    );
+  }
  
   return (
     <nav className="fixed top-[65px] left-0 right-0 z-40 w-full px-4 pt-1 pb-0 border-b border-border bg-white">

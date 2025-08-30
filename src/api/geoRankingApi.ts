@@ -493,3 +493,74 @@ export const deleteApiKey = async (
   const response = await axiosInstance.post("/delete-mapapi-key", requestData);
   return response.data;
 };
+
+// Project-specific API functions for View Project Details page
+export const getKeywordsForProject = async (
+  projectId: number
+): Promise<KeywordsListResponse> => {
+  const response = await axiosInstance.post("/get-keywords", {
+    projectId,
+  });
+  return response.data;
+};
+
+export const getKeywordDetailsForProject = async (
+  projectId: number,
+  keywordId: string,
+  dateId?: string
+): Promise<KeywordDetailsResponse> => {
+  const payload: any = {
+    projectId,
+    keywordId,
+    status: 0,
+  };
+  
+  console.log('🗺️ getKeywordDetailsForProject - API call:', {
+    projectId,
+    keywordId,
+    dateId
+  });
+  
+  const response = await axiosInstance.post("/get-keyword-details", payload);
+  
+  console.log('🗺️ getKeywordDetailsForProject - API response:', {
+    code: response.data.code,
+    rankDetailsCount: response.data.data?.rankDetails?.length || 0,
+    datesCount: response.data.data?.dates?.length || 0
+  });
+  
+  return response.data;
+};
+
+export const getKeywordPositionDetailsForProject = async (
+  projectId: number,
+  keywordId: string,
+  positionId: string
+): Promise<KeywordPositionResponse> => {
+  const response = await axiosInstance.post("/get-keyword-position-details", {
+    projectId,
+    keywordId,
+    positionId,
+  });
+  return response.data;
+};
+
+export const checkKeywordStatusForProject = async (
+  projectId: number
+): Promise<KeywordStatusResponse> => {
+  const response = await axiosInstance.post("/check-keyword-status", {
+    projectId,
+  });
+  return response.data;
+};
+
+export const refreshKeywordForProject = async (
+  projectId: number,
+  keywordId: string
+): Promise<RefreshKeywordResponse> => {
+  const response = await axiosInstance.post("/refresh-keyword", {
+    projectId,
+    keywordId,
+  });
+  return response.data;
+};

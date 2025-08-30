@@ -23,6 +23,7 @@ interface GeoRankingHeaderProps {
   onDateChange: (dateId: string) => void;
   onClone: () => void;
   onRefresh: () => void;
+  onCheckRank: () => void;
   isRefreshing: boolean;
   refreshProgress: number;
   loading: boolean;
@@ -41,6 +42,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   onDateChange,
   onClone,
   onRefresh,
+  onCheckRank,
   isRefreshing,
   refreshProgress,
   loading,
@@ -56,13 +58,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   // Total keywords count
   const totalKeywords = keywords.length;
 
-  const handleCheckRank = () => {
-    if (listingId) {
-      navigate(`/geo-ranking-report/${listingId}`);
-    } else {
-      navigate("/geo-ranking-report");
-    }
-  };
 
   const handleExportImage = async () => {
     const exportElement = document.querySelector(
@@ -139,7 +134,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       <HeaderExportActions
         isExporting={isExporting}
         onExportImage={handleExportImage}
-        onCheckRank={handleCheckRank}
+        onCheckRank={onCheckRank}
         onClone={onClone}
         onRefresh={onRefresh}
         isRefreshing={isRefreshing}
@@ -185,7 +180,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
             <MetricsCards
               keywordDetails={keywordDetails}
               totalKeywords={totalKeywords}
-              onCheckRank={handleCheckRank}
+              onCheckRank={onCheckRank}
             />
           </div>
         </CardContent>
