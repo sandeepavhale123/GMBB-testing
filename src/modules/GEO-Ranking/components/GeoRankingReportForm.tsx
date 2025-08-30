@@ -314,10 +314,33 @@ export function GeoRankingReportForm({
   }, [cidInput, mapUrlInput, searchMethod]);
   return <Card className="shadow-lg">
       <CardHeader className="pb-3 lg:pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg lg:text-xl font-semibold text-gray-900">
-          <MapPin className="h-5 w-5" />
-          Report Configuration
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-lg lg:text-xl font-semibold text-gray-900">
+            <MapPin className="h-5 w-5" />
+            Report Configuration
+          </CardTitle>
+          
+          {/* Search Data Engine */}
+          <div className="flex items-center gap-2">
+            <Label className="text-sm font-medium text-gray-700">
+              Search Data Engine:
+            </Label>
+            <RadioGroup value={formData.searchDataEngine} onValueChange={handleSearchDataEngineChange} className="flex flex-row gap-4">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Map API" id="map-api" />
+                <Label htmlFor="map-api" className="text-sm">
+                  Map API
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Briefcase API" id="briefcase-api" />
+                <Label htmlFor="briefcase-api" className="text-sm">
+                  Briefcase API
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4 lg:space-y-5 overflow-y-auto flex-1 pb-4 sm:pb-6">
         <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
@@ -433,27 +456,6 @@ export function GeoRankingReportForm({
                 ⚠️ You have reached the maximum limit of 5 keywords. You can
                 still edit existing keywords.
               </p>}
-          </div>
-
-          {/* Search Data Engine */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium text-gray-700">
-              Search Data Engine
-            </Label>
-            <RadioGroup value={formData.searchDataEngine} onValueChange={handleSearchDataEngineChange} className="flex flex-row gap-4 sm:gap-6">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Map API" id="map-api" />
-                <Label htmlFor="map-api" className="text-sm">
-                  Map API
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Briefcase API" id="briefcase-api" />
-                <Label htmlFor="briefcase-api" className="text-sm">
-                  Briefcase API
-                </Label>
-              </div>
-            </RadioGroup>
           </div>
 
           {/* Map Point */}
