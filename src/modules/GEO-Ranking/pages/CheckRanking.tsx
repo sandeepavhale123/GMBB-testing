@@ -6,13 +6,13 @@ import { BusinessSearchForm } from '@/components/BusinessSearch/BusinessSearchFo
 import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
-import type { BusinessDetails } from '@/api/businessSearchApi';
+import type { BusinessLocation } from '@/api/businessSearchApi';
 
 export const CheckRanking: React.FC = () => {
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
 
   // Initialize the geo ranking report hook with a default listingId (will be updated when business is selected)
-  const listingId = selectedBusiness ? parseInt(selectedBusiness.lat) || 1 : 1; // Temporary mapping
+  const listingId = selectedBusiness ? parseInt(selectedBusiness.latitude) || 1 : 1; // Temporary mapping
   const {
     formData,
     defaultCoordinates,
@@ -33,24 +33,24 @@ export const CheckRanking: React.FC = () => {
     fetchDefaultCoordinates,
   } = useGeoRankingReport(listingId, true);
 
-  const handleBusinessSelect = (business: BusinessDetails | null) => {
+  const handleBusinessSelect = (business: BusinessLocation | null) => {
     setSelectedBusiness(business);
     
     // Update form data when business is selected
     if (business) {
-      handleInputChange('searchBusiness', business.business_name || '');
+      handleInputChange('searchBusiness', business.name || '');
       handleInputChange('searchBusinessType', 'name');
       
       // For module API, fetch default coordinates after business selection (only for CID/Map URL)
-      if (business.searchType && business.inputText) {
-        fetchDefaultCoordinates(business.searchType, business.inputText);
+      if (business.type && business.input) {
+        fetchDefaultCoordinates(business.type, business.input);
       }
       
       // Automatically fetch grid coordinates if business has valid lat/lng
-      if (business.lat && business.long) {
+      if (business.latitude && business.longitude) {
         const businessCoords = {
-          lat: parseFloat(business.lat),
-          lng: parseFloat(business.long)
+          lat: parseFloat(business.latitude),
+          lng: parseFloat(business.longitude)
         };
         
         // Set default grid size and distance for automatic API call
@@ -78,8 +78,8 @@ export const CheckRanking: React.FC = () => {
   };
 
   // Get default coordinates from selected business or fallback to hook default
-  const businessCoordinates = selectedBusiness && selectedBusiness.lat && selectedBusiness.long 
-    ? { lat: parseFloat(selectedBusiness.lat), lng: parseFloat(selectedBusiness.long) }
+  const businessCoordinates = selectedBusiness && selectedBusiness.latitude && selectedBusiness.longitude 
+    ? { lat: parseFloat(selectedBusiness.latitude), lng: parseFloat(selectedBusiness.longitude) }
     : null;
 
   const effectiveCoordinates = businessCoordinates || defaultCoordinates;
@@ -157,10 +157,10 @@ export const CheckRanking: React.FC = () => {
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            <strong>Selected Business:</strong> {selectedBusiness.business_name}
-            {selectedBusiness.lat && selectedBusiness.long && (
+            <strong>Selected Business:</strong> {selectedBusiness.name}
+            {selectedBusiness.latitude && selectedBusiness.longitude && (
               <span className="block text-sm mt-1">
-                Location: {parseFloat(selectedBusiness.lat).toFixed(6)}, {parseFloat(selectedBusiness.long).toFixed(6)}
+                Location: {parseFloat(selectedBusiness.latitude).toFixed(6)}, {parseFloat(selectedBusiness.longitude).toFixed(6)}
               </span>
             )}
           </AlertDescription>

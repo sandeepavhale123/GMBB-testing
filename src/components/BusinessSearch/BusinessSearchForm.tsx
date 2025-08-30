@@ -9,9 +9,9 @@ import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectList
 import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { BusinessDetails, Project } from '@/api/businessSearchApi';
+import type { BusinessLocation, Project } from '@/api/businessSearchApi';
 interface BusinessSearchFormProps {
-  onBusinessSelect?: (business: BusinessDetails) => void;
+  onBusinessSelect?: (business: BusinessLocation) => void;
   onProjectSelect?: (project: Project | null) => void;
   disabled?: boolean;
 }
@@ -23,20 +23,20 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Project selection state
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
-  const handlePlaceSelect = (business: BusinessDetails) => {
+  const handlePlaceSelect = (business: BusinessLocation) => {
     // Google Places doesn't need searchType/inputText for the geo module API
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
     toast({
       title: "Business Selected",
-      description: `Selected: ${business.business_name}`
+      description: `Selected: ${business.name}`
     });
   };
   const parseLatLong = (latlong: string): {
@@ -59,19 +59,18 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           lat,
           long
         } = parseLatLong(response.data.latlong);
-        const business: BusinessDetails = {
-          business_name: response.data.bname,
-          lat,
-          long,
-          searchType: 2,
-          // Map URL
-          inputText: mapUrlInput.trim()
+        const business: BusinessLocation = {
+          name: response.data.bname,
+          latitude: lat,
+          longitude: long,
+          type: 2,
+          input: mapUrlInput.trim()
         };
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
         toast({
           title: "Business Found",
-          description: `Found: ${business.business_name}`
+          description: `Found: ${business.name}`
         });
       } else {
         toast({
@@ -102,19 +101,18 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
       if (response.code === 200 && response.data) {
-        const business: BusinessDetails = {
-          business_name: response.data.business_name,
-          lat: response.data.lat,
-          long: response.data.long,
-          searchType: 3,
-          // CID
-          inputText: cidInput.trim()
+        const business: BusinessLocation = {
+          name: response.data.business_name,
+          latitude: response.data.lat,
+          longitude: response.data.long,
+          type: 3,
+          input: cidInput.trim()
         };
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
         toast({
           title: "Business Found",
-          description: `Found: ${business.business_name}`
+          description: `Found: ${business.name}`
         });
       } else {
         toast({
@@ -290,15 +288,15 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
               <div>
                 <span className="font-medium">Name:</span>
-                <p className="text-muted-foreground truncate">{selectedBusiness.business_name}</p>
+                <p className="text-muted-foreground truncate">{selectedBusiness.name}</p>
               </div>
               <div>
                 <span className="font-medium">Latitude:</span>
-                <p className="text-muted-foreground">{selectedBusiness.lat}</p>
+                <p className="text-muted-foreground">{selectedBusiness.latitude}</p>
               </div>
               <div>
                 <span className="font-medium">Longitude:</span>
-                <p className="text-muted-foreground">{selectedBusiness.long}</p>
+                <p className="text-muted-foreground">{selectedBusiness.longitude}</p>
               </div>
             </div>
           </div>}

@@ -38,13 +38,12 @@ export interface BusinessDetailsFromMapUrlResponse {
   };
 }
 
-export interface BusinessDetails {
-  business_name: string;
-  lat: string;
-  long: string;
-  // Search context for API calls
-  searchType?: number; // 2 for map URL, 3 for CID, undefined for Google Places
-  inputText?: string; // Original input text used for search
+export interface BusinessLocation {
+  name: string;
+  latitude: string;
+  longitude: string;
+  type?: number;
+  input?: string;
 }
 
 export interface Project {

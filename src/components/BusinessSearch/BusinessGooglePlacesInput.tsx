@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
 import { getApiKeyForSearch } from '@/api/businessSearchApi';
-import type { BusinessDetails } from '@/api/businessSearchApi';
+import type { BusinessLocation } from '@/api/businessSearchApi';
 
 interface BusinessGooglePlacesInputProps {
-  onPlaceSelect?: (business: BusinessDetails) => void;
+  onPlaceSelect?: (business: BusinessLocation) => void;
   defaultValue?: string;
   disabled?: boolean;
   placeholder?: string;
@@ -89,10 +89,10 @@ export const BusinessGooglePlacesInput: React.FC<BusinessGooglePlacesInputProps>
         const place = autocomplete.getPlace();
         
         if (place.geometry && place.geometry.location && place.name) {
-          const businessDetails: BusinessDetails = {
-            business_name: place.name,
-            lat: place.geometry.location.lat().toString(),
-            long: place.geometry.location.lng().toString(),
+          const businessDetails: BusinessLocation = {
+            name: place.name,
+            latitude: place.geometry.location.lat().toString(),
+            longitude: place.geometry.location.lng().toString(),
           };
 
           setInputValue(place.name);
