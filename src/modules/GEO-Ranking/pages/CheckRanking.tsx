@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { BusinessSearchForm } from '@/components/BusinessSearch/BusinessSearchForm';
-// import { GeoRankingReportForm } from '../components/GeoRankingReportForm'; // Temporarily commented out to fix TypeScript error
+import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
 import type { BusinessDetails } from '@/api/businessSearchApi';
@@ -133,30 +133,20 @@ export const CheckRanking: React.FC = () => {
         <div><BusinessSearchForm
           onBusinessSelect={handleBusinessSelect}
         />
-        {/* Temporarily commented out to fix TypeScript compiler error */}
-        {/* <GeoRankingReportForm
-          formData={formData}
-          onInputChange={handleInputChange}
-          onSubmit={handleFormSubmit}
-          onReset={handleReset}
-          getDistanceOptions={getDistanceOptions}
-          languageOptions={languageOptions}
-          submittingRank={submittingRank}
-          pollingKeyword={pollingKeyword}
-          manualCoordinates={manualCoordinates}
-          onClearManualCoordinates={clearManualCoordinates}
-          hasResults={false}
-          onBusinessSelect={handleBusinessSelect}
-        /> */}
-        
-        <div className="p-4 border rounded-lg">
-          <p className="text-sm text-muted-foreground">
-            Report configuration form temporarily disabled due to TypeScript compilation issue.
-            The grid coordinates API call issue: When you select a business using BusinessGooglePlacesInput,
-            it calls handlePlaceSelect but doesn't trigger fetchGridCoordinates. The BusinessSearchForm 
-            component above works correctly and calls fetchGridCoordinates when businesses are selected.
-          </p>
-        </div>
+        {/* Report Configuration Form */}
+      <GeoRankingReportForm
+        formData={formData}
+        onInputChange={handleInputChange}
+        onSubmit={handleFormSubmit}
+        onReset={handleReset}
+        getDistanceOptions={getDistanceOptions}
+        languageOptions={languageOptions}
+        submittingRank={submittingRank}
+        pollingKeyword={pollingKeyword}
+        manualCoordinates={manualCoordinates}
+        onClearManualCoordinates={clearManualCoordinates}
+        hasResults={false} // Will be updated when results are available
+      />
           </div>
       </div>
 
