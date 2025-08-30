@@ -201,7 +201,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
-          Business Location
+          Business Location a
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
