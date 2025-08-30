@@ -222,7 +222,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
                 placeholder={projectsLoading ? "Loading projects..." : "Select a project"}
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[200px] overflow-y-auto">
               {projects.map((project) => (
                 <SelectItem key={project.id} value={project.id}>
                   {project.project_name}
