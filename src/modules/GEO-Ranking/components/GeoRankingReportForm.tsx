@@ -25,18 +25,9 @@ import { keywordsSchema } from "@/schemas/authSchemas";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
 import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
 
-// Local lightweight types to avoid cross-module type issues
-type BusinessLocationLite = {
-  name: string;
-  latitude: string;
-  longitude: string;
-  type?: number;
-  input?: string;
-};
+import { BusinessLocationLite, ProjectLite } from '@/types/business';
 
-type ProjectLite = { id: string; project_name: string };
-
-interface FormData {
+interface ReportFormData {
   searchBusinessType: string;
   searchBusiness: string;
   searchDataEngine: string;
@@ -50,7 +41,7 @@ interface FormData {
 }
 
 interface GeoRankingReportFormProps {
-  formData: FormData;
+  formData: ReportFormData;
   onInputChange: (field: string, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onReset: () => void;
@@ -66,7 +57,7 @@ interface GeoRankingReportFormProps {
   disabled?: boolean;
 }
 
-export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
+export function GeoRankingReportForm({
   formData,
   onInputChange,
   onSubmit,
@@ -81,7 +72,7 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
   onBusinessSelect,
   onProjectSelect,
   disabled = false,
-}) => {
+}: GeoRankingReportFormProps) {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
 
@@ -770,4 +761,4 @@ export const GeoRankingReportForm: React.FC<GeoRankingReportFormProps> = ({
       </CardContent>
     </Card>
   );
-};
+}

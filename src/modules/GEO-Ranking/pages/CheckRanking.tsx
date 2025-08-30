@@ -5,18 +5,9 @@ import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
 
-// Local lightweight types to avoid cross-module type issues
-type BusinessLocationLite = {
-  name: string;
-  latitude: string;
-  longitude: string;
-  type?: number;
-  input?: string;
-};
+import { BusinessLocationLite, ProjectLite } from '@/types/business';
 
-type ProjectLite = { id: string; project_name: string };
-
-export const CheckRanking: React.FC = () => {
+export function CheckRanking() {
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
 
@@ -170,4 +161,4 @@ export const CheckRanking: React.FC = () => {
       )}
     </div>
   );
-};
+}

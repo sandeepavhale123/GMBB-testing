@@ -10,26 +10,18 @@ import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-// Local lightweight types to avoid cross-module type issues
-export type BusinessLocationLite = {
-  name: string;
-  latitude: string;
-  longitude: string;
-  type?: number;
-  input?: string;
-};
-export type ProjectLite = { id: string; project_name: string };
+import { BusinessLocationLite, ProjectLite } from '@/types/business';
 
 interface BusinessSearchFormProps {
   onBusinessSelect?: (business: BusinessLocationLite) => void;
   onProjectSelect?: (project: ProjectLite | null) => void;
   disabled?: boolean;
 }
-export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
+export function BusinessSearchForm({
   onBusinessSelect,
   onProjectSelect,
   disabled = false
-}) => {
+}: BusinessSearchFormProps) {
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');

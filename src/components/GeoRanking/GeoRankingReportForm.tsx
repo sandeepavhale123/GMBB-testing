@@ -23,7 +23,7 @@ import { toast } from "@/hooks/use-toast";
 import { useFormValidation } from "@/hooks/useFormValidation";
 import { keywordsSchema } from "@/schemas/authSchemas";
 
-interface FormData {
+interface GeoReportFormData {
   searchBusinessType: string;
   searchBusiness: string;
   searchDataEngine: string;
@@ -37,7 +37,7 @@ interface FormData {
 }
 
 interface GeoRankingReportFormProps {
-  formData: FormData;
+  formData: GeoReportFormData;
   onInputChange: (field: string, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onReset: () => void;
