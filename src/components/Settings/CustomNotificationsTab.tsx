@@ -219,7 +219,7 @@ export const CustomNotificationsTab: React.FC = () => {
         title: "Error",
         description:
           error instanceof Error
-            ? error.response.data.message || error.message
+            ? error.message
             : "Failed to update email settings. Please try again.",
         variant: "destructive",
       });

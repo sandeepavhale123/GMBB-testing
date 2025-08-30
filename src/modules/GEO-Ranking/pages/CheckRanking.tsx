@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
+import { BusinessSearchForm } from '@/components/BusinessSearch/BusinessSearchForm';
+import type { BusinessDetails } from '@/api/businessSearchApi';
 
 export const CheckRanking: React.FC = () => {
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
+
+  const handleBusinessSelect = (business: BusinessDetails | null) => {
+    setSelectedBusiness(business);
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -21,29 +29,11 @@ export const CheckRanking: React.FC = () => {
         </AlertDescription>
       </Alert>
 
-      {/* Placeholder for GEO Ranking Components */}
+      {/* Business Search Form */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Report Configuration</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="h-32 bg-muted/50 rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Keyword & Location Selection Form</p>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                • Select keywords to track
-                <br />
-                • Choose target locations
-                <br />
-                • Configure ranking parameters
-                <br />
-                • Set up monitoring schedule
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <BusinessSearchForm
+          onBusinessSelect={handleBusinessSelect}
+        />
 
         <Card>
           <CardHeader>
