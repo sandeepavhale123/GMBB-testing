@@ -19,8 +19,9 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   onBusinessSelect,
   disabled = false,
 }) => {
-  const [searchMethod, setSearchMethod] = useState<'google' | 'cid'>('google');
+  const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
+  const [mapUrlInput, setMapUrlInput] = useState('');
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +32,89 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       title: "Business Selected",
       description: `Selected: ${business.business_name}`,
     });
+  };
+
+  const extractCIDFromMapUrl = (url: string): string | null => {
+    // Common Google Maps URL patterns that contain CID
+    const patterns = [
+      /[?&]cid=(\d+)/i,           // ?cid=123456789
+      /place\/[^\/]+\/data=.*?(\d{15,})/i,  // place/name/data=...123456789
+      /\/maps\/place\/[^\/]+@[\d\.\-,]+,(\d+)y/i, // @lat,lng,15z/data=...
+      /@[\d\.\-,]+,\d+[yzm]\/data=.*?(\d{15,})/i, // @lat,lng,15z/data=...123456789
+      /ludocid[=%](\d+)/i,        // ludocid=123456789 or ludocid%3D123456789
+      /1s0x[a-f0-9]+:0x([a-f0-9]+)/i, // 1s0x...:0x123456789 (hex format)
+    ];
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match && match[1]) {
+        // If it's hex format (0x prefix), convert to decimal
+        if (pattern.source.includes('0x')) {
+          return parseInt(match[1], 16).toString();
+        }
+        return match[1];
+      }
+    }
+
+    return null;
+  };
+
+  const handleMapUrlSearch = async () => {
+    if (!mapUrlInput.trim()) {
+      toast({
+        title: "Map URL Required",
+        description: "Please enter a valid Google Maps URL.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const extractedCID = extractCIDFromMapUrl(mapUrlInput.trim());
+    
+    if (!extractedCID) {
+      toast({
+        title: "Invalid Map URL",
+        description: "Could not extract CID from the provided URL. Please check the URL format.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await getBusinessDetailsFromCID(extractedCID);
+      
+      if (response.code === 200 && response.data) {
+        const business: BusinessDetails = {
+          business_name: response.data.business_name,
+          lat: response.data.lat,
+          long: response.data.long,
+        };
+        
+        setSelectedBusiness(business);
+        onBusinessSelect?.(business);
+        
+        toast({
+          title: "Business Found",
+          description: `Found: ${business.business_name}`,
+        });
+      } else {
+        toast({
+          title: "Business Not Found",
+          description: "No business found for the extracted CID.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Map URL search error:', error);
+      toast({
+        title: "Search Failed",
+        description: "Failed to search business from map URL. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCIDSearch = async () => {
@@ -93,6 +177,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const handleReset = () => {
     setSelectedBusiness(null);
     setCidInput('');
+    setMapUrlInput('');
     setSearchMethod('google');
     onBusinessSelect?.(null as any);
   };
@@ -111,7 +196,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           <Label className="text-sm font-medium">Search Method</Label>
           <RadioGroup
             value={searchMethod}
-            onValueChange={(value) => setSearchMethod(value as 'google' | 'cid')}
+            onValueChange={(value) => setSearchMethod(value as 'google' | 'cid' | 'map_url')}
             className="flex flex-row gap-6"
             disabled={disabled}
           >
@@ -125,6 +210,12 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
               <RadioGroupItem value="cid" id="cid-search" />
               <Label htmlFor="cid-search" className="text-sm">
                 CID Lookup
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="map_url" id="map-url-search" />
+              <Label htmlFor="map-url-search" className="text-sm">
+                Map URL
               </Label>
             </div>
           </RadioGroup>
@@ -143,7 +234,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
                 placeholder="Start typing to search for a business..."
               />
             </div>
-          ) : (
+          ) : searchMethod === 'cid' ? (
             <div className="space-y-2">
               <Label htmlFor="cid-input" className="text-sm font-medium">
                 CID Number
@@ -160,6 +251,33 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
                 <Button
                   onClick={handleCIDSearch}
                   disabled={disabled || loading || !cidInput.trim()}
+                  className="flex-none"
+                >
+                  {loading ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Search className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Label htmlFor="map-url-input" className="text-sm font-medium">
+                Google Maps URL
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  id="map-url-input"
+                  value={mapUrlInput}
+                  onChange={(e) => setMapUrlInput(e.target.value)}
+                  placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)"
+                  disabled={disabled || loading}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={handleMapUrlSearch}
+                  disabled={disabled || loading || !mapUrlInput.trim()}
                   className="flex-none"
                 >
                   {loading ? (
@@ -209,8 +327,10 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         <div className="text-xs text-muted-foreground">
           {searchMethod === 'google' ? (
             <p>Use Google Places autocomplete to find and select your business location.</p>
-          ) : (
+          ) : searchMethod === 'cid' ? (
             <p>Enter a Google CID (Customer ID) to look up business details directly.</p>
+          ) : (
+            <p>Paste a Google Maps URL to automatically extract the CID and find business details.</p>
           )}
         </div>
       </CardContent>
