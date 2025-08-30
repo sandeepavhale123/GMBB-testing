@@ -25,19 +25,6 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Debouncing for CID and Map URL searches
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (searchMethod === 'cid' && cidInput.trim() && /^\d+$/.test(cidInput.trim())) {
-        handleCIDSearch();
-      } else if (searchMethod === 'map_url' && mapUrlInput.trim()) {
-        handleMapUrlSearch();
-      }
-    }, 1000); // 1 second debounce
-
-    return () => clearTimeout(timeoutId);
-  }, [cidInput, mapUrlInput, searchMethod]);
-
   const handlePlaceSelect = (business: BusinessDetails) => {
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
@@ -145,6 +132,21 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     setSearchMethod('google');
     onBusinessSelect?.(null as any);
   };
+
+  // Debouncing for CID and Map URL searches
+  useEffect(() => {
+    if (!cidInput.trim() && !mapUrlInput.trim()) return;
+    
+    const timeoutId = setTimeout(() => {
+      if (searchMethod === 'cid' && cidInput.trim() && /^\d+$/.test(cidInput.trim())) {
+        handleCIDSearch();
+      } else if (searchMethod === 'map_url' && mapUrlInput.trim()) {
+        handleMapUrlSearch();
+      }
+    }, 1000); // 1 second debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [cidInput, mapUrlInput, searchMethod]);
 
   return (
     <Card>
