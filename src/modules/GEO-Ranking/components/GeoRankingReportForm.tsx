@@ -324,27 +324,9 @@ export function GeoRankingReportForm({
           
           {/* Business Location Section */}
           <div className="space-y-4 p-4 bg-muted/30 rounded-lg">
-            <h3 className="text-sm font-semibold text-gray-800">Business</h3>
-            
             {/* Project Selection and Search Method in single row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Project Selection */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Project Configuration</Label>
-                <Select value={selectedProject?.id || ""} onValueChange={handleProjectSelect} disabled={disabled || projectsLoading}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[200px] overflow-y-auto">
-                    {projects.map(project => <SelectItem key={project.id} value={project.id}>
-                        {project.project_name}
-                      </SelectItem>)}
-                  </SelectContent>
-                </Select>
-                {selectedProject && <p className="text-xs text-muted-foreground">
-                    Selected: {selectedProject.project_name}
-                  </p>}
-              </div>
+             
 
               {/* Search Method Selection */}
               <div className="space-y-3">
@@ -357,7 +339,7 @@ export function GeoRankingReportForm({
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    
+                    <RadioGroupItem value="cid" id="cid-search" />
                     <Label htmlFor="cid-search" className="text-sm">
                       CID Lookup
                     </Label>
@@ -584,8 +566,9 @@ export function GeoRankingReportForm({
             </div>
           </div>
 
+          <div className="grid grid-cols-12 gap-4">
           {/* Language Selector */}
-          <div className="space-y-2">
+          <div className="space-y-2 col-span-12 md:col-span-6">
             <Label className="text-sm font-medium text-gray-700">
               Language
             </Label>
@@ -600,6 +583,23 @@ export function GeoRankingReportForm({
               </SelectContent>
             </Select>
           </div>
+
+           {/* Project Selection */}
+              <div className="space-y-2 col-span-12 md:col-span-6">
+                <Label className="text-sm font-medium">Select Project</Label>
+                <Select value={selectedProject?.id || ""} onValueChange={handleProjectSelect} disabled={disabled || projectsLoading}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px] overflow-y-auto">
+                    {projects.map(project => <SelectItem key={project.id} value={project.id}>
+                        {project.project_name}
+                      </SelectItem>)}
+                  </SelectContent>
+                </Select>
+                
+              </div>
+            </div>
 
           {/* Updated buttons section - single row layout */}
           <div className="flex gap-3">
