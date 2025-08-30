@@ -110,12 +110,9 @@ export const CheckRanking: React.FC = () => {
         <p className="text-muted-foreground">Monitor your local search rankings across different locations</p>
       </div>
 
-      {/* Business Search Form */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div><BusinessSearchForm
-          onBusinessSelect={handleBusinessSelect}
-        />
-        {/* Report Configuration Form */}
+      
+
+      {/* Report Configuration Form */}
       <GeoRankingReportForm
         formData={formData}
         onInputChange={handleInputChange}
@@ -129,7 +126,12 @@ export const CheckRanking: React.FC = () => {
         onClearManualCoordinates={clearManualCoordinates}
         hasResults={false} // Will be updated when results are available
       />
-          </div>
+
+      {/* Business Search Form */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BusinessSearchForm
+          onBusinessSelect={handleBusinessSelect}
+        />
 
         {/* Geo Ranking Map */}
         <GeoRankingReportMap
@@ -147,9 +149,7 @@ export const CheckRanking: React.FC = () => {
           onClearManualCoordinates={clearManualCoordinates}
         />
       </div>
-
       
-
       {/* Status Information */}
       {selectedBusiness && (
         <Alert>
