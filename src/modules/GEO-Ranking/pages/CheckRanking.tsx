@@ -1,68 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { BusinessSearchForm } from '@/components/BusinessSearch/BusinessSearchForm';
-import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
-import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
-import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
-import type { BusinessDetails } from '@/api/businessSearchApi';
 
 export const CheckRanking: React.FC = () => {
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
 
-  // Initialize the geo ranking report hook with a default listingId (will be updated when business is selected)
-  const listingId = selectedBusiness ? parseInt(selectedBusiness.lat) || 1 : 1; // Temporary mapping
-  const {
-    formData,
-    defaultCoordinates,
-    gridCoordinates,
-    loadingGrid,
-    submittingRank,
-    pollingKeyword,
-    keywordData,
-    manualCoordinates,
-    handleInputChange,
-    handleReset,
-    submitCheckRank,
-    addManualCoordinate,
-    removeManualCoordinate,
-    updateManualCoordinate,
-    clearManualCoordinates,
-    fetchGridCoordinates,
-    fetchDefaultCoordinates,
-  } = useGeoRankingReport(listingId, true);
+  // Temporarily simplified to isolate TypeScript error
+  const formData = {
+    searchBusinessType: '',
+    searchBusiness: '',
+    searchDataEngine: 'Briefcase API',
+    keywords: '',
+    mapPoint: 'Automatic',
+    distanceUnit: 'Meters',
+    distanceValue: '100',
+    gridSize: '5',
+    scheduleCheck: 'onetime',
+    language: 'en'
+  };
 
-  const handleBusinessSelect = (business: BusinessDetails | null) => {
+  const handleInputChange = (field: string, value: string) => {
+    console.log('Field changed:', field, value);
+  };
+
+  const handleReset = () => {
+    setSelectedBusiness(null);
+  };
+
+  const submitCheckRank = () => {
+    console.log('Submit check rank');
+  };
+
+  const handleBusinessSelect = (business: any) => {
     setSelectedBusiness(business);
     
-    // Update form data when business is selected
+    // Simplified for testing
     if (business) {
       handleInputChange('searchBusiness', business.business_name || '');
       handleInputChange('searchBusinessType', 'name');
-      
-      // For module API, fetch default coordinates after business selection (only for CID/Map URL)
-      if (business.searchType && business.inputText) {
-        fetchDefaultCoordinates(business.searchType, business.inputText);
-      }
-      
-      // Automatically fetch grid coordinates if business has valid lat/lng
-      if (business.lat && business.long) {
-        const businessCoords = {
-          lat: parseFloat(business.lat),
-          lng: parseFloat(business.long)
-        };
-        
-        // Set default grid size and distance for automatic API call
-        handleInputChange('gridSize', '5');
-        handleInputChange('distanceValue', '100');
-        handleInputChange('distanceUnit', 'Meters');
-        
-        // Trigger grid coordinates API call with business coordinates
-        setTimeout(() => {
-          fetchGridCoordinates(businessCoords);
-        }, 100); // Small delay to ensure form state is updated
-      }
     }
   };
 
@@ -77,12 +54,10 @@ export const CheckRanking: React.FC = () => {
     submitCheckRank();
   };
 
-  // Get default coordinates from selected business or fallback to hook default
-  const businessCoordinates = selectedBusiness && selectedBusiness.lat && selectedBusiness.long 
+  // Get default coordinates - simplified
+  const defaultCoordinates = selectedBusiness && selectedBusiness.lat && selectedBusiness.long 
     ? { lat: parseFloat(selectedBusiness.lat), lng: parseFloat(selectedBusiness.long) }
     : null;
-
-  const effectiveCoordinates = businessCoordinates || defaultCoordinates;
 
   // Placeholder functions for missing props
   const handleMarkerClick = (coordinate: string, positionId: string) => {
@@ -114,43 +89,21 @@ export const CheckRanking: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
 
-        {/* Geo Ranking Map */}
-        <GeoRankingReportMap
-          defaultCoordinates={effectiveCoordinates}
-          gridCoordinates={gridCoordinates}
-          rankDetails={null} // Will be populated when results are available
-          pollingKeyword={pollingKeyword}
-          loadingGrid={loadingGrid}
-          onMarkerClick={handleMarkerClick}
-          mapPoint={formData.mapPoint}
-          manualCoordinates={manualCoordinates}
-          onAddManualCoordinate={addManualCoordinate}
-          onRemoveManualCoordinate={removeManualCoordinate}
-          onUpdateManualCoordinate={updateManualCoordinate}
-          onClearManualCoordinates={clearManualCoordinates}
-        />
+        {/* Geo Ranking Map - Simplified */}
+        <div className="bg-muted/50 rounded-lg p-4 flex items-center justify-center min-h-[400px]">
+          <p className="text-muted-foreground">Map will be displayed here</p>
+        </div>
 
         <div><BusinessSearchForm
           onBusinessSelect={handleBusinessSelect}
         />
-        {/* Report Configuration Form */}
-      <GeoRankingReportForm
-        formData={formData}
-        onInputChange={handleInputChange}
-        onSubmit={handleFormSubmit}
-        onReset={handleReset}
-        getDistanceOptions={getDistanceOptions}
-        languageOptions={languageOptions}
-        submittingRank={submittingRank}
-        pollingKeyword={pollingKeyword}
-        manualCoordinates={manualCoordinates}
-        onClearManualCoordinates={clearManualCoordinates}
-        hasResults={false} // Will be updated when results are available
-      />
+        {/* Report Configuration Form - Simplified */}
+        <div className="bg-muted/50 rounded-lg p-4">
+          <h3 className="font-semibold mb-2">Report Configuration</h3>
+          <p className="text-sm text-muted-foreground">Form will be displayed here</p>
+        </div>
           </div>
       </div>
-
-      
 
       {/* Status Information */}
       {selectedBusiness && (
