@@ -323,11 +323,9 @@ export function GeoRankingReportForm({
         <form onSubmit={onSubmit} className="space-y-4 lg:space-y-6">
           
           {/* Business Location Section */}
-          <div className="space-y-4 p-4 bg-muted/30 rounded-lg">
+          <div className="">
             {/* Project Selection and Search Method in single row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-             
-
               {/* Search Method Selection */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Search By:</Label>
@@ -357,23 +355,23 @@ export function GeoRankingReportForm({
             {/* Search Input */}
             <div className="space-y-2">
               {searchMethod === 'google' ? <div>
-                  <Label htmlFor="business-search" className="text-sm font-medium">
+                  {/* <Label htmlFor="business-search" className="text-sm font-medium">
                     Business Name
-                  </Label>
+                  </Label> */}
                   <BusinessGooglePlacesInput onPlaceSelect={handlePlaceSelect} disabled={disabled} placeholder="Start typing to search for a business..." />
                 </div> : searchMethod === 'cid' ? <div className="space-y-2">
-                  <Label htmlFor="cid-input" className="text-sm font-medium">
+                  {/* <Label htmlFor="cid-input" className="text-sm font-medium">
                     CID Number
-                  </Label>
+                  </Label> */}
                   <Input id="cid-input" value={cidInput} onChange={e => setCidInput(e.target.value)} placeholder="Enter CID number (e.g., 2898559807244638920)" disabled={disabled} className="w-full" />
                   {loading && searchMethod === 'cid' && <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <RefreshCw className="h-3 w-3 animate-spin" />
                       Searching...
                     </div>}
                 </div> : <div className="space-y-2">
-                  <Label htmlFor="map-url-input" className="text-sm font-medium">
+                  {/* <Label htmlFor="map-url-input" className="text-sm font-medium">
                     Google Maps URL
-                  </Label>
+                  </Label> */}
                   <Input id="map-url-input" value={mapUrlInput} onChange={e => setMapUrlInput(e.target.value)} placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)" disabled={disabled} className="w-full" />
                   {loading && searchMethod === 'map_url' && <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <RefreshCw className="h-3 w-3 animate-spin" />
