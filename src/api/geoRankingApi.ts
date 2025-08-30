@@ -216,6 +216,16 @@ export const getDefaultCoordinates = async (
   return response.data;
 };
 
+// Module-specific API function for GEO Ranking module default coordinates
+export const getDefaultCoordinatesForGeoModule = async (
+  listingId: number
+): Promise<DefaultCoordinatesResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-default-coordinates", {
+    listingId,
+  });
+  return response.data;
+};
+
 export const getGridCoordinates = async (
   listingId: number,
   grid: number,

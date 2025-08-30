@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   getDefaultCoordinates,
+  getDefaultCoordinatesForGeoModule,
   getGridCoordinates,
   getGridCoordinatesForGeoModule,
   addKeywords,
@@ -241,7 +242,9 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   useEffect(() => {
     const fetchDefaultCoordinates = async () => {
       try {
-        const response = await getDefaultCoordinates(listingId);
+        const response = useModuleApi 
+          ? await getDefaultCoordinatesForGeoModule(listingId)
+          : await getDefaultCoordinates(listingId);
         if (response.code === 200) {
           const [lat, lng] = response.data.latlong.split(",").map(Number);
           setDefaultCoordinates({ lat, lng });
@@ -259,7 +262,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     };
 
     fetchDefaultCoordinates();
-  }, [listingId, toast]);
+  }, [listingId, toast, useModuleApi]);
 
   // Fetch grid coordinates from API
   const fetchGridCoordinates = async (businessCoords?: { lat: number; lng: number }) => {
