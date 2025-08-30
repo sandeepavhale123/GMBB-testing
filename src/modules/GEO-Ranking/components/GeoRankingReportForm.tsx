@@ -356,7 +356,7 @@ export function GeoRankingReportForm({
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="google" id="google-search" />
                     <Label htmlFor="google-search" className="text-sm">
-                      Google Auto Suggestion
+                      Business Name
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
