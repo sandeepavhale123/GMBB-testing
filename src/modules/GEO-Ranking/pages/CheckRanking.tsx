@@ -112,6 +112,24 @@ export const CheckRanking: React.FC = () => {
 
       {/* Business Search Form */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+
+        {/* Geo Ranking Map */}
+        <GeoRankingReportMap
+          defaultCoordinates={effectiveCoordinates}
+          gridCoordinates={gridCoordinates}
+          rankDetails={null} // Will be populated when results are available
+          pollingKeyword={pollingKeyword}
+          loadingGrid={loadingGrid}
+          onMarkerClick={handleMarkerClick}
+          mapPoint={formData.mapPoint}
+          manualCoordinates={manualCoordinates}
+          onAddManualCoordinate={addManualCoordinate}
+          onRemoveManualCoordinate={removeManualCoordinate}
+          onUpdateManualCoordinate={updateManualCoordinate}
+          onClearManualCoordinates={clearManualCoordinates}
+        />
+
         <div><BusinessSearchForm
           onBusinessSelect={handleBusinessSelect}
         />
@@ -130,22 +148,6 @@ export const CheckRanking: React.FC = () => {
         hasResults={false} // Will be updated when results are available
       />
           </div>
-
-        {/* Geo Ranking Map */}
-        <GeoRankingReportMap
-          defaultCoordinates={effectiveCoordinates}
-          gridCoordinates={gridCoordinates}
-          rankDetails={null} // Will be populated when results are available
-          pollingKeyword={pollingKeyword}
-          loadingGrid={loadingGrid}
-          onMarkerClick={handleMarkerClick}
-          mapPoint={formData.mapPoint}
-          manualCoordinates={manualCoordinates}
-          onAddManualCoordinate={addManualCoordinate}
-          onRemoveManualCoordinate={removeManualCoordinate}
-          onUpdateManualCoordinate={updateManualCoordinate}
-          onClearManualCoordinates={clearManualCoordinates}
-        />
       </div>
 
       
