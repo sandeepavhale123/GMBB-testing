@@ -110,12 +110,9 @@ export const CheckRanking: React.FC = () => {
         <p className="text-muted-foreground">Monitor your local search rankings across different locations</p>
       </div>
 
-      {/* Business Search Form */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div><BusinessSearchForm
-          onBusinessSelect={handleBusinessSelect}
-        />
-        {/* Report Configuration Form */}
+      
+
+      {/* Report Configuration Form */}
       <GeoRankingReportForm
         formData={formData}
         onInputChange={handleInputChange}
@@ -129,7 +126,12 @@ export const CheckRanking: React.FC = () => {
         onClearManualCoordinates={clearManualCoordinates}
         hasResults={false} // Will be updated when results are available
       />
-          </div>
+
+      {/* Business Search Form */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BusinessSearchForm
+          onBusinessSelect={handleBusinessSelect}
+        />
 
         {/* Geo Ranking Map */}
         <GeoRankingReportMap
@@ -147,33 +149,6 @@ export const CheckRanking: React.FC = () => {
           onClearManualCoordinates={clearManualCoordinates}
         />
       </div>
-
-      
-
-      {/* Status Information */}
-      {selectedBusiness && (
-        <Alert>
-          <Info className="h-4 w-4" />
-          <AlertDescription>
-            <strong>Selected Business:</strong> {selectedBusiness.business_name}
-            {selectedBusiness.lat && selectedBusiness.long && (
-              <span className="block text-sm mt-1">
-                Location: {parseFloat(selectedBusiness.lat).toFixed(6)}, {parseFloat(selectedBusiness.long).toFixed(6)}
-              </span>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {!selectedBusiness && (
-        <Alert>
-          <Info className="h-4 w-4" />
-          <AlertDescription>
-            Please select a business above to start checking rankings. The geo ranking functionality 
-            will use the selected business location as the center point for analysis.
-          </AlertDescription>
-        </Alert>
-      )}
     </div>
   );
 };
