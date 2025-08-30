@@ -492,7 +492,7 @@ export function GeoRankingReportForm({
                 <Label className="text-sm font-medium text-gray-700">
                   Distance Unit
                 </Label>
-                <RadioGroup value={formData.distanceUnit} onValueChange={val => onInputChange("distanceUnit", val)} className="flex flex-col gap-2">
+                <RadioGroup value={formData.distanceUnit} onValueChange={val => onInputChange("distanceUnit", val)} className="flex flex-row gap-4">
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="Meters" id="meters" />
                     <Label htmlFor="meters" className="text-sm">
