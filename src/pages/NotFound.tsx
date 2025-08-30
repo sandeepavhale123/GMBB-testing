@@ -1,19 +1,32 @@
-
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
 
 const NotFound = () => {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  const { profileData } = useProfile();
   useEffect(() => {
     console.error(
       "404 Error: User attempted to access non-existent route:",
       location.pathname
     );
   }, [location.pathname]);
+
+  // ✅ Decide fallback dynamically
+  const getFallbackPath = () => {
+    if (profileData?.dashboardType === 1) return "/main-dashboard";
+    if (profileData?.dashboardType === 2) return "/module/geo-ranking";
+    return "/location-dashboard/default"; // default for type 0 or unknown
+  };
+
+  const handleBackHome = () => {
+    // Replace instead of push → removes the 404 from history
+    navigate(getFallbackPath(), { replace: true });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50/50 px-4">
@@ -31,9 +44,7 @@ const NotFound = () => {
         </h1>
 
         {/* Oops! Text */}
-        <h2 className="text-2xl font-semibold text-gray-900 mb-3">
-          Oops!
-        </h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-3">Oops!</h2>
 
         {/* Description */}
         <p className="text-gray-600 mb-8 text-lg leading-relaxed">
@@ -41,10 +52,8 @@ const NotFound = () => {
         </p>
 
         {/* Back to Home Button */}
-        <Button asChild className="px-8 py-3 text-base">
-          <Link to="/">
-            Back to home
-          </Link>
+        <Button onClick={handleBackHome} className="px-8 py-3 text-base">
+          Back to home
         </Button>
       </div>
     </div>

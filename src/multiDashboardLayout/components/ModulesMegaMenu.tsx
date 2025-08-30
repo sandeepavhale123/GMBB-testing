@@ -1,34 +1,34 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Grid3X3, TrendingUp, Users, Star, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { profileService } from '@/services/profileService';
+import React, { useState, useRef, useEffect } from "react";
+import { Grid3X3, TrendingUp, Users, Star, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { profileService } from "@/services/profileService";
 
 const modules = [
   {
-    name: 'GRO Ranking',
-    description: 'Track and optimize your local search rankings',
+    name: "GRO Ranking",
+    description: "Track and optimize your local search rankings",
     icon: TrendingUp,
-    href: 'module/geo-ranking',
+    href: "module/geo-ranking",
   },
+  // {
+  //   name: "Lead Management",
+  //   description: "Manage and track your leads effectively",
+  //   icon: Users,
+  //   href: "/main-dashboard/lead-management",
+  // },
+  // {
+  //   name: "Reputation",
+  //   description: "Monitor and manage your online reputation",
+  //   icon: Star,
+  //   href: "/main-dashboard/reputation",
+  // },
   {
-    name: 'Lead Management',
-    description: 'Manage and track your leads effectively',
-    icon: Users,
-    href: '/main-dashboard/lead-management',
-  },
-  {
-    name: 'Reputation',
-    description: 'Monitor and manage your online reputation',
-    icon: Star,
-    href: '/main-dashboard/reputation',
-  },
-  {
-    name: 'Manage GMB listing',
-    description: 'Manage your Google My Business listings',
+    name: "Manage GMB listing",
+    description: "Manage your Google My Business listings",
     icon: Grid3X3,
-    href: '/main-dashboard/manage-gmb',
+    href: "/main-dashboard/manage-gmb",
   },
 ];
 
@@ -44,7 +44,7 @@ export const ModulesMegaMenu: React.FC = () => {
         const profile = await profileService.getUserProfile();
         setDashboardType(profile.dashboardType);
       } catch (error) {
-        console.error('Failed to fetch user profile:', error);
+        console.error("Failed to fetch user profile:", error);
       }
     };
 
@@ -52,19 +52,24 @@ export const ModulesMegaMenu: React.FC = () => {
   }, []);
 
   const getFilteredModules = () => {
-    const baseModules = modules.filter(module => module.name !== 'Manage GMB listing');
-    
+    const baseModules = modules.filter(
+      (module) => module.name !== "Manage GMB listing"
+    );
+
     // Only show GMB listing if dashboardType is 0 or 1
     if (dashboardType === 0 || dashboardType === 1) {
       const gmbModule = {
-        name: 'Manage GMB listing',
-        description: 'Manage your Google My Business listings',
+        name: "Manage GMB listing",
+        description: "Manage your Google My Business listings",
         icon: Grid3X3,
-        href: dashboardType === 0 ? '/location-dashboard/id' : '/main-dashboard'
+        href:
+          dashboardType === 0
+            ? "/location-dashboard/id"
+            : "/main-dashboard/manage-gmb",
       };
       return [...baseModules, gmbModule];
     }
-    
+
     return baseModules;
   };
 
@@ -80,8 +85,8 @@ export const ModulesMegaMenu: React.FC = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -104,8 +109,8 @@ export const ModulesMegaMenu: React.FC = () => {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground">Modules</h3>
-              <Badge 
-                variant="secondary" 
+              <Badge
+                variant="secondary"
                 className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-xs"
               >
                 Coming Soon
