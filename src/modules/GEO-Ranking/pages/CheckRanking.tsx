@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
-import { BusinessSearchForm } from '@/components/BusinessSearch/BusinessSearchForm';
 import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
-import type { BusinessLocation } from '@/api/businessSearchApi';
+import type { BusinessLocation, Project } from '@/api/businessSearchApi';
 
 export const CheckRanking: React.FC = () => {
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocation | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   // Initialize the geo ranking report hook with a default listingId (will be updated when business is selected)
   const listingId = selectedBusiness ? parseInt(selectedBusiness.latitude) || 1 : 1; // Temporary mapping
@@ -66,6 +66,10 @@ export const CheckRanking: React.FC = () => {
     }
   };
 
+  const handleProjectSelect = (project: Project | null) => {
+    setSelectedProject(project);
+  };
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -110,10 +114,8 @@ export const CheckRanking: React.FC = () => {
         <p className="text-muted-foreground">Monitor your local search rankings across different locations</p>
       </div>
 
-      {/* Business Search Form */}
+      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-
         {/* Geo Ranking Map */}
         <GeoRankingReportMap
           defaultCoordinates={effectiveCoordinates}
@@ -130,24 +132,22 @@ export const CheckRanking: React.FC = () => {
           onClearManualCoordinates={clearManualCoordinates}
         />
 
-        <div><BusinessSearchForm
+        {/* Report Configuration Form with Business Search */}
+        <GeoRankingReportForm
+          formData={formData}
+          onInputChange={handleInputChange}
+          onSubmit={handleFormSubmit}
+          onReset={handleReset}
+          getDistanceOptions={getDistanceOptions}
+          languageOptions={languageOptions}
+          submittingRank={submittingRank}
+          pollingKeyword={pollingKeyword}
+          manualCoordinates={manualCoordinates}
+          onClearManualCoordinates={clearManualCoordinates}
+          hasResults={false} // Will be updated when results are available
           onBusinessSelect={handleBusinessSelect}
+          onProjectSelect={handleProjectSelect}
         />
-        {/* Report Configuration Form */}
-      <GeoRankingReportForm
-        formData={formData}
-        onInputChange={handleInputChange}
-        onSubmit={handleFormSubmit}
-        onReset={handleReset}
-        getDistanceOptions={getDistanceOptions}
-        languageOptions={languageOptions}
-        submittingRank={submittingRank}
-        pollingKeyword={pollingKeyword}
-        manualCoordinates={manualCoordinates}
-        onClearManualCoordinates={clearManualCoordinates}
-        hasResults={false} // Will be updated when results are available
-      />
-          </div>
       </div>
 
       
