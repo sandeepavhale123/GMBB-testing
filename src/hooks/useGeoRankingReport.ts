@@ -302,8 +302,8 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
       // });
 
       const response = useModuleApi 
-        ? await getGridCoordinatesForGeoModule(gridSize, distance, latlong)
-        : await getGridCoordinates(listingId, gridSize, distance, latlong);
+        ? await getGridCoordinatesForGeoModule(distance, latlong)
+        : await getGridCoordinates(listingId, distance, latlong);
       if (response.code === 200) {
         setGridCoordinates(response.data.allCoordinates);
       }
