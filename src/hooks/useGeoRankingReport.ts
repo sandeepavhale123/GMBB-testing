@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   getDefaultCoordinates,
   getGridCoordinates,
+  getGridCoordinatesForGeoModule,
   addKeywords,
   getKeywordDetailsWithStatus,
   CheckRankRequest,
@@ -38,7 +39,7 @@ const getInitialFormData = (): FormData => ({
   language: "en",
 });
 
-export const useGeoRankingReport = (listingId: number) => {
+export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = false) => {
   const { toast } = useToast();
   const [defaultCoordinates, setDefaultCoordinates] = useState<{
     lat: number;
@@ -261,8 +262,9 @@ export const useGeoRankingReport = (listingId: number) => {
   }, [listingId, toast]);
 
   // Fetch grid coordinates from API
-  const fetchGridCoordinates = async () => {
-    if (!defaultCoordinates) return;
+  const fetchGridCoordinates = async (businessCoords?: { lat: number; lng: number }) => {
+    const coords = businessCoords || defaultCoordinates;
+    if (!coords) return;
 
     setLoadingGrid(true);
     try {
@@ -276,7 +278,7 @@ export const useGeoRankingReport = (listingId: number) => {
         typeof processedDistance === "string"
           ? processedDistance
           : processedDistance;
-      const latlong = `${defaultCoordinates.lat},${defaultCoordinates.lng}`;
+      const latlong = `${coords.lat},${coords.lng}`;
 
       // console.log("Sending to API:", {
       //   gridSize,
@@ -286,12 +288,9 @@ export const useGeoRankingReport = (listingId: number) => {
       //   processedDistance,
       // });
 
-      const response = await getGridCoordinates(
-        listingId,
-        gridSize,
-        distance,
-        latlong
-      );
+      const response = useModuleApi 
+        ? await getGridCoordinatesForGeoModule(gridSize, distance, latlong)
+        : await getGridCoordinates(listingId, gridSize, distance, latlong);
       if (response.code === 200) {
         setGridCoordinates(response.data.allCoordinates);
       }

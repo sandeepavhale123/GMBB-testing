@@ -29,7 +29,8 @@ export const CheckRanking: React.FC = () => {
     removeManualCoordinate,
     updateManualCoordinate,
     clearManualCoordinates,
-  } = useGeoRankingReport(listingId);
+    fetchGridCoordinates,
+  } = useGeoRankingReport(listingId, true);
 
   const handleBusinessSelect = (business: BusinessDetails | null) => {
     setSelectedBusiness(business);
@@ -38,6 +39,24 @@ export const CheckRanking: React.FC = () => {
     if (business) {
       handleInputChange('searchBusiness', business.business_name || '');
       handleInputChange('searchBusinessType', 'name');
+      
+      // Automatically fetch grid coordinates if business has valid lat/lng
+      if (business.lat && business.long) {
+        const businessCoords = {
+          lat: parseFloat(business.lat),
+          lng: parseFloat(business.long)
+        };
+        
+        // Set default grid size and distance for automatic API call
+        handleInputChange('gridSize', '5');
+        handleInputChange('distanceValue', '100');
+        handleInputChange('distanceUnit', 'Meters');
+        
+        // Trigger grid coordinates API call with business coordinates
+        setTimeout(() => {
+          fetchGridCoordinates(businessCoords);
+        }, 100); // Small delay to ensure form state is updated
+      }
     }
   };
 

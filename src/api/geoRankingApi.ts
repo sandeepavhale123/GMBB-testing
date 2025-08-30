@@ -231,6 +231,20 @@ export const getGridCoordinates = async (
   return response.data;
 };
 
+// Module-specific API function for GEO Ranking module (without listingId)
+export const getGridCoordinatesForGeoModule = async (
+  grid: number,
+  distance: number | string,
+  latlong: string
+): Promise<GridCoordinatesResponse> => {
+  const response = await axiosInstance.post("/get-grid-coordinates", {
+    grid,
+    distance,
+    latlong,
+  });
+  return response.data;
+};
+
 // New interface for check rank request
 export interface CheckRankRequest {
   listingId: number;
