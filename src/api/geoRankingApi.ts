@@ -217,8 +217,14 @@ export const getDefaultCoordinates = async (
 };
 
 // Module-specific API function for GEO Ranking module default coordinates
-export const getDefaultCoordinatesForGeoModule = async (): Promise<DefaultCoordinatesResponse> => {
-  const response = await axiosInstance.post("/geomodule/get-default-coordinates", {});
+export const getDefaultCoordinatesForGeoModule = async (
+  searchType: number,
+  inputText: string
+): Promise<DefaultCoordinatesResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-default-coordinates", {
+    searchType,
+    inputText,
+  });
   return response.data;
 };
 

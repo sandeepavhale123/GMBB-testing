@@ -239,15 +239,16 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   }, []);
 
   // Function to fetch default coordinates
-  const fetchDefaultCoordinates = async () => {
+  const fetchDefaultCoordinates = async (searchType?: number, inputText?: string) => {
     try {
       const response = useModuleApi 
-        ? await getDefaultCoordinatesForGeoModule()
+        ? (searchType && inputText ? await getDefaultCoordinatesForGeoModule(searchType, inputText) : null)
         : await getDefaultCoordinates(listingId);
-      if (response.code === 200) {
+        
+      if (response?.code === 200) {
         const [lat, lng] = response.data.latlong.split(",").map(Number);
         setDefaultCoordinates({ lat, lng });
-      } else {
+      } else if (response) {
         toast({
           title: "Error",
           description: response.message || "Failed to fetch default coordinates",

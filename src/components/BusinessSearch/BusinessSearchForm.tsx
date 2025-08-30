@@ -34,6 +34,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [projectsLoading, setProjectsLoading] = useState(false);
 
   const handlePlaceSelect = (business: BusinessDetails) => {
+    // Google Places doesn't need searchType/inputText for the geo module API
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
     toast({
@@ -60,6 +61,8 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           business_name: response.data.bname,
           lat,
           long,
+          searchType: 2, // Map URL
+          inputText: mapUrlInput.trim(),
         };
         
         setSelectedBusiness(business);
@@ -105,6 +108,8 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           business_name: response.data.business_name,
           lat: response.data.lat,
           long: response.data.long,
+          searchType: 3, // CID
+          inputText: cidInput.trim(),
         };
         
         setSelectedBusiness(business);

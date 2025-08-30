@@ -41,8 +41,10 @@ export const CheckRanking: React.FC = () => {
       handleInputChange('searchBusiness', business.business_name || '');
       handleInputChange('searchBusinessType', 'name');
       
-      // For module API, fetch default coordinates after business selection
-      fetchDefaultCoordinates();
+      // For module API, fetch default coordinates after business selection (only for CID/Map URL)
+      if (business.searchType && business.inputText) {
+        fetchDefaultCoordinates(business.searchType, business.inputText);
+      }
       
       // Automatically fetch grid coordinates if business has valid lat/lng
       if (business.lat && business.long) {
