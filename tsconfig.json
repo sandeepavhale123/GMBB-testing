@@ -11,10 +11,9 @@
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
-    // "skipLibCheck": true,
       "declaration": false, 
+      "skipLibCheck": true,
       "noEmit": true,
-
     "allowJs": true,
     "noUnusedLocals": false,
     "strictNullChecks": false
