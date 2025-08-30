@@ -321,7 +321,7 @@ export function GeoRankingReportForm({
           </CardTitle>
           
           {/* Search Data Engine */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end gap-2">
             <Label className="text-sm font-medium text-gray-700">
               Search Data Engine:
             </Label>
@@ -350,7 +350,7 @@ export function GeoRankingReportForm({
             {/* Project Selection and Search Method in single row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {/* Search Method Selection */}
-              <div className="space-y-3">
+              <div className="space-y-3 mb-4">
                 <Label className="text-sm font-medium">Search By:</Label>
                 <RadioGroup value={searchMethod} onValueChange={value => setSearchMethod(value as 'google' | 'cid' | 'map_url')} className="flex flex-col sm:flex-row gap-2 sm:gap-4" disabled={disabled}>
                   <div className="flex items-center space-x-2">
