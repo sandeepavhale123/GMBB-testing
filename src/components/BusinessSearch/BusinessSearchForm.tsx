@@ -9,9 +9,10 @@ import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectList
 import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { BusinessDetails, Project } from '@/api/businessSearchApi';
 interface BusinessSearchFormProps {
-  onBusinessSelect?: (business: any) => void;
-  onProjectSelect?: (project: any) => void;
+  onBusinessSelect?: (business: BusinessDetails) => void;
+  onProjectSelect?: (project: Project | null) => void;
   disabled?: boolean;
 }
 export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
@@ -22,14 +23,14 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');
-  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Project selection state
-  const [projects, setProjects] = useState<any[]>([]);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
-  const handlePlaceSelect = (business: any) => {
+  const handlePlaceSelect = (business: BusinessDetails) => {
     // Google Places doesn't need searchType/inputText for the geo module API
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
@@ -58,7 +59,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           lat,
           long
         } = parseLatLong(response.data.latlong);
-        const business: any = {
+        const business: BusinessDetails = {
           business_name: response.data.bname,
           lat,
           long,
@@ -101,7 +102,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
       if (response.code === 200 && response.data) {
-        const business: any = {
+        const business: BusinessDetails = {
           business_name: response.data.business_name,
           lat: response.data.lat,
           long: response.data.long,
@@ -150,7 +151,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     setCidInput('');
     setMapUrlInput('');
     setSearchMethod('google');
-    onBusinessSelect?.(null);
+    onBusinessSelect?.(null as any);
     onProjectSelect?.(null);
   };
 
@@ -198,9 +199,9 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   }, [cidInput, mapUrlInput, searchMethod]);
   return <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
+        <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
-          Business Location 
+          Business Location
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

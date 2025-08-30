@@ -38,13 +38,25 @@ export interface BusinessDetailsFromMapUrlResponse {
   };
 }
 
-// Simplified to avoid TypeScript compiler bug
+export interface BusinessDetails {
+  business_name: string;
+  lat: string;
+  long: string;
+  // Search context for API calls
+  searchType?: number; // 2 for map URL, 3 for CID, undefined for Google Places
+  inputText?: string; // Original input text used for search
+}
+
+export interface Project {
+  id: string;
+  project_name: string;
+}
 
 export interface ProjectListResponse {
   code: number;
   message: string;
   data: {
-    projectLists: any[];
+    projectLists: Project[];
   };
 }
 
