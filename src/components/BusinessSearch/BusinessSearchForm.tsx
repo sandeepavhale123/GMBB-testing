@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,19 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Debouncing for CID and Map URL searches
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchMethod === 'cid' && cidInput.trim() && /^\d+$/.test(cidInput.trim())) {
+        handleCIDSearch();
+      } else if (searchMethod === 'map_url' && mapUrlInput.trim()) {
+        handleMapUrlSearch();
+      }
+    }, 1000); // 1 second debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [cidInput, mapUrlInput, searchMethod]);
+
   const handlePlaceSelect = (business: BusinessDetails) => {
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
@@ -40,14 +53,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   };
 
   const handleMapUrlSearch = async () => {
-    if (!mapUrlInput.trim()) {
-      toast({
-        title: "Map URL Required",
-        description: "Please enter a valid Google Maps URL.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!mapUrlInput.trim() || loading) return;
 
     try {
       setLoading(true);
@@ -88,23 +94,11 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   };
 
   const handleCIDSearch = async () => {
-    if (!cidInput.trim()) {
-      toast({
-        title: "CID Required",
-        description: "Please enter a valid CID number.",
-        variant: "destructive",
-      });
-      return;
-    }
+    if (!cidInput.trim() || loading) return;
 
     // Validate CID format (should be numeric)
     if (!/^\d+$/.test(cidInput.trim())) {
-      toast({
-        title: "Invalid CID",
-        description: "CID should contain only numbers.",
-        variant: "destructive",
-      });
-      return;
+      return; // Don't show error for invalid format during typing
     }
 
     try {
@@ -209,54 +203,40 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
               <Label htmlFor="cid-input" className="text-sm font-medium">
                 CID Number
               </Label>
-              <div className="flex gap-2">
-                <Input
-                  id="cid-input"
-                  value={cidInput}
-                  onChange={(e) => setCidInput(e.target.value)}
-                  placeholder="Enter CID number (e.g., 2898559807244638920)"
-                  disabled={disabled || loading}
-                  className="flex-1"
-                />
-                <Button
-                  onClick={handleCIDSearch}
-                  disabled={disabled || loading || !cidInput.trim()}
-                  className="flex-none"
-                >
-                  {loading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Search className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
+              <Input
+                id="cid-input"
+                value={cidInput}
+                onChange={(e) => setCidInput(e.target.value)}
+                placeholder="Enter CID number (e.g., 2898559807244638920)"
+                disabled={disabled}
+                className="w-full"
+              />
+              {loading && searchMethod === 'cid' && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <RefreshCw className="h-3 w-3 animate-spin" />
+                  Searching...
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-2">
               <Label htmlFor="map-url-input" className="text-sm font-medium">
                 Google Maps URL
               </Label>
-              <div className="flex gap-2">
-                <Input
-                  id="map-url-input"
-                  value={mapUrlInput}
-                  onChange={(e) => setMapUrlInput(e.target.value)}
-                  placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)"
-                  disabled={disabled || loading}
-                  className="flex-1"
-                />
-                <Button
-                  onClick={handleMapUrlSearch}
-                  disabled={disabled || loading || !mapUrlInput.trim()}
-                  className="flex-none"
-                >
-                  {loading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Search className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
+              <Input
+                id="map-url-input"
+                value={mapUrlInput}
+                onChange={(e) => setMapUrlInput(e.target.value)}
+                placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)"
+                disabled={disabled}
+                className="w-full"
+              />
+              {loading && searchMethod === 'map_url' && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <RefreshCw className="h-3 w-3 animate-spin" />
+                  Searching...
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -298,9 +278,9 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           {searchMethod === 'google' ? (
             <p>Use Google Places autocomplete to find and select your business location.</p>
           ) : searchMethod === 'cid' ? (
-            <p>Enter a Google CID (Customer ID) to look up business details directly.</p>
+            <p>Enter a Google CID (Customer ID) - search happens automatically as you type.</p>
           ) : (
-            <p>Paste a Google Maps URL to search for business details directly.</p>
+            <p>Paste a Google Maps URL - search happens automatically as you type.</p>
           )}
         </div>
       </CardContent>
