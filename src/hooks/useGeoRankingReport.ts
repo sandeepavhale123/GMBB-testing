@@ -238,30 +238,39 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     initializeFromCloneData();
   }, []);
 
-  // Fetch default coordinates on component mount
-  useEffect(() => {
-    const fetchDefaultCoordinates = async () => {
-      try {
-        const response = useModuleApi 
-          ? await getDefaultCoordinatesForGeoModule(listingId)
-          : await getDefaultCoordinates(listingId);
-        if (response.code === 200) {
-          const [lat, lng] = response.data.latlong.split(",").map(Number);
-          setDefaultCoordinates({ lat, lng });
-        }
-      } catch (error) {
-        console.error("Error fetching default coordinates:", error);
+  // Function to fetch default coordinates
+  const fetchDefaultCoordinates = async () => {
+    try {
+      const response = useModuleApi 
+        ? await getDefaultCoordinatesForGeoModule()
+        : await getDefaultCoordinates(listingId);
+      if (response.code === 200) {
+        const [lat, lng] = response.data.latlong.split(",").map(Number);
+        setDefaultCoordinates({ lat, lng });
+      } else {
         toast({
           title: "Error",
-          description: "Failed to fetch default coordinates",
+          description: response.message || "Failed to fetch default coordinates",
           variant: "destructive",
         });
-        // Use fallback coordinates (Delhi)
-        setDefaultCoordinates({ lat: 28.6139, lng: 77.209 });
       }
-    };
+    } catch (error) {
+      console.error("Error fetching default coordinates:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch default coordinates",
+        variant: "destructive",
+      });
+      // Use fallback coordinates (Delhi)
+      setDefaultCoordinates({ lat: 28.6139, lng: 77.209 });
+    }
+  };
 
-    fetchDefaultCoordinates();
+  // For non-module API, fetch default coordinates on mount
+  useEffect(() => {
+    if (!useModuleApi) {
+      fetchDefaultCoordinates();
+    }
   }, [listingId, toast, useModuleApi]);
 
   // Fetch grid coordinates from API
@@ -664,6 +673,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     handleInputChange,
     handleReset,
     fetchGridCoordinates,
+    fetchDefaultCoordinates,
     submitCheckRank,
   };
 };

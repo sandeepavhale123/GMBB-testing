@@ -30,6 +30,7 @@ export const CheckRanking: React.FC = () => {
     updateManualCoordinate,
     clearManualCoordinates,
     fetchGridCoordinates,
+    fetchDefaultCoordinates,
   } = useGeoRankingReport(listingId, true);
 
   const handleBusinessSelect = (business: BusinessDetails | null) => {
@@ -39,6 +40,9 @@ export const CheckRanking: React.FC = () => {
     if (business) {
       handleInputChange('searchBusiness', business.business_name || '');
       handleInputChange('searchBusinessType', 'name');
+      
+      // For module API, fetch default coordinates after business selection
+      fetchDefaultCoordinates();
       
       // Automatically fetch grid coordinates if business has valid lat/lng
       if (business.lat && business.long) {
