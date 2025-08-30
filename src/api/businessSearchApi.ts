@@ -32,7 +32,7 @@ export interface BusinessDetails {
 
 // Get Google API key for Places search
 export const getApiKeyForSearch = async (): Promise<GetApiKeyForSearchResponse> => {
-  const response = await axiosInstance.post('/api/v1/geomodule/get-apikey-for-search');
+  const response = await axiosInstance.post('/geomodule/get-apikey-for-search');
   return response.data;
 };
 
@@ -45,6 +45,6 @@ export const getBusinessDetailsFromCID = async (
     inputText: cid,
   };
   
-  const response = await axiosInstance.post('/api/v1/geomodule/get-default-coordinates', requestData);
+  const response = await axiosInstance.post('/geomodule/get-default-coordinates', requestData);
   return response.data;
 };
