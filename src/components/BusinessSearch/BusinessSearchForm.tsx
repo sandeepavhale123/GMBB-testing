@@ -10,73 +10,74 @@ import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { BusinessDetails, Project } from '@/api/businessSearchApi';
-
 interface BusinessSearchFormProps {
   onBusinessSelect?: (business: BusinessDetails) => void;
   onProjectSelect?: (project: Project | null) => void;
   disabled?: boolean;
 }
-
 export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   onBusinessSelect,
   onProjectSelect,
-  disabled = false,
+  disabled = false
 }) => {
   const [searchMethod, setSearchMethod] = useState<'google' | 'cid' | 'map_url'>('google');
   const [cidInput, setCidInput] = useState('');
   const [mapUrlInput, setMapUrlInput] = useState('');
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessDetails | null>(null);
   const [loading, setLoading] = useState(false);
-  
+
   // Project selection state
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [projectsLoading, setProjectsLoading] = useState(false);
-
   const handlePlaceSelect = (business: BusinessDetails) => {
     // Google Places doesn't need searchType/inputText for the geo module API
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
     toast({
       title: "Business Selected",
-      description: `Selected: ${business.business_name}`,
+      description: `Selected: ${business.business_name}`
     });
   };
-
-  const parseLatLong = (latlong: string): { lat: string; long: string } => {
+  const parseLatLong = (latlong: string): {
+    lat: string;
+    long: string;
+  } => {
     const [lat, long] = latlong.split(',');
-    return { lat: lat?.trim() || '', long: long?.trim() || '' };
+    return {
+      lat: lat?.trim() || '',
+      long: long?.trim() || ''
+    };
   };
-
   const handleMapUrlSearch = async () => {
     if (!mapUrlInput.trim() || loading) return;
-
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
-      
       if (response.code === 200 && response.data) {
-        const { lat, long } = parseLatLong(response.data.latlong);
+        const {
+          lat,
+          long
+        } = parseLatLong(response.data.latlong);
         const business: BusinessDetails = {
           business_name: response.data.bname,
           lat,
           long,
-          searchType: 2, // Map URL
-          inputText: mapUrlInput.trim(),
+          searchType: 2,
+          // Map URL
+          inputText: mapUrlInput.trim()
         };
-        
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
-        
         toast({
           title: "Business Found",
-          description: `Found: ${business.business_name}`,
+          description: `Found: ${business.business_name}`
         });
       } else {
         toast({
           title: "Business Not Found",
           description: "No business found for the provided map URL.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     } catch (error) {
@@ -84,13 +85,12 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       toast({
         title: "Search Failed",
         description: "Failed to search business from map URL. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const handleCIDSearch = async () => {
     if (!cidInput.trim() || loading) return;
 
@@ -98,32 +98,29 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     if (!/^\d+$/.test(cidInput.trim())) {
       return; // Don't show error for invalid format during typing
     }
-
     try {
       setLoading(true);
       const response = await getBusinessDetailsFromCID(cidInput.trim());
-      
       if (response.code === 200 && response.data) {
         const business: BusinessDetails = {
           business_name: response.data.business_name,
           lat: response.data.lat,
           long: response.data.long,
-          searchType: 3, // CID
-          inputText: cidInput.trim(),
+          searchType: 3,
+          // CID
+          inputText: cidInput.trim()
         };
-        
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
-        
         toast({
           title: "Business Found",
-          description: `Found: ${business.business_name}`,
+          description: `Found: ${business.business_name}`
         });
       } else {
         toast({
           title: "Business Not Found",
           description: "No business found for the provided CID.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     } catch (error) {
@@ -131,13 +128,12 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       toast({
         title: "Search Failed",
         description: "Failed to search business by CID. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const handleProjectSelect = (projectId: string) => {
     const project = projects.find(p => p.id === projectId) || null;
     setSelectedProject(project);
@@ -145,11 +141,10 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     if (project) {
       toast({
         title: "Project Selected",
-        description: `Selected: ${project.project_name}`,
+        description: `Selected: ${project.project_name}`
       });
     }
   };
-
   const handleReset = () => {
     setSelectedBusiness(null);
     setSelectedProject(null);
@@ -172,7 +167,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           toast({
             title: "Failed to Load Projects",
             description: "Could not fetch project list. Please try again.",
-            variant: "destructive",
+            variant: "destructive"
           });
         }
       } catch (error) {
@@ -180,20 +175,18 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         toast({
           title: "Error Loading Projects",
           description: "Failed to load project list. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
       } finally {
         setProjectsLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
   // Debouncing for CID and Map URL searches
   useEffect(() => {
     if (!cidInput.trim() && !mapUrlInput.trim()) return;
-    
     const timeoutId = setTimeout(() => {
       if (searchMethod === 'cid' && cidInput.trim() && /^\d+$/.test(cidInput.trim())) {
         handleCIDSearch();
@@ -204,9 +197,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
 
     return () => clearTimeout(timeoutId);
   }, [cidInput, mapUrlInput, searchMethod]);
-
-  return (
-    <Card>
+  return <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
@@ -217,40 +208,25 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         {/* Project Selection */}
         <div className="space-y-2">
           <Label className="text-sm font-medium">Project Configuration</Label>
-          <Select
-            value={selectedProject?.id || ""}
-            onValueChange={handleProjectSelect}
-            disabled={disabled || projectsLoading}
-          >
+          <Select value={selectedProject?.id || ""} onValueChange={handleProjectSelect} disabled={disabled || projectsLoading}>
             <SelectTrigger className="w-full">
-              <SelectValue 
-                placeholder={projectsLoading ? "Loading projects..." : "Select a project"}
-              />
+              <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px] overflow-y-auto">
-              {projects.map((project) => (
-                <SelectItem key={project.id} value={project.id}>
+              {projects.map(project => <SelectItem key={project.id} value={project.id}>
                   {project.project_name}
-                </SelectItem>
-              ))}
+                </SelectItem>)}
             </SelectContent>
           </Select>
-          {selectedProject && (
-            <p className="text-xs text-muted-foreground">
+          {selectedProject && <p className="text-xs text-muted-foreground">
               Selected: {selectedProject.project_name}
-            </p>
-          )}
+            </p>}
         </div>
 
         {/* Search Method Selection */}
         <div className="space-y-3">
           <Label className="text-sm font-medium">Search Method</Label>
-          <RadioGroup
-            value={searchMethod}
-            onValueChange={(value) => setSearchMethod(value as 'google' | 'cid' | 'map_url')}
-            className="flex flex-row gap-6"
-            disabled={disabled}
-          >
+          <RadioGroup value={searchMethod} onValueChange={value => setSearchMethod(value as 'google' | 'cid' | 'map_url')} className="flex flex-row gap-6" disabled={disabled}>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="google" id="google-search" />
               <Label htmlFor="google-search" className="text-sm">
@@ -274,72 +250,37 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
 
         {/* Search Input */}
         <div className="space-y-2">
-          {searchMethod === 'google' ? (
-            <div>
+          {searchMethod === 'google' ? <div>
               <Label htmlFor="business-search" className="text-sm font-medium">
                 Business Name
               </Label>
-              <BusinessGooglePlacesInput
-                onPlaceSelect={handlePlaceSelect}
-                disabled={disabled}
-                placeholder="Start typing to search for a business..."
-              />
-            </div>
-          ) : searchMethod === 'cid' ? (
-            <div className="space-y-2">
+              <BusinessGooglePlacesInput onPlaceSelect={handlePlaceSelect} disabled={disabled} placeholder="Start typing to search for a business..." />
+            </div> : searchMethod === 'cid' ? <div className="space-y-2">
               <Label htmlFor="cid-input" className="text-sm font-medium">
                 CID Number
               </Label>
-              <Input
-                id="cid-input"
-                value={cidInput}
-                onChange={(e) => setCidInput(e.target.value)}
-                placeholder="Enter CID number (e.g., 2898559807244638920)"
-                disabled={disabled}
-                className="w-full"
-              />
-              {loading && searchMethod === 'cid' && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Input id="cid-input" value={cidInput} onChange={e => setCidInput(e.target.value)} placeholder="Enter CID number (e.g., 2898559807244638920)" disabled={disabled} className="w-full" />
+              {loading && searchMethod === 'cid' && <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <RefreshCw className="h-3 w-3 animate-spin" />
                   Searching...
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="space-y-2">
+                </div>}
+            </div> : <div className="space-y-2">
               <Label htmlFor="map-url-input" className="text-sm font-medium">
                 Google Maps URL
               </Label>
-              <Input
-                id="map-url-input"
-                value={mapUrlInput}
-                onChange={(e) => setMapUrlInput(e.target.value)}
-                placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)"
-                disabled={disabled}
-                className="w-full"
-              />
-              {loading && searchMethod === 'map_url' && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Input id="map-url-input" value={mapUrlInput} onChange={e => setMapUrlInput(e.target.value)} placeholder="Paste Google Maps URL (e.g., https://maps.google.com/...)" disabled={disabled} className="w-full" />
+              {loading && searchMethod === 'map_url' && <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <RefreshCw className="h-3 w-3 animate-spin" />
                   Searching...
-                </div>
-              )}
-            </div>
-          )}
+                </div>}
+            </div>}
         </div>
 
         {/* Selected Business Display */}
-        {selectedBusiness && (
-          <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+        {selectedBusiness && <div className="bg-muted/50 rounded-lg p-4 space-y-2 hidden ">
             <div className="flex items-center justify-between">
               <h4 className="font-medium text-sm">Selected Business</h4>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleReset}
-                disabled={disabled}
-                className="h-8 px-2"
-              >
+              <Button variant="ghost" size="sm" onClick={handleReset} disabled={disabled} className="h-8 px-2">
                 <RefreshCw className="h-3 w-3" />
               </Button>
             </div>
@@ -357,20 +298,12 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
                 <p className="text-muted-foreground">{selectedBusiness.long}</p>
               </div>
             </div>
-          </div>
-        )}
+          </div>}
 
         {/* Helper Text */}
         <div className="text-xs text-muted-foreground">
-          {searchMethod === 'google' ? (
-            <p>Use Google Places autocomplete to find and select your business location.</p>
-          ) : searchMethod === 'cid' ? (
-            <p>Enter a Google CID (Customer ID) - search happens automatically as you type.</p>
-          ) : (
-            <p>Paste a Google Maps URL - search happens automatically as you type.</p>
-          )}
+          {searchMethod === 'google' ? <p>Use Google Places autocomplete to find and select your business location.</p> : searchMethod === 'cid' ? <p>Enter a Google CID (Customer ID) - search happens automatically as you type.</p> : <p>Paste a Google Maps URL - search happens automatically as you type.</p>}
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
