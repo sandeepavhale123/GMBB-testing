@@ -26,7 +26,7 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: any;
+  selectedProject: Project | null;
   searchMethod: 'google' | 'cid' | 'map_url';
   cidInput: string;
   mapUrlInput: string;
