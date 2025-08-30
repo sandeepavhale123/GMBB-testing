@@ -118,11 +118,11 @@ export function CheckRanking() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-12 gap-4">
         {/* Geo Ranking Map */}
-         <div className="col-span-12 md:col-span-8">
+         <div className="col-span-12 md:col-span-7">
             <GeoRankingReportMap defaultCoordinates={effectiveCoordinates} gridCoordinates={gridCoordinates} rankDetails={null} // Will be populated when results are available
       pollingKeyword={pollingKeyword} loadingGrid={loadingGrid} onMarkerClick={handleMarkerClick} mapPoint={formData.mapPoint} manualCoordinates={manualCoordinates} onAddManualCoordinate={addManualCoordinate} onRemoveManualCoordinate={removeManualCoordinate} onUpdateManualCoordinate={updateManualCoordinate} onClearManualCoordinates={clearManualCoordinates} />
          </div>
-<div className="col-span-12 md:col-span-4">
+<div className="col-span-12 md:col-span-5">
         {/* Report Configuration Form with Business Search */}
         <GeoRankingReportForm formData={formData} onInputChange={handleInputChange} onSubmit={handleFormSubmit} onReset={handleReset} getDistanceOptions={getDistanceOptions} languageOptions={languageOptions} submittingRank={submittingRank} pollingKeyword={pollingKeyword} manualCoordinates={manualCoordinates} onClearManualCoordinates={clearManualCoordinates} hasResults={false} // Will be updated when results are available
       onBusinessSelect={handleBusinessSelect} onProjectSelect={handleProjectSelect} />
