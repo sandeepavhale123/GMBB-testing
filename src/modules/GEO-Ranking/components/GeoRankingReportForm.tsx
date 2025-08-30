@@ -24,20 +24,7 @@ import { useFormValidation } from "@/hooks/useFormValidation";
 import { keywordsSchema } from "@/schemas/authSchemas";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
 import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
-
-// Simple type definitions to avoid complex inference
-type SimpleProject = {
-  id: string;
-  project_name: string;
-};
-
-type SimpleBusinessDetails = {
-  business_name: string;
-  lat: string;
-  long: string;
-  searchType?: number;
-  inputText?: string;
-};
+import type { BusinessDetails, Project } from "@/api/businessSearchApi";
 
 interface FormData {
   searchBusinessType: string;
@@ -50,7 +37,7 @@ interface FormData {
   gridSize: string;
   scheduleCheck: string;
   language: string;
-  selectedProject: { id: string; project_name: string } | null;
+  selectedProject: Project | null;
   searchMethod: 'google' | 'cid' | 'map_url';
   cidInput: string;
   mapUrlInput: string;
