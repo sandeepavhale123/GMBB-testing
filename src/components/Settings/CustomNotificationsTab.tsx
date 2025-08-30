@@ -49,7 +49,7 @@ import { useCustomEmailSettings } from "@/hooks/useCustomEmailSettings";
 import { useQueryClient } from "@tanstack/react-query";
 
 // Interface definitions
-interface FormData {
+interface CustomNotificationFormData {
   selectedListings: string[];
   reportType: string;
   frequency: string;
@@ -75,7 +75,7 @@ export const CustomNotificationsTab: React.FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CustomNotificationFormData>({
     selectedListings: [],
     reportType: "",
     frequency: "",

@@ -14,7 +14,7 @@ import { useToast } from "./use-toast";
 import { processDistanceValue } from "../utils/geoRankingUtils";
 import L from "leaflet";
 
-interface FormData {
+interface GeoRankingHookFormData {
   searchBusinessType: string;
   searchBusiness: string;
   searchDataEngine: string;
@@ -27,7 +27,7 @@ interface FormData {
   language: string;
 }
 
-const getInitialFormData = (): FormData => ({
+const getInitialFormData = (): GeoRankingHookFormData => ({
   searchBusinessType: "name",
   searchBusiness: "",
   searchDataEngine: "Briefcase API",
@@ -60,7 +60,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
   const [isCompleting, setIsCompleting] = useState(false);
   const [previousMapPoint, setPreviousMapPoint] = useState<string>("");
 
-  const [formData, setFormData] = useState<FormData>(getInitialFormData());
+  const [formData, setFormData] = useState<GeoRankingHookFormData>(getInitialFormData());
 
   // Helper function to determine distance unit from distance value
   const determineDistanceUnit = (
@@ -158,7 +158,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
       //   mapPoint,
       // });
 
-      const updates: Partial<FormData> = {};
+      const updates: Partial<GeoRankingHookFormData> = {};
 
       if (keyword) {
         updates.keywords = keyword;

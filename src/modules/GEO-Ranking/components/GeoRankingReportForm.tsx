@@ -14,7 +14,7 @@ import { keywordsSchema } from "@/schemas/authSchemas";
 import { BusinessGooglePlacesInput } from "@/components/BusinessSearch/BusinessGooglePlacesInput";
 import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl, getProjectLists } from "@/api/businessSearchApi";
 import { BusinessLocationLite, ProjectLite } from '@/types/business';
-interface ReportFormData {
+interface GeoRankingFormData {
   searchBusinessType: string;
   searchBusiness: string;
   searchDataEngine: string;
@@ -27,7 +27,7 @@ interface ReportFormData {
   language: string;
 }
 interface GeoRankingReportFormProps {
-  formData: ReportFormData;
+  formData: GeoRankingFormData;
   onInputChange: (field: string, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onReset: () => void;
@@ -486,9 +486,9 @@ export function GeoRankingReportForm({
               </div>}
           </div>
 
-          {formData.mapPoint !== "Manually" && <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {formData.mapPoint !== "Manually" && <div className="grid grid-cols-2 gap-4">
               {/* Distance Unit */}
-              <div className="space-y-2 col-span-1">
+              <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700">
                   Distance Unit
                 </Label>
@@ -509,7 +509,7 @@ export function GeoRankingReportForm({
               </div>
 
               {/* Distance Value */}
-              <div className="space-y-2 col-span-1">
+              <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700">
                   Distance
                 </Label>

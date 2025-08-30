@@ -7,7 +7,7 @@ import { Input } from '../../ui/input';
 import { Checkbox } from '../../ui/checkbox';
 import { Separator } from '../../ui/separator';
 
-interface FormData {
+interface PublishFormData {
   publishOption: string;
   scheduleDate: string;
   postTags: string;
@@ -15,8 +15,8 @@ interface FormData {
 }
 
 interface PublishOptionsSectionProps {
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: PublishFormData;
+  onFormDataChange: (updater: (prev: PublishFormData) => PublishFormData) => void;
 }
 
 const publishOptions = [{

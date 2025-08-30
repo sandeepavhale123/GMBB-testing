@@ -4,7 +4,7 @@ import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
 
-interface FormData {
+interface PostOfferFormData {
   postType: string;
   startDate: string;
   endDate: string;
@@ -14,8 +14,8 @@ interface FormData {
 }
 
 interface OfferFieldsProps {
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: PostOfferFormData;
+  onFormDataChange: (updater: (prev: PostOfferFormData) => PostOfferFormData) => void;
 }
 
 export const OfferFields: React.FC<OfferFieldsProps> = ({

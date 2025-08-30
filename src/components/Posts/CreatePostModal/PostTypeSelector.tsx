@@ -3,13 +3,13 @@ import React from 'react';
 import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 
-interface FormData {
+interface PostTypeFormData {
   postType: string;
 }
 
 interface PostTypeSelectorProps {
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: PostTypeFormData;
+  onFormDataChange: (updater: (prev: PostTypeFormData) => PostTypeFormData) => void;
 }
 
 const postTypes = [{

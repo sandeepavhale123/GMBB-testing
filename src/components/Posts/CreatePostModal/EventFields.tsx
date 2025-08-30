@@ -3,15 +3,15 @@ import React from 'react';
 import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 
-interface FormData {
+interface PostEventFormData {
   postType: string;
   startDate: string;
   endDate: string;
 }
 
 interface EventFieldsProps {
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: PostEventFormData;
+  onFormDataChange: (updater: (prev: PostEventFormData) => PostEventFormData) => void;
 }
 
 export const EventFields: React.FC<EventFieldsProps> = ({

@@ -3,14 +3,14 @@ import React from 'react';
 import { Label } from '../../ui/label';
 import { Input } from '../../ui/input';
 
-interface FormData {
+interface TitleFormData {
   title: string;
   postType: string;
 }
 
 interface TitleFieldProps {
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: TitleFormData;
+  onFormDataChange: (updater: (prev: TitleFormData) => TitleFormData) => void;
   error?: string;
 }
 

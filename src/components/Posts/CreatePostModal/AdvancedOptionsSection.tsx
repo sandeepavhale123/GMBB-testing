@@ -9,7 +9,7 @@ import { EventFields } from './EventFields';
 import { OfferFields } from './OfferFields';
 import { PublishOptionsSection } from './PublishOptionsSection';
 
-interface FormData {
+interface PostFormData {
   listings: string[];
   title: string;
   postType: string;
@@ -36,8 +36,8 @@ interface FormData {
 interface AdvancedOptionsSectionProps {
   showAdvancedOptions: boolean;
   onShowAdvancedOptionsChange: (show: boolean) => void;
-  formData: FormData;
-  onFormDataChange: (updater: (prev: FormData) => FormData) => void;
+  formData: PostFormData;
+  onFormDataChange: (updater: (prev: PostFormData) => PostFormData) => void;
   listingsSearch: string;
   onListingsSearchChange: (value: string) => void;
   onListingToggle: (listing: string) => void;
