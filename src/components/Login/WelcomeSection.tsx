@@ -39,7 +39,7 @@ export const WelcomeSection = () => {
           src="/lovable-uploads/1925fff2-0bb1-4c0c-a281-a1a23bc5622b.png"
         />
         <h1 className="text-4xl font-bold text-white mb-4 text-center">
-          Manage Your GMB Listing Like a Pro
+          Manage Your GMP Listing Like a Pro
         </h1>
         <p className="text-md text-blue-100 text-center">
           Take charge of your local SEO efforts with powerful tools designed
