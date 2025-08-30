@@ -348,7 +348,7 @@ export function GeoRankingReportForm({
           
           {/* Business Location Section */}
           <div className="space-y-4 p-4 bg-muted/30 rounded-lg">
-            <h3 className="text-sm font-semibold text-gray-800">Business Location</h3>
+            <h3 className="text-sm font-semibold text-gray-800">Business</h3>
             
             {/* Project Selection and Search Method in single row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -376,7 +376,7 @@ export function GeoRankingReportForm({
 
               {/* Search Method Selection */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Search Method</Label>
+                <Label className="text-sm font-medium">Search By:</Label>
                 <RadioGroup 
                   value={searchMethod} 
                   onValueChange={(value) => setSearchMethod(value as 'google' | 'cid' | 'map_url')} 
