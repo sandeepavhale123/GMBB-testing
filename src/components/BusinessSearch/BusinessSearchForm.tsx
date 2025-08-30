@@ -199,7 +199,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
   }, [cidInput, mapUrlInput, searchMethod]);
   return <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg ">
+        <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
           Business Location
         </CardTitle>
@@ -251,9 +251,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         {/* Search Input */}
         <div className="space-y-2">
           {searchMethod === 'google' ? <div>
-              <Label htmlFor="business-search" className="text-sm font-medium">
-                Business Name
-              </Label>
+             
               <BusinessGooglePlacesInput onPlaceSelect={handlePlaceSelect} disabled={disabled} placeholder="Start typing to search for a business..." />
             </div> : searchMethod === 'cid' ? <div className="space-y-2">
               <Label htmlFor="cid-input" className="text-sm font-medium">
