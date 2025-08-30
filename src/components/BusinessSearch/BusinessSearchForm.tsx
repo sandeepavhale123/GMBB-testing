@@ -205,50 +205,47 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Project Selection and Search Method in single row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Project Selection */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Project Configuration</Label>
-            <Select value={selectedProject?.id || ""} onValueChange={handleProjectSelect} disabled={disabled || projectsLoading}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
-              </SelectTrigger>
-              <SelectContent className="max-h-[200px] overflow-y-auto">
-                {projects.map(project => <SelectItem key={project.id} value={project.id}>
-                    {project.project_name}
-                  </SelectItem>)}
-              </SelectContent>
-            </Select>
-            {selectedProject && <p className="text-xs text-muted-foreground">
-                Selected: {selectedProject.project_name}
-              </p>}
-          </div>
+        {/* Project Selection */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Project Configuration</Label>
+          <Select value={selectedProject?.id || ""} onValueChange={handleProjectSelect} disabled={disabled || projectsLoading}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={projectsLoading ? "Loading projects..." : "Select a project"} />
+            </SelectTrigger>
+            <SelectContent className="max-h-[200px] overflow-y-auto">
+              {projects.map(project => <SelectItem key={project.id} value={project.id}>
+                  {project.project_name}
+                </SelectItem>)}
+            </SelectContent>
+          </Select>
+          {selectedProject && <p className="text-xs text-muted-foreground">
+              Selected: {selectedProject.project_name}
+            </p>}
+        </div>
 
-          {/* Search Method Selection */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Search Method</Label>
-            <RadioGroup value={searchMethod} onValueChange={value => setSearchMethod(value as 'google' | 'cid' | 'map_url')} className="flex flex-col sm:flex-row gap-2 sm:gap-4" disabled={disabled}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="google" id="google-search" />
-                <Label htmlFor="google-search" className="text-sm">
-                  Google Auto Suggestion
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="cid" id="cid-search" />
-                <Label htmlFor="cid-search" className="text-sm">
-                  CID Lookup
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="map_url" id="map-url-search" />
-                <Label htmlFor="map-url-search" className="text-sm">
-                  Map URL
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
+        {/* Search Method Selection */}
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Search Method</Label>
+          <RadioGroup value={searchMethod} onValueChange={value => setSearchMethod(value as 'google' | 'cid' | 'map_url')} className="flex flex-row gap-6" disabled={disabled}>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="google" id="google-search" />
+              <Label htmlFor="google-search" className="text-sm">
+                Google Auto Suggestion
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="cid" id="cid-search" />
+              <Label htmlFor="cid-search" className="text-sm">
+                CID Lookup
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="map_url" id="map-url-search" />
+              <Label htmlFor="map-url-search" className="text-sm">
+                Map URL
+              </Label>
+            </div>
+          </RadioGroup>
         </div>
 
         {/* Search Input */}
