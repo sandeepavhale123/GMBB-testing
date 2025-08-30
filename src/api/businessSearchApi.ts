@@ -24,6 +24,20 @@ export interface BusinessDetailsFromCIDResponse {
   };
 }
 
+export interface BusinessDetailsFromMapUrlRequest {
+  searchType: number;
+  inputText: string;
+}
+
+export interface BusinessDetailsFromMapUrlResponse {
+  code: number;
+  message: string;
+  data: {
+    bname: string;
+    latlong: string;
+  };
+}
+
 export interface BusinessDetails {
   business_name: string;
   lat: string;
@@ -43,6 +57,19 @@ export const getBusinessDetailsFromCID = async (
   const requestData: BusinessDetailsFromCIDRequest = {
     searchType: 3,
     inputText: cid,
+  };
+  
+  const response = await axiosInstance.post('/geomodule/get-default-coordinates', requestData);
+  return response.data;
+};
+
+// Get business details using Map URL
+export const getBusinessDetailsFromMapUrl = async (
+  mapUrl: string
+): Promise<BusinessDetailsFromMapUrlResponse> => {
+  const requestData: BusinessDetailsFromMapUrlRequest = {
+    searchType: 2,
+    inputText: mapUrl,
   };
   
   const response = await axiosInstance.post('/geomodule/get-default-coordinates', requestData);

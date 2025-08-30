@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { BusinessGooglePlacesInput } from './BusinessGooglePlacesInput';
-import { getBusinessDetailsFromCID } from '@/api/businessSearchApi';
+import { getBusinessDetailsFromCID, getBusinessDetailsFromMapUrl } from '@/api/businessSearchApi';
 import { toast } from '@/hooks/use-toast';
 import { MapPin, Search, RefreshCw } from 'lucide-react';
 import type { BusinessDetails } from '@/api/businessSearchApi';
@@ -34,29 +34,9 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
     });
   };
 
-  const extractCIDFromMapUrl = (url: string): string | null => {
-    // Common Google Maps URL patterns that contain CID
-    const patterns = [
-      /[?&]cid=(\d+)/i,           // ?cid=123456789
-      /place\/[^\/]+\/data=.*?(\d{15,})/i,  // place/name/data=...123456789
-      /\/maps\/place\/[^\/]+@[\d\.\-,]+,(\d+)y/i, // @lat,lng,15z/data=...
-      /@[\d\.\-,]+,\d+[yzm]\/data=.*?(\d{15,})/i, // @lat,lng,15z/data=...123456789
-      /ludocid[=%](\d+)/i,        // ludocid=123456789 or ludocid%3D123456789
-      /1s0x[a-f0-9]+:0x([a-f0-9]+)/i, // 1s0x...:0x123456789 (hex format)
-    ];
-
-    for (const pattern of patterns) {
-      const match = url.match(pattern);
-      if (match && match[1]) {
-        // If it's hex format (0x prefix), convert to decimal
-        if (pattern.source.includes('0x')) {
-          return parseInt(match[1], 16).toString();
-        }
-        return match[1];
-      }
-    }
-
-    return null;
+  const parseLatLong = (latlong: string): { lat: string; long: string } => {
+    const [lat, long] = latlong.split(',');
+    return { lat: lat?.trim() || '', long: long?.trim() || '' };
   };
 
   const handleMapUrlSearch = async () => {
@@ -69,26 +49,16 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       return;
     }
 
-    const extractedCID = extractCIDFromMapUrl(mapUrlInput.trim());
-    
-    if (!extractedCID) {
-      toast({
-        title: "Invalid Map URL",
-        description: "Could not extract CID from the provided URL. Please check the URL format.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       setLoading(true);
-      const response = await getBusinessDetailsFromCID(extractedCID);
+      const response = await getBusinessDetailsFromMapUrl(mapUrlInput.trim());
       
       if (response.code === 200 && response.data) {
+        const { lat, long } = parseLatLong(response.data.latlong);
         const business: BusinessDetails = {
-          business_name: response.data.business_name,
-          lat: response.data.lat,
-          long: response.data.long,
+          business_name: response.data.bname,
+          lat,
+          long,
         };
         
         setSelectedBusiness(business);
@@ -101,7 +71,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
       } else {
         toast({
           title: "Business Not Found",
-          description: "No business found for the extracted CID.",
+          description: "No business found for the provided map URL.",
           variant: "destructive",
         });
       }
@@ -330,7 +300,7 @@ export const BusinessSearchForm: React.FC<BusinessSearchFormProps> = ({
           ) : searchMethod === 'cid' ? (
             <p>Enter a Google CID (Customer ID) to look up business details directly.</p>
           ) : (
-            <p>Paste a Google Maps URL to automatically extract the CID and find business details.</p>
+            <p>Paste a Google Maps URL to search for business details directly.</p>
           )}
         </div>
       </CardContent>
