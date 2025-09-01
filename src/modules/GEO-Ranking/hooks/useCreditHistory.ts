@@ -10,6 +10,7 @@ const mapApiCreditHistoryItem = (item: any, index: number): CreditHistoryItem =>
   keyword: item.keyword,
   credit: parseInt(item.credit, 10),
   date: format(new Date(item.created_at), 'MMM dd, yyyy'),
+  type: item.type,
 });
 
 export const useCreditHistory = () => {

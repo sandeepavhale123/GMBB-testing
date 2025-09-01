@@ -14,6 +14,7 @@ export interface CreditHistoryItem {
   keyword: string;
   credit: number;
   date: string;
+  type: string;
 }
 
 export interface ApiCreditHistoryItem {
