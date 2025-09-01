@@ -5,6 +5,7 @@ import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
 import { GeoRankingReportMap } from '../components/GeoRankingReportMap';
 import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
 import { BusinessLocationLite, ProjectLite } from '@/types/business';
+import { getDistanceOptions, languageOptions } from '@/utils/geoRankingUtils';
 export function CheckRanking() {
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
@@ -85,29 +86,9 @@ export function CheckRanking() {
   const handleMarkerClick = (coordinate: string, positionId: string) => {
     console.log('Marker clicked:', coordinate, positionId);
   };
-  const getDistanceOptions = () => [{
-    value: "100",
-    label: "100m"
-  }, {
-    value: "500",
-    label: "500m"
-  }, {
-    value: "1000",
-    label: "1km"
-  }, {
-    value: "5000",
-    label: "5km"
-  }];
-  const languageOptions = [{
-    value: "en",
-    label: "English"
-  }, {
-    value: "es",
-    label: "Spanish"
-  }, {
-    value: "fr",
-    label: "French"
-  }];
+  
+  // Get distance options based on current distance unit
+  const getDistanceOptionsForUnit = () => getDistanceOptions(formData.distanceUnit);
   return <div className="space-y-6">
       {/* Page Header */}
       <div>
@@ -124,7 +105,7 @@ export function CheckRanking() {
          </div>
 <div className="col-span-12 md:col-span-5">
         {/* Report Configuration Form with Business Search */}
-        <GeoRankingReportForm formData={formData} onInputChange={handleInputChange} onSubmit={handleFormSubmit} onReset={handleReset} getDistanceOptions={getDistanceOptions} languageOptions={languageOptions} submittingRank={submittingRank} pollingKeyword={pollingKeyword} manualCoordinates={manualCoordinates} onClearManualCoordinates={clearManualCoordinates} hasResults={false} // Will be updated when results are available
+        <GeoRankingReportForm formData={formData} onInputChange={handleInputChange} onSubmit={handleFormSubmit} onReset={handleReset} getDistanceOptions={getDistanceOptionsForUnit} languageOptions={languageOptions} submittingRank={submittingRank} pollingKeyword={pollingKeyword} manualCoordinates={manualCoordinates} onClearManualCoordinates={clearManualCoordinates} hasResults={false} // Will be updated when results are available
       onBusinessSelect={handleBusinessSelect} onProjectSelect={handleProjectSelect} />
       </div>
       </div>
