@@ -89,15 +89,6 @@ export const RankingMap: React.FC<RankingMapProps> = memo(
             onMarkerClick(gpsCoordinates, detail.positionId);
           });
 
-          marker.bindPopup(`
-            <div class="text-sm">
-              <strong>Position: ${displayText}</strong><br>
-              Location: ${detail.coordinate}<br>
-              Position ID: ${detail.positionId}<br>
-              <em>Click for detailed view</em>
-            </div>
-          `);
-
           markersRef.current.push(marker);
         }
       });
