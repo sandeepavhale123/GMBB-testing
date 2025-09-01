@@ -322,7 +322,7 @@ export const Dashboard: React.FC = () => {
                               <Edit className="w-4 h-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate(`/sharable-geo-ranking-report/${project.encKey}`)}>
+                            <DropdownMenuItem onClick={() => window.open(`/sharable-geo-ranking-report/${project.encKey}`, '_blank')}>
                               <Share className="w-4 h-4 mr-2" />
                               Shareable Link
                             </DropdownMenuItem>
