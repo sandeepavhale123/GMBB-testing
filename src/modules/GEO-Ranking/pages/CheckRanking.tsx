@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { GeoRankingReportForm } from '../components/GeoRankingReportForm';
@@ -7,6 +8,7 @@ import { useGeoRankingReport } from '@/hooks/useGeoRankingReport';
 import { BusinessLocationLite, ProjectLite } from '@/types/business';
 import { getDistanceOptions, languageOptions } from '@/utils/geoRankingUtils';
 export function CheckRanking() {
+  const navigate = useNavigate();
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessLocationLite | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectLite | null>(null);
 
@@ -24,6 +26,7 @@ export function CheckRanking() {
     handleInputChange,
     handleReset,
     submitCheckRank,
+    submitAddKeywords,
     addManualCoordinate,
     removeManualCoordinate,
     updateManualCoordinate,
@@ -75,6 +78,31 @@ export function CheckRanking() {
     submitCheckRank();
   };
 
+  const handleAddKeywordsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedBusiness) {
+      alert('Please select a business first');
+      return;
+    }
+    if (!selectedProject) {
+      alert('Please select a project first');
+      return;
+    }
+    
+    try {
+      const result = await submitAddKeywords(selectedBusiness, selectedProject);
+      if (result.success) {
+        // If multiple keywords were added, navigate to project details
+        if (result.keywordCount > 1) {
+          navigate(`/module/geo-ranking/view-project-details/${selectedProject.id}`);
+        }
+        // For single keyword, just show success message (already handled in hook)
+      }
+    } catch (error) {
+      console.error('Error adding keywords:', error);
+    }
+  };
+
   // Get default coordinates from selected business or fallback to hook default
   const businessCoordinates = selectedBusiness && selectedBusiness.latitude && selectedBusiness.longitude ? {
     lat: parseFloat(selectedBusiness.latitude),
@@ -106,7 +134,7 @@ export function CheckRanking() {
 <div className="col-span-12 md:col-span-5">
         {/* Report Configuration Form with Business Search */}
         <GeoRankingReportForm formData={formData} onInputChange={handleInputChange} onSubmit={handleFormSubmit} onReset={handleReset} getDistanceOptions={getDistanceOptionsForUnit} languageOptions={languageOptions} submittingRank={submittingRank} pollingKeyword={pollingKeyword} manualCoordinates={manualCoordinates} onClearManualCoordinates={clearManualCoordinates} hasResults={false} // Will be updated when results are available
-      onBusinessSelect={handleBusinessSelect} onProjectSelect={handleProjectSelect} />
+      onBusinessSelect={handleBusinessSelect} onProjectSelect={handleProjectSelect} onAddKeywordsSubmit={handleAddKeywordsSubmit} />
       </div>
       </div>
 

@@ -5,8 +5,10 @@ import {
   getGridCoordinates,
   getGridCoordinatesForGeoModule,
   addKeywords,
+  addKeywordsToProject,
   getKeywordDetailsWithStatus,
   CheckRankRequest,
+  AddKeywordsToProjectRequest,
   KeywordDetailsData,
   RankDetail,
 } from "../api/geoRankingApi";
@@ -655,6 +657,126 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     }
   };
 
+  // Submit add keywords request for GEO module
+  const submitAddKeywords = async (selectedBusiness: any, selectedProject: any): Promise<{
+    success: boolean;
+    keywordCount: number;
+  }> => {
+    if (!useModuleApi) {
+      toast({
+        title: "Error",
+        description: "This function is only available in module mode",
+        variant: "destructive",
+      });
+      return { success: false, keywordCount: 0 };
+    }
+
+    if (!formData.keywords.trim()) {
+      toast({
+        title: "Error",
+        description: "Keywords are required",
+        variant: "destructive",
+      });
+      return { success: false, keywordCount: 0 };
+    }
+
+    if (!selectedBusiness || !selectedProject) {
+      toast({
+        title: "Error",
+        description: "Please select a business and project first",
+        variant: "destructive",
+      });
+      return { success: false, keywordCount: 0 };
+    }
+
+    setSubmittingRank(true);
+    try {
+      // Prepare coordinates array
+      let coordinatesArray: string[] = [];
+
+      if (formData.mapPoint === "Automatic") {
+        // Include default coordinate first, then grid coordinates
+        const defaultCoord = defaultCoordinates
+          ? `${defaultCoordinates.lat},${defaultCoordinates.lng}`
+          : null;
+        coordinatesArray = defaultCoord
+          ? [defaultCoord, ...gridCoordinates]
+          : gridCoordinates;
+      } else {
+        // Manual mode - use manual coordinates
+        coordinatesArray = manualCoordinates;
+      }
+
+      if (coordinatesArray.length === 0) {
+        toast({
+          title: "Error",
+          description:
+            "No coordinates available. Please generate grid or place markers.",
+          variant: "destructive",
+        });
+        return { success: false, keywordCount: 0 };
+      }
+
+      // Count keywords
+      const keywordArray = formData.keywords
+        .split(/[,;\n\r]+/)
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
+
+      // Transform form data to API format for module
+      const processedDistance = processDistanceValue(
+        formData.distanceValue,
+        formData.distanceUnit
+      );
+      
+      const requestData: AddKeywordsToProjectRequest = {
+        projectId: selectedProject.id,
+        businessName: selectedBusiness.name || "",
+        language: formData.language,
+        keywords: formData.keywords,
+        mapPoint: formData.mapPoint,
+        distanceValue:
+          typeof processedDistance === "number"
+            ? processedDistance
+            : parseFloat(processedDistance.replace(/[^0-9.]/g, "")),
+        gridSize: parseInt(formData.gridSize.split("x")[0]),
+        searchDataEngine: formData.searchDataEngine,
+        scheduleCheck: formData.scheduleCheck.toLowerCase().replace("-", ""),
+        latlng: coordinatesArray,
+      };
+
+      const response = await addKeywordsToProject(requestData);
+
+      if (response.code === 200) {
+        toast({
+          title: "Success",
+          description: "Keywords added successfully to the project",
+        });
+        return { success: true, keywordCount: keywordArray.length };
+      } else {
+        toast({
+          title: "Error",
+          description: response.message || "Failed to add keywords",
+          variant: "destructive",
+        });
+        return { success: false, keywordCount: 0 };
+      }
+    } catch (error) {
+      console.error("Error adding keywords:", error);
+      toast({
+        title: "Error",
+        description:
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to add keywords",
+        variant: "destructive",
+      });
+      return { success: false, keywordCount: 0 };
+    } finally {
+      setSubmittingRank(false);
+    }
+  };
+
   return {
     formData,
     defaultCoordinates,
@@ -677,5 +799,6 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     fetchGridCoordinates,
     fetchDefaultCoordinates,
     submitCheckRank,
+    submitAddKeywords,
   };
 };

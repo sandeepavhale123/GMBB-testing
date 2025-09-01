@@ -589,3 +589,32 @@ export const refreshKeywordForProject = async (
   });
   return response.data;
 };
+
+// Add Keywords to Project API for GEO Module
+export interface AddKeywordsToProjectRequest {
+  projectId: string;
+  businessName: string;
+  language: string;
+  keywords: string;
+  mapPoint: string;
+  distanceValue: number;
+  gridSize: number;
+  searchDataEngine: string;
+  scheduleCheck: string;
+  latlng: string[];
+}
+
+export interface AddKeywordsToProjectResponse {
+  code: number;
+  message: string;
+  data?: {
+    keywordId?: number;
+  };
+}
+
+export const addKeywordsToProject = async (
+  requestData: AddKeywordsToProjectRequest
+): Promise<AddKeywordsToProjectResponse> => {
+  const response = await axiosInstance.post("/geomodule/add-keywords", requestData);
+  return response.data;
+};
