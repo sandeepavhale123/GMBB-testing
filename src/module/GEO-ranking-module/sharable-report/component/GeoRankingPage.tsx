@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ListingLoader } from '@/components/ui/listing-loader';
 import { useShareableGeoKeywords } from '@/hooks/useShareableGeoKeywords';
 import { useShareableKeywordDetails } from '@/hooks/useShareableKeywordDetails';
+import { useShareableKeywordPositionDetails } from '@/hooks/useShareableKeywordPositionDetails';
 
 interface ModalData {
   isOpen: boolean;
@@ -76,6 +77,17 @@ export const ShareableGeoRankingPage: React.FC = () => {
     }
   }, [keywordDetailsData, selectedDate]);
 
+  // Hook for fetching keyword position details
+  const { 
+    data: positionDetailsData, 
+    loading: positionDetailsLoading, 
+    error: positionDetailsError,
+    fetchPositionDetails 
+  } = useShareableKeywordPositionDetails({
+    reportId: reportId || '',
+    keywordId: parseInt(selectedKeyword) || 0
+  });
+
   // Handle keyword change
   const handleKeywordChange = (keywordId: string) => {
     setSelectedKeyword(keywordId);
@@ -127,25 +139,39 @@ export const ShareableGeoRankingPage: React.FC = () => {
       loading: true
     });
 
-    // Simulate API call delay
-    setTimeout(() => {
+    try {
+      await fetchPositionDetails(parseInt(positionId));
+    } catch (error) {
+      console.error('Error fetching position details:', error);
       setModalData({
         isOpen: true,
         gpsCoordinates,
-        competitors: [
-          {
-            position: 1,
-            name: "Sample Business",
-            address: "123 Main St",
-            rating: 4.5,
-            reviewCount: 150,
-            selected: true
-          }
-        ],
+        competitors: [],
         loading: false
       });
-    }, 1000);
-  }, []);
+    }
+  }, [fetchPositionDetails]);
+
+  // Update modal data when position details are fetched
+  useEffect(() => {
+    if (positionDetailsData?.data && modalData.isOpen && modalData.loading) {
+      const competitors = positionDetailsData.data.keywordDetails.map(detail => ({
+        position: detail.position,
+        name: detail.name,
+        address: detail.address,
+        rating: parseFloat(detail.rating),
+        reviewCount: parseInt(detail.review),
+        selected: detail.selected
+      }));
+
+      setModalData({
+        isOpen: true,
+        gpsCoordinates: positionDetailsData.data.coordinate,
+        competitors,
+        loading: false
+      });
+    }
+  }, [positionDetailsData, modalData.isOpen, modalData.loading]);
 
   const handleCloseModal = useCallback(() => {
     setModalData(prev => ({

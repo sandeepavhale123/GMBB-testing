@@ -707,3 +707,33 @@ export const getShareableKeywordDetails = async (
   const response = await axiosInstance.post("/geomodule/get-shareable-keyword-details", requestData);
   return response.data;
 };
+
+// Shareable keyword position details interfaces
+export interface ShareableKeywordPositionDetailsRequest {
+  reportId: string;
+  keywordId: number;
+  positionId: number;
+}
+
+export interface ShareableKeywordPositionDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    keywordDetails: Array<{
+      name: string;
+      address: string;
+      rating: string;
+      review: string;
+      position: number;
+      selected: boolean;
+    }>;
+    coordinate: string;
+  };
+}
+
+export const getShareableKeywordPositionDetails = async (
+  requestData: ShareableKeywordPositionDetailsRequest
+): Promise<ShareableKeywordPositionDetailsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-position-details", requestData);
+  return response.data;
+};
