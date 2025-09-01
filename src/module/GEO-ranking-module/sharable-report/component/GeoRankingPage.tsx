@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { GeoRankingHeader } from '@/components/GeoRanking/GeoRankingHeader';
 import { GeoRankingMapSection } from '@/components/GeoRanking/GeoRankingMapSection';
@@ -7,6 +7,7 @@ import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { ListingLoader } from '@/components/ui/listing-loader';
 import { useShareableGeoKeywords } from '@/hooks/useShareableGeoKeywords';
+import { useShareableKeywordDetails } from '@/hooks/useShareableKeywordDetails';
 
 interface ModalData {
   isOpen: boolean;
@@ -50,12 +51,51 @@ export const ShareableGeoRankingPage: React.FC = () => {
 
   const userBusinessName = shareableData?.data?.projectName || "Business Location";
 
-  // Mock data for demonstration - use first keyword if available
-  const mockKeywords = keywords.length > 0 ? keywords : [
-    { id: '1', keyword: 'Sample Keyword', visibility: 85, date: '2024-01-15' }
-  ];
+  // Auto-select first keyword when keywords are loaded
+  useEffect(() => {
+    if (keywords.length > 0 && !selectedKeyword) {
+      setSelectedKeyword(keywords[0].id);
+    }
+  }, [keywords, selectedKeyword]);
 
-  const mockKeywordDetails = {
+  // Fetch keyword details when keyword is selected
+  const { 
+    data: keywordDetailsData, 
+    isLoading: keywordDetailsLoading, 
+    error: keywordDetailsError 
+  } = useShareableKeywordDetails({
+    reportId: reportId || '',
+    keywordId: parseInt(selectedKeyword) || 0,
+    enabled: Boolean(selectedKeyword) && Boolean(reportId)
+  });
+
+  // Auto-select first date when keyword details are loaded
+  useEffect(() => {
+    if (keywordDetailsData?.data?.dates && keywordDetailsData.data.dates.length > 0 && !selectedDate) {
+      setSelectedDate(keywordDetailsData.data.dates[0].id);
+    }
+  }, [keywordDetailsData, selectedDate]);
+
+  // Handle keyword change
+  const handleKeywordChange = (keywordId: string) => {
+    setSelectedKeyword(keywordId);
+    setSelectedDate(''); // Reset selected date when keyword changes
+  };
+
+  // Handle date change
+  const handleDateChange = (dateId: string) => {
+    setSelectedDate(dateId);
+  };
+
+  // Get available dates for the selected keyword
+  const availableDates = keywordDetailsData?.data?.dates?.map(date => ({
+    id: date.id,
+    prev_id: date.prev_id,
+    date: date.date
+  })) || [];
+
+  // Get current keyword details or use mock data
+  const keywordDetails = keywordDetailsData?.data || {
     rankDetails: [],
     dates: [],
     rankStats: {
@@ -73,8 +113,8 @@ export const ShareableGeoRankingPage: React.FC = () => {
       grid: '3x3',
       last_checked: '2024-01-15',
       schedule: 'daily',
-      rank: '3',
-      date: '2024-01-15'
+      date: '2024-01-15',
+      coordinate: '40.7128,-74.0060'
     },
     underPerformingArea: []
   };
@@ -117,11 +157,11 @@ export const ShareableGeoRankingPage: React.FC = () => {
   // Dummy handlers for public view
   const dummyHandler = () => {};
 
-  if (isLoading) {
+  if (isLoading || (selectedKeyword && keywordDetailsLoading)) {
     return <ListingLoader isLoading={true} children={null} />;
   }
 
-  if (error) {
+  if (error || keywordDetailsError) {
     return (
       <div className="mx-auto bg-gray-50 min-h-screen flex items-center justify-center">
         <Card className="bg-white shadow-sm max-w-md">
@@ -140,39 +180,39 @@ export const ShareableGeoRankingPage: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
             <GeoRankingHeader 
-              keywords={keywords.length > 0 ? keywords : mockKeywords} 
+              keywords={keywords} 
               selectedKeyword={selectedKeyword} 
               selectedDate={selectedDate} 
-              keywordDetails={mockKeywordDetails} 
+              keywordDetails={keywordDetails} 
               credits={{ allowedCredit: '0', remainingCredit: 0 }} 
-              onKeywordChange={setSelectedKeyword} 
-              onDateChange={setSelectedDate} 
+              onKeywordChange={handleKeywordChange} 
+              onDateChange={handleDateChange} 
               onClone={dummyHandler} 
               onRefresh={dummyHandler} 
               onCheckRank={dummyHandler}
               isRefreshing={false} 
               refreshProgress={0} 
-              loading={false} 
-              keywordChanging={false} 
+              loading={keywordDetailsLoading} 
+              keywordChanging={keywordDetailsLoading} 
               dateChanging={false} 
-              error={null}
+              error={keywordDetailsError?.message || null}
               isShareableView={true}
               projectName={shareableData?.data?.projectName}
             />
 
             <div className="space-y-4 sm:space-y-6">
               <GeoRankingMapSection 
-                gridSize="3x3" 
+                gridSize={keywordDetails.projectDetails?.grid || "3x3"} 
                 onMarkerClick={handleMarkerClick} 
-                rankDetails={mockKeywordDetails.rankDetails} 
-                rankStats={mockKeywordDetails.rankStats} 
-                projectDetails={mockKeywordDetails.projectDetails} 
-                loading={false} 
+                rankDetails={keywordDetails.rankDetails} 
+                rankStats={keywordDetails.rankStats} 
+                projectDetails={keywordDetails.projectDetails} 
+                loading={keywordDetailsLoading} 
               />
 
               <UnderPerformingTable 
-                underPerformingAreas={mockKeywordDetails.underPerformingArea} 
-                loading={false} 
+                underPerformingAreas={keywordDetails.underPerformingArea} 
+                loading={keywordDetailsLoading} 
               />
             </div>
           </div>

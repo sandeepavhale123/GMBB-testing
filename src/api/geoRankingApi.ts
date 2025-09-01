@@ -644,3 +644,66 @@ export const getShareableKeywords = async (
   const response = await axiosInstance.post("/geomodule/get-shareable-keywords", requestData);
   return response.data;
 };
+
+// Shareable keyword details API types and function
+export interface ShareableKeywordDetailsRequest {
+  reportId: string;
+  keywordId: number;
+  status: number;
+}
+
+export interface ShareableKeywordDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    projectDetails: {
+      id: string;
+      sab: string;
+      keyword: string;
+      mappoint: string;
+      prev_id: string;
+      distance: string;
+      grid: string;
+      last_checked: string;
+      schedule: string;
+      date: string;
+      coordinate: string;
+    };
+    underPerformingArea: Array<{
+      id: string;
+      areaName: string;
+      coordinate: string;
+      compRank: number;
+      compName: string;
+      compRating: string;
+      compReview: string;
+      priority: string;
+      youRank: string;
+      youName: string;
+      youRating: string;
+      youReview: string;
+    }>;
+    rankDetails: Array<{
+      coordinate: string;
+      positionId: string;
+      rank: string;
+    }>;
+    dates: Array<{
+      id: string;
+      prev_id: number;
+      date: string;
+    }>;
+    rankStats: {
+      atr: string;
+      atrp: string;
+      solvability: string;
+    };
+  };
+}
+
+export const getShareableKeywordDetails = async (
+  requestData: ShareableKeywordDetailsRequest  
+): Promise<ShareableKeywordDetailsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-details", requestData);
+  return response.data;
+};
