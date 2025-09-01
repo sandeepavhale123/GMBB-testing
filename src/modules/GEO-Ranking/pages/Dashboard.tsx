@@ -294,7 +294,12 @@ export const Dashboard: React.FC = () => {
                   </tr> : projects.map(project => <tr key={project.id} className="border-b border-border/50">
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-2">
-                          <span className="font-medium text-foreground">{project.name}</span>
+                          <span 
+                            className="font-medium text-foreground cursor-pointer hover:text-primary transition-colors" 
+                            onClick={() => navigate(`/module/geo-ranking/view-project-details/${project.id}`)}
+                          >
+                            {project.name}
+                          </span>
                           
                         </div>
                       </td>
