@@ -198,6 +198,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               keywordDetails={keywordDetails}
               totalKeywords={totalKeywords}
               onCheckRank={onCheckRank}
+              isShareableView={isShareableView}
             />
           </div>
         </CardContent>

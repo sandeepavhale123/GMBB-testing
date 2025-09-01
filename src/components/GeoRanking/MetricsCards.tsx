@@ -10,12 +10,14 @@ interface MetricsCardsProps {
   keywordDetails: KeywordDetailsResponse['data'] | null;
   totalKeywords: number;
   onCheckRank: () => void;
+  isShareableView?: boolean;
 }
 
 export const MetricsCards: React.FC<MetricsCardsProps> = ({
   keywordDetails,
   totalKeywords,
   onCheckRank,
+  isShareableView = false,
 }) => {
   const navigate = useNavigate();
   const { listingId } = useParams();
@@ -63,20 +65,22 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
         </div>
       </div>
 
-      {/* AI Genie Recommendation Card */}
-      <div className="lg:col-span-3">
-        <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4  py-8 rounded-lg h-full">
-          <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
-          <Button 
-            size="sm" 
-            className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
-            onClick={handleGetInsights}
-          >
-            <Sparkles className="h-3 w-3 mr-1" />
-            Let's Chat
-          </Button>
+      {/* AI Genie Recommendation Card - Hidden in shareable view */}
+      {!isShareableView && (
+        <div className="lg:col-span-3">
+          <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-4  py-8 rounded-lg h-full">
+            <div className="text-xs text-blue-100 font-medium mb-2 text-center">AI Genie Recommendation</div>
+            <Button 
+              size="sm" 
+              className="w-full bg-white text-blue-600 hover:bg-blue-50 text-xs font-medium"
+              onClick={handleGetInsights}
+            >
+              <Sparkles className="h-3 w-3 mr-1" />
+              Let's Chat
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
