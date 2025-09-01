@@ -6,7 +6,7 @@ import { UnderPerformingTable } from '@/components/GeoRanking/UnderPerformingTab
 import { GeoPositionModal } from '@/components/GeoRanking/GeoPositionModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { ListingLoader } from '@/components/ui/listing-loader';
-import { usePublicDashboardData } from '@/hooks/usePublicDashboardData';
+import { useShareableGeoKeywords } from '@/hooks/useShareableGeoKeywords';
 
 interface ModalData {
   isOpen: boolean;
@@ -25,15 +25,9 @@ interface ModalData {
 export const ShareableGeoRankingPage: React.FC = () => {
   const { reportId } = useParams();
   
-  // Mock data for public view - in real implementation, fetch from public API
-  const { data, isLoading, error } = usePublicDashboardData({
-    reportId: reportId || '',
-    dashboardFilterType: 1,
-    page: 1,
-    limit: 50,
-    search: '',
-    category: '',
-    city: ''
+  // Fetch shareable keywords data using the encKey as reportId
+  const { data: shareableData, isLoading, error } = useShareableGeoKeywords({ 
+    reportId: reportId || '' 
   });
 
   const [modalData, setModalData] = useState<ModalData>({
@@ -46,10 +40,18 @@ export const ShareableGeoRankingPage: React.FC = () => {
   const [selectedKeyword, setSelectedKeyword] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<string>('');
 
-  const userBusinessName = "Business Location";
+  // Extract data from API response
+  const keywords = shareableData?.data?.keywords?.map(kw => ({
+    id: kw.id,
+    keyword: kw.keyword,
+    visibility: 85, // Default visibility since not provided by API
+    date: kw.date
+  })) || [];
 
-  // Mock data for demonstration
-  const mockKeywords = [
+  const userBusinessName = shareableData?.data?.projectName || "Business Location";
+
+  // Mock data for demonstration - use first keyword if available
+  const mockKeywords = keywords.length > 0 ? keywords : [
     { id: '1', keyword: 'Sample Keyword', visibility: 85, date: '2024-01-15' }
   ];
 
@@ -138,7 +140,7 @@ export const ShareableGeoRankingPage: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
             <GeoRankingHeader 
-              keywords={mockKeywords} 
+              keywords={keywords.length > 0 ? keywords : mockKeywords} 
               selectedKeyword={selectedKeyword} 
               selectedDate={selectedDate} 
               keywordDetails={mockKeywordDetails} 

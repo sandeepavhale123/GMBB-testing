@@ -29,6 +29,24 @@ export interface DeleteKeywordResponse {
   code: number;
   message: string;
 }
+
+export interface ShareableKeywordsRequest {
+  reportId: string;
+}
+
+export interface ShareableKeywordsResponse {
+  code: number;
+  message: string;
+  data: {
+    projectName: string;
+    keywords: Array<{
+      id: string;
+      keyword: string;
+      date: string;
+    }>;
+    noOfKeyword: number;
+  };
+}
 export interface KeywordData {
   id: string;
   keyword: string;
@@ -616,5 +634,13 @@ export const addKeywordsToProject = async (
   requestData: AddKeywordsToProjectRequest
 ): Promise<AddKeywordsToProjectResponse> => {
   const response = await axiosInstance.post("/geomodule/add-keywords", requestData);
+  return response.data;
+};
+
+// Shareable Keywords API for public reports
+export const getShareableKeywords = async (
+  requestData: ShareableKeywordsRequest
+): Promise<ShareableKeywordsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keywords", requestData);
   return response.data;
 };
