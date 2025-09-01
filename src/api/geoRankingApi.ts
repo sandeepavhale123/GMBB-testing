@@ -245,10 +245,11 @@ export const getGridCoordinates = async (
 // Module-specific API function for GEO Ranking module (without listingId)
 export const getGridCoordinatesForGeoModule = async (
   distance: number | string,
-  latlong: string
+  latlong: string,
+  grid: number
 ): Promise<GridCoordinatesResponse> => {
   const response = await axiosInstance.post("/get-grid-coordinates", {
-    grid: 3,
+    grid,
     distance,
     latlong,
   });
