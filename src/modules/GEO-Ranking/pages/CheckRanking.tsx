@@ -59,7 +59,7 @@ export function CheckRanking() {
         setDefaultCoordinatesFromBusiness(businessCoords);
 
         // Set default grid size and distance for automatic API call
-        handleInputChange('gridSize', '5');
+        handleInputChange('gridSize', '3');
         handleInputChange('distanceValue', '100');
         handleInputChange('distanceUnit', 'Meters');
 
