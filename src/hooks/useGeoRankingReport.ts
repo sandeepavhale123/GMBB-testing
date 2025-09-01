@@ -326,8 +326,26 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
   // Fetch grid coordinates when relevant parameters change
   useEffect(() => {
+    console.log("🔍 Grid coordinates useEffect triggered:", {
+      mapPoint: formData.mapPoint,
+      defaultCoordinates: defaultCoordinates,
+      gridSize: formData.gridSize,
+      distanceValue: formData.distanceValue,
+      distanceUnit: formData.distanceUnit,
+    });
+
     if (formData.mapPoint === "Automatic" && defaultCoordinates) {
+      console.log("✅ Calling fetchGridCoordinates with:", {
+        gridSize: formData.gridSize,
+        distanceValue: formData.distanceValue,
+        coordinates: defaultCoordinates,
+      });
       fetchGridCoordinates();
+    } else {
+      console.log("❌ Grid coordinates fetch blocked:", {
+        isAutomatic: formData.mapPoint === "Automatic",
+        hasCoordinates: !!defaultCoordinates,
+      });
     }
 
     // Only clear manual coordinates when switching FROM another mode TO manual mode
