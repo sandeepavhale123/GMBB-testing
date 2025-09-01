@@ -32,7 +32,8 @@ export function CheckRanking() {
     updateManualCoordinate,
     clearManualCoordinates,
     fetchGridCoordinates,
-    fetchDefaultCoordinates
+    fetchDefaultCoordinates,
+    setDefaultCoordinatesFromBusiness
   } = useGeoRankingReport(listingId, true);
   const handleBusinessSelect = (business: BusinessLocationLite | null) => {
     setSelectedBusiness(business);
@@ -53,6 +54,9 @@ export function CheckRanking() {
           lat: parseFloat(business.latitude),
           lng: parseFloat(business.longitude)
         };
+
+        // Set the coordinates as default coordinates for grid API calls
+        setDefaultCoordinatesFromBusiness(businessCoords);
 
         // Set default grid size and distance for automatic API call
         handleInputChange('gridSize', '5');

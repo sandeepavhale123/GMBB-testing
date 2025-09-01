@@ -795,6 +795,11 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     }
   };
 
+  // Helper function to set default coordinates directly
+  const setDefaultCoordinatesFromBusiness = (coordinates: { lat: number; lng: number }) => {
+    setDefaultCoordinates(coordinates);
+  };
+
   return {
     formData,
     defaultCoordinates,
@@ -816,6 +821,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     handleReset,
     fetchGridCoordinates,
     fetchDefaultCoordinates,
+    setDefaultCoordinatesFromBusiness,
     submitCheckRank,
     submitAddKeywords,
   };
