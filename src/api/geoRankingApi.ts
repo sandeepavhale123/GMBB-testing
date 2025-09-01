@@ -246,10 +246,10 @@ export const getGridCoordinates = async (
 export const getGridCoordinatesForGeoModule = async (
   distance: number | string,
   latlong: string,
-  grid: number
+  gridSize: number
 ): Promise<GridCoordinatesResponse> => {
   const response = await axiosInstance.post("/get-grid-coordinates", {
-    grid,
+    grid: gridSize,
     distance,
     latlong,
   });
