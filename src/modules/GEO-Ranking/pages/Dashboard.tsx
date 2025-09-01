@@ -317,7 +317,7 @@ export const Dashboard: React.FC = () => {
                               <Edit className="w-4 h-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => navigate(`/sharable-geo-ranking-report/${project.encKey}`)}>
                               <Share className="w-4 h-4 mr-2" />
                               Shareable Link
                             </DropdownMenuItem>

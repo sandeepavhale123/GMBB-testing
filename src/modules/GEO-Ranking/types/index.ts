@@ -6,6 +6,7 @@ export interface GeoProject {
   notificationEmail: string;
   keywords: string[];
   isActive: boolean;
+  encKey: string;
 }
 
 export interface CreditHistoryItem {

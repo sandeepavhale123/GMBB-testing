@@ -28,6 +28,7 @@ const mapApiProjectToGeoProject = (apiProject: ApiProject): GeoProject => ({
   notificationEmail: apiProject.email || 'No email provided',
   keywords: [], // Default empty array since API doesn't provide keywords here
   isActive: true, // Default to active
+  encKey: apiProject.encKey,
 });
 
 const fetchProjects = async (params: GeoProjectsRequest): Promise<{ projects: GeoProject[]; pagination: PaginationInfo }> => {
@@ -79,6 +80,7 @@ const createProjectApi = async (projectData: CreateGeoProjectRequest): Promise<G
       notificationEmail: response.data.project.email || 'No email provided',
       keywords: [], // Default empty array for new projects
       isActive: true, // Default to active
+      encKey: response.data.project.encKey,
     };
     
     return newProject;
@@ -101,6 +103,7 @@ const updateProjectApi = async (projectData: UpdateGeoProjectRequest): Promise<G
       notificationEmail: response.data.emails || 'No email provided',
       keywords: [], // Keep existing or default
       isActive: true, // Keep existing or default
+      encKey: '', // Update response doesn't return encKey, so empty for now
     };
     
     return updatedProject;
