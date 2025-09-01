@@ -156,6 +156,8 @@ export const ShareableGeoRankingPage: React.FC = () => {
               keywordChanging={false} 
               dateChanging={false} 
               error={null}
+              isShareableView={true}
+              projectName={shareableData?.data?.projectName}
             />
 
             <div className="space-y-4 sm:space-y-6">

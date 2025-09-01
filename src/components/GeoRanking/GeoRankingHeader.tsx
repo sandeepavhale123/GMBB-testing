@@ -30,6 +30,8 @@ interface GeoRankingHeaderProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   error: string | null;
+  isShareableView?: boolean;
+  projectName?: string;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -49,6 +51,8 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   keywordChanging,
   dateChanging,
   error,
+  isShareableView = false,
+  projectName,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -131,15 +135,28 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
 
   return (
     <div className="mb-4 sm:mb-4">
-      <HeaderExportActions
-        isExporting={isExporting}
-        onExportImage={handleExportImage}
-        onCheckRank={onCheckRank}
-        onClone={onClone}
-        onRefresh={onRefresh}
-        isRefreshing={isRefreshing}
-        credits={credits}
-      />
+      {!isShareableView && (
+        <HeaderExportActions
+          isExporting={isExporting}
+          onExportImage={handleExportImage}
+          onCheckRank={onCheckRank}
+          onClone={onClone}
+          onRefresh={onRefresh}
+          isRefreshing={isRefreshing}
+          credits={credits}
+        />
+      )}
+
+      {isShareableView && projectName && (
+        <div className="mb-4">
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 sm:p-6">
+              <h1 className="text-2xl font-bold text-gray-900">{projectName}</h1>
+              <p className="text-sm text-gray-600 mt-1">GEO Ranking Report</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Progress Bar - shown when refreshing */}
       {isRefreshing && (
