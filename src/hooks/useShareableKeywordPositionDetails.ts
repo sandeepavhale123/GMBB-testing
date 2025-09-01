@@ -27,6 +27,8 @@ export const useShareableKeywordPositionDetails = ({
       return;
     }
 
+    // Clear previous data before starting new fetch
+    setData(null);
     setLoading(true);
     setError(null);
 

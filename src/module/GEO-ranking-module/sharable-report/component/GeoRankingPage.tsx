@@ -132,6 +132,7 @@ export const ShareableGeoRankingPage: React.FC = () => {
   };
 
   const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
+    // Clear previous modal data and show loading
     setModalData({
       isOpen: true,
       gpsCoordinates,
@@ -154,7 +155,7 @@ export const ShareableGeoRankingPage: React.FC = () => {
 
   // Update modal data when position details are fetched
   useEffect(() => {
-    if (positionDetailsData?.data && modalData.isOpen && modalData.loading) {
+    if (positionDetailsData?.data && modalData.isOpen) {
       const competitors = positionDetailsData.data.keywordDetails.map(detail => ({
         position: detail.position,
         name: detail.name,
@@ -171,7 +172,7 @@ export const ShareableGeoRankingPage: React.FC = () => {
         loading: false
       });
     }
-  }, [positionDetailsData, modalData.isOpen, modalData.loading]);
+  }, [positionDetailsData, modalData.isOpen]);
 
   const handleCloseModal = useCallback(() => {
     setModalData(prev => ({
