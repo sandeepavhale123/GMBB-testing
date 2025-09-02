@@ -151,16 +151,25 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
   }, [navigate]);
 
   const handleCheckRank = useCallback(() => {
-    if (isProjectMode) {
-      navigate('/module/geo-ranking/check-rank');
+    // Always redirect to AI Chatbox in GEO ranking module
+    const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
+    
+    if (effectiveId && selectedKeyword && selectedKeywordData) {
+      const encodedKeyword = encodeURIComponent(selectedKeywordData.keyword);
+      navigate(`/module/geo-ranking/aiChatBox/${effectiveId}?keyword=${encodedKeyword}&keywordId=${selectedKeyword}`);
     } else {
-      if (effectiveId) {
-        navigate(`/geo-ranking-report/${effectiveId}`);
+      // Fallback to current behavior if data is missing
+      if (isProjectMode) {
+        navigate('/module/geo-ranking/check-rank');
       } else {
-        navigate('/geo-ranking-report');
+        if (effectiveId) {
+          navigate(`/geo-ranking-report/${effectiveId}`);
+        } else {
+          navigate('/geo-ranking-report');
+        }
       }
     }
-  }, [navigate, effectiveId, isProjectMode]);
+  }, [navigate, effectiveId, isProjectMode, selectedKeyword, keywords]);
 
   const handleClone = useCallback(() => {
     if (!selectedKeyword) return;
