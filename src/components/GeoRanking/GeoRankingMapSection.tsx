@@ -185,7 +185,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
         style={{
           top: "120px",
           left: "33px",
-          zIndex: "9999",
+          zIndex: "9997",
         }}
       >
         <CardContent className="p-4">
@@ -222,7 +222,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
 
       {/* Position Summary Overlay - Top Right */}
       <Card 
-        className="bg-white/95 backdrop-blur-sm shadow-lg z-55 right-[33px] z-[9999] lg:absolute" 
+        className="bg-white/95 backdrop-blur-sm shadow-lg z-55 right-[33px] z-[9997] lg:absolute" 
         style={{top:"120px"}}
       >
         <CardContent className="p-4">
