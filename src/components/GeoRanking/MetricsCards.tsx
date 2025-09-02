@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { RefreshCcw, Copy, Sparkles } from 'lucide-react';
 import { CircularProgress } from '../ui/circular-progress';
@@ -20,7 +20,8 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
   isShareableView = false,
 }) => {
   const navigate = useNavigate();
-  const { listingId } = useParams();
+  const location = useLocation();
+  const { listingId, project_id } = useParams();
   
   // Use ATRP for Overall Visibility as requested
   const overallVisibility = keywordDetails?.rankStats?.atrp || '6.20';
@@ -31,12 +32,28 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
     const keyword = keywordDetails?.projectDetails?.keyword || '';
     const keywordId = keywordDetails?.projectDetails?.id || '';
     
-    // Navigate with keyword parameters
-    const params = new URLSearchParams();
-    if (keyword) params.set('keyword', keyword);
-    if (keywordId) params.set('keywordId', keywordId);
+    // URL encode the keyword parameter
+    const encodedKeyword = encodeURIComponent(keyword);
     
-    navigate(`/ai-chatbot/${listingId || 'default'}?${params.toString()}`);
+    // Detect route context and navigate conditionally
+    const pathname = location.pathname;
+    
+    if (pathname.startsWith('/module/geo-ranking/')) {
+      // Module context: navigate to module's AI Chatbox
+      const projectId = project_id || 'default';
+      const params = new URLSearchParams();
+      if (keyword) params.set('keyword', encodedKeyword);
+      if (keywordId) params.set('keywordId', keywordId);
+      
+      navigate(`/module/geo-ranking/aiChatBox/${projectId}?${params.toString()}`);
+    } else {
+      // Shareable context: navigate to standalone AI Chatbot (existing behavior)
+      const params = new URLSearchParams();
+      if (keyword) params.set('keyword', encodedKeyword);
+      if (keywordId) params.set('keywordId', keywordId);
+      
+      navigate(`/ai-chatbot/${listingId || 'default'}?${params.toString()}`);
+    }
   };
 
   return (
