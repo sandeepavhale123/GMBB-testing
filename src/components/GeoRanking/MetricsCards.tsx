@@ -11,6 +11,7 @@ interface MetricsCardsProps {
   totalKeywords: number;
   onCheckRank: () => void;
   isShareableView?: boolean;
+  
 }
 
 export const MetricsCards: React.FC<MetricsCardsProps> = ({
@@ -59,7 +60,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
   return (
     <>
       {/* Overall Visibility Card - Using ATRP */}
-      <div className={isShareableView ? 'lg:col-span-5' : 'lg:col-span-3'}>
+      <div className={isShareableView ? 'lg:col-span-4' : 'lg:col-span-3'}>
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 py-8 rounded-lg h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex-1">

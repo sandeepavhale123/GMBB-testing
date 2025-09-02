@@ -206,7 +206,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-12 gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-12 gap-4 items-center">
             <KeywordSelector
               keywords={keywords}
               selectedKeyword={selectedKeyword}
@@ -218,6 +218,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               isRefreshing={isRefreshing}
+              isShareableView={isShareableView}
             />
 
             <MetricsCards
