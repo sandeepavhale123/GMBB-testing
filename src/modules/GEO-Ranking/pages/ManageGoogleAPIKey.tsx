@@ -139,15 +139,15 @@ export const ManageGoogleAPIKey: React.FC = () => {
           <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
             <p className="font-medium mb-2">How to generate Google Place API key:</p>
             <ol className="space-y-1">
-              <li>1. Note - You must enable Billing for Google Project</li>
-              <li>2. Visit the Google <a href="https://console.cloud.google.com/projectselector2/google/maps-apis/overview?pli=1&supportedpurview=project" target="_blank">Cloud Platform Console.</a></li>
-              <li>3. Click the project drop-down and select or create the project for which you want to add an API key.</li>
-              <li>4. From Dashboard > Go to APIs overview > Click on Library > Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</li>
-              <li>5. After that Click the menu button and select APIs & Services > Credentials.</li>
-              <li>6. On the Credentials page, Create credentials Dropdown - Select API Key Option</li>
-              <li>7. This creates a dialog that displays, “your newly created API key” - Copy the key.</li>
-              <li>8. Use or paste the generated key under Geo Ranking > Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</li>
-              <li>9. Once you have added a key, it will be used for all of your listings, and no more need to generate a separate key for every GMB listing.</li>
+              <li>Note - You must enable Billing for Google Project</li>
+              <li>Visit the Google <a href="https://console.cloud.google.com/projectselector2/google/maps-apis/overview?pli=1&supportedpurview=project" target="_blank">Cloud Platform Console.</a></li>
+              <li>Click the project drop-down and select or create the project for which you want to add an API key.</li>
+              <li>From Dashboard &gt; Go to APIs overview &gt; Click on Library &gt; Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</li>
+              <li>After that Click the menu button and select APIs &amp; Services &gt; Credentials.</li>
+              <li>On the Credentials page, Create credentials Dropdown - Select API Key Option</li>
+              <li>This creates a dialog that displays, “your newly created API key” - Copy the key.</li>
+              <li>Use or paste the generated key under Geo Ranking &gt; Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</li>
+              <li>Once you have added a key, it will be used for all of your listings, and no more need to generate a separate key for every GMB listing.</li>
             </ol>
           </div>
         </CardContent>
