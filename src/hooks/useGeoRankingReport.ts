@@ -305,7 +305,7 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
 
       const response = useModuleApi 
         ? await getGridCoordinatesForGeoModule(distance, latlong, gridSize)
-        : await getGridCoordinates(listingId, distance, latlong);
+        : await getGridCoordinates(listingId, distance, latlong, gridSize);
       if (response.code === 200) {
         setGridCoordinates(response.data.allCoordinates);
       }

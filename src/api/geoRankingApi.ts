@@ -250,11 +250,12 @@ export const getDefaultCoordinatesForGeoModule = async (
 export const getGridCoordinates = async (
   listingId: number,
   distance: number | string,
-  latlong: string
+  latlong: string,
+  grid: number
 ): Promise<GridCoordinatesResponse> => {
   const response = await axiosInstance.post("/get-grid-coordinates", {
     listingId,
-    grid: 3,
+    grid,
     distance,
     latlong,
   });
