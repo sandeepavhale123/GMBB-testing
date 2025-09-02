@@ -295,7 +295,7 @@ export const Dashboard: React.FC = () => {
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-2">
                           <span 
-                            className="font-medium text-foreground cursor-pointer hover:text-primary transition-colors" 
+                            className="font-medium text-muted-foreground cursor-pointer hover:text-primary transition-colors" 
                             onClick={() => navigate(`/module/geo-ranking/view-project-details/${project.id}`)}
                           >
                             {project.name}
@@ -303,7 +303,7 @@ export const Dashboard: React.FC = () => {
                           
                         </div>
                       </td>
-                      <td className="py-3 px-4 text-foreground">{project.numberOfChecks}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{project.numberOfChecks}</td>
                       <td className="py-3 px-4 text-muted-foreground">{project.createdDate}</td>
                       <td className="py-3 px-4 text-muted-foreground">{project.notificationEmail}</td>
                       <td className="py-3 px-4">
