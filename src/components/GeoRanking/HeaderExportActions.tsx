@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Download, RefreshCcw, Copy } from "lucide-react";
+import { Download, RefreshCcw, Copy, Share } from "lucide-react";
 import { Credits } from "../../api/geoRankingApi";
 
 interface HeaderExportActionsProps {
@@ -10,6 +10,7 @@ interface HeaderExportActionsProps {
   onCheckRank: () => void;
   onClone: () => void;
   onRefresh: () => void;
+  onShare: () => void;
   isRefreshing: boolean;
   credits: Credits | null;
 }
@@ -20,6 +21,7 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
   onCheckRank,
   onClone,
   onRefresh,
+  onShare,
   isRefreshing,
   credits,
 }) => {
@@ -66,6 +68,16 @@ export const HeaderExportActions: React.FC<HeaderExportActionsProps> = ({
         >
           <Copy className="w-4 h-4" />
           <span className="hidden [@media(min-width:500px)]:inline">Clone</span>
+        </Button>
+
+        <Button
+          onClick={onShare}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Share className="w-4 h-4" />
+          <span className="hidden [@media(min-width:500px)]:inline">Share</span>
         </Button>
 
         <Button

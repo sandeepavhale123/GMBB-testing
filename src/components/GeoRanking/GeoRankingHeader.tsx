@@ -12,6 +12,8 @@ import {
 import { HeaderExportActions } from "./HeaderExportActions";
 import { KeywordSelector } from "./KeywordSelector";
 import { MetricsCards } from "./MetricsCards";
+import { CopyUrlModal } from "../Dashboard/CopyUrlModal";
+import { useGeoProjects } from "@/modules/GEO-Ranking/hooks/useGeoProjects";
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
@@ -32,6 +34,7 @@ interface GeoRankingHeaderProps {
   error: string | null;
   isShareableView?: boolean;
   projectName?: string;
+  projectId?: number;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -53,11 +56,17 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   error,
   isShareableView = false,
   projectName,
+  projectId,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { listingId } = useParams();
   const [isExporting, setIsExporting] = React.useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
+  
+  // Get project data to access encKey
+  const { projects } = useGeoProjects();
+  const currentProject = projects.find(p => p.id === projectId?.toString());
 
   // Total keywords count
   const totalKeywords = keywords.length;
@@ -133,6 +142,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     }
   };
 
+  const handleShare = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const shareableUrl = currentProject ? `/sharable-geo-ranking-report/${currentProject.encKey}` : '';
+
   return (
     <div className="mb-4 sm:mb-4">
       {!isShareableView && (
@@ -142,10 +157,18 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
           onCheckRank={onCheckRank}
           onClone={onClone}
           onRefresh={onRefresh}
+          onShare={handleShare}
           isRefreshing={isRefreshing}
           credits={credits}
         />
       )}
+
+      {/* Share Modal */}
+      <CopyUrlModal
+        open={isShareModalOpen}
+        onOpenChange={setIsShareModalOpen}
+        reportUrl={shareableUrl}
+      />
 
       {isShareableView && projectName && (
         <div className="mb-4">
