@@ -42,7 +42,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
   return (
     <>
       {/* Overall Visibility Card - Using ATRP */}
-      <div className="lg:col-span-3">
+      <div className=className={!isShareableView ? 'lg:col-span-5' : 'lg:col-span-3'}>
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 py-8 rounded-lg h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex-1">
@@ -57,7 +57,7 @@ export const MetricsCards: React.FC<MetricsCardsProps> = ({
       </div>
 
       {/* Total Keywords Card */}
-      <div className="lg:col-span-3">
+      <div className={!isShareableView ? 'lg:col-span-4' : 'lg:col-span-3'}>
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 py-8 rounded-lg h-full">
           <div className="text-xs text-orange-600 font-medium mb-1">Total Keywords</div>
           <div className="text-2xl font-bold text-orange-900">{totalKeywords}</div>
