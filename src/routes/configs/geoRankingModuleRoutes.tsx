@@ -6,6 +6,7 @@ import { CheckRanking } from "@/modules/GEO-Ranking/pages/CheckRanking";
 import { ManageGoogleAPIKey } from "@/modules/GEO-Ranking/pages/ManageGoogleAPIKey";
 import { CreditHistory } from "@/modules/GEO-Ranking/pages/CreditHistory";
 import { ViewProjectDetails } from "@/modules/GEO-Ranking/pages/ViewProjectDetails";
+import { AIChatBoxPage } from "@/modules/GEO-Ranking/pages/AI-ChatBoxPage";
 import type { RouteConfig } from "../routeConfig";
 
 export const geoRankingModuleRoutes: RouteConfig[] = [
@@ -38,6 +39,10 @@ export const geoRankingModuleRoutes: RouteConfig[] = [
       {
         path: "view-project-details/:project_id",
         element: <ViewProjectDetails />,
+      },
+      {
+        path: "aiChatBox/:projectId",
+        element: <AIChatBoxPage />,
       },
     ],
   },
