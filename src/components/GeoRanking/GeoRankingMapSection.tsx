@@ -195,7 +195,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
                 ARP
               </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.atr || "8.50"}%
+                {rankStats?.atr || "8.50"}
               </div>
             </div>
 
@@ -204,7 +204,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
                 ATRP
               </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.atrp || "6.20"}%
+                {rankStats?.atrp || "6.20"}
               </div>
             </div>
 
@@ -213,7 +213,7 @@ export const GeoRankingMapSection: React.FC<GeoRankingMapSectionProps> = memo(({
                 SoLV
               </div>
               <div className="bg-white text-gray-800 px-3 py-1 text-xs font-semibold border-l">
-                {rankStats?.solvability || "36.0"}%
+                {rankStats?.solvability || "36.0"}
               </div>
             </div>
           </div>
