@@ -1,10 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { store } from '@/store/store';
-import { MediaProvider } from '@/context/MediaContext';
+import { store } from "@/store/store";
+import { MediaProvider } from "@/context/MediaContext";
+import { NotificationProvider } from "@/context/NotificationContext";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,7 @@ export const AppProviders = ({ children }: AppProvidersProps) => (
         <TooltipProvider>
           <BrowserRouter>
             <MediaProvider>
-              {children}
+              <NotificationProvider>{children}</NotificationProvider>
             </MediaProvider>
           </BrowserRouter>
         </TooltipProvider>

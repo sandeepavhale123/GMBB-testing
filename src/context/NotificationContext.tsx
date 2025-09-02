@@ -1,0 +1,342 @@
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { getNotifications } from "@/api/notificationApi";
+
+export interface Notification {
+  id: string;
+  title: string;
+  category?: string;
+  date: string;
+  read?: boolean;
+  textContent?: string; // plain HTML/text
+  images?: { url: string; alt?: string }[];
+  videos?: string[]; // iframe URLs or raw iframe HTML
+}
+
+interface NotificationContextType {
+  notifications: Notification[];
+  isDrawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
+  toggleDrawer: (open: boolean) => void;
+  markAsRead: (id: string) => void;
+  unreadCount: number;
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
+  loadNextPage: () => void;
+  resetNotifications: () => void;
+  isLoading: boolean;
+  hasMore: boolean;
+}
+
+const parseNotificationHTML = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  // Extract only text content
+  const paragraphs = Array.from(doc.querySelectorAll("p, h1, h2, h3, h4, h5"))
+    .map((el) => el.outerHTML)
+    .join("");
+
+  let textContent = paragraphs;
+
+  let firstImage: { url: string; alt?: string } | null = null;
+  let firstVideo: string | null = null;
+
+  // Walk through elements in DOM order
+  const walker = doc.body.querySelectorAll("img, iframe, a, video");
+
+  for (const el of walker) {
+    if (firstImage || firstVideo) break; // we already found first media
+
+    if (el.tagName.toLowerCase() === "img") {
+      firstImage = {
+        url: (el as HTMLImageElement).src,
+        alt: (el as HTMLImageElement).alt || "",
+      };
+      continue;
+    }
+
+    if (el.tagName.toLowerCase() === "iframe") {
+      const src = (el as HTMLIFrameElement).src;
+      if (src) {
+        firstVideo = `
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe 
+              src="${src}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>`;
+      }
+      continue;
+    }
+
+    if (el.tagName.toLowerCase() === "a") {
+      const href = (el as HTMLAnchorElement).href;
+
+      // Loom
+      const loomMatch = href.match(
+        /https:\/\/www\.loom\.com\/share\/([a-zA-Z0-9]+)/
+      );
+      if (loomMatch) {
+        const src = `https://www.loom.com/embed/${loomMatch[1]}`;
+        firstVideo = `
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe 
+              src="${src}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>`;
+        continue;
+      }
+
+      // YouTube full
+      const ytMatch = href.match(
+        /https:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/
+      );
+      if (ytMatch) {
+        const src = `https://www.youtube.com/embed/${ytMatch[1]}`;
+        firstVideo = `
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe 
+              src="${src}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>`;
+        continue;
+      }
+
+      // YouTube short
+      const ytShort = href.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/);
+      if (ytShort) {
+        const src = `https://www.youtube.com/embed/${ytShort[1]}`;
+        firstVideo = `
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe 
+              src="${src}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>`;
+        continue;
+      }
+
+      // Vimeo
+      const vimeoMatch = href.match(/https:\/\/(?:www\.)?vimeo\.com\/(\d+)/);
+      if (vimeoMatch) {
+        const src = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+        firstVideo = `
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe 
+              src="${src}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen" 
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>`;
+        continue;
+      }
+
+      // Normal link → keep in text
+      textContent += el.outerHTML;
+    }
+  }
+
+  return {
+    textContent,
+    images: firstImage ? [firstImage] : [],
+    videos: firstVideo ? [firstVideo] : [],
+  };
+};
+
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
+
+export const useNotifications = () => {
+  const context = useContext(NotificationContext);
+  if (!context) {
+    throw new Error(
+      "useNotifications must be used within a NotificationProvider"
+    );
+  }
+  return context;
+};
+
+interface NotificationProviderProps {
+  children: ReactNode;
+}
+
+export const NotificationProvider: React.FC<NotificationProviderProps> = ({
+  children,
+}) => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getNotifications({ page: 1, limit: 10 });
+        console.log("response in main part", response);
+
+        const mapped: Notification[] = Array.isArray(
+          response?.data?.notification
+        )
+          ? response.data.notification.map((n: any) => {
+              const { textContent, images, videos } = parseNotificationHTML(
+                n.description
+              );
+
+              return {
+                id: n.id ?? n.title,
+                title: n.title,
+                category: n.category,
+                date: n.created_at,
+                read: n.read ?? false,
+                textContent,
+                images,
+                videos,
+              };
+            })
+          : [];
+
+        setNotifications(mapped);
+      } catch (err) {
+        console.error("❌ Failed to load notifications:", err);
+        setNotifications([]);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const fetchNotifications = async (pageToLoad: number) => {
+    if (isLoading) return [];
+    setIsLoading(true); // ← show skeleton immediately
+    try {
+      const response = await getNotifications({ page: pageToLoad, limit });
+      const newNotifications = (response?.data?.notification ?? []).map(
+        (n: any) => {
+          const { textContent, images, videos } = parseNotificationHTML(
+            n.description
+          );
+          return {
+            id: n.id ?? n.title,
+            title: n.title,
+            category: n.category,
+            date: n.created_at,
+            read: n.read ?? false,
+            textContent,
+            images,
+            videos,
+          };
+        }
+      );
+
+      setNotifications((prev) =>
+        pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
+      );
+      if (newNotifications.length < limit) setHasMore(false);
+
+      return newNotifications; // important for drawer animation
+    } catch (err) {
+      console.error(err);
+      return [];
+    } finally {
+      setIsLoading(false); // hides skeleton after load
+    }
+  };
+
+  const loadNextPage = async () => {
+    if (!isLoading && hasMore) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      await fetchNotifications(nextPage);
+    }
+  };
+
+  const resetNotifications = () => {
+    setNotifications([]);
+    setPage(1);
+    setHasMore(true);
+  };
+
+  // Fetch notifications when page changes
+  useEffect(() => {
+    fetchNotifications(page);
+  }, [page]);
+
+  const openDrawer = () => {
+    console.log("🔔 openDrawer called");
+    setIsDrawerOpen(true);
+    // resetNotifications();
+    // setTimeout(() => fetchNotifications(1), 0);
+  };
+
+  const closeDrawer = () => {
+    console.log("❌ closeDrawer called");
+    setIsDrawerOpen(false);
+    setSearchQuery(""); // just clear search input
+  };
+  const toggleDrawer = (open: boolean) => {
+    console.log("🔄 toggleDrawer called with:", open);
+    setIsDrawerOpen(open);
+  };
+
+  const markAsRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === id ? { ...notification, read: true } : notification
+      )
+    );
+  };
+
+  const unreadCount = Array.isArray(notifications)
+    ? notifications.filter((n) => !n.read).length
+    : 0;
+
+  const value = {
+    notifications,
+    isDrawerOpen,
+    openDrawer,
+    closeDrawer,
+    toggleDrawer,
+    markAsRead,
+    unreadCount,
+    searchQuery,
+    setSearchQuery,
+    loadNextPage,
+    resetNotifications,
+    isLoading,
+    hasMore,
+    fetchNotifications, // ✅ export it
+  };
+
+  return (
+    <NotificationContext.Provider value={value}>
+      {children}
+    </NotificationContext.Provider>
+  );
+};
