@@ -11,7 +11,7 @@ export const AIChatBoxPage: React.FC = () => {
   const keywordId = searchParams.get('keywordId') || '';
 
   return (
-    <div className="h-full">
+    <div className="h-full" style={{border:'1px solid gray'}}>
       <AIChatbotContent keyword={keyword} keywordId={keywordId} projectId={projectId} />
     </div>
   );
