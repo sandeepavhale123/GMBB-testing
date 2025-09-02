@@ -43,6 +43,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLength = useRef(0);
   const {
     messages,
     chatHistory,
@@ -61,9 +62,13 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
   } = useChat(keywordId, projectId);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    // Only scroll to bottom when new messages are added, not when existing messages are updated
+    if (messages.length > prevMessagesLength.current) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+    prevMessagesLength.current = messages.length;
   }, [messages]);
 
   // Set initial sidebar state on mount
