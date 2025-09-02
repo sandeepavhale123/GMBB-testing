@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { getGeoCreditHistory } from '@/api/geoRankingApi';
@@ -20,19 +20,38 @@ export const useCreditHistory = () => {
   
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const fetchCreditHistory = useCallback(async (params: CreditHistoryRequest) => {
-    const response = await getGeoCreditHistory(params);
+  const fetchCreditHistory = useCallback(async () => {
+    const response = await getGeoCreditHistory({
+      page: 1,
+      limit: 1000, // Fetch more records to filter locally
+      search: '', // Empty search to get all records
+    });
     return response.data.creditHistory.map(mapApiCreditHistoryItem);
   }, []);
 
   const query = useQuery({
-    queryKey: ['credit-history', currentPage, debouncedSearchTerm, pageSize],
-    queryFn: () => fetchCreditHistory({
-      page: currentPage,
-      limit: pageSize,
-      search: debouncedSearchTerm,
-    }),
+    queryKey: ['credit-history'],
+    queryFn: fetchCreditHistory,
   });
+
+  // Filter credit history locally based on search term
+  const filteredCreditHistory = useMemo(() => {
+    if (!query.data) return [];
+    
+    if (!debouncedSearchTerm) return query.data;
+    
+    return query.data.filter(item => 
+      item.keyword.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      item.type.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+    );
+  }, [query.data, debouncedSearchTerm]);
+
+  // Paginate the filtered results
+  const paginatedCreditHistory = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return filteredCreditHistory.slice(startIndex, endIndex);
+  }, [filteredCreditHistory, currentPage, pageSize]);
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
@@ -44,12 +63,13 @@ export const useCreditHistory = () => {
   }, []);
 
   return {
-    creditHistory: query.data || [],
+    creditHistory: paginatedCreditHistory,
     isLoading: query.isLoading,
     error: query.error,
     currentPage,
     pageSize,
     searchTerm,
+    totalResults: filteredCreditHistory.length,
     handlePageChange,
     handleSearchChange,
   };
