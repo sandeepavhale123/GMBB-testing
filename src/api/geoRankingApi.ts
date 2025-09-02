@@ -51,6 +51,7 @@ export interface KeywordData {
   id: string;
   keyword: string;
   date: string;
+  encKey?: string;
 }
 
 export interface Credits {

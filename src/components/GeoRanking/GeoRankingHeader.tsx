@@ -64,9 +64,12 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const [isExporting, setIsExporting] = React.useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
   
-  // Get project data to access encKey
+  // Get project data to access encKey (fallback for project mode)
   const { projects } = useGeoProjects();
   const currentProject = projects.find(p => p.id === projectId?.toString());
+  
+  // Get encKey from keywords data (for listing mode) or project data (for project mode)
+  const encKey = keywords.length > 0 ? keywords[0].encKey : currentProject?.encKey;
 
   // Total keywords count
   const totalKeywords = keywords.length;
@@ -146,7 +149,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     setIsShareModalOpen(true);
   };
 
-  const shareableUrl = currentProject ? `/sharable-geo-ranking-report/${currentProject.encKey}` : '';
+  const shareableUrl = encKey ? `${window.location.origin}/sharable-geo-ranking-report/${encKey}` : '';
 
   return (
     <div className="mb-4 sm:mb-4">
