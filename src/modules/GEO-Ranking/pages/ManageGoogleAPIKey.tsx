@@ -34,7 +34,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
   return <div className=" mx-auto space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Google Places API Key</h1>
+        <h1 className="text-2xl font-bold text-foreground">Google Places API Key</h1>
         <p className="text-muted-foreground mt-2">Manage your Google Places API key for location-based ranking checks</p>
       </div>
 
@@ -87,12 +87,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Current API Key Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Current Status</CardTitle>
-        </CardHeader>
-        <CardContent>
+      
           {isLoading ? (
             <div className="animate-pulse space-y-4">
               <div className="h-4 bg-muted rounded w-3/4"></div>
@@ -100,6 +95,11 @@ export const ManageGoogleAPIKey: React.FC = () => {
               <div className="h-4 bg-muted rounded w-5/6"></div>
             </div>
           ) : apiKeyData ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Current Status</CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div className="flex items-center space-x-3">
@@ -141,67 +141,11 @@ export const ManageGoogleAPIKey: React.FC = () => {
                 </div>
               </div>
             </div>
+              </CardContent>
+      </Card>
           ) : (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <Key className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <p className="text-lg font-medium text-muted-foreground mb-2">No API Key Configured</p>
-              <p className="text-sm text-muted-foreground">Add your Google Places API key above to get started</p>
-            </div>
+            <></>
           )}
-        </CardContent>
-      </Card>
-
-      {/* API Key Requirements */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Requirements & Setup</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-3 flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                Required APIs
-              </h4>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Places API - For location data
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Geocoding API - For address conversion
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Maps JavaScript API - For map display
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3 flex items-center">
-                <Key className="w-4 h-4 mr-2 text-blue-500" />
-                Permissions
-              </h4>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Read place details
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Search nearby places
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Convert addresses to coordinates
-                </li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      
     </div>;
 };
