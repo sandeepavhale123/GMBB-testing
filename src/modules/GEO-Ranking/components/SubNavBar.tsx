@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Search, Key, History, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Search, Key, History, ArrowLeft, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Check Rank', path: '/module/geo-ranking/check-rank', icon: Search },
   { label: 'Google Place API Key', path: '/module/geo-ranking/google-api-key', icon: Key },
   { label: 'Credits History', path: '/module/geo-ranking/credit-history', icon: History },
+  // { label: 'AI Chatbot', path: '/module/geo-ranking/aiChatBox/1', icon: MessageSquare },
 ];
 
 export const SubNavBar: React.FC = () => {

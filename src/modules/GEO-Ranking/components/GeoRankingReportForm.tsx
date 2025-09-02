@@ -47,6 +47,7 @@ interface GeoRankingReportFormProps {
   onBusinessSelect?: (business: BusinessLocationLite) => void;
   onProjectSelect?: (project: ProjectLite | null) => void;
   disabled?: boolean;
+  onAddKeywordsSubmit?: (e: React.FormEvent) => void;
 }
 export function GeoRankingReportForm({
   formData,
@@ -62,7 +63,8 @@ export function GeoRankingReportForm({
   hasResults = false,
   onBusinessSelect,
   onProjectSelect,
-  disabled = false
+  disabled = false,
+  onAddKeywordsSubmit
 }: GeoRankingReportFormProps) {
   const {
     data: mapApiKeyData
@@ -603,8 +605,13 @@ export function GeoRankingReportForm({
 
           {/* Updated buttons section - single row layout */}
           <div className="flex gap-3">
-            <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" disabled={submittingRank || pollingKeyword || !isKeywordCountValid}>
-              {pollingKeyword ? "Processing keyword..." : submittingRank ? "Checking rank..." : "Check rank"}
+            <Button 
+              type="submit" 
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white" 
+              disabled={submittingRank || pollingKeyword || !isKeywordCountValid}
+              onClick={onAddKeywordsSubmit ? onAddKeywordsSubmit : undefined}
+            >
+              {pollingKeyword ? "Processing keyword..." : submittingRank ? "Checking rank..." : (onAddKeywordsSubmit ? "Add Keywords" : "Check rank")}
             </Button>
 
             {shouldShowResetButton && <Button type="button" variant="outline" onClick={onReset} disabled={submittingRank || pollingKeyword} className="flex-none">

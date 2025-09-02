@@ -17,7 +17,7 @@ import { useListingContext } from "../context/ListingContext";
 import { useAppSelector } from "./useRedux";
 import { toast } from "./use-toast";
 
-export const useChat = (keywordId?: string) => {
+export const useChat = (keywordId?: string, moduleProjectId?: string) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(
     null
@@ -77,13 +77,15 @@ export const useChat = (keywordId?: string) => {
 
   // Fetch chat history
   const fetchChatHistory = useCallback(async () => {
-    if (!selectedListing?.id || !keywordId) return;
+    // For module context, use null listingId and keywordId as projectId
+    const listingId = moduleProjectId ? null : selectedListing?.id ? parseInt(selectedListing.id, 10) : null;
+    const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
+    
+    if (!listingId && !moduleProjectId) return;
+    if (!keywordId && !moduleProjectId) return;
 
     setIsLoadingHistory(true);
     try {
-      const listingId = parseInt(selectedListing.id, 10);
-      const projectId = parseInt(keywordId, 10);
-
       const response = await getChatHistory({
         listingId,
         projectId,
@@ -107,7 +109,7 @@ export const useChat = (keywordId?: string) => {
     } finally {
       setIsLoadingHistory(false);
     }
-  }, [selectedListing?.id, keywordId, transformChatHistory]);
+  }, [selectedListing?.id, keywordId, transformChatHistory, moduleProjectId]);
 
   // Load chat history on component mount
   useEffect(() => {
@@ -116,11 +118,24 @@ export const useChat = (keywordId?: string) => {
 
   const sendMessage = useCallback(
     async (messageContent: string) => {
-      if (!selectedListing?.id || !messageContent.trim()) {
+      // For module context, use null listingId and keywordId as projectId
+      const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : user?.projectId || user?.userId ? parseInt(user.userId, 10) : 50407);
+      
+      if (!listingId && !moduleProjectId) {
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Please select a listing and enter a message",
+          description: "Please select a listing or ensure you are in the correct context",
+        });
+        return;
+      }
+      
+      if (!messageContent.trim()) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please enter a message",
         });
         return;
       }
@@ -154,14 +169,6 @@ export const useChat = (keywordId?: string) => {
       setIsLoading(true);
 
       try {
-        const listingId = parseInt(selectedListing.id, 10);
-        // Use keywordId as projectId if provided, otherwise fallback to user data
-        const projectId = keywordId
-          ? parseInt(keywordId, 10)
-          : user?.projectId || user?.userId
-          ? parseInt(user.userId, 10)
-          : 50407;
-
         const response = await sendChatMessage({
           listingId,
           projectId,
@@ -238,7 +245,7 @@ export const useChat = (keywordId?: string) => {
         setIsLoading(false);
       }
     },
-    [selectedListing?.id, user, chatSessionId, keywordId]
+    [selectedListing?.id, user, chatSessionId, keywordId, moduleProjectId, fetchChatHistory]
   );
 
   const handleCopy = useCallback((content: string) => {
@@ -251,7 +258,11 @@ export const useChat = (keywordId?: string) => {
 
   const submitFeedback = useCallback(
     async (messageId: string, feedback: FeedbackType) => {
-      if (!selectedListing?.id || !keywordId) {
+      // For module context, use null listingId and keywordId as projectId
+      const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
+      
+      if (!listingId && !moduleProjectId) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -268,9 +279,6 @@ export const useChat = (keywordId?: string) => {
       );
 
       try {
-        const listingId = parseInt(selectedListing.id, 10);
-        const projectId = parseInt(keywordId, 10);
-
         await updateChatFeedback({
           listingId,
           projectId,
@@ -310,7 +318,7 @@ export const useChat = (keywordId?: string) => {
         });
       }
     },
-    [selectedListing?.id, keywordId]
+    [selectedListing?.id, keywordId, moduleProjectId]
   );
 
   const handleGoodResponse = useCallback(
@@ -363,13 +371,14 @@ export const useChat = (keywordId?: string) => {
   // Load chat messages for a specific session
   const loadChatMessages = useCallback(
     async (sessionId: string) => {
-      if (!selectedListing?.id || !keywordId) return;
+      // For module context, use null listingId and keywordId as projectId
+      const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
+      
+      if (!listingId && !moduleProjectId) return;
 
       setIsLoadingMessages(true);
       try {
-        const listingId = parseInt(selectedListing.id, 10);
-        const projectId = parseInt(keywordId, 10);
-
         const response = await getChatMessages({
           listingId,
           projectId,
@@ -393,7 +402,7 @@ export const useChat = (keywordId?: string) => {
         setIsLoadingMessages(false);
       }
     },
-    [selectedListing?.id, keywordId, transformChatMessages]
+    [selectedListing?.id, keywordId, transformChatMessages, moduleProjectId]
   );
 
   const loadChatSession = useCallback(
@@ -411,7 +420,11 @@ export const useChat = (keywordId?: string) => {
 
   const deleteChatHistory = useCallback(
     async (sessionId: string) => {
-      if (!selectedListing?.id || !keywordId) {
+      // For module context, use null listingId and keywordId as projectId
+      const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
+      
+      if (!listingId && !moduleProjectId) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -422,9 +435,6 @@ export const useChat = (keywordId?: string) => {
 
       setIsDeleting(true);
       try {
-        const listingId = parseInt(selectedListing.id, 10);
-        const projectId = parseInt(keywordId, 10);
-
         await deleteChatSession({
           listingId,
           projectId,
@@ -459,7 +469,7 @@ export const useChat = (keywordId?: string) => {
         setIsDeleting(false);
       }
     },
-    [selectedListing?.id, keywordId, currentSession]
+    [selectedListing?.id, keywordId, currentSession, moduleProjectId]
   );
 
   const startNewChat = useCallback(() => {

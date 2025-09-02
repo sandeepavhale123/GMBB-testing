@@ -265,6 +265,7 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
               keywordChanging={keywordChanging} 
               dateChanging={dateChanging} 
               error={error} 
+              projectId={projectId}
             />
 
             <div className="space-y-4 sm:space-y-6">

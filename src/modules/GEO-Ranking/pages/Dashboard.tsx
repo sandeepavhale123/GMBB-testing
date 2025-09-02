@@ -294,11 +294,16 @@ export const Dashboard: React.FC = () => {
                   </tr> : projects.map(project => <tr key={project.id} className="border-b border-border/50">
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-2">
-                          <span className="font-medium text-foreground">{project.name}</span>
+                          <span 
+                            className="font-medium text-muted-foreground cursor-pointer hover:text-primary transition-colors" 
+                            onClick={() => navigate(`/module/geo-ranking/view-project-details/${project.id}`)}
+                          >
+                            {project.name}
+                          </span>
                           
                         </div>
                       </td>
-                      <td className="py-3 px-4 text-foreground">{project.numberOfChecks}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{project.numberOfChecks}</td>
                       <td className="py-3 px-4 text-muted-foreground">{project.createdDate}</td>
                       <td className="py-3 px-4 text-muted-foreground">{project.notificationEmail}</td>
                       <td className="py-3 px-4">
@@ -317,7 +322,7 @@ export const Dashboard: React.FC = () => {
                               <Edit className="w-4 h-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => window.open(`/sharable-geo-ranking-report/${project.encKey}`, '_blank')}>
                               <Share className="w-4 h-4 mr-2" />
                               Shareable Link
                             </DropdownMenuItem>

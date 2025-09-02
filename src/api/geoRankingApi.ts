@@ -29,10 +29,29 @@ export interface DeleteKeywordResponse {
   code: number;
   message: string;
 }
+
+export interface ShareableKeywordsRequest {
+  reportId: string;
+}
+
+export interface ShareableKeywordsResponse {
+  code: number;
+  message: string;
+  data: {
+    projectName: string;
+    keywords: Array<{
+      id: string;
+      keyword: string;
+      date: string;
+    }>;
+    noOfKeyword: number;
+  };
+}
 export interface KeywordData {
   id: string;
   keyword: string;
   date: string;
+  encKey?: string;
 }
 
 export interface Credits {
@@ -231,11 +250,12 @@ export const getDefaultCoordinatesForGeoModule = async (
 export const getGridCoordinates = async (
   listingId: number,
   distance: number | string,
-  latlong: string
+  latlong: string,
+  grid: number
 ): Promise<GridCoordinatesResponse> => {
   const response = await axiosInstance.post("/get-grid-coordinates", {
     listingId,
-    grid: 3,
+    grid,
     distance,
     latlong,
   });
@@ -587,5 +607,135 @@ export const refreshKeywordForProject = async (
     projectId,
     keywordId,
   });
+  return response.data;
+};
+
+// Add Keywords to Project API for GEO Module
+export interface AddKeywordsToProjectRequest {
+  projectId: string;
+  businessName: string;
+  language: string;
+  keywords: string;
+  mapPoint: string;
+  distanceValue: number;
+  gridSize: number;
+  searchDataEngine: string;
+  scheduleCheck: string;
+  latlng: string[];
+}
+
+export interface AddKeywordsToProjectResponse {
+  code: number;
+  message: string;
+  data?: {
+    keywordId?: number;
+  };
+}
+
+export const addKeywordsToProject = async (
+  requestData: AddKeywordsToProjectRequest
+): Promise<AddKeywordsToProjectResponse> => {
+  const response = await axiosInstance.post("/geomodule/add-keywords", requestData);
+  return response.data;
+};
+
+// Shareable Keywords API for public reports
+export const getShareableKeywords = async (
+  requestData: ShareableKeywordsRequest
+): Promise<ShareableKeywordsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keywords", requestData);
+  return response.data;
+};
+
+// Shareable keyword details API types and function
+export interface ShareableKeywordDetailsRequest {
+  reportId: string;
+  keywordId: number;
+  status: number;
+}
+
+export interface ShareableKeywordDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    projectDetails: {
+      id: string;
+      sab: string;
+      keyword: string;
+      mappoint: string;
+      prev_id: string;
+      distance: string;
+      grid: string;
+      last_checked: string;
+      schedule: string;
+      date: string;
+      coordinate: string;
+    };
+    underPerformingArea: Array<{
+      id: string;
+      areaName: string;
+      coordinate: string;
+      compRank: number;
+      compName: string;
+      compRating: string;
+      compReview: string;
+      priority: string;
+      youRank: string;
+      youName: string;
+      youRating: string;
+      youReview: string;
+    }>;
+    rankDetails: Array<{
+      coordinate: string;
+      positionId: string;
+      rank: string;
+    }>;
+    dates: Array<{
+      id: string;
+      prev_id: number;
+      date: string;
+    }>;
+    rankStats: {
+      atr: string;
+      atrp: string;
+      solvability: string;
+    };
+  };
+}
+
+export const getShareableKeywordDetails = async (
+  requestData: ShareableKeywordDetailsRequest  
+): Promise<ShareableKeywordDetailsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-details", requestData);
+  return response.data;
+};
+
+// Shareable keyword position details interfaces
+export interface ShareableKeywordPositionDetailsRequest {
+  reportId: string;
+  keywordId: number;
+  positionId: number;
+}
+
+export interface ShareableKeywordPositionDetailsResponse {
+  code: number;
+  message: string;
+  data: {
+    keywordDetails: Array<{
+      name: string;
+      address: string;
+      rating: string;
+      review: string;
+      position: number;
+      selected: boolean;
+    }>;
+    coordinate: string;
+  };
+}
+
+export const getShareableKeywordPositionDetails = async (
+  requestData: ShareableKeywordPositionDetailsRequest
+): Promise<ShareableKeywordPositionDetailsResponse> => {
+  const response = await axiosInstance.post("/geomodule/get-shareable-keyword-position-details", requestData);
   return response.data;
 };

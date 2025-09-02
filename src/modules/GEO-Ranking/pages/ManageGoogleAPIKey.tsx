@@ -34,7 +34,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
   return <div className=" mx-auto space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Google Places API Key</h1>
+        <h1 className="text-2xl font-bold text-foreground">Google Places API Key</h1>
         <p className="text-muted-foreground mt-2">Manage your Google Places API key for location-based ranking checks</p>
       </div>
 
@@ -50,56 +50,19 @@ export const ManageGoogleAPIKey: React.FC = () => {
         </AlertDescription>
       </Alert>
 
-      {/* API Key Configuration */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Key className="w-5 h-5 mr-2" />
-            API Key Configuration
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="api-key">Google Places API Key</Label>
-            <div className="flex gap-2 mt-1">
-              <Input 
-                id="api-key" 
-                type="password" 
-                value={apiKeyInput} 
-                onChange={e => setApiKeyInput(e.target.value)} 
-                placeholder="Enter your Google Places API Key" 
-                className="flex-1" 
-              />
-              <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving}>
-                {isSaving ? 'Saving...' : apiKeyData ? 'Update' : 'Add'}
-              </Button>
-            </div>
-          </div>
 
-          <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
-            <p className="font-medium mb-2">Security Information:</p>
-            <ul className="space-y-1">
-              <li>• Your API key is encrypted and stored securely</li>
-              <li>• Only the masked version is displayed for security</li>
-              <li>• The key is used only for authorized ranking checks</li>
-            </ul>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Current API Key Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Current Status</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
+     {isLoading ? (
             <div className="animate-pulse space-y-4">
               <div className="h-4 bg-muted rounded w-3/4"></div>
               <div className="h-4 bg-muted rounded w-1/2"></div>
               <div className="h-4 bg-muted rounded w-5/6"></div>
             </div>
           ) : apiKeyData ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Current Status</CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div className="flex items-center space-x-3">
@@ -141,67 +104,57 @@ export const ManageGoogleAPIKey: React.FC = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <Key className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <p className="text-lg font-medium text-muted-foreground mb-2">No API Key Configured</p>
-              <p className="text-sm text-muted-foreground">Add your Google Places API key above to get started</p>
-            </div>
-          )}
-        </CardContent>
+              </CardContent>
       </Card>
+          ) : (
+            <></>
+          )}
 
-      {/* API Key Requirements */}
+      {/* API Key Configuration */}
       <Card>
         <CardHeader>
-          <CardTitle>Requirements & Setup</CardTitle>
+          <CardTitle className="flex items-center">
+            <Key className="w-5 h-5 mr-2" />
+            API Key Configuration
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-3 flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                Required APIs
-              </h4>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Places API - For location data
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Geocoding API - For address conversion
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                  Maps JavaScript API - For map display
-                </li>
-              </ul>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="api-key">Google Places API Key</Label>
+            <div className="flex gap-2 mt-1">
+              <Input 
+                id="api-key" 
+                type="password" 
+                value={apiKeyInput} 
+                onChange={e => setApiKeyInput(e.target.value)} 
+                placeholder="Enter your Google Places API Key" 
+                className="flex-1" 
+              />
+              <Button onClick={handleSaveApiKey} disabled={!apiKeyInput.trim() || isSaving}>
+                {isSaving ? 'Saving...' : apiKeyData ? 'Update' : 'Add'}
+              </Button>
             </div>
-            <div>
-              <h4 className="font-medium mb-3 flex items-center">
-                <Key className="w-4 h-4 mr-2 text-blue-500" />
-                Permissions
-              </h4>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Read place details
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Search nearby places
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Convert addresses to coordinates
-                </li>
-              </ul>
-            </div>
+          </div>
+
+          <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg">
+            <p className="font-medium mb-2">How to generate Google Place API key:</p>
+            <ol className="space-y-1">
+              <li>1. Note - You must enable Billing for Google Project</li>
+              <li>2. Visit the Google <a href="https://console.cloud.google.com/projectselector2/google/maps-apis/overview?pli=1&supportedpurview=project" target="_blank" className="text-primary">Cloud Platform Console.</a></li>
+              <li>3. Click the project drop-down and select or create the project for which you want to add an API key.</li>
+              <li>4. From Dashboard &gt; Go to APIs overview &gt; Click on Library &gt; Enable Maps JavaScript API & Enable Places API by clicking on both respectively.</li>
+              <li>5. After that Click the menu button and select APIs &amp; Services &gt; Credentials.</li>
+              <li>6. On the Credentials page, Create credentials Dropdown - Select API Key Option</li>
+              <li>7. This creates a dialog that displays, “your newly created API key” - Copy the key.</li>
+              <li>8. Use or paste the generated key under Geo Ranking &gt; Manage Key tab. (One-time activity -Only First use of GEO Ranking Check).</li>
+              <li>9. Once you have added a key, it will be used for all of your listings, and no more need to generate a separate key for every GMB listing.</li>
+            </ol>
           </div>
         </CardContent>
       </Card>
+
+      
+         
+      
     </div>;
 };

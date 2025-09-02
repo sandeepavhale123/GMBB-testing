@@ -12,6 +12,8 @@ import {
 import { HeaderExportActions } from "./HeaderExportActions";
 import { KeywordSelector } from "./KeywordSelector";
 import { MetricsCards } from "./MetricsCards";
+import { CopyUrlModal } from "../Dashboard/CopyUrlModal";
+import { useGeoProjects } from "@/modules/GEO-Ranking/hooks/useGeoProjects";
 
 interface GeoRankingHeaderProps {
   keywords: KeywordData[];
@@ -30,6 +32,9 @@ interface GeoRankingHeaderProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   error: string | null;
+  isShareableView?: boolean;
+  projectName?: string;
+  projectId?: number;
 }
 
 export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
@@ -49,11 +54,22 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   keywordChanging,
   dateChanging,
   error,
+  isShareableView = false,
+  projectName,
+  projectId,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { listingId } = useParams();
   const [isExporting, setIsExporting] = React.useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
+  
+  // Get project data to access encKey (fallback for project mode)
+  const { projects } = useGeoProjects(!isShareableView);
+  const currentProject = projects.find(p => p.id === projectId?.toString());
+  
+  // Get encKey from keywords data (for listing mode) or project data (for project mode)
+  const encKey = keywords.length > 0 ? keywords[0].encKey : currentProject?.encKey;
 
   // Total keywords count
   const totalKeywords = keywords.length;
@@ -129,17 +145,44 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
     }
   };
 
+  const handleShare = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const shareableUrl = encKey ? `${window.location.origin}/sharable-geo-ranking-report/${encKey}` : '';
+
   return (
     <div className="mb-4 sm:mb-4">
-      <HeaderExportActions
-        isExporting={isExporting}
-        onExportImage={handleExportImage}
-        onCheckRank={onCheckRank}
-        onClone={onClone}
-        onRefresh={onRefresh}
-        isRefreshing={isRefreshing}
-        credits={credits}
+      {!isShareableView && (
+        <HeaderExportActions
+          isExporting={isExporting}
+          onExportImage={handleExportImage}
+          onCheckRank={onCheckRank}
+          onClone={onClone}
+          onRefresh={onRefresh}
+          onShare={handleShare}
+          isRefreshing={isRefreshing}
+          credits={credits}
+        />
+      )}
+
+      {/* Share Modal */}
+      <CopyUrlModal
+        open={isShareModalOpen}
+        onOpenChange={setIsShareModalOpen}
+        reportUrl={shareableUrl}
       />
+
+      {isShareableView && projectName && (
+        <div className="mb-4">
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 sm:p-6">
+              <h1 className="text-2xl font-bold text-gray-900">{projectName}</h1>
+              <p className="text-sm text-gray-600 mt-1">GEO Ranking Report</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Progress Bar - shown when refreshing */}
       {isRefreshing && (
@@ -163,7 +206,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
       {/* Main Header Card */}
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-12 gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-12 gap-4 items-center">
             <KeywordSelector
               keywords={keywords}
               selectedKeyword={selectedKeyword}
@@ -175,12 +218,14 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               isRefreshing={isRefreshing}
+              isShareableView={isShareableView}
             />
 
             <MetricsCards
               keywordDetails={keywordDetails}
               totalKeywords={totalKeywords}
               onCheckRank={onCheckRank}
+              isShareableView={isShareableView}
             />
           </div>
         </CardContent>

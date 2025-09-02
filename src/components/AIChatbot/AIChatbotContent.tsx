@@ -32,15 +32,18 @@ import { ChatMessageRenderer } from "./ChatMessageRenderer";
 interface AIChatbotContentProps {
   keyword?: string;
   keywordId?: string;
+  projectId?: string;
 }
 export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
   keyword,
   keywordId,
+  projectId,
 }) => {
   const [showHistory, setShowHistory] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLength = useRef(0);
   const {
     messages,
     chatHistory,
@@ -56,12 +59,16 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
     loadChatSession,
     deleteChatHistory,
     startNewChat,
-  } = useChat(keywordId);
+  } = useChat(keywordId, projectId);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    // Only scroll to bottom when new messages are added, not when existing messages are updated
+    if (messages.length > prevMessagesLength.current) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+    prevMessagesLength.current = messages.length;
   }, [messages]);
 
   // Set initial sidebar state on mount
@@ -231,7 +238,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
               <div className="hidden sm:flex items-center gap-2 bg-blue-50 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                 <Tag className="h-3 w-3" />
                 <span className="truncate max-w-20 sm:max-w-none">
-                  {keyword}
+                  {decodeURIComponent(keyword)}
                 </span>
               </div>
             )}
@@ -240,7 +247,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
           {keyword && (
             <div className="sm:hidden mt-2 flex items-center gap-2 bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium w-fit">
               <Tag className="h-3 w-3" />
-              <span className="truncate max-w-32">{keyword}</span>
+              <span className="truncate max-w-32">{decodeURIComponent(keyword)}</span>
             </div>
           )}
         </div>

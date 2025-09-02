@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { profileService } from "@/services/profileService";
+import { useLocation } from "react-router-dom";
 
 const modules = [
   {
     name: "GRO Ranking",
     description: "Track and optimize your local search rankings",
     icon: TrendingUp,
-    href: "module/geo-ranking",
+    href: "/module/geo-ranking",
   },
   // {
   //   name: "Lead Management",
@@ -37,6 +38,11 @@ export const ModulesMegaMenu: React.FC = () => {
   const [dashboardType, setDashboardType] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
+
+  const isModuleActive = (moduleHref: string) => {
+    return location.pathname.startsWith(moduleHref);
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -119,19 +125,40 @@ export const ModulesMegaMenu: React.FC = () => {
             <div className="space-y-2">
               {getFilteredModules().map((module) => {
                 const IconComponent = module.icon;
+                const isActive = isModuleActive(module.href);
                 return (
                   <a
                     key={module.name}
                     href={module.href}
-                    className="flex items-start gap-3 p-3 rounded-md hover:bg-primary hover:text-primary-foreground transition-colors group"
+                    className={cn(
+                      "flex items-start gap-3 p-3 rounded-md transition-colors group",
+                      isActive 
+                        ? "bg-primary text-primary-foreground" 
+                        : "hover:bg-primary hover:text-primary-foreground"
+                    )}
                     onClick={() => setIsOpen(false)}
                   >
-                    <div className="flex-shrink-0 w-8 h-8 rounded-md bg-primary/10 group-hover:bg-primary-foreground/20 flex items-center justify-center">
-                      <IconComponent className="w-4 h-4 text-primary group-hover:text-primary-foreground" />
+                    <div className={cn(
+                      "flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center",
+                      isActive 
+                        ? "bg-primary-foreground/20" 
+                        : "bg-primary/10 group-hover:bg-primary-foreground/20"
+                    )}>
+                      <IconComponent className={cn(
+                        "w-4 h-4",
+                        isActive 
+                          ? "text-primary-foreground" 
+                          : "text-primary group-hover:text-primary-foreground"
+                      )} />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium">{module.name}</div>
-                      <div className="text-xs text-muted-foreground group-hover:text-primary-foreground/80 mt-1">
+                      <div className={cn(
+                        "text-xs mt-1",
+                        isActive 
+                          ? "text-primary-foreground/80" 
+                          : "text-muted-foreground group-hover:text-primary-foreground/80"
+                      )}>
                         {module.description}
                       </div>
                     </div>

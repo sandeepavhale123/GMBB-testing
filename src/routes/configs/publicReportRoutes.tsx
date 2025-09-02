@@ -8,6 +8,7 @@ import { PublicMediaReport } from "@/components/PublicReports/PublicMediaReport"
 import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPostPerformanceReport";
 import { PublicCitationReport } from "@/components/PublicReports/PublicCitationReport";
 import { PublicMultiDashboardReport } from "@/multiDashboardLayout/public-pages/multi-dashboard-report";
+import { ShareableGEORankingReport } from "@/module/GEO-ranking-module/sharable-report/pages/sharable-GEO-ranking-report";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -71,6 +72,14 @@ export const publicReportRoutes: RouteConfig[] = [
     element: (
       <ThemePreloader loadFromAPI={true}>
         <PublicMultiDashboardReport />
+      </ThemePreloader>
+    ),
+  },
+  {
+    path: "/sharable-GEO-ranking-report/:reportId",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <ShareableGEORankingReport />
       </ThemePreloader>
     ),
   },

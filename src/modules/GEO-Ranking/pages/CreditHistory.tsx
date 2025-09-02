@@ -61,6 +61,7 @@ export const CreditHistory: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium">Keyword</th>
+                  <th className="text-left py-3 px-4 font-medium">Credit Type</th>
                   <th className="text-left py-3 px-4 font-medium">Credit</th>
                   <th className="text-right py-3 px-4 font-medium">Date</th>
                 </tr>
@@ -68,10 +69,13 @@ export const CreditHistory: React.FC = () => {
               <tbody>
                 {creditHistory.map(item => <tr key={item.id} className="border-b border-border/50 hover:bg-muted/50">
                     <td className="py-3 px-4">
-                      <span className="font-medium text-foreground">{item.keyword}</span>
+                      <span className="font-medium text-muted-foreground">{item.keyword}</span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="font-semibold text-foreground">{item.credit}</span>
+                      <span className="text-muted-foreground">{item.type}</span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="font-semibold text-muted-foreground">{item.credit}</span>
                     </td>
                     <td className="py-3 px-4 text-muted-foreground text-right">{item.date}</td>
                   </tr>)}
