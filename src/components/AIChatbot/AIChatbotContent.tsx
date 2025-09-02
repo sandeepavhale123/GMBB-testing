@@ -233,7 +233,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
               <div className="hidden sm:flex items-center gap-2 bg-blue-50 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                 <Tag className="h-3 w-3" />
                 <span className="truncate max-w-20 sm:max-w-none">
-                  {keyword}
+                  {decodeURIComponent(keyword)}
                 </span>
               </div>
             )}
@@ -242,7 +242,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
           {keyword && (
             <div className="sm:hidden mt-2 flex items-center gap-2 bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium w-fit">
               <Tag className="h-3 w-3" />
-              <span className="truncate max-w-32">{keyword}</span>
+              <span className="truncate max-w-32">{decodeURIComponent(keyword)}</span>
             </div>
           )}
         </div>
