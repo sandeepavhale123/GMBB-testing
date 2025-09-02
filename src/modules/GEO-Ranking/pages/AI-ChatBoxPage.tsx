@@ -12,7 +12,7 @@ export const AIChatBoxPage: React.FC = () => {
 
   return (
     <div className="h-full">
-      <AIChatbotContent keyword={keyword} keywordId={keywordId} />
+      <AIChatbotContent keyword={keyword} keywordId={keywordId} projectId={projectId} />
     </div>
   );
 };

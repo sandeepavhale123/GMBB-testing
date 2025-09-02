@@ -32,10 +32,12 @@ import { ChatMessageRenderer } from "./ChatMessageRenderer";
 interface AIChatbotContentProps {
   keyword?: string;
   keywordId?: string;
+  projectId?: string;
 }
 export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
   keyword,
   keywordId,
+  projectId,
 }) => {
   const [showHistory, setShowHistory] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -56,7 +58,7 @@ export const AIChatbotContent: React.FC<AIChatbotContentProps> = ({
     loadChatSession,
     deleteChatHistory,
     startNewChat,
-  } = useChat(keywordId);
+  } = useChat(keywordId, projectId);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
