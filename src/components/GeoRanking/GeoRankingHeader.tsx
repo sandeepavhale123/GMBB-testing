@@ -65,7 +65,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
   
   // Get project data to access encKey (fallback for project mode)
-  const { projects } = useGeoProjects(!isShareableView);
+  const { projects } = useGeoProjects();
   const currentProject = projects.find(p => p.id === projectId?.toString());
   
   // Get encKey from keywords data (for listing mode) or project data (for project mode)
@@ -218,6 +218,7 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
               keywordChanging={keywordChanging}
               dateChanging={dateChanging}
               isRefreshing={isRefreshing}
+              isShareableView={isShareableView}
             />
 
             <MetricsCards
