@@ -123,12 +123,7 @@ const deleteProjectApi = async (requestData: DeleteGeoProjectRequest): Promise<v
   }
 };
 
-interface UseGeoProjectsOptions {
-  enabled?: boolean;
-}
-
-export const useGeoProjects = (options: UseGeoProjectsOptions = {}) => {
-  const { enabled = true } = options;
+export const useGeoProjects = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
@@ -154,13 +149,11 @@ export const useGeoProjects = (options: UseGeoProjectsOptions = {}) => {
       limit: pageSize,
       search: debouncedSearch,
     }),
-    enabled,
   });
 
   const summaryQuery = useQuery({
     queryKey: ['geo-dashboard-summary'],
     queryFn: fetchDashboardSummary,
-    enabled,
   });
 
   const createMutation = useMutation({
