@@ -16,8 +16,6 @@ interface KeywordSelectorProps {
   keywordChanging: boolean;
   dateChanging: boolean;
   isRefreshing?: boolean;
-  isShareableView?: boolean;
-  
 }
 
 export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
@@ -26,12 +24,11 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
   selectedDate,
   keywordDetails,
   onKeywordChange,
-  onDateChange,  
+  onDateChange, 
   loading,
   keywordChanging,
   dateChanging,
   isRefreshing = false,
-  isShareableView = false, 
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -60,7 +57,7 @@ export const KeywordSelector: React.FC<KeywordSelectorProps> = memo(({
   };
 
   return (
-    <div className={isShareableView ? 'lg:col-span-4 space-y-3' : 'lg:col-span-3 space-y-3'}>
+    <div className="lg:col-span-3 space-y-3">
       <div className="text-sm text-gray-500 font-medium mb-1">Keyword</div>
       <Select value={selectedKeyword} onValueChange={handleKeywordSelect} disabled={isRefreshing ? false : (loading || keywordChanging)}>
         <SelectTrigger className="w-full">
