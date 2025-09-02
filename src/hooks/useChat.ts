@@ -77,9 +77,9 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
 
   // Fetch chat history
   const fetchChatHistory = useCallback(async () => {
-    // For module context, use null listingId and moduleProjectId
+    // For module context, use null listingId and keywordId as projectId
     const listingId = moduleProjectId ? null : selectedListing?.id ? parseInt(selectedListing.id, 10) : null;
-    const projectId = moduleProjectId ? parseInt(moduleProjectId, 10) : (keywordId ? parseInt(keywordId, 10) : null);
+    const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
     
     if (!listingId && !moduleProjectId) return;
     if (!keywordId && !moduleProjectId) return;
@@ -118,9 +118,9 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
 
   const sendMessage = useCallback(
     async (messageContent: string) => {
-      // For module context, use null listingId and moduleProjectId
+      // For module context, use null listingId and keywordId as projectId
       const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
-      const projectId = moduleProjectId ? parseInt(moduleProjectId, 10) : (keywordId ? parseInt(keywordId, 10) : user?.projectId || user?.userId ? parseInt(user.userId, 10) : 50407);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : user?.projectId || user?.userId ? parseInt(user.userId, 10) : 50407);
       
       if (!listingId && !moduleProjectId) {
         toast({
@@ -258,9 +258,9 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
 
   const submitFeedback = useCallback(
     async (messageId: string, feedback: FeedbackType) => {
-      // For module context, use null listingId and moduleProjectId
+      // For module context, use null listingId and keywordId as projectId
       const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
-      const projectId = moduleProjectId ? parseInt(moduleProjectId, 10) : (keywordId ? parseInt(keywordId, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
       
       if (!listingId && !moduleProjectId) {
         toast({
@@ -371,9 +371,9 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
   // Load chat messages for a specific session
   const loadChatMessages = useCallback(
     async (sessionId: string) => {
-      // For module context, use null listingId and moduleProjectId
+      // For module context, use null listingId and keywordId as projectId
       const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
-      const projectId = moduleProjectId ? parseInt(moduleProjectId, 10) : (keywordId ? parseInt(keywordId, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
       
       if (!listingId && !moduleProjectId) return;
 
@@ -420,9 +420,9 @@ export const useChat = (keywordId?: string, moduleProjectId?: string) => {
 
   const deleteChatHistory = useCallback(
     async (sessionId: string) => {
-      // For module context, use null listingId and moduleProjectId
+      // For module context, use null listingId and keywordId as projectId
       const listingId = moduleProjectId ? null : (selectedListing?.id ? parseInt(selectedListing.id, 10) : null);
-      const projectId = moduleProjectId ? parseInt(moduleProjectId, 10) : (keywordId ? parseInt(keywordId, 10) : null);
+      const projectId = moduleProjectId ? (keywordId ? parseInt(keywordId, 10) : null) : (keywordId ? parseInt(keywordId, 10) : null);
       
       if (!listingId && !moduleProjectId) {
         toast({
