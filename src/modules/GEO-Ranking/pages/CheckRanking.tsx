@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -114,10 +114,10 @@ export function CheckRanking() {
   } : null;
   const effectiveCoordinates = businessCoordinates || defaultCoordinates;
 
-  // Placeholder functions for missing props
-  const handleMarkerClick = (coordinate: string, positionId: string) => {
+  // Placeholder functions for missing props - memoized to prevent re-renders
+  const handleMarkerClick = useCallback((coordinate: string, positionId: string) => {
     console.log('Marker clicked:', coordinate, positionId);
-  };
+  }, []);
   
   // Get distance options based on current distance unit
   const getDistanceOptionsForUnit = () => getDistanceOptions(formData.distanceUnit);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   getDefaultCoordinates,
   getDefaultCoordinatesForGeoModule,
@@ -422,24 +422,24 @@ export const useGeoRankingReport = (listingId: number, useModuleApi: boolean = f
     });
   };
 
-  // Manual coordinates management functions
-  const addManualCoordinate = (coordinate: string) => {
+  // Manual coordinates management functions - memoized to prevent map re-renders
+  const addManualCoordinate = useCallback((coordinate: string) => {
     setManualCoordinates((prev) => [...prev, coordinate]);
-  };
+  }, []);
 
-  const removeManualCoordinate = (index: number) => {
+  const removeManualCoordinate = useCallback((index: number) => {
     setManualCoordinates((prev) => prev.filter((_, i) => i !== index));
-  };
+  }, []);
 
-  const clearManualCoordinates = () => {
+  const clearManualCoordinates = useCallback(() => {
     setManualCoordinates([]);
-  };
+  }, []);
 
-  const updateManualCoordinate = (index: number, coordinate: string) => {
+  const updateManualCoordinate = useCallback((index: number, coordinate: string) => {
     setManualCoordinates((prev) =>
       prev.map((coord, i) => (i === index ? coordinate : coord))
     );
-  };
+  }, []);
 
   // Helper function to detect multiple keywords
   const isMultipleKeywords = (keywords: string): boolean => {
