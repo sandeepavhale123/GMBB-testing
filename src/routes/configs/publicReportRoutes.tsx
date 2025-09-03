@@ -8,7 +8,7 @@ import { PublicMediaReport } from "@/components/PublicReports/PublicMediaReport"
 import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPostPerformanceReport";
 import { PublicCitationReport } from "@/components/PublicReports/PublicCitationReport";
 import { PublicMultiDashboardReport } from "@/multiDashboardLayout/public-pages/multi-dashboard-report";
-import { ShareableGEORankingReport } from "@/module/GEO-ranking-module/sharable-report/pages/sharable-GEO-ranking-report";
+import { ShareableGEORankingReport } from "@/modules/GEO-Ranking/sharable-report/pages/sharable-GEO-ranking-report";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
