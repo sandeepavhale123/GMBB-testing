@@ -188,7 +188,7 @@ Thank you`);
       {enabled && (
         <div className=" bg-white border border-border/50 rounded-xl shadow-sm animate-fade-in p-2 sm:p-6">
           <div className=" sm:grid 2xl:grid-cols-2">
-            <div className="p-4 w-fit">
+            <div className="p-4 w-fit sm:w-auto">
               {/* AI Response Style */}
               <div className="space-y-3 group mb-4">
                 <div className="flex items-center gap-2">
@@ -382,7 +382,22 @@ Thank you`);
                       {/* User Profile Section */}
                       <div className="flex items-start gap-4 p-4 bg-background/60 rounded-lg border border-border/40 flex-wrap">
                         <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-md">
-                          <img src={review?.pro_photo} alt="profile" />
+                          {review?.pro_photo ? (
+                            <img
+                              src={review.pro_photo}
+                              alt="profile"
+                              className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                              onError={(e) =>
+                                (e.currentTarget.style.display = "none")
+                              } // hide if broken
+                            />
+                          ) : (
+                            // Fallback: Initials
+                            <span>
+                              {review?.display_name?.[0]?.toUpperCase() || "?"}
+                            </span>
+                          )}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-3">

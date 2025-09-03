@@ -16,6 +16,7 @@ export interface Notification {
   textContent?: string; // plain HTML/text
   images?: { url: string; alt?: string }[];
   videos?: string[]; // iframe URLs or raw iframe HTML
+  notificationUrl?: string;
 }
 
 interface NotificationContextType {
@@ -34,33 +35,182 @@ interface NotificationContextType {
   hasMore: boolean;
 }
 
+// const parseNotificationHTML = (html: string) => {
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(html, "text/html");
+
+//   // Extract only text content
+//   const paragraphs = Array.from(doc.querySelectorAll("p, h1, h2, h3, h4, h5"))
+//     .map((el) => el.outerHTML)
+//     .join("");
+
+//   let textContent = paragraphs;
+
+//   let firstImage: { url: string; alt?: string } | null = null;
+//   let firstVideo: string | null = null;
+
+//   // Walk through elements in DOM order
+//   const walker = doc.body.querySelectorAll("img, iframe, a, video");
+
+//   for (const el of walker) {
+//     if (firstImage || firstVideo) break; // we already found first media
+
+//     if (el.tagName.toLowerCase() === "img") {
+//       firstImage = {
+//         url: (el as HTMLImageElement).src,
+//         alt: (el as HTMLImageElement).alt || "",
+//       };
+//       continue;
+//     }
+
+//     if (el.tagName.toLowerCase() === "iframe") {
+//       const src = (el as HTMLIFrameElement).src;
+//       if (src) {
+//         firstVideo = `
+//           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+//             <iframe
+//               src="${src}"
+//               frameborder="0"
+//               allow="autoplay; fullscreen"
+//               allowfullscreen
+//               style="position:absolute;top:0;left:0;width:100%;height:100%;">
+//             </iframe>
+//           </div>`;
+//       }
+//       continue;
+//     }
+
+//     if (el.tagName.toLowerCase() === "a") {
+//       const href = (el as HTMLAnchorElement).href;
+
+//       // Loom
+//       const loomMatch = href.match(
+//         /https:\/\/www\.loom\.com\/share\/([a-zA-Z0-9]+)/
+//       );
+//       if (loomMatch) {
+//         const src = `https://www.loom.com/embed/${loomMatch[1]}`;
+//         firstVideo = `
+//           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+//             <iframe
+//               src="${src}"
+//               frameborder="0"
+//               allow="autoplay; fullscreen"
+//               allowfullscreen
+//               style="position:absolute;top:0;left:0;width:100%;height:100%;">
+//             </iframe>
+//           </div>`;
+//         continue;
+//       }
+
+//       // YouTube full
+//       const ytMatch = href.match(
+//         /https:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/
+//       );
+//       if (ytMatch) {
+//         const src = `https://www.youtube.com/embed/${ytMatch[1]}`;
+//         firstVideo = `
+//           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+//             <iframe
+//               src="${src}"
+//               frameborder="0"
+//               allow="autoplay; fullscreen"
+//               allowfullscreen
+//               style="position:absolute;top:0;left:0;width:100%;height:100%;">
+//             </iframe>
+//           </div>`;
+//         continue;
+//       }
+
+//       // YouTube short
+//       const ytShort = href.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/);
+//       if (ytShort) {
+//         const src = `https://www.youtube.com/embed/${ytShort[1]}`;
+//         firstVideo = `
+//           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+//             <iframe
+//               src="${src}"
+//               frameborder="0"
+//               allow="autoplay; fullscreen"
+//               allowfullscreen
+//               style="position:absolute;top:0;left:0;width:100%;height:100%;">
+//             </iframe>
+//           </div>`;
+//         continue;
+//       }
+
+//       // Vimeo
+//       const vimeoMatch = href.match(/https:\/\/(?:www\.)?vimeo\.com\/(\d+)/);
+//       if (vimeoMatch) {
+//         const src = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+//         firstVideo = `
+//           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+//             <iframe
+//               src="${src}"
+//               frameborder="0"
+//               allow="autoplay; fullscreen"
+//               allowfullscreen
+//               style="position:absolute;top:0;left:0;width:100%;height:100%;">
+//             </iframe>
+//           </div>`;
+//         continue;
+//       }
+
+//       // Normal link → keep in text
+//       textContent += el.outerHTML;
+//     }
+//   }
+
+//   return {
+//     textContent,
+//     images: firstImage ? [firstImage] : [],
+//     videos: firstVideo ? [firstVideo] : [],
+//   };
+// };
+
 const parseNotificationHTML = (html: string) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
 
-  // Extract only text content
+  // ✅ Step 1: Collect the first image BEFORE we strip it from text
+  let firstImage: { url: string; alt?: string } | null = null;
+  const imgEl = doc.querySelector("img");
+  if (imgEl) {
+    firstImage = {
+      url: imgEl.getAttribute("src") || "",
+      alt: imgEl.getAttribute("alt") || "",
+    };
+  }
+
+  // ✅ Step 2: Remove <img> tags only when building textContent (not from the DOM for images[])
   const paragraphs = Array.from(doc.querySelectorAll("p, h1, h2, h3, h4, h5"))
-    .map((el) => el.outerHTML)
+    .map((el) => {
+      const clone = el.cloneNode(true) as HTMLElement;
+
+      // 1. Remove standalone <img>
+      clone.querySelectorAll("img").forEach((img) => img.remove());
+
+      // 2. Remove <a> that only wraps an <img>
+      clone.querySelectorAll("a").forEach((a) => {
+        if (
+          a.children.length === 1 &&
+          a.querySelector("img") &&
+          !a.textContent?.trim()
+        ) {
+          a.remove();
+        }
+      });
+
+      return clone.outerHTML;
+    })
     .join("");
 
   let textContent = paragraphs;
-
-  let firstImage: { url: string; alt?: string } | null = null;
   let firstVideo: string | null = null;
 
-  // Walk through elements in DOM order
-  const walker = doc.body.querySelectorAll("img, iframe, a, video");
-
+  // ✅ Step 3: Walk DOM for videos/links (images are already handled above)
+  const walker = doc.body.querySelectorAll("iframe, a, video");
   for (const el of walker) {
-    if (firstImage || firstVideo) break; // we already found first media
-
-    if (el.tagName.toLowerCase() === "img") {
-      firstImage = {
-        url: (el as HTMLImageElement).src,
-        alt: (el as HTMLImageElement).alt || "",
-      };
-      continue;
-    }
+    if (firstVideo) break;
 
     if (el.tagName.toLowerCase() === "iframe") {
       const src = (el as HTMLIFrameElement).src;
@@ -80,7 +230,17 @@ const parseNotificationHTML = (html: string) => {
     }
 
     if (el.tagName.toLowerCase() === "a") {
-      const href = (el as HTMLAnchorElement).href;
+      const a = el as HTMLAnchorElement;
+      // 🚫 Skip <a> tags that only contain <img>
+      if (
+        a.children.length === 1 &&
+        a.querySelector("img") &&
+        !a.textContent?.trim()
+      ) {
+        continue;
+      }
+
+      const href = a.href;
 
       // Loom
       const loomMatch = href.match(
@@ -101,29 +261,14 @@ const parseNotificationHTML = (html: string) => {
         continue;
       }
 
-      // YouTube full
+      // YouTube (full + short)
       const ytMatch = href.match(
         /https:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/
       );
-      if (ytMatch) {
-        const src = `https://www.youtube.com/embed/${ytMatch[1]}`;
-        firstVideo = `
-          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-            <iframe 
-              src="${src}" 
-              frameborder="0" 
-              allow="autoplay; fullscreen" 
-              allowfullscreen
-              style="position:absolute;top:0;left:0;width:100%;height:100%;">
-            </iframe>
-          </div>`;
-        continue;
-      }
-
-      // YouTube short
       const ytShort = href.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/);
-      if (ytShort) {
-        const src = `https://www.youtube.com/embed/${ytShort[1]}`;
+      if (ytMatch || ytShort) {
+        const videoId = ytMatch ? ytMatch[1] : ytShort![1];
+        const src = `https://www.youtube.com/embed/${videoId}`;
         firstVideo = `
           <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
             <iframe 
@@ -229,6 +374,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
                 textContent,
                 images,
                 videos,
+                notificationUrl: n.notificationUrl,
               };
             })
           : [];
@@ -276,6 +422,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
             textContent,
             images,
             videos,
+            notificationUrl: n.notificationUrl,
           };
         }
       );

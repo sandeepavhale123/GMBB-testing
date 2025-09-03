@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { store } from "@/store/store";
 import { MediaProvider } from "@/context/MediaContext";
-import { NotificationProvider } from "@/context/NotificationContext";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +18,7 @@ export const AppProviders = ({ children }: AppProvidersProps) => (
       <ThemeProvider>
         <TooltipProvider>
           <BrowserRouter>
-            <MediaProvider>
-              <NotificationProvider>{children}</NotificationProvider>
-            </MediaProvider>
+            <MediaProvider>{children}</MediaProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

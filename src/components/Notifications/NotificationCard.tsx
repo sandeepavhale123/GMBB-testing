@@ -32,12 +32,15 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
     if (!notification.read) {
       markAsRead(notification.id);
     }
+    if (notification.notificationUrl) {
+      window.open(notification.notificationUrl, "_blank"); // 👈 open in new tab
+    }
   };
 
   const handleImageExpand = (url: string) => {
     setSelectedImage(url);
     onModalOpen?.(); // notify drawer to lock scroll
-    handleCardClick();
+    // handleCardClick();
   };
 
   const closeModal = () => {
