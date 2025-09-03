@@ -5,7 +5,7 @@ interface MainBodyProps {
 export const MainBody: React.FC<MainBodyProps> = ({
   children
 }) => {
-  return <main className="flex-1 min-h-[90vh] w-full bg-background md:pt-44 lg:pt-5 ">
+  return <main className="flex-1 min-h-[90vh] w-full bg-background pt-20 ">
       <div className="max-w-7xl mx-auto px-4 py-6">{children}</div>
     </main>;
 };

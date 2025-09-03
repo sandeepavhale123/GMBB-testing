@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Loader2, ZoomIn, ZoomOut } from "lucide-react";
@@ -31,7 +31,7 @@ interface GeoRankingReportMapProps {
   onClearManualCoordinates?: () => void;
 }
 
-export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
+const GeoRankingReportMapComponent: React.FC<GeoRankingReportMapProps> = ({
   defaultCoordinates,
   gridCoordinates,
   rankDetails,
@@ -536,3 +536,19 @@ export const GeoRankingReportMap: React.FC<GeoRankingReportMapProps> = ({
     </Card>
   );
 };
+
+// Memoized export with custom comparison function to prevent unnecessary re-renders
+export const GeoRankingReportMap = memo(GeoRankingReportMapComponent, 
+  (prevProps, nextProps) => {
+    // Compare map-relevant props only, ignore callback function references
+    return (
+      JSON.stringify(prevProps.defaultCoordinates) === JSON.stringify(nextProps.defaultCoordinates) &&
+      JSON.stringify(prevProps.gridCoordinates) === JSON.stringify(nextProps.gridCoordinates) &&
+      JSON.stringify(prevProps.rankDetails) === JSON.stringify(nextProps.rankDetails) &&
+      JSON.stringify(prevProps.manualCoordinates) === JSON.stringify(nextProps.manualCoordinates) &&
+      prevProps.pollingKeyword === nextProps.pollingKeyword &&
+      prevProps.loadingGrid === nextProps.loadingGrid &&
+      prevProps.mapPoint === nextProps.mapPoint
+    );
+  }
+);
