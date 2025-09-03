@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
   } = useNotifications();
   return <header style={{
     backgroundColor: theme.bg_color || "hsl(var(--background))"
-  }} className="fixed top-0 left-0 right-0 z-[404] w-full px-4 py-3 border-b border-border">
+  }} className="fixed top-0 left-0 right-0 z-[420] w-full px-4 py-3 border-b border-border">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left section - Logo and Title */}
         <div className="flex items-center space-x-4">
