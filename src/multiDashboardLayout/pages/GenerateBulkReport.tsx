@@ -178,8 +178,12 @@ const generateBulkReportSchema = z.object({
     });
   }
 });
+type GenerateBulkReportProps = {
+  isSingleListingDashboard?: boolean; // make it optional
+};
+
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
-export const GenerateBulkReport: React.FC = () => {
+export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({ isSingleListingDashboard = false, }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const {
@@ -437,7 +441,14 @@ export const GenerateBulkReport: React.FC = () => {
       // Invalidate bulk reports query to refresh the reports table
       queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
       
-      navigate("/main-dashboard/reports");
+       const redirectPath = isSingleListingDashboard
+    ? "/bulk-reports"
+    : "/main-dashboard/reports";
+
+  navigate(redirectPath);
+
+     
+
     } catch (error: any) {
       toast({
         title: "Error",
@@ -468,7 +479,7 @@ export const GenerateBulkReport: React.FC = () => {
       <div className="flex items-center gap-4">
         
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report</h1>
+          <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report  </h1>
           <p className="text-muted-foreground">Create and schedule automated reports for multiple locations.</p>
         </div>
       </div>
@@ -931,3 +942,4 @@ export const GenerateBulkReport: React.FC = () => {
       </Form>
     </div>;
 };
+

@@ -18,6 +18,10 @@ import { RouteConfig } from "../routeConfig";
 import HealthPage from "@/pages/HealthPage";
 import KeywordsPage from "@/pages/KeywordsPage";
 import AddKeywordsPage from "@/pages/AddKeywordsPage";
+import BulkReportPage from "@/pages/BulkReportPage";
+import GenerateBulkReportPage from "@/pages/GenerateBulkReportPage";
+import ViewBulkReportDetails from "@/pages/ViewBulkReportDetails";
+
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes
@@ -279,4 +283,52 @@ export const listingRoutes: RouteConfig[] = [
       </ProtectedRoute>
     ),
   },
+
+  // Bulk Reports routes
+  {
+    path: "/bulk-reports",
+    element: <Navigate to="/bulk-reports/default" replace />,
+  },
+  {
+    path: "/bulk-reports/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <BulkReportPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+  // generate bulk report routes
+  {
+    path: "/generate-bulk-reports",
+    element: <Navigate to="/generate-bulk-reports/default" replace />,
+  },
+  {
+    path: "/generate-bulk-reports/:listingId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <GenerateBulkReportPage />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
+
+    // generate bulk report routes
+  {
+  path: "/view-bulk-report-details/:reportId",
+  element: (
+    <ProtectedRoute>
+      {/* <ListingProvider> */}
+        <ViewBulkReportDetails />
+      {/* </ListingProvider> */}
+    </ProtectedRoute>
+  ),
+},
+
+
+ 
+
 ];

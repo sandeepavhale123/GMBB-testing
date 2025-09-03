@@ -141,7 +141,22 @@ const menuItems: MenuItem[] = [
     id: "reports",
     label: "Reports",
     icon: FileBarChart,
-    path: "/reports",
+    path: null,
+    subItems: [
+      {
+        id: "performance-report",
+        label: "Performance Report",
+        icon: FileBarChart,
+        path: "/reports",
+      },
+      {
+        id: "bulk-report",
+        label: "Bulk report",
+        icon: FileBarChart,
+        path: "/bulk-reports",
+      },
+    ],
+    // path: "/reports",
   },
   {
     id: "gallery",
@@ -337,6 +352,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       "/reviews",
       "/qa",
       "/reports",
+      "/bulk-reports",
+      "/generate-bulk-reports",
+      "/view-bulk-reports",
       "/business-info",
       "/citation",
     ];
