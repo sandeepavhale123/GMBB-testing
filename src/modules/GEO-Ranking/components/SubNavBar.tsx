@@ -29,7 +29,7 @@ export const SubNavBar: React.FC = () => {
   // Check if we're on the view project details page
   const isViewProjectDetails = location.pathname.includes('/module/geo-ranking/view-project-details/');
   if (isViewProjectDetails) {
-    return <nav className="fixed top-[65px] left-0 right-0 z-[999] w-full px-4 pt-1 pb-0 border-b border-border bg-white">
+    return <nav className="fixed top-[65px] left-0 right-0 z-[9998] w-full px-4 pt-1 pb-0 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-start gap-4 py-4">
             <Button variant="ghost" onClick={() => navigate('/module/geo-ranking')} className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
