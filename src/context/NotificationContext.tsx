@@ -199,8 +199,19 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     const fetchData = async () => {
       try {
         const response = await getNotifications({ page: 1, limit: 10 });
-        console.log("response in main part", response);
+        console.log("📡 API raw response (initial):", response);
+        console.log("👉 response.data:", response?.data);
+        console.log(
+          "👉 response.data.notification:",
+          response?.data?.notification
+        );
 
+        if (!Array.isArray(response?.data?.notification)) {
+          console.warn(
+            "⚠️ response.data.notification is not an array!",
+            response?.data?.notification
+          );
+        }
         const mapped: Notification[] = Array.isArray(
           response?.data?.notification
         )
@@ -221,7 +232,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
               };
             })
           : [];
-
+        console.log("✅ Final mapped notifications:", mapped);
         setNotifications(mapped);
       } catch (err) {
         console.error("❌ Failed to load notifications:", err);
@@ -237,6 +248,20 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     setIsLoading(true); // ← show skeleton immediately
     try {
       const response = await getNotifications({ page: pageToLoad, limit });
+      console.log(`📡 API raw response (page ${pageToLoad}):`, response);
+      console.log("👉 response.data:", response?.data);
+      console.log(
+        "👉 response.data.notification:",
+        response?.data?.notification
+      );
+
+      if (!Array.isArray(response?.data?.notification)) {
+        console.warn(
+          "⚠️ response.data.notification is not an array!",
+          response?.data?.notification
+        );
+      }
+
       const newNotifications = (response?.data?.notification ?? []).map(
         (n: any) => {
           const { textContent, images, videos } = parseNotificationHTML(
@@ -254,6 +279,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
           };
         }
       );
+      console.log("✅ Final newNotifications:", newNotifications);
 
       setNotifications((prev) =>
         pageToLoad === 1 ? newNotifications : [...prev, ...newNotifications]
@@ -262,7 +288,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
       return newNotifications; // important for drawer animation
     } catch (err) {
-      console.error(err);
+      console.error("❌ fetchNotifications failed:", err);
       return [];
     } finally {
       setIsLoading(false); // hides skeleton after load

@@ -1,5 +1,5 @@
-import React from "react";
-import { ExternalLink } from "lucide-react";
+import React, { useState } from "react";
+import { ExternalLink, Sheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/useRedux";
 import { useThemeLogo } from "@/hooks/useThemeLogo";
@@ -10,12 +10,16 @@ import { NotificationsMegaMenu } from "@/multiDashboardLayout/components/Notific
 import { UserProfileDropdown } from "@/components/Header/UserProfileDropdown";
 
 import { NotificationDrawer } from "@/components/Notifications/NotificationDrawer";
+import { useNotifications } from "@/context/NotificationContext";
 
 export const Header: React.FC = () => {
   const theme = useAppSelector((state) => state.theme);
   const { profileData } = useProfile();
   const navigate = useNavigate();
   const logoData = useThemeLogo();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const { openDrawer, unreadCount, closeDrawer } = useNotifications();
 
   return (
     <header
@@ -61,7 +65,18 @@ export const Header: React.FC = () => {
           <UserProfileDropdown className="rounded-sm text-slate-900 font-medium" />
         </div>
         {/* Notification Drawer */}
-        <NotificationDrawer />
+        {/* <Sheet
+          open={isSheetOpen}
+          onOpenChange={(open) => {
+            setIsSheetOpen(open);
+            if (!open) {
+              // ✅ also reset context drawer + search
+              closeDrawer();
+            }
+          }}
+        >
+          <NotificationDrawer />
+        </Sheet> */}
       </div>
     </header>
   );
