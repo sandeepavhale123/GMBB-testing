@@ -65,7 +65,7 @@ export const NotificationDrawer: React.FC = () => {
       const title = n.title ?? "";
       const category = n.category ?? "";
       const date = n.date ?? "";
-      const htmlText = n.textContent ?? n.description ?? "";
+      const htmlText = n.textContent ?? "";
 
       const searchable = `${title} ${category} ${date} ${stripHtml(
         htmlText

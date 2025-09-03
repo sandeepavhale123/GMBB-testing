@@ -32,6 +32,7 @@ interface NotificationContextType {
   resetNotifications: () => void;
   isLoading: boolean;
   hasMore: boolean;
+  fetchNotifications: (pageToLoad: number) => Promise<Notification[]>;
 }
 
 const parseNotificationHTML = (html: string) => {
