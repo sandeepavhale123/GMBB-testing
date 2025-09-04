@@ -97,7 +97,7 @@ export function CheckRanking() {
       const result = await submitAddKeywords(selectedBusiness, selectedProject);
       if (result.success) {
         // If multiple keywords were added, navigate to project details
-        if (result.keywordCount > 1) {
+        if (result.keywordCount >= 1) {
           navigate(`/module/geo-ranking/view-project-details/${selectedProject.id}`);
         }
         // For single keyword, just show success message (already handled in hook)
