@@ -107,7 +107,7 @@ export const NotificationDrawer: React.FC = () => {
   return (
     <SheetContent
       side="right"
-      className="flex flex-col w-full sm:w-[400px] p-0"
+      className="flex flex-col w-full sm:w-[400px] p-0 z-[500]"
       onInteractOutside={(e) => e.preventDefault()}
     >
       <SheetHeader className="border-b border-border p-4 space-y-4">
