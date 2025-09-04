@@ -1,4 +1,3 @@
-
 import { Navigate } from "react-router-dom";
 import PostsPage from "@/pages/PostsPage";
 import MediaPage from "@/pages/MediaPage";
@@ -21,7 +20,6 @@ import AddKeywordsPage from "@/pages/AddKeywordsPage";
 import BulkReportPage from "@/pages/BulkReportPage";
 import GenerateBulkReportPage from "@/pages/GenerateBulkReportPage";
 import ViewBulkReportDetails from "@/pages/ViewBulkReportDetails";
-
 
 export const listingRoutes: RouteConfig[] = [
   // Posts routes
@@ -316,19 +314,15 @@ export const listingRoutes: RouteConfig[] = [
     ),
   },
 
-    // generate bulk report routes
+  // generate bulk report routes
   {
-  path: "/view-bulk-report-details/:reportId",
-  element: (
-    <ProtectedRoute>
-      {/* <ListingProvider> */}
-        <ViewBulkReportDetails />
-      {/* </ListingProvider> */}
-    </ProtectedRoute>
-  ),
-},
-
-
- 
-
+    path: "/view-bulk-report-details/:reportId",
+    element: (
+      <ProtectedRoute>
+        <ListingProvider>
+          <ViewBulkReportDetails />
+        </ListingProvider>
+      </ProtectedRoute>
+    ),
+  },
 ];

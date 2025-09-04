@@ -69,8 +69,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
   const [selectedListing, setSelectedListing] =
     useState<BusinessListing | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  // const [hasInitialized, setHasInitialized] = useState(false);
-  // const [initTimeout, setInitTimeout] = useState<NodeJS.Timeout | null>(null);
+
   const navigate = useNavigate();
   const { listingId } = useParams<{ listingId?: string }>();
   const location = useLocation();
@@ -81,7 +80,13 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     const firstSegment = pathParts[1] || "location-dashboard";
 
     // Don't interfere with profile, settings, or other non-listing routes
-    const excludedRoutes = ["profile", "settings", "team", "ai-chatbot"];
+    const excludedRoutes = [
+      "profile",
+      "settings",
+      "team",
+      "ai-chatbot",
+      "view-bulk-report-details",
+    ];
     if (excludedRoutes.includes(firstSegment)) {
       return null; // No automatic redirection for these routes
     }
@@ -189,6 +194,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     // 3. Default to first available listing if nothing else works
     if (!targetListing && listings.length > 0) {
       targetListing = listings[0];
+      const firstSegment = location.pathname.split("/")[1];
       console.log(
         "🔄 ListingContext: Using first available listing:",
         targetListing?.name
@@ -243,6 +249,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     navigate,
     baseRoute,
     dispatch,
+    location.pathname,
     // initTimeout,
   ]);
 
@@ -291,7 +298,11 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       if (baseRoute === null) {
         // For settings, profile, and other excluded routes, stay on current page structure
         const pathParts = location.pathname.split("/");
-        if (pathParts[1] === "settings" || pathParts[1] === "profile") {
+        if (
+          pathParts[1] === "settings" ||
+          pathParts[1] === "profile" ||
+          pathParts[1] === "view-bulk-report-details"
+        ) {
           // Stay on settings or profile, just update the listing context
           // No navigation needed as these pages don't use listing IDs in URL
         } else {

@@ -1,20 +1,37 @@
-
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { ReportsPage as ReportsComponent } from '../components/Reports/ReportsPage';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
-import { NoListingSelected } from '../components/ui/no-listing-selected';
-import { useListingContext } from '../context/ListingContext';
+import React, { useEffect, useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { ReportsPage as ReportsComponent } from "../components/Reports/ReportsPage";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
+import { NoListingSelected } from "../components/ui/no-listing-selected";
+import { useListingContext } from "../context/ListingContext";
+import { useParams } from "react-router-dom";
 
 const ReportsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { selectedListing, isInitialLoading } = useListingContext();
+  const { listingId } = useParams();
+  const {
+    listings,
+    selectedListing,
+    isInitialLoading,
+    initializeSelectedListing,
+  } = useListingContext();
+
+  // Initialize selected listing if route has listingId
+  useEffect(() => {
+    if (listingId && listings.length > 0 && !selectedListing) {
+      // console.log(
+      //   "📍 SettingsPage: Triggering initializeSelectedListing for listingId:",
+      //   listingId
+      // );
+      initializeSelectedListing(listingId);
+    }
+  }, [listingId, listings, selectedListing, initializeSelectedListing]);
 
   // Show no listing selected state
   if (!selectedListing && !isInitialLoading) {
@@ -29,7 +46,9 @@ const ReportsPage = () => {
                   activeTab="reports"
                   onTabChange={() => {}}
                   collapsed={false}
-                  onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  onToggleCollapse={() =>
+                    setSidebarCollapsed(!sidebarCollapsed)
+                  }
                 />
               </SheetContent>
             </Sheet>
@@ -45,9 +64,11 @@ const ReportsPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-            }`}>
+            <div
+              className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+                sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+              }`}
+            >
               {/* Header */}
               <Header
                 onToggleSidebar={() => {
@@ -100,9 +121,11 @@ const ReportsPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
