@@ -12,136 +12,142 @@ import {
 } from "@/components/ui/breadcrumb";
 
 const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
-  "/": [{ title: "Dashboard", path: "/" }],
+  "/": [{ title: "Dashboard", path: "/location-dashboard" }],
   "/location-dashboard": [{ title: "Dashboard", path: "/location-dashboard" }],
   "/ai-tasks": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "AI Tasks", path: "/ai-tasks" },
   ],
   "/profile": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Profile", path: "/profile" },
   ],
   "/posts": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Posts", path: "/posts" },
   ],
   "/media": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Media Library", path: "/media" },
   ],
   "/reviews": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Reviews", path: "/reviews" },
   ],
   "/qa": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Q&A", path: "/qa" },
   ],
   "/business-info": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Management", path: "/business-info" },
   ],
   "/settings": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
   ],
   "/settings/google-account": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Manage Google Account", path: "/settings/google-account" },
   ],
   "/settings/subscription": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Subscription", path: "/settings/subscription" },
   ],
   "/settings/branding": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Branding", path: "/settings/branding" },
   ],
   "/settings/theme-customization": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Theme Customization", path: "/settings/theme-customization" },
   ],
   "/settings/report-branding": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Report Branding", path: "/settings/report-branding" },
   ],
   "/settings/integrations": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Integrations", path: "/settings/integrations" },
   ],
   "/settings/listings": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Manage Google Account", path: "/settings/google-account" },
   ],
   "/insights": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Insights", path: "/insights" },
   ],
   "/keywords/:id": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Keywords", path: "" },
   ],
   "/keywords/:id/add": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Keywords", path: "/keywords" },
     { title: "Search Keyword", path: "" },
   ],
   "/geo-ranking": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "GEO Ranking", path: "/geo-ranking" },
   ],
   "/geo-ranking-report": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "GEO Ranking", path: "/geo-ranking" },
     { title: "Report", path: "/geo-ranking-report" },
   ],
   "/citation": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Citation Management", path: "/citation" },
   ],
   "/health": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "GMB Health", path: "/health" },
   ],
   "/analytics": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Analytics", path: "/analytics" },
   ],
   "/team": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Team", path: "/team" },
   ],
   "/notifications": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Notifications", path: "/notifications" },
   ],
   "/reports": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Reports", path: "/reports" },
   ],
   "/bulk-reports": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Bulk Report", path: "/bulk-reports" },
   ],
   "/generate-bulk-reports": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
+    { title: "Bulk Report", path: "/bulk-reports" },
     { title: "Generate Bulk Report", path: "/generate-bulk-reports" },
   ],
+  "/view-bulk-report-details": [
+    { title: "Dashboard", path: "/location-dashboard" },
+    { title: "Bulk Report", path: "/bulk-reports" },
+    { title: "View Bulk Report", path: "/view-bulk-report-details" },
+  ],
   "/ai-chatbot": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "GEO Ranking", path: "/geo-ranking" },
     { title: "AI Genie Assistance", path: "/ai-chatbot" },
   ],
   "/settings/team-members": [
-    { title: "Dashboard", path: "/" },
+    { title: "Dashboard", path: "/location-dashboard" },
     { title: "Settings", path: "/settings" },
     { title: "Team Members", path: "/settings/team-members" },
   ],
