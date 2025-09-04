@@ -29,7 +29,7 @@ const modules = [
     name: "Manage GMB listing",
     description: "Manage your Google My Business listings",
     icon: Grid3X3,
-    href: "/main-dashboard/manage-gmb",
+    href: "/main-dashboard",
   },
 ];
 
@@ -71,7 +71,7 @@ export const ModulesMegaMenu: React.FC = () => {
         href:
           dashboardType === 0
             ? "/location-dashboard/id"
-            : "/main-dashboard/manage-gmb",
+            : "/main-dashboard",
       };
       return [...baseModules, gmbModule];
     }
