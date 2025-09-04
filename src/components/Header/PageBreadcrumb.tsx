@@ -1,7 +1,6 @@
-
-import React from 'react';
-import { useLocation, Link, useParams } from 'react-router-dom';
-import { useAccountListings } from '../../hooks/useAccountListings';
+import React from "react";
+import { useLocation, Link, useParams } from "react-router-dom";
+import { useAccountListings } from "../../hooks/useAccountListings";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -10,195 +9,208 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from "@/components/ui/breadcrumb";
 
 const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
-  '/': [{ title: 'Dashboard', path: '/' }],
-  '/location-dashboard': [{ title: 'Dashboard', path: '/location-dashboard' }],
-  '/ai-tasks': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'AI Tasks', path: '/ai-tasks' }
+  "/": [{ title: "Dashboard", path: "/" }],
+  "/location-dashboard": [{ title: "Dashboard", path: "/location-dashboard" }],
+  "/ai-tasks": [
+    { title: "Dashboard", path: "/" },
+    { title: "AI Tasks", path: "/ai-tasks" },
   ],
-  '/profile': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Profile', path: '/profile' }
+  "/profile": [
+    { title: "Dashboard", path: "/" },
+    { title: "Profile", path: "/profile" },
   ],
-  '/posts': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Posts', path: '/posts' }
+  "/posts": [
+    { title: "Dashboard", path: "/" },
+    { title: "Posts", path: "/posts" },
   ],
-  '/media': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Media Library', path: '/media' }
+  "/media": [
+    { title: "Dashboard", path: "/" },
+    { title: "Media Library", path: "/media" },
   ],
-  '/reviews': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Reviews', path: '/reviews' }
+  "/reviews": [
+    { title: "Dashboard", path: "/" },
+    { title: "Reviews", path: "/reviews" },
   ],
-  '/qa': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Q&A', path: '/qa' }
+  "/qa": [
+    { title: "Dashboard", path: "/" },
+    { title: "Q&A", path: "/qa" },
   ],
-  '/business-info': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Management', path: '/business-info' }
+  "/business-info": [
+    { title: "Dashboard", path: "/" },
+    { title: "Management", path: "/business-info" },
   ],
-  '/settings': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' }
+  "/settings": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
   ],
-  '/settings/google-account': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Manage Google Account', path: '/settings/google-account' }
+  "/settings/google-account": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Manage Google Account", path: "/settings/google-account" },
   ],
-  '/settings/subscription': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Subscription', path: '/settings/subscription' }
+  "/settings/subscription": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Subscription", path: "/settings/subscription" },
   ],
-  '/settings/branding': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Branding', path: '/settings/branding' }
+  "/settings/branding": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Branding", path: "/settings/branding" },
   ],
-  '/settings/theme-customization': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Theme Customization', path: '/settings/theme-customization' }
+  "/settings/theme-customization": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Theme Customization", path: "/settings/theme-customization" },
   ],
-  '/settings/report-branding': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Report Branding', path: '/settings/report-branding' }
+  "/settings/report-branding": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Report Branding", path: "/settings/report-branding" },
   ],
-  '/settings/integrations': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Integrations', path: '/settings/integrations' }
+  "/settings/integrations": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Integrations", path: "/settings/integrations" },
   ],
-  '/settings/listings': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Manage Google Account', path: '/settings/google-account' }
+  "/settings/listings": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Manage Google Account", path: "/settings/google-account" },
   ],
-  '/insights': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Insights', path: '/insights' }
+  "/insights": [
+    { title: "Dashboard", path: "/" },
+    { title: "Insights", path: "/insights" },
   ],
-  '/keywords/:id': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Keywords', path: '' }
+  "/keywords/:id": [
+    { title: "Dashboard", path: "/" },
+    { title: "Keywords", path: "" },
   ],
-  '/keywords/:id/add': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Keywords', path: '/keywords' },
-    { title: 'Search Keyword', path: '' }
+  "/keywords/:id/add": [
+    { title: "Dashboard", path: "/" },
+    { title: "Keywords", path: "/keywords" },
+    { title: "Search Keyword", path: "" },
   ],
-  '/geo-ranking': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'GEO Ranking', path: '/geo-ranking' }
+  "/geo-ranking": [
+    { title: "Dashboard", path: "/" },
+    { title: "GEO Ranking", path: "/geo-ranking" },
   ],
-  '/geo-ranking-report': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'GEO Ranking', path: '/geo-ranking' },
-    { title: 'Report', path: '/geo-ranking-report' }
+  "/geo-ranking-report": [
+    { title: "Dashboard", path: "/" },
+    { title: "GEO Ranking", path: "/geo-ranking" },
+    { title: "Report", path: "/geo-ranking-report" },
   ],
-  '/citation': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Citation Management', path: '/citation' }
+  "/citation": [
+    { title: "Dashboard", path: "/" },
+    { title: "Citation Management", path: "/citation" },
   ],
-  '/health': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'GMB Health', path: '/health' }
+  "/health": [
+    { title: "Dashboard", path: "/" },
+    { title: "GMB Health", path: "/health" },
   ],
-  '/analytics': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Analytics', path: '/analytics' }
+  "/analytics": [
+    { title: "Dashboard", path: "/" },
+    { title: "Analytics", path: "/analytics" },
   ],
-  '/team': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Team', path: '/team' }
+  "/team": [
+    { title: "Dashboard", path: "/" },
+    { title: "Team", path: "/team" },
   ],
-  '/notifications': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Notifications', path: '/notifications' }
+  "/notifications": [
+    { title: "Dashboard", path: "/" },
+    { title: "Notifications", path: "/notifications" },
   ],
-  '/reports': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Reports', path: '/reports' }
+  "/reports": [
+    { title: "Dashboard", path: "/" },
+    { title: "Reports", path: "/reports" },
   ],
-  '/ai-chatbot': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'GEO Ranking', path: '/geo-ranking' },
-    { title: 'AI Genie Assistance', path: '/ai-chatbot' }
+  "/bulk-reports": [
+    { title: "Dashboard", path: "/" },
+    { title: "Bulk Report", path: "/bulk-reports" },
   ],
-  '/settings/team-members': [
-    { title: 'Dashboard', path: '/' },
-    { title: 'Settings', path: '/settings' },
-    { title: 'Team Members', path: '/settings/team-members' }
-  ]
+  "/generate-bulk-reports": [
+    { title: "Dashboard", path: "/" },
+    { title: "Generate Bulk Report", path: "/generate-bulk-reports" },
+  ],
+  "/ai-chatbot": [
+    { title: "Dashboard", path: "/" },
+    { title: "GEO Ranking", path: "/geo-ranking" },
+    { title: "AI Genie Assistance", path: "/ai-chatbot" },
+  ],
+  "/settings/team-members": [
+    { title: "Dashboard", path: "/" },
+    { title: "Settings", path: "/settings" },
+    { title: "Team Members", path: "/settings/team-members" },
+  ],
 };
 
 export const PageBreadcrumb: React.FC = () => {
   const location = useLocation();
   const { accountId } = useParams();
-  
+
   // Fetch account data to get the profile email
   const { profileEmail } = useAccountListings({
-    accountId: accountId || '',
+    accountId: accountId || "",
     page: 1,
     limit: 1,
   });
-  
+
   // Extract the base route from the pathname (handle routes with listing IDs)
   const getBaseRoute = (pathname: string) => {
-    const segments = pathname.split('/');
+    const segments = pathname.split("/");
     if (segments.length >= 2) {
       // Handle special case for settings sub-routes
-      if (segments[1] === 'settings' && segments[2]) {
-        if (segments[2] === 'listings') {
-          return '/settings/listings';
+      if (segments[1] === "settings" && segments[2]) {
+        if (segments[2] === "listings") {
+          return "/settings/listings";
         }
-        if (segments[2] === 'team-members' && segments[3] === 'edit') {
-          return '/settings/team-members';
+        if (segments[2] === "team-members" && segments[3] === "edit") {
+          return "/settings/team-members";
         }
         return `/settings/${segments[2]}`;
       }
       // Handle special case for keywords/add route
-      if (segments[1] === 'keywords' && segments[3] === 'add') {
-        return '/keywords/:id/add';
+      if (segments[1] === "keywords" && segments[3] === "add") {
+        return "/keywords/:id/add";
       }
       // Handle special case for keywords/:id route
-      if (segments[1] === 'keywords' && segments[2] && !segments[3]) {
-        return '/keywords/:id';
+      if (segments[1] === "keywords" && segments[2] && !segments[3]) {
+        return "/keywords/:id";
       }
       return `/${segments[1]}`;
     }
     return pathname;
   };
-  
+
   const baseRoute = getBaseRoute(location.pathname);
-  let breadcrumbItems = routeToBreadcrumb[baseRoute] || [{ title: 'Dashboard', path: '/' }];
+  let breadcrumbItems = routeToBreadcrumb[baseRoute] || [
+    { title: "Dashboard", path: "/" },
+  ];
 
   // Customize breadcrumb for listings management page
-  if (baseRoute === '/settings/listings' && accountId && profileEmail) {
+  if (baseRoute === "/settings/listings" && accountId && profileEmail) {
     breadcrumbItems = [
-      { title: 'Dashboard', path: '/' },
-      { title: 'Settings', path: '/settings' },
-      { title: 'Manage Google Account', path: '/settings/google-account' },
-      { title: profileEmail, path: `/settings/listings/${accountId}` }
+      { title: "Dashboard", path: "/" },
+      { title: "Settings", path: "/settings" },
+      { title: "Manage Google Account", path: "/settings/google-account" },
+      { title: profileEmail, path: `/settings/listings/${accountId}` },
     ];
   }
 
   // Customize breadcrumb for edit team member page
-  if (baseRoute === '/settings/team-members' && location.pathname.includes('/edit/')) {
-    const memberId = location.pathname.split('/').pop();
+  if (
+    baseRoute === "/settings/team-members" &&
+    location.pathname.includes("/edit/")
+  ) {
+    const memberId = location.pathname.split("/").pop();
     breadcrumbItems = [
-      { title: 'Dashboard', path: '/' },
-      { title: 'Settings', path: '/settings' },
-      { title: 'Team Members', path: '/settings/team-members' },
-      { title: `Edit Team Member #${memberId}`, path: location.pathname }
+      { title: "Dashboard", path: "/" },
+      { title: "Settings", path: "/settings" },
+      { title: "Team Members", path: "/settings/team-members" },
+      { title: `Edit Team Member #${memberId}`, path: location.pathname },
     ];
   }
 
@@ -214,7 +226,10 @@ export const PageBreadcrumb: React.FC = () => {
                 </BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link to={item.path} className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                  <Link
+                    to={item.path}
+                    className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                  >
                     {item.title}
                   </Link>
                 </BreadcrumbLink>
