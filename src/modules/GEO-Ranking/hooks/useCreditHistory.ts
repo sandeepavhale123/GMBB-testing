@@ -16,7 +16,7 @@ const mapApiCreditHistoryItem = (item: any, index: number): CreditHistoryItem =>
 export const useCreditHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(1000);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 

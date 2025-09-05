@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -10,21 +9,62 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Search, Download, Calendar, CreditCard } from "lucide-react";
+import { Search } from "lucide-react";
 import { useCreditHistory } from "../hooks/useCreditHistory";
+
 export const CreditHistory: React.FC = () => {
-  const {
-    creditHistory,
-    isLoading,
-    currentPage,
-    searchTerm,
-    handlePageChange,
-    handleSearchChange,
-  } = useCreditHistory();
-  const totalCreditsUsed = creditHistory.reduce(
-    (sum, item) => sum + item.credit,
-    0
+  const { creditHistory, isLoading, searchTerm, handleSearchChange } =
+    useCreditHistory();
+
+  // frontend pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(creditHistory.length / itemsPerPage);
+
+  const currentData = creditHistory.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Generate limited page numbers
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const maxVisible = 3; // how many numbers to show around currentPage
+
+    if (totalPages <= 5) {
+      // show all if small
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1); // always show first
+
+      if (currentPage > maxVisible) {
+        pages.push("..."); // left ellipsis
+      }
+
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - (maxVisible - 1)) {
+        pages.push("..."); // right ellipsis
+      }
+
+      pages.push(totalPages); // always show last
+    }
+
+    return pages;
+  };
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -46,6 +86,7 @@ export const CreditHistory: React.FC = () => {
       </div>
     );
   }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -55,12 +96,10 @@ export const CreditHistory: React.FC = () => {
             Credits History
           </h1>
           <p className="text-muted-foreground">
-            Track your credit usage across all ranking checks.
+            Track your credit usage across all ranking checks
           </p>
         </div>
       </div>
-
-      {/* Summary Stats */}
 
       {/* Filters and Search */}
       <Card>
@@ -91,7 +130,7 @@ export const CreditHistory: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {creditHistory.map((item) => (
+                {currentData.map((item) => (
                   <tr
                     key={item.id}
                     className="border-b border-border/50 hover:bg-muted/50"
@@ -126,6 +165,56 @@ export const CreditHistory: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="p-4 flex justify-end">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : ""
+                      }
+                    />
+                  </PaginationItem>
+
+                  {getPageNumbers().map((page, i) =>
+                    typeof page === "number" ? (
+                      <PaginationItem key={i}>
+                        <PaginationLink
+                          isActive={currentPage === page}
+                          onClick={() => handlePageChange(page)}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ) : (
+                      <PaginationItem key={i}>
+                        <span className="px-3 py-2 text-muted-foreground">
+                          ...
+                        </span>
+                      </PaginationItem>
+                    )
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : ""
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
