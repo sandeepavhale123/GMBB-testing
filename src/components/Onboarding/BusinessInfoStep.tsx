@@ -66,7 +66,7 @@ const BusinessInfoStep = ({
     website: formData.website || "",
     email: formData.email || "",
     timezone: formData.timezone || "",
-    businessType: formData.businessType || "",
+    businessType: formData.businessType || "Multi listing Dashboard",
     locationCount: formData.locationCount || "",
   });
 
@@ -96,7 +96,7 @@ const BusinessInfoStep = ({
       case "local_business":
         return "Single listing Dashboard";
       default:
-        return "";
+        return "Multi listing Dashboard";
     }
   };
 
@@ -110,29 +110,33 @@ const BusinessInfoStep = ({
     if (count <= 200) return "101-200";
     return "201+";
   };
+  console.log("business details", businessDetails);
+  console.log("formdata details", formData);
+  console.log("localData details", localData);
 
   useEffect(() => {
+    console.log("businessDetails from API:", businessDetails);
     // Only prefill when businessDetails exist and localData is still in its initial state
     if (
       businessDetails &&
       !formData.businessName && // no existing user input
       !localData.businessName && // only prefill if local state is also untouched
       !localData.email &&
-      !localData.timezone &&
-      !localData.businessType
+      !localData.timezone
     ) {
       const prefillData = {
-        businessName: businessDetails.companyName || "",
-        website: businessDetails.website || "",
-        email: businessDetails.email || "",
-        timezone: businessDetails.timezone || "",
+        businessName: businessDetails.companyName ?? "",
+        website: businessDetails.website ?? "",
+        email: businessDetails.email ?? "",
+        timezone: businessDetails.timezone ?? "",
         businessType:
-          mapAgencyTypeToBusinessType(businessDetails.agencyType) || "",
+          mapAgencyTypeToBusinessType(businessDetails.agencyType) ??
+          "Multi listing Dashboard",
         locationCount:
-          mapManageListingToLocationCount(businessDetails.manageListing) || "",
+          mapManageListingToLocationCount(businessDetails.manageListing) ?? "",
       };
-      // console.log("Prefilling form with business details:", businessDetails);
-      // console.log("Mapped prefill data:", prefillData);
+      console.log("Prefilling form with business details:", businessDetails);
+      console.log("Mapped prefill data:", prefillData);
       setLocalData(prefillData);
       updateFormData(prefillData);
     }
@@ -140,7 +144,7 @@ const BusinessInfoStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [businessDetails]);
 
-  const businessTypes = ["Single listing dashboard", "Multi listing Dashboard"];
+  const businessTypes = ["Single listing Dashboard", "Multi listing Dashboard"];
 
   const locationRanges = [
     "1-10",
