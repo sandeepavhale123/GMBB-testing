@@ -1,4 +1,7 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ListingStatisticsCards } from "./ListingStatisticsCards";
 import { ListingSearchFilters } from "./ListingSearchFilters";
 import { ListingManagementSearchError } from "./ListingManagementSearchError";
@@ -15,7 +18,12 @@ interface ListingManagementPageProps {
 export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
   accountId,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { refetchListings } = useListingContext(); // ADD
+  
+  // Check if we're on multi dashboard
+  const isMultiDashboard = location.pathname.includes("/main-dashboard");
   const {
     searchTerm,
     filterStatus,
@@ -79,9 +87,21 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-2xl  font-bold text-gray-900 mb-2">
-          Manage Listings
-        </h2>
+        <div className="flex items-center gap-4">
+          {isMultiDashboard && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/main-dashboard/settings")}
+              className="hover:bg-gray-100 p-2"
+            >
+              <ChevronLeft className="w-5 h-5 text-gray-600" />
+            </Button>
+          )}
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Manage Listings
+          </h2>
+        </div>
       </div>
 
       {/* Statistics Cards - Never show loading after initial load */}
