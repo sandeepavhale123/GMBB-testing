@@ -44,6 +44,7 @@ import { Input } from "@/components/ui/input";
 export const PublicMultiDashboardReport: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const [dashboardType, setDashboardType] = useState<string>("default");
+  const [userHasChangedDashboard, setUserHasChangedDashboard] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,10 +77,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
   
   // Update dashboard type when config loads (only if user hasn't changed it)
   React.useEffect(() => {
-    if (configDashboardType && dashboardType === 'default') {
+    if (configDashboardType && dashboardType === 'default' && !userHasChangedDashboard) {
       setDashboardType(configDashboardType);
     }
-  }, [configDashboardType, dashboardType]);
+  }, [configDashboardType, userHasChangedDashboard]);
 
   // Fetch dashboard data using the token and filters (only when config is loaded)
   const { data, isLoading, error, refetch } = usePublicDashboardData({
@@ -186,6 +187,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
   const handleDashboardTypeChange = (type: string) => {
     setDashboardType(type);
+    setUserHasChangedDashboard(true);
     setCurrentPage(1);
     // Reset filters when changing dashboard type
     setSearchTerm("");
@@ -283,10 +285,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
                 </h3>
                <div className="flex flex-col sm:flex-row gap-4">
                 <Select value={activeDashboardType} onValueChange={handleDashboardTypeChange}>
-                 <SelectTrigger className="sm:w-[250px]">
+                 <SelectTrigger className="sm:w-[250px] bg-background">
                    <SelectValue placeholder="Select Dashboard Type" />
                  </SelectTrigger>
-                 <SelectContent>
+                 <SelectContent className="z-50 bg-background border border-border shadow-lg">
                    <SelectItem value="default">Default Dashboard</SelectItem>
                    <SelectItem value="insight">Insight Dashboard</SelectItem>
                    <SelectItem value="review">Review Dashboard</SelectItem>
@@ -484,14 +486,16 @@ export const PublicMultiDashboardReport: React.FC = () => {
                           key={post.id || index}
                           className="border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20"
                         >
-                          {/* Date positioned at top right */}
-                          <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            {post.publishDate}
+                          {/* Date section */}
+                          <div className="flex justify-end mb-3">
+                            <div className="flex items-center text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded border">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {post.publishDate}
+                            </div>
                           </div>
 
                           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-4 flex-1">
                               {/* Thumbnail */}
                               <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                                 {post.media?.images ? (
@@ -524,6 +528,28 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   )}
                                 </div>
                               </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-2 sm:ml-auto">
+                              {post.searchUrl && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  asChild
+                                  className="h-8 px-3 text-xs"
+                                >
+                                  <a 
+                                    href={post.searchUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <ExternalLink className="w-3 h-3" />
+                                    Open on Google
+                                  </a>
+                                </Button>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -867,7 +893,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   {listing.locationName || listing.listingName}
                                 </h4>
                                 <p className="text-xs text-muted-foreground">
-                                  ID: {listing.listingId || listing.id}
+                                  Zip: {listing.zipCode || listing.zip_code || 'N/A'}
                                 </p>
                                 {listing.storeCode && (
                                   <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
@@ -899,49 +925,141 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     </div>
                                     <div className="text-muted-foreground">Calls</div>
                                   </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-purple-600">
-                                      {listing.customer_actions?.website_clicks || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Clicks</div>
-                                  </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.customer_actions?.website_clicks || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Clicks</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-indigo-600">
+                                       {listing.visibility?.total_visibility || listing.totalVisibility || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Total Views</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-cyan-600">
+                                       {listing.customer_actions?.directions || listing.directionsCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Directions</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-pink-600">
+                                       {listing.customer_actions?.messages || listing.messagesCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Messages</div>
+                                   </div>
                                 </>
-                              ) : dashboardType === "review" ? (
-                                <>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-yellow-600">
-                                      {listing.avgRating || listing.rating}
-                                    </div>
-                                    <div className="text-muted-foreground">Rating</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-green-600">
-                                      {listing.sentiment?.positive || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Positive</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-red-600">
-                                      {listing.sentiment?.negative || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Negative</div>
-                                  </div>
-                                </>
-                              ) : dashboardType === "location" ? (
-                                <>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-blue-600">
-                                      {listing.photoCount || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Photos</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-green-600">
-                                      {listing.rating}
-                                    </div>
-                                    <div className="text-muted-foreground">Rating</div>
-                                  </div>
-                                </>
+                               ) : dashboardType === "review" ? (
+                                 <>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-yellow-600">
+                                       {listing.avgRating || listing.rating}
+                                     </div>
+                                     <div className="text-muted-foreground">Rating</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-blue-600">
+                                       {listing.reviewCount || 0} / {listing.replyCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Reviews / Replies</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.autoReplyStatus || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Auto Reply</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-green-600">
+                                       {listing.sentiment?.positive || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Positive</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-gray-600">
+                                       {listing.sentiment?.neutral || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Neutral</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-red-600">
+                                       {listing.sentiment?.negative || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Negative</div>
+                                   </div>
+                                 </>
+                               ) : dashboardType === "location" ? (
+                                 <>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-blue-600">
+                                       {listing.photoCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Photos</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-green-600">
+                                       {listing.rating}
+                                     </div>
+                                     <div className="text-muted-foreground">Rating</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-gray-600 truncate max-w-[150px]">
+                                       {listing.address || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Address</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.phoneNumber || listing.phone || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Phone</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-orange-600">
+                                       {listing.category || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Category</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-cyan-600">
+                                       {listing.website ? (
+                                         <Button
+                                           variant="outline"
+                                           size="sm"
+                                           asChild
+                                           className="h-7 px-2 text-xs"
+                                         >
+                                           <a 
+                                             href={listing.website} 
+                                             target="_blank" 
+                                             rel="noopener noreferrer"
+                                           >
+                                             Visit Site
+                                           </a>
+                                         </Button>
+                                       ) : (
+                                         <span className="text-muted-foreground">-</span>
+                                       )}
+                                     </div>
+                                     <div className="text-muted-foreground">Website</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-red-600">
+                                       {listing.latitude && listing.longitude ? (
+                                         <a 
+                                           href={`https://maps.google.com/?q=${listing.latitude},${listing.longitude}`}
+                                           target="_blank" 
+                                           rel="noopener noreferrer"
+                                           className="hover:underline"
+                                         >
+                                           View Map
+                                         </a>
+                                       ) : "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Map</div>
+                                   </div>
+                                 </>
                               ) : (
                                 <>
                                   <div className="text-center">
@@ -955,6 +1073,24 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                       {listing.reviewReply}
                                     </div>
                                     <div className="text-muted-foreground">Reviews</div>
+                                  </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-green-600">
+                                      {listing.zipCode || listing.zip_code || 'N/A'}
+                                    </div>
+                                    <div className="text-muted-foreground">Zip Code</div>
+                                  </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-orange-600">
+                                      {listing.lastPostCount || listing.last_post_count || 0}
+                                    </div>
+                                    <div className="text-muted-foreground">Last Posts</div>
+                                  </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-purple-600">
+                                      {listing.upcomingCount || listing.upcoming_count || 0}
+                                    </div>
+                                    <div className="text-muted-foreground">Upcoming</div>
                                   </div>
                                 </>
                               )}

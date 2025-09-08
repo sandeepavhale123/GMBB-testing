@@ -37,6 +37,7 @@ type ShareableResponse =
   | ShareableLocationResponse 
   | ShareablePostResponse;
 
+
 export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
   const {
     reportId,

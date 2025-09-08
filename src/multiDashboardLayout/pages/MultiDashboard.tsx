@@ -20,6 +20,7 @@ import {
   Loader2,
   Loader,
   Share2,
+  ArrowRight 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -102,10 +103,20 @@ export const MultiDashboard: React.FC = () => {
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 3000);
 
-  // Initialize dashboard type from profile data
+  // Initialize dashboard type from localStorage, then profile data
   useEffect(() => {
     console.log("Profile data loaded:", profileData);
     console.log("Dashboard filter type:", profileData?.dashboardFilterType);
+    
+    // Check localStorage first
+    const localDashboardType = localStorage.getItem('dashboardType');
+    if (localDashboardType && DASHBOARD_TYPE_MAPPING[localDashboardType as keyof typeof DASHBOARD_TYPE_MAPPING]) {
+      console.log("Using localStorage dashboard type:", localDashboardType);
+      setDashboardType(localDashboardType);
+      return;
+    }
+    
+    // Fall back to profile data
     if (profileData?.dashboardFilterType) {
       const savedType =
         DASHBOARD_ID_TO_TYPE_MAPPING[
@@ -522,6 +533,7 @@ export const MultiDashboard: React.FC = () => {
       setIsUpdatingDashboard(true);
       const numericId =
         DASHBOARD_TYPE_MAPPING[newType as keyof typeof DASHBOARD_TYPE_MAPPING];
+      localStorage.setItem('dashboardType', newType);
       await setDashboard(numericId);
       setDashboardType(newType);
       setCurrentPage(1); // Reset pagination when changing dashboard type
@@ -597,14 +609,15 @@ export const MultiDashboard: React.FC = () => {
               <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <Select
-                    value={dashboardType}
+                    key={dashboardType} // Force re-render when dashboard type changes
+                    value={dashboardType || "default"}
                     onValueChange={handleDashboardTypeChange}
                     disabled={isUpdatingDashboard}
                   >
-                    <SelectTrigger className="w-full sm:w-48">
+                    <SelectTrigger className="w-full sm:w-48 bg-background">
                       <SelectValue placeholder="Dashboard Type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-background border">
                       <SelectItem value="default">Default Dashboard</SelectItem>
                       <SelectItem value="insight">Insight Dashboard</SelectItem>
                       <SelectItem value="review">Review Dashboard</SelectItem>
@@ -660,7 +673,7 @@ export const MultiDashboard: React.FC = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
                 <Select
                   value={selectedCategory}
                   onValueChange={(value) =>
@@ -668,7 +681,7 @@ export const MultiDashboard: React.FC = () => {
                   }
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
                         categoryStateLoading ? "Loading..." : "All Categories"
@@ -693,7 +706,7 @@ export const MultiDashboard: React.FC = () => {
                   onValueChange={(value) => handleFilterChange("state", value)}
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
                         categoryStateLoading ? "Loading..." : "All States"
@@ -1301,7 +1314,13 @@ export const MultiDashboard: React.FC = () => {
                         </div>
 
                         {/* Basic Info */}
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0 flex-1 hover:text-primary cursor-pointer"  onClick={() =>
+                            navigate(
+                              `/location-dashboard/${
+                                listing.listingId || listing.id
+                              }`
+                            )
+                          }>
                           <div className="flex items-center gap-2">
                             <h4 className="font-semibold text-foreground text-sm truncate">
                               {listing.locationName || listing.listingName}
@@ -1310,22 +1329,37 @@ export const MultiDashboard: React.FC = () => {
                               <Loader2 className="w-3 h-3 animate-spin text-primary" />
                             )}
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            ID: {listing.listingId || listing.id}
-                          </p>
-                          {listing.storeCode && (
-                            <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                              {listing.storeCode}
-                            </span>
-                          )}
+                          <div className="flex gap-2 items-center text-xs text-muted-foreground">
+                            {listing.zipCode && <span>Zip: {listing.zipCode}</span>}
+                            {listing.zipCode && listing.category && <span>•</span>}
+                            {listing.category && <span>{listing.category}</span>}
+                            {listing.city && (listing.zipCode || listing.category) && <span>•</span>}
+                            {listing.city && <span>{listing.city}</span>}
+                          </div>
+                          <div className="flex gap-2 mt-1">
+                            {listing.storeCode && (
+                              <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                                {listing.storeCode}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
 
                       {/* Dashboard Type Specific Data */}
-                      <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">
+                      <div className="flex items-center gap-4 overflow-x-auto text-xs min-w-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+                           style={{ scrollbarWidth: 'thin' }}>
                         {dashboardType === "insight" ? (
                           <>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
+                              <div className="font-semibold text-indigo-600">
+                                {listing.visibility?.total_views || 0}
+                              </div>
+                              <div className="text-muted-foreground">
+                                Total Views
+                              </div>
+                            </div>
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-blue-600">
                                 {listing.visibility?.search_views || 0}
                               </div>
@@ -1333,19 +1367,31 @@ export const MultiDashboard: React.FC = () => {
                                 Search
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-green-600">
                                 {listing.visibility?.maps_views || 0}
                               </div>
                               <div className="text-muted-foreground">Maps</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
+                              <div className="font-semibold text-cyan-600">
+                                {listing.customer_actions?.direction_requests || 0}
+                              </div>
+                              <div className="text-muted-foreground">Directions</div>
+                            </div>
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-orange-600">
                                 {listing.customer_actions?.phone_calls || 0}
                               </div>
                               <div className="text-muted-foreground">Calls</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
+                              <div className="font-semibold text-pink-600">
+                                {listing.customer_actions?.messages || 0}
+                              </div>
+                              <div className="text-muted-foreground">Messages</div>
+                            </div>
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-purple-600">
                                 {listing.customer_actions?.website_clicks || 0}
                               </div>
@@ -1356,7 +1402,7 @@ export const MultiDashboard: React.FC = () => {
                           </>
                         ) : dashboardType === "review" ? (
                           <>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-16 flex-shrink-0">
                               <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
@@ -1366,15 +1412,15 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.avgRating || listing.rating}
                               </span>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground">
-                                {listing.reviewCount || 0}
+                                {listing.reviewCount || 0} / {listing.replyCount || 0}
                               </div>
                               <div className="text-muted-foreground">
-                                Reviews
+                                Reviews vs Replies 
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-green-600">
                                 {listing.sentiment?.positive || 0}
                               </div>
@@ -1382,7 +1428,7 @@ export const MultiDashboard: React.FC = () => {
                                 Positive
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-gray-600">
                                 {listing.sentiment?.neutral || 0}
                               </div>
@@ -1390,7 +1436,7 @@ export const MultiDashboard: React.FC = () => {
                                 Neutral
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-red-600">
                                 {listing.sentiment?.negative || 0}
                               </div>
@@ -1398,10 +1444,24 @@ export const MultiDashboard: React.FC = () => {
                                 Negative
                               </div>
                             </div>
+                            <div className="text-center min-w-20 flex-shrink-0">
+                              <div className={`font-semibold ${
+                                listing.autoReplyStatus === 'Active' 
+                                  ? 'text-green-600' 
+                                  : listing.autoReplyStatus === 'Inactive' 
+                                  ? 'text-red-600' 
+                                  : 'text-gray-600'
+                              }`}>
+                                {listing.autoReplyStatus || 'N/A'}
+                              </div>
+                              <div className="text-muted-foreground">
+                                Auto Reply
+                              </div>
+                            </div>
                           </>
                         ) : dashboardType === "location" ? (
                           <>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-blue-600">
                                 {listing.photoCount || 0}
                               </div>
@@ -1409,7 +1469,7 @@ export const MultiDashboard: React.FC = () => {
                                 Photos
                               </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-16 flex-shrink-0">
                               <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
@@ -1419,23 +1479,53 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.rating}
                               </span>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.phone || "N/A"}
                               </div>
                               <div className="text-muted-foreground">Phone</div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.state || "N/A"}
                               </div>
                               <div className="text-muted-foreground">State</div>
                             </div>
+                            {listing.map && (
+                              <div className="text-center min-w-16 flex-shrink-0">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(listing.map, '_blank');
+                                  }}
+                                  className="flex flex-col items-center gap-1 hover:opacity-80 cursor-pointer"
+                                >
+                                  <MapPin className="h-4 w-4 text-primary" />
+                                  <div className="text-muted-foreground text-xs">Maps</div>
+                                </button>
+                              </div>
+                            )}
+                            {listing.website && (
+                              <div className="text-center min-w-16 flex-shrink-0">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(listing.website, '_blank');
+                                  }}
+                                  className="flex flex-col items-center gap-1 hover:opacity-80 cursor-pointer"
+                                  title={listing.website}
+                                >
+                                  <ExternalLink className="h-4 w-4 text-primary" />
+                                  <div className="text-muted-foreground text-xs">Website</div>
+                                </button>
+                              </div>
+                            )}
                           </>
                         ) : (
                           <>
-                            <div className="flex items-center gap-2">
-                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                            <div className="text-center min-w-20 flex-shrink-0">
+                              <div className=" flex  items-center gap-2">
+                                <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
                                   listing.rating
@@ -1443,16 +1533,21 @@ export const MultiDashboard: React.FC = () => {
                               >
                                 {listing.rating}
                               </span>
+                              </div>
+                             <div className="text-muted-foreground">
+                                Star Rating
+                              </div>
+                              
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground">
                                 {listing.reviewReply}
                               </div>
                               <div className="text-muted-foreground">
-                                Reviews
+                                Reviews vs Replies 
                               </div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.lastPost}
                               </div>
@@ -1460,7 +1555,7 @@ export const MultiDashboard: React.FC = () => {
                                 Last Post
                               </div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.upcomingPost}
                               </div>
@@ -1485,8 +1580,7 @@ export const MultiDashboard: React.FC = () => {
                             )
                           }
                         >
-                          View Details
-                          <ExternalLink className="w-3 h-3 ml-2" />
+                          <ArrowRight  className="w-3 h-3" />
                         </Button>
                       </div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Edit, Trash2, Copy, Eye, Loader2 } from "lucide-react";
+import { Calendar, Edit, Trash2, Copy, Eye, Loader2, ExternalLink } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { formatScheduledDate } from "../../utils/dateUtils";
 import { Button } from "../ui/button";
@@ -306,6 +306,20 @@ export const PostListItem: React.FC<PostListItemProps> = ({
             >
               <Eye className="w-3 h-3" />
             </Button>
+            {post.searchUrl && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(post.searchUrl, '_blank');
+                }}
+                title="Open on Google"
+              >
+                <ExternalLink className="w-3 h-3" />
+              </Button>
+            )}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button

@@ -214,6 +214,7 @@ export const getShareableCategoryAndState = async (request: ShareableCategoryAnd
   return response.data;
 };
 
+// Dashboard-specific API Functions
 export const getShareableDefaultData = async (request: ShareableReportRequest): Promise<ShareableDefaultResponse> => {
   const response = await publicAxiosInstance.post('/get-shareable-default-data', request);
   return response.data;
