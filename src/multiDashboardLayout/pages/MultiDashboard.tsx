@@ -1332,6 +1332,8 @@ export const MultiDashboard: React.FC = () => {
                             {listing.zipCode && <span>Zip: {listing.zipCode}</span>}
                             {listing.zipCode && listing.category && <span>•</span>}
                             {listing.category && <span>{listing.category}</span>}
+                            {listing.city && (listing.zipCode || listing.category) && <span>•</span>}
+                            {listing.city && <span>{listing.city}</span>}
                           </div>
                           <div className="flex gap-2 mt-1">
                             {listing.storeCode && (
@@ -1438,6 +1440,20 @@ export const MultiDashboard: React.FC = () => {
                               </div>
                               <div className="text-muted-foreground">
                                 Negative
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <div className={`font-semibold ${
+                                listing.autoReplyStatus === 'Active' 
+                                  ? 'text-green-600' 
+                                  : listing.autoReplyStatus === 'Inactive' 
+                                  ? 'text-red-600' 
+                                  : 'text-gray-600'
+                              }`}>
+                                {listing.autoReplyStatus || 'N/A'}
+                              </div>
+                              <div className="text-muted-foreground">
+                                Auto Reply
                               </div>
                             </div>
                           </>
