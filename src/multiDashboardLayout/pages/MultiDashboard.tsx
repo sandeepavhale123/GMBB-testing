@@ -1346,7 +1346,7 @@ export const MultiDashboard: React.FC = () => {
                       </div>
 
                       {/* Dashboard Type Specific Data */}
-                      <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:flex md:items-center md:justify-end md:gap-6 text-xs">
                         {dashboardType === "insight" ? (
                           <>
                             <div className="text-center">
