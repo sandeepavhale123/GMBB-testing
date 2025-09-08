@@ -869,7 +869,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   {listing.locationName || listing.listingName}
                                 </h4>
                                 <p className="text-xs text-muted-foreground">
-                                  ID: {listing.listingId || listing.id}
+                                  Zip: {listing.zipCode || listing.zip_code || 'N/A'}
                                 </p>
                                 {listing.storeCode && (
                                   <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
