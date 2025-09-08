@@ -283,10 +283,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
                 </h3>
                <div className="flex flex-col sm:flex-row gap-4">
                 <Select value={activeDashboardType} onValueChange={handleDashboardTypeChange}>
-                 <SelectTrigger className="sm:w-[250px]">
+                 <SelectTrigger className="sm:w-[250px] bg-background">
                    <SelectValue placeholder="Select Dashboard Type" />
                  </SelectTrigger>
-                 <SelectContent>
+                 <SelectContent className="z-50 bg-background border border-border shadow-lg">
                    <SelectItem value="default">Default Dashboard</SelectItem>
                    <SelectItem value="insight">Insight Dashboard</SelectItem>
                    <SelectItem value="review">Review Dashboard</SelectItem>
