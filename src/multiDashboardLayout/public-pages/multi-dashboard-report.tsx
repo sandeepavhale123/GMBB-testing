@@ -486,10 +486,12 @@ export const PublicMultiDashboardReport: React.FC = () => {
                           key={post.id || index}
                           className="border border-border rounded-lg bg-card p-4 hover:shadow-md transition-all duration-200 hover:border-primary/20"
                         >
-                          {/* Date positioned at top right */}
-                          <div className="absolute bottom-1 left-1 sm:top-1 sm:right-1 sm:bottom-auto sm:left-auto flex items-center text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded border">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            {post.publishDate}
+                          {/* Date section */}
+                          <div className="flex justify-end mb-3">
+                            <div className="flex items-center text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded border">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {post.publishDate}
+                            </div>
                           </div>
 
                           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
