@@ -1,16 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
-  getShareableDefaultData,
-  getShareableInsightData,
-  getShareableReviewData,
-  getShareableLocationData,
-  getShareablePostsData,
+  getShareableReportData,
   ShareableReportRequest,
-  ShareableDefaultResponse,
-  ShareableInsightResponse,
-  ShareableReviewResponse,
-  ShareableLocationResponse,
-  ShareablePostResponse,
+  ShareableResponse,
 } from '@/api/publicDashboardApi';
 import { getDashboardType, getDashboardFilterType } from '@/utils/dashboardMappings';
 
@@ -30,12 +22,6 @@ interface UsePublicDashboardDataParams {
   reviewFilter?: string;
 }
 
-type ShareableResponse = 
-  | ShareableDefaultResponse 
-  | ShareableInsightResponse 
-  | ShareableReviewResponse 
-  | ShareableLocationResponse 
-  | ShareablePostResponse;
 
 export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
   const {
@@ -64,25 +50,10 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     ...(reviewFilter && { review: reviewFilter }),
   };
 
-  // Get dashboard type for API routing
-  const dashboardType = getDashboardType(dashboardFilterType);
-
   return useQuery({
     queryKey: ['publicDashboard', reportId, dashboardFilterType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
     queryFn: async (): Promise<ShareableResponse> => {
-      switch (dashboardType) {
-        case 'insight':
-          return await getShareableInsightData(request);
-        case 'review':
-          return await getShareableReviewData(request);
-        case 'location':
-          return await getShareableLocationData(request);
-        case 'post':
-          return await getShareablePostsData(request);
-        case 'default':
-        default:
-          return await getShareableDefaultData(request);
-      }
+      return await getShareableReportData(request);
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,

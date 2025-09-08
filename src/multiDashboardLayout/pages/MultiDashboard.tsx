@@ -609,14 +609,15 @@ export const MultiDashboard: React.FC = () => {
               <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <Select
-                    value={dashboardType}
+                    key={dashboardType} // Force re-render when dashboard type changes
+                    value={dashboardType || "default"}
                     onValueChange={handleDashboardTypeChange}
                     disabled={isUpdatingDashboard}
                   >
-                    <SelectTrigger className="w-full sm:w-48">
+                    <SelectTrigger className="w-full sm:w-48 bg-background">
                       <SelectValue placeholder="Dashboard Type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-background border">
                       <SelectItem value="default">Default Dashboard</SelectItem>
                       <SelectItem value="insight">Insight Dashboard</SelectItem>
                       <SelectItem value="review">Review Dashboard</SelectItem>
