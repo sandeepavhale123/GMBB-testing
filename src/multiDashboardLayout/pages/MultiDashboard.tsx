@@ -1313,7 +1313,13 @@ export const MultiDashboard: React.FC = () => {
                         </div>
 
                         {/* Basic Info */}
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0 flex-1"  onClick={() =>
+                            navigate(
+                              `/location-dashboard/${
+                                listing.listingId || listing.id
+                              }`
+                            )
+                          }>
                           <div className="flex items-center gap-2">
                             <h4 className="font-semibold text-foreground text-sm truncate">
                               {listing.locationName || listing.listingName}
@@ -1497,7 +1503,7 @@ export const MultiDashboard: React.FC = () => {
                             )
                           }
                         >
-                          <ArrowRight  className="w-3 h-3 ml-2" />
+                          <ArrowRight  className="w-3 h-3" />
                         </Button>
                       </div>
                     </div>
