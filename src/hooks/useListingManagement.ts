@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAccountListings } from "./useAccountListings";
 import { useListingStatusToggle } from "./useListingStatusToggle";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DASHBOARD_QUERY_KEYS } from "@/api/dashboardQueryKeys";
+import axiosInstance from "@/api/axiosInstance";
 
+type TogglePayload = { listingId: string; isActive: boolean };
 export interface UseListingManagementParams {
   accountId: string;
   onListingStatusChange?: () => Promise<void>; // ADD THIS LINE
@@ -13,6 +17,8 @@ export const useListingManagement = ({
   accountId,
   onListingStatusChange, // ADD THIS PARAMETER
 }: UseListingManagementParams) => {
+  const queryClient = useQueryClient();
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -130,8 +136,8 @@ export const useListingManagement = ({
           async (data) => {
             // MAKE THIS ASYNC
             // Refetch both filtered data and summary statistics
-            refetch();
-            refetchSummary();
+            await refetch();
+            await refetchSummary();
 
             // Trigger business listings refresh for dropdown sync
             if (onListingStatusChange) {
@@ -149,6 +155,13 @@ export const useListingManagement = ({
             }
 
             // console.log('Updated active listings count:', data.activeListings);
+            // ✅ Invalidate all dashboards so they refetch
+            Object.values(DASHBOARD_QUERY_KEYS).forEach((key) => {
+              queryClient.invalidateQueries({
+                predicate: (query) =>
+                  Array.isArray(query.queryKey) && query.queryKey[0] === key,
+              });
+            });
           }
         );
       } catch (error) {
@@ -162,6 +175,7 @@ export const useListingManagement = ({
       refetch,
       refetchSummary,
       onListingStatusChange,
+      queryClient,
     ]
   );
 

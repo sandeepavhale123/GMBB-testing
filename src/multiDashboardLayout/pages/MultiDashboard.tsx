@@ -632,9 +632,8 @@ export const MultiDashboard: React.FC = () => {
                   )}
                 </div>
 
-               <div className="flex gap-4">
-
-                 {/* Share Report Button */}
+              <div className="flex gap-4">
+                {/* Share Report Button */}
                 <Button
                   variant="outline"
                   size="sm"
@@ -644,8 +643,6 @@ export const MultiDashboard: React.FC = () => {
                   <Share2 className="h-4 w-4" />
                   <span className="hidden sm:inline">Share Report</span>
                 </Button>
-
-               
 
                 <ToggleGroup
                   type="single"
@@ -659,9 +656,9 @@ export const MultiDashboard: React.FC = () => {
                     <List className="h-4 w-4" />
                   </ToggleGroupItem>
                 </ToggleGroup>
-               </div>
               </div>
             </div>
+          </div>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
             <div className="flex flex-col md:flex-row gap-4 flex-1 w-full">
               <div className="relative flex-1">
@@ -724,7 +721,7 @@ export const MultiDashboard: React.FC = () => {
                       ))}
                   </SelectContent>
                 </Select>
-                 {/* Review Filter Dropdown - Only show for review dashboard */}
+                {/* Review Filter Dropdown - Only show for review dashboard */}
                 {dashboardType === "review" && (
                   <Select
                     value={reviewFilter}
@@ -777,8 +774,6 @@ export const MultiDashboard: React.FC = () => {
 
           {/* GMB Listings */}
           <div>
-            
-
             {/* Display counts */}
             <div className="mb-4">
               <p className="text-sm text-muted-foreground">
@@ -907,7 +902,7 @@ export const MultiDashboard: React.FC = () => {
                           dashboardType === "review") &&
                           listing.city && (
                             <p className="text-xs text-muted-foreground">
-                              City: {listing.city}
+                              State: {listing.city}
                             </p>
                           )}
                         {dashboardType === "insight" && listing.category && (
@@ -1702,19 +1697,23 @@ export const MultiDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Share Report Modal */}
       <ShareReportModal
         open={showShareModal}
         onOpenChange={setShowShareModal}
-        dashboardFilterType={parseInt(DASHBOARD_TYPE_MAPPING[dashboardType] || "1")}
+        dashboardFilterType={parseInt(
+          DASHBOARD_TYPE_MAPPING[dashboardType] || "1"
+        )}
         onReportGenerated={(reportId) => {
           setShowShareModal(false);
-          setGeneratedReportUrl(`${window.location.origin}/multi-dashboard-report/${reportId}`);
+          setGeneratedReportUrl(
+            `${window.location.origin}/multi-dashboard-report/${reportId}`
+          );
           setShowCopyUrlModal(true);
         }}
       />
-      
+
       {/* Copy URL Modal */}
       <CopyUrlModal
         open={showCopyUrlModal}
