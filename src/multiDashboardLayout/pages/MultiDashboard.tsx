@@ -1452,8 +1452,9 @@ export const MultiDashboard: React.FC = () => {
                           </>
                         ) : (
                           <>
-                            <div className="flex items-center gap-2">
-                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                            <div className="text-center">
+                              <div className=" flex  items-center gap-2">
+                                <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
                                   listing.rating
@@ -1461,6 +1462,7 @@ export const MultiDashboard: React.FC = () => {
                               >
                                 {listing.rating}
                               </span>
+                              </div>
                              <div className="text-muted-foreground">
                                 Star Rating
                               </div>
