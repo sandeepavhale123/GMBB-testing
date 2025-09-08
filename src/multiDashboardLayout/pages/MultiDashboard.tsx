@@ -102,10 +102,20 @@ export const MultiDashboard: React.FC = () => {
   const itemsPerPage = 9;
   const debouncedSearchTerm = useDebounce(searchTerm, 3000);
 
-  // Initialize dashboard type from profile data
+  // Initialize dashboard type from localStorage, then profile data
   useEffect(() => {
     console.log("Profile data loaded:", profileData);
     console.log("Dashboard filter type:", profileData?.dashboardFilterType);
+    
+    // Check localStorage first
+    const localDashboardType = localStorage.getItem('dashboardType');
+    if (localDashboardType && DASHBOARD_TYPE_MAPPING[localDashboardType as keyof typeof DASHBOARD_TYPE_MAPPING]) {
+      console.log("Using localStorage dashboard type:", localDashboardType);
+      setDashboardType(localDashboardType);
+      return;
+    }
+    
+    // Fall back to profile data
     if (profileData?.dashboardFilterType) {
       const savedType =
         DASHBOARD_ID_TO_TYPE_MAPPING[
@@ -522,6 +532,7 @@ export const MultiDashboard: React.FC = () => {
       setIsUpdatingDashboard(true);
       const numericId =
         DASHBOARD_TYPE_MAPPING[newType as keyof typeof DASHBOARD_TYPE_MAPPING];
+      localStorage.setItem('dashboardType', newType);
       await setDashboard(numericId);
       setDashboardType(newType);
       setCurrentPage(1); // Reset pagination when changing dashboard type
