@@ -20,6 +20,7 @@ import {
   Loader2,
   Loader,
   Share2,
+  ArrowRight 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -1496,8 +1497,7 @@ export const MultiDashboard: React.FC = () => {
                             )
                           }
                         >
-                          View Details
-                          <ExternalLink className="w-3 h-3 ml-2" />
+                          <ArrowRight  className="w-3 h-3 ml-2" />
                         </Button>
                       </div>
                     </div>
