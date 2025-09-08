@@ -965,21 +965,64 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                      <div className="text-muted-foreground">Negative</div>
                                    </div>
                                  </>
-                              ) : dashboardType === "location" ? (
-                                <>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-blue-600">
-                                      {listing.photoCount || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Photos</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-green-600">
-                                      {listing.rating}
-                                    </div>
-                                    <div className="text-muted-foreground">Rating</div>
-                                  </div>
-                                </>
+                               ) : dashboardType === "location" ? (
+                                 <>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-blue-600">
+                                       {listing.photoCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Photos</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-green-600">
+                                       {listing.rating}
+                                     </div>
+                                     <div className="text-muted-foreground">Rating</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-gray-600 truncate max-w-[150px]">
+                                       {listing.address || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Address</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.phoneNumber || listing.phone || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Phone</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-orange-600">
+                                       {listing.category || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Category</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-cyan-600 truncate max-w-[120px]">
+                                       {listing.website ? (
+                                         <a href={listing.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                                           {listing.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                                         </a>
+                                       ) : "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Website</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-red-600">
+                                       {listing.latitude && listing.longitude ? (
+                                         <a 
+                                           href={`https://maps.google.com/?q=${listing.latitude},${listing.longitude}`}
+                                           target="_blank" 
+                                           rel="noopener noreferrer"
+                                           className="hover:underline"
+                                         >
+                                           View Map
+                                         </a>
+                                       ) : "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Map</div>
+                                   </div>
+                                 </>
                               ) : (
                                 <>
                                   <div className="text-center">
