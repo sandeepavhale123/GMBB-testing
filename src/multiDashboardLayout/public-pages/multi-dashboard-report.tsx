@@ -493,7 +493,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
                           </div>
 
                           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-4 flex-1">
                               {/* Thumbnail */}
                               <div className="w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                                 {post.media?.images ? (
@@ -526,6 +526,28 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                   )}
                                 </div>
                               </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-2 sm:ml-auto">
+                              {post.searchUrl && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  asChild
+                                  className="h-8 px-3 text-xs"
+                                >
+                                  <a 
+                                    href={post.searchUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <ExternalLink className="w-3 h-3" />
+                                    Open on Google
+                                  </a>
+                                </Button>
+                              )}
                             </div>
                           </div>
                         </div>
