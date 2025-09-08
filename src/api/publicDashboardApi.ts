@@ -203,13 +203,6 @@ export interface ShareableReportConfigResponse {
   };
 }
 
-export type ShareableResponse = 
-  | ShareableDefaultResponse 
-  | ShareableInsightResponse 
-  | ShareableReviewResponse 
-  | ShareableLocationResponse 
-  | ShareablePostResponse;
-
 // API Functions
 export const getShareableReport = async (request: ShareableReportConfigRequest): Promise<ShareableReportConfigResponse> => {
   const response = await publicAxiosInstance.post('/get-shareable-report', request);
@@ -221,13 +214,7 @@ export const getShareableCategoryAndState = async (request: ShareableCategoryAnd
   return response.data;
 };
 
-// Unified API function that uses dashboardFilterType to determine data type
-export const getShareableReportData = async (request: ShareableReportRequest): Promise<ShareableResponse> => {
-  const response = await publicAxiosInstance.post('/get-shareable-report-data', request);
-  return response.data;
-};
-
-// Legacy API Functions (kept for backward compatibility)
+// Dashboard-specific API Functions
 export const getShareableDefaultData = async (request: ShareableReportRequest): Promise<ShareableDefaultResponse> => {
   const response = await publicAxiosInstance.post('/get-shareable-default-data', request);
   return response.data;

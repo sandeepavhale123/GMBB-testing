@@ -1,8 +1,16 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
-  getShareableReportData,
+  getShareableDefaultData,
+  getShareableInsightData,
+  getShareableReviewData,
+  getShareableLocationData,
+  getShareablePostsData,
   ShareableReportRequest,
-  ShareableResponse,
+  ShareableDefaultResponse,
+  ShareableInsightResponse,
+  ShareableReviewResponse,
+  ShareableLocationResponse,
+  ShareablePostResponse,
 } from '@/api/publicDashboardApi';
 import { getDashboardType, getDashboardFilterType } from '@/utils/dashboardMappings';
 
@@ -21,6 +29,13 @@ interface UsePublicDashboardDataParams {
   postStatus?: string;
   reviewFilter?: string;
 }
+
+type ShareableResponse = 
+  | ShareableDefaultResponse 
+  | ShareableInsightResponse 
+  | ShareableReviewResponse 
+  | ShareableLocationResponse 
+  | ShareablePostResponse;
 
 
 export const usePublicDashboardData = (params: UsePublicDashboardDataParams): UseQueryResult<ShareableResponse> => {
@@ -50,10 +65,25 @@ export const usePublicDashboardData = (params: UsePublicDashboardDataParams): Us
     ...(reviewFilter && { review: reviewFilter }),
   };
 
+  // Get dashboard type for API routing
+  const dashboardType = getDashboardType(dashboardFilterType);
+
   return useQuery({
     queryKey: ['publicDashboard', reportId, dashboardFilterType, page, limit, search, category, city, dateRange, postStatus, reviewFilter],
     queryFn: async (): Promise<ShareableResponse> => {
-      return await getShareableReportData(request);
+      switch (dashboardType) {
+        case 'insight':
+          return await getShareableInsightData(request);
+        case 'review':
+          return await getShareableReviewData(request);
+        case 'location':
+          return await getShareableLocationData(request);
+        case 'post':
+          return await getShareablePostsData(request);
+        case 'default':
+        default:
+          return await getShareableDefaultData(request);
+      }
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
