@@ -136,17 +136,17 @@ export const GroupDetails: React.FC = () => {
     <div className="space-y-6 py-4 px-6">
       {/* Header with back button and title */}
       <div className=" space-x-4">
-        <Button
+        <div className="flex items-center justify-between flex-1">
+         <div className="flex gap-4">
+           <Button
           variant="ghost"
           size="sm"
           onClick={() => navigate('/main-dashboard/settings/manage-groups')}
-          className="justify-start "
+          className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200 "
         >
           <span>Back</span>
-        </Button>
-
-        <div className="flex items-center justify-between flex-1">
-          <h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
+        </Button><h1 className="text-2xl font-semibold text-foreground">{groupName}</h1>
+         </div>
           <Button
             onClick={() => setIsAddListingModalOpen(true)}
             className="flex items-center space-x-2"

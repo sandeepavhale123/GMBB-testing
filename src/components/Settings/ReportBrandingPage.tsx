@@ -210,7 +210,7 @@ export const ReportBrandingPage: React.FC = () => {
 
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
             {/* Left Column - Form Fields */}
             <div className="space-y-6">
               <div>
@@ -508,7 +508,7 @@ export const ReportBrandingPage: React.FC = () => {
             </div>
 
             {/* Right Column - Report Preview */}
-            <div className="bg-muted/30 rounded-lg p-6 min-h-[600px] flex flex-col">
+            <div className="bg-muted/30 rounded-lg p-6 min-h-[600px] flex flex-col hidden">
               <h3 className="text-lg font-semibold mb-6">Report Preview</h3>
 
               <div className="flex-1 flex items-center justify-center">

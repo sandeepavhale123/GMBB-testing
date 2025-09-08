@@ -93,9 +93,9 @@ export const ListingManagementPage: React.FC<ListingManagementPageProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => navigate("/main-dashboard/settings")}
-              className="hover:bg-gray-100 p-2"
+              className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
+              Back
             </Button>
           )}
           <h2 className="text-2xl font-bold text-gray-900 mb-2">

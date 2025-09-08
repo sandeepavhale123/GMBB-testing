@@ -143,7 +143,7 @@ export const SettingsLayout: React.FC = () => {
 
       {/* Desktop Sidebar - Hidden on mobile/tablet */}
       {!isMobile && (
-        <div className="w-64 bg-white border border-border rounded-lg p-4">
+        <div className="w-64 bg-white border border-border rounded-lg p-4" style={{minWidth:"270px"}}>
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-foreground">Settings</h3>
             <p className="text-sm text-muted-foreground">Manage your account and preferences.</p>
@@ -153,7 +153,7 @@ export const SettingsLayout: React.FC = () => {
       )}
 
       {/* Content Area */}
-      <div className="flex-1 bg-white border border-border rounded-lg">
+      <div className="flex-1 bg-white border border-border rounded-lg" >
         <Outlet />
       </div>
     </div>

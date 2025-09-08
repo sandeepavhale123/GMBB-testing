@@ -323,8 +323,7 @@ export const EditTeamMemberSettings: React.FC = () => {
       <div className="bg-white border-b border-gray-200 mb-6">
         <div className="px-6 py-4">
           <div className="flex items-center gap-8">
-            <Button variant="ghost" onClick={handleBack} className="flex items-center gap-2">
-              <ChevronLeft className="w-4 h-4" />
+            <Button variant="ghost" onClick={handleBack} className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg shadow hover:bg-gray-200">
               Back
             </Button>
             <div className="flex space-x-8 -mb-[1px]">
