@@ -998,12 +998,25 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                      <div className="text-muted-foreground">Category</div>
                                    </div>
                                    <div className="text-center">
-                                     <div className="font-semibold text-cyan-600 truncate max-w-[120px]">
+                                     <div className="font-semibold text-cyan-600">
                                        {listing.website ? (
-                                         <a href={listing.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                           {listing.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                                         </a>
-                                       ) : "-"}
+                                         <Button
+                                           variant="outline"
+                                           size="sm"
+                                           asChild
+                                           className="h-7 px-2 text-xs"
+                                         >
+                                           <a 
+                                             href={listing.website} 
+                                             target="_blank" 
+                                             rel="noopener noreferrer"
+                                           >
+                                             Visit Site
+                                           </a>
+                                         </Button>
+                                       ) : (
+                                         <span className="text-muted-foreground">-</span>
+                                       )}
                                      </div>
                                      <div className="text-muted-foreground">Website</div>
                                    </div>
