@@ -1331,11 +1331,23 @@ export const MultiDashboard: React.FC = () => {
                           <p className="text-xs text-muted-foreground">
                             ID: {listing.listingId || listing.id}
                           </p>
-                          {listing.storeCode && (
-                            <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
-                              {listing.storeCode}
-                            </span>
+                          {listing.zipCode && (
+                            <p className="text-xs text-muted-foreground">
+                              Zip: {listing.zipCode}
+                            </p>
                           )}
+                          <div className="flex gap-2 mt-1">
+                            {listing.storeCode && (
+                              <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
+                                {listing.storeCode}
+                              </span>
+                            )}
+                            {listing.category && (
+                              <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium">
+                                {listing.category}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -1343,6 +1355,14 @@ export const MultiDashboard: React.FC = () => {
                       <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 text-xs flex-wrap sm:flex-nowrap">
                         {dashboardType === "insight" ? (
                           <>
+                            <div className="text-center">
+                              <div className="font-semibold text-indigo-600">
+                                {listing.visibility?.total_views || 0}
+                              </div>
+                              <div className="text-muted-foreground">
+                                Total Views
+                              </div>
+                            </div>
                             <div className="text-center">
                               <div className="font-semibold text-blue-600">
                                 {listing.visibility?.search_views || 0}
@@ -1358,10 +1378,22 @@ export const MultiDashboard: React.FC = () => {
                               <div className="text-muted-foreground">Maps</div>
                             </div>
                             <div className="text-center">
+                              <div className="font-semibold text-cyan-600">
+                                {listing.customer_actions?.direction_requests || 0}
+                              </div>
+                              <div className="text-muted-foreground">Directions</div>
+                            </div>
+                            <div className="text-center">
                               <div className="font-semibold text-orange-600">
                                 {listing.customer_actions?.phone_calls || 0}
                               </div>
                               <div className="text-muted-foreground">Calls</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="font-semibold text-pink-600">
+                                {listing.customer_actions?.messages || 0}
+                              </div>
+                              <div className="text-muted-foreground">Messages</div>
                             </div>
                             <div className="text-center">
                               <div className="font-semibold text-purple-600">
