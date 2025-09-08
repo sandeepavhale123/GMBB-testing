@@ -901,12 +901,30 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     </div>
                                     <div className="text-muted-foreground">Calls</div>
                                   </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-purple-600">
-                                      {listing.customer_actions?.website_clicks || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Clicks</div>
-                                  </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.customer_actions?.website_clicks || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Clicks</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-indigo-600">
+                                       {listing.visibility?.total_visibility || listing.totalVisibility || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Total Views</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-cyan-600">
+                                       {listing.customer_actions?.directions || listing.directionsCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Directions</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-pink-600">
+                                       {listing.customer_actions?.messages || listing.messagesCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Messages</div>
+                                   </div>
                                 </>
                               ) : dashboardType === "review" ? (
                                 <>
