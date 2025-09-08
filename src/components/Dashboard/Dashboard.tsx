@@ -44,7 +44,7 @@ import { useOverviewData } from "../../api/overviewApi";
 import { useListingSetup } from "../../api/listingSetupApi";
 import { SetupProgressAlert } from "./SetupProgressAlert";
 import { useNavigate } from "react-router-dom";
-import { FaComments, FaQuestion } from "react-icons/fa";
+import { FaComments, FaQuestion, FaEdit } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { useProfile } from "@/hooks/useProfile";
 
