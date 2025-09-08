@@ -544,6 +544,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     className="flex items-center gap-1"
                                   >
                                     <ExternalLink className="w-3 h-3" />
+                                    <span className="flex items-center gap-1">
+                                      <Calendar className="w-3 h-3" />
+                                      {post.publishDate}
+                                    </span>
                                     Open on Google
                                   </a>
                                 </Button>
