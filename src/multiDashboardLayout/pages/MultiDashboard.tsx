@@ -672,7 +672,7 @@ export const MultiDashboard: React.FC = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
                 <Select
                   value={selectedCategory}
                   onValueChange={(value) =>
@@ -680,7 +680,7 @@ export const MultiDashboard: React.FC = () => {
                   }
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
                         categoryStateLoading ? "Loading..." : "All Categories"
@@ -705,7 +705,7 @@ export const MultiDashboard: React.FC = () => {
                   onValueChange={(value) => handleFilterChange("state", value)}
                   disabled={categoryStateLoading}
                 >
-                  <SelectTrigger className="w-40 bg-background">
+                  <SelectTrigger className="w-full sm:w-40 bg-background">
                     <SelectValue
                       placeholder={
                         categoryStateLoading ? "Loading..." : "All States"
