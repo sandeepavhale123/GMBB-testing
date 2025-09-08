@@ -197,7 +197,7 @@ const BusinessInfoStep = ({
           Tell us about your business
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-gray-600">
-          We'll use this information to customize your experience
+          We'll use this information to customize your experience.
         </p>
       </div>
 

@@ -91,7 +91,7 @@ export const ManageGoogleAPIKey: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+              <div className="flex items-center gap-4 flex-col sm:flex-row justify-between p-4 bg-muted rounded-lg">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
                   <div>

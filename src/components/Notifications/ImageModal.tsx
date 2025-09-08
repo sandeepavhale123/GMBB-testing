@@ -1,41 +1,3 @@
-// import React from "react";
-
-// interface ImageModalProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   imageUrl: string;
-//   alt?: string;
-// }
-
-// export const ImageModal: React.FC<ImageModalProps> = ({
-//   isOpen,
-//   onClose,
-//   imageUrl,
-//   alt,
-// }) => {
-//   if (!isOpen) return null;
-
-//   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-//     // Close only if the backdrop itself is clicked, not the image
-//     if (e.target === e.currentTarget) {
-//       onClose();
-//     }
-//   };
-
-//   return (
-//     <div
-//       className="fixed inset-0 bg-black/70 z-[1000] flex  justify-center p-6"
-//       onClick={handleBackdropClick}
-//     >
-//       <img
-//         src={imageUrl}
-//         alt={alt}
-//         className="max-w-full max-h-full rounded-lg shadow-lg object-contain"
-//       />
-//     </div>
-//   );
-// };
-
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -55,7 +17,7 @@ export const ImageModal: React.FC<ImageModalProps> = ({
   //   if (!isOpen) return null;
 
   const modalRef = useRef<HTMLDivElement>(null);
-
+  const pathname = location.pathname;
   //   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
   //     // Only close if the backdrop itself is clicked
   //     if (e.target === e.currentTarget) {
@@ -88,7 +50,11 @@ export const ImageModal: React.FC<ImageModalProps> = ({
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+      className={`fixed inset-0 bg-black/50 flex items-center justify-center ${
+        pathname.startsWith("/module/geo-ranking") ? "z-[500]" : "z-50"
+      }`}
+    >
       <div
         ref={modalRef}
         className="bg-white rounded-lg p-2 max-w-[90%] max-h-[90%] overflow-auto"

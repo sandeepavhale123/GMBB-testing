@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { GeoRankingHeader } from './GeoRankingHeader';
-import { GeoRankingMapSection } from './GeoRankingMapSection';
-import { UnderPerformingTable } from './UnderPerformingTable';
-import { GeoPositionModal } from './GeoPositionModal';
-import { ProcessingKeywordsAlert } from './ProcessingKeywordsAlert';
-import { GeoRankingEmptyState } from './GeoRankingEmptyState';
-import { Card, CardContent } from '../ui/card';
-import { ListingLoader } from '../ui/listing-loader';
-import { useGeoRanking } from '../../hooks/useGeoRanking';
-import { useProjectGeoRanking } from '../../hooks/useProjectGeoRanking';
+import React, { useState, useCallback, useEffect } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { GeoRankingHeader } from "./GeoRankingHeader";
+import { GeoRankingMapSection } from "./GeoRankingMapSection";
+import { UnderPerformingTable } from "./UnderPerformingTable";
+import { GeoPositionModal } from "./GeoPositionModal";
+import { ProcessingKeywordsAlert } from "./ProcessingKeywordsAlert";
+import { GeoRankingEmptyState } from "./GeoRankingEmptyState";
+import { Card, CardContent } from "../ui/card";
+import { ListingLoader } from "../ui/listing-loader";
+import { useGeoRanking } from "../../hooks/useGeoRanking";
+import { useProjectGeoRanking } from "../../hooks/useProjectGeoRanking";
 
 interface ModalData {
   isOpen: boolean;
@@ -32,24 +32,30 @@ interface GeoRankingPageProps {
 
 export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
   projectId,
-  isProjectMode = false
+  isProjectMode = false,
 }) => {
   const navigate = useNavigate();
   const { listingId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const numericListingId = listingId ? parseInt(listingId, 10) : 0;
   const effectiveId = isProjectMode ? projectId || 0 : numericListingId;
 
   // Get URL parameters for processing state
-  const isProcessing = searchParams.get('processing') === 'true';
-  const submittedKeywords = searchParams.get('submittedKeywords') || '';
-  const submittedKeywordsList = submittedKeywords ? submittedKeywords.split(',').map(k => k.trim()).filter(k => k.length > 0) : [];
+  const isProcessing = searchParams.get("processing") === "true";
+  const submittedKeywords = searchParams.get("submittedKeywords") || "";
+  const submittedKeywordsList = submittedKeywords
+    ? submittedKeywords
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0)
+    : [];
 
   // Use project-specific hook when in project mode, otherwise use regular hook
-  const geoRankingData = isProjectMode && projectId
-    ? useProjectGeoRanking(projectId)
-    : useGeoRanking(numericListingId);
+  const geoRankingData =
+    isProjectMode && projectId
+      ? useProjectGeoRanking(projectId)
+      : useGeoRanking(numericListingId);
 
   const {
     keywords,
@@ -70,137 +76,158 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     refreshProgress,
     pollingProgress,
     handleRefreshKeyword,
-    fetchPositionDetails
+    fetchPositionDetails,
   } = geoRankingData;
 
+  console.log("geo ranking data", geoRankingData);
+
   // Normalize the interface differences between hooks
-  const refreshPollingActive = 'refreshPollingActive' in geoRankingData 
-    ? geoRankingData.refreshPollingActive 
-    : geoRankingData.isPolling;
-  
-  const onKeywordChange = 'onKeywordChange' in geoRankingData
-    ? geoRankingData.onKeywordChange
-    : geoRankingData.handleKeywordChange;
-    
-  const onDateChange = 'onDateChange' in geoRankingData
-    ? geoRankingData.onDateChange
-    : geoRankingData.handleDateChange;
+  const refreshPollingActive =
+    "refreshPollingActive" in geoRankingData
+      ? geoRankingData.refreshPollingActive
+      : geoRankingData.isPolling;
+
+  const onKeywordChange =
+    "onKeywordChange" in geoRankingData
+      ? geoRankingData.onKeywordChange
+      : geoRankingData.handleKeywordChange;
+
+  const onDateChange =
+    "onDateChange" in geoRankingData
+      ? geoRankingData.onDateChange
+      : geoRankingData.handleDateChange;
 
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
-    gpsCoordinates: '',
+    gpsCoordinates: "",
     competitors: [],
-    loading: false
+    loading: false,
   });
 
   const userBusinessName = "Your Digital Agency";
 
   // Memoized callback for marker clicks to prevent map re-renders
-  const handleMarkerClick = useCallback(async (gpsCoordinates: string, positionId: string) => {
-    if (!selectedKeyword) return;
+  const handleMarkerClick = useCallback(
+    async (gpsCoordinates: string, positionId: string) => {
+      if (!selectedKeyword) return;
 
-    // Open modal immediately with loading state
-    setModalData({
-      isOpen: true,
-      gpsCoordinates,
-      competitors: [],
-      loading: true
-    });
-
-    try {
-      const response = await fetchPositionDetails(selectedKeyword, positionId);
-      if (response && response.data) {
-        // Transform API data to match modal interface
-        const transformedCompetitors = response.data.keywordDetails.map(detail => ({
-          position: detail.position,
-          name: detail.name,
-          address: detail.address,
-          rating: parseFloat(detail.rating),
-          reviewCount: parseInt(detail.review),
-          selected: detail.selected
-        }));
-
-        setModalData({
-          isOpen: true,
-          gpsCoordinates: response.data.coordinate,
-          competitors: transformedCompetitors,
-          loading: false
-        });
-      } else {
-        // Handle error case
-        setModalData({
-          isOpen: true,
-          gpsCoordinates,
-          competitors: [],
-          loading: false
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching position details:', error);
+      // Open modal immediately with loading state
       setModalData({
         isOpen: true,
         gpsCoordinates,
         competitors: [],
-        loading: false
+        loading: true,
       });
-    }
-  }, [selectedKeyword, fetchPositionDetails]);
+
+      try {
+        const response = await fetchPositionDetails(
+          selectedKeyword,
+          positionId
+        );
+        if (response && response.data) {
+          // Transform API data to match modal interface
+          const transformedCompetitors = response.data.keywordDetails.map(
+            (detail) => ({
+              position: detail.position,
+              name: detail.name,
+              address: detail.address,
+              rating: parseFloat(detail.rating),
+              reviewCount: parseInt(detail.review),
+              selected: detail.selected,
+            })
+          );
+
+          setModalData({
+            isOpen: true,
+            gpsCoordinates: response.data.coordinate,
+            competitors: transformedCompetitors,
+            loading: false,
+          });
+        } else {
+          // Handle error case
+          setModalData({
+            isOpen: true,
+            gpsCoordinates,
+            competitors: [],
+            loading: false,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching position details:", error);
+        setModalData({
+          isOpen: true,
+          gpsCoordinates,
+          competitors: [],
+          loading: false,
+        });
+      }
+    },
+    [selectedKeyword, fetchPositionDetails]
+  );
 
   const handleCreateReport = useCallback(() => {
-    navigate('/geo-ranking-report');
+    navigate("/geo-ranking-report");
   }, [navigate]);
 
   const handleCheckRank = useCallback(() => {
     if (isProjectMode) {
-      navigate('/module/geo-ranking/check-rank');
+      navigate("/module/geo-ranking/check-rank");
     } else {
       if (effectiveId) {
         navigate(`/geo-ranking-report/${effectiveId}`);
       } else {
-        navigate('/geo-ranking-report');
+        navigate("/geo-ranking-report");
       }
     }
   }, [navigate, effectiveId, isProjectMode]);
 
   const handleClone = useCallback(() => {
     if (!selectedKeyword) return;
-    const currentKeyword = keywords.find(k => k.id === selectedKeyword);
+    const currentKeyword = keywords.find((k) => k.id === selectedKeyword);
     if (!currentKeyword) return;
 
     // Prepare clone data
     const cloneData = {
-      clone: 'true',
+      clone: "true",
       keywordId: selectedKeyword,
       keyword: currentKeyword.keyword,
       ...(selectedDate && {
-        date: selectedDate
+        date: selectedDate,
       }),
       ...(keywordDetails?.projectDetails?.distance && {
-        distance: keywordDetails.projectDetails.distance
+        distance: keywordDetails.projectDetails.distance,
       }),
       ...(keywordDetails?.projectDetails?.grid && {
-        grid: keywordDetails.projectDetails.grid
+        grid: keywordDetails.projectDetails.grid,
       }),
       ...(keywordDetails?.projectDetails?.schedule && {
-        schedule: keywordDetails.projectDetails.schedule
+        schedule: keywordDetails.projectDetails.schedule,
       }),
       ...(keywordDetails?.projectDetails?.mappoint && {
-        mapPoint: keywordDetails.projectDetails.mappoint
-      })
+        mapPoint: keywordDetails.projectDetails.mappoint,
+      }),
     };
 
     // Navigate to report page with keyword data as URL params
     const params = new URLSearchParams(cloneData);
-    const path = isProjectMode 
-      ? `/geo-ranking-report/${effectiveId}?${params.toString()}`
+    const path = isProjectMode
+      ? `/module/geo-ranking/check-rank?${params.toString()}`
       : `/geo-ranking-report/${effectiveId}?${params.toString()}`;
     navigate(path);
-  }, [selectedKeyword, keywords, selectedDate, keywordDetails, navigate, effectiveId, isProjectMode]);
+  }, [
+    selectedKeyword,
+    keywords,
+    selectedDate,
+    keywordDetails,
+    navigate,
+    effectiveId,
+    isProjectMode,
+  ]);
 
   const handleCloseModal = useCallback(() => {
-    setModalData(prev => ({
+    setModalData((prev) => ({
       ...prev,
-      isOpen: false
+      isOpen: false,
     }));
   }, []);
 
@@ -229,71 +256,71 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     );
   }
 
-  const selectedKeywordData = keywords.find(k => k.id === selectedKeyword);
+  const selectedKeywordData = keywords.find((k) => k.id === selectedKeyword);
   const projectDetails = keywordDetails?.projectDetails;
 
   // Fix grid display to show proper format
-  const grid = projectDetails?.grid ? `${projectDetails.grid}` : '3*3';
+  const grid = projectDetails?.grid ? `${projectDetails.grid}` : "3*3";
 
   return (
     <div className="mx-auto bg-gray-50 min-h-screen">
       <Card className="bg-white shadow-sm">
         <CardContent className="p-4 sm:p-6">
           <div data-export-target>
-            <ProcessingKeywordsAlert 
-              keywords={processingKeywords} 
-              progress={pollingProgress} 
-              isPolling={refreshPollingActive || isPolling} 
-              submittedKeywords={submittedKeywordsList} 
-              isNewSubmission={isProcessing} 
+            <ProcessingKeywordsAlert
+              keywords={processingKeywords}
+              progress={pollingProgress}
+              isPolling={refreshPollingActive || isPolling}
+              submittedKeywords={submittedKeywordsList}
+              isNewSubmission={isProcessing}
             />
-            
-            <GeoRankingHeader 
-              keywords={keywords} 
-              selectedKeyword={selectedKeyword} 
-              selectedDate={selectedDate} 
-              keywordDetails={keywordDetails} 
-              credits={credits} 
-              onKeywordChange={onKeywordChange} 
-              onDateChange={onDateChange} 
-              onClone={handleClone} 
-              onRefresh={handleRefreshKeyword} 
+
+            <GeoRankingHeader
+              keywords={keywords}
+              selectedKeyword={selectedKeyword}
+              selectedDate={selectedDate}
+              keywordDetails={keywordDetails}
+              credits={credits}
+              onKeywordChange={onKeywordChange}
+              onDateChange={onDateChange}
+              onClone={handleClone}
+              onRefresh={handleRefreshKeyword}
               onCheckRank={handleCheckRank}
-              isRefreshing={refreshing} 
-              refreshProgress={refreshProgress} 
-              loading={keywordsLoading} 
-              keywordChanging={keywordChanging} 
-              dateChanging={dateChanging} 
-              error={error} 
+              isRefreshing={refreshing}
+              refreshProgress={refreshProgress}
+              loading={keywordsLoading}
+              keywordChanging={keywordChanging}
+              dateChanging={dateChanging}
+              error={error}
               projectId={projectId}
             />
 
             <div className="space-y-4 sm:space-y-6">
-              <GeoRankingMapSection 
-                gridSize={grid} 
-                onMarkerClick={handleMarkerClick} 
-                rankDetails={keywordDetails?.rankDetails || []} 
-                rankStats={keywordDetails?.rankStats} 
-                projectDetails={keywordDetails?.projectDetails} 
-                loading={loading || keywordChanging || dateChanging} 
+              <GeoRankingMapSection
+                gridSize={grid}
+                onMarkerClick={handleMarkerClick}
+                rankDetails={keywordDetails?.rankDetails || []}
+                rankStats={keywordDetails?.rankStats}
+                projectDetails={keywordDetails?.projectDetails}
+                loading={loading || keywordChanging || dateChanging}
               />
 
-              <UnderPerformingTable 
-                underPerformingAreas={keywordDetails?.underPerformingArea || []} 
-                loading={loading || keywordChanging || dateChanging} 
+              <UnderPerformingTable
+                underPerformingAreas={keywordDetails?.underPerformingArea || []}
+                loading={loading || keywordChanging || dateChanging}
               />
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <GeoPositionModal 
-        isOpen={modalData.isOpen} 
-        onClose={handleCloseModal} 
-        gpsCoordinates={modalData.gpsCoordinates} 
-        competitors={modalData.competitors} 
-        loading={modalData.loading} 
-        userBusinessName={userBusinessName} 
+      <GeoPositionModal
+        isOpen={modalData.isOpen}
+        onClose={handleCloseModal}
+        gpsCoordinates={modalData.gpsCoordinates}
+        competitors={modalData.competitors}
+        loading={modalData.loading}
+        userBusinessName={userBusinessName}
       />
     </div>
   );

@@ -463,17 +463,20 @@ export const Dashboard: React.FC = () => {
                               <Edit className="w-4 h-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() =>
-                                window.open(
-                                  `/sharable-geo-ranking-report/${project.encKey}`,
-                                  "_blank"
-                                )
-                              }
-                            >
-                              <Share className="w-4 h-4 mr-2" />
-                              Shareable Link
-                            </DropdownMenuItem>
+                            {project.numberOfChecks > 0 && (
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  window.open(
+                                    `/sharable-geo-ranking-report/${project.encKey}`,
+                                    "_blank"
+                                  )
+                                }
+                              >
+                                <Share className="w-4 h-4 mr-2" />
+                                Shareable Link
+                              </DropdownMenuItem>
+                            )}
+
                             <DropdownMenuItem
                               className="text-destructive"
                               onClick={() => handleDeleteClick(project)}

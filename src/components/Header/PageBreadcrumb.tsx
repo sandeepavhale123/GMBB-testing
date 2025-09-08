@@ -151,6 +151,10 @@ const routeToBreadcrumb: Record<string, { title: string; path: string }[]> = {
     { title: "Settings", path: "/settings" },
     { title: "Team Members", path: "/settings/team-members" },
   ],
+  "/gallery": [
+    { title: "Dashboard", path: "/location-dashboard" },
+    { title: "Gallery", path: "/gallery" },
+  ],
 };
 
 export const PageBreadcrumb: React.FC = () => {

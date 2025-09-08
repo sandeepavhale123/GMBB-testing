@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { useNotifications } from "@/context/NotificationContext";
 import { NotificationCard } from "./NotificationCard";
 import { cn } from "@/lib/utils";
+import path from "path";
 
 export const NotificationDrawer: React.FC = () => {
   const {
@@ -24,7 +25,7 @@ export const NotificationDrawer: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [newIds, setNewIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const pathname = location.pathname;
   useEffect(() => {
     if (isDrawerOpen) {
       resetNotifications(); // clear only on new open
@@ -107,7 +108,9 @@ export const NotificationDrawer: React.FC = () => {
   return (
     <SheetContent
       side="right"
-      className="flex flex-col w-full sm:w-[400px] p-0 z-[500]"
+      className={`flex flex-col w-full sm:w-[400px] p-0 ${
+        pathname.startsWith("/module/geo-ranking") ? "z-[500]" : "z-50"
+      }`}
       onInteractOutside={(e) => e.preventDefault()}
     >
       <SheetHeader className="border-b border-border p-4 space-y-4">

@@ -153,7 +153,7 @@ const SelectListingsStep = ({
         </h2>
         <p className="text-gray-600">
           Choose which Google Business Profile listings you'd like to manage
-          with GMB Briefcase
+          with GMB Briefcase.
         </p>
 
         {googleBusinessData && (

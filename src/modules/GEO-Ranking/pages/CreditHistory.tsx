@@ -96,7 +96,7 @@ export const CreditHistory: React.FC = () => {
             Credits History
           </h1>
           <p className="text-muted-foreground">
-            Track your credit usage across all ranking checks
+            Track your credit usage across all ranking checks.
           </p>
         </div>
       </div>
