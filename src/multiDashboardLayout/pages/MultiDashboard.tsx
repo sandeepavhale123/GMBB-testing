@@ -1412,7 +1412,7 @@ export const MultiDashboard: React.FC = () => {
                             </div>
                             <div className="text-center">
                               <div className="font-semibold text-foreground">
-                                {listing.reviewCount || 0}
+                                {listing.reviewCount || 0} / {listing.replyCount || 0}
                               </div>
                               <div className="text-muted-foreground">
                                 Reviews vs Replies 
