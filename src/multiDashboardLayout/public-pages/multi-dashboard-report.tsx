@@ -44,6 +44,7 @@ import { Input } from "@/components/ui/input";
 export const PublicMultiDashboardReport: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const [dashboardType, setDashboardType] = useState<string>("default");
+  const [userHasChangedDashboard, setUserHasChangedDashboard] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,10 +77,10 @@ export const PublicMultiDashboardReport: React.FC = () => {
   
   // Update dashboard type when config loads (only if user hasn't changed it)
   React.useEffect(() => {
-    if (configDashboardType && dashboardType === 'default') {
+    if (configDashboardType && dashboardType === 'default' && !userHasChangedDashboard) {
       setDashboardType(configDashboardType);
     }
-  }, [configDashboardType, dashboardType]);
+  }, [configDashboardType, userHasChangedDashboard]);
 
   // Fetch dashboard data using the token and filters (only when config is loaded)
   const { data, isLoading, error, refetch } = usePublicDashboardData({
@@ -186,6 +187,7 @@ export const PublicMultiDashboardReport: React.FC = () => {
 
   const handleDashboardTypeChange = (type: string) => {
     setDashboardType(type);
+    setUserHasChangedDashboard(true);
     setCurrentPage(1);
     // Reset filters when changing dashboard type
     setSearchTerm("");
