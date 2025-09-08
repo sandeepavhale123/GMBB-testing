@@ -142,8 +142,7 @@ export const GroupDetails: React.FC = () => {
           onClick={() => navigate('/main-dashboard/settings/manage-groups')}
           className="justify-start "
         >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back to Groups</span>
+          <span>Back</span>
         </Button>
 
         <div className="flex items-center justify-between flex-1">
