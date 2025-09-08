@@ -926,27 +926,45 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                      <div className="text-muted-foreground">Messages</div>
                                    </div>
                                 </>
-                              ) : dashboardType === "review" ? (
-                                <>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-yellow-600">
-                                      {listing.avgRating || listing.rating}
-                                    </div>
-                                    <div className="text-muted-foreground">Rating</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-green-600">
-                                      {listing.sentiment?.positive || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Positive</div>
-                                  </div>
-                                  <div className="text-center">
-                                    <div className="font-semibold text-red-600">
-                                      {listing.sentiment?.negative || 0}
-                                    </div>
-                                    <div className="text-muted-foreground">Negative</div>
-                                  </div>
-                                </>
+                               ) : dashboardType === "review" ? (
+                                 <>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-yellow-600">
+                                       {listing.avgRating || listing.rating}
+                                     </div>
+                                     <div className="text-muted-foreground">Rating</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-blue-600">
+                                       {listing.reviewCount || 0} / {listing.replyCount || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Reviews / Replies</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-purple-600">
+                                       {listing.autoReplyStatus || "-"}
+                                     </div>
+                                     <div className="text-muted-foreground">Auto Reply</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-green-600">
+                                       {listing.sentiment?.positive || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Positive</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-gray-600">
+                                       {listing.sentiment?.neutral || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Neutral</div>
+                                   </div>
+                                   <div className="text-center">
+                                     <div className="font-semibold text-red-600">
+                                       {listing.sentiment?.negative || 0}
+                                     </div>
+                                     <div className="text-muted-foreground">Negative</div>
+                                   </div>
+                                 </>
                               ) : dashboardType === "location" ? (
                                 <>
                                   <div className="text-center">
