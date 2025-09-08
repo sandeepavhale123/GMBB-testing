@@ -1461,13 +1461,17 @@ export const MultiDashboard: React.FC = () => {
                               >
                                 {listing.rating}
                               </span>
+                             <div className="text-muted-foreground">
+                                Star Rating
+                              </div>
+                              
                             </div>
                             <div className="text-center">
                               <div className="font-semibold text-foreground">
                                 {listing.reviewReply}
                               </div>
                               <div className="text-muted-foreground">
-                                Reviews
+                                Reviews vs Replies 
                               </div>
                             </div>
                             <div className="text-center min-w-0">
