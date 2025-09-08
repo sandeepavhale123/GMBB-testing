@@ -1490,6 +1490,35 @@ export const MultiDashboard: React.FC = () => {
                               </div>
                               <div className="text-muted-foreground">State</div>
                             </div>
+                            {listing.map && (
+                              <div className="text-center min-w-16 flex-shrink-0">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(listing.map, '_blank');
+                                  }}
+                                  className="flex flex-col items-center gap-1 hover:opacity-80 cursor-pointer"
+                                >
+                                  <MapPin className="h-4 w-4 text-primary" />
+                                  <div className="text-muted-foreground text-xs">Maps</div>
+                                </button>
+                              </div>
+                            )}
+                            {listing.website && (
+                              <div className="text-center min-w-16 flex-shrink-0">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(listing.website, '_blank');
+                                  }}
+                                  className="flex flex-col items-center gap-1 hover:opacity-80 cursor-pointer"
+                                  title={listing.website}
+                                >
+                                  <ExternalLink className="h-4 w-4 text-primary" />
+                                  <div className="text-muted-foreground text-xs">Website</div>
+                                </button>
+                              </div>
+                            )}
                           </>
                         ) : (
                           <>
