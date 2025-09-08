@@ -958,6 +958,24 @@ export const PublicMultiDashboardReport: React.FC = () => {
                                     </div>
                                     <div className="text-muted-foreground">Reviews</div>
                                   </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-green-600">
+                                      {listing.zipCode || listing.zip_code || 'N/A'}
+                                    </div>
+                                    <div className="text-muted-foreground">Zip Code</div>
+                                  </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-orange-600">
+                                      {listing.lastPostCount || listing.last_post_count || 0}
+                                    </div>
+                                    <div className="text-muted-foreground">Last Posts</div>
+                                  </div>
+                                  <div className="text-center">
+                                    <div className="font-semibold text-purple-600">
+                                      {listing.upcomingCount || listing.upcoming_count || 0}
+                                    </div>
+                                    <div className="text-muted-foreground">Upcoming</div>
+                                  </div>
                                 </>
                               )}
                             </div>
