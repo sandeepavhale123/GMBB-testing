@@ -1346,10 +1346,11 @@ export const MultiDashboard: React.FC = () => {
                       </div>
 
                       {/* Dashboard Type Specific Data */}
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:flex md:items-center md:justify-end md:gap-6 text-xs">
+                      <div className="flex items-center gap-4 overflow-x-auto text-xs min-w-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+                           style={{ scrollbarWidth: 'thin' }}>
                         {dashboardType === "insight" ? (
                           <>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-indigo-600">
                                 {listing.visibility?.total_views || 0}
                               </div>
@@ -1357,7 +1358,7 @@ export const MultiDashboard: React.FC = () => {
                                 Total Views
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-blue-600">
                                 {listing.visibility?.search_views || 0}
                               </div>
@@ -1365,31 +1366,31 @@ export const MultiDashboard: React.FC = () => {
                                 Search
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-green-600">
                                 {listing.visibility?.maps_views || 0}
                               </div>
                               <div className="text-muted-foreground">Maps</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-cyan-600">
                                 {listing.customer_actions?.direction_requests || 0}
                               </div>
                               <div className="text-muted-foreground">Directions</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-orange-600">
                                 {listing.customer_actions?.phone_calls || 0}
                               </div>
                               <div className="text-muted-foreground">Calls</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-pink-600">
                                 {listing.customer_actions?.messages || 0}
                               </div>
                               <div className="text-muted-foreground">Messages</div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-purple-600">
                                 {listing.customer_actions?.website_clicks || 0}
                               </div>
@@ -1400,7 +1401,7 @@ export const MultiDashboard: React.FC = () => {
                           </>
                         ) : dashboardType === "review" ? (
                           <>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-16 flex-shrink-0">
                               <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
@@ -1410,7 +1411,7 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.avgRating || listing.rating}
                               </span>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground">
                                 {listing.reviewCount || 0} / {listing.replyCount || 0}
                               </div>
@@ -1418,7 +1419,7 @@ export const MultiDashboard: React.FC = () => {
                                 Reviews vs Replies 
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-green-600">
                                 {listing.sentiment?.positive || 0}
                               </div>
@@ -1426,7 +1427,7 @@ export const MultiDashboard: React.FC = () => {
                                 Positive
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-gray-600">
                                 {listing.sentiment?.neutral || 0}
                               </div>
@@ -1434,7 +1435,7 @@ export const MultiDashboard: React.FC = () => {
                                 Neutral
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-red-600">
                                 {listing.sentiment?.negative || 0}
                               </div>
@@ -1442,7 +1443,7 @@ export const MultiDashboard: React.FC = () => {
                                 Negative
                               </div>
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className={`font-semibold ${
                                 listing.autoReplyStatus === 'Active' 
                                   ? 'text-green-600' 
@@ -1459,7 +1460,7 @@ export const MultiDashboard: React.FC = () => {
                           </>
                         ) : dashboardType === "location" ? (
                           <>
-                            <div className="text-center">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-blue-600">
                                 {listing.photoCount || 0}
                               </div>
@@ -1467,7 +1468,7 @@ export const MultiDashboard: React.FC = () => {
                                 Photos
                               </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-16 flex-shrink-0">
                               <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
                                 className={`font-semibold ${getStatusColor(
@@ -1477,13 +1478,13 @@ export const MultiDashboard: React.FC = () => {
                                 {listing.rating}
                               </span>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.phone || "N/A"}
                               </div>
                               <div className="text-muted-foreground">Phone</div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-16 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.state || "N/A"}
                               </div>
@@ -1492,7 +1493,7 @@ export const MultiDashboard: React.FC = () => {
                           </>
                         ) : (
                           <>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className=" flex  items-center gap-2">
                                 <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                               <span
@@ -1508,7 +1509,7 @@ export const MultiDashboard: React.FC = () => {
                               </div>
                               
                             </div>
-                            <div className="text-center">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground">
                                 {listing.reviewReply}
                               </div>
@@ -1516,7 +1517,7 @@ export const MultiDashboard: React.FC = () => {
                                 Reviews vs Replies 
                               </div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.lastPost}
                               </div>
@@ -1524,7 +1525,7 @@ export const MultiDashboard: React.FC = () => {
                                 Last Post
                               </div>
                             </div>
-                            <div className="text-center min-w-0">
+                            <div className="text-center min-w-20 flex-shrink-0">
                               <div className="font-semibold text-foreground truncate">
                                 {listing.upcomingPost}
                               </div>
