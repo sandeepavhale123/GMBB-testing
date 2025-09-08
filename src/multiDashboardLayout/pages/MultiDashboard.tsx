@@ -1313,7 +1313,7 @@ export const MultiDashboard: React.FC = () => {
                         </div>
 
                         {/* Basic Info */}
-                        <div className="min-w-0 flex-1"  onClick={() =>
+                        <div className="min-w-0 flex-1 hover:text-primary cursor-pointer"  onClick={() =>
                             navigate(
                               `/location-dashboard/${
                                 listing.listingId || listing.id
