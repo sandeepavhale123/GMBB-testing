@@ -1328,23 +1328,15 @@ export const MultiDashboard: React.FC = () => {
                               <Loader2 className="w-3 h-3 animate-spin text-primary" />
                             )}
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            ID: {listing.listingId || listing.id}
-                          </p>
-                          {listing.zipCode && (
-                            <p className="text-xs text-muted-foreground">
-                              Zip: {listing.zipCode}
-                            </p>
-                          )}
+                          <div className="flex gap-2 items-center text-xs text-muted-foreground">
+                            {listing.zipCode && <span>Zip: {listing.zipCode}</span>}
+                            {listing.zipCode && listing.category && <span>•</span>}
+                            {listing.category && <span>{listing.category}</span>}
+                          </div>
                           <div className="flex gap-2 mt-1">
                             {listing.storeCode && (
                               <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md font-medium">
                                 {listing.storeCode}
-                              </span>
-                            )}
-                            {listing.category && (
-                              <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium">
-                                {listing.category}
                               </span>
                             )}
                           </div>
