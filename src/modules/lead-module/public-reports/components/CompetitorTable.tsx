@@ -42,7 +42,6 @@ export const CompetitorTable: React.FC<CompetitorTableProps> = ({ competitors })
                 <th className="text-left p-2 font-medium">Rating</th>
                 <th className="text-left p-2 font-medium">Reviews</th>
                 <th className="text-left p-2 font-medium">Category</th>
-                <th className="text-left p-2 font-medium">Distance</th>
               </tr>
             </thead>
             <tbody>
@@ -60,7 +59,6 @@ export const CompetitorTable: React.FC<CompetitorTableProps> = ({ competitors })
                   </td>
                   <td className="p-2">{competitor.reviewCount}</td>
                   <td className="p-2 text-muted-foreground">{competitor.category}</td>
-                  <td className="p-2 text-muted-foreground">{competitor.distance || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
