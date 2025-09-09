@@ -1,4 +1,4 @@
-import apiClient from '@/lib/axios';
+import apiClient from '@/api/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
 
 // API Response interfaces
