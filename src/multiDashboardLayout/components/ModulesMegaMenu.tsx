@@ -23,8 +23,7 @@ const modules = [
     name: "Lead Management",
     description: "Manage and track your leads effectively",
     icon: Users,
-    href: "#",
-    comingSoon: true,
+    href: "/module/lead",
   },
   {
     name: "Reputation",
