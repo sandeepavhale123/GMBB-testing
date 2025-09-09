@@ -46,10 +46,12 @@ export const RankingFactorsGrid: React.FC<RankingFactorsGridProps> = ({ factors 
           {factors.map((factor) => (
             <div
               key={factor.id}
-              className={`p-4 rounded-lg border ${getCardBackground(factor.status)}`}
+              className={`relative p-4 rounded-lg border ${getCardBackground(factor.status)}`}
             >
-              {getStatusBadge(factor.status)}
-              <h3 className="font-semibold text-lg mb-2 text-gray-800">{factor.label}</h3>
+              <div className="absolute -top-5 right-5">
+                {getStatusBadge(factor.status)}
+              </div>
+              <h3 className="font-semibold text-lg mb-2 text-gray-800 mt-2">{factor.label}</h3>
               <p className="text-sm text-gray-600">{factor.description}</p>
             </div>
           ))}
