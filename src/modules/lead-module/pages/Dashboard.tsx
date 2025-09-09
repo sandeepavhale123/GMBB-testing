@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
     return leads.filter((lead) => {
       const matchesSearch = lead.businessName.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
       const matchesEmail = lead.email.toLowerCase().includes(debouncedEmailFilter.toLowerCase());
-      const matchesCategory = !categoryFilter || lead.category === categoryFilter;
+      const matchesCategory = !categoryFilter || categoryFilter === "all" || lead.category === categoryFilter;
       
       return matchesSearch && matchesEmail && matchesCategory;
     });
@@ -134,7 +134,7 @@ const Dashboard: React.FC = () => {
   const handleClearFilters = () => {
     setSearchQuery("");
     setEmailFilter("");
-    setCategoryFilter("");
+    setCategoryFilter("all");
     setCurrentPage(1);
   };
 
