@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, Star, MapPin, Phone, Globe, Users } from "lucide-react";
 import { ProgressCard } from "../components/ProgressCard";
 import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
+import { PostsOnGMB } from "../components/PostsOnGMB";
 import { PhotoGallery } from "../components/PhotoGallery";
 import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
@@ -400,6 +401,25 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Ranking Factors */}
         <RankingFactorsGrid factors={rankingFactors} />
+
+        {/* Posts On GMB */}
+        <PostsOnGMB posts={[
+          {
+            id: "1",
+            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png",
+            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+          },
+          {
+            id: "2", 
+            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png",
+            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+          },
+          {
+            id: "3",
+            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png", 
+            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+          }
+        ]} />
 
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={reportData.totalPhotos} />
