@@ -10,11 +10,11 @@ interface ProgressCardProps {
   icon?: React.ReactNode;
 }
 
-const colorStyles = {
-  green: "text-green-600 bg-green-50 border-green-200",
-  yellow: "text-yellow-600 bg-yellow-50 border-yellow-200", 
-  red: "text-red-600 bg-red-50 border-red-200",
-  blue: "text-blue-600 bg-blue-50 border-blue-200"
+const valueColorStyles = {
+  green: "text-green-600",
+  yellow: "text-yellow-600", 
+  red: "text-red-600",
+  blue: "text-primary"
 };
 
 export const ProgressCard: React.FC<ProgressCardProps> = ({
@@ -26,28 +26,17 @@ export const ProgressCard: React.FC<ProgressCardProps> = ({
   icon
 }) => {
   return (
-    <Card className={`${colorStyles[color]} border-2`}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-sm">{title}</h3>
-          {icon && <div className="h-5 w-5">{icon}</div>}
+    <Card className="bg-background border border-border">
+      <CardContent className="p-6 text-center">
+        <div className={`text-4xl font-bold mb-2 ${valueColorStyles[color]}`}>
+          {value}{percentage !== undefined && '%'}
         </div>
-        <div className="flex items-end gap-2">
-          <span className="text-3xl font-bold">{value}</span>
-          {subtitle && <span className="text-sm text-muted-foreground mb-1">{subtitle}</span>}
+        <div className="text-sm text-muted-foreground font-medium">
+          {title}
         </div>
-        {percentage !== undefined && (
-          <div className="mt-3">
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className={`h-2 rounded-full ${
-                  color === 'green' ? 'bg-green-500' : 
-                  color === 'yellow' ? 'bg-yellow-500' : 
-                  color === 'red' ? 'bg-red-500' : 'bg-blue-500'
-                }`}
-                style={{ width: `${percentage}%` }}
-              ></div>
-            </div>
+        {subtitle && (
+          <div className="text-xs text-muted-foreground mt-1">
+            {subtitle}
           </div>
         )}
       </CardContent>
