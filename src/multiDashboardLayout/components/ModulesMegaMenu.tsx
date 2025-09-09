@@ -24,12 +24,14 @@ const modules = [
     description: "Manage and track your leads effectively",
     icon: Users,
     href: "#",
+    comingSoon: true,
   },
   {
     name: "Reputation",
     description: "Monitor and manage your online reputation",
     icon: Star,
     href: "#",
+    comingSoon: true,
   },
   
 ];
@@ -73,8 +75,9 @@ export const ModulesMegaMenu: React.FC = () => {
           dashboardType === 0
             ? "/location-dashboard/id"
             : "/main-dashboard",
+        comingSoon: false,
       };
-      return [...baseModules, gmbModule];
+      return [gmbModule, ...baseModules];
     }
 
     return baseModules;
@@ -148,7 +151,17 @@ export const ModulesMegaMenu: React.FC = () => {
                       )} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium">{module.name}</div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm font-medium">{module.name}</div>
+                        {module.comingSoon && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-xs"
+                          >
+                            Coming Soon
+                          </Badge>
+                        )}
+                      </div>
                       <div className={cn(
                         "text-xs mt-1",
                         isActive 
