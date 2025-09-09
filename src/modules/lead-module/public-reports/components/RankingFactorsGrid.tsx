@@ -62,7 +62,7 @@ export const RankingFactorsGrid: React.FC<RankingFactorsGridProps> = ({ factors 
                 key={factor.id}
                 className={`relative p-6 rounded-lg border text-center ${getCardBackground(factor.status)}`}
               >
-                <div className="absolute -top-5 right-5">
+                <div className="absolute -top-4 right-5">
                   {getStatusBadge(factor.status)}
                 </div>
                 {IconComponent && (
