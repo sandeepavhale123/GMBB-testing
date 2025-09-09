@@ -10,7 +10,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { ActionDropdown } from "./ActionDropdown";
-import { format } from "date-fns";
+import { format, parse, isValid } from "date-fns";
 
 export interface Lead {
   id: string;
@@ -68,6 +68,21 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
       "GMB Report": "outline",
     };
     return <Badge variant={variants[type] || "default"}>{type}</Badge>;
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      // Parse MM/dd/yyyy format from API
+      const parsedDate = parse(dateString, "MM/dd/yyyy", new Date());
+      if (isValid(parsedDate)) {
+        return format(parsedDate, "MMM dd, yyyy");
+      }
+      // Fallback to original string if parsing fails
+      return dateString;
+    } catch (error) {
+      // Return original string if any error occurs
+      return dateString;
+    }
   };
 
   if (isLoading) {
@@ -153,7 +168,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                 <TableCell>{lead.phone}</TableCell>
                 <TableCell>{getReportTypeBadge(lead.reportTypeLabel)}</TableCell>
                 <TableCell>
-                  {format(new Date(lead.date), "MMM dd, yyyy")}
+                  {formatDate(lead.date)}
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
