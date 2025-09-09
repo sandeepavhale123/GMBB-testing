@@ -368,27 +368,45 @@ export const GmbHealthReport: React.FC = () => {
             <CardTitle>Listing Presence</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-3">
-                  <MapPin className="h-10 w-10 text-green-600" />
+            <p className="text-sm text-muted-foreground mb-6">
+              Your Google Business Profile emerges precisely when people are seeking your business or similar ones on Google Search or Maps. With Google Business Profile, managing and enhancing your Business Profile is simple, enabling you to distinguish yourself and attract more customers.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <MapPin className="h-5 w-5 text-green-600" />
                 </div>
-                <h3 className="font-semibold">Location Verified</h3>
-                <p className="text-sm text-muted-foreground">Address confirmed by Google</p>
+                <div>
+                  <div className="text-sm text-muted-foreground">Business Name</div>
+                  <div className="font-medium">{reportData.listingName}</div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-3">
-                  <Phone className="h-10 w-10 text-blue-600" />
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Phone className="h-5 w-5 text-green-600" />
                 </div>
-                <h3 className="font-semibold">Phone Verified</h3>
-                <p className="text-sm text-muted-foreground">Local phone number active</p>
+                <div>
+                  <div className="text-sm text-muted-foreground">Phone No</div>
+                  <div className="font-medium">+1 (555) 123-4567</div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto rounded-full bg-purple-100 flex items-center justify-center mb-3">
-                  <Globe className="h-10 w-10 text-purple-600" />
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <MapPin className="h-5 w-5 text-green-600" />
                 </div>
-                <h3 className="font-semibold">Website Connected</h3>
-                <p className="text-sm text-muted-foreground">Mobile-optimized website</p>
+                <div>
+                  <div className="text-sm text-muted-foreground">Location</div>
+                  <div className="font-medium">{reportData.address}</div>
+                </div>
+              </div>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Globe className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground">Website</div>
+                  <div className="font-medium">https://bellavista.com/</div>
+                </div>
               </div>
             </div>
           </CardContent>
