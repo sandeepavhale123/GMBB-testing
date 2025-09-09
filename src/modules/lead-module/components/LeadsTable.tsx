@@ -75,7 +75,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
       // Parse MM/dd/yyyy format from API
       const parsedDate = parse(dateString, "MM/dd/yyyy", new Date());
       if (isValid(parsedDate)) {
-        return format(parsedDate, "MMM dd, yyyy");
+        return format(parsedDate, "dd-MM-yy");
       }
       // Fallback to original string if parsing fails
       return dateString;
