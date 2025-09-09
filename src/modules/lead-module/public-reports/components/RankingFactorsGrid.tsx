@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, XCircle } from "lucide-react";
 
 interface RankingFactor {
   id: string;
@@ -14,33 +13,44 @@ interface RankingFactorsGridProps {
 }
 
 export const RankingFactorsGrid: React.FC<RankingFactorsGridProps> = ({ factors }) => {
+  const getStatusBadge = (status: string) => {
+    if (status === "good") {
+      return (
+        <div className="inline-block bg-green-600 text-white text-xs font-medium px-3 py-1 rounded-full mb-4">
+          Passed
+        </div>
+      );
+    } else {
+      return (
+        <div className="inline-block bg-red-600 text-white text-xs font-medium px-3 py-1 rounded-full mb-4">
+          Failed
+        </div>
+      );
+    }
+  };
+
+  const getCardBackground = (status: string) => {
+    return status === "good" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200";
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>GMB Ranking Factors</CardTitle>
+        <CardTitle>GBP Ranking Factors</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <p className="text-sm text-muted-foreground mb-6">
+          Following a detailed review of your Google Business Profile (GBP), we assessed its level of optimization. Below is a concise summary of your performance across several key local ranking factors
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {factors.map((factor) => (
-            <div key={factor.id} className="flex items-center gap-3 p-3 border rounded-lg">
-              {factor.status === "good" ? (
-                <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-              ) : (
-                <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-              )}
-              <div className="flex-1">
-                <span className="font-medium text-sm">{factor.label}</span>
-                <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
-                  factor.status === "good" 
-                    ? "bg-green-100 text-green-700" 
-                    : "bg-red-100 text-red-700"
-                }`}>
-                  {factor.status === "good" ? "Good" : "Needs Work"}
-                </span>
-                {factor.description && (
-                  <p className="text-xs text-muted-foreground mt-1">{factor.description}</p>
-                )}
-              </div>
+            <div
+              key={factor.id}
+              className={`p-4 rounded-lg border ${getCardBackground(factor.status)}`}
+            >
+              {getStatusBadge(factor.status)}
+              <h3 className="font-semibold text-lg mb-2 text-gray-800">{factor.label}</h3>
+              <p className="text-sm text-gray-600">{factor.description}</p>
             </div>
           ))}
         </div>
