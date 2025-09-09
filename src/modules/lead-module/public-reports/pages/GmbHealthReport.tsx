@@ -9,6 +9,7 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
+import { CTASection } from "../components/CTASection";
 
 import { PieChart, Pie, Tooltip } from "recharts";
 export const GmbHealthReport: React.FC = () => {
@@ -433,6 +434,9 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* Top 10 Competitors */}
         <CompetitorTable competitors={competitors} />
+
+        {/* CTA Section */}
+        <CTASection />
 
         {/* Category Breakdown */}
         <Card>
