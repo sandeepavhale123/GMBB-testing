@@ -28,21 +28,23 @@ export const PostsOnGMB: React.FC<PostsOnGMBProps> = ({ posts }) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <div key={post.id} className="space-y-4">
-              <div className="aspect-video rounded-lg overflow-hidden">
+            <Card key={post.id} className="overflow-hidden">
+              <div className="aspect-video">
                 <img 
                   src={post.image} 
                   alt="GMB Post" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-sm text-muted-foreground">
-                {post.description}
-              </p>
-              <Button variant="outline" className="w-full">
-                View Post
-              </Button>
-            </div>
+              <CardContent className="p-4 space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  {post.description}
+                </p>
+                <Button variant="outline" className="w-full">
+                  View Post
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </CardContent>

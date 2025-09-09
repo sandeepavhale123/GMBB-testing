@@ -406,17 +406,17 @@ export const GmbHealthReport: React.FC = () => {
         <PostsOnGMB posts={[
           {
             id: "1",
-            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png",
+            image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
             description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
           },
           {
             id: "2", 
-            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png",
+            image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
             description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
           },
           {
             id: "3",
-            image: "/lovable-uploads/b6bf94cd-f3bc-4c4a-832e-5dd6125e0fe1.png", 
+            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop", 
             description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
           }
         ]} />
