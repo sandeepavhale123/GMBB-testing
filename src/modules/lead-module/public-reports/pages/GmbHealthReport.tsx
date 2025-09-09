@@ -1,28 +1,118 @@
 import React from "react";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Heart, Star, MapPin, Phone, Globe, Users } from "lucide-react";
+import { ProgressCard } from "../components/ProgressCard";
+import { RankingFactorsGrid } from "../components/RankingFactorsGrid";
+import { PhotoGallery } from "../components/PhotoGallery";
+import { ReviewsSection } from "../components/ReviewsSection";
+import { CompetitorTable } from "../components/CompetitorTable";
+import { BusinessHours } from "../components/BusinessHours";
+import { SocialMediaCards } from "../components/SocialMediaCards";
 
 export const GmbHealthReport: React.FC = () => {
-  // Mock data - replace with actual data fetching
+  // Comprehensive mock data - replace with actual data fetching
   const reportData = {
     title: "GMB Health Report",
-    listingName: "Sample Business",
-    address: "123 Main St, City, State 12345",
+    listingName: "Bella Vista Restaurant & Bar",
+    address: "123 Main Street, Downtown, CA 90210",
     logo: "",
     date: "January 15, 2025",
     healthScore: 85,
-    issues: [
-      { type: "error", message: "Missing business hours", count: 1 },
-      { type: "warning", message: "Incomplete business description", count: 1 },
-      { type: "success", message: "All contact information complete", count: 5 },
-    ],
+    leadScore: 1224,
+    avgRating: 4.9,
+    totalReviews: 847,
+    totalPhotos: 156,
+    responseRate: 92,
+    listingViews: 15420,
+    webClicks: 892,
+    phoneClicks: 234,
+    directionRequests: 1560,
   };
+
+  const rankingFactors = [
+    { id: "1", label: "Business Name", status: "good" as const, description: "Complete and accurate" },
+    { id: "2", label: "Address", status: "good" as const, description: "Verified location" },
+    { id: "3", label: "Phone Number", status: "good" as const, description: "Local phone number" },
+    { id: "4", label: "Website", status: "good" as const, description: "Mobile-optimized" },
+    { id: "5", label: "Business Hours", status: "needs-work" as const, description: "Missing holiday hours" },
+    { id: "6", label: "Business Description", status: "good" as const, description: "Complete and keyword-rich" },
+    { id: "7", label: "Business Categories", status: "good" as const, description: "Primary category selected" },
+    { id: "8", label: "Business Attributes", status: "needs-work" as const, description: "Add more attributes" },
+    { id: "9", label: "Photos", status: "good" as const, description: "Regular photo uploads" },
+    { id: "10", label: "Reviews Management", status: "good" as const, description: "Active review responses" },
+  ];
+
+  const photos = [
+    { id: "1", url: "/placeholder.svg", alt: "Restaurant interior", category: "Interior" },
+    { id: "2", url: "/placeholder.svg", alt: "Signature dish", category: "Food" },
+    { id: "3", url: "/placeholder.svg", alt: "Bar area", category: "Interior" },
+    { id: "4", url: "/placeholder.svg", alt: "Outdoor seating", category: "Exterior" },
+    { id: "5", url: "/placeholder.svg", alt: "Chef special", category: "Food" },
+    { id: "6", url: "/placeholder.svg", alt: "Wine selection", category: "Drinks" },
+  ];
+
+  const reviews = [
+    {
+      id: "1",
+      author: "Sarah Johnson",
+      rating: 5,
+      text: "Amazing food and excellent service! The atmosphere is perfect for a romantic dinner.",
+      date: "2 days ago",
+      platform: "Google"
+    },
+    {
+      id: "2", 
+      author: "Mike Chen",
+      rating: 4,
+      text: "Great pasta dishes and friendly staff. Will definitely come back!",
+      date: "1 week ago",
+      platform: "Yelp"
+    },
+    {
+      id: "3",
+      author: "Emily Rodriguez",
+      rating: 5,
+      text: "Best Italian restaurant in the area. The wine selection is outstanding.",
+      date: "2 weeks ago",
+      platform: "Google"
+    },
+  ];
+
+  const competitors = [
+    { rank: 1, businessName: "Bella Vista Restaurant & Bar", rating: 4.9, reviewCount: 847, category: "Italian Restaurant", distance: "0.0 mi" },
+    { rank: 2, businessName: "Mario's Trattoria", rating: 4.7, reviewCount: 623, category: "Italian Restaurant", distance: "0.3 mi" },
+    { rank: 3, businessName: "Giuseppe's Kitchen", rating: 4.6, reviewCount: 456, category: "Italian Restaurant", distance: "0.5 mi" },
+    { rank: 4, businessName: "Nonna's Place", rating: 4.5, reviewCount: 389, category: "Italian Restaurant", distance: "0.7 mi" },
+    { rank: 5, businessName: "Tony's Bistro", rating: 4.4, reviewCount: 234, category: "Italian Restaurant", distance: "0.8 mi" },
+    { rank: 6, businessName: "Casa Italia", rating: 4.3, reviewCount: 567, category: "Italian Restaurant", distance: "1.0 mi" },
+    { rank: 7, businessName: "Villa Romano", rating: 4.2, reviewCount: 345, category: "Italian Restaurant", distance: "1.2 mi" },
+    { rank: 8, businessName: "Pasta Palace", rating: 4.1, reviewCount: 189, category: "Italian Restaurant", distance: "1.3 mi" },
+    { rank: 9, businessName: "Little Italy", rating: 4.0, reviewCount: 267, category: "Italian Restaurant", distance: "1.5 mi" },
+    { rank: 10, businessName: "Roma Restaurant", rating: 3.9, reviewCount: 156, category: "Italian Restaurant", distance: "1.7 mi" },
+  ];
+
+  const businessHours = [
+    { day: "Monday", hours: "11:00 AM - 10:00 PM" },
+    { day: "Tuesday", hours: "11:00 AM - 10:00 PM", isToday: true },
+    { day: "Wednesday", hours: "11:00 AM - 10:00 PM" },
+    { day: "Thursday", hours: "11:00 AM - 10:00 PM" },
+    { day: "Friday", hours: "11:00 AM - 11:00 PM" },
+    { day: "Saturday", hours: "10:00 AM - 11:00 PM" },
+    { day: "Sunday", hours: "10:00 AM - 9:00 PM" },
+  ];
+
+  const socialPlatforms = [
+    { name: "Facebook", connected: true, followers: 2450 },
+    { name: "Instagram", connected: true, followers: 1890 },
+    { name: "Twitter", connected: false },
+    { name: "LinkedIn", connected: false },
+  ];
 
   const brandingData = {
     company_name: "Digital Marketing Solutions",
     company_logo: "",
-    company_website: "www.digitalmarketing.com",
+    company_website: "www.digitalmarketing.com", 
     company_email: "contact@digitalmarketing.com",
     company_phone: "(555) 123-4567",
     company_address: "456 Business Ave, Marketing City, MC 67890",
@@ -38,82 +128,202 @@ export const GmbHealthReport: React.FC = () => {
       brandingData={brandingData}
     >
       <div className="space-y-6">
-        {/* Health Score Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-red-500" />
-              GMB Health Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center">
-              <div className="relative w-32 h-32">
-                <div className="absolute inset-0 rounded-full border-8 border-gray-200"></div>
-                <div
-                  className="absolute inset-0 rounded-full border-8 border-green-500 border-t-transparent transform -rotate-90"
-                  style={{
-                    borderRightColor: reportData.healthScore >= 75 ? "#10b981" : "#ef4444",
-                    clipPath: `conic-gradient(from 0deg, transparent ${
-                      (100 - reportData.healthScore) * 3.6
-                    }deg, currentColor 0deg)`,
-                  }}
-                ></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-foreground">
-                    {reportData.healthScore}%
-                  </span>
-                </div>
+        {/* Main Health Score - Large Display */}
+        <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-4xl font-bold mb-2">{reportData.healthScore}%</h2>
+                <p className="text-xl opacity-90">GMB Health Score</p>
+                <p className="opacity-75">Overall listing performance</p>
               </div>
-            </div>
-            <p className="text-center text-muted-foreground mt-4">
-              Your GMB listing health score
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Issues Breakdown */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Health Check Results</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {reportData.issues.map((issue, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    {issue.type === "error" && <XCircle className="h-5 w-5 text-red-500" />}
-                    {issue.type === "warning" && <AlertCircle className="h-5 w-5 text-yellow-500" />}
-                    {issue.type === "success" && <CheckCircle className="h-5 w-5 text-green-500" />}
-                    <span className="font-medium">{issue.message}</span>
-                  </div>
-                  <span className="text-sm text-muted-foreground">
-                    {issue.count} item{issue.count !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              ))}
+              <Heart className="h-16 w-16 opacity-80" />
             </div>
           </CardContent>
         </Card>
 
-        {/* Recommendations */}
+        {/* GMB Lead Score Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ProgressCard
+            title="Lead Score"
+            value={reportData.leadScore}
+            color="green"
+            icon={<Users className="h-5 w-5" />}
+          />
+          <ProgressCard
+            title="Average Rating"
+            value={reportData.avgRating}
+            subtitle="out of 5.0"
+            color="yellow"
+            icon={<Star className="h-5 w-5" />}
+          />
+          <ProgressCard
+            title="Total Reviews"
+            value={reportData.totalReviews}
+            color="blue"
+          />
+          <ProgressCard
+            title="Response Rate"
+            value={`${reportData.responseRate}%`}
+            percentage={reportData.responseRate}
+            color="green"
+          />
+        </div>
+
+        {/* Listing Reputation */}
         <Card>
           <CardHeader>
-            <CardTitle>Recommendations</CardTitle>
+            <CardTitle>Listing Reputation</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-900 mb-2">Add Business Hours</h4>
-                <p className="text-blue-800 text-sm">
-                  Complete your business hours to help customers know when you're open.
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="text-center p-4 border rounded-lg">
+                <div className="text-2xl font-bold text-blue-600">{reportData.listingViews}</div>
+                <div className="text-sm text-muted-foreground">Listing Views</div>
               </div>
-              <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <h4 className="font-semibold text-yellow-900 mb-2">Improve Business Description</h4>
-                <p className="text-yellow-800 text-sm">
-                  Add more details to your business description to better inform potential customers.
-                </p>
+              <div className="text-center p-4 border rounded-lg">
+                <div className="text-2xl font-bold text-green-600">{reportData.webClicks}</div>
+                <div className="text-sm text-muted-foreground">Website Clicks</div>
+              </div>
+              <div className="text-center p-4 border rounded-lg">
+                <div className="text-2xl font-bold text-orange-600">{reportData.phoneClicks}</div>
+                <div className="text-sm text-muted-foreground">Phone Calls</div>
+              </div>
+              <div className="text-center p-4 border rounded-lg">
+                <div className="text-2xl font-bold text-purple-600">{reportData.directionRequests}</div>
+                <div className="text-sm text-muted-foreground">Direction Requests</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Listing Presence */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Listing Presence</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-3">
+                  <MapPin className="h-10 w-10 text-green-600" />
+                </div>
+                <h3 className="font-semibold">Location Verified</h3>
+                <p className="text-sm text-muted-foreground">Address confirmed by Google</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-3">
+                  <Phone className="h-10 w-10 text-blue-600" />
+                </div>
+                <h3 className="font-semibold">Phone Verified</h3>
+                <p className="text-sm text-muted-foreground">Local phone number active</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto rounded-full bg-purple-100 flex items-center justify-center mb-3">
+                  <Globe className="h-10 w-10 text-purple-600" />
+                </div>
+                <h3 className="font-semibold">Website Connected</h3>
+                <p className="text-sm text-muted-foreground">Mobile-optimized website</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* GMB Ranking Factors */}
+        <RankingFactorsGrid factors={rankingFactors} />
+
+        {/* Route to GMB - Photo Gallery */}
+        <PhotoGallery photos={photos} totalCount={reportData.totalPhotos} />
+
+        {/* Business Hours */}
+        <BusinessHours hours={businessHours} />
+
+        {/* Social Media */}
+        <SocialMediaCards platforms={socialPlatforms} />
+
+        {/* Reviews Section */}
+        <ReviewsSection 
+          reviews={reviews}
+          averageRating={reportData.avgRating}
+          totalReviews={reportData.totalReviews}
+        />
+
+        {/* Top 10 Competitors */}
+        <CompetitorTable competitors={competitors} />
+
+        {/* Category Breakdown */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Category Breakdown</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium">1. Primary Category</span>
+                  <span className="text-green-600 font-semibold">Complete</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Italian Restaurant</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium">2. Secondary Categories</span>
+                  <span className="text-yellow-600 font-semibold">Partial</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Bar, Wine Bar (Add: Pizza Restaurant)</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium">3. Service Areas</span>
+                  <span className="text-green-600 font-semibold">Complete</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Downtown, Beverly Hills, Santa Monica</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium">4. Attributes</span>
+                  <span className="text-red-600 font-semibold">Needs Work</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Add: Outdoor Seating, Delivery, Takeout</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Summary of Recommendations */}
+        <Card className="border-2 border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="text-yellow-800">Summary of Recommendations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-bold">1</div>
+                <div>
+                  <h4 className="font-semibold text-red-700">Add Missing Holiday Hours</h4>
+                  <p className="text-sm text-red-600">Complete your holiday schedule to avoid customer confusion</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-orange-500 text-white text-xs flex items-center justify-center font-bold">2</div>
+                <div>
+                  <h4 className="font-semibold text-orange-700">Expand Business Attributes</h4>
+                  <p className="text-sm text-orange-600">Add amenities like outdoor seating, delivery options, and accessibility features</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">3</div>
+                <div>
+                  <h4 className="font-semibold text-blue-700">Connect Social Media</h4>
+                  <p className="text-sm text-blue-600">Link Twitter and LinkedIn profiles to improve online presence</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-500 text-white text-xs flex items-center justify-center font-bold">4</div>
+                <div>
+                  <h4 className="font-semibold text-green-700">Maintain Photo Activity</h4>
+                  <p className="text-sm text-green-600">Continue uploading photos regularly - you're doing great!</p>
+                </div>
               </div>
             </div>
           </CardContent>
