@@ -69,32 +69,32 @@ export const GmbHealthReport: React.FC = () => {
   }];
   const photos = [{
     id: "1",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300&h=300&fit=crop",
     alt: "Restaurant interior",
     category: "Interior"
   }, {
     id: "2",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=300&fit=crop",
     alt: "Signature dish",
     category: "Food"
   }, {
     id: "3",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=300&fit=crop",
     alt: "Bar area",
     category: "Interior"
   }, {
     id: "4",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300&h=300&fit=crop",
     alt: "Outdoor seating",
     category: "Exterior"
   }, {
     id: "5",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=300&fit=crop",
     alt: "Chef special",
     category: "Food"
   }, {
     id: "6",
-    url: "/placeholder.svg",
+    url: "https://images.unsplash.com/photo-1510626176543-5745bbc17d40?w=300&h=300&fit=crop",
     alt: "Wine selection",
     category: "Drinks"
   }];
