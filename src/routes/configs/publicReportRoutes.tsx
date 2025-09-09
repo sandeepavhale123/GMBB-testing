@@ -9,6 +9,9 @@ import { PublicPostPerformanceReport } from "@/components/PublicReports/PublicPo
 import { PublicCitationReport } from "@/components/PublicReports/PublicCitationReport";
 import { PublicMultiDashboardReport } from "@/multiDashboardLayout/public-pages/multi-dashboard-report";
 import { ShareableGEORankingReport } from "@/modules/GEO-Ranking/sharable-report/pages/sharable-GEO-ranking-report";
+import { GmbHealthReport } from "@/modules/lead-module/public-reports/pages/GmbHealthReport";
+import { GmbProspectReport } from "@/modules/lead-module/public-reports/pages/GmbProspectReport";
+import { CitationAuditReport } from "@/modules/lead-module/public-reports/pages/CitationAuditReport";
 
 export const publicReportRoutes: RouteConfig[] = [
   {
@@ -82,5 +85,17 @@ export const publicReportRoutes: RouteConfig[] = [
         <ShareableGEORankingReport />
       </ThemePreloader>
     ),
+  },
+  {
+    path: "/module/lead/gmb-health-report",
+    element: <GmbHealthReport />,
+  },
+  {
+    path: "/module/lead/gmb-prospect-report",
+    element: <GmbProspectReport />,
+  },
+  {
+    path: "/module/lead/citation-audit-report",
+    element: <CitationAuditReport />,
   },
 ];
