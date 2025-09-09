@@ -9,6 +9,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { SocialMediaCards } from "../components/SocialMediaCards";
+import { PieChart, Pie, Tooltip } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
   const reportData = {
@@ -300,12 +301,32 @@ export const GmbHealthReport: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative">
-                  <div className="w-48 h-48 rounded-full border-8 border-green-500 border-t-red-500 border-r-red-500" style={{borderWidth: '24px', transform: 'rotate(-45deg)'}}></div>
+                <div className="relative w-48 h-48">
+                  <PieChart width={192} height={192}>
+                    <Pie
+                      data={[
+                        { name: 'GMB Leads', value: 45, fill: '#ef4444' },
+                        { name: 'Reviews', value: reportData.totalReviews, fill: '#22c55e' },
+                        { name: 'Average Rating', value: Number(reportData.avgRating) * 100, fill: '#3b82f6' }
+                      ]}
+                      cx={96}
+                      cy={96}
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value,
+                        name
+                      ]}
+                    />
+                  </PieChart>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center" style={{transform: 'rotate(45deg)'}}>
-                      <div className="text-2xl font-bold">Lead Score</div>
-                      <div className="text-lg text-muted-foreground">Distribution</div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold">Lead Score</div>
+                      <div className="text-sm text-muted-foreground">Distribution</div>
                     </div>
                   </div>
                 </div>
