@@ -9,7 +9,7 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
-import { SocialMediaCards } from "../components/SocialMediaCards";
+
 import { PieChart, Pie, Tooltip } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
@@ -427,8 +427,6 @@ export const GmbHealthReport: React.FC = () => {
         {/* Business Hours */}
         <BusinessHours hours={businessHours} />
 
-        {/* Social Media */}
-        <SocialMediaCards platforms={socialPlatforms} />
 
         {/* Reviews Section */}
         <ReviewsSection reviews={reviews} averageRating={reportData.avgRating} totalReviews={reportData.totalReviews} />
