@@ -156,7 +156,7 @@ export const ModulesMegaMenu: React.FC = () => {
                         {module.comingSoon && (
                           <Badge
                             variant="secondary"
-                            className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-xs"
+                            className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-[8px]"
                           >
                             Coming Soon
                           </Badge>
