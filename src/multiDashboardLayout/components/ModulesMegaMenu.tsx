@@ -8,29 +8,30 @@ import { useLocation } from "react-router-dom";
 
 const modules = [
   {
-    name: "GRO Ranking",
-    description: "Track and optimize your local search rankings",
-    icon: TrendingUp,
-    href: "/module/geo-ranking",
-  },
-  // {
-  //   name: "Lead Management",
-  //   description: "Manage and track your leads effectively",
-  //   icon: Users,
-  //   href: "/main-dashboard/lead-management",
-  // },
-  // {
-  //   name: "Reputation",
-  //   description: "Monitor and manage your online reputation",
-  //   icon: Star,
-  //   href: "/main-dashboard/reputation",
-  // },
-  {
     name: "Manage GMB listing",
     description: "Manage your Google My Business listings",
     icon: Grid3X3,
     href: "/main-dashboard",
   },
+  {
+    name: "GRO Ranking",
+    description: "Track and optimize your local search rankings",
+    icon: TrendingUp,
+    href: "/module/geo-ranking",
+  },
+  {
+    name: "Lead Management",
+    description: "Manage and track your leads effectively",
+    icon: Users,
+    href: "#",
+  },
+  {
+    name: "Reputation",
+    description: "Monitor and manage your online reputation",
+    icon: Star,
+    href: "#",
+  },
+  
 ];
 
 export const ModulesMegaMenu: React.FC = () => {
@@ -115,12 +116,7 @@ export const ModulesMegaMenu: React.FC = () => {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium text-foreground">Modules</h3>
-              <Badge
-                variant="secondary"
-                className="bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-900 border-0 text-xs"
-              >
-                Coming Soon
-              </Badge>
+             
             </div>
             <div className="space-y-2">
               {getFilteredModules().map((module) => {
