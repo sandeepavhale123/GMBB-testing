@@ -50,21 +50,28 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
         <div className="space-y-4">
           {reviews.map((review) => (
             <div key={review.id} className="p-4 border rounded-lg">
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <div className="font-medium">{review.author}</div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex">{renderStars(review.rating)}</div>
-                    <span className="text-sm text-muted-foreground">{review.date}</span>
-                  </div>
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                  {review.author.charAt(0).toUpperCase()}
                 </div>
-                {review.platform && (
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">
-                    {review.platform}
-                  </span>
-                )}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <div className="font-medium">{review.author}</div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex">{renderStars(review.rating)}</div>
+                        <span className="text-sm text-muted-foreground">{review.date}</span>
+                      </div>
+                    </div>
+                    {review.platform && (
+                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                        {review.platform}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-700">{review.text}</p>
+                </div>
               </div>
-              <p className="text-sm text-gray-700">{review.text}</p>
             </div>
           ))}
         </div>
