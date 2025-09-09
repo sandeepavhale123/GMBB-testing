@@ -287,17 +287,17 @@ export const GmbHealthReport: React.FC = () => {
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <div className="text-sm text-red-600 font-medium mb-1">GMB Lead Score</div>
-                  <div className="text-3xl font-bold text-red-600">45%</div>
+                <div className="bg-red-50 border border-red-100 rounded-lg p-4">
+                  <div className="text-sm text-red-500 font-medium mb-1">GMB Lead Score</div>
+                  <div className="text-3xl font-bold text-red-500">45%</div>
                 </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="text-sm text-green-600 font-medium mb-1">No. Of Reviews</div>
-                  <div className="text-3xl font-bold text-green-600">{reportData.totalReviews}</div>
+                <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                  <div className="text-sm text-green-500 font-medium mb-1">No. Of Reviews</div>
+                  <div className="text-3xl font-bold text-green-500">{reportData.totalReviews}</div>
                 </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="text-sm text-green-600 font-medium mb-1">GMB Average Rating</div>
-                  <div className="text-3xl font-bold text-green-600">{reportData.avgRating}</div>
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                  <div className="text-sm text-blue-500 font-medium mb-1">GMB Average Rating</div>
+                  <div className="text-3xl font-bold text-blue-500">{reportData.avgRating}</div>
                 </div>
               </div>
               <div className="flex items-center justify-center">
