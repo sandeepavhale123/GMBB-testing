@@ -441,37 +441,44 @@ export const GmbHealthReport: React.FC = () => {
         {/* Category Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>Category Breakdown</CardTitle>
+            <CardTitle>The top 3 category used by competitors</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">1. Primary Category</span>
-                  <span className="text-green-600 font-semibold">Complete</span>
+            <p className="text-gray-600 mb-6">
+              We found the following twenty businesses on the map that complicate your business. By analyzing and using this data, 
+              you can increase the chances of your business appearing higher on Googles search results and attracting more 
+              customers.
+            </p>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  1
                 </div>
-                <p className="text-sm text-muted-foreground">Italian Restaurant</p>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Plumber</h3>
+                  <p className="text-gray-600">12 of competitors are utilizing this category.</p>
+                </div>
               </div>
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">2. Secondary Categories</span>
-                  <span className="text-yellow-600 font-semibold">Partial</span>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  2
                 </div>
-                <p className="text-sm text-muted-foreground">Bar, Wine Bar (Add: Pizza Restaurant)</p>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Drainage service</h3>
+                  <p className="text-gray-600">5 of competitors are utilizing this category</p>
+                </div>
               </div>
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">3. Service Areas</span>
-                  <span className="text-green-600 font-semibold">Complete</span>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  3
                 </div>
-                <p className="text-sm text-muted-foreground">Downtown, Beverly Hills, Santa Monica</p>
-              </div>
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium">4. Attributes</span>
-                  <span className="text-red-600 font-semibold">Needs Work</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Home maintenance</h3>
+                  <p className="text-gray-600">8 of competitors are utilizing this category.</p>
                 </div>
-                <p className="text-sm text-muted-foreground">Add: Outdoor Seating, Delivery, Takeout</p>
               </div>
             </div>
           </CardContent>
