@@ -484,41 +484,32 @@ export const GmbHealthReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Summary of Recommendations */}
-        <Card className="border-2 border-yellow-200 bg-yellow-50">
+        {/* All Category List */}
+        <Card>
           <CardHeader>
-            <CardTitle className="text-yellow-800">Summary of Recommendations</CardTitle>
+            <CardTitle>All Category List</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-bold">1</div>
-                <div>
-                  <h4 className="font-semibold text-red-700">Add Missing Holiday Hours</h4>
-                  <p className="text-sm text-red-600">Complete your holiday schedule to avoid customer confusion</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-orange-500 text-white text-xs flex items-center justify-center font-bold">2</div>
-                <div>
-                  <h4 className="font-semibold text-orange-700">Expand Business Attributes</h4>
-                  <p className="text-sm text-orange-600">Add amenities like outdoor seating, delivery options, and accessibility features</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">3</div>
-                <div>
-                  <h4 className="font-semibold text-blue-700">Connect Social Media</h4>
-                  <p className="text-sm text-blue-600">Link Twitter and LinkedIn profiles to improve online presence</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-500 text-white text-xs flex items-center justify-center font-bold">4</div>
-                <div>
-                  <h4 className="font-semibold text-green-700">Maintain Photo Activity</h4>
-                  <p className="text-sm text-green-600">Continue uploading photos regularly - you're doing great!</p>
-                </div>
-              </div>
+            <div className="space-y-2">
+              <div className="text-sm text-gray-700">Plumber - 12</div>
+              <div className="text-sm text-gray-700">Service establishment - 7</div>
+              <div className="text-sm text-gray-700">Drainage service - 5</div>
+              <div className="text-sm text-gray-700">HVAC contractor - 4</div>
+              <div className="text-sm text-gray-700">Air conditioning repair service - 2</div>
+              <div className="text-sm text-gray-700">Water damage restoration service - 2</div>
+              <div className="text-sm text-gray-700">Electrician - 2</div>
+              <div className="text-sm text-gray-700">Repair service - 2</div>
+              <div className="text-sm text-gray-700">Hot water system supplier - 2</div>
+              <div className="text-sm text-gray-700">Heating contractor - 2</div>
+              <div className="text-sm text-gray-700">Septic system service - 1</div>
+              <div className="text-sm text-gray-700">Furnace repair service - 1</div>
+              <div className="text-sm text-gray-700">Contractor - 1</div>
+              <div className="text-sm text-gray-700">Excavating contractor - 1</div>
+              <div className="text-sm text-gray-700">Water filter supplier - 1</div>
+              <div className="text-sm text-gray-700">Water softening equipment supplier - 1</div>
+              <div className="text-sm text-gray-700">Water testing service - 1</div>
+              <div className="text-sm text-gray-700">Air conditioning contractor - 1</div>
+              <div className="text-sm text-gray-700">Insulation contractor - 1</div>
             </div>
           </CardContent>
         </Card>
