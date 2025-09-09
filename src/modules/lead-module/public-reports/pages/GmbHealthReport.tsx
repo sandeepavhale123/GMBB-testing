@@ -258,11 +258,61 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Lead Score Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <ProgressCard title="Lead Score" value={reportData.leadScore} color="green" icon={<Users className="h-5 w-5" />} />
-          <ProgressCard title="Average Rating" value={reportData.avgRating} subtitle="out of 5.0" color="yellow" icon={<Star className="h-5 w-5" />} />
-          <ProgressCard title="Total Reviews" value={reportData.totalReviews} color="blue" />
-          <ProgressCard title="Response Rate" value={`${reportData.responseRate}%`} percentage={reportData.responseRate} color="green" />
+          <ProgressCard title="GMB Health Score" value="45" percentage={45} color="red" />
+          <ProgressCard title="GMB Review" value={reportData.totalReviews} color="blue" />
+          <ProgressCard title="GMB Post" value="2551" color="blue" />
+          <ProgressCard title="GMB Average Rating" value={reportData.avgRating} color="blue" />
         </div>
+
+        {/* Business Details Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Business Details</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div><span className="font-medium">Business Name:</span> {reportData.listingName}</div>
+            <div><span className="font-medium">Address:</span> {reportData.address}</div>
+            <div><span className="font-medium">Category:</span> Italian Restaurant</div>
+            <div><span className="font-medium">Phone number:</span> +1 (555) 123-4567</div>
+            <div><span className="font-medium">Website:</span> https://bellavista.com/</div>
+          </CardContent>
+        </Card>
+
+        {/* GMB Lead Score Detailed Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">GMB Lead Score</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <div className="text-sm text-red-600 font-medium mb-1">GMB Lead Score</div>
+                  <div className="text-3xl font-bold text-red-600">45%</div>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="text-sm text-green-600 font-medium mb-1">No. Of Reviews</div>
+                  <div className="text-3xl font-bold text-green-600">{reportData.totalReviews}</div>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="text-sm text-green-600 font-medium mb-1">GMB Average Rating</div>
+                  <div className="text-3xl font-bold text-green-600">{reportData.avgRating}</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <div className="relative">
+                  <div className="w-48 h-48 rounded-full border-8 border-green-500 border-t-red-500 border-r-red-500" style={{borderWidth: '24px', transform: 'rotate(-45deg)'}}></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center" style={{transform: 'rotate(45deg)'}}>
+                      <div className="text-2xl font-bold">Lead Score</div>
+                      <div className="text-lg text-muted-foreground">Distribution</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Listing Reputation */}
         <Card>
