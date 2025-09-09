@@ -17,9 +17,28 @@ export interface Lead {
   email: string;
   businessName: string;
   phone: string;
-  leadType: string;
+  reportTypeLabel: string;
   date: string;
-  category: string;
+  leadCategoryLabel: string;
+  reportId: string;
+  reports: {
+    gmbReport: {
+      status: number;
+      viewUrl: string | null;
+    };
+    onPage: {
+      status: number;
+      viewUrl: string | null;
+    };
+    citation: {
+      status: number;
+      viewUrl: string | null;
+    };
+    prospect: {
+      status: number;
+      viewUrl: string | null;
+    };
+  };
 }
 
 interface LeadsTableProps {
@@ -42,11 +61,11 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
   const isAllSelected = leads.length > 0 && selectedLeads.length === leads.length;
   const isIndeterminate = selectedLeads.length > 0 && selectedLeads.length < leads.length;
 
-  const getLeadTypeBadge = (type: string) => {
+  const getReportTypeBadge = (type: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-      "Hot": "destructive",
-      "Warm": "secondary", 
-      "Cold": "outline",
+      "Google Suggest": "destructive",
+      "Citation": "secondary", 
+      "GMB Report": "outline",
     };
     return <Badge variant={variants[type] || "default"}>{type}</Badge>;
   };
@@ -63,7 +82,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               <TableHead>Email</TableHead>
               <TableHead>Business Name</TableHead>
               <TableHead>Phone</TableHead>
-              <TableHead>Lead Type</TableHead>
+              <TableHead>Report Type</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Category</TableHead>
               <TableHead className="w-16">Actions</TableHead>
@@ -104,7 +123,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
             <TableHead>Email</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Phone</TableHead>
-            <TableHead>Lead Type</TableHead>
+            <TableHead>Report Type</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Category</TableHead>
             <TableHead className="w-16">Actions</TableHead>
@@ -129,15 +148,15 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                     aria-label={`Select ${lead.businessName}`}
                   />
                 </TableCell>
-                <TableCell className="font-medium">{lead.email}</TableCell>
+                <TableCell className="font-medium">{lead.email || 'N/A'}</TableCell>
                 <TableCell>{lead.businessName}</TableCell>
                 <TableCell>{lead.phone}</TableCell>
-                <TableCell>{getLeadTypeBadge(lead.leadType)}</TableCell>
+                <TableCell>{getReportTypeBadge(lead.reportTypeLabel)}</TableCell>
                 <TableCell>
                   {format(new Date(lead.date), "MMM dd, yyyy")}
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline">{lead.category}</Badge>
+                  <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
                 </TableCell>
                 <TableCell>
                   <ActionDropdown onAction={onAction} leadId={lead.id} />

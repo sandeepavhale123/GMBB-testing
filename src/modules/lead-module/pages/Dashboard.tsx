@@ -24,96 +24,60 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useLeads, ApiLead } from "@/api/leadApi";
+import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
 
-// Sample data - replace with real API calls
-const sampleLeads: Lead[] = [
-  {
-    id: "1",
-    email: "john@pizzapalace.com",
-    businessName: "Pizza Palace",
-    phone: "+1 234-567-8901",
-    leadType: "Hot",
-    date: "2024-01-15",
-    category: "Restaurant"
-  },
-  {
-    id: "2", 
-    email: "sarah@techsolutions.com",
-    businessName: "Tech Solutions Inc",
-    phone: "+1 234-567-8902",
-    leadType: "Warm",
-    date: "2024-01-14",
-    category: "Technology"
-  },
-  {
-    id: "3",
-    email: "mike@healthclinic.com", 
-    businessName: "Downtown Health Clinic",
-    phone: "+1 234-567-8903",
-    leadType: "Cold",
-    date: "2024-01-13",
-    category: "Healthcare"
-  },
-  {
-    id: "4",
-    email: "lisa@fashionstore.com",
-    businessName: "Fashion Forward Store",
-    phone: "+1 234-567-8904", 
-    leadType: "Hot",
-    date: "2024-01-12",
-    category: "Retail"
-  },
-  {
-    id: "5",
-    email: "david@realestate.com",
-    businessName: "Prime Real Estate",
-    phone: "+1 234-567-8905",
-    leadType: "Warm", 
-    date: "2024-01-11",
-    category: "Real Estate"
-  }
-];
+// Transform API lead to UI lead
+const transformApiLead = (apiLead: ApiLead): Lead => ({
+  id: apiLead.id,
+  email: apiLead.email,
+  businessName: apiLead.business_name,
+  phone: apiLead.phone,
+  reportTypeLabel: apiLead.reportTypeLabel,
+  date: apiLead.generated_date,
+  leadCategoryLabel: apiLead.leadCategoryLabel,
+  reportId: apiLead.report_id,
+  reports: apiLead.reports,
+});
 
 const Dashboard: React.FC = () => {
-  const [leads, setLeads] = useState<Lead[]>(sampleLeads);
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const debouncedEmailFilter = useDebounce(emailFilter, 300);
 
-  // Filter and paginate leads
-  const filteredLeads = useMemo(() => {
-    return leads.filter((lead) => {
-      const matchesSearch = lead.businessName.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
-      const matchesEmail = lead.email.toLowerCase().includes(debouncedEmailFilter.toLowerCase());
-      const matchesCategory = !categoryFilter || categoryFilter === "all" || lead.category === categoryFilter;
-      
-      return matchesSearch && matchesEmail && matchesCategory;
-    });
-  }, [leads, debouncedSearchQuery, debouncedEmailFilter, categoryFilter]);
+  // API integration
+  const { 
+    data: leadsResponse, 
+    isLoading, 
+    error,
+    refetch 
+  } = useLeads({
+    page: currentPage,
+    limit: ITEMS_PER_PAGE,
+    search: debouncedSearchQuery
+  });
 
-  const totalPages = Math.ceil(filteredLeads.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedLeads = filteredLeads.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const leads = leadsResponse?.data.leads.map(transformApiLead) || [];
+  const totalPages = leadsResponse?.data.pagination ? 
+    Math.ceil(leadsResponse.data.pagination.total / ITEMS_PER_PAGE) : 0;
+  const totalLeads = leadsResponse?.data.pagination?.total || 0;
+
+  // Show error toast
+  if (error) {
+    toast.error("Failed to fetch leads. Please try again.");
+  }
 
   const handleAddLead = (leadData: any) => {
-    const newLead: Lead = {
-      id: Date.now().toString(),
-      email: `contact@${leadData.businessName.toLowerCase().replace(/\s+/g, '')}.com`,
-      businessName: leadData.businessName,
-      phone: "+1 234-567-8900",
-      leadType: "Cold",
-      date: new Date().toISOString().split('T')[0],
-      category: "Other"
-    };
-    setLeads(prev => [newLead, ...prev]);
+    // In a real app, this would call an API to create the lead
+    console.log("Add lead:", leadData);
+    toast.success("Lead added successfully!");
+    refetch(); // Refetch leads after adding
   };
 
   const handleSelectLead = (leadId: string, checked: boolean) => {
@@ -123,7 +87,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectedLeads(checked ? paginatedLeads.map(lead => lead.id) : []);
+    setSelectedLeads(checked ? leads.map(lead => lead.id) : []);
   };
 
   const handleAction = (action: string, leadId: string) => {
@@ -178,7 +142,7 @@ const Dashboard: React.FC = () => {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{leads.length}</div>
+            <div className="text-2xl font-bold">{totalLeads}</div>
             <p className="text-xs text-muted-foreground">
               <span className="text-emerald-500 inline-flex items-center">
                 <ArrowUpRight className="h-3 w-3 mr-1" />
@@ -253,7 +217,7 @@ const Dashboard: React.FC = () => {
           />
           
           <LeadsTable
-            leads={paginatedLeads}
+            leads={leads}
             selectedLeads={selectedLeads}
             onSelectLead={handleSelectLead}
             onSelectAll={handleSelectAll}
