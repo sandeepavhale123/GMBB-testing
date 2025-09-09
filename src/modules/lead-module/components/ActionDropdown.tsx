@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,13 @@ interface ActionDropdownProps {
 }
 
 export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId }) => {
+  const navigate = useNavigate();
+  
   const handleAction = (action: string) => {
+    if (action === 'gmb-report') {
+      navigate('/module/lead/gmb-health-report');
+      return;
+    }
     onAction(action, leadId);
   };
 

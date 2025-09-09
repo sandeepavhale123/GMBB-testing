@@ -7,6 +7,7 @@ import EmailTemplate from "@/modules/lead-module/pages/EmailTemplate";
 import EmbeddedIframe from "@/modules/lead-module/pages/EmbeddedIframe";
 import Integration from "@/modules/lead-module/pages/Integration";
 import CreditHistory from "@/modules/lead-module/pages/CreditHistory";
+import { GmbHealthReport } from "@/modules/lead-module/public-reports/pages/GmbHealthReport";
 import type { RouteConfig } from "../routeConfig";
 
 export const leadModuleRoutes: RouteConfig[] = [
@@ -43,6 +44,10 @@ export const leadModuleRoutes: RouteConfig[] = [
       {
         path: "credits",
         element: <CreditHistory />,
+      },
+      {
+        path: "gmb-health-report",
+        element: <GmbHealthReport />,
       },
     ],
   },
