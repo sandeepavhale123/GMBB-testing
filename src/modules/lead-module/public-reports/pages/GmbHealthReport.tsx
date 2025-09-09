@@ -9,7 +9,6 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { SocialMediaCards } from "../components/SocialMediaCards";
-
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
   const reportData = {
@@ -27,147 +26,242 @@ export const GmbHealthReport: React.FC = () => {
     listingViews: 15420,
     webClicks: 892,
     phoneClicks: 234,
-    directionRequests: 1560,
+    directionRequests: 1560
   };
-
-  const rankingFactors = [
-    { id: "1", label: "Business Name", status: "good" as const, description: "Complete and accurate" },
-    { id: "2", label: "Address", status: "good" as const, description: "Verified location" },
-    { id: "3", label: "Phone Number", status: "good" as const, description: "Local phone number" },
-    { id: "4", label: "Website", status: "good" as const, description: "Mobile-optimized" },
-    { id: "5", label: "Business Hours", status: "needs-work" as const, description: "Missing holiday hours" },
-    { id: "6", label: "Business Description", status: "good" as const, description: "Complete and keyword-rich" },
-    { id: "7", label: "Business Categories", status: "good" as const, description: "Primary category selected" },
-    { id: "8", label: "Business Attributes", status: "needs-work" as const, description: "Add more attributes" },
-    { id: "9", label: "Photos", status: "good" as const, description: "Regular photo uploads" },
-    { id: "10", label: "Reviews Management", status: "good" as const, description: "Active review responses" },
-  ];
-
-  const photos = [
-    { id: "1", url: "/placeholder.svg", alt: "Restaurant interior", category: "Interior" },
-    { id: "2", url: "/placeholder.svg", alt: "Signature dish", category: "Food" },
-    { id: "3", url: "/placeholder.svg", alt: "Bar area", category: "Interior" },
-    { id: "4", url: "/placeholder.svg", alt: "Outdoor seating", category: "Exterior" },
-    { id: "5", url: "/placeholder.svg", alt: "Chef special", category: "Food" },
-    { id: "6", url: "/placeholder.svg", alt: "Wine selection", category: "Drinks" },
-  ];
-
-  const reviews = [
-    {
-      id: "1",
-      author: "Sarah Johnson",
-      rating: 5,
-      text: "Amazing food and excellent service! The atmosphere is perfect for a romantic dinner.",
-      date: "2 days ago",
-      platform: "Google"
-    },
-    {
-      id: "2", 
-      author: "Mike Chen",
-      rating: 4,
-      text: "Great pasta dishes and friendly staff. Will definitely come back!",
-      date: "1 week ago",
-      platform: "Yelp"
-    },
-    {
-      id: "3",
-      author: "Emily Rodriguez",
-      rating: 5,
-      text: "Best Italian restaurant in the area. The wine selection is outstanding.",
-      date: "2 weeks ago",
-      platform: "Google"
-    },
-  ];
-
-  const competitors = [
-    { rank: 1, businessName: "Bella Vista Restaurant & Bar", rating: 4.9, reviewCount: 847, category: "Italian Restaurant", distance: "0.0 mi" },
-    { rank: 2, businessName: "Mario's Trattoria", rating: 4.7, reviewCount: 623, category: "Italian Restaurant", distance: "0.3 mi" },
-    { rank: 3, businessName: "Giuseppe's Kitchen", rating: 4.6, reviewCount: 456, category: "Italian Restaurant", distance: "0.5 mi" },
-    { rank: 4, businessName: "Nonna's Place", rating: 4.5, reviewCount: 389, category: "Italian Restaurant", distance: "0.7 mi" },
-    { rank: 5, businessName: "Tony's Bistro", rating: 4.4, reviewCount: 234, category: "Italian Restaurant", distance: "0.8 mi" },
-    { rank: 6, businessName: "Casa Italia", rating: 4.3, reviewCount: 567, category: "Italian Restaurant", distance: "1.0 mi" },
-    { rank: 7, businessName: "Villa Romano", rating: 4.2, reviewCount: 345, category: "Italian Restaurant", distance: "1.2 mi" },
-    { rank: 8, businessName: "Pasta Palace", rating: 4.1, reviewCount: 189, category: "Italian Restaurant", distance: "1.3 mi" },
-    { rank: 9, businessName: "Little Italy", rating: 4.0, reviewCount: 267, category: "Italian Restaurant", distance: "1.5 mi" },
-    { rank: 10, businessName: "Roma Restaurant", rating: 3.9, reviewCount: 156, category: "Italian Restaurant", distance: "1.7 mi" },
-  ];
-
-  const businessHours = [
-    { day: "Monday", hours: "11:00 AM - 10:00 PM" },
-    { day: "Tuesday", hours: "11:00 AM - 10:00 PM", isToday: true },
-    { day: "Wednesday", hours: "11:00 AM - 10:00 PM" },
-    { day: "Thursday", hours: "11:00 AM - 10:00 PM" },
-    { day: "Friday", hours: "11:00 AM - 11:00 PM" },
-    { day: "Saturday", hours: "10:00 AM - 11:00 PM" },
-    { day: "Sunday", hours: "10:00 AM - 9:00 PM" },
-  ];
-
-  const socialPlatforms = [
-    { name: "Facebook", connected: true, followers: 2450 },
-    { name: "Instagram", connected: true, followers: 1890 },
-    { name: "Twitter", connected: false },
-    { name: "LinkedIn", connected: false },
-  ];
-
+  const rankingFactors = [{
+    id: "1",
+    label: "Business Name",
+    status: "good" as const,
+    description: "Complete and accurate"
+  }, {
+    id: "2",
+    label: "Address",
+    status: "good" as const,
+    description: "Verified location"
+  }, {
+    id: "3",
+    label: "Phone Number",
+    status: "good" as const,
+    description: "Local phone number"
+  }, {
+    id: "4",
+    label: "Website",
+    status: "good" as const,
+    description: "Mobile-optimized"
+  }, {
+    id: "5",
+    label: "Business Hours",
+    status: "needs-work" as const,
+    description: "Missing holiday hours"
+  }, {
+    id: "6",
+    label: "Business Description",
+    status: "good" as const,
+    description: "Complete and keyword-rich"
+  }, {
+    id: "7",
+    label: "Business Categories",
+    status: "good" as const,
+    description: "Primary category selected"
+  }, {
+    id: "8",
+    label: "Business Attributes",
+    status: "needs-work" as const,
+    description: "Add more attributes"
+  }, {
+    id: "9",
+    label: "Photos",
+    status: "good" as const,
+    description: "Regular photo uploads"
+  }, {
+    id: "10",
+    label: "Reviews Management",
+    status: "good" as const,
+    description: "Active review responses"
+  }];
+  const photos = [{
+    id: "1",
+    url: "/placeholder.svg",
+    alt: "Restaurant interior",
+    category: "Interior"
+  }, {
+    id: "2",
+    url: "/placeholder.svg",
+    alt: "Signature dish",
+    category: "Food"
+  }, {
+    id: "3",
+    url: "/placeholder.svg",
+    alt: "Bar area",
+    category: "Interior"
+  }, {
+    id: "4",
+    url: "/placeholder.svg",
+    alt: "Outdoor seating",
+    category: "Exterior"
+  }, {
+    id: "5",
+    url: "/placeholder.svg",
+    alt: "Chef special",
+    category: "Food"
+  }, {
+    id: "6",
+    url: "/placeholder.svg",
+    alt: "Wine selection",
+    category: "Drinks"
+  }];
+  const reviews = [{
+    id: "1",
+    author: "Sarah Johnson",
+    rating: 5,
+    text: "Amazing food and excellent service! The atmosphere is perfect for a romantic dinner.",
+    date: "2 days ago",
+    platform: "Google"
+  }, {
+    id: "2",
+    author: "Mike Chen",
+    rating: 4,
+    text: "Great pasta dishes and friendly staff. Will definitely come back!",
+    date: "1 week ago",
+    platform: "Yelp"
+  }, {
+    id: "3",
+    author: "Emily Rodriguez",
+    rating: 5,
+    text: "Best Italian restaurant in the area. The wine selection is outstanding.",
+    date: "2 weeks ago",
+    platform: "Google"
+  }];
+  const competitors = [{
+    rank: 1,
+    businessName: "Bella Vista Restaurant & Bar",
+    rating: 4.9,
+    reviewCount: 847,
+    category: "Italian Restaurant",
+    distance: "0.0 mi"
+  }, {
+    rank: 2,
+    businessName: "Mario's Trattoria",
+    rating: 4.7,
+    reviewCount: 623,
+    category: "Italian Restaurant",
+    distance: "0.3 mi"
+  }, {
+    rank: 3,
+    businessName: "Giuseppe's Kitchen",
+    rating: 4.6,
+    reviewCount: 456,
+    category: "Italian Restaurant",
+    distance: "0.5 mi"
+  }, {
+    rank: 4,
+    businessName: "Nonna's Place",
+    rating: 4.5,
+    reviewCount: 389,
+    category: "Italian Restaurant",
+    distance: "0.7 mi"
+  }, {
+    rank: 5,
+    businessName: "Tony's Bistro",
+    rating: 4.4,
+    reviewCount: 234,
+    category: "Italian Restaurant",
+    distance: "0.8 mi"
+  }, {
+    rank: 6,
+    businessName: "Casa Italia",
+    rating: 4.3,
+    reviewCount: 567,
+    category: "Italian Restaurant",
+    distance: "1.0 mi"
+  }, {
+    rank: 7,
+    businessName: "Villa Romano",
+    rating: 4.2,
+    reviewCount: 345,
+    category: "Italian Restaurant",
+    distance: "1.2 mi"
+  }, {
+    rank: 8,
+    businessName: "Pasta Palace",
+    rating: 4.1,
+    reviewCount: 189,
+    category: "Italian Restaurant",
+    distance: "1.3 mi"
+  }, {
+    rank: 9,
+    businessName: "Little Italy",
+    rating: 4.0,
+    reviewCount: 267,
+    category: "Italian Restaurant",
+    distance: "1.5 mi"
+  }, {
+    rank: 10,
+    businessName: "Roma Restaurant",
+    rating: 3.9,
+    reviewCount: 156,
+    category: "Italian Restaurant",
+    distance: "1.7 mi"
+  }];
+  const businessHours = [{
+    day: "Monday",
+    hours: "11:00 AM - 10:00 PM"
+  }, {
+    day: "Tuesday",
+    hours: "11:00 AM - 10:00 PM",
+    isToday: true
+  }, {
+    day: "Wednesday",
+    hours: "11:00 AM - 10:00 PM"
+  }, {
+    day: "Thursday",
+    hours: "11:00 AM - 10:00 PM"
+  }, {
+    day: "Friday",
+    hours: "11:00 AM - 11:00 PM"
+  }, {
+    day: "Saturday",
+    hours: "10:00 AM - 11:00 PM"
+  }, {
+    day: "Sunday",
+    hours: "10:00 AM - 9:00 PM"
+  }];
+  const socialPlatforms = [{
+    name: "Facebook",
+    connected: true,
+    followers: 2450
+  }, {
+    name: "Instagram",
+    connected: true,
+    followers: 1890
+  }, {
+    name: "Twitter",
+    connected: false
+  }, {
+    name: "LinkedIn",
+    connected: false
+  }];
   const brandingData = {
     company_name: "Digital Marketing Solutions",
     company_logo: "",
-    company_website: "www.digitalmarketing.com", 
+    company_website: "www.digitalmarketing.com",
     company_email: "contact@digitalmarketing.com",
     company_phone: "(555) 123-4567",
-    company_address: "456 Business Ave, Marketing City, MC 67890",
+    company_address: "456 Business Ave, Marketing City, MC 67890"
   };
-
-  return (
-    <PublicReportLayout
-      title={reportData.title}
-      listingName={reportData.listingName}
-      address={reportData.address}
-      logo={reportData.logo}
-      date={reportData.date}
-      brandingData={brandingData}
-    >
+  return <PublicReportLayout title={reportData.title} listingName={reportData.listingName} address={reportData.address} logo={reportData.logo} date={reportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
         <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-4xl font-bold mb-2">{reportData.healthScore}%</h2>
-                <p className="text-xl opacity-90">GMB Health Score</p>
-                <p className="opacity-75">Overall listing performance</p>
-              </div>
-              <Heart className="h-16 w-16 opacity-80" />
-            </div>
-          </CardContent>
+          
         </Card>
 
         {/* GMB Lead Score Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <ProgressCard
-            title="Lead Score"
-            value={reportData.leadScore}
-            color="green"
-            icon={<Users className="h-5 w-5" />}
-          />
-          <ProgressCard
-            title="Average Rating"
-            value={reportData.avgRating}
-            subtitle="out of 5.0"
-            color="yellow"
-            icon={<Star className="h-5 w-5" />}
-          />
-          <ProgressCard
-            title="Total Reviews"
-            value={reportData.totalReviews}
-            color="blue"
-          />
-          <ProgressCard
-            title="Response Rate"
-            value={`${reportData.responseRate}%`}
-            percentage={reportData.responseRate}
-            color="green"
-          />
+          <ProgressCard title="Lead Score" value={reportData.leadScore} color="green" icon={<Users className="h-5 w-5" />} />
+          <ProgressCard title="Average Rating" value={reportData.avgRating} subtitle="out of 5.0" color="yellow" icon={<Star className="h-5 w-5" />} />
+          <ProgressCard title="Total Reviews" value={reportData.totalReviews} color="blue" />
+          <ProgressCard title="Response Rate" value={`${reportData.responseRate}%`} percentage={reportData.responseRate} color="green" />
         </div>
 
         {/* Listing Reputation */}
@@ -242,11 +336,7 @@ export const GmbHealthReport: React.FC = () => {
         <SocialMediaCards platforms={socialPlatforms} />
 
         {/* Reviews Section */}
-        <ReviewsSection 
-          reviews={reviews}
-          averageRating={reportData.avgRating}
-          totalReviews={reportData.totalReviews}
-        />
+        <ReviewsSection reviews={reviews} averageRating={reportData.avgRating} totalReviews={reportData.totalReviews} />
 
         {/* Top 10 Competitors */}
         <CompetitorTable competitors={competitors} />
@@ -329,6 +419,5 @@ export const GmbHealthReport: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </PublicReportLayout>
-  );
+    </PublicReportLayout>;
 };
