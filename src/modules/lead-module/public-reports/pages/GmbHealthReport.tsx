@@ -30,55 +30,41 @@ export const GmbHealthReport: React.FC = () => {
     directionRequests: 1560
   };
   const rankingFactors = [{
-    id: "1",
-    label: "Business Name",
-    status: "good" as const,
-    description: "Complete and accurate"
-  }, {
-    id: "2",
-    label: "Address",
-    status: "good" as const,
-    description: "Verified location"
-  }, {
     id: "3",
     label: "Phone Number",
     status: "good" as const,
-    description: "Local phone number"
+    description: "This represents your primary business phone number",
+    icon: "phone"
   }, {
-    id: "4",
-    label: "Website",
+    id: "4", 
+    label: "Business Website",
     status: "good" as const,
-    description: "Mobile-optimized"
+    description: "Having a website for your business enables potential customers to ...",
+    icon: "globe"
   }, {
     id: "5",
     label: "Business Hours",
-    status: "needs-work" as const,
-    description: "Missing holiday hours"
+    status: "good" as const,
+    description: "Provide your regular customer-facing hours of operation.",
+    icon: "clock"
   }, {
     id: "6",
-    label: "Business Description",
+    label: "Business Description", 
     status: "good" as const,
-    description: "Complete and keyword-rich"
+    description: "This represents your primary business phone number",
+    icon: "file-text"
   }, {
     id: "7",
-    label: "Business Categories",
+    label: "Category",
     status: "good" as const,
-    description: "Primary category selected"
-  }, {
-    id: "8",
-    label: "Business Attributes",
-    status: "needs-work" as const,
-    description: "Add more attributes"
+    description: "Categories are used to describe your business.",
+    icon: "tag"
   }, {
     id: "9",
     label: "Photos",
-    status: "good" as const,
-    description: "Regular photo uploads"
-  }, {
-    id: "10",
-    label: "Reviews Management",
-    status: "good" as const,
-    description: "Active review responses"
+    status: "needs-work" as const,
+    description: "Having a website for your business enables potential customers",
+    icon: "camera"
   }];
   const photos = [{
     id: "1",
