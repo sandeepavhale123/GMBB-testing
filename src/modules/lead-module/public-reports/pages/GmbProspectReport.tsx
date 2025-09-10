@@ -18,16 +18,69 @@ export const GmbProspectReport: React.FC = () => {
       potential: 70,
     },
     auditItems: [
-      { id: 1, item: "Business Name", status: "pass", recommendation: "Your business name is properly formatted and matches your actual business name." },
-      { id: 2, item: "Address", status: "pass", recommendation: "Your address is complete and accurate." },
-      { id: 3, item: "Phone Number", status: "fail", recommendation: "Add a local phone number to improve trust and local SEO." },
-      { id: 4, item: "Website URL", status: "pass", recommendation: "Your website URL is properly linked." },
-      { id: 5, item: "Business Category", status: "fail", recommendation: "Select the most accurate primary category for your business." },
-      { id: 6, item: "Business Hours", status: "fail", recommendation: "Update your business hours to reflect current operating times." },
-      { id: 7, item: "Business Description", status: "pass", recommendation: "Your business description is complete and informative." },
-      { id: 8, item: "Photos", status: "fail", recommendation: "Add high-quality photos of your business, products, and services." },
-      { id: 9, item: "Reviews Response", status: "fail", recommendation: "Respond to customer reviews to show engagement." },
-      { id: 10, item: "Posts", status: "fail", recommendation: "Regularly post updates to keep your listing active." },
+      { 
+        id: 1, 
+        item: "Missing Description or Description Less Than 300 Characters", 
+        status: "fail", 
+        whyItMatters: "A detailed description helps customers quickly understand what your business offers and builds trust. Short or missing descriptions can make your profile less engaging.",
+        recommendation: "Write a compelling description of at least 300 characters that highlights your unique offerings, key services, and values."
+      },
+      { 
+        id: 2, 
+        item: "Missing Website", 
+        status: "pass", 
+        whyItMatters: "A website link allows customers to explore your business in greater detail. Without it, potential customers might turn to competitors for more information.",
+        recommendation: "Add a working website link to your GMB profile to boost credibility and drive traffic to your site."
+      },
+      { 
+        id: 3, 
+        item: "Review Count", 
+        status: "pass", 
+        whyItMatters: "Reviews are social proof. Listings with fewer than 10 reviews appear less credible, and customers are more likely to choose competitors with more reviews.",
+        recommendation: "Encourage your satisfied customers to leave reviews. You can send them a direct link to your GMB profile for convenience."
+      },
+      { 
+        id: 4, 
+        item: "Rating Below", 
+        status: "pass", 
+        whyItMatters: "Great GMB A rating of 4 or above is a strong indicator of customer satisfaction.",
+        recommendation: "Continue responding to reviews to show customers that you value their feedback."
+      },
+      { 
+        id: 5, 
+        item: "Additional Categories Not Present or Less Than 5", 
+        status: "fail", 
+        whyItMatters: "Additional categories help Google understand your services and display your business for relevant searches. Missing categories limit your visibility.",
+        recommendation: "Add additional categories that reflect all your services. For example, if you're a plumber, include categories like 'Emergency Plumbing' or 'Water Heater Installation.'"
+      },
+      { 
+        id: 6, 
+        item: "Less Than 5 Photos", 
+        status: "pass", 
+        whyItMatters: "High-quality photos enhance your profile's appeal and help customers visualize your offerings.",
+        recommendation: "Regularly update photos to keep your profile fresh and engaging."
+      },
+      { 
+        id: 7, 
+        item: "Missing Working Hours", 
+        status: "pass", 
+        whyItMatters: "Customers need to know when you're open. Missing hours can lead to lost business and frustrated customers.",
+        recommendation: "Update your business hours, including holiday schedules, to ensure customers always have accurate information."
+      },
+      { 
+        id: 8, 
+        item: "Missing or Fewer Than 5 Attributes", 
+        status: "pass", 
+        whyItMatters: "Customers need to know when you're open. Missing hours can lead to lost business and frustrated customers.",
+        recommendation: "Update your business hours, including holiday schedules, to ensure customers always have accurate information."
+      },
+      { 
+        id: 9, 
+        item: "The logo is present and professional.", 
+        status: "pass", 
+        whyItMatters: "Your logo helps build brand recognition and makes your profile look professional.",
+        recommendation: "Your logo looks great! Ensure it stays consistent across all platforms."
+      },
     ],
     competitors: [
       { name: "Competitor A", score: 85 },
@@ -217,27 +270,57 @@ export const GmbProspectReport: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               {reportData.auditItems.map((item) => (
-                <div key={item.id} className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      {item.status === 'pass' ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
-                      ) : (
-                        <XCircle className="h-5 w-5 text-red-500" />
-                      )}
-                      <span className="font-medium">{item.item}</span>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                <div 
+                  key={item.id} 
+                  className={`border-2 rounded-lg p-6 relative ${
+                    item.status === 'pass' 
+                      ? 'border-green-200 bg-green-50/50' 
+                      : 'border-red-200 bg-red-50/50'
+                  }`}
+                >
+                  {/* Status Badge */}
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-4 py-1 rounded-full text-sm font-semibold ${
                       item.status === 'pass' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-red-600 text-white'
                     }`}>
-                      {item.status === 'pass' ? 'PASS' : 'FAIL'}
+                      {item.status === 'pass' ? 'Passed' : 'Failed'}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-8">
-                    {item.recommendation}
-                  </p>
+
+                  {/* Title */}
+                  <div className="mb-4 pr-20">
+                    <h3 className="text-base font-semibold text-gray-900">
+                      {item.id}. {item.item}
+                    </h3>
+                  </div>
+
+                  {/* Why It Matters */}
+                  <div className="mb-4">
+                    <div className="flex items-start">
+                      <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                      <div>
+                        <span className="text-sm font-semibold text-gray-900">Why It Matters:</span>
+                        <div className="text-sm text-gray-700 mt-1 leading-relaxed">
+                          {item.whyItMatters}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Recommendation */}
+                  <div>
+                    <div className="flex items-start">
+                      <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                      <div>
+                        <span className="text-sm font-semibold text-gray-900">Recommendation:</span>
+                        <div className="text-sm text-gray-700 mt-1 leading-relaxed">
+                          {item.recommendation}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
