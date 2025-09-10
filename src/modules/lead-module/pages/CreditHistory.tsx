@@ -4,23 +4,54 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { History, CreditCard, Download, TrendingUp, TrendingDown } from 'lucide-react';
-
 const CreditHistory: React.FC = () => {
-  const transactions = [
-    { id: 'TXN-001', type: 'Purchase', credits: 1000, cost: '$49.99', date: '2024-01-15', description: 'Monthly credit pack' },
-    { id: 'TXN-002', type: 'Usage', credits: -150, cost: null, date: '2024-01-14', description: 'Lead generation campaign' },
-    { id: 'TXN-003', type: 'Usage', credits: -75, cost: null, date: '2024-01-13', description: 'Email template processing' },
-    { id: 'TXN-004', type: 'Bonus', credits: 100, cost: null, date: '2024-01-12', description: 'Welcome bonus credits' },
-    { id: 'TXN-005', type: 'Usage', credits: -200, cost: null, date: '2024-01-11', description: 'Bulk lead import' },
-    { id: 'TXN-006', type: 'Purchase', credits: 500, cost: '$24.99', date: '2024-01-10', description: 'Starter credit pack' }
-  ];
-
+  const transactions = [{
+    id: 'TXN-001',
+    type: 'Purchase',
+    credits: 1000,
+    cost: '$49.99',
+    date: '2024-01-15',
+    description: 'Monthly credit pack'
+  }, {
+    id: 'TXN-002',
+    type: 'Usage',
+    credits: -150,
+    cost: null,
+    date: '2024-01-14',
+    description: 'Lead generation campaign'
+  }, {
+    id: 'TXN-003',
+    type: 'Usage',
+    credits: -75,
+    cost: null,
+    date: '2024-01-13',
+    description: 'Email template processing'
+  }, {
+    id: 'TXN-004',
+    type: 'Bonus',
+    credits: 100,
+    cost: null,
+    date: '2024-01-12',
+    description: 'Welcome bonus credits'
+  }, {
+    id: 'TXN-005',
+    type: 'Usage',
+    credits: -200,
+    cost: null,
+    date: '2024-01-11',
+    description: 'Bulk lead import'
+  }, {
+    id: 'TXN-006',
+    type: 'Purchase',
+    credits: 500,
+    cost: '$24.99',
+    date: '2024-01-10',
+    description: 'Starter credit pack'
+  }];
   const currentCredits = 1075;
   const creditLimit = 2000;
-  const usagePercentage = ((creditLimit - currentCredits) / creditLimit) * 100;
-
-  return (
-    <div className="space-y-6">
+  const usagePercentage = (creditLimit - currentCredits) / creditLimit * 100;
+  return <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -83,24 +114,7 @@ const CreditHistory: React.FC = () => {
             </div>
             <Progress value={usagePercentage} className="w-full" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div>
-              <p className="text-2xl font-bold text-blue-600">250</p>
-              <p className="text-xs text-muted-foreground">Lead Generation</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-green-600">125</p>
-              <p className="text-xs text-muted-foreground">Email Processing</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-orange-600">30</p>
-              <p className="text-xs text-muted-foreground">API Calls</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-purple-600">20</p>
-              <p className="text-xs text-muted-foreground">Integrations</p>
-            </div>
-          </div>
+          
         </CardContent>
       </Card>
 
@@ -121,17 +135,10 @@ const CreditHistory: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {transactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
+            {transactions.map(transaction => <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
                 <div className="flex items-center space-x-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    transaction.type === 'Purchase' ? 'bg-green-100 text-green-600' :
-                    transaction.type === 'Usage' ? 'bg-red-100 text-red-600' :
-                    'bg-blue-100 text-blue-600'
-                  }`}>
-                    {transaction.type === 'Purchase' ? <TrendingUp className="w-5 h-5" /> :
-                     transaction.type === 'Usage' ? <TrendingDown className="w-5 h-5" /> :
-                     <CreditCard className="w-5 h-5" />}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${transaction.type === 'Purchase' ? 'bg-green-100 text-green-600' : transaction.type === 'Usage' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
+                    {transaction.type === 'Purchase' ? <TrendingUp className="w-5 h-5" /> : transaction.type === 'Usage' ? <TrendingDown className="w-5 h-5" /> : <CreditCard className="w-5 h-5" />}
                   </div>
                   <div>
                     <p className="font-medium">{transaction.description}</p>
@@ -141,32 +148,21 @@ const CreditHistory: React.FC = () => {
                 <div className="text-right">
                   <div className="flex items-center gap-3">
                     <div>
-                      <p className={`font-medium ${
-                        transaction.credits > 0 ? 'text-green-600' : 'text-red-600'
-                      }`}>
+                      <p className={`font-medium ${transaction.credits > 0 ? 'text-green-600' : 'text-red-600'}`}>
                         {transaction.credits > 0 ? '+' : ''}{transaction.credits.toLocaleString()} credits
                       </p>
-                      {transaction.cost && (
-                        <p className="text-sm text-muted-foreground">{transaction.cost}</p>
-                      )}
+                      {transaction.cost && <p className="text-sm text-muted-foreground">{transaction.cost}</p>}
                     </div>
-                    <Badge variant={
-                      transaction.type === 'Purchase' ? 'default' :
-                      transaction.type === 'Usage' ? 'destructive' :
-                      'secondary'
-                    }>
+                    <Badge variant={transaction.type === 'Purchase' ? 'default' : transaction.type === 'Usage' ? 'destructive' : 'secondary'}>
                       {transaction.type}
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">{transaction.date}</p>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default CreditHistory;

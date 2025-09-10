@@ -10,7 +10,6 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
-
 import { PieChart, Pie, Tooltip } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
@@ -38,7 +37,7 @@ export const GmbHealthReport: React.FC = () => {
     description: "This represents your primary business phone number",
     icon: "phone"
   }, {
-    id: "4", 
+    id: "4",
     label: "Business Website",
     status: "good" as const,
     description: "Having a website for your business enables potential customers to ...",
@@ -51,7 +50,7 @@ export const GmbHealthReport: React.FC = () => {
     icon: "clock"
   }, {
     id: "6",
-    label: "Business Description", 
+    label: "Business Description",
     status: "good" as const,
     description: "This represents your primary business phone number",
     icon: "file-text"
@@ -241,9 +240,7 @@ export const GmbHealthReport: React.FC = () => {
   return <PublicReportLayout title={reportData.title} listingName={reportData.listingName} address={reportData.address} logo={reportData.logo} date={reportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
-        <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-          
-        </Card>
+        
 
         {/* GMB Lead Score Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -269,12 +266,10 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Lead Score Detailed Section */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold">GMB Lead Score</CardTitle>
-          </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
+                <h2 className="text-lg font-semibold">GMB Lead Score</h2>
                 <div className="bg-red-50 border border-red-100 rounded-lg p-4">
                   <div className="text-sm text-red-500 font-medium mb-1">GMB Lead Score</div>
                   <div className="text-3xl font-bold text-red-500">45%</div>
@@ -289,34 +284,24 @@ export const GmbHealthReport: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative w-48 h-48">
-                  <PieChart width={192} height={192}>
-                    <Pie
-                      data={[
-                        { name: 'GMB Leads', value: 45, fill: '#ef4444' },
-                        { name: 'Reviews', value: reportData.totalReviews, fill: '#22c55e' },
-                        { name: 'Average Rating', value: Number(reportData.avgRating) * 100, fill: '#3b82f6' }
-                      ]}
-                      cx={96}
-                      cy={96}
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    />
-                    <Tooltip 
-                      formatter={(value, name) => [
-                        name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value,
-                        name
-                      ]}
-                    />
+                <div className="relative w-[250px] h-[250]">
+                  <PieChart width={250} height={250}>
+                    <Pie data={[{
+                    name: 'GMB Leads',
+                    value: 45,
+                    fill: '#ef4444'
+                  }, {
+                    name: 'Reviews',
+                    value: reportData.totalReviews,
+                    fill: '#22c55e'
+                  }, {
+                    name: 'Average Rating',
+                    value: Number(reportData.avgRating) * 100,
+                    fill: '#3b82f6'
+                  }]} cx={96} cy={96} innerRadius={40} outerRadius={80} paddingAngle={5} dataKey="value" />
+                    <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-lg font-bold">Lead Score</div>
-                      <div className="text-sm text-muted-foreground">Distribution</div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -329,22 +314,17 @@ export const GmbHealthReport: React.FC = () => {
             <CardTitle>Listing Reputation</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <p className="text-sm text-muted-foreground mb-6">
+              Google reviews are important because they provide potential customers with insights and feedback from other customers, which can influence their decision to use your business. They also improve your visibility and search ranking on Google.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
               <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">{reportData.listingViews}</div>
-                <div className="text-sm text-muted-foreground">Listing Views</div>
+                <div className="text-2xl font-bold text-green-600">{reportData.totalReviews}</div>
+                <div className="text-sm text-muted-foreground">Review Count</div>
               </div>
               <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-green-600">{reportData.webClicks}</div>
-                <div className="text-sm text-muted-foreground">Website Clicks</div>
-              </div>
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{reportData.phoneClicks}</div>
-                <div className="text-sm text-muted-foreground">Phone Calls</div>
-              </div>
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">{reportData.directionRequests}</div>
-                <div className="text-sm text-muted-foreground">Direction Requests</div>
+                <div className="text-2xl font-bold text-blue-600">{reportData.avgRating}</div>
+                <div className="text-sm text-muted-foreground">GMB Average Rating</div>
               </div>
             </div>
           </CardContent>
@@ -404,23 +384,19 @@ export const GmbHealthReport: React.FC = () => {
         <RankingFactorsGrid factors={rankingFactors} />
 
         {/* Posts On GMB */}
-        <PostsOnGMB posts={[
-          {
-            id: "1",
-            image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          },
-          {
-            id: "2", 
-            image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          },
-          {
-            id: "3",
-            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop", 
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          }
-        ]} />
+        <PostsOnGMB posts={[{
+        id: "1",
+        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }, {
+        id: "2",
+        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }, {
+        id: "3",
+        image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }]} />
 
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={reportData.totalPhotos} />

@@ -61,15 +61,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
   const isAllSelected = leads.length > 0 && selectedLeads.length === leads.length;
   const isIndeterminate = selectedLeads.length > 0 && selectedLeads.length < leads.length;
 
-  const getReportTypeBadge = (type: string) => {
-    const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-      "Google Suggest": "destructive",
-      "Citation": "secondary", 
-      "GMB Report": "outline",
-    };
-    return <Badge variant={variants[type] || "default"}>{type}</Badge>;
-  };
-
   const formatDate = (dateString: string) => {
     try {
       // Parse MM/dd/yyyy format from API
@@ -97,7 +88,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               <TableHead>Email</TableHead>
               <TableHead>Business Name</TableHead>
               <TableHead>Phone</TableHead>
-              <TableHead>Report Type</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Category</TableHead>
               <TableHead className="w-16">Actions</TableHead>
@@ -110,7 +100,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                 <TableCell><div className="h-4 w-32 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-24 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-20 bg-muted rounded animate-pulse" /></TableCell>
-                <TableCell><div className="h-6 w-12 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-4 w-16 bg-muted rounded animate-pulse" /></TableCell>
                 <TableCell><div className="h-8 w-8 bg-muted rounded animate-pulse" /></TableCell>
@@ -138,7 +127,6 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
             <TableHead>Email</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Phone</TableHead>
-            <TableHead>Report Type</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Category</TableHead>
             <TableHead className="w-16">Actions</TableHead>
@@ -147,7 +135,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
         <TableBody>
           {leads.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                 No leads found. Add your first lead to get started.
               </TableCell>
             </TableRow>
@@ -166,9 +154,8 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                 <TableCell className="font-medium">{lead.email || 'N/A'}</TableCell>
                 <TableCell>{lead.businessName}</TableCell>
                 <TableCell>{lead.phone}</TableCell>
-                <TableCell>{getReportTypeBadge(lead.reportTypeLabel)}</TableCell>
                 <TableCell>
-                  {formatDate(lead.date)}
+                  {lead.date}
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
