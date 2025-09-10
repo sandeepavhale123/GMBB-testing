@@ -211,8 +211,8 @@ export const GmbProspectReport: React.FC = () => {
                         {reportData.auditItems.filter(item => item.status === 'pass').length}
                       </span>
                     </div>
-                  </div>
-                </div> */}
+                  </div> */}
+                </div>
               </CardContent>
             </Card>
           </div>
