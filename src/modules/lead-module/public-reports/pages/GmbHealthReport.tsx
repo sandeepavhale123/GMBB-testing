@@ -266,11 +266,9 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Lead Score Detailed Section */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold">GMB Lead Score</CardTitle>
-          </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+               <h2 className="text-lg font-semibold">GMB Lead Score</h2>
               <div className="space-y-4">
                 <div className="bg-red-50 border border-red-100 rounded-lg p-4">
                   <div className="text-sm text-red-500 font-medium mb-1">GMB Lead Score</div>
