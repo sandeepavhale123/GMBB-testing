@@ -10,7 +10,6 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
-
 import { PieChart, Pie, Tooltip } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
@@ -38,7 +37,7 @@ export const GmbHealthReport: React.FC = () => {
     description: "This represents your primary business phone number",
     icon: "phone"
   }, {
-    id: "4", 
+    id: "4",
     label: "Business Website",
     status: "good" as const,
     description: "Having a website for your business enables potential customers to ...",
@@ -51,7 +50,7 @@ export const GmbHealthReport: React.FC = () => {
     icon: "clock"
   }, {
     id: "6",
-    label: "Business Description", 
+    label: "Business Description",
     status: "good" as const,
     description: "This represents your primary business phone number",
     icon: "file-text"
@@ -241,9 +240,7 @@ export const GmbHealthReport: React.FC = () => {
   return <PublicReportLayout title={reportData.title} listingName={reportData.listingName} address={reportData.address} logo={reportData.logo} date={reportData.date} brandingData={brandingData}>
       <div className="space-y-6">
         {/* Main Health Score - Large Display */}
-        <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-          
-        </Card>
+        
 
         {/* GMB Lead Score Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -291,25 +288,20 @@ export const GmbHealthReport: React.FC = () => {
               <div className="flex items-center justify-center">
                 <div className="relative w-48 h-48">
                   <PieChart width={192} height={192}>
-                    <Pie
-                      data={[
-                        { name: 'GMB Leads', value: 45, fill: '#ef4444' },
-                        { name: 'Reviews', value: reportData.totalReviews, fill: '#22c55e' },
-                        { name: 'Average Rating', value: Number(reportData.avgRating) * 100, fill: '#3b82f6' }
-                      ]}
-                      cx={96}
-                      cy={96}
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    />
-                    <Tooltip 
-                      formatter={(value, name) => [
-                        name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value,
-                        name
-                      ]}
-                    />
+                    <Pie data={[{
+                    name: 'GMB Leads',
+                    value: 45,
+                    fill: '#ef4444'
+                  }, {
+                    name: 'Reviews',
+                    value: reportData.totalReviews,
+                    fill: '#22c55e'
+                  }, {
+                    name: 'Average Rating',
+                    value: Number(reportData.avgRating) * 100,
+                    fill: '#3b82f6'
+                  }]} cx={96} cy={96} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" />
+                    <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
@@ -404,23 +396,19 @@ export const GmbHealthReport: React.FC = () => {
         <RankingFactorsGrid factors={rankingFactors} />
 
         {/* Posts On GMB */}
-        <PostsOnGMB posts={[
-          {
-            id: "1",
-            image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          },
-          {
-            id: "2", 
-            image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          },
-          {
-            id: "3",
-            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop", 
-            description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
-          }
-        ]} />
+        <PostsOnGMB posts={[{
+        id: "1",
+        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }, {
+        id: "2",
+        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }, {
+        id: "3",
+        image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop",
+        description: "Come out the this customers home and upgraded some plumbing fixtures around their home!"
+      }]} />
 
         {/* Route to GMB - Photo Gallery */}
         <PhotoGallery photos={photos} totalCount={reportData.totalPhotos} />
