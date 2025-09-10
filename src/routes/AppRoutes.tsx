@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthInitializer } from "@/store/slices/auth/AuthInitializer";
 import { useAxiosAuth } from "@/hooks/useAxiosAuth";
 import { routeConfigs, RouteConfig } from "./routeConfig";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Recursive function to render routes with children
 const renderRoutes = (routes: RouteConfig[]) => {
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
     <>
       {/* Kick off auth refresh if refresh token exists */}
       <AuthInitializer />
+      <ScrollToTop />
       <Routes>
         {renderRoutes(routeConfigs)}
       </Routes>
