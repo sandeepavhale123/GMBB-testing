@@ -103,11 +103,16 @@ export const GmbProspectReport: React.FC = () => {
       { platform: "Bing Places", status: "unclaimed", url: "" },
     ],
     advancedSuggestions: [
-      { priority: "high", suggestion: "Optimize your Google My Business category selection for better visibility" },
-      { priority: "high", suggestion: "Add regular posts and updates to your GMB profile" },
-      { priority: "medium", suggestion: "Respond to all customer reviews to improve engagement" },
-      { priority: "medium", suggestion: "Upload high-quality photos of your business and services" },
-      { priority: "low", suggestion: "Claim your Yelp and Bing Places listings" },
+      { number: 1, suggestion: "Use question and Answer (Q&A)", impact: "High Impact" },
+      { number: 2, suggestion: "Add a virtual Tour", impact: "High Impact" },
+      { number: 3, suggestion: "Highlight Special Features with Posts", impact: "High Impact" },
+      { number: 4, suggestion: "Use Call Tracking", impact: "Moderate Impact" },
+      { number: 5, suggestion: "Optimize for Voice Search", impact: "Moderate Impact" },
+      { number: 6, suggestion: "Add Service Areas", impact: "High Impact" },
+      { number: 7, suggestion: "Use Google Posts to Announce Offers", impact: "High Impact" },
+      { number: 8, suggestion: "Use Emoji in Posts", impact: "Moderate Impact" },
+      { number: 9, suggestion: "Integrate Booking Options", impact: "Moderate Impact" },
+      { number: 10, suggestion: "Share Customer Stories", impact: "Moderate Impact" },
     ],
   };
 
@@ -470,20 +475,35 @@ export const GmbProspectReport: React.FC = () => {
         {/* Advanced Suggestions */}
         <Card>
           <CardHeader>
-            <CardTitle>Advanced Suggestions</CardTitle>
+            <CardTitle>Advanced Suggestion Beyond Current Checks</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="overflow-hidden border rounded-lg">
+              {/* Table Header */}
+              <div className="grid grid-cols-12 bg-gray-50 border-b font-semibold text-gray-900">
+                <div className="col-span-1 p-4 text-center">#</div>
+                <div className="col-span-8 p-4">Suggestion</div>
+                <div className="col-span-3 p-4 text-center">Impact Level</div>
+              </div>
+              
+              {/* Table Rows */}
               {reportData.advancedSuggestions.map((suggestion, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 border rounded-lg">
-                  <div className={`px-2 py-1 rounded text-xs font-semibold ${
-                    suggestion.priority === 'high' ? 'bg-red-100 text-red-800' :
-                    suggestion.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-green-100 text-green-800'
-                  }`}>
-                    {suggestion.priority.toUpperCase()}
+                <div key={index} className={`grid grid-cols-12 border-b last:border-b-0 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                  <div className="col-span-1 p-4 text-center font-medium text-gray-900">
+                    {suggestion.number}
                   </div>
-                  <p className="text-sm flex-1">{suggestion.suggestion}</p>
+                  <div className="col-span-8 p-4 text-gray-800">
+                    {suggestion.suggestion}
+                  </div>
+                  <div className="col-span-3 p-4 text-center">
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      suggestion.impact === 'High Impact'
+                        ? 'bg-red-200 text-red-800'
+                        : 'bg-yellow-200 text-yellow-800'
+                    }`}>
+                      {suggestion.impact}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
