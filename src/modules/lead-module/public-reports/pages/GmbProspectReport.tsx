@@ -216,7 +216,7 @@ export const GmbProspectReport: React.FC = () => {
             </div>
 
             {/* Right side - Pie Chart */}
-            <Card className="bg-white">
+            <Card className="bg-white border-none ">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center">
                   <div className="w-64 h-64">
