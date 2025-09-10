@@ -256,7 +256,7 @@ export function GeoRankingReportForm({
       console.log("response for found", response);
       if (response.code === 200 && response.data) {
         const business: BusinessLocationLite = {
-          name: response.data.business_name,
+          name: response.data.bname,
           latitude: response.data.lat,
           longitude: response.data.long,
           type: 3,
