@@ -1,12 +1,22 @@
-
-import React from 'react';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { DateRangePicker } from '../ui/date-range-picker';
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { Search, X, RefreshCw } from 'lucide-react';
-import { DateRange } from 'react-day-picker';
+import React from "react";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { DateRangePicker } from "../ui/date-range-picker";
+import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Search, X, RefreshCw } from "lucide-react";
+import { DateRange } from "react-day-picker";
 
 interface ReviewsFiltersProps {
   searchQuery: string;
@@ -39,20 +49,20 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
   onSortChange,
   onDateRangeChange,
   onClearDateRange,
-  onRefresh
+  onRefresh,
 }) => {
   return (
     <div className="flex flex-wrap items-center gap-3 mt-4">
       <div className="relative flex-1 min-w-[200px]">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-        <Input 
-          placeholder="Search reviews..." 
-          value={searchQuery} 
+        <Input
+          placeholder="Search reviews..."
+          value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10" 
+          className="pl-10"
         />
       </div>
-      
+
       <Select value={filter} onValueChange={onFilterChange}>
         <SelectTrigger className="w-[140px]">
           <SelectValue placeholder="All Reviews" />
@@ -85,7 +95,6 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
           <SelectItem value="oldest">Oldest First</SelectItem>
           <SelectItem value="rating-low">Highest Rating</SelectItem>
           <SelectItem value="rating-high">Lowest Rating</SelectItem>
-          
         </SelectContent>
       </Select>
 
@@ -93,9 +102,9 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
         date={localDateRange}
         onDateChange={onDateRangeChange}
         placeholder="Select date range"
-        className="w-[200px]"
+        className="w-[200px] max-w-[200]"
       />
-      
+
       <div className="flex items-center gap-2">
         {hasDateRange && (
           <Button
@@ -107,7 +116,7 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
             <X className="w-4 h-4" />
           </Button>
         )}
-        
+
         {onRefresh && (
           <TooltipProvider>
             <Tooltip>
@@ -118,12 +127,17 @@ export const ReviewsFilters: React.FC<ReviewsFiltersProps> = ({
                   disabled={isRefreshing}
                   aria-label="Refresh reviews"
                 >
-                  <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                  <RefreshCw
+                    className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+                  />
                   <span className="ml-2">Refresh</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>This button will refresh your review page to get the latest reviews from google</p>
+                <p>
+                  This button will refresh your review page to get the latest
+                  reviews from google
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
