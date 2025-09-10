@@ -2,7 +2,11 @@ import React from 'react';
 import { useAppSelector } from '@/hooks/useRedux';
 import { useThemeLogo } from '@/hooks/useThemeLogo';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  projectName?: string;
+}
+
+export const Header: React.FC<HeaderProps> = ({ projectName }) => {
   const theme = useAppSelector(state => state.theme);
   const logoData = useThemeLogo();
 
@@ -27,9 +31,13 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Right section - Minimal for public view */}
+        {/* Right section - Project Name */}
         <div className="flex items-center space-x-3">
-          <span className="text-sm text-white/80">Public Report</span>
+          {projectName ? (
+            <span className="text-sm text-white font-medium">Project Name : {projectName}</span>
+          ) : (
+            <span className="text-sm text-white/80">Public Report</span>
+          )}
         </div>
       </div>
     </header>
