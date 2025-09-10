@@ -17,14 +17,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Info, RotateCcw, MapPin, RefreshCw } from "lucide-react";
 import { useGetMapApiKey } from "@/hooks/useIntegration";
 import { toast } from "@/hooks/use-toast";
@@ -37,7 +29,6 @@ import {
   getProjectLists,
 } from "@/api/businessSearchApi";
 import { BusinessLocationLite, ProjectLite } from "@/types/business";
-import { useNavigate } from "react-router-dom";
 interface GeoRankingFormData {
   searchBusinessType: string;
   searchBusiness: string;
@@ -92,10 +83,6 @@ export function GeoRankingReportForm({
 }: GeoRankingReportFormProps) {
   const { data: mapApiKeyData } = useGetMapApiKey();
   const keywordsValidation = useFormValidation(keywordsSchema);
-  const navigate = useNavigate();
-
-  // Alert dialog state
-  const [showKeywordAlert, setShowKeywordAlert] = useState(false);
 
   // Business search state
   const [searchMethod, setSearchMethod] = useState<
@@ -330,27 +317,6 @@ export function GeoRankingReportForm({
     };
     fetchProjects();
   }, []);
-
-  // Handle Add Keywords button click - show alert dialog first
-  const handleAddKeywordsClick = () => {
-    setShowKeywordAlert(true);
-  };
-
-  // Handle navigation from alert dialog
-  const handleGoToGeoRankingPage = () => {
-    // Close the alert dialog
-    setShowKeywordAlert(false);
-    
-    // Call the original add keywords function if it exists
-    if (onAddKeywordsSubmit) {
-      onAddKeywordsSubmit({} as React.FormEvent);
-    }
-    
-    // Navigate to the GEO ranking page
-    // Using selectedProject id if available, otherwise fallback to 1108
-    const projectId = selectedProject?.id || "1108";
-    navigate(`/geo-ranking/view-project-details/${projectId}?keyword=56295&id=56295`);
-  };
 
   // Debouncing for CID and Map URL searches
   useEffect(() => {
@@ -792,7 +758,7 @@ export function GeoRankingReportForm({
               disabled={
                 submittingRank || pollingKeyword || !isKeywordCountValid
               }
-              onClick={onAddKeywordsSubmit ? handleAddKeywordsClick : undefined}
+              onClick={onAddKeywordsSubmit ? onAddKeywordsSubmit : undefined}
             >
               {pollingKeyword
                 ? "Processing keyword..."
@@ -826,24 +792,6 @@ export function GeoRankingReportForm({
           )}
         </form>
       </CardContent>
-
-      {/* Alert Dialog for Keywords Processing */}
-      <AlertDialog open={showKeywordAlert} onOpenChange={setShowKeywordAlert}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Keywords Being Processed</AlertDialogTitle>
-            <AlertDialogDescription>
-              Your keywords are being processed and will be available shortly. 
-              Click the button below to navigate to the GEO Ranking page where you can view the progress.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <div className="flex justify-end gap-2">
-            <AlertDialogAction onClick={handleGoToGeoRankingPage}>
-              Go to GEO Ranking Page
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
     </Card>
   );
 }
