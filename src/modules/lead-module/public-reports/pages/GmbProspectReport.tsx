@@ -82,11 +82,19 @@ export const GmbProspectReport: React.FC = () => {
         recommendation: "Your logo looks great! Ensure it stays consistent across all platforms."
       },
     ],
-    competitors: [
-      { name: "Competitor A", score: 85 },
-      { name: "Competitor B", score: 78 },
-      { name: "Competitor C", score: 92 },
-      { name: "Your Business", score: 30 },
+    competitorData: [
+      { name: "Webmarts Software Solution", avgRating: 4.1, reviewCount: 10 },
+      { name: "Redbytes Software", avgRating: 4.7, reviewCount: 23 },
+      { name: "Websar IT Solutions", avgRating: 5.0, reviewCount: 61 },
+      { name: "Web Square IT Solutions", avgRating: 4.3, reviewCount: 10 },
+      { name: "WebNTT Technologies", avgRating: 5.0, reviewCount: 7 },
+    ],
+    citationData: [
+      { rank: "YOU", name: "Webmarts Software Solution", citations: 14 },
+      { rank: "2", name: "Redbytes Software", citations: 18 },
+      { rank: "3", name: "Websar IT Solutions", citations: 13 },
+      { rank: "4", name: "Web Square IT Solutions", citations: 26 },
+      { rank: "5", name: "WebNTT Technologies", citations: 20 },
     ],
     businessListings: [
       { platform: "Google My Business", status: "claimed", url: "google.com/business" },
@@ -333,28 +341,97 @@ export const GmbProspectReport: React.FC = () => {
             <CardTitle>Competitor Analysis</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={reportData.competitors}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="score" radius={[4, 4, 0, 0]}>
-                    {reportData.competitors.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.name === 'Your Business' ? '#ef4444' : '#3b82f6'} 
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            {/* Top Section - Performance Summary */}
+            <div className="mb-6 p-6 border-2 border-green-200 bg-green-50/50 rounded-lg relative">
+              <div className="absolute top-4 right-4">
+                <span className="px-4 py-1 rounded-full text-sm font-semibold bg-green-600 text-white">
+                  Passed
+                </span>
+              </div>
+              
+              <h3 className="text-base font-semibold text-gray-900 mb-4 pr-20">
+                The listing outperforms or matches its competitors in key areas
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-start">
+                  <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900">Why It Matters:</span>
+                    <div className="text-sm text-gray-700 mt-1">
+                      standing out among competitors increase the chance of attraction more customer
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <span className="text-sm font-semibold text-gray-900 mr-1">•</span>
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900">Recommendation:</span>
+                    <div className="text-sm text-gray-700 mt-1">
+                      standing out among competitors increase the chance of attraction more customer
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
-                <strong>Analysis:</strong> Your business is currently scoring below competitors. 
-                Focus on the failed items above to improve your competitive position.
-              </p>
+
+            {/* Chart Section */}
+            <div className="mb-6 p-4 border rounded-lg">
+              <h4 className="text-lg font-semibold text-center mb-4">Competitor Analysis</h4>
+              
+              <div className="flex justify-center items-center gap-6 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                  <span className="text-sm text-gray-700">Avg. Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                  <span className="text-sm text-gray-700">Review Count</span>
+                </div>
+              </div>
+
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={reportData.competitorData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <XAxis 
+                      dataKey="name" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={100}
+                      interval={0}
+                      fontSize={12}
+                    />
+                    <YAxis yAxisId="rating" domain={[0, 5]} />
+                    <YAxis yAxisId="reviews" orientation="right" domain={[0, 100]} />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        name === 'avgRating' ? `${value}/5.0` : value,
+                        name === 'avgRating' ? 'Avg. Rating' : 'Review Count'
+                      ]}
+                    />
+                    <Bar yAxisId="rating" dataKey="avgRating" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="reviews" dataKey="reviewCount" fill="#f97316" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Citation Table */}
+            <div className="border rounded-lg overflow-hidden">
+              <div className="bg-green-200 grid grid-cols-3 font-semibold text-gray-900">
+                <div className="p-3 text-center">#</div>
+                <div className="p-3">Business Name</div>
+                <div className="p-3 text-center">No. Local Citation</div>
+              </div>
+              
+              {reportData.citationData.map((item, index) => (
+                <div key={index} className={`grid grid-cols-3 border-t ${item.rank === 'YOU' ? 'bg-gray-100' : 'bg-white'}`}>
+                  <div className="p-3 text-center font-medium text-gray-900">{item.rank}</div>
+                  <div className="p-3 text-gray-800">{item.name}</div>
+                  <div className="p-3 text-center text-gray-900">{item.citations}</div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
