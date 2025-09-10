@@ -1,12 +1,11 @@
-
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
+import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
 
 const TeamPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -39,9 +38,11 @@ const TeamPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
@@ -58,14 +59,16 @@ const TeamPage = () => {
             <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
               <div className="space-y-6">
                 <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">Team Management</h2>
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">
+                    Team Management
+                  </h2>
                   <p className="text-gray-600">This section is coming soon.</p>
                 </div>
               </div>
             </main>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </div>
       </ThemeProvider>
     </Provider>

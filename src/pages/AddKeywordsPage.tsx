@@ -1,18 +1,18 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { AddKeywordsPage as AddKeywords } from '../components/Keywords/AddKeywordsPage';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
-import { NoListingSelected } from '../components/ui/no-listing-selected';
-import { useListingContext } from '../context/ListingContext';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useToast } from '../hooks/use-toast';
-import { addSearchKeyword } from '../api/geoRankingApi';
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { AddKeywordsPage as AddKeywords } from "../components/Keywords/AddKeywordsPage";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
+import { NoListingSelected } from "../components/ui/no-listing-selected";
+import { useListingContext } from "../context/ListingContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/use-toast";
+import { addSearchKeyword } from "../api/geoRankingApi";
 
 const AddKeywordsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -39,22 +39,24 @@ const AddKeywordsPage = () => {
         keywords,
         language: settings.language,
         distanceValue: settings.distanceValue,
-        gridSize: settings.gridSize
+        gridSize: settings.gridSize,
       });
 
       if (response.code === 200) {
         toast({
           title: "Keywords Added",
-          description: response.message || `Successfully added ${keywords.length} keyword(s) to queue.`,
+          description:
+            response.message ||
+            `Successfully added ${keywords.length} keyword(s) to queue.`,
         });
 
         // Navigate to keywords page
         navigate(`/keywords/${selectedListing.id}`);
       } else {
-        throw new Error(response.message || 'Failed to add keywords');
+        throw new Error(response.message || "Failed to add keywords");
       }
     } catch (error) {
-      console.error('Error adding keywords:', error);
+      console.error("Error adding keywords:", error);
       toast({
         title: "Error",
         description: "Failed to add keywords. Please try again.",
@@ -78,7 +80,9 @@ const AddKeywordsPage = () => {
                   activeTab="keywords"
                   onTabChange={() => {}}
                   collapsed={false}
-                  onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  onToggleCollapse={() =>
+                    setSidebarCollapsed(!sidebarCollapsed)
+                  }
                 />
               </SheetContent>
             </Sheet>
@@ -94,9 +98,11 @@ const AddKeywordsPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-            }`}>
+            <div
+              className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+                sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+              }`}
+            >
               {/* Header */}
               <Header
                 onToggleSidebar={() => {
@@ -115,7 +121,7 @@ const AddKeywordsPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            {/* <Toaster /> */}
           </div>
         </ThemeProvider>
       </Provider>
@@ -149,9 +155,11 @@ const AddKeywordsPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
@@ -166,11 +174,14 @@ const AddKeywordsPage = () => {
 
             {/* Page Content */}
             <main className="flex-1 overflow-auto">
-              <AddKeywords onAddKeywords={handleAddKeywords} isLoading={isAddingKeywords} />
+              <AddKeywords
+                onAddKeywords={handleAddKeywords}
+                isLoading={isAddingKeywords}
+              />
             </main>
           </div>
         </div>
-        <Toaster />
+        {/* <Toaster /> */}
       </ThemeProvider>
     </Provider>
   );

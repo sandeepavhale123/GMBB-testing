@@ -87,7 +87,7 @@ const ReportsPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            {/* <Toaster /> */}
           </div>
         </ThemeProvider>
       </Provider>
@@ -144,7 +144,7 @@ const ReportsPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </div>
       </ThemeProvider>
     </Provider>

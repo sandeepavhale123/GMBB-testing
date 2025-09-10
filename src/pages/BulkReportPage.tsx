@@ -1,16 +1,15 @@
-
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { ReportsPage as ReportsComponent } from '../components/Reports/ReportsPage';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
-import { NoListingSelected } from '../components/ui/no-listing-selected';
-import { useListingContext } from '../context/ListingContext';
-import { Reports } from '@/multiDashboardLayout/pages/Reports';
+import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { ReportsPage as ReportsComponent } from "../components/Reports/ReportsPage";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
+import { NoListingSelected } from "../components/ui/no-listing-selected";
+import { useListingContext } from "../context/ListingContext";
+import { Reports } from "@/multiDashboardLayout/pages/Reports";
 
 const BulkReportPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -30,7 +29,9 @@ const BulkReportPage = () => {
                   activeTab="reports"
                   onTabChange={() => {}}
                   collapsed={false}
-                  onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  onToggleCollapse={() =>
+                    setSidebarCollapsed(!sidebarCollapsed)
+                  }
                 />
               </SheetContent>
             </Sheet>
@@ -46,9 +47,11 @@ const BulkReportPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-            }`}>
+            <div
+              className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+                sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+              }`}
+            >
               {/* Header */}
               <Header
                 onToggleSidebar={() => {
@@ -67,7 +70,7 @@ const BulkReportPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            {/* <Toaster /> */}
           </div>
         </ThemeProvider>
       </Provider>
@@ -101,9 +104,11 @@ const BulkReportPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
@@ -123,7 +128,7 @@ const BulkReportPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </div>
       </ThemeProvider>
     </Provider>
