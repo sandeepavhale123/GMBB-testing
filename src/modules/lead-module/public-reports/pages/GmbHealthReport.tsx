@@ -321,22 +321,14 @@ export const GmbHealthReport: React.FC = () => {
             <CardTitle>Listing Reputation</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">{reportData.listingViews}</div>
-                <div className="text-sm text-muted-foreground">Listing Views</div>
+                <div className="text-2xl font-bold text-green-600">{reportData.totalReviews}</div>
+                <div className="text-sm text-muted-foreground">Review Count</div>
               </div>
               <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-green-600">{reportData.webClicks}</div>
-                <div className="text-sm text-muted-foreground">Website Clicks</div>
-              </div>
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{reportData.phoneClicks}</div>
-                <div className="text-sm text-muted-foreground">Phone Calls</div>
-              </div>
-              <div className="text-center p-4 border rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">{reportData.directionRequests}</div>
-                <div className="text-sm text-muted-foreground">Direction Requests</div>
+                <div className="text-2xl font-bold text-blue-600">{reportData.avgRating}</div>
+                <div className="text-sm text-muted-foreground">GMB Average Rating</div>
               </div>
             </div>
           </CardContent>
