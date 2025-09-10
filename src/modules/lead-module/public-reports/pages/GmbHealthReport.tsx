@@ -286,22 +286,26 @@ export const GmbHealthReport: React.FC = () => {
               <div className="flex items-center justify-center">
                 <div className="relative w-48 h-48">
                   <PieChart width={192} height={192}>
-                    <Pie data={[{
-                    name: 'GMB Leads',
-                    value: 45,
-                    fill: '#ef4444'
-                  }, {
-                    name: 'Reviews',
-                    value: reportData.totalReviews,
-                    fill: '#22c55e'
-                  }, {
-                    name: 'Average Rating',
-                    value: Number(reportData.avgRating) * 100,
-                    fill: '#3b82f6'
-                  }]} cx={96} cy={96} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" />
-                    <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
+                    <Pie 
+                      data={[
+                        { name: 'Score', value: 45, fill: '#22c55e' },
+                        { name: 'Remaining', value: 55, fill: '#ef4444' }
+                      ]} 
+                      cx={96} 
+                      cy={96} 
+                      innerRadius={60} 
+                      outerRadius={80} 
+                      dataKey="value"
+                      startAngle={90}
+                      endAngle={450}
+                    />
                   </PieChart>
-                  
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600 font-medium">Current Score:</div>
+                      <div className="text-xl font-bold text-gray-900">45%</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
