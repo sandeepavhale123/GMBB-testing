@@ -441,33 +441,6 @@ export const GmbProspectReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Business Listings */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Business Listings Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {reportData.businessListings.map((listing, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <span className="font-medium">{listing.platform}</span>
-                    {listing.url && (
-                      <div className="text-xs text-muted-foreground">{listing.url}</div>
-                    )}
-                  </div>
-                  <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                    listing.status === 'claimed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {listing.status.toUpperCase()}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
         {/* CTA Section */}
         <CTASection />
