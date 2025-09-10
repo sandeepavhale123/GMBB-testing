@@ -504,25 +504,11 @@ export const Gallery: React.FC<GalleryProps> = ({
     console.log("we are inside validate file and max size is", maxSize);
 
     if (!allowedTypes.includes(file.type)) {
-      toast({
-        title: "Invalid File Type",
-        description:
-          "Only JPG, PNG, WebP, GIF, MP4, MOV, and AVI files are allowed.",
-        variant: "error",
-      });
       return false;
     }
 
     if (file.size > maxSize) {
       console.log("inside test size");
-      toast({
-        title: "File Too Large",
-        description: `File size must be less than 10MB. Your file is ${(
-          file.size /
-          (1024 * 1024)
-        ).toFixed(1)}MB.`,
-        variant: "error",
-      });
       return false;
     }
 
