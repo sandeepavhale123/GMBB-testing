@@ -89,66 +89,132 @@ export const GmbProspectReport: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* GMB Report Score */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              GMB Report Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="flex flex-col items-center">
-                <div className="w-64 h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={120}
-                        paddingAngle={2}
-                        dataKey="value"
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="text-center mt-4">
-                  <div className="text-3xl font-bold">{reportData.gmbScore.current}%</div>
-                  <div className="text-sm text-muted-foreground">Current Score</div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-red-500 rounded"></div>
-                  <span>Current Score: {reportData.gmbScore.current}%</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-green-500 rounded"></div>
-                  <span>Potential Score: {reportData.gmbScore.current + reportData.gmbScore.potential}%</span>
-                </div>
-                <div className="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-                  <div className="flex items-start gap-2">
-                    <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+        {/* Your GMB Report at a Glance */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-900">
+            Your GMB Report at a Glance
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left side - Test Results */}
+            <div className="space-y-4">
+              {/* Failed Tests Card */}
+              <Card className="bg-red-100 border-red-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-yellow-800">Improvement Opportunity</h4>
-                      <p className="text-sm text-yellow-700 mt-1">
-                        Your GMB profile has significant room for improvement. By addressing the issues 
-                        identified below, you could potentially increase your score by {reportData.gmbScore.potential} points.
+                      <h3 className="text-lg font-semibold text-red-900 mb-1">
+                        Failed Tests
+                      </h3>
+                      <p className="text-sm text-red-700">
+                        Areas that need attention
                       </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-red-900">
+                        {reportData.auditItems.filter(item => item.status === 'fail').length}
+                      </div>
+                      <div className="text-sm text-red-700">
+                        {Math.round((reportData.auditItems.filter(item => item.status === 'fail').length / reportData.auditItems.length) * 100)}%
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Passed Tests Card */}
+              <Card className="bg-green-100 border-green-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-green-900 mb-1">
+                        Passed Tests
+                      </h3>
+                      <p className="text-sm text-green-700">
+                        Areas performing well
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-green-900">
+                        {reportData.auditItems.filter(item => item.status === 'pass').length}
+                      </div>
+                      <div className="text-sm text-green-700">
+                        {Math.round((reportData.auditItems.filter(item => item.status === 'pass').length / reportData.auditItems.length) * 100)}%
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right side - Pie Chart */}
+            <Card className="bg-white">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center">
+                  <div className="w-64 h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={120}
+                          paddingAngle={2}
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value, name) => [`${value}%`, name]}
+                          labelStyle={{ color: '#374151' }}
+                          contentStyle={{
+                            backgroundColor: 'white',
+                            border: '1px solid #e5e7eb',
+                            borderRadius: '6px',
+                            fontSize: '14px'
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="text-center mt-4">
+                    <div className="text-3xl font-bold text-gray-900">
+                      {reportData.gmbScore.current}%
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Current GMB Score
+                    </div>
+                  </div>
+                  
+                  {/* Legend */}
+                  <div className="mt-6 space-y-2 w-full">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-500 rounded"></div>
+                        <span className="text-sm text-gray-700">Failed Tests</span>
+                      </div>
+                      <span className="text-sm font-semibold text-gray-900">
+                        {reportData.auditItems.filter(item => item.status === 'fail').length}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-500 rounded"></div>
+                        <span className="text-sm text-gray-700">Passed Tests</span>
+                      </div>
+                      <span className="text-sm font-semibold text-gray-900">
+                        {reportData.auditItems.filter(item => item.status === 'pass').length}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* Detailed Breakdown */}
         <Card>
