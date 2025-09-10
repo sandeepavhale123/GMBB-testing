@@ -250,11 +250,18 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
    if (isPolling && keywords.length === 0 ) {
     return (
       <div className="mx-auto  min-h-screen">
-        <Card className="bg-white shadow-sm">
+        {/* <Card className="bg-white shadow-sm">
           <CardContent className="p-4 sm:p-6 text-center">
               <h1>Keywords Being Processed</h1>
           </CardContent>
-        </Card>
+        </Card> */}
+        <ProcessingKeywordsAlert
+            keywords={processingKeywords}
+            progress={pollingProgress}
+            isPolling={refreshPollingActive || isPolling}
+            submittedKeywords={submittedKeywordsList}
+            isNewSubmission={isProcessing}
+          />
       </div>
     );
   }
