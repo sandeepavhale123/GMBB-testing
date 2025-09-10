@@ -91,16 +91,18 @@ export const GmbProspectReport: React.FC = () => {
 
         {/* Your GMB Report at a Glance */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-900">
-            Your GMB Report at a Glance
-          </h2>
+          
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left side - Test Results */}
             <div className="space-y-4">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-900">
+                Your GMB Report at a Glance
+              </h2>
               {/* Failed Tests Card */}
               <Card className="bg-red-100 border-red-200">
                 <CardContent className="p-6">
+                  
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-lg font-semibold text-red-900 mb-1">
@@ -190,7 +192,7 @@ export const GmbProspectReport: React.FC = () => {
                   </div>
                   
                   {/* Legend */}
-                  <div className="mt-6 space-y-2 w-full">
+                  {/* <div className="mt-6 space-y-2 w-full">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-red-500 rounded"></div>
@@ -210,7 +212,7 @@ export const GmbProspectReport: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </div>
