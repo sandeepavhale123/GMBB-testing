@@ -7,6 +7,7 @@ import { PostsPage } from "../components/Posts/PostsPage";
 import { MediaPage } from "../components/Media/MediaPage";
 import GalleryPage from "./GalleryPage";
 import { InsightsPage } from "../components/Insights/InsightsPage";
+import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
 import { Button } from "../components/ui/button";
 import { Menu } from "lucide-react";
@@ -179,7 +180,7 @@ const Index = () => {
           </main>
         </div>
 
-        
+        <Toaster />
       </div>
     </ThemeProvider>
   );

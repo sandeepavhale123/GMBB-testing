@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
+import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { Health } from "../components/Health/Health";
 
@@ -58,7 +59,7 @@ const HealthPage = () => {
             <Health />
           </main>
         </div>
-        
+        <Toaster />
       </div>
     </ThemeProvider>
   );

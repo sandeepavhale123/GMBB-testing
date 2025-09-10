@@ -5,6 +5,7 @@ import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
+import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { QAManagementPage } from '../components/QA/QAManagementPage';
 import { NoListingSelected } from '../components/ui/no-listing-selected';
@@ -65,6 +66,7 @@ const QAPage = () => {
               </main>
             </div>
 
+            <Toaster />
           </div>
         </ThemeProvider>
       </Provider>
@@ -119,7 +121,7 @@ const QAPage = () => {
             </main>
           </div>
 
-          
+          <Toaster />
         </div>
       </ThemeProvider>
     </Provider>

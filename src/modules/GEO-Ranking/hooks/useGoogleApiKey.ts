@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { toast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { getMapApiKey, updateApiKey, deleteApiKey } from '@/api/geoRankingApi';
 import type { GoogleApiKeyData } from '../types';
 
@@ -60,10 +60,10 @@ export const useGoogleApiKey = () => {
     mutationFn: saveApiKey,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['google-api-key'] });
-      toast({ title: 'Google Places API key saved successfully' });
+      toast.success('Google Places API key saved successfully');
     },
     onError: (error: Error) => {
-      toast({ title: error.message || 'Failed to save API key', variant: 'destructive' });
+      toast.error(error.message || 'Failed to save API key');
     },
   });
 
@@ -71,10 +71,10 @@ export const useGoogleApiKey = () => {
     mutationFn: removeApiKey,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['google-api-key'] });
-      toast({ title: 'Google Places API key deleted successfully' });
+      toast.success('Google Places API key deleted successfully');
     },
     onError: (error: Error) => {
-      toast({ title: error.message || 'Failed to delete API key', variant: 'destructive' });
+      toast.error(error.message || 'Failed to delete API key');
     },
   });
 
