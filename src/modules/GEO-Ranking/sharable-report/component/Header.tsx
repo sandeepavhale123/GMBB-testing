@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ projectName }) => {
         {/* Right section - Project Name */}
         <div className="flex items-center space-x-3">
           {projectName ? (
-            <span className="text-sm text-white font-medium">{projectName}</span>
+            <span className="text-sm text-white font-medium">Project Name : {projectName}</span>
           ) : (
             <span className="text-sm text-white/80">Public Report</span>
           )}
