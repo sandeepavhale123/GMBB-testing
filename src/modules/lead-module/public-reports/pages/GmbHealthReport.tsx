@@ -314,6 +314,9 @@ export const GmbHealthReport: React.FC = () => {
             <CardTitle>Listing Reputation</CardTitle>
           </CardHeader>
           <CardContent>
+            <p className="text-sm text-muted-foreground mb-6">
+              Google reviews are important because they provide potential customers with insights and feedback from other customers, which can influence their decision to use your business. They also improve your visibility and search ranking on Google.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
               <div className="text-center p-4 border rounded-lg">
                 <div className="text-2xl font-bold text-green-600">{reportData.totalReviews}</div>
