@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
-import { Copy, ExternalLink, Check } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState } from "react";
+import { Copy, ExternalLink, Check } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface CopyUrlModalProps {
   open: boolean;
@@ -17,19 +22,19 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
   reportUrl,
 }) => {
   const [copied, setCopied] = useState(false);
-
+  const pathname = location.pathname;
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(reportUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
   const handleOpenInNewTab = () => {
-    window.open(reportUrl, '_blank');
+    window.open(reportUrl, "_blank");
   };
 
   const handleClose = () => {
@@ -78,9 +83,7 @@ export const CopyUrlModal: React.FC<CopyUrlModalProps> = ({
               <ExternalLink className="w-4 h-4" />
               Open in New Tab
             </Button>
-            <Button onClick={handleClose}>
-              Done
-            </Button>
+            <Button onClick={handleClose}>Done</Button>
           </div>
         </div>
       </DialogContent>
