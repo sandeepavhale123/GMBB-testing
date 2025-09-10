@@ -1,4 +1,3 @@
-
 import { AppProviders } from "@/providers/AppProviders";
 import { ToastProviders } from "@/providers/ToastProviders";
 import { AppRoutes } from "@/routes/AppRoutes";
