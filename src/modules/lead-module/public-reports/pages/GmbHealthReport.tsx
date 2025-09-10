@@ -314,7 +314,7 @@ export const GmbHealthReport: React.FC = () => {
             <CardTitle>Listing Reputation</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
               <div className="text-center p-4 border rounded-lg">
                 <div className="text-2xl font-bold text-green-600">{reportData.totalReviews}</div>
                 <div className="text-sm text-muted-foreground">Review Count</div>
