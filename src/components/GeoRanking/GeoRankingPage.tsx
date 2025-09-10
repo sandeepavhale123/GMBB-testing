@@ -247,14 +247,29 @@ export const GeoRankingPage: React.FC<GeoRankingPageProps> = ({
     return <ListingLoader isLoading={true} children={null} />;
   }
 
+   if (isPolling && keywords.length === 0 ) {
+    return (
+      <div className="mx-auto  min-h-screen">
+        <Card className="bg-white shadow-sm">
+          <CardContent className="p-4 sm:p-6 text-center">
+              <h1>Keywords Being Processed</h1>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Show empty state when no keywords exist
-  if (keywords.length === 0 && !keywordsLoading) {
+  if (keywords.length === 0 && !keywordsLoading && !isPolling) {
     return (
       <div className="mx-auto bg-gray-50 min-h-screen">
         <GeoRankingEmptyState onCheckRank={handleCheckRank} credits={credits} />
       </div>
     );
   }
+
+ 
+
 
   const selectedKeywordData = keywords.find((k) => k.id === selectedKeyword);
   const projectDetails = keywordDetails?.projectDetails;
