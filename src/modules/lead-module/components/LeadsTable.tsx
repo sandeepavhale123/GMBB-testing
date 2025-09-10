@@ -155,7 +155,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                 <TableCell>{lead.businessName}</TableCell>
                 <TableCell>{lead.phone}</TableCell>
                 <TableCell>
-                  {formatDate(lead.date)}
+                  {lead.date}
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
