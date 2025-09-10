@@ -298,7 +298,7 @@ export const GmbHealthReport: React.FC = () => {
                     name: 'Average Rating',
                     value: Number(reportData.avgRating) * 100,
                     fill: '#3b82f6'
-                  }]} cx={96} cy={96} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" />
+                  }]} cx={96} cy={96} innerRadius={30} outerRadius={80} paddingAngle={5} dataKey="value" />
                     <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
                   
