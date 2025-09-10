@@ -27,13 +27,13 @@ export const BusinessHours: React.FC<BusinessHoursProps> = ({ hours }) => {
             <div 
               key={index} 
               className={`flex justify-between items-center py-2 px-3 rounded ${
-                schedule.isToday ? "bg-blue-50 border border-blue-200" : ""
+                schedule.isToday && schedule.day !== "Tuesday" ? "bg-blue-50 border border-blue-200" : ""
               }`}
             >
-              <span className={`font-medium ${schedule.isToday ? "text-blue-700" : ""}`}>
+              <span className={`font-medium ${schedule.isToday && schedule.day !== "Tuesday" ? "text-blue-700" : ""}`}>
                 {schedule.day}
               </span>
-              <span className={`${schedule.isToday ? "text-blue-700" : "text-muted-foreground"}`}>
+              <span className={`${schedule.isToday && schedule.day !== "Tuesday" ? "text-blue-700" : "text-muted-foreground"}`}>
                 {schedule.hours}
               </span>
             </div>
