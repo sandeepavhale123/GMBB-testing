@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { toast } from '@/hooks/use-toast';
 import { parse, format } from 'date-fns';
 import type { GeoProject, DashboardSummary, PaginationInfo, GeoProjectsRequest, ApiProject, CreateGeoProjectRequest, UpdateGeoProjectRequest, DeleteGeoProjectRequest } from '../types';
 import { getGeoOverview, getGeoProjects, createGeoProject, updateGeoProject, deleteGeoProject } from '@/api/geoRankingApi';
@@ -163,11 +163,11 @@ export const useGeoProjects = (enabled: boolean = true) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
-      toast.success('Project created successfully');
+      toast({ title: 'Project created successfully' });
     },
     onError: (error: any) => {
       console.error('Create project error:', error);
-      toast.error('Failed to create project');
+      toast({ title: 'Failed to create project', variant: 'destructive' });
     },
   });
 
@@ -176,11 +176,11 @@ export const useGeoProjects = (enabled: boolean = true) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
-      toast.success('Project updated successfully');
+      toast({ title: 'Project updated successfully' });
     },
     onError: (error: any) => {
       console.error('Update project error:', error);
-      toast.error('Failed to update project');
+      toast({ title: 'Failed to update project', variant: 'destructive' });
     },
   });
 
@@ -189,11 +189,11 @@ export const useGeoProjects = (enabled: boolean = true) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['geo-projects'] });
       queryClient.invalidateQueries({ queryKey: ['geo-dashboard-summary'] });
-      toast.success('Project and all related data deleted successfully');
+      toast({ title: 'Project and all related data deleted successfully' });
     },
     onError: (error: any) => {
       console.error('Delete project error:', error);
-      toast.error('Failed to delete project');
+      toast({ title: 'Failed to delete project', variant: 'destructive' });
     },
   });
 
