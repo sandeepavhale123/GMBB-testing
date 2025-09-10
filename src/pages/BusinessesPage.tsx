@@ -6,7 +6,6 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { BusinessManagement } from '../components/BusinessManagement/BusinessManagement';
-import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { ListingProvider } from '../context/ListingContext';
 
@@ -63,7 +62,7 @@ const BusinessesPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            
           </div>
         </ListingProvider>
       </ThemeProvider>

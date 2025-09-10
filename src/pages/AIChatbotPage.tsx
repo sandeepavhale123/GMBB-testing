@@ -6,7 +6,6 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { AIChatbotContent } from '../components/AIChatbot/AIChatbotContent';
-import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
 const AIChatbotPage = () => {
@@ -67,7 +66,7 @@ const AIChatbotPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          
         </div>
       </ThemeProvider>
     </Provider>

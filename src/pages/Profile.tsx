@@ -5,7 +5,6 @@ import { Header } from "../components/Header/Header";
 import { ProfileHeader } from "../components/Profile/ProfileHeader";
 import { EditProfileForm } from "../components/Profile/EditProfileForm";
 import { ChangePasswordModal } from "../components/Profile/ChangePasswordModal";
-import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { useListingContext } from "@/context/ListingContext";
 import { useParams } from "react-router-dom";
@@ -113,7 +112,7 @@ const Profile = () => {
           />
         )}
 
-        <Toaster />
+        
       </div>
     </ThemeProvider>
   );

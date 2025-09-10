@@ -5,7 +5,6 @@ import { store } from '../store/store';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
-import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 
 const AnalyticsPage = () => {
@@ -65,7 +64,7 @@ const AnalyticsPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          
         </div>
       </ThemeProvider>
     </Provider>

@@ -5,7 +5,6 @@ import { ThemeProvider } from "../components/ThemeProvider";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header/Header";
 import { ReportsPage as ReportsComponent } from "../components/Reports/ReportsPage";
-import { Toaster } from "../components/ui/toaster";
 import { Sheet, SheetContent } from "../components/ui/sheet";
 import { NoListingSelected } from "../components/ui/no-listing-selected";
 import { useListingContext } from "../context/ListingContext";
@@ -87,7 +86,6 @@ const ReportsPage = () => {
               </main>
             </div>
 
-            <Toaster />
           </div>
         </ThemeProvider>
       </Provider>
@@ -144,7 +142,7 @@ const ReportsPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          
         </div>
       </ThemeProvider>
     </Provider>

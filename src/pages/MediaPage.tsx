@@ -7,7 +7,6 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { MediaPage as Media } from '../components/Media/MediaPage';
 import { MediaErrorBoundary } from '../components/Media/MediaErrorBoundary';
-import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { NoListingSelected } from '../components/ui/no-listing-selected';
 import { useListingContext } from '../context/ListingContext';
@@ -67,7 +66,6 @@ const MediaPage = () => {
               </main>
             </div>
 
-            <Toaster />
           </div>
         </ThemeProvider>
       </Provider>
@@ -124,7 +122,7 @@ const MediaPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          
         </div>
       </ThemeProvider>
     </Provider>

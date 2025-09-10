@@ -6,7 +6,6 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header/Header';
 import { GeoRankingPage as GeoRanking } from '../components/GeoRanking/GeoRankingPage';
-import { Toaster } from '../components/ui/toaster';
 import { Sheet, SheetContent } from '../components/ui/sheet';
 import { NoListingSelected } from '../components/ui/no-listing-selected';
 import { useListingContext } from '../context/ListingContext';
@@ -66,7 +65,6 @@ const GeoRankingPage = () => {
               </main>
             </div>
 
-            <Toaster />
           </div>
         </ThemeProvider>
       </Provider>
@@ -121,7 +119,7 @@ const GeoRankingPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          
         </div>
       </ThemeProvider>
     </Provider>
