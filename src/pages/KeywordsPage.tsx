@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { KeywordsPage as Keywords } from '../components/Keywords/KeywordsPage';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
-import { NoListingSelected } from '../components/ui/no-listing-selected';
-import { useListingContext } from '../context/ListingContext';
+import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { KeywordsPage as Keywords } from "../components/Keywords/KeywordsPage";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
+import { NoListingSelected } from "../components/ui/no-listing-selected";
+import { useListingContext } from "../context/ListingContext";
 
 const KeywordsPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -28,7 +28,9 @@ const KeywordsPage = () => {
                   activeTab="keywords"
                   onTabChange={() => {}}
                   collapsed={false}
-                  onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  onToggleCollapse={() =>
+                    setSidebarCollapsed(!sidebarCollapsed)
+                  }
                 />
               </SheetContent>
             </Sheet>
@@ -44,9 +46,11 @@ const KeywordsPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-            }`}>
+            <div
+              className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+                sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+              }`}
+            >
               {/* Header */}
               <Header
                 onToggleSidebar={() => {
@@ -65,7 +69,7 @@ const KeywordsPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            {/* <Toaster /> */}
           </div>
         </ThemeProvider>
       </Provider>
@@ -99,9 +103,11 @@ const KeywordsPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
@@ -120,7 +126,7 @@ const KeywordsPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </div>
       </ThemeProvider>
     </Provider>

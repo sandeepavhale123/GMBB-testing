@@ -4,7 +4,11 @@ import { Header } from './Header';
 import { MainBody } from './MainBody';
 import { ShareableGeoRankingPage } from './GeoRankingPage';
 
-export const ShareableGeoRankingLayout: React.FC = () => {
+interface ShareableGeoRankingLayoutProps {
+  projectName?: string;
+}
+
+export const ShareableGeoRankingLayout: React.FC<ShareableGeoRankingLayoutProps> = ({ projectName }) => {
   const theme = useAppSelector(state => state.theme);
 
   return (
@@ -12,7 +16,7 @@ export const ShareableGeoRankingLayout: React.FC = () => {
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: theme.bg_color || 'hsl(var(--background))' }}
     >
-      <Header />
+      <Header projectName={projectName} />
       <MainBody>
         <ShareableGeoRankingPage />
       </MainBody>

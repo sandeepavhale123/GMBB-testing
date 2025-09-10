@@ -59,7 +59,7 @@ const HealthPage = () => {
             <Health />
           </main>
         </div>
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </ThemeProvider>
   );

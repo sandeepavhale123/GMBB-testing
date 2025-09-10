@@ -140,101 +140,142 @@ const weekDays = [
   },
 ];
 
-const weekOptions = [{
-  value: "first",
-  label: "First Week"
-}, {
-  value: "second",
-  label: "Second Week"
-}, {
-  value: "third",
-  label: "Third Week"
-}, {
-  value: "fourth",
-  label: "Fourth Week"
-}, {
-  value: "last",
-  label: "Last Week"
-}];
-const generateBulkReportSchema = z.object({
-  projectName: z.string().min(1, "Project name is required."),
-  selectedListings: z.array(z.string()).min(1, "Select at least one location."),
-  reportSections: z.array(z.string()).min(1, "Select at least one report type."),
-  scheduleType: z.enum(["one-time", "weekly", "monthly"]),
-  frequency: z.string().optional(),
-  emailWeek: z.string().optional(),
-  emailDay: z.string().optional(),
-  fromDate: z.date().optional(),
-  toDate: z.date().optional(),
-  deliveryFormat: z.array(z.enum(["csv", "pdf", "html"])).min(1, "Select at least one delivery format."),
-  emailTo: z.string().min(1, "Email recipient is required.").refine(
-    (value) => {
-      const emails = value.split(',').map(email => email.trim());
-      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    },
-    { message: "Please enter valid email addresses separated by commas." }
-  ),
-  emailCc: z.string().optional().refine(
-    (value) => {
-      if (!value || value.trim() === '') return true;
-      const emails = value.split(',').map(email => email.trim());
-      return emails.every(email => email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    },
-    { message: "Please enter valid email addresses separated by commas." }
-  ),
-  emailBcc: z.string().optional(),
-  emailSubject: z.string().min(1, "Email subject is required."),
-  emailMessage: z.string().min(1, "Email message is required.")
-}).superRefine((data, ctx) => {
-  // Individual field validation based on schedule type
-  if (data.scheduleType === "one-time") {
-    if (!data.fromDate) {
+const weekOptions = [
+  {
+    value: "first",
+    label: "First Week",
+  },
+  {
+    value: "second",
+    label: "Second Week",
+  },
+  {
+    value: "third",
+    label: "Third Week",
+  },
+  {
+    value: "fourth",
+    label: "Fourth Week",
+  },
+  {
+    value: "last",
+    label: "Last Week",
+  },
+];
+const generateBulkReportSchema = z
+  .object({
+    projectName: z.string().min(1, "Project name is required."),
+    selectedListings: z
+      .array(z.string())
+      .min(1, "Select at least one location."),
+    reportSections: z
+      .array(z.string())
+      .min(1, "Select at least one report type."),
+    scheduleType: z.enum(["one-time", "weekly", "monthly"]),
+    frequency: z.string().optional(),
+    emailWeek: z.string().optional(),
+    emailDay: z.string().optional(),
+    fromDate: z.date().optional(),
+    toDate: z.date().optional(),
+    deliveryFormat: z
+      .array(z.enum(["csv", "pdf", "html"]))
+      .min(1, "Select at least one delivery format."),
+    emailTo: z
+      .string()
+      .min(1, "Email recipient is required.")
+      .refine(
+        (value) => {
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+    emailCc: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value || value.trim() === "") return true;
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+    emailBcc: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value || value.trim() === "") return true;
+          const emails = value.split(",").map((email) => email.trim());
+          return emails.every(
+            (email) =>
+              email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          );
+        },
+        { message: "Please enter valid email addresses separated by commas." }
+      ),
+    emailSubject: z.string().min(1, "Email subject is required."),
+    emailMessage: z.string().min(1, "Email message is required."),
+  })
+  .superRefine((data, ctx) => {
+    // Individual field validation based on schedule type
+    if (data.scheduleType === "one-time") {
+      if (!data.fromDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Start date is required for one-time reports.",
+          path: ["fromDate"],
+        });
+      }
+      if (!data.toDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "End date is required for one-time reports.",
+          path: ["toDate"],
+        });
+      }
+    }
+
+    if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
+      if (!data.frequency) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Frequency is required for recurring reports.",
+          path: ["frequency"],
+        });
+      }
+      if (!data.emailDay) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Email day is required for recurring reports.",
+          path: ["emailDay"],
+        });
+      }
+    }
+
+    if (data.scheduleType === "monthly" && !data.emailWeek) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Start date is required for one-time reports.",
-        path: ["fromDate"]
+        message: "Email week is required for monthly reports.",
+        path: ["emailWeek"],
       });
     }
-    if (!data.toDate) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "End date is required for one-time reports.",
-        path: ["toDate"]
-      });
-    }
-  }
-  
-  if (data.scheduleType === "weekly" || data.scheduleType === "monthly") {
-    if (!data.frequency) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Frequency is required for recurring reports.",
-        path: ["frequency"]
-      });
-    }
-    if (!data.emailDay) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Email day is required for recurring reports.",
-        path: ["emailDay"]
-      });
-    }
-  }
-  
-  if (data.scheduleType === "monthly" && !data.emailWeek) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Email week is required for monthly reports.",
-      path: ["emailWeek"]
-    });
-  }
-});
+  });
 type GenerateBulkReportProps = {
   isSingleListingDashboard?: boolean; // make it optional
 };
 
 type GenerateBulkReportForm = z.infer<typeof generateBulkReportSchema>;
-export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({ isSingleListingDashboard = false, }) => {
+export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({
+  isSingleListingDashboard = false,
+}) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -545,16 +586,13 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({ isSingle
       });
 
       // Invalidate bulk reports query to refresh the reports table
-      queryClient.invalidateQueries({ queryKey: ['bulk-reports'] });
-      
-       const redirectPath = isSingleListingDashboard
-    ? "/bulk-reports"
-    : "/main-dashboard/reports";
+      queryClient.invalidateQueries({ queryKey: ["bulk-reports"] });
 
-  navigate(redirectPath);
+      const redirectPath = isSingleListingDashboard
+        ? "/bulk-reports"
+        : "/main-dashboard/reports";
 
-     
-
+      navigate(redirectPath);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -590,8 +628,12 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({ isSingle
       {/* Header */}
       <div className="flex items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Generate Bulk Report  </h1>
-          <p className="text-muted-foreground">Create and schedule automated reports for multiple locations.</p>
+          <h1 className="text-2xl font-bold text-foreground">
+            Generate Bulk Report{" "}
+          </h1>
+          <p className="text-muted-foreground">
+            Create and schedule automated reports for multiple locations.
+          </p>
         </div>
       </div>
 
@@ -1228,4 +1270,3 @@ export const GenerateBulkReport: React.FC<GenerateBulkReportProps> = ({ isSingle
     </div>
   );
 };
-

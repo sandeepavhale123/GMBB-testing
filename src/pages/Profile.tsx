@@ -113,7 +113,7 @@ const Profile = () => {
           />
         )}
 
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </ThemeProvider>
   );

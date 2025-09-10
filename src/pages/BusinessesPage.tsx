@@ -1,14 +1,13 @@
-
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { BusinessManagement } from '../components/BusinessManagement/BusinessManagement';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
-import { ListingProvider } from '../context/ListingContext';
+import React, { useState } from "react";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { BusinessManagement } from "../components/BusinessManagement/BusinessManagement";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
+import { ListingProvider } from "../context/ListingContext";
 
 const BusinessesPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -26,7 +25,9 @@ const BusinessesPage = () => {
                   activeTab="business-info"
                   onTabChange={() => {}}
                   collapsed={false}
-                  onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  onToggleCollapse={() =>
+                    setSidebarCollapsed(!sidebarCollapsed)
+                  }
                 />
               </SheetContent>
             </Sheet>
@@ -42,9 +43,11 @@ const BusinessesPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-              sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-            }`}>
+            <div
+              className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+                sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+              }`}
+            >
               {/* Header */}
               <Header
                 onToggleSidebar={() => {
@@ -63,7 +66,7 @@ const BusinessesPage = () => {
               </main>
             </div>
 
-            <Toaster />
+            {/* <Toaster /> */}
           </div>
         </ListingProvider>
       </ThemeProvider>

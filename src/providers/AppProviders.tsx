@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { store } from "@/store/store";
 import { MediaProvider } from "@/context/MediaContext";
+import { ToastProvider } from "@radix-ui/react-toast";
 
 const queryClient = new QueryClient();
 
@@ -17,9 +18,11 @@ export const AppProviders = ({ children }: AppProvidersProps) => (
     <Provider store={store}>
       <ThemeProvider>
         <TooltipProvider>
-          <BrowserRouter>
-            <MediaProvider>{children}</MediaProvider>
-          </BrowserRouter>
+          <ToastProvider>
+            <BrowserRouter>
+              <MediaProvider>{children}</MediaProvider>
+            </BrowserRouter>
+          </ToastProvider>
         </TooltipProvider>
       </ThemeProvider>
     </Provider>

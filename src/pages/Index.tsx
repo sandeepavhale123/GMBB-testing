@@ -180,7 +180,7 @@ const Index = () => {
           </main>
         </div>
 
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </ThemeProvider>
   );

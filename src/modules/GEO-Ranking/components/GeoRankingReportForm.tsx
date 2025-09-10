@@ -188,10 +188,6 @@ export function GeoRankingReportForm({
   const handlePlaceSelect = (business: BusinessLocationLite) => {
     setSelectedBusiness(business);
     onBusinessSelect?.(business);
-    toast({
-      title: "Business Selected",
-      description: `Selected: ${business.name}`,
-    });
   };
   const parseLatLong = (
     latlong: string
@@ -222,10 +218,6 @@ export function GeoRankingReportForm({
         };
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
-        toast({
-          title: "Business Found",
-          description: `Found: ${business.name}`,
-        });
       } else {
         toast({
           title: "Business Not Found",
@@ -256,7 +248,7 @@ export function GeoRankingReportForm({
       console.log("response for found", response);
       if (response.code === 200 && response.data) {
         const business: BusinessLocationLite = {
-          name: response.data.business_name,
+          name: response.data.bname,
           latitude: response.data.lat,
           longitude: response.data.long,
           type: 3,
@@ -264,10 +256,6 @@ export function GeoRankingReportForm({
         };
         setSelectedBusiness(business);
         onBusinessSelect?.(business);
-        toast({
-          title: "Business Found",
-          description: `Found: ${business.name}`,
-        });
       } else {
         toast({
           title: "Business Not Found",
@@ -290,12 +278,6 @@ export function GeoRankingReportForm({
     const project = projects.find((p) => p.id === projectId) || null;
     setSelectedProject(project);
     onProjectSelect?.(project);
-    if (project) {
-      toast({
-        title: "Project Selected",
-        description: `Selected: ${project.project_name}`,
-      });
-    }
   };
   const handleBusinessReset = () => {
     setSelectedBusiness(null);

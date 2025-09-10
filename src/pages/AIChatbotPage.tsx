@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { Sidebar } from '../components/Sidebar';
-import { Header } from '../components/Header/Header';
-import { AIChatbotContent } from '../components/AIChatbot/AIChatbotContent';
-import { Toaster } from '../components/ui/toaster';
-import { Sheet, SheetContent } from '../components/ui/sheet';
+import React, { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header/Header";
+import { AIChatbotContent } from "../components/AIChatbot/AIChatbotContent";
+import { Toaster } from "../components/ui/toaster";
+import { Sheet, SheetContent } from "../components/ui/sheet";
 
 const AIChatbotPage = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { listingId } = useParams();
   const [searchParams] = useSearchParams();
-  
+
   // Extract keyword information from URL parameters
-  const keyword = searchParams.get('keyword') || '';
-  const keywordId = searchParams.get('keywordId') || '';
+  const keyword = searchParams.get("keyword") || "";
+  const keywordId = searchParams.get("keywordId") || "";
 
   return (
     <Provider store={store}>
@@ -46,9 +46,11 @@ const AIChatbotPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          }`}>
+          <div
+            className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+              sidebarCollapsed ? "md:ml-16" : "md:ml-64"
+            }`}
+          >
             {/* Header */}
             <Header
               onToggleSidebar={() => {
@@ -67,7 +69,7 @@ const AIChatbotPage = () => {
             </main>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </div>
       </ThemeProvider>
     </Provider>

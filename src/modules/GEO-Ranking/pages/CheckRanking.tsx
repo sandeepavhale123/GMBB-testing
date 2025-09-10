@@ -100,6 +100,7 @@ export function CheckRanking() {
 
     try {
       const result = await submitAddKeywords(selectedBusiness, selectedProject);
+      console.log("result of add keyword", result);
       if (result.success) {
         // If multiple keywords were added, navigate to project details
         if (result.keywordCount >= 1) {

@@ -347,9 +347,9 @@ export const CustomNotificationsTab: React.FC = () => {
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">
+                {/* <label className="text-sm font-medium mb-2 block">
                   Select Listings/Groups
-                </label>
+                </label> */}
                 <BulkReplyListingSelector
                   selectedListings={formData.selectedListings}
                   onListingsChange={(selected) =>

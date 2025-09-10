@@ -11,11 +11,6 @@ import { useProfile } from "@/hooks/useProfile";
 import { FaComments, FaQuestion } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 
-declare global {
-  interface Window {
-    $crisp: any;
-  }
-}
 export const Header: React.FC = () => {
   const logoData = useThemeLogo();
   const theme = useAppSelector((state) => state.theme);
@@ -27,70 +22,36 @@ export const Header: React.FC = () => {
       ? "https://old.gmbbriefcase.com/login"
       : "https://old.gmbbriefcase.com/login";
   };
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [open, setOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
-  // const { profileData } = useProfile();
   const isAdmin = profileData?.role?.toLowerCase() === "admin";
 
-  useEffect(() => {
-    if (!isAdmin) return;
-    // Handle new message from Crisp
-    const onMessageReceived = () => {
-      setUnreadCount((c) => c + 1);
-    };
-
-    // Handle chat opened (clear unread count)
-    const onChatOpened = () => {
-      setUnreadCount(0);
-      window.$crisp?.push(["do", "message:read"]); // tell Crisp to clear unread
-    };
-
-    // Register events
-    window.$crisp?.push(["on", "message:received", onMessageReceived]);
-    window.$crisp?.push(["on", "chat:opened", onChatOpened]);
-
-    // Initialize unread count when dashboard loads
-    try {
-      const initial = window.$crisp?.get?.("chat:unread:count") ?? 0;
-      setUnreadCount(initial);
-    } catch {
-      // Crisp not ready yet
+  React.useEffect(() => {
+    if (isAdmin) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = "https://client.crisp.chat/l.js";
+      document.head.appendChild(script);
+      (window as any).$crisp = [];
+      (window as any).CRISP_WEBSITE_ID = "0a5a5d0b-5517-45e0-be41-6bbe43d41696";
+      (window as any).CRISP_READY_TRIGGER = function () {
+        const visitorEmail = (window as any).$crisp?.get("user:email");
+        if (!visitorEmail) {
+          (window as any).$crisp.push([
+            "set",
+            "user:email",
+            profileData?.username,
+          ]);
+        }
+      };
+      return () => {
+        // Cleanup: Remove Crisp script and globals when component unmounts
+        document.head.removeChild(script);
+        delete (window as any).$crisp;
+        delete (window as any).CRISP_WEBSITE_ID;
+        delete (window as any).CRISP_READY_TRIGGER;
+      };
     }
-
-    // Cleanup on unmount
-    return () => {
-      window.$crisp?.push(["off", "message:received", onMessageReceived]);
-      window.$crisp?.push(["off", "chat:opened", onChatOpened]);
-    };
-  }, [isAdmin]);
-
-  // Open Crisp chat
-  const openChat = () => {
-    if (!chatOpen) {
-      window.$crisp?.push(["do", "chat:open"]);
-      setChatOpen(true);
-    }
-  };
-
-  // Close Crisp chat
-  const closeChat = () => {
-    if (chatOpen) {
-      window.$crisp.push(["do", "chat:close"]);
-      setChatOpen(false);
-    }
-  };
-
-  const toggleMainFab = () => {
-    if (open) {
-      setOpen(false);
-      closeChat();
-    } else {
-      setOpen(true);
-    }
-  };
+  }, [isAdmin, profileData?.username]);
 
   return (
     <>
@@ -126,49 +87,6 @@ export const Header: React.FC = () => {
           </div>
         </div>
       </header>
-      {isAdmin && (
-        <div className="fixed bottom-6 right-6 flex flex-col items-end space-y-3 z-50">
-          {/* Small action buttons */}
-          {open && (
-            <div className="flex flex-col items-end space-y-3 mb-2">
-              <button
-                onClick={openChat}
-                className="bg-blue-600 relative text-white p-3 rounded-full shadow-lg hover:bg-blue-700"
-              >
-                <FaComments size={18} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() =>
-                  window.open("https://support.gmbbriefcase.com/help-center")
-                }
-                className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700"
-              >
-                <BiSupport size={18} />
-              </button>
-            </div>
-          )}
-
-          <button
-            onClick={toggleMainFab}
-            className="relative bg-blue-600 text-white p-3 rounded-full shadow-xl hover:bg-blue-700 transition-transform transform hover:scale-110"
-          >
-            {open ? <X size={18} /> : <FaQuestion size={18} />}
-
-            {open
-              ? ""
-              : unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] leading-5 text-center">
-                    {unreadCount > 99 ? "99+" : unreadCount}
-                  </span>
-                )}
-          </button>
-        </div>
-      )}
     </>
   );
 };

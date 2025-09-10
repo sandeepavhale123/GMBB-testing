@@ -173,16 +173,6 @@ export const GeoRankingHeader: React.FC<GeoRankingHeaderProps> = ({
         reportUrl={shareableUrl}
       />
 
-      {isShareableView && projectName && (
-        <div className="mb-4">
-          <Card className="bg-white shadow-sm">
-            <CardContent className="p-4 sm:p-6">
-              <h1 className="text-2xl font-bold text-gray-900">{projectName}</h1>
-              <p className="text-sm text-gray-600 mt-1">GEO Ranking Report</p>
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Progress Bar - shown when refreshing */}
       {isRefreshing && (

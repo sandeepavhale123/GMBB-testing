@@ -108,15 +108,15 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
   }, [user?.userId, isInitialized, dispatch]);
 
   const initializeSelectedListing = useCallback(() => {
-    console.log("🔄 ListingContext: initializeSelectedListing called", {
-      listingsLoading,
-      listingsCount: listings.length,
-      // hasInitialized,
-      isInitialized,
-      isAuthenticated,
-      selectedBusinessId,
-      listingId,
-    });
+    // console.log("🔄 ListingContext: initializeSelectedListing called", {
+    //   listingsLoading,
+    //   listingsCount: listings.length,
+    //   // hasInitialized,
+    //   isInitialized,
+    //   isAuthenticated,
+    //   selectedBusinessId,
+    //   listingId,
+    // });
 
     if (
       listingsLoading ||
@@ -124,13 +124,13 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
       !isInitialized ||
       !isAuthenticated
     ) {
-      console.log(
-        "🔄 ListingContext: Skipping initialization - conditions not met",
-        listingsLoading,
-        // hasInitialized,
-        !isInitialized,
-        !isAuthenticated
-      );
+      // console.log(
+      //   "🔄 ListingContext: Skipping initialization - conditions not met",
+      //   listingsLoading,
+      //   // hasInitialized,
+      //   !isInitialized,
+      //   !isAuthenticated
+      // );
       return;
     }
 
@@ -149,7 +149,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     // }
 
     if (listings.length === 0) {
-      console.log("🔄 ListingContext: No listings available yet, waiting...");
+      // console.log("🔄 ListingContext: No listings available yet, waiting...");
       setSelectedListing(null);
       dispatch(setSelectedBusiness(null));
       return;
@@ -161,52 +161,52 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
     //   setInitTimeout(null);
     // }
 
-    console.log(
-      "🔄 ListingContext: Initializing with listings:",
-      listings.length
-    );
-    console.log(
-      "🔄 ListingContext: Current selectedBusinessId:",
-      selectedBusinessId
-    );
-    console.log("🔄 ListingContext: URL listingId:", listingId);
+    // console.log(
+    //   "🔄 ListingContext: Initializing with listings:",
+    //   listings.length
+    // );
+    // console.log(
+    //   "🔄 ListingContext: Current selectedBusinessId:",
+    //   selectedBusinessId
+    // );
+    // console.log("🔄 ListingContext: URL listingId:", listingId);
 
     let targetListing: BusinessListing | null = null;
 
     // 1. Try to use listing from URL if valid
     if (listingId && listingId !== "default") {
       targetListing = listings.find((l) => l.id === listingId) || null;
-      console.log(
-        "🔄 ListingContext: Found listing from URL:",
-        targetListing?.name
-      );
+      // console.log(
+      //   "🔄 ListingContext: Found listing from URL:",
+      //   targetListing?.name
+      // );
     }
 
     // 2. Try to use stored selectedBusinessId if URL doesn't have valid listing
     if (!targetListing && selectedBusinessId) {
       targetListing = listings.find((l) => l.id === selectedBusinessId) || null;
-      console.log(
-        "🔄 ListingContext: Found listing from stored ID:",
-        targetListing?.name
-      );
+      // console.log(
+      //   "🔄 ListingContext: Found listing from stored ID:",
+      //   targetListing?.name
+      // );
     }
 
     // 3. Default to first available listing if nothing else works
     if (!targetListing && listings.length > 0) {
       targetListing = listings[0];
       const firstSegment = location.pathname.split("/")[1];
-      console.log(
-        "🔄 ListingContext: Using first available listing:",
-        targetListing?.name
-      );
+      // console.log(
+      //   "🔄 ListingContext: Using first available listing:",
+      //   targetListing?.name
+      // );
     }
 
     if (targetListing) {
-      console.log(
-        "🔄 ListingContext: Setting selected listing:",
-        targetListing.name
-      );
-      console.log("target lsiting consist of ...", targetListing);
+      // console.log(
+      //   "🔄 ListingContext: Setting selected listing:",
+      //   targetListing.name
+      // );
+      // console.log("target lsiting consist of ...", targetListing);
       setSelectedListing(targetListing);
       dispatch(setSelectedBusiness(targetListing.id));
 
@@ -330,7 +330,7 @@ export const ListingProvider: React.FC<ListingProviderProps> = ({
   );
 
   const refetchListings = useCallback(async () => {
-    console.log("🔄 ListingContext: Manually triggering listings refetch");
+    // console.log("🔄 ListingContext: Manually triggering listings refetch");
     await refetch();
   }, [refetch]);
 
