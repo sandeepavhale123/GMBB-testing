@@ -284,7 +284,7 @@ export const GmbHealthReport: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative w-64 h-64">
+                <div className="relative w-64 h-64" style={{border:"1px solid black"}}>
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart width={250} height={250}>
                     <Pie data={[{
