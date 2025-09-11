@@ -284,7 +284,7 @@ export const GmbHealthReport: React.FC = () => {
                 </div>
               </div>
               <div class="p-6">
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col items-center">
                 <div className="w-64 h-64" style={{border:"1px solid black"}}>
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -300,7 +300,8 @@ export const GmbHealthReport: React.FC = () => {
                     name: 'Average Rating',
                     value: Number(reportData.avgRating) * 100,
                     fill: '#3b82f6'
-                  }]} cx={96} cy={96} innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
+                  }]} 
+                      cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
                     <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
                     </ResponsiveContainer>
