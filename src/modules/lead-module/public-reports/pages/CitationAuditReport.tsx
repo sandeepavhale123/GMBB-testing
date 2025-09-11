@@ -146,7 +146,7 @@ export const CitationAuditReport: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center gap-8">
               <div className="flex-1 space-y-4">
                 {/* Non-Listed Card */}
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                <div className="bg-red-100 border border-red-200 rounded-lg p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-lg font-semibold text-red-900">Non-Listed</h3>
@@ -162,7 +162,7 @@ export const CitationAuditReport: React.FC = () => {
                 </div>
 
                 {/* Listed Card */}
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <div className="bg-green-100 border border-green-200 rounded-lg p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-lg font-semibold text-green-900">Listed</h3>
