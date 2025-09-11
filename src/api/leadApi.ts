@@ -56,11 +56,81 @@ export const getLeads = async (params: GetLeadsRequest): Promise<GetLeadsRespons
   return response.data;
 };
 
-// React Query hook
+// Credit History API interfaces
+export interface CreditHistoryItem {
+  id: string;
+  user_id: string;
+  business_name: string;
+  credits: string;
+  report_type: string;
+  date: string;
+}
+
+export interface GetCreditHistoryRequest {
+  page: number;
+  limit: number;
+  search: string;
+}
+
+export interface GetCreditHistoryResponse {
+  code: number;
+  message: string;
+  data: {
+    history: CreditHistoryItem[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+    };
+  };
+}
+
+// API functions
+export const getCreditHistory = async (params: GetCreditHistoryRequest): Promise<GetCreditHistoryResponse> => {
+  const response = await apiClient.post<GetCreditHistoryResponse>('/lead/get-lead-credit-history', params);
+  return response.data;
+};
+
+// Credit Usage API interfaces
+export interface GetCreditsResponse {
+  code: number;
+  message: string;
+  data: {
+    allowedCredit: number;
+    remainingCredit: number;
+  };
+}
+
+// API functions
+export const getLeadCredits = async (): Promise<GetCreditsResponse> => {
+  const response = await apiClient.post<GetCreditsResponse>('/lead/get-lead-credits', {});
+  return response.data;
+};
+
+// React Query hooks
 export const useLeads = (params: GetLeadsRequest) => {
   return useQuery({
     queryKey: ['leads', params.page, params.limit, params.search],
     queryFn: () => getLeads(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+  });
+};
+
+export const useCreditHistory = (params: GetCreditHistoryRequest) => {
+  return useQuery({
+    queryKey: ['creditHistory', params.page, params.limit, params.search],
+    queryFn: () => getCreditHistory(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    enabled: true,
+  });
+};
+
+export const useLeadCredits = () => {
+  return useQuery({
+    queryKey: ['leadCredits'],
+    queryFn: () => getLeadCredits(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
   });

@@ -10,7 +10,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
-import { PieChart, Pie, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
   const reportData = {
@@ -266,44 +266,48 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Lead Score Detailed Section */}
         <Card>
-          <CardContent>
+          <CardContent className="pt-5">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h2 className="text-lg font-semibold">GMB Lead Score</h2>
-                <div className="bg-red-50 border border-red-100 rounded-lg p-4">
-                  <div className="text-sm text-red-500 font-medium mb-1">GMB Lead Score</div>
-                  <div className="text-3xl font-bold text-red-500">45%</div>
+                <div className="bg-red-100 border border-red-200 rounded-lg p-4">
+                  <div className="text-sm text-red-900 font-medium mb-1">GMB Lead Score</div>
+                  <div className="text-3xl font-bold text-red-900">45%</div>
                 </div>
-                <div className="bg-green-50 border border-green-100 rounded-lg p-4">
-                  <div className="text-sm text-green-500 font-medium mb-1">No. Of Reviews</div>
-                  <div className="text-3xl font-bold text-green-500">{reportData.totalReviews}</div>
+                <div className="bg-green-100 border border-green-200 rounded-lg p-4">
+                  <div className="text-sm text-green-900 font-medium mb-1">No. Of Reviews</div>
+                  <div className="text-3xl font-bold text-green-900">{reportData.totalReviews}</div>
                 </div>
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-                  <div className="text-sm text-blue-500 font-medium mb-1">GMB Average Rating</div>
-                  <div className="text-3xl font-bold text-blue-500">{reportData.avgRating}</div>
+                <div className="bg-blue-100 border border-blue-200 rounded-lg p-4">
+                  <div className="text-sm text-blue-900 font-medium mb-1">GMB Average Rating</div>
+                  <div className="text-3xl font-bold text-blue-900">{reportData.avgRating}</div>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
-                <div className="relative w-[250px] h-[250]">
-                  <PieChart width={250} height={250}>
+              <div className="p-6 flex justify-center items-center">
+                <div className="flex flex-col items-center justify-center">
+                <div className="w-64 h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
                     <Pie data={[{
-                    name: 'GMB Leads',
-                    value: 45,
-                    fill: '#ef4444'
-                  }, {
-                    name: 'Reviews',
-                    value: reportData.totalReviews,
-                    fill: '#22c55e'
-                  }, {
-                    name: 'Average Rating',
-                    value: Number(reportData.avgRating) * 100,
-                    fill: '#3b82f6'
-                  }]} cx={96} cy={96} innerRadius={40} outerRadius={80} paddingAngle={5} dataKey="value" />
+                        name: 'GMB Leads',
+                        value: 45,
+                        fill: '#ef4444'
+                      }, {
+                        name: 'Reviews',
+                        value: reportData.totalReviews,
+                        fill: '#22c55e'
+                      }, {
+                        name: 'Average Rating',
+                        value: Number(reportData.avgRating) * 100,
+                        fill: '#3b82f6'
+                      }]} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
                     <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
+                    </ResponsiveContainer>
                   
                 </div>
               </div>
+               </div>
             </div>
           </CardContent>
         </Card>
