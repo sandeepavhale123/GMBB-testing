@@ -220,7 +220,7 @@ const CreditHistory: React.FC = () => {
           </div>
           
           {/* Search Input */}
-          <div className="relative w-full">
+          <div className="relative w-full hidden">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               placeholder="Search keywords..."
