@@ -283,10 +283,11 @@ export const GmbHealthReport: React.FC = () => {
                   <div className="text-3xl font-bold text-blue-500">{reportData.avgRating}</div>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
-                <div className="relative w-64 h-64" style={{border:"1px solid black"}}>
+              <div class="p-6">
+                <div className="flex items-center justify-center">
+                <div className="w-64 h-64" style={{border:"1px solid black"}}>
                   <ResponsiveContainer width="100%" height="100%">
-                  <PieChart width={250} height={250}>
+                  <PieChart>
                     <Pie data={[{
                     name: 'GMB Leads',
                     value: 45,
@@ -306,6 +307,7 @@ export const GmbHealthReport: React.FC = () => {
                   
                 </div>
               </div>
+               </div>
             </div>
           </CardContent>
         </Card>
