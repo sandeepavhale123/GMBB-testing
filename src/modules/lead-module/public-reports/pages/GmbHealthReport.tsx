@@ -283,7 +283,7 @@ export const GmbHealthReport: React.FC = () => {
                   <div className="text-3xl font-bold text-blue-900">{reportData.avgRating}</div>
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-6 flex justify-center items-center">
                 <div className="flex flex-col items-center justify-center">
                 <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
