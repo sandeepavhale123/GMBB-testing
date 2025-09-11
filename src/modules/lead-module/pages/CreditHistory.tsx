@@ -279,7 +279,7 @@ const CreditHistory: React.FC = () => {
                       >
                         <td className="py-3 px-4">
                           <span className="font-medium text-muted-foreground">
-                            {transaction.description.split(' - ')[1] || transaction.description}
+                            {transaction.description}
                           </span>
                         </td>
                         <td className="py-3 px-4">
