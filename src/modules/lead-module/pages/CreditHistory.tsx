@@ -206,12 +206,11 @@ const CreditHistory: React.FC = () => {
                 <History className="w-5 h-5" />
                 Credits History
               </CardTitle>
-              <CardDescription>Track your credit usage across all ranking checks.</CardDescription>
             </div>
           </div>
           
           {/* Search Input */}
-          <div className="relative w-full hidden">
+          <div className="relative w-full mt-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               placeholder="Search keywords..."
