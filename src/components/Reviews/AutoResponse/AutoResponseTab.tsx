@@ -63,6 +63,10 @@ export const AutoResponseTab: React.FC = () => {
   const [replyToExistingReviews, setReplyToExistingReviews] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  console.log(
+    "autoresponse value",
+    Number(autoResponse.autoSettings?.oldStatus)
+  );
 
   // Update local DNR state when data is loaded
   const [noResponseMode, setNoResponseMode] = useState(false);
@@ -95,6 +99,15 @@ export const AutoResponseTab: React.FC = () => {
     autoResponse.autoSettings?.newStatus,
     autoResponse.autoAiSettings?.newStatus,
   ]);
+
+  // Sync "Reply to Old Reviews" toggle with backend value
+  useEffect(() => {
+    if (autoResponse.autoSettings?.oldStatus !== undefined) {
+      setReplyToExistingReviews(
+        Number(autoResponse.autoSettings.oldStatus) === 1
+      );
+    }
+  }, [autoResponse.autoSettings?.oldStatus]);
 
   const handleToggleAutoResponse = () => {
     if (!autoResponse.enabled) {
@@ -351,7 +364,9 @@ export const AutoResponseTab: React.FC = () => {
                 checked={replyToExistingReviews}
                 onToggle={setReplyToExistingReviews}
                 onSave={() => {}}
-                listingId={selectedListing?.id ? Number(selectedListing.id) : undefined}
+                listingId={
+                  selectedListing?.id ? Number(selectedListing.id) : undefined
+                }
                 isAutoResponseMode={true}
               />
             </TabsContent>
@@ -378,7 +393,9 @@ export const AutoResponseTab: React.FC = () => {
                 checked={replyToExistingReviews}
                 onToggle={setReplyToExistingReviews}
                 onSave={() => {}}
-                listingId={selectedListing?.id ? Number(selectedListing.id) : undefined}
+                listingId={
+                  selectedListing?.id ? Number(selectedListing.id) : undefined
+                }
                 isAutoResponseMode={true}
               />
             </TabsContent>
