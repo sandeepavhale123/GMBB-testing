@@ -14,20 +14,26 @@ const CreditHistory: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const pageLimit = 10;
-
-  const { data: creditHistoryData, isLoading, error } = useCreditHistory({
+  const {
+    data: creditHistoryData,
+    isLoading,
+    error
+  } = useCreditHistory({
     page: currentPage,
     limit: pageLimit,
-    search: debouncedSearchTerm,
+    search: debouncedSearchTerm
   });
-
-  const { data: creditsData, isLoading: creditsLoading, error: creditsError } = useLeadCredits();
+  const {
+    data: creditsData,
+    isLoading: creditsLoading,
+    error: creditsError
+  } = useLeadCredits();
 
   // Calculate credit metrics from API data
   const allowedCredit = creditsData?.data?.allowedCredit || 0;
   const remainingCredit = creditsData?.data?.remainingCredit || 0;
   const usedCredits = allowedCredit - remainingCredit;
-  const usagePercentage = allowedCredit > 0 ? (usedCredits / allowedCredit) * 100 : 0;
+  const usagePercentage = allowedCredit > 0 ? usedCredits / allowedCredit * 100 : 0;
 
   // Transform API data for display
   const transformTransaction = (item: CreditHistoryItem) => {
@@ -37,19 +43,16 @@ const CreditHistory: React.FC = () => {
       credits: -parseInt(item.credits),
       cost: null,
       date: format(new Date(item.date), 'yyyy-MM-dd'),
-      description: item.business_name,
+      description: item.business_name
     };
   };
-
   const transactions = creditHistoryData?.data?.history?.map(transformTransaction) || [];
   const pagination = creditHistoryData?.data?.pagination;
   const totalPages = pagination ? Math.ceil(pagination.total / pagination.limit) : 1;
-
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     setCurrentPage(1); // Reset to first page when searching
   };
-
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -60,42 +63,32 @@ const CreditHistory: React.FC = () => {
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const maxVisible = 3;
-
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       pages.push(1);
-      
       if (currentPage > maxVisible) {
         pages.push("...");
       }
-      
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
-      
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
-      
       if (currentPage < totalPages - (maxVisible - 1)) {
         pages.push("...");
       }
-      
       pages.push(totalPages);
     }
-    
     return pages;
   };
-
   if (error) {
-    return (
-      <div className="space-y-6">
+    return <div className="space-y-6">
         <div className="text-center py-8">
           <p className="text-destructive">Failed to load credit history</p>
           <p className="text-sm text-muted-foreground">Please try again later</p>
         </div>
-      </div>
-    );
+      </div>;
   }
   return <div className="space-y-6">
       {/* Header */}
@@ -104,7 +97,7 @@ const CreditHistory: React.FC = () => {
           <h1 className="text-3xl font-bold text-foreground">Credit History</h1>
           <p className="text-muted-foreground">Track your credit usage and purchases</p>
         </div>
-        <Button className="gap-2">
+        <Button className="gap-2 hidden ">
           <CreditCard className="w-4 h-4" />
           Buy Credits
         </Button>
@@ -118,13 +111,7 @@ const CreditHistory: React.FC = () => {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {creditsLoading ? (
-              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
-            ) : creditsError ? (
-              <div className="text-2xl font-bold text-muted-foreground">--</div>
-            ) : (
-              <div className="text-2xl font-bold">{remainingCredit.toLocaleString()}</div>
-            )}
+            {creditsLoading ? <div className="h-6 bg-muted rounded animate-pulse mb-1"></div> : creditsError ? <div className="text-2xl font-bold text-muted-foreground">--</div> : <div className="text-2xl font-bold">{remainingCredit.toLocaleString()}</div>}
             <p className="text-xs text-muted-foreground">Available for use</p>
           </CardContent>
         </Card>
@@ -135,13 +122,7 @@ const CreditHistory: React.FC = () => {
             <TrendingDown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {creditsLoading ? (
-              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
-            ) : creditsError ? (
-              <div className="text-2xl font-bold text-muted-foreground">--</div>
-            ) : (
-              <div className="text-2xl font-bold">{usedCredits.toLocaleString()}</div>
-            )}
+            {creditsLoading ? <div className="h-6 bg-muted rounded animate-pulse mb-1"></div> : creditsError ? <div className="text-2xl font-bold text-muted-foreground">--</div> : <div className="text-2xl font-bold">{usedCredits.toLocaleString()}</div>}
             <p className="text-xs text-muted-foreground">Credits consumed</p>
           </CardContent>
         </Card>
@@ -152,13 +133,7 @@ const CreditHistory: React.FC = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {creditsLoading ? (
-              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
-            ) : creditsError ? (
-              <div className="text-2xl font-bold text-muted-foreground">--</div>
-            ) : (
-              <div className="text-2xl font-bold">{allowedCredit.toLocaleString()}</div>
-            )}
+            {creditsLoading ? <div className="h-6 bg-muted rounded animate-pulse mb-1"></div> : creditsError ? <div className="text-2xl font-bold text-muted-foreground">--</div> : <div className="text-2xl font-bold">{allowedCredit.toLocaleString()}</div>}
             <p className="text-xs text-muted-foreground">Total credits</p>
           </CardContent>
         </Card>
@@ -172,27 +147,21 @@ const CreditHistory: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            {creditsLoading ? (
-              <>
+            {creditsLoading ? <>
                 <div className="flex justify-between text-sm">
                   <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                   <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                 </div>
                 <div className="h-2 bg-muted rounded animate-pulse"></div>
-              </>
-            ) : creditsError ? (
-              <div className="text-center py-4 text-muted-foreground">
+              </> : creditsError ? <div className="text-center py-4 text-muted-foreground">
                 Unable to load credit usage data
-              </div>
-            ) : (
-              <>
+              </div> : <>
                 <div className="flex justify-between text-sm">
                   <span>Used: {usedCredits.toLocaleString()} credits</span>
                   <span>Available: {remainingCredit.toLocaleString()} credits</span>
                 </div>
                 <Progress value={usagePercentage} className="w-full" />
-              </>
-            )}
+              </>}
           </div>
         </CardContent>
       </Card>
@@ -212,17 +181,11 @@ const CreditHistory: React.FC = () => {
           {/* Search Input */}
           <div className="relative w-full mt-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              placeholder="Search keywords..."
-              value={searchTerm}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10 w-full"
-            />
+            <Input placeholder="Search keywords..." value={searchTerm} onChange={e => handleSearchChange(e.target.value)} className="pl-10 w-full" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          {isLoading ? (
-            <div className="overflow-x-auto">
+          {isLoading ? <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr className="border-b border-border">
@@ -233,8 +196,7 @@ const CreditHistory: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[...Array(5)].map((_, i) => (
-                    <tr key={i} className="border-b border-border/50">
+                  {[...Array(5)].map((_, i) => <tr key={i} className="border-b border-border/50">
                       <td className="py-3 px-4">
                         <div className="h-4 bg-muted rounded w-32 animate-pulse"></div>
                       </td>
@@ -247,20 +209,15 @@ const CreditHistory: React.FC = () => {
                       <td className="py-3 px-4 text-right">
                         <div className="h-4 bg-muted rounded w-20 animate-pulse ml-auto"></div>
                       </td>
-                    </tr>
-                  ))}
+                    </tr>)}
                 </tbody>
               </table>
-            </div>
-          ) : transactions.length === 0 ? (
-            <div className="text-center py-8">
+            </div> : transactions.length === 0 ? <div className="text-center py-8">
               <p className="text-muted-foreground">No credit history found</p>
               <p className="text-sm text-muted-foreground">
                 {searchTerm ? 'Try adjusting your search' : 'Your credit usage will appear here'}
               </p>
-            </div>
-          ) : (
-            <>
+            </div> : <>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-gray-50">
@@ -272,11 +229,7 @@ const CreditHistory: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((transaction) => (
-                      <tr
-                        key={transaction.id}
-                        className="border-b border-border/50 hover:bg-muted/50"
-                      >
+                    {transactions.map(transaction => <tr key={transaction.id} className="border-b border-border/50 hover:bg-muted/50">
                         <td className="py-3 px-4">
                           <span className="font-medium text-muted-foreground">
                             {transaction.description}
@@ -295,60 +248,36 @@ const CreditHistory: React.FC = () => {
                         <td className="py-3 px-4 text-muted-foreground text-right">
                           {format(new Date(transaction.date), 'MMM dd, yyyy')}
                         </td>
-                      </tr>
-                    ))}
+                      </tr>)}
                   </tbody>
                 </table>
               </div>
 
               {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="p-4 flex justify-end">
+              {totalPages > 1 && <div className="p-4 flex justify-end">
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          className={
-                            currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"
-                          }
-                        />
+                        <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"} />
                       </PaginationItem>
                       
-                      {getPageNumbers().map((page, i) =>
-                        typeof page === "number" ? (
-                          <PaginationItem key={i}>
-                            <PaginationLink
-                              isActive={currentPage === page}
-                              onClick={() => handlePageChange(page)}
-                              className="cursor-pointer"
-                            >
+                      {getPageNumbers().map((page, i) => typeof page === "number" ? <PaginationItem key={i}>
+                            <PaginationLink isActive={currentPage === page} onClick={() => handlePageChange(page)} className="cursor-pointer">
                               {page}
                             </PaginationLink>
-                          </PaginationItem>
-                        ) : (
-                          <PaginationItem key={i}>
+                          </PaginationItem> : <PaginationItem key={i}>
                             <span className="px-3 py-2 text-muted-foreground">
                               ...
                             </span>
-                          </PaginationItem>
-                        )
-                      )}
+                          </PaginationItem>)}
                       
                       <PaginationItem>
-                        <PaginationNext
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          className={
-                            currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"
-                          }
-                        />
+                        <PaginationNext onClick={() => handlePageChange(currentPage + 1)} className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"} />
                       </PaginationItem>
                     </PaginationContent>
                   </Pagination>
-                </div>
-              )}
-            </>
-          )}
+                </div>}
+            </>}
         </CardContent>
       </Card>
     </div>;
