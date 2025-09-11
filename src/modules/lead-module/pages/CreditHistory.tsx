@@ -6,7 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { History, CreditCard, Download, TrendingUp, TrendingDown, Search } from 'lucide-react';
-import { useCreditHistory, type CreditHistoryItem } from '@/api/leadApi';
+import { useCreditHistory, useLeadCredits, type CreditHistoryItem } from '@/api/leadApi';
 import { useDebounce } from '@/hooks/useDebounce';
 import { format } from 'date-fns';
 const CreditHistory: React.FC = () => {
@@ -21,9 +21,13 @@ const CreditHistory: React.FC = () => {
     search: debouncedSearchTerm,
   });
 
-  const currentCredits = 1075;
-  const creditLimit = 2000;
-  const usagePercentage = (creditLimit - currentCredits) / creditLimit * 100;
+  const { data: creditsData, isLoading: creditsLoading, error: creditsError } = useLeadCredits();
+
+  // Calculate credit metrics from API data
+  const allowedCredit = creditsData?.data?.allowedCredit || 0;
+  const remainingCredit = creditsData?.data?.remainingCredit || 0;
+  const usedCredits = allowedCredit - remainingCredit;
+  const usagePercentage = allowedCredit > 0 ? (usedCredits / allowedCredit) * 100 : 0;
 
   // Transform API data for display
   const transformTransaction = (item: CreditHistoryItem) => {
@@ -123,30 +127,48 @@ const CreditHistory: React.FC = () => {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{currentCredits.toLocaleString()}</div>
+            {creditsLoading ? (
+              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
+            ) : creditsError ? (
+              <div className="text-2xl font-bold text-muted-foreground">--</div>
+            ) : (
+              <div className="text-2xl font-bold">{remainingCredit.toLocaleString()}</div>
+            )}
             <p className="text-xs text-muted-foreground">Available for use</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month Usage</CardTitle>
+            <CardTitle className="text-sm font-medium">Credits Used</CardTitle>
             <TrendingDown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">425</div>
+            {creditsLoading ? (
+              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
+            ) : creditsError ? (
+              <div className="text-2xl font-bold text-muted-foreground">--</div>
+            ) : (
+              <div className="text-2xl font-bold">{usedCredits.toLocaleString()}</div>
+            )}
             <p className="text-xs text-muted-foreground">Credits consumed</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Purchased</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Allocated</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,500</div>
-            <p className="text-xs text-muted-foreground">All time credits</p>
+            {creditsLoading ? (
+              <div className="h-6 bg-muted rounded animate-pulse mb-1"></div>
+            ) : creditsError ? (
+              <div className="text-2xl font-bold text-muted-foreground">--</div>
+            ) : (
+              <div className="text-2xl font-bold">{allowedCredit.toLocaleString()}</div>
+            )}
+            <p className="text-xs text-muted-foreground">Total credits</p>
           </CardContent>
         </Card>
       </div>
@@ -159,13 +181,28 @@ const CreditHistory: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Used: {(creditLimit - currentCredits).toLocaleString()} credits</span>
-              <span>Available: {currentCredits.toLocaleString()} credits</span>
-            </div>
-            <Progress value={usagePercentage} className="w-full" />
+            {creditsLoading ? (
+              <>
+                <div className="flex justify-between text-sm">
+                  <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
+                  <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
+                </div>
+                <div className="h-2 bg-muted rounded animate-pulse"></div>
+              </>
+            ) : creditsError ? (
+              <div className="text-center py-4 text-muted-foreground">
+                Unable to load credit usage data
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between text-sm">
+                  <span>Used: {usedCredits.toLocaleString()} credits</span>
+                  <span>Available: {remainingCredit.toLocaleString()} credits</span>
+                </div>
+                <Progress value={usagePercentage} className="w-full" />
+              </>
+            )}
           </div>
-          
         </CardContent>
       </Card>
 

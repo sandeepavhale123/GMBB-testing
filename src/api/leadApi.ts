@@ -91,6 +91,22 @@ export const getCreditHistory = async (params: GetCreditHistoryRequest): Promise
   return response.data;
 };
 
+// Credit Usage API interfaces
+export interface GetCreditsResponse {
+  code: number;
+  message: string;
+  data: {
+    allowedCredit: number;
+    remainingCredit: number;
+  };
+}
+
+// API functions
+export const getLeadCredits = async (): Promise<GetCreditsResponse> => {
+  const response = await apiClient.post<GetCreditsResponse>('/lead/get-lead-credits', {});
+  return response.data;
+};
+
 // React Query hooks
 export const useLeads = (params: GetLeadsRequest) => {
   return useQuery({
@@ -108,5 +124,14 @@ export const useCreditHistory = (params: GetCreditHistoryRequest) => {
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
     enabled: true,
+  });
+};
+
+export const useLeadCredits = () => {
+  return useQuery({
+    queryKey: ['leadCredits'],
+    queryFn: () => getLeadCredits(),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
   });
 };
