@@ -137,15 +137,50 @@ export const CitationAuditReport: React.FC = () => {
           </Card>
         </div>
 
-        {/* Listed vs Non-Listed Directories Chart */}
+        {/* Citation Status at a Glance */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl">Listed vs Non-Listed Directories</CardTitle>
+            <CardTitle className="text-xl">Your Citation Report at a Glance</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col lg:flex-row items-center gap-8">
-              <div className="flex-1">
-                <div className="w-64 h-64 mx-auto">
+              <div className="flex-1 space-y-4">
+                {/* Non-Listed Card */}
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-red-900">Non-Listed</h3>
+                      <p className="text-sm text-red-700">Areas that need attention</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-red-900">{reportData.citations.nonListed}</div>
+                      <div className="text-lg font-medium text-red-700">
+                        {Math.round((reportData.citations.nonListed / reportData.citations.total) * 100)}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Listed Card */}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-green-900">Listed</h3>
+                      <p className="text-sm text-green-700">Areas performing well</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-green-900">{reportData.citations.listed}</div>
+                      <div className="text-lg font-medium text-green-700">
+                        {Math.round((reportData.citations.listed / reportData.citations.total) * 100)}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Donut Chart */}
+              <div className="flex-1 flex justify-center">
+                <div className="w-64 h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -156,21 +191,19 @@ export const CitationAuditReport: React.FC = () => {
                         outerRadius={120}
                         paddingAngle={2}
                         dataKey="value"
+                        startAngle={90}
+                        endAngle={450}
                       >
                         {chartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={entry.name === 'Listed' ? '#22c55e' : '#ef4444'} 
+                          />
                         ))}
                       </Pie>
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-              </div>
-              <div className="flex-1">
-                <CustomLegend payload={chartData.map(item => ({ 
-                  value: item.name, 
-                  color: item.fill, 
-                  payload: item 
-                }))} />
               </div>
             </div>
           </CardContent>
