@@ -225,7 +225,7 @@ export const GmbProspectReport: React.FC = () => {
                           data={pieData}
                           cx="50%"
                           cy="50%"
-                          innerRadius={60}
+                          innerRadius={80}
                           outerRadius={120}
                           paddingAngle={2}
                           dataKey="value"
