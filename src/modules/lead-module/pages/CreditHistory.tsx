@@ -31,22 +31,13 @@ const CreditHistory: React.FC = () => {
 
   // Transform API data for display
   const transformTransaction = (item: CreditHistoryItem) => {
-    const reportTypeMap: Record<string, { type: string; description: string }> = {
-      'GMBAUDIT': { type: 'Usage', description: 'GMB Audit Report' },
-      'ONPAGE': { type: 'Usage', description: 'On-Page SEO Report' },
-      'CITATION': { type: 'Usage', description: 'Citation Report' },
-      'PROSPECT': { type: 'Usage', description: 'Prospect Report' },
-    };
-
-    const mapped = reportTypeMap[item.report_type] || { type: 'Usage', description: 'Report Generation' };
-    
     return {
       id: item.id,
-      type: mapped.type,
+      type: item.report_type,
       credits: -parseInt(item.credits),
       cost: null,
       date: format(new Date(item.date), 'yyyy-MM-dd'),
-      description: `${mapped.description} - ${item.business_name}`,
+      description: item.business_name,
     };
   };
 
