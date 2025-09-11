@@ -29,13 +29,9 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const { selectedListing } = useListingContext();
   const { mutateAsync: createReport, isPending } = useCreateReport();
   const navigate = useNavigate();
-  
+
   // Get citation and geo report status
-  const { data: reportsData } = useAllReports(
-    selectedListing?.id || "",
-    1,
-    10
-  );
+  const { data: reportsData } = useAllReports(selectedListing?.id || "", 1, 10);
 
   const [reportName, setReportName] = useState("");
   const [reportType, setReportType] = useState<"Individual" | "Compare">(
@@ -63,8 +59,8 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   // Remove unavailable sections from selected sections automatically
   useEffect(() => {
     if (reportsData?.data) {
-      setSelectedSections(prev => 
-        prev.filter(sectionId => {
+      setSelectedSections((prev) =>
+        prev.filter((sectionId) => {
           if (sectionId === "citation" && !isCitationAvailable) return false;
           if (sectionId === "geo-ranking" && !isGeoAvailable) return false;
           return true;
@@ -81,7 +77,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     ) {
       return;
     }
-    
+
     setSelectedSections((prev) =>
       prev.includes(sectionId)
         ? prev.filter((id) => id !== sectionId)
@@ -92,7 +88,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
   const handleNavigateToReport = (reportType: "citation" | "geo-ranking") => {
     const listingId = selectedListing?.id;
     if (!listingId) return;
-    
+
     if (reportType === "citation") {
       navigate(`/citation/${listingId}`);
     } else if (reportType === "geo-ranking") {
@@ -209,7 +205,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[88vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Performance Report</DialogTitle>
         </DialogHeader>
@@ -391,21 +387,26 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
               <Label className="text-sm font-medium">Report Sections</Label>
               <div className="grid grid-cols-1 gap-3">
                 {REPORT_SECTIONS.map((section) => {
-                  const isDisabled = 
+                  const isDisabled =
                     (section.id === "citation" && !isCitationAvailable) ||
                     (section.id === "geo-ranking" && !isGeoAvailable);
-                  
+
                   return (
-                    <div key={section.id} className="flex items-center justify-between">
+                    <div
+                      key={section.id}
+                      className="flex items-center justify-between"
+                    >
                       <div className="flex items-center space-x-2">
                         <Checkbox
                           id={section.id}
                           checked={selectedSections.includes(section.id)}
-                          onCheckedChange={() => handleSectionToggle(section.id)}
+                          onCheckedChange={() =>
+                            handleSectionToggle(section.id)
+                          }
                           disabled={isDisabled}
                         />
-                        <Label 
-                          htmlFor={section.id} 
+                        <Label
+                          htmlFor={section.id}
                           className={cn(
                             "text-sm",
                             isDisabled && "text-muted-foreground"
@@ -414,12 +415,16 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
                           {section.name}
                         </Label>
                       </div>
-                      
+
                       {isDisabled && (
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleNavigateToReport(section.id as "citation" | "geo-ranking")}
+                          onClick={() =>
+                            handleNavigateToReport(
+                              section.id as "citation" | "geo-ranking"
+                            )
+                          }
                           className="text-xs h-7"
                         >
                           <ExternalLink className="w-3 h-3 mr-1" />
@@ -440,7 +445,12 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
             </Button>
             <Button
               onClick={handleGenerate}
-              disabled={isPending || !selectedListing?.id || !reportName.trim() || selectedSections.length === 0}
+              disabled={
+                isPending ||
+                !selectedListing?.id ||
+                !reportName.trim() ||
+                selectedSections.length === 0
+              }
             >
               {isPending ? "Generating..." : "Generate"}
             </Button>
