@@ -266,7 +266,7 @@ export const GmbHealthReport: React.FC = () => {
 
         {/* GMB Lead Score Detailed Section */}
         <Card>
-          <CardContent>
+          <CardContent className="pt-5">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h2 className="text-lg font-semibold">GMB Lead Score</h2>
@@ -289,19 +289,18 @@ export const GmbHealthReport: React.FC = () => {
                   <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie data={[{
-                    name: 'GMB Leads',
-                    value: 45,
-                    fill: '#ef4444'
-                  }, {
-                    name: 'Reviews',
-                    value: reportData.totalReviews,
-                    fill: '#22c55e'
-                  }, {
-                    name: 'Average Rating',
-                    value: Number(reportData.avgRating) * 100,
-                    fill: '#3b82f6'
-                  }]} 
-                      cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
+                        name: 'GMB Leads',
+                        value: 45,
+                        fill: '#ef4444'
+                      }, {
+                        name: 'Reviews',
+                        value: reportData.totalReviews,
+                        fill: '#22c55e'
+                      }, {
+                        name: 'Average Rating',
+                        value: Number(reportData.avgRating) * 100,
+                        fill: '#3b82f6'
+                      }]} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={2} dataKey="value" />
                     <Tooltip formatter={(value, name) => [name === 'Average Rating' ? `${(Number(value) / 100).toFixed(1)}` : value, name]} />
                   </PieChart>
                     </ResponsiveContainer>
