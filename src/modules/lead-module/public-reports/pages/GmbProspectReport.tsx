@@ -156,10 +156,9 @@ export const GmbProspectReport: React.FC = () => {
         </Card>
 
         {/* Your GMB Report at a Glance */}
-        <div className="mb-8">
-          
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left side - Test Results */}
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900">
@@ -273,7 +272,8 @@ export const GmbProspectReport: React.FC = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Detailed Breakdown */}
         <Card>
