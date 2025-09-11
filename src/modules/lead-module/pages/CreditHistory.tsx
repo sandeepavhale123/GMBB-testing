@@ -169,100 +169,114 @@ const CreditHistory: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Transaction History */}
+      {/* Credit History Table */}
       <Card>
         <CardHeader>
           <div className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
                 <History className="w-5 h-5" />
-                Transaction History
+                Credits History
               </CardTitle>
-              <CardDescription>Detailed credit purchase and usage history</CardDescription>
+              <CardDescription>Track your credit usage across all ranking checks.</CardDescription>
             </div>
-            <Button variant="outline" size="sm" className="gap-2">
-              <Download className="w-4 h-4" />
-              Export CSV
-            </Button>
           </div>
           
           {/* Search Input */}
-          <div className="relative w-full max-w-sm">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
-              placeholder="Search transactions..."
+              placeholder="Search keywords..."
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10"
+              className="pl-10 w-full"
             />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {isLoading ? (
-            <div className="space-y-3">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-center justify-between p-4 border rounded-lg animate-pulse">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-full bg-muted"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded w-48"></div>
-                      <div className="h-3 bg-muted rounded w-32"></div>
-                    </div>
-                  </div>
-                  <div className="text-right space-y-2">
-                    <div className="h-4 bg-muted rounded w-24"></div>
-                    <div className="h-3 bg-muted rounded w-16"></div>
-                  </div>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 font-medium">Keyword</th>
+                    <th className="text-left py-3 px-4 font-medium">Credit Type</th>
+                    <th className="text-left py-3 px-4 font-medium">Credit</th>
+                    <th className="text-right py-3 px-4 font-medium">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...Array(5)].map((_, i) => (
+                    <tr key={i} className="border-b border-border/50">
+                      <td className="py-3 px-4">
+                        <div className="h-4 bg-muted rounded w-32 animate-pulse"></div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="h-4 bg-muted rounded w-8 animate-pulse"></div>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <div className="h-4 bg-muted rounded w-20 animate-pulse ml-auto"></div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : transactions.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">No transactions found</p>
+              <p className="text-muted-foreground">No credit history found</p>
               <p className="text-sm text-muted-foreground">
-                {searchTerm ? 'Try adjusting your search term' : 'Your transaction history will appear here'}
+                {searchTerm ? 'Try adjusting your search' : 'Your credit usage will appear here'}
               </p>
             </div>
           ) : (
             <>
-              <div className="space-y-3">
-                {transactions.map(transaction => (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <div>
-                        <p className="font-medium">{transaction.description}</p>
-                        <p className="text-sm text-muted-foreground">Transaction ID: {transaction.id}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <p className={`font-medium ${transaction.credits > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {transaction.credits > 0 ? '+' : ''}{transaction.credits.toLocaleString()} credits
-                          </p>
-                          {transaction.cost && <p className="text-sm text-muted-foreground">{transaction.cost}</p>}
-                        </div>
-                        <Badge variant={
-                          transaction.type === 'Purchase' ? 'default' : 
-                          transaction.type === 'Usage' ? 'destructive' : 
-                          'secondary'
-                        }>
-                          {transaction.type}
-                        </Badge>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">{transaction.date}</p>
-                    </div>
-                  </div>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-medium">Keyword</th>
+                      <th className="text-left py-3 px-4 font-medium">Credit Type</th>
+                      <th className="text-left py-3 px-4 font-medium">Credit</th>
+                      <th className="text-right py-3 px-4 font-medium">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transactions.map((transaction) => (
+                      <tr
+                        key={transaction.id}
+                        className="border-b border-border/50 hover:bg-muted/50"
+                      >
+                        <td className="py-3 px-4">
+                          <span className="font-medium text-muted-foreground">
+                            {transaction.description.split(' - ')[1] || transaction.description}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="text-muted-foreground">
+                            {transaction.type === 'Usage' ? 'GMB Credits' : transaction.type}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="font-semibold text-muted-foreground">
+                            {Math.abs(transaction.credits)}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-muted-foreground text-right">
+                          {format(new Date(transaction.date), 'MMM dd, yyyy')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex flex-col sm:flex-row items-center justify-between mt-6 pt-4 border-t border-border gap-4">
-                  <p className="text-sm text-muted-foreground">
-                    Showing {((currentPage - 1) * pageLimit) + 1} to {Math.min(currentPage * pageLimit, pagination?.total || 0)} of {pagination?.total || 0} transactions
-                  </p>
-                  
+                <div className="p-4 flex justify-end">
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
@@ -287,7 +301,9 @@ const CreditHistory: React.FC = () => {
                           </PaginationItem>
                         ) : (
                           <PaginationItem key={i}>
-                            <span className="px-3 py-2 text-muted-foreground">...</span>
+                            <span className="px-3 py-2 text-muted-foreground">
+                              ...
+                            </span>
                           </PaginationItem>
                         )
                       )}
