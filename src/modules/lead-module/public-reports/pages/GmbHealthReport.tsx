@@ -10,7 +10,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
-import { PieChart, Pie, Tooltip , ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 export const GmbHealthReport: React.FC = () => {
   // Comprehensive mock data - replace with actual data fetching
   const reportData = {
