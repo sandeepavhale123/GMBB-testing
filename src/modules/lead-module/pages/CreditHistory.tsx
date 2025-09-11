@@ -229,19 +229,6 @@ const CreditHistory: React.FC = () => {
                 {transactions.map(transaction => (
                   <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex items-center space-x-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        transaction.type === 'Purchase' ? 'bg-green-100 text-green-600' : 
-                        transaction.type === 'Usage' ? 'bg-red-100 text-red-600' : 
-                        'bg-blue-100 text-blue-600'
-                      }`}>
-                        {transaction.type === 'Purchase' ? (
-                          <TrendingUp className="w-5 h-5" />
-                        ) : transaction.type === 'Usage' ? (
-                          <TrendingDown className="w-5 h-5" />
-                        ) : (
-                          <CreditCard className="w-5 h-5" />
-                        )}
-                      </div>
                       <div>
                         <p className="font-medium">{transaction.description}</p>
                         <p className="text-sm text-muted-foreground">Transaction ID: {transaction.id}</p>
