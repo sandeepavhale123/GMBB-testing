@@ -338,38 +338,3 @@ export const useGetGmbHealthReport = (reportId: string) => {
     enabled: !!reportId,
   });
 };
-
-// Performance Report (Report Branding) API interfaces
-export interface GetPerformanceReportRequest {
-  reportId: string;
-}
-
-export interface GetPerformanceReportResponse {
-  code: number;
-  message: string;
-  data: {
-    company_name: string;
-    company_email: string;
-    company_website: string;
-    company_phone: string;
-    company_address: string;
-    company_logo: string;
-  };
-}
-
-// Performance Report API function
-export const getPerformanceReport = async (params: GetPerformanceReportRequest): Promise<GetPerformanceReportResponse> => {
-  const response = await apiClient.post<GetPerformanceReportResponse>('/get-performance-report', params);
-  return response.data;
-};
-
-// Performance Report React Query hook
-export const useGetPerformanceReport = (reportId: string) => {
-  return useQuery({
-    queryKey: ['performanceReport', reportId],
-    queryFn: () => getPerformanceReport({ reportId }),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: false, // Don't retry on failure - branding is optional
-    enabled: !!reportId,
-  });
-};
