@@ -12,11 +12,12 @@ import { CompetitorTable } from "../components/CompetitorTable";
 import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { useGetGmbHealthReport } from "@/api/leadApi";
+import { useGetGmbHealthReport, useGetPerformanceReport } from "@/api/leadApi";
 
 export const GmbHealthReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   const { data: apiResponse, isLoading, error } = useGetGmbHealthReport(reportId || '');
+  const { data: performanceReport } = useGetPerformanceReport(reportId || '');
 
   if (isLoading) {
     return (
@@ -144,14 +145,16 @@ export const GmbHealthReport: React.FC = () => {
     name: "LinkedIn",
     connected: false
   }];
-  const brandingData = {
-    company_name: "Digital Marketing Solutions",
-    company_logo: "",
-    company_website: "www.digitalmarketing.com",
-    company_email: "contact@digitalmarketing.com",
-    company_phone: "(555) 123-4567",
-    company_address: "456 Business Ave, Marketing City, MC 67890"
-  };
+
+  // Transform branding data from performance report API
+  const brandingData = performanceReport?.data ? {
+    company_name: performanceReport.data.company_name,
+    company_logo: performanceReport.data.company_logo,
+    company_website: performanceReport.data.company_website,
+    company_email: performanceReport.data.company_email,
+    company_phone: performanceReport.data.company_phone,
+    company_address: performanceReport.data.company_address
+  } : null;
 
   // Transform posts from API data
   const posts = reportData.communication.posts.slice(0, 3).map((post) => ({
