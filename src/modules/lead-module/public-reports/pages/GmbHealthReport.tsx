@@ -13,10 +13,12 @@ import { BusinessHours } from "../components/BusinessHours";
 import { CTASection } from "../components/CTASection";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useGetGmbHealthReport } from "@/api/leadApi";
+import { usePerformanceBrandingReport } from "@/hooks/useReports";
 
 export const GmbHealthReport: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   const { data: apiResponse, isLoading, error } = useGetGmbHealthReport(reportId || '');
+  const { data: brandingResponse } = usePerformanceBrandingReport(reportId || '');
 
   if (isLoading) {
     return (
@@ -144,14 +146,8 @@ export const GmbHealthReport: React.FC = () => {
     name: "LinkedIn",
     connected: false
   }];
-  const brandingData = {
-    company_name: "Digital Marketing Solutions",
-    company_logo: "",
-    company_website: "www.digitalmarketing.com",
-    company_email: "contact@digitalmarketing.com",
-    company_phone: "(555) 123-4567",
-    company_address: "456 Business Ave, Marketing City, MC 67890"
-  };
+  // Use branding data from API or fallback to empty object
+  const brandingData = brandingResponse?.data || null;
 
   // Transform posts from API data
   const posts = reportData.communication.posts.slice(0, 3).map((post) => ({
