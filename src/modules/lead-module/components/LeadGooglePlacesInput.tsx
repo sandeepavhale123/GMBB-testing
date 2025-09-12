@@ -8,6 +8,8 @@ interface LeadBusinessDetails {
   address: string;
   latitude: string;
   longitude: string;
+  placeId?: string;
+  cid?: string;
 }
 
 interface LeadGooglePlacesInputProps {
@@ -37,6 +39,16 @@ export function LeadGooglePlacesInput({
   const styleRef = useRef<HTMLStyleElement | null>(null);
 
   useEffect(() => {
+    const extractCidFromUrl = (url: string): string | null => {
+      try {
+        const u = new URL(url);
+        const cid = u.searchParams.get('cid') || u.searchParams.get('ludocid');
+        if (cid) return cid;
+      } catch {}
+      const m = url.match(/[?&](?:cid|ludocid)=(\d+)/i);
+      return m ? m[1] : null;
+    };
+
     const initializeAutocomplete = async () => {
       try {
         setLoading(true);
@@ -87,7 +99,7 @@ export function LeadGooglePlacesInput({
       const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
         types: ['establishment'],
         componentRestrictions: { country: 'in' },
-        fields: ['name', 'geometry', 'formatted_address'],
+        fields: ['name', 'geometry', 'formatted_address', 'place_id'],
       });
 
       autocompleteRef.current = autocomplete;
@@ -95,16 +107,36 @@ export function LeadGooglePlacesInput({
       autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         
-        if (place.geometry && place.geometry.location && place.name) {
-          const businessDetails: LeadBusinessDetails = {
+        if (place?.geometry?.location && place.name) {
+          const businessBase: LeadBusinessDetails = {
             name: place.name,
             address: place.formatted_address || '',
             latitude: place.geometry.location.lat().toString(),
             longitude: place.geometry.location.lng().toString(),
+            placeId: place.place_id,
           };
 
           setInputValue(place.name);
-          onPlaceSelect?.(businessDetails);
+
+          if (place.place_id && window.google?.maps?.places?.PlacesService) {
+            const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+            service.getDetails({ placeId: place.place_id, fields: ['url'] }, (res: any, status: any) => {
+              let cid: string | undefined;
+              if (status === window.google.maps.places.PlacesServiceStatus.OK && res?.url) {
+                const extracted = extractCidFromUrl(res.url);
+                if (extracted) cid = extracted;
+              }
+              const payload = { ...businessBase, cid } as LeadBusinessDetails;
+              onPlaceSelect?.(payload);
+              if (!cid) {
+                console.warn('CID not found for placeId:', place.place_id, 'url:', res?.url);
+              } else {
+                console.log('Resolved CID for', place.name, '->', cid);
+              }
+            });
+          } else {
+            onPlaceSelect?.(businessBase);
+          }
         }
       });
     };

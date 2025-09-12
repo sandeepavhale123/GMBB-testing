@@ -43,20 +43,25 @@ const leadFormSchema = z.object({
   phone: z.string().optional(),
   location: z.string().optional(),
   inputMethod: z.enum(['name', 'url', 'cid']),
-}).refine((data) => {
-  if (data.inputMethod === 'name' && !data.businessName) {
-    return false;
+}).superRefine((data, ctx) => {
+  if (data.inputMethod === 'name') {
+    if (!data.businessName) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['businessName'], message: 'Please select a business' });
+    }
+    if (!data.cid || !/^\d+$/.test(data.cid)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Could not resolve CID. Please select suggestion again or use Map URL/CID.' });
+    }
   }
-  if (data.inputMethod === 'url' && !data.mapUrl) {
-    return false;
+  if (data.inputMethod === 'url') {
+    if (!data.mapUrl) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['mapUrl'], message: 'Google Maps URL is required' });
+    }
   }
-  if (data.inputMethod === 'cid' && !data.cid) {
-    return false;
+  if (data.inputMethod === 'cid') {
+    if (!data.cid || !/^\d+$/.test(data.cid)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['cid'], message: 'Please enter a valid numeric CID' });
+    }
   }
-  return true;
-}, {
-  message: "Please fill in the required field for the selected input method",
-  path: ["inputMethod"],
 });
 
 export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
@@ -100,7 +105,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
       const apiRequest: AddLeadRequest = {
         inputtype: formData.inputMethod === 'name' ? "0" : 
                   formData.inputMethod === 'url' ? "1" : "2",
-        inputtext: formData.inputMethod === 'name' ? formData.businessName :
+        inputtext: formData.inputMethod === 'name' ? formData.cid :
                   formData.inputMethod === 'url' ? formData.mapUrl : formData.cid,
         email: formData.email || undefined,
         phone: formData.phone || undefined,
@@ -147,11 +152,12 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
     }
   };
 
-  const handlePlaceSelect = (business: { name: string; address: string; latitude: string; longitude: string }) => {
+  const handlePlaceSelect = (business: { name: string; address: string; latitude: string; longitude: string; cid?: string; placeId?: string }) => {
     setFormData(prev => ({
       ...prev,
       businessName: business.name || "",
       address: business.address || "",
+      cid: business.cid || "",
     }));
   };
 
@@ -174,6 +180,9 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({ onSuccess }) => {
             />
             {hasFieldError("businessName") && (
               <p className="text-sm text-destructive">{getFieldError("businessName")}</p>
+            )}
+            {hasFieldError("cid") && (
+              <p className="text-sm text-destructive">{getFieldError("cid")}</p>
             )}
           </div>
         );
