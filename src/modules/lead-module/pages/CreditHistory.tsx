@@ -37,38 +37,13 @@ const CreditHistory: React.FC = () => {
 
   // Transform API data for display
   const transformTransaction = (item: CreditHistoryItem) => {
-    const reportTypeMap: Record<string, {
-      type: string;
-      description: string;
-    }> = {
-      'GMBAUDIT': {
-        type: 'Usage',
-        description: 'GMB Audit Report'
-      },
-      'ONPAGE': {
-        type: 'Usage',
-        description: 'On-Page SEO Report'
-      },
-      'CITATION': {
-        type: 'Usage',
-        description: 'Citation Report'
-      },
-      'PROSPECT': {
-        type: 'Usage',
-        description: 'Prospect Report'
-      }
-    };
-    const mapped = reportTypeMap[item.report_type] || {
-      type: 'Usage',
-      description: 'Report Generation'
-    };
     return {
       id: item.id,
-      type: mapped.type,
+      type: item.report_type,
       credits: -parseInt(item.credits),
       cost: null,
       date: format(new Date(item.date), 'yyyy-MM-dd'),
-      description: `${mapped.description} - ${item.business_name}`
+      description: item.business_name
     };
   };
   const transactions = creditHistoryData?.data?.history?.map(transformTransaction) || [];
@@ -117,7 +92,16 @@ const CreditHistory: React.FC = () => {
   }
   return <div className="space-y-6">
       {/* Header */}
-      
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Credit History</h1>
+          <p className="text-muted-foreground">Track your credit usage and purchases</p>
+        </div>
+        <Button className="gap-2 hidden ">
+          <CreditCard className="w-4 h-4" />
+          Buy Credits
+        </Button>
+      </div>
 
       {/* Credit Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -191,12 +175,11 @@ const CreditHistory: React.FC = () => {
                 <History className="w-5 h-5" />
                 Credits History
               </CardTitle>
-              <CardDescription>Track your credit usage across all ranking checks.</CardDescription>
             </div>
           </div>
           
           {/* Search Input */}
-          <div className="relative w-full hidden">
+          <div className="relative w-full mt-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input placeholder="Search keywords..." value={searchTerm} onChange={e => handleSearchChange(e.target.value)} className="pl-10 w-full" />
           </div>
@@ -207,7 +190,7 @@ const CreditHistory: React.FC = () => {
                 <thead className="bg-gray-50">
                   <tr className="border-b border-border">
                     <th className="text-left py-3 px-4 font-medium">Keyword</th>
-                    <th className="text-left py-3 px-4 font-medium">Credit Type</th>
+                    <th className="text-left py-3 px-4 font-medium">Report Type</th>
                     <th className="text-left py-3 px-4 font-medium">Credit</th>
                     <th className="text-right py-3 px-4 font-medium">Date</th>
                   </tr>
@@ -240,7 +223,7 @@ const CreditHistory: React.FC = () => {
                   <thead className="bg-gray-50">
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 font-medium">Keyword</th>
-                      <th className="text-left py-3 px-4 font-medium">Credit Type</th>
+                      <th className="text-left py-3 px-4 font-medium">Report Type</th>
                       <th className="text-left py-3 px-4 font-medium">Credit</th>
                       <th className="text-right py-3 px-4 font-medium">Date</th>
                     </tr>
@@ -249,12 +232,12 @@ const CreditHistory: React.FC = () => {
                     {transactions.map(transaction => <tr key={transaction.id} className="border-b border-border/50 hover:bg-muted/50">
                         <td className="py-3 px-4">
                           <span className="font-medium text-muted-foreground">
-                            {transaction.description.split(' - ')[1] || transaction.description}
+                            {transaction.description}
                           </span>
                         </td>
                         <td className="py-3 px-4">
                           <span className="text-muted-foreground">
-                            {transaction.type === 'Usage' ? 'GMB Credits' : transaction.type}
+                            {transaction.type}
                           </span>
                         </td>
                         <td className="py-3 px-4">
