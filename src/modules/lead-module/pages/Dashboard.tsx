@@ -41,6 +41,7 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
   date: apiLead.generated_date,
   leadCategoryLabel: apiLead.leadCategoryLabel,
   reportId: apiLead.report_id,
+  citationReportId: apiLead.report_id,
   reports: {
     gmbReport: {
       status: (apiLead.reports.gmbReport.status === 1 ? 1 : 0) as 0 | 1,

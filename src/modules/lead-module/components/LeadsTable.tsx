@@ -21,6 +21,7 @@ export interface Lead {
   date: string;
   leadCategoryLabel: string;
   reportId: string;
+  citationReportId?: string;
   reports: {
     gmbReport: {
       status: 0 | 1;
@@ -161,7 +162,13 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
                 </TableCell>
                 <TableCell>
-                  <ActionDropdown onAction={onAction} leadId={lead.id} reports={lead.reports} reportId={lead.reportId} />
+                  <ActionDropdown 
+                    onAction={onAction} 
+                    leadId={lead.id} 
+                    reports={lead.reports} 
+                    reportId={lead.reportId}
+                    citationReportId={lead.citationReportId || lead.reportId}
+                  />
                 </TableCell>
               </TableRow>
             ))

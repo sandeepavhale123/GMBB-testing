@@ -34,9 +34,10 @@ interface ActionDropdownProps {
   leadId: string;
   reports: Reports;
   reportId?: string;
+  citationReportId?: string;
 }
 
-export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId }) => {
+export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId, citationReportId }) => {
   const navigate = useNavigate();
   
   const handleAction = (action: string, viewUrl?: string, reportId?: string) => {
@@ -46,8 +47,14 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
       return;
     }
     
+    // Handle Citation Audit Report navigation
+    if (action === 'view-citation' && citationReportId) {
+      navigate(`/module/lead/citation-audit-report/${citationReportId}`);
+      return;
+    }
+    
     // Handle other report views with external URLs
-    if (viewUrl && action !== 'view-gmb-health') {
+    if (viewUrl && action !== 'view-gmb-health' && action !== 'view-citation') {
       window.open(viewUrl, '_blank');
       return;
     }
@@ -77,7 +84,8 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         <DropdownMenuItem 
           onClick={() => handleAction(
             reports.citation.status === 1 ? 'view-citation' : 'generate-citation',
-            reports.citation.viewUrl || undefined
+            reports.citation.viewUrl || undefined,
+            citationReportId
           )}
         >
           <Search className="mr-2 h-4 w-4" />
