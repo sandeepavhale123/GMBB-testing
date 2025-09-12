@@ -87,8 +87,12 @@ export const publicReportRoutes: RouteConfig[] = [
     ),
   },
   {
-    path: "/module/lead/gmb-health-report",
-    element: <GmbHealthReport />,
+    path: "/module/lead/gmb-health-report/:reportId",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <GmbHealthReport />
+      </ThemePreloader>
+    ),
   },
   {
     path: "/module/lead/gmb-prospect-report",
