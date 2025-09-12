@@ -192,3 +192,149 @@ export const useCreateGmbHealthReport = () => {
     },
   });
 };
+
+// Get GMB Health Report API interfaces
+export interface GetGmbHealthReportRequest {
+  reportId: string;
+}
+
+export interface GetGmbHealthReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    healthScore: string;
+    reviewCount: string;
+    reviewRating: string;
+    businessInfo: {
+      businessName: string;
+      address: string;
+      category: string;
+      phoneNumber: string;
+      website: string;
+      mapUrl: string;
+      photo: string;
+    };
+    listingReputation: {
+      reviewCount: string;
+      averageRating: string;
+      reviews: Array<{
+        position: number;
+        source: string;
+        body: string;
+        id: string;
+        rating: number;
+        source_link: string;
+        source_image: string;
+        source_id: string;
+        source_review_count: number;
+        date: string;
+        date_utc: string;
+      }>;
+    };
+    communication: {
+      posts: Array<{
+        image: string;
+        link: string;
+        date: string;
+        title: string;
+        body: string;
+        position: number;
+      }>;
+      businessHours: {
+        per_day: Array<{
+          name: string;
+          value: string;
+          date: string;
+          day_number: number;
+          parsed: Array<{
+            open: string;
+            close: string;
+          }>;
+        }>;
+      };
+      photos: Array<{
+        thumbnail: string;
+        image: string;
+      }>;
+    };
+    comparison: Array<{
+      name: string;
+      category: string;
+      additionalCategory: string;
+      website: string;
+      reviewCount: number;
+      rating: number;
+      keywordInName: string;
+    }>;
+    top20Competitors: {
+      searchInfo: {
+        searchUrl: string;
+        searchKeyword: string;
+        searchLocation: string;
+        message: string;
+      };
+      yourBusiness: {
+        position: number;
+        name: string;
+        address: string;
+        phoneNumber: string;
+        category: string;
+        website: string;
+        mapUrl: string;
+        reviewCount: string;
+        averageRating: string;
+      };
+      competitors: Array<{
+        position: number;
+        name: string;
+        address: string;
+        phoneNumber: string;
+        category: string;
+        additionalCategory: string;
+        website: string;
+        mapUrl: string;
+        reviewCount: number;
+        averageRating: number;
+        isYourBusiness: boolean;
+      }>;
+    };
+    categories: {
+      topCategory: Array<{
+        rank: number;
+        categories: Array<{
+          category: string;
+          count: number;
+        }>;
+      }>;
+      all: Array<{
+        category: string;
+        count: number;
+      }>;
+    };
+    recommendations: {
+      gmbChecklist: Array<{
+        title: string;
+        description: string;
+      }>;
+      quickHack: string[];
+    };
+  };
+}
+
+// Get GMB Health Report API function
+export const getGmbHealthReport = async (params: GetGmbHealthReportRequest): Promise<GetGmbHealthReportResponse> => {
+  const response = await apiClient.post<GetGmbHealthReportResponse>('/lead/get-gbp-report', params);
+  return response.data;
+};
+
+// Get GMB Health Report React Query hook
+export const useGetGmbHealthReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ['gmbHealthReport', reportId],
+    queryFn: () => getGmbHealthReport({ reportId }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    enabled: !!reportId,
+  });
+};
