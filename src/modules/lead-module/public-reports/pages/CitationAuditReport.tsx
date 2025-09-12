@@ -37,16 +37,26 @@ export const CitationAuditReport: React.FC = () => {
     );
   }
 
+  const safeCitations = apiResponse?.data?.citations ?? {
+    total: 0,
+    listed: 0,
+    nonListed: 0,
+    missing: 0,
+    duplicates: 0,
+    accuracy: 0,
+  };
+
   const reportData = {
     title: "Citation Audit Report",
-    listingName: apiResponse.data.listingName,
-    address: apiResponse.data.address,
+    listingName: apiResponse?.data?.listingName ?? "",
+    address: apiResponse?.data?.address ?? "",
     logo: "",
-    date: apiResponse.data.date,
-    citations: apiResponse.data.citations,
-    existingCitations: apiResponse.data.existingCitations,
-    possibleCitations: apiResponse.data.possibleCitations,
+    date: apiResponse?.data?.date ?? "",
+    citations: safeCitations,
+    existingCitations: apiResponse?.data?.existingCitations ?? [],
+    possibleCitations: apiResponse?.data?.possibleCitations ?? [],
   };
+
 
   const brandingData = brandingResponse?.data || null;
 
@@ -158,7 +168,7 @@ export const CitationAuditReport: React.FC = () => {
                     <div className="text-right">
                       <div className="text-3xl font-bold text-red-900">{reportData.citations.nonListed}</div>
                       <div className="text-lg font-medium text-red-700">
-                        {Math.round((reportData.citations.nonListed / reportData.citations.total) * 100)}%
+                        {reportData.citations.total > 0 ? Math.round((reportData.citations.nonListed / reportData.citations.total) * 100) : 0}%
                       </div>
                     </div>
                   </div>
@@ -174,7 +184,7 @@ export const CitationAuditReport: React.FC = () => {
                     <div className="text-right">
                       <div className="text-3xl font-bold text-green-900">{reportData.citations.listed}</div>
                       <div className="text-lg font-medium text-green-700">
-                        {Math.round((reportData.citations.listed / reportData.citations.total) * 100)}%
+                        {reportData.citations.total > 0 ? Math.round((reportData.citations.listed / reportData.citations.total) * 100) : 0}%
                       </div>
                     </div>
                   </div>
