@@ -1,5 +1,6 @@
 import apiClient from '@/api/axiosInstance';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // API Response interfaces
 export interface ApiLead {
@@ -157,4 +158,37 @@ export interface AddLeadResponse {
 export const addLead = async (params: AddLeadRequest): Promise<AddLeadResponse> => {
   const response = await apiClient.post<AddLeadResponse>('/lead/add-lead', params);
   return response.data;
+};
+
+// GMB Health Report API interfaces
+export interface CreateGmbHealthReportRequest {
+  reportId: string;
+}
+
+export interface CreateGmbHealthReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    reportUrl: string;
+  };
+}
+
+// GMB Health Report API function
+export const createGmbHealthReport = async (params: CreateGmbHealthReportRequest): Promise<CreateGmbHealthReportResponse> => {
+  const response = await apiClient.post<CreateGmbHealthReportResponse>('/lead/create-gbp-report', params);
+  return response.data;
+};
+
+// GMB Health Report React Query hook
+export const useCreateGmbHealthReport = () => {
+  return useMutation({
+    mutationFn: createGmbHealthReport,
+    onSuccess: (data) => {
+      toast.success('GMB Health report created successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to create GMB Health report');
+    },
+  });
 };

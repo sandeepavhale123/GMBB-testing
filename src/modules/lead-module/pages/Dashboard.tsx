@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useLeads, ApiLead } from "@/api/leadApi";
+import { useLeads, ApiLead, useCreateGmbHealthReport } from "@/api/leadApi";
 import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 10;
@@ -60,6 +61,7 @@ const transformApiLead = (apiLead: ApiLead): Lead => ({
 });
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [emailFilter, setEmailFilter] = useState("");
@@ -67,6 +69,7 @@ const Dashboard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const createGmbHealthReport = useCreateGmbHealthReport();
 
   // API integration
   const { 
@@ -107,7 +110,25 @@ const Dashboard: React.FC = () => {
 
   const handleAction = (action: string, leadId: string) => {
     console.log(`Action: ${action} for lead: ${leadId}`);
-    // Implement action handlers
+    
+    if (action === 'generate-gmb-health') {
+      // Find the lead to get its reportId
+      const lead = leads.find(l => l.id === leadId);
+      if (lead?.reportId) {
+        createGmbHealthReport.mutate(
+          { reportId: lead.reportId },
+          {
+            onSuccess: (data) => {
+              navigate(`/module/lead/gmb-health-report/${data.data.reportId}`);
+            }
+          }
+        );
+      } else {
+        toast.error('Report ID not found for this lead');
+      }
+    }
+    
+    // Handle other actions here
   };
 
   const handleClearFilters = () => {
@@ -237,7 +258,7 @@ const Dashboard: React.FC = () => {
             onSelectLead={handleSelectLead}
             onSelectAll={handleSelectAll}
             onAction={handleAction}
-            isLoading={isLoading}
+            isLoading={isLoading || createGmbHealthReport.isPending}
           />
 
           {totalPages > 1 && (

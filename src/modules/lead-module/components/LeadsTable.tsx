@@ -161,7 +161,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                   <Badge variant="outline">{lead.leadCategoryLabel}</Badge>
                 </TableCell>
                 <TableCell>
-                  <ActionDropdown onAction={onAction} leadId={lead.id} reports={lead.reports} />
+                  <ActionDropdown onAction={onAction} leadId={lead.id} reports={lead.reports} reportId={lead.reportId} />
                 </TableCell>
               </TableRow>
             ))

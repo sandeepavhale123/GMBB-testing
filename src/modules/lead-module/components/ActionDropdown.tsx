@@ -33,16 +33,25 @@ interface ActionDropdownProps {
   onAction: (action: string, leadId: string) => void;
   leadId: string;
   reports: Reports;
+  reportId?: string;
 }
 
-export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports }) => {
+export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId, reports, reportId }) => {
   const navigate = useNavigate();
   
-  const handleAction = (action: string, viewUrl?: string) => {
-    if (viewUrl) {
+  const handleAction = (action: string, viewUrl?: string, reportId?: string) => {
+    // Handle GMB Health Report navigation
+    if (action === 'view-gmb-health' && reportId) {
+      navigate(`/module/lead/gmb-health-report/${reportId}`);
+      return;
+    }
+    
+    // Handle other report views with external URLs
+    if (viewUrl && action !== 'view-gmb-health') {
       window.open(viewUrl, '_blank');
       return;
     }
+    
     onAction(action, leadId);
   };
 
@@ -58,7 +67,8 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ onAction, leadId
         <DropdownMenuItem 
           onClick={() => handleAction(
             reports.gmbReport.status === 1 ? 'view-gmb-health' : 'generate-gmb-health',
-            reports.gmbReport.viewUrl || undefined
+            reports.gmbReport.viewUrl || undefined,
+            reportId
           )}
         >
           <FileText className="mr-2 h-4 w-4" />

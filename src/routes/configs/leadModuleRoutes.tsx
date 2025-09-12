@@ -46,7 +46,7 @@ export const leadModuleRoutes: RouteConfig[] = [
         element: <CreditHistory />,
       },
       {
-        path: "gmb-health-report",
+        path: "gmb-health-report/:reportId",
         element: <GmbHealthReport />,
       },
     ],
