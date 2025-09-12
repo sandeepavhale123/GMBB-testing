@@ -378,3 +378,54 @@ export const useCreateLeadCitationReport = () => {
     },
   });
 };
+
+// Get Citation Audit Report API interfaces
+export interface GetCitationAuditReportRequest {
+  reportId: string;
+}
+
+export interface GetCitationAuditReportResponse {
+  code: number;
+  message: string;
+  data: {
+    reportId: string;
+    listingName: string;
+    address: string;
+    date: string;
+    citations: {
+      total: number;
+      listed: number;
+      nonListed: number;
+      missing: number;
+      duplicates: number;
+      accuracy: number;
+    };
+    existingCitations: Array<{
+      siteName: string;
+      businessName: string;
+      phone: string;
+    }>;
+    possibleCitations: Array<{
+      siteName: string;
+      businessName: string;
+      phone: string;
+    }>;
+  };
+}
+
+// Get Citation Audit Report API function
+export const getCitationAuditReport = async (params: GetCitationAuditReportRequest): Promise<GetCitationAuditReportResponse> => {
+  const response = await apiClient.post<GetCitationAuditReportResponse>('/lead/get-citation-report', params);
+  return response.data;
+};
+
+// Get Citation Audit Report React Query hook
+export const useGetCitationAuditReport = (reportId: string) => {
+  return useQuery({
+    queryKey: ['citationAuditReport', reportId],
+    queryFn: () => getCitationAuditReport({ reportId }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    enabled: !!reportId,
+  });
+};

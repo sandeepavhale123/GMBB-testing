@@ -1,51 +1,54 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { PublicReportLayout } from "../components/PublicReportLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { BookOpen, CheckCircle, XCircle, AlertTriangle, TrendingUp, Copy, MapPin } from "lucide-react";
+import { BookOpen, CheckCircle, XCircle, AlertTriangle, TrendingUp, Copy, MapPin, Loader2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { useGetCitationAuditReport } from "@/api/leadApi";
+import { usePerformanceBrandingReport } from "@/hooks/useReports";
 
 export const CitationAuditReport: React.FC = () => {
-  // Mock data - replace with actual data fetching
+  const { reportId } = useParams<{ reportId: string }>();
+  const { data: apiResponse, isLoading, error } = useGetCitationAuditReport(reportId || '');
+  const { data: brandingResponse } = usePerformanceBrandingReport(reportId || '');
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading Citation Audit Report...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !apiResponse?.data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive mb-4">Failed to load citation audit report</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
+
   const reportData = {
     title: "Citation Audit Report",
-    listingName: "Sample Business",
-    address: "123 Main St, City, State 12345",
+    listingName: apiResponse.data.listingName,
+    address: apiResponse.data.address,
     logo: "",
-    date: "January 15, 2025",
-    citations: {
-      total: 120,
-      listed: 85,
-      nonListed: 35,
-      missing: 35,
-      duplicates: 5,
-      accuracy: 85,
-    },
-    existingCitations: [
-      { siteName: "wanderlog.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "instagram.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "facebook.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "yelp.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "google.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-    ],
-    possibleCitations: [
-      { siteName: "tripadvisor.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "yellowpages.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "foursquare.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-      { siteName: "nextdoor.com", businessName: "Sample Business", phone: "(555) 123-4567" },
-    ],
+    date: apiResponse.data.date,
+    citations: apiResponse.data.citations,
+    existingCitations: apiResponse.data.existingCitations,
+    possibleCitations: apiResponse.data.possibleCitations,
   };
 
-  const brandingData = {
-    company_name: "Digital Marketing Solutions",
-    company_logo: "",
-    company_website: "www.digitalmarketing.com",
-    company_email: "contact@digitalmarketing.com",
-    company_phone: "(555) 123-4567",
-    company_address: "456 Business Ave, Marketing City, MC 67890",
-  };
+  const brandingData = brandingResponse?.data || null;
 
   // Chart data for donut chart
   const chartData = [

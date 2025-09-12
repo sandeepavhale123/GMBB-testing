@@ -99,7 +99,11 @@ export const publicReportRoutes: RouteConfig[] = [
     element: <GmbProspectReport />,
   },
   {
-    path: "/module/lead/citation-audit-report",
-    element: <CitationAuditReport />,
+    path: "/module/lead/citation-audit-report/:reportId",
+    element: (
+      <ThemePreloader loadFromAPI={true}>
+        <CitationAuditReport />
+      </ThemePreloader>
+    ),
   },
 ];
